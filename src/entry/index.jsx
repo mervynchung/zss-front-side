@@ -10,6 +10,5 @@ import {
 from 'antd';
 
 
-
 ReactDOM.render(<SideNav data={obj.data} />, document.getElementById('side-nav'));
-ReactDOM.render(<Header/>, document.getElementById('header'));
+ReactDOM.render(<Header/>, document.getElementById('layout-header'));
