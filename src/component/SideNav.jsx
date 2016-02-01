@@ -25,6 +25,7 @@ const SideNav = React.createClass({
     },
     //load:this.props.load , //'lazy','all'
     handleClick(e) {
+      console.log(e.item);
       this.setState({
         current: e.key,
         openKeys: e.keyPath.slice(1)
