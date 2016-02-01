@@ -1,5 +1,6 @@
 import { Table } from 'antd';
 import React from 'react';
+import C_searchBar from './c_searchBar';
 
 const columns = [{
   title: '姓名',
@@ -78,7 +79,11 @@ const data = [{
 
 const GN_1 = React.createClass({
   render(){
-    return(<Table columns={columns} dataSource={data} />);
+    return(
+      <div>
+      <C_searchBar />
+      <Table columns={columns} dataSource={data} />
+      </div>);
   }
 })
 export default GN_1;
