@@ -1,4 +1,7 @@
-import { Table } from 'antd';
+import {
+  Table
+}
+from 'antd';
 import React from 'react';
 import C_searchBar from './c_searchBar';
 
@@ -24,16 +27,16 @@ const columns = [{
   }],
   // 指定确定筛选的条件函数
   // 这里是名字中第一个字是 value
-  onFilter: function (value, record) {
+  onFilter: function(value, record) {
     return record.name.indexOf(value) === 0;
   },
-  sorter: function (a, b) {
+  sorter: function(a, b) {
     return a.name.length - b.name.length;
   }
 }, {
   title: '年龄',
   dataIndex: 'age',
-  sorter: function (a, b) {
+  sorter: function(a, b) {
     return a.age - b.age;
   }
 }, {
@@ -47,42 +50,40 @@ const columns = [{
     value: '西湖'
   }],
   filterMultiple: false,
-  onFilter: function (value, record) {
+  onFilter: function(value, record) {
     return record.address.indexOf(value) === 0;
   },
-  sorter: function (a, b) {
+  sorter: function(a, b) {
     return a.address.length - b.address.length;
   }
 }];
 
-const data = [{
-  key: '1',
-  name: '胡斌',
-  age: 32,
-  address: '南湖区湖底公园1号'
-}, {
-  key: '2',
-  name: '胡彦祖',
-  age: 42,
-  address: '西湖区湖底公园12号'
-}, {
-  key: '3',
-  name: '李大嘴',
-  age: 32,
-  address: '南湖区湖底公园123号'
-}, {
-  key: '4',
-  name: '李秀莲大嘴哥',
-  age: 32,
-  address: '西湖区湖底公园123号'
-}];
-
+let data = [];
+for (var i = 0; i < 50; i++) {
+  data.push({
+    key: i,
+    name: '姓名' + i,
+    age: 'age' + i,
+    address: '南湖区湖底公园' + i + '号'
+  });
+}
+let pagination = {
+  total:1000,
+  showSizeChanger:true,
+  showQuickJumper:true,
+  onShowSizeChange: function (current, pageSize) {
+    console.log('Current: ', current, '; PageSize: ', pageSize);
+  },
+  onChange: function (current,pageSize) {
+    console.log({Current: current,pageSize:pageSize});
+  }
+};
 const GN_1 = React.createClass({
-  render(){
-    return(
+  render() {
+    return (
       <div>
       <C_searchBar />
-      <Table columns={columns} dataSource={data} />
+      <Table columns={columns} dataSource={data} pagination={pagination}/>
       </div>);
   }
 })

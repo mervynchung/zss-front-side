@@ -6,7 +6,7 @@ var config = {
     entry: {
         index: [
             'webpack/hot/dev-server',
-            'webpack-dev-server/client?http://localhost:8080',
+            'webpack-dev-server/client?http://localhost:8001',
             path.resolve(__dirname, './src/entry/index.jsx')
         ],
         vendor: [
