@@ -8,28 +8,34 @@ import React from 'react';
 import { Menu, Icon} from 'antd';
 import "./index.css";
 
-function generateMenu(o) {
-    return o.map(function (item) {
-        if (item.children) {
-            return <SubMenu key={item.id} title={item.name}>{generateMenu(item.children)}</SubMenu>
-            generateMenu(item.children);
-        } else {
-            return <Menu.Item key={item.id}><a href={item.url}>{item.name}</a></Menu.Item>
-        }
-    });
-}
 const SubMenu = Menu.SubMenu;
+
+//使用es6语法定义组件
 class LayoutSideNav extends React.Component{
-    let menuHtml = generateMenu(this.props.data);
-    getInitialState() {
-        return {
-            current: '1',
-            openKeys: []
-        };
+
+    //在构造器中初始化state，不使用getInitialState()
+    constructor(props) {
+        super(props);
+        this.state = {
+            current:'1',
+            openKeys:[]
+        }
+        this.dataSource = props.dataSource;
     }
+
+    generateMenu(data) {
+        return data.map(function (item) {
+            if (item.children) {
+                return <SubMenu key={item.id} title={item.name}>{generateMenu(item.children)}</SubMenu>;
+                generateMenu(item.children);
+            } else {
+                return <Menu.Item key={item.id}><a href={item.href}>{item.name}</a></Menu.Item>
+            }
+        });
+    }
+
     //load:this.props.load , //'lazy','all'
     handleClick(e) {
-        console.log(e.item);
         this.setState({
             current: e.key,
             openKeys: e.keyPath.slice(1)
@@ -42,16 +48,17 @@ class LayoutSideNav extends React.Component{
     }
     render() {
         return (
-            <Menu onClick={this.handleClick}
+            <Menu onClick={this.handleClick.bind(this)}
                   openKeys={this.state.openKeys}
                   onOpen={this.onToggle}
                   onClose={this.onToggle}
                   selectedKeys={[this.state.current]}
                   mode="inline">
-                {menuHtml}
+                {this.generateMenu(this.dataSource)}
             </Menu>
         );
     }
 }
 
+//兼容IE8的模块导出写法
 module.exports = LayoutSideNav;
