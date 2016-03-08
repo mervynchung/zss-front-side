@@ -7,9 +7,11 @@
   "license": "ISC",
   "dependencies": {
     "antd": "^0.12.1",
-    "react": "^0.14.6",
-    "react-dom": "^0.14.6",
-    "react-router": "^2.0.0-rc5"
+    "react": "^0.14.7",
+    "react-dom": "^0.14.7",
+    "react-route": "^1.0.3",
+    "react-router": "^2.0.0",
+    "reqwest": "^2.0.5"
   },
   "devDependencies": {
     "autoprefixer-loader": "^3.1.0",
@@ -30,6 +32,7 @@
   },
   "scripts": {
     "dev": "webpack-dev-server --config webpack.dev.js -d --port 8001 --progress --colors --hot --content-base entry",
-    "build": "webpack --config webpack.dist.js --progress"
+    "build": "webpack --config webpack.dist.js --progress",
+    "test": "webpack-dev-server --config webpack.t.js -d --port 8001 --progress --colors --hot --content-base src/module"
   }
 }

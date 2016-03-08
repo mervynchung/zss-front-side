@@ -87,4 +87,4 @@ const GN_1 = React.createClass({
       </div>);
   }
 })
-export default GN_1;
+module.exports = GN_1;

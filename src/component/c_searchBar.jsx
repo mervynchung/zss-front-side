@@ -77,4 +77,4 @@ const C_searchBar = React.createClass({
 	}
 })
 
-export default C_searchBar;
+module.exports = C_searchBar;

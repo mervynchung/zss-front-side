@@ -9,8 +9,9 @@ const menu = <Menu>
   			 <Menu.Item key="1"><a href="/url/logut">退出帐号</a></Menu.Item> 
    			</Menu>;
 		
-const UserPanel = React.createClass({
-	render: function() {
+class UserPanel extends React.Component{
+	render() {
+		var value = this.props;
 		return (
 			<div>
 			<Icon type="user" style={{fontSize:'18px'}}/>
@@ -20,6 +21,6 @@ const UserPanel = React.createClass({
             </div>
 		);
 	}
-});
+}
 
-export default UserPanel;
+module.exports =  UserPanel;

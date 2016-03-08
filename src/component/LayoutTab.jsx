@@ -76,4 +76,4 @@ const LayoutTab = React.createClass({
     }
 });
 
-export default LayoutTab;
+module.exports =  LayoutTab;
