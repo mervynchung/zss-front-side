@@ -3,8 +3,8 @@ import {
 	Row, Col, Icon, Badge
 }
 from 'antd';
-import UserPanel from './UserPanel';
-const Header = React.createClass({
+import ComUserPanel from './../ComUserPanel';
+const LayoutHeader = React.createClass({
 	getInitialState() {
 			return {
 				show: true
@@ -22,9 +22,9 @@ const Header = React.createClass({
 			<Col span="4">logo</Col>
 			<Col span = "14"></Col>
 			<Col span="1"><Badge dot={this.state.show}><a href="#" onClick={this.handleClick}><Icon type="notification" style={{fontSize:'18px'}}/></a></Badge></Col>
-			<Col span = "3"><UserPanel /></Col>
+			<Col span = "3"><ComUserPanel /></Col>
 			</Row>
 			);
 		}
 });
-module.exports =  Header;
+module.exports =  LayoutHeader;

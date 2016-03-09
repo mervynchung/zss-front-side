@@ -38,11 +38,11 @@ class LayoutSideNav extends React.Component{
     }
 
     //产生无限分类菜单
-    generateMenu(data) {
+    renderMenu(data) {
         return data.map(function (item) {
             if (item.children) {
-                return <SubMenu key={item.id} title={item.name}>{generateMenu(item.children)}</SubMenu>;
-                generateMenu(item.children);
+                return <SubMenu key={item.id} title={item.name}>{renderMenu(item.children)}</SubMenu>;
+                renderMenu(item.children);
             } else {
                 return <Menu.Item key={item.id}><a href={item.href}>{item.name}</a></Menu.Item>
             }
@@ -56,7 +56,7 @@ class LayoutSideNav extends React.Component{
                   onClose={this.onToggle}
                   selectedKeys={[this.state.current]}
                   mode="inline">
-                {this.generateMenu(this.dataSource)}
+                {this.renderMenu(this.dataSource)}
             </Menu>
         );
     }
