@@ -7,7 +7,7 @@
 
 import React from 'react';
 import { Menu, Icon} from 'antd';
-import "./index.css";
+
 
 const SubMenu = Menu.SubMenu;
 

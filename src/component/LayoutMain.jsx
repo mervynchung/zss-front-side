@@ -1,7 +1,7 @@
 import React from 'react';
-import LayoutHeader from './component/LayoutHeader';
-import LayoutSideNav from './component/LayoutSideNav';
-import LayoutFooter from './component/LayoutFooter';
+import LayoutHeader from './/LayoutHeader';
+import LayoutSideNav from './/LayoutSideNav';
+import LayoutFooter from './/LayoutFooter';
 
 class LayoutMain extends React.Component {
     render(){
@@ -17,3 +17,5 @@ class LayoutMain extends React.Component {
         </div>
     }
 }
+
+module.exports = LayoutMain;
