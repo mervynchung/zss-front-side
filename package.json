@@ -33,6 +33,6 @@
   "scripts": {
     "dev": "webpack-dev-server --config webpack.dev.js -d --port 8001 --progress --colors --hot --content-base entry",
     "build": "webpack --config webpack.dist.js --progress",
-    "test": "webpack-dev-server --config webpack.t.js -d --port 8001 --progress --colors --hot --content-base src/module"
+    "test": "webpack-dev-server --config webpack.test.js -d --port 8002 --progress --colors --hot --content-base src/test"
   }
 }

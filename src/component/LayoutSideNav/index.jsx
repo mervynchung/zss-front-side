@@ -1,6 +1,7 @@
 /**
  * 主界面侧栏导航组件
  * @datasource  api/fw/asidemenu
+ * props.dataSource 菜单数据
  * @export LayoutSideNav
  */
 
@@ -23,17 +24,6 @@ class LayoutSideNav extends React.Component{
         this.dataSource = props.dataSource;
     }
 
-    generateMenu(data) {
-        return data.map(function (item) {
-            if (item.children) {
-                return <SubMenu key={item.id} title={item.name}>{generateMenu(item.children)}</SubMenu>;
-                generateMenu(item.children);
-            } else {
-                return <Menu.Item key={item.id}><a href={item.href}>{item.name}</a></Menu.Item>
-            }
-        });
-    }
-
     //load:this.props.load , //'lazy','all'
     handleClick(e) {
         this.setState({
@@ -44,6 +34,18 @@ class LayoutSideNav extends React.Component{
     onToggle(info) {
         this.setState({
             openKeys: info.open ? info.keyPath : info.keyPath.slice(1)
+        });
+    }
+
+    //产生无限分类菜单
+    generateMenu(data) {
+        return data.map(function (item) {
+            if (item.children) {
+                return <SubMenu key={item.id} title={item.name}>{generateMenu(item.children)}</SubMenu>;
+                generateMenu(item.children);
+            } else {
+                return <Menu.Item key={item.id}><a href={item.href}>{item.name}</a></Menu.Item>
+            }
         });
     }
     render() {
