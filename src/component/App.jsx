@@ -1,7 +1,7 @@
 import React from 'react';
-import LayoutHeader from './/LayoutHeader';
-import LayoutSideNav from './/LayoutSideNav';
-import LayoutFooter from './/LayoutFooter';
+import AppHeader from './AppHeader';
+import AppSideNav from './AppSideNav';
+import AppFooter from './AppFooter';
 import './app.css'
 
 class App extends React.Component {
@@ -11,15 +11,15 @@ class App extends React.Component {
         this.dataSource = this.props.dataSource;
     }
 
-    render(){
-        return <div className="base-layout-main">
-            <LayoutHeader/>
-            <div className="base-layout-container">
-                <LayoutSideNav dataSource={this.dataSource.asideMenu}/>
-                <div className="wrap">
-                    <div className="base-layout-content">内容区域</div>
-                    <LayoutFooter/>
+    render() {
+        return <div className="app-main">
+            <AppHeader/>
+            <div className="app-container clearfix">
+                <AppSideNav dataSource={this.dataSource.asideMenu}/>
+                <div className="app-content">
+                    <div className="wrap"> 内容区域</div>
                 </div>
+                <AppFooter/>
             </div>
         </div>
     }

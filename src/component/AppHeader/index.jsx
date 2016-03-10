@@ -1,8 +1,8 @@
 import React from 'react';
 import {Row, Col, Icon, Badge} from 'antd';
-import ComUserPanel from './../ComUserPanel';
+import ComUserPanel from '../ComUserPanel';
 import './style.css';
-const LayoutHeader = React.createClass({
+const AppHeader = React.createClass({
     getInitialState() {
         return {
             show: true
@@ -15,7 +15,7 @@ const LayoutHeader = React.createClass({
     },
     render() {
         return (
-            <div className="base-layout-header">
+            <div className="app-header box-shadow">
                 <Row type="flex" align="bottom">
                     <Col span="2"></Col>
                     <Col span="4">logo</Col>
@@ -28,4 +28,4 @@ const LayoutHeader = React.createClass({
         );
     }
 });
-module.exports = LayoutHeader;
+module.exports = AppHeader;

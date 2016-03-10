@@ -6,19 +6,20 @@
 
 import React from 'react';
 import {Menu} from 'antd';
+import './style.css';
 
 
 const SubMenu = Menu.SubMenu;
 
 //使用es6语法定义组件
-class LayoutSideNav extends React.Component{
+class AppSideNav extends React.Component {
 
     //在构造器中初始化state，不使用getInitialState()
     constructor(props) {
         super(props);
         this.state = {
-            current:'1',
-            openKeys:[]
+            current: '1',
+            openKeys: []
         }
         this.dataSource = this.props.dataSource;
     }
@@ -30,6 +31,7 @@ class LayoutSideNav extends React.Component{
             openKeys: e.keyPath.slice(1)
         });
     }
+
     onToggle(info) {
         this.setState({
             openKeys: info.open ? info.keyPath : info.keyPath.slice(1)
@@ -44,22 +46,25 @@ class LayoutSideNav extends React.Component{
             } else {
                 return <Menu.Item key={item.id}><a href={item.href}>{item.name}</a></Menu.Item>
             }
-        },this);
+        }, this);
     }
+
     render() {
         const asideMenu = this.getMenu(this.dataSource);
         return (
-            <Menu onClick={this.handleClick.bind(this)}
-                  openKeys={this.state.openKeys}
-                  onOpen={this.onToggle.bind(this)}
-                  onClose={this.onToggle.bind(this)}
-                  selectedKeys={[this.state.current]}
-                  mode="inline">
-                {asideMenu}
-            </Menu>
+            <aside className="app-sidenav">
+                <Menu onClick={this.handleClick.bind(this)}
+                      openKeys={this.state.openKeys}
+                      onOpen={this.onToggle.bind(this)}
+                      onClose={this.onToggle.bind(this)}
+                      selectedKeys={[this.state.current]}
+                      mode="inline">
+                    {asideMenu}
+                </Menu>
+            </aside>
         );
     }
 }
 
 //兼容IE8的模块导出写法
-module.exports = LayoutSideNav;
+module.exports = AppSideNav;
