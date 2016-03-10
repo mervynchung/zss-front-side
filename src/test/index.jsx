@@ -4,107 +4,60 @@
 import '../common/lib';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Tree } from 'antd';
+import { Menu } from 'antd';
+import dataInit from '../model';
 
-const TreeNode = Tree.TreeNode;
+const SubMenu = Menu.SubMenu;
+const initData = dataInit.asideMenu;
 
-const x = 3;
-const y = 2;
-const z = 1;
-const gData = [];
+class Demo extends React.Component{
 
-const generateData = (_level, _preKey, _tns) => {
-    const preKey = _preKey || '0';
-    const tns = _tns || gData;
-
-    const children = [];
-    for (let i = 0; i < x; i++) {
-        const key = `${preKey}-${i}`;
-        tns.push({ title: key, key });
-        if (i < y) {
-            children.push(key);
+    //在构造器中初始化state，不使用getInitialState()
+    constructor(props) {
+        super(props);
+        this.state = {
+            current:'1',
+            openKeys:[]
         }
+        this.dataSource = initData;
     }
-    if (_level < 0) {
-        return tns;
-    }
-    const __level = _level - 1;
-    children.forEach((key, index) => {
-        tns[index].children = [];
-        return generateData(__level, key, tns[index].children);
-    });
-};
-generateData(z);
 
-const Demo = React.createClass({
-    getInitialState() {
-        return {
-            gData,
-            expandedKeys: ['0-0', '0-0-0', '0-0-0-0'],
-        };
-    },
-    onDragEnter(info) {
-        console.log(info);
-        // expandedKeys 需要受控时设置
-        // this.setState({
-        //   expandedKeys: info.expandedKeys,
-        // });
-    },
-    onDrop(info) {
-        console.log(info);
-        const dropKey = info.node.props.eventKey;
-        const dragKey = info.dragNode.props.eventKey;
-        // const dragNodesKeys = info.dragNodesKeys;
-        const loop = (data, key, callback) => {
-            data.forEach((item, index, arr) => {
-                if (item.key === key) {
-                    return callback(item, index, arr);
-                }
-                if (item.children) {
-                    return loop(item.children, key, callback);
-                }
-            });
-        };
-        const data = [...this.state.gData];
-        let dragObj;
-        loop(data, dragKey, (item, index, arr) => {
-            arr.splice(index, 1);
-            dragObj = item;
-        });
-        if (info.dropToGap) {
-            let ar;
-            let i;
-            loop(data, dropKey, (item, index, arr) => {
-                ar = arr;
-                i = index;
-            });
-            ar.splice(i, 0, dragObj);
-        } else {
-            loop(data, dropKey, (item) => {
-                item.children = item.children || [];
-                // where to insert 示例添加到尾部，可以是随意位置
-                item.children.push(dragObj);
-            });
-        }
+    //load:this.props.load , //'lazy','all'
+    handleClick(e) {
         this.setState({
-            gData: data,
+            current: e.key,
+            openKeys: e.keyPath.slice(1)
         });
-    },
-    render() {
-        const loop = data => data.map((item) => {
+    }
+    onToggle(info) {
+        this.setState({
+            openKeys: info.open ? info.keyPath : info.keyPath.slice(1)
+        });
+    }
+
+    //产生无限分类菜单
+    getMenu(data) {
+        return data.map(function (item) {
             if (item.children) {
-                return <TreeNode key={item.key} title={item.key}>{loop(item.children)}</TreeNode>;
+                return <SubMenu key={item.id} title={item.name} children={this.getMenu(item.children)}/>;
+            } else {
+                return <Menu.Item key={item.id}><a href={item.href}>{item.name}</a></Menu.Item>
             }
-            return <TreeNode key={item.key} title={item.key} />;
-        });
+        },this);
+    }
+    render() {
+        const asideMenu = this.getMenu(this.dataSource);
         return (
-            <Tree defaultExpandedKeys={this.state.expandedKeys} openAnimation={{}} draggable
-                  onDragEnter={this.onDragEnter}
-                  onDrop={this.onDrop}>
-                {loop(this.state.gData)}
-            </Tree>
+            <Menu onClick={this.handleClick.bind(this)}
+                  openKeys={this.state.openKeys}
+                  onOpen={this.onToggle.bind(this)}
+                  onClose={this.onToggle.bind(this)}
+                  selectedKeys={[this.state.current]}
+                  mode="inline">
+                {asideMenu}
+            </Menu>
         );
-    },
-});
+    }
+}
 
 ReactDOM.render(<Demo />,document.getElementById('react-content'));

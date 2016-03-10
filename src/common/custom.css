@@ -13,6 +13,9 @@
 body {
     font-size: 14px;
 }
+#app-main{
+    height:100%;
+}
 .ant-menu-item > a {
     color:#666;
     display: block;

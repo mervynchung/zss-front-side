@@ -1,12 +1,11 @@
 /**
  * 主界面侧栏导航组件
- * @datasource  api/fw/asidemenu
  * props.dataSource 菜单数据
  * @export LayoutSideNav
  */
 
 import React from 'react';
-import { Menu, Icon} from 'antd';
+import {Menu} from 'antd';
 
 
 const SubMenu = Menu.SubMenu;
@@ -21,7 +20,7 @@ class LayoutSideNav extends React.Component{
             current:'1',
             openKeys:[]
         }
-        this.dataSource = props.dataSource;
+        this.dataSource = this.props.dataSource;
     }
 
     //load:this.props.load , //'lazy','all'
@@ -38,25 +37,25 @@ class LayoutSideNav extends React.Component{
     }
 
     //产生无限分类菜单
-    renderMenu(data) {
+    getMenu(data) {
         return data.map(function (item) {
             if (item.children) {
-                return <SubMenu key={item.id} title={item.name}>{renderMenu(item.children)}</SubMenu>;
-                renderMenu(item.children);
+                return <SubMenu key={item.id} title={item.name} children={this.getMenu(item.children)}/>;
             } else {
                 return <Menu.Item key={item.id}><a href={item.href}>{item.name}</a></Menu.Item>
             }
-        });
+        },this);
     }
     render() {
+        const asideMenu = this.getMenu(this.dataSource);
         return (
             <Menu onClick={this.handleClick.bind(this)}
                   openKeys={this.state.openKeys}
-                  onOpen={this.onToggle}
-                  onClose={this.onToggle}
+                  onOpen={this.onToggle.bind(this)}
+                  onClose={this.onToggle.bind(this)}
                   selectedKeys={[this.state.current]}
                   mode="inline">
-                {this.renderMenu(this.dataSource)}
+                {asideMenu}
             </Menu>
         );
     }
