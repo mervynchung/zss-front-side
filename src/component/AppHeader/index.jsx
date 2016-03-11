@@ -1,5 +1,5 @@
 import React from 'react';
-import {Row, Col, Icon, Badge} from 'antd';
+import {Icon, Badge} from 'antd';
 import ComUserPanel from '../ComUserPanel';
 import './style.css';
 const AppHeader = React.createClass({
@@ -15,16 +15,14 @@ const AppHeader = React.createClass({
     },
     render() {
         return (
-            <div className="app-header box-shadow">
-                <Row type="flex" align="bottom">
-                    <Col span="2"></Col>
-                    <Col span="4">logo</Col>
-                    <Col span="14"></Col>
-                    <Col span="1"><Badge dot={this.state.show}><a href="#" onClick={this.handleClick}><Icon
-                        type="notification" style={{fontSize:'18px'}}/></a></Badge></Col>
-                    <Col span="3"><ComUserPanel /></Col>
-                </Row>
-            </div>
+            <header className="app-header box-shadow">
+                <div className="app-logo"><span style={{fontWeight:'600',fontSize:'24px',color:'#fff'}}>cta.gd</span></div>
+                <div className="user-panel">
+                    <Badge  dot={this.state.show}><a href="#" onClick={this.handleClick}><Icon
+                        type="notification" style={{fontSize:'18px'}}/></a></Badge>
+                    <ComUserpanel />
+                </div>
+            </header>
         );
     }
 });

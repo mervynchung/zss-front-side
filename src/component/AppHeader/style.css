@@ -2,8 +2,23 @@
 .app-header{
     height: 64px;
     position: relative;
-    background-color: #0E61A0;
+    background-color: #03A9F4;
+    font-size:16px;
 }
 .app-header,.app-header a {
-    color: #ffffff;
+    color: #B3E5FC;
+}
+.app-header .app-logo {
+    position: absolute;
+    width:224px;
+    height: 64px;
+    left:0;
+    top:0;
+    text-align: center;
+}
+.app-header .user-panel {
+    position: absolute;
+    height:64px;
+    right:20px;
+    width: 150px;
 }

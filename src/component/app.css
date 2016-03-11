@@ -1,7 +1,14 @@
-.app-main,.app-container {
+.app-main {
     height:100%;
+    position: relative;
 }
+
 .app-content {
-    min-width:1000px;
     margin-left: 225px;
+}
+.app-container{
+    position: absolute;
+    top:64px;
+    bottom:0;
+    width:100%;
 }
