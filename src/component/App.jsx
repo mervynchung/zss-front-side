@@ -17,7 +17,9 @@ class App extends React.Component {
             <div className="app-container clearfix">
                 <AppSideNav dataSource={this.dataSource.asideMenu}/>
                 <div className="app-content">
-                    <div className="wrap"> 内容区域</div>
+                    <div className="wrap">
+                        {this.props.children || '内容区域' }
+                    </div>
                 </div>
                 <AppFooter/>
             </div>

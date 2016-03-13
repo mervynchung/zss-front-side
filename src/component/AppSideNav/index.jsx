@@ -6,6 +6,7 @@
 
 import React from 'react';
 import {Menu} from 'antd';
+import {Link} from 'react-router';
 import './style.css';
 
 
@@ -44,7 +45,7 @@ class AppSideNav extends React.Component {
             if (item.children) {
                 return <SubMenu key={item.id} title={item.name} children={this.getMenu(item.children)}/>;
             } else {
-                return <Menu.Item key={item.id}><a href={item.href}>{item.name}</a></Menu.Item>
+                return <Menu.Item key={item.id}><Link to="/href">{item.name}</Link></Menu.Item>
             }
         }, this);
     }

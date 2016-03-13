@@ -1,7 +1,4 @@
-import {
-  Table
-}
-from 'antd';
+import { Table} from 'antd';
 import React from 'react';
 import C_searchBar from './c_searchBar';
 

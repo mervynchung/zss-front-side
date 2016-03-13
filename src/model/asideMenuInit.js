@@ -2,11 +2,11 @@ const asideMenuInit = {
   data: [{
     id: '1',
     name: '机构管理',
-    href: '#value1'
+    href: '/value1'
   }, {
     id: '2',
     name: '人员管理',
-    href: '#value2'
+    href: '/value2'
   }, {
     id: '3',
     name: '系统设置',
@@ -16,7 +16,7 @@ const asideMenuInit = {
       children: [{
         id: '5',
         name: '用户密码管理',
-        href: '#value5'
+        href: '/value5'
       }]
     }]
   }]
