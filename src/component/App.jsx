@@ -8,21 +8,19 @@ class App extends React.Component {
 
     constructor(props) {
         super(props);
-        this.dataSource = this.props.dataSource;
+        this.dataSource = this.props.route.dataSource;
     }
 
     render() {
         return <div className="app-main">
             <AppHeader/>
-            <div className="app-container clearfix">
-                <AppSideNav dataSource={this.dataSource.asideMenu}/>
-                <div className="app-content">
-                    <div className="wrap">
-                        {this.props.children || '内容区域' }
-                    </div>
+            <AppSideNav dataSource={this.dataSource.asideMenu}/>
+            <div className="app-content">
+                <div className="wrap">
+                    {this.props.children || '内容区域' }
                 </div>
-                <AppFooter/>
             </div>
+            <AppFooter/>
         </div>
     }
 }

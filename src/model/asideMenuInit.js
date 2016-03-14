@@ -2,7 +2,7 @@ const asideMenuInit = {
   data: [{
     id: '1',
     name: '机构管理',
-    href: '/value1'
+    href: '/gn/'
   }, {
     id: '2',
     name: '人员管理',

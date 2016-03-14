@@ -45,7 +45,7 @@ class AppSideNav extends React.Component {
             if (item.children) {
                 return <SubMenu key={item.id} title={item.name} children={this.getMenu(item.children)}/>;
             } else {
-                return <Menu.Item key={item.id}><Link to="/href">{item.name}</Link></Menu.Item>
+                return <Menu.Item key={item.id}><Link to={item.href}>{item.name}</Link></Menu.Item>
             }
         }, this);
     }
