@@ -75,7 +75,7 @@ let pagination = {
     console.log({Current: current,pageSize:pageSize});
   }
 };
-const GN_1 = React.createClass({
+const gn1 = React.createClass({
   render() {
     return (
       <div>
@@ -84,4 +84,4 @@ const GN_1 = React.createClass({
       </div>);
   }
 })
-module.exports = GN_1;
+module.exports = gn1;

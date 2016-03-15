@@ -13,7 +13,8 @@ var config = {
             //'antd',
             //'object-assign',
             'react',
-            'react-dom'
+            'react-dom',
+            'react-router'
         ]
     },
 
