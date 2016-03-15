@@ -1,5 +1,6 @@
 var path = require('path');
 var webpack = require('webpack');
+var WebpackDevServer = require("webpack-dev-server");
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 var config = {
@@ -11,7 +12,9 @@ var config = {
         ],
         vendor: [
             'react',
-            'react-dom'
+            'react-dom',
+            'react-router',
+            'reqwest'
         ]
     },
 
@@ -87,7 +90,14 @@ var config = {
         new ExtractTextPlugin('[name].css', {
             allChunks: true
         })
-    ]
+    ],
+    devServer: {
+        contentBase: "entry",
+        hot:true,
+        proxy: {
+            "/api/*": "http://localhost:8080/rest/api"
+        }
+    }
 };
 
 module.exports = config;
