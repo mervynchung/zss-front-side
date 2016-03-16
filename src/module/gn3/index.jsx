@@ -1,5 +1,5 @@
 module.exports = {
-    path: 'gn1(/)',
+    path: 'gn3(/)',
     getComponent(location, cb) {
         require.ensure([], (require) => {
             cb(null, require('./component'))

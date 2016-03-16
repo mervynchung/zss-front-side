@@ -16,7 +16,7 @@ const asideMenuInit = {
       children: [{
         id: '5',
         name: '用户密码管理',
-        href: '/value5'
+        href: '/gn3'
       }]
     }]
   }]

@@ -71,6 +71,7 @@ var config = {
         }]
     },
     plugins: [
+        new webpack.HotModuleReplacementPlugin(),
         new webpack.optimize.OccurenceOrderPlugin(),
         new webpack.optimize.DedupePlugin(),
         new webpack.DefinePlugin({
@@ -95,7 +96,7 @@ var config = {
         contentBase: "entry",
         hot:true,
         proxy: {
-            "/api/*": "http://localhost:8080/rest/api"
+            "/api/*": "http://localhost:8080/rest/"
         }
     }
 };

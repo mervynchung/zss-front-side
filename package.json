@@ -31,7 +31,7 @@
     "webpack-dev-server": "^1.14.0"
   },
   "scripts": {
-    "dev": "webpack-dev-server --config webpack.dev.js -d --port 8001 --progress --colors --hot --content-base entry",
+    "dev": "webpack-dev-server --config webpack.dev.js -d --port 8001 --progress --colors",
     "build": "webpack --config webpack.dist.js --progress",
     "test": "webpack-dev-server --config webpack.test.js -d --port 8002 --progress --colors --hot --content-base src/test"
   }

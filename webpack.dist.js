@@ -14,7 +14,8 @@ var config = {
             //'object-assign',
             'react',
             'react-dom',
-            'react-router'
+            'react-router',
+            'reqwest'
         ]
     },
 
