@@ -12,7 +12,7 @@ const routes = {
     dataSource:dataInit,
     childRoutes: [
         //模块预加载方式
-        //{ path: '/gn1(/)', component: gn1 }, 
+        //{ path: '/gn1(/)', component: gn1 },
         //模块懒加载方式
         require('../module/gn1'),
         require('../module/gn2'),
