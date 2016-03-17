@@ -13,13 +13,16 @@ const routes = {
     dataSource:dataInit,
     indexRoute:{component:home},
     ignoreScrollBehavior:true,
+    breadcrumbName:'首页',
     childRoutes: [
         //模块预加载方式
         //{ path: '/gn1(/)', component: gn1 },
         //模块懒加载方式
         require('../module/gn1'),
         require('../module/gn2'),
-        require('../module/gn3')
+        require('../module/gn3'),
+        require('../module/mksz')
+
     ]
 }
 

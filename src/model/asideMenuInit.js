@@ -8,6 +8,10 @@ const asideMenuInit = {
     name: '人员管理',
     href: '/gn2'
   }, {
+    id: '6',
+    name: '模块设置',
+    href: '/mksz'
+  },{
     id: '3',
     name: '系统设置',
     children: [{
