@@ -16,13 +16,11 @@ class App extends React.Component {
         return <div className="app-main">
             <AppHeader/>
             <AppSideNav dataSource={this.dataSource.asideMenu}/>
-            <div  className="app-content">
-                <QueueAnim type={['right', 'left']}  className="wrap">
-                    {React.cloneElement(this.props.children, {
-                        key: this.props.location.pathname
-                    })}
-                </QueueAnim>
-            </div>
+            <QueueAnim type={['right', 'left']} duration={450} className="app-content">
+            {React.cloneElement(this.props.children, {
+            key: this.props.location.pathname
+            })}
+            </QueueAnim>
             <AppFooter/>
         </div>
     }

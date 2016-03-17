@@ -6,7 +6,9 @@ const gn2 = React.createClass({
         console.log(value, mode);
     },
     render(){
-        return <Calendar onPanelChange={this.onPanelChange} />
+        return <div className="wrap">
+        <Calendar onPanelChange={this.onPanelChange} />
+        </div>
     }
 })
 

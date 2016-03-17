@@ -4,12 +4,15 @@ import ReactDOM from 'react-dom';
 import dataInit from '../model';
 import {Router,Route, browserHistory,hashHistory,IndexRoute} from 'react-router'
 import App from '../component/App';
+import home from '../module/home'
 
 /*路由配置*/
 const routes = {
     path: '/',
     component: App,
     dataSource:dataInit,
+    indexRoute:{component:home},
+    ignoreScrollBehavior:true,
     childRoutes: [
         //模块预加载方式
         //{ path: '/gn1(/)', component: gn1 },

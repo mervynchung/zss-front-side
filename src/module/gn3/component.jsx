@@ -14,15 +14,15 @@ const gn3 = React.createClass({
             type:'json',
             method:'get'
         })
-        .then(function(resp){
+        .then((resp) => {
             this.setState({res:resp[0].name});
-        }.bind(this))
-        .fail(function(err,msg){
+        })
+        .fail((err,msg)=>{
              message.error('api错误')
-        }.bind(this));
+        });
     },
     render(){
-        return <div>
+        return <div className="wrap">
             <div>{this.state.res}</div>
             <Button onClick={this.handleClick}>点击加载</Button>
         </div>

@@ -27,7 +27,7 @@ const App = React.createClass({
             <Link to="/page2">Page 2</Link>
           </Menu.Item>
         </Menu>
-        <QueueAnim type={['right', 'left']} className="demo-router-wrap">
+        <QueueAnim type={['right', 'left']} duration={5000}  className="demo-router-wrap">
           {React.cloneElement(this.props.children || <Home />, { key })}
         </QueueAnim>
       </div>

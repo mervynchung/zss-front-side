@@ -96,7 +96,7 @@ var config = {
         contentBase: "entry",
         hot:true,
         proxy: {
-            "/api/*": "http://localhost:8080/rest/"
+            "/api/*": "http://localhost:8080/"
         }
     }
 };

@@ -78,7 +78,7 @@ let pagination = {
 const gn1 = React.createClass({
   render() {
     return (
-      <div>
+      <div className="wrap">
       <C_searchBar />
       <Table columns={columns} dataSource={data} pagination={pagination}/>
       </div>);

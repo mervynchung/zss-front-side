@@ -17,12 +17,11 @@
 
 .app-content {
     margin-left: 225px;
-    overflow: auto;
+    overflow: hidden;
     padding-bottom: 48px;
+    position: relative;
 }
-.app-container{
-    position: absolute;
-    top:64px;
-    bottom:0;
-    width:100%;
+.app-content > .queue-anim-leaving {
+  position: absolute;
+  width:100%;
 }

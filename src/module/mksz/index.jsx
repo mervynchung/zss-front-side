@@ -1,5 +1,6 @@
+/*模块设置功能*/
 module.exports = {
-    path: 'gn1(/)',
+    path: 'mksz(/)',
     ignoreScrollBehavior:true,
     getComponent(location, cb) {
         require.ensure([], (require) => {
