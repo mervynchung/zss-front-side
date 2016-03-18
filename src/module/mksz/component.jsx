@@ -1,6 +1,6 @@
 import React from 'react'
 import {Tree,Col,Row} from 'antd'
-import CompContentHead from '../../component/CompContentHead'
+import CompPageHead from '/component/CompPageHead'
 import req from 'reqwest'
 
 const TreeNode = Tree.TreeNode;
@@ -8,7 +8,7 @@ const TreeNode = Tree.TreeNode;
 const mksz = React.createClass({
     render(){
         return <div>
-            <CompContentHead />
+            <CompPageHead heading={'模块设置'} />
             <div className="wrap">
                 <Row>
                     <Col span="12">
