@@ -4,6 +4,19 @@ import CompPageHead from '/component/CompPageHead'
 import req from 'reqwest'
 
 const TreeNode = Tree.TreeNode;
+function getTreeData(){
+    req({
+        url:'/api/fw/asidemenu',
+        type:'json',
+        method:'get'
+    })
+    .then((resp)=>{
+        resp.map((item)=>{
+
+        })
+    })
+}
+
 
 const mksz = React.createClass({
     render(){
