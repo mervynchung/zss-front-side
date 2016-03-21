@@ -1,6 +1,6 @@
 import React from 'react'
 import {Tree,Col,Row} from 'antd'
-import CompPageHead from '/component/CompPageHead'
+import CompPageHead from 'component/CompPageHead'
 import req from 'reqwest'
 
 const TreeNode = Tree.TreeNode;

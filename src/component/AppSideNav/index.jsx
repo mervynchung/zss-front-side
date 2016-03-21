@@ -10,11 +10,12 @@ import {Link} from 'react-router';
 import './style.css';
 
 
+//产生分类菜单
+
 const SubMenu = Menu.SubMenu;
 
 //使用es6语法定义组件
 class AppSideNav extends React.Component {
-
     //在构造器中初始化state，不使用getInitialState()
     constructor(props) {
         super(props);
@@ -38,8 +39,6 @@ class AppSideNav extends React.Component {
             openKeys: info.open ? info.keyPath : info.keyPath.slice(1)
         });
     }
-
-    //产生无限分类菜单
     getMenu(data) {
         return data.map(function (item) {
             if (item.children) {
@@ -49,6 +48,7 @@ class AppSideNav extends React.Component {
             }
         }, this);
     }
+
 
     render() {
         const asideMenu = this.getMenu(this.dataSource);

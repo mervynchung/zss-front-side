@@ -24,7 +24,12 @@ var config = {
     },
     resolve: {
         alias: {},
-        extensions: ['', '.js', '.jsx']
+        extensions: ['', '.js', '.jsx'],
+        // 添加项目中引用模块时的扫描起始目录，如require('common/lib')，则会扫描src/common/lib
+        // 每项都必须为绝对路径
+        root:[
+            path.resolve('./src')
+        ]
     },
     module: {
         loaders: [{
@@ -97,7 +102,8 @@ var config = {
         hot:true,
         proxy: {
             "/api/*": "http://localhost:8080/"
-        }
+        },
+        compress: true
     }
 };
 
