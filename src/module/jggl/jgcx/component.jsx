@@ -1,85 +1,134 @@
-import { Table} from 'antd';
-import React from 'react';
+import {
+  Button, message
+}
+from 'antd'
+import React from 'react'
+import req from 'reqwest'
+import ReactDOM from 'react-dom'
+import {
+  Table, Icon
+}
+from 'antd'
+
 
 const columns = [{
-  title: '姓名',
-  dataIndex: 'name',
-  filters: [{
-    text: '姓李的',
-    value: '李',
-  }, {
-    text: '姓胡的',
-    value: '胡',
-  }, {
-    text: '子菜单',
-    value: '子菜单',
-    children: [{
-      text: '姓陈的',
-      value: '陈',
-    }, {
-      text: '姓王的',
-      value: '王',
-    }]
-  }],
-  // 指定确定筛选的条件函数
-  // 这里是名字中第一个字是 value
-  onFilter: function(value, record) {
-    return record.name.indexOf(value) === 0;
-  },
-  sorter: function(a, b) {
-    return a.name.length - b.name.length;
-  }
+  title: '序号',
+  dataIndex: 'xh',
+  key: 'xh',
+},{
+  title: '机构名称',
+  dataIndex: 'dwmc',
+  key: 'dwmc',
+  sorter:true,
 }, {
-  title: '年龄',
-  dataIndex: 'age',
-  sorter: function(a, b) {
-    return a.age - b.age;
-  }
+  title: '注册资金',
+  dataIndex: 'zczj',
+  key: 'zczj',
+  sorter:true,
+},{
+  title: '法定代表人',
+  dataIndex: 'fddbr',
+  key: 'fddbr',
+    sorter:true,
 }, {
-  title: '地址',
-  dataIndex: 'address',
-  filters: [{
-    text: '南湖',
-    value: '南湖'
-  }, {
-    text: '西湖',
-    value: '西湖'
-  }],
-  filterMultiple: false,
-  onFilter: function(value, record) {
-    return record.address.indexOf(value) === 0;
-  },
-  sorter: function(a, b) {
-    return a.address.length - b.address.length;
+  title: '证书编号',
+  dataIndex: 'zsbh',
+  key: 'zsbh',
+},{
+  title: '事务所性质',
+  dataIndex: 'swsxz',
+  key: 'swsxz',
+},{
+  title: '城市',
+  dataIndex: 'cs',
+  key: 'cs',
+},{
+  title: '总人数',
+  dataIndex: 'zrs',
+  key: 'zrs',
+}, {
+  title: '执业注税师人数',
+  dataIndex: 'zyrs',
+  key: 'zyrs',
+}, {
+  title: '成立时间',
+  dataIndex: 'clsj',
+  key: 'clsj',
+   sorter:true,
+}, {
+  title: '操作',
+  key: 'operation',
+  render(text) {
+    return (
+      <span>
+        <a href="#">打印</a>
+      </span>
+    );
   }
 }];
 
-let data = [];
-for (var i = 0; i < 50; i++) {
-  data.push({
-    key: i,
-    name: '姓名' + i,
-    age: 'age' + i,
-    address: '南湖区湖底公园' + i + '号'
-  });
-}
-let pagination = {
-  total:1000,
-  showSizeChanger:true,
-  showQuickJumper:true,
-  onShowSizeChange: function (current, pageSize) {
-    console.log('Current: ', current, '; PageSize: ', pageSize);
+const jgcx = React.createClass({
+   getInitialState() {
+        return {
+            data: [],
+            pagination: {},
+        };
+    },
+
+handleTableChange(pagination, filters, sorter) {
+ req({
+      url: '/api/zs/jgs?pagenum='+pagination.current+'&pagesize='+pagination.pageSize+'&sfield='+sorter.field+'&sorder='+sorter.order,
+      method: 'get',
+      type: 'json',
+      success: (result) => {
+        const paper = this.state.pagination;     
+         paper.pageSize = pagination.pageSize;
+        this.setState({
+          data: result.data,
+        });
+      }
+    });
   },
-  onChange: function (current,pageSize) {
-    console.log({Current: current,pageSize:pageSize});
-  }
-};
-const gn1 = React.createClass({
+
+  fetch_jgcx() {
+    req({
+      url: '/api/zs/jgs?pagenum=1&pagesize=5&sfield=null&sorder=null',
+      method: 'get',
+      type: 'json',
+      success: (result) => {
+function showTotal() {
+  return "共"+pagination.total+"条";
+}
+        const pagination = this.state.pagination;
+        pagination.total = result.page.pageTotal;
+         pagination.pageSize = 5;
+        pagination.showSizeChanger = true;
+          pagination.showTotal = showTotal;
+        pagination.showQuickJumper = true;
+        pagination.size = 'small';
+        pagination.pageSizeOptions = ['5', '10', '20', '30', '40'];
+      
+        this.setState({
+          data: result.data,
+        });
+      }
+    });
+  },
+componentDidMount() {
+    this.fetch_jgcx();
+  },
+
   render() {
-    return (
-      <div className="wrap">
-      <Table columns={columns} dataSource={data} pagination={pagination}/>
-      </div>);
+    return <div className="wrap">
+           <Table columns={columns} 
+           dataSource={this.state.data} 
+           pagination={this.state.pagination}
+           onChange={this.handleTableChange} 
+        bordered size="small" />
+
+        </div>
   }
 })
-module.exports = gn1;
+
+module.exports = jgcx;
+

@@ -1,0 +1,4 @@
+.app-content .fix-height {
+	height: 300px;
+	overflow:scroll;
+}

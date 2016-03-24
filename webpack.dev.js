@@ -97,7 +97,9 @@ var config = {
         hot:true,
         proxy: {
             "/api/*": "http://localhost:8080/"
-        }
+        },
+        // host:'192.168.1.165',
+        compress:true
     }
 };
 
