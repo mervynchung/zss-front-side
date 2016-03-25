@@ -9,7 +9,6 @@ import {
   Table, Icon
 }
 from 'antd'
-import CompUserPanel from 'component/CompUserPanel';
 
 
 const columns = [{
@@ -127,7 +126,7 @@ componentDidMount() {
            pagination={this.state.pagination}
            onChange={this.handleTableChange} 
         bordered size="small" />
-        <CompUserPanel />
+        
 
 
         </div>
