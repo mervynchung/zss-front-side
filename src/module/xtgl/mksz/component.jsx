@@ -49,10 +49,22 @@ const TreeView = React.createClass({
 })
 
 let TreeNodeEdit = React.createClass({
+    getInitialState(){
+      return {
+          name: '',
+          href: '',
+          orderNo: '',
+          icon: ''
+      }
+    },
+
     handleSubmit(e){
         e.preventDefault();
+        console.log('收到表单值：', this.props.form.getFieldsValue());
     },
+
     render(){
+        const { getFieldProps } = this.props.form;
         const formItemLayout = {
             labelCol: { span: 6 },
             wrapperCol: { span: 14 },
@@ -60,23 +72,27 @@ let TreeNodeEdit = React.createClass({
         return <Form horizontal onSubmit = {this.handleSubmit}>
             <FormItem
                 {...formItemLayout}
-                label="模块名称：">
-                <Input id="control-input" placeholder="名称" />
+                label="功能模块名称：">
+                <Input id="control-input" placeholder="名称"
+                    {...getFieldProps('name',{initialValue:this.state.name})}/>
             </FormItem>
             <FormItem
                 {...formItemLayout}
                 label="链接地址：">
-                <Input id="control-input" placeholder="URL..." />
+                <Input id="control-input" placeholder="URL..."
+                    {...getFieldProps('href',{initialValue:this.state.href})}/>
             </FormItem>
             <FormItem
                 {...formItemLayout}
                 label="排序号：">
-                <Input id="control-input" placeholder="用于排序的号码" />
+                <Input id="control-input" placeholder="用于排序的号码"
+                    {...getFieldProps('orderNo',{initialValue:this.state.orderNo})} />
             </FormItem>
             <FormItem
                 {...formItemLayout}
                 label="图标：">
-                <Input id="control-input" placeholder="图标代号" />
+                <Input id="control-input" placeholder="图标代号,如step-forward"
+                    {...getFieldProps('icon',{initialValue:this.state.icon})}/>
             </FormItem>
             </Form>
             }
