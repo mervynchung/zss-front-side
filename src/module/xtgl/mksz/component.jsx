@@ -2,6 +2,7 @@ import './style.css'
 import React from 'react'
 import {Tree,Col,Row,Input,Form} from 'antd'
 import CompPageHead from 'component/CompPageHead'
+import Panel from 'component/compPanel'
 import req from 'reqwest'
 import utils from 'common/utils'
 
@@ -23,14 +24,19 @@ const data = utils.getTreeData(json);
  *  @props.data {Array}
  */
 const TreeView = React.createClass({
-    onSelect(key,info){
-        console.log('key ',key);
+    handleSelect(key){
+
+    },
+    onSelect(key, info){
+        this.props.onSelect(key)
+        console.log('key ', key);
         console.log('info ', info)
     },
     getTreeNodes(data){
-        let res =  data.map((item) => {
+        let res = data.map((item) => {
             if (item.children) {
-                return <TreeNode title={item.name+' - '+item.orderNo} key={item.id} disableCheckbox>{this.getTreeNodes(item.children)}</TreeNode>;
+                return <TreeNode title={item.name+' - '+item.orderNo} key={item.id}
+                                 disableCheckbox>{this.getTreeNodes(item.children)}</TreeNode>;
             }
             return <TreeNode title={item.name+' - '+item.orderNo} key={item.id} isLeaf={true} disableCheckbox/>;
         });
@@ -39,9 +45,9 @@ const TreeView = React.createClass({
     render(){
         const treeNodes = this.getTreeNodes(this.props.data)
         return (
-            <Tree onSelect={this.onSelect}
+            <Tree onSelect={this.handleSelect}
                   defaultExpandAll
-                  checkable >
+                  checkable>
                 {treeNodes}
             </Tree>
         )
@@ -49,16 +55,15 @@ const TreeView = React.createClass({
 })
 
 let TreeNodeEdit = React.createClass({
-    getInitialState(){
-      return {
-          name: '',
-          href: '',
-          orderNo: '',
-          icon: ''
-      }
+    getDefaultProps() {
+        return {
+            name:'',
+            href:'',
+            orderNo:'',
+            icon:''
+        };
     },
-
-    handleSubmit(e){
+    handleSubmit(e) {
         e.preventDefault();
         console.log('收到表单值：', this.props.form.getFieldsValue());
     },
@@ -66,36 +71,36 @@ let TreeNodeEdit = React.createClass({
     render(){
         const { getFieldProps } = this.props.form;
         const formItemLayout = {
-            labelCol: { span: 6 },
-            wrapperCol: { span: 14 },
+            labelCol: {span: 10},
+            wrapperCol: {span: 14},
         };
-        return <Form horizontal onSubmit = {this.handleSubmit}>
+        return <Form horizontal onSubmit={this.handleSubmit}>
             <FormItem
                 {...formItemLayout}
-                label="功能模块名称：">
+                label="模块名称：">
                 <Input id="control-input" placeholder="名称"
-                    {...getFieldProps('name',{initialValue:this.state.name})}/>
+                    {...getFieldProps('name', { initialValue:this.props.name })}/>
             </FormItem>
             <FormItem
                 {...formItemLayout}
                 label="链接地址：">
                 <Input id="control-input" placeholder="URL..."
-                    {...getFieldProps('href',{initialValue:this.state.href})}/>
+                    {...getFieldProps('href', { initialValue:this.props.href })}/>
             </FormItem>
             <FormItem
                 {...formItemLayout}
                 label="排序号：">
                 <Input id="control-input" placeholder="用于排序的号码"
-                    {...getFieldProps('orderNo',{initialValue:this.state.orderNo})} />
+                    {...getFieldProps('orderNo', { initialValue:this.props.orderNo })}/>
             </FormItem>
             <FormItem
                 {...formItemLayout}
                 label="图标：">
-                <Input id="control-input" placeholder="图标代号,如step-forward"
-                    {...getFieldProps('icon',{initialValue:this.state.icon})}/>
+                <Input id="control-input" placeholder="图标代号"
+                    {...getFieldProps('icon', { initialValue:this.props.icon })}/>
             </FormItem>
-            </Form>
-            }
+        </Form>
+    }
 })
 
 TreeNodeEdit = Form.create()(TreeNodeEdit);
@@ -105,15 +110,17 @@ const mksz = React.createClass({
         return <div className="mksz">
             <CompPageHead heading={'模块设置'}/>
             <div className="wrap">
-                <Row className = "panel">
-                    <Col span="12">
-                        <TreeView data={data}/>
-                    </Col>
-                    <Col span="12">
-                        <TreeNodeEdit/>
-                    </Col>
-                </Row>
-                <Row></Row>
+                <Panel>
+                    <Row>
+                        <Col span="8">
+                            <TreeView data={data}/>
+                        </Col>
+                        <Col span="16">
+                            <TreeNodeEdit/>
+                        </Col>
+                    </Row>
+                </Panel>
+
             </div>
         </div>
     }
