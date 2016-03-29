@@ -23,7 +23,7 @@ const routes = {
         require('../module/gn3'),
         require('../module/mksz'),
         require('../module/jggl/jgcx'),
-
+        require('../module/xtgl/mksz')
     ]
 }
 

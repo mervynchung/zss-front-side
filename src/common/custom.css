@@ -16,11 +16,11 @@ body {
 #app{
     height:100%;
 }
+
+/*通用样式*/
 .wrap {
     padding: 16px;
 }
-
-/*通用样式*/
 .right {
     float: right;
 }
@@ -35,7 +35,7 @@ body {
     content: "";
 }
 .box-shadow {
-    box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.2);
 }
 
 /*菜单样式*/

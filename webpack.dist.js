@@ -14,8 +14,8 @@ var config = {
             //'object-assign',
             'react',
             'react-dom',
-            'react-router',
-            'reqwest'
+            //'react-router',
+            //'reqwest'
         ]
     },
 
@@ -25,7 +25,10 @@ var config = {
     },
     resolve: {
         alias: {},
-        extensions: ['', '.js', '.jsx']
+        extensions: ['', '.js', '.jsx'],
+        root:[
+            path.resolve('./src')
+        ]
     },
     module: {
         loaders: [{

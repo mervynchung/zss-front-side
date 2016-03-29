@@ -24,7 +24,7 @@ var config = {
     },
     resolve: {
         alias: {},
-         extensions: ['', '.js', '.jsx'],
+        extensions: ['', '.js', '.jsx'],
         // 添加项目中引用模块时的扫描起始目录，如require('common/lib')，则会扫描src/common/lib
         // 每项都必须为绝对路径
         root:[
@@ -103,7 +103,6 @@ var config = {
         proxy: {
             "/api/*": "http://localhost:8080/"
         },
-        host:192.168.1.1
         compress: true
     }
 };

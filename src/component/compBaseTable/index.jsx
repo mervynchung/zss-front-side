@@ -1,10 +1,8 @@
-import 'common/lib.js'
 import React from 'react'
-import {Col,Row} from 'antd'
 import ReactDom from 'react-dom'
 import './style.css'
 
-const data = {
+/*const data = {
     values: {
         name: '胡延兵',
         age: '23',
@@ -28,14 +26,14 @@ const data = {
         zgzh: '证书编号',
         barq: '备案日期'
     }
-}
+}*/
 const TrWrapper = React.createClass({
     render(){
         return <tr>{this.props.children}</tr>
     }
 })
 
-const BaseTable = React.createClass({
+const baseTable = React.createClass({
     render(){
         const colgroup = [];
         const tr = [];
@@ -70,8 +68,4 @@ const BaseTable = React.createClass({
         </div>
     }
 })
-
-const demo = <BaseTable data={data}/>
-
-ReactDom.render(demo, document.getElementById('react-content'));
-
+module.exports= baseTable;

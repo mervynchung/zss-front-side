@@ -21,7 +21,10 @@ var config = {
     },
     resolve: {
         alias: {},
-        extensions: ['', '.js', '.jsx']
+        extensions: ['', '.js', '.jsx'],
+        root:[
+            path.resolve('./src')
+        ]
     },
     module: {
         loaders: [{
