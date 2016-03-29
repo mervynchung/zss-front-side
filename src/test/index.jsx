@@ -4,52 +4,54 @@ import ReactDOM from 'react-dom';
 import React from 'react';
 import { Table, Icon } from 'antd';
 import req from 'reqwest'
+import { Tabs } from 'antd';
 
-const columns = [{
-  title: '姓名',
-  dataIndex: 'name',
-  key: 'name',
-  render(text) {
-    return <a href="#">{text}</a>;
-  }
-}, {
-  title: '年龄',
-  dataIndex: 'age',
-  key: 'age',
-}, {
-  title: '住址',
-  dataIndex: 'address',
-  key: 'address',
-}, {
-  title: '操作',
-  key: 'operation',
-  render(text, record) {
+import { Form, Input, Button, Checkbox } from 'antd';
+const FormItem = Form.Item;
+
+let Demo = React.createClass({
+  handleSubmit(e) {
+    e.preventDefault();
+    console.log('收到表单值：', this.props.form.getFieldsValue());
+  },
+
+  render() {
+    const { getFieldProps } = this.props.form;
     return (
-      <span>
-        <a href="#">操作一{record.name}</a>
-        <span className="ant-divider"></span>
-        <a href="#">操作二</a>
-        <span className="ant-divider"></span>
-        <a href="#" className="ant-dropdown-link">
-          更多 <Icon type="down" />
-        </a>
-      </span>
+      <Form inline onSubmit={this.handleSubmit}>
+        <FormItem
+          label="账户：">
+          <Input placeholder="请输入账户名"
+            {...getFieldProps('userName')} />
+        </FormItem>
+        <FormItem
+          label="密码：">
+          <Input type="password" placeholder="请输入密码"
+            {...getFieldProps('password')} />
+        </FormItem>
+        <FormItem>
+          <label className="ant-checkbox-inline">
+            <Checkbox
+              {...getFieldProps('agreement')} />记住我
+          </label>
+        </FormItem>
+        <Button type="primary" htmlType="submit">登录</Button>
+      </Form>
     );
   }
-}];
-const data =  req({
-            url:'/api/zs/jgs?pagenum=2&pagesize=3',
-            type:'json',
-            method:'get'
-        })
-        .then((resp) => {
-            return(resp.data);
-        })
-        .fail((err,msg)=>{
-             message.error('api错误')
-        });
+});
 
-ReactDOM.render(<Table columns={columns} dataSource={data} />
+Demo = Form.create()(Demo);
+
+ReactDOM.render(<Demo />, mountNode);
+
+
+
+ReactDOM.render(<Tabs onChange={callback} type="line">
+    <TabPane tab="选项卡一" key="1">选项卡一内容</TabPane>
+    <TabPane tab="选项卡二" key="2">选项卡二内容</TabPane>
+    <TabPane tab="选项卡三" key="3">选项卡三内容</TabPane>
+  </Tabs>
 , document.getElementById('react-content'));
 
 //ReactDOM.render(<Demo />,document.getElementById('react-content'));

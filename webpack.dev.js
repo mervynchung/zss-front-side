@@ -103,6 +103,7 @@ var config = {
         proxy: {
             "/api/*": "http://localhost:8080/"
         },
+        host:192.168.1.1
         compress: true
     }
 };

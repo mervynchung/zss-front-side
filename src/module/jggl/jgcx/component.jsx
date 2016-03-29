@@ -1,17 +1,7 @@
-import {
-  Button, message
-}
-from 'antd'
 import React from 'react'
-import req from 'reqwest'
-import ReactDOM from 'react-dom'
-import {
-  Table, Icon
-}
-from 'antd'
 import CompDataGird from 'component/CompDataGird';
-import model from './model'
-
+import CompTab from 'component/CompTab';
+import CompAutoForm from 'component/CompAutoForm';
 
 const columns = [{ //设定列
   title: '序号', //设定该列名称
@@ -86,18 +76,23 @@ const girdStyle = {//表格样式
 }
 
 const jgcx = React.createClass({
+
+
   render() {
     return <div className="wrap">
-        <CompDataGird column={columns}
-         pageSetting = {pageSetting} 
-         dataProvider = {dataProvider} 
-         girdStyle = {girdStyle}
-         key = 'yyyy'/>
-
+  
+       <CompTab key='ttt'/>
+        <CompAutoForm key='fff'/>
         </div>
   }
 })
 
 module.exports = jgcx;
 
-// column={model} dataSource{model.datasource} <CompDataGird  />
+
+ // 
+  // <CompDataGird column={columns}
+  //        pageSetting = {pageSetting} 
+  //        dataProvider = {dataProvider} 
+  //        girdStyle = {girdStyle}
+  //        key = 'yyyy'/>

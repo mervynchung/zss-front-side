@@ -1,14 +1,10 @@
-import {
-  Button, message
-}
-from 'antd'
 import React from 'react'
 import req from 'reqwest'
-import ReactDOM from 'react-dom'
 import {
   Table, Icon
 }
 from 'antd'
+
      
 const CompDataGird = React.createClass({
   getDefaultProps() {//初始化某些传入值
@@ -86,7 +82,7 @@ componentDidMount() {//REACT提供懒加载方法，懒加载时使用，且方�
   },
 
   render() {
-    return <div className="wrap">
+    return <div className="dataGird">
            <Table columns={this.state.column} 
            dataSource={this.state.data} 
           pagination={this.state.pagination}
