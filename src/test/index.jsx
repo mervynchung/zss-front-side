@@ -16,7 +16,7 @@ const data = {
         zgzh: '34454394',
         barq: '2016-01-01'
     },
-    groupNum: 2,
+    groupNum: 1,
     keys: {
         name: '姓名',
         age: '年龄',
@@ -39,7 +39,7 @@ const BaseTable = React.createClass({
     render(){
         const colgroup = [];
         const tr = [];
-        let td = []
+        let td = [];
         const groupNum = this.props.data.groupNum;
         //设置colgroup样式
         for (let i = 0; i < (groupNum < 3 ? groupNum : 2); i++) {
@@ -52,14 +52,15 @@ const BaseTable = React.createClass({
         for (let prop in this.props.data.keys) {
             td.push(<td key={'td-k-'+prop}>{this.props.data.keys[prop]}</td>);
             td.push(<td key={'td-v-'+prop}>{this.props.data.values[prop]}</td>);
-            if (td.length == groupNum*2){
+            if (td.length == groupNum * 2) {
                 tr.push(<TrWrapper key={'tr-'+tr.length+1}>{td}</TrWrapper>);
-                td=[]
+                td = []
             }
         }
-
-        return <div className="base-table base-table-bordered">
-            <table className="table-bordered table-striped ">
+        return <div className={'base-table '+
+             (this.props.bordered?'table-bordered ':' ')+
+             (this.props.striped?'table-striped ':' ')}>
+            <table>
                 <colgroup>
                     {colgroup}
                 </colgroup>
@@ -71,6 +72,6 @@ const BaseTable = React.createClass({
     }
 })
 
-const demo = <BaseTable data={data}/>
+const demo = <div className="wrapper"><BaseTable data={data} bordered striped/></div>
 
 ReactDom.render(demo, document.getElementById('react-content'));
