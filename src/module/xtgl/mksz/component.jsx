@@ -1,6 +1,6 @@
 import './style.css'
 import React from 'react'
-import {Tree,Col,Row,Input,Form} from 'antd'
+import {Tree,Col,Row,Input,Form,Button,Icon} from 'antd'
 import CompPageHead from 'component/CompPageHead'
 import Panel from 'component/compPanel'
 import req from 'reqwest'
@@ -57,10 +57,10 @@ const TreeView = React.createClass({
 let TreeNodeEdit = React.createClass({
     getDefaultProps() {
         return {
-            name:'',
-            href:'',
-            orderNo:'',
-            icon:''
+            name: '',
+            href: '',
+            orderNo: '',
+            icon: ''
         };
     },
     handleSubmit(e) {
@@ -79,25 +79,25 @@ let TreeNodeEdit = React.createClass({
                 {...formItemLayout}
                 label="模块名称：">
                 <Input id="control-input" placeholder="名称"
-                    {...getFieldProps('name', { initialValue:this.props.name })}/>
+                    {...getFieldProps('name', {initialValue: this.props.name})}/>
             </FormItem>
             <FormItem
                 {...formItemLayout}
                 label="链接地址：">
                 <Input id="control-input" placeholder="URL..."
-                    {...getFieldProps('href', { initialValue:this.props.href })}/>
+                    {...getFieldProps('href', {initialValue: this.props.href})}/>
             </FormItem>
             <FormItem
                 {...formItemLayout}
                 label="排序号：">
                 <Input id="control-input" placeholder="用于排序的号码"
-                    {...getFieldProps('orderNo', { initialValue:this.props.orderNo })}/>
+                    {...getFieldProps('orderNo', {initialValue: this.props.orderNo})}/>
             </FormItem>
             <FormItem
                 {...formItemLayout}
                 label="图标：">
                 <Input id="control-input" placeholder="图标代号"
-                    {...getFieldProps('icon', { initialValue:this.props.icon })}/>
+                    {...getFieldProps('icon', {initialValue: this.props.icon})}/>
             </FormItem>
         </Form>
     }
@@ -112,12 +112,18 @@ const mksz = React.createClass({
             <div className="wrap">
                 <Panel>
                     <Row>
-                        <Col span="8">
+                        <Col span="8" className="tree-box">
                             <TreeView data={data}/>
                         </Col>
                         <Col span="16">
                             <TreeNodeEdit/>
                         </Col>
+                    </Row>
+                    <Row>
+                        <Col><Button type="primary" size="large">
+                            <Icon type="search"/>
+                            保存修改
+                        </Button></Col>
                     </Row>
                 </Panel>
 

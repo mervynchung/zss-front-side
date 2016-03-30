@@ -11,14 +11,14 @@ const data = {
         sex: '男',
         xl: '本科',
         cs: '广州',
-        dz: '中山三路中山三路中山三路中山三路中山三路中山三路',
+        dz: '中山三路',
         byyx: '北京大学',
         zgzh: '34454394',
         barq: '2016-01-01'
 
     }
 const model= {
-    colGroupNum: 3,
+    colGroupNum: 2,
     props: [{
         id: 'name',
         name: '姓名'
@@ -43,7 +43,8 @@ const model= {
     }, {
         id: 'zgzh',
         name: '证书编号',
-        groupspan: '2'
+        groupspan: 2
+
     }, {
         id: 'barq',
         name: '备案日期'
