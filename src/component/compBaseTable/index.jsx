@@ -59,7 +59,7 @@ const baseTable = React.createClass({
         return <div className="base-table base-table-bordered">
             <table className="table-bordered table-striped ">
                 <colgroup>
-                    {colgroup}
+                     {colgroup}
                 </colgroup>
                 <tbody>
                 {tr}
