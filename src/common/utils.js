@@ -5,6 +5,7 @@ module.exports = {
      * @returns {Array}
      */
     getTreeData(arr) {
+        let key=0;
         var root = {text: null};
         if (arr.length > 0) {
             var objMap = {};
@@ -16,7 +17,8 @@ module.exports = {
                     name: item.name,
                     href: item.href,
                     orderNo: item.orderNo,
-                    path: item.path
+                    path: item.path,
+                    key:key++
                 };
                 objMap[item.id] = node;
                 if (item.pid == 0) {
