@@ -53,8 +53,9 @@ const TrWrapper = React.createClass({
     }
 })
 
-const BaseTable = React.createClass({
+const baseTable = React.createClass({
     render(){
+        console.log(this.props.data);
         let colCount = 0;
         const colgroup = [];
         const tr = [];

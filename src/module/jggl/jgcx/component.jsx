@@ -1,7 +1,7 @@
 import React from 'react'
 import CompDataGird from 'component/CompDataGird';
 import CompTab from 'component/CompTab';
-// import CompBaseTable from 'component/compBaseTable';
+import CompBaseTable from 'component/compBaseTable';
 import './style.css'
 import req from 'reqwest'
 
@@ -80,53 +80,142 @@ const data = {
   values: {
 
   },
-  keys: {
-    dwmc: '单位名称',
-    cs: '年龄',
-    fddbr: '性别',
-    dzhi: '学历',
-    sjlzxsbwh: '城市',
-    zcdz: '地址',
-    sglzxsbsj: '毕业院校',
-    zjpzsj: '证书编号',
-    yzbm: '备案日期',
-    zjpzwh: '备案日期',
-    czhen: '备案日期',
-    dhua: '备案日期',
-    szyx: '备案日期',
-    txyxming: '备案日期',
-    xtyyx: '备案日期',
-    xtyphone: '备案日期',
-    zsbh: '备案日期',
-    zczj: '备案日期',
-    jyfw: '备案日期',
-    zrs: '备案日期',
-    swsxz: '备案日期',
-    szphone: '备案日期',
-    gsyhmcbh: '备案日期',
-    dzyj: '备案日期',
-    yhdw: '备案日期',
-    yhsj: '备案日期',
-    gzbh: '备案日期',
-    gzdw: '备案日期',
-    gzry: '备案日期',
-    gzsj: '备案日期',
-    yzbh: '备案日期',
-    yzdw: '备案日期',
-    yzry: '备案日期',
-    yzsj: '备案日期',
-    tthybh: '备案日期',
-    rhsj: '备案日期',
-    khh: '备案日期',
-    khhzh: '备案日期',
-    fj: '备案日期',
-    swdjhm: '备案日期',
-    jbqk: '备案日期',
-    glzd: '备案日期',
-    gddh: '备案日期',
-    bgcszczm: '备案日期',
-    nbjgsz: '备案日期',
-  }
+   colGroupNum: 2,
+  keys: [
+    {
+ id:'dwmc',
+ name: '单位名称', }, 
+    {
+ id:'cs',
+ name: '年龄', }, 
+    {
+ id:'fddbr',
+ name:  '性别', }, 
+    {
+ id:'dzhi',
+ name:  '学历', }, 
+    {
+ id:'sjlzxsbwh',
+ name:  '城市', }, 
+    {
+ id:'zcdz',
+ name:  '地址', }, 
+    {
+ id:'sglzxsbsj',
+ name:  '毕业院校', }, 
+    {
+ id:'zjpzsj',
+ name:  '证书编号', }, 
+    {
+ id:'yzbm',
+ name: '备案日期', }, 
+    {
+ id:'zjpzwh',
+ name: '备案日期', }, 
+    {
+ id:'czhen',
+ name:  '备案日期', }, 
+    {
+ id:'dhua',
+ name: '备案日期', }, 
+    {
+ id:'szyx',
+ name:  '备案日期', }, 
+    {
+ id:'txyxming',
+ name:  '备案日期', }, 
+    {
+ id:'xtyyx',
+ name:  '备案日期', }, 
+    {
+ id:'xtyphone',
+ name:  '备案日期', }, 
+    {
+ id:'zsbh',
+ name: '备案日期', }, 
+    {
+ id:'zczj',
+ name:  '备案日期', }, 
+    {
+ id:'jyfw',
+ name: '备案日期', }, 
+    {
+ id:'zrs',
+ name: '备案日期', }, 
+    {
+ id:'swsxz',
+ name: '备案日期', }, 
+    {
+ id:'szphone',
+ name: '备案日期', }, 
+    {
+ id:'gsyhmcbh',
+ name: '备案日期', }, 
+    {
+ id:'dzyj',
+ name: '备案日期', }, 
+    {
+ id:'yhdw',
+ name: '备案日期', }, 
+    {
+ id:'yhsj',
+ name: '备案日期', }, 
+    {
+ id:'gzbh',
+ name: '备案日期', }, 
+    {
+ id:'gzdw',
+ name: '备案日期', }, 
+    {
+ id:'gzry',
+ name: '备案日期', }, 
+    {
+ id:'gzsj',
+ name: '备案日期', }, 
+    {
+ id:'yzbh',
+ name: '备案日期', }, 
+    {
+ id:'yzdw',
+ name: '备案日期', }, 
+    {
+ id:'yzry',
+ name: '备案日期', }, 
+    {
+ id:'yzsj',
+ name: '备案日期', }, 
+    {
+ id:'tthybh',
+ name: '备案日期', }, 
+    {
+ id:'rhsj',
+ name: '备案日期', }, 
+    {
+ id:'khh',
+ name: '备案日期', }, 
+    {
+ id:'khhzh',
+ name: '备案日期', }, 
+    {
+ id:'fj',
+ name: '备案日期', }, 
+    {
+ id:'swdjhm',
+ name: '备案日期', }, 
+    {
+ id:'jbqk',
+ name: '备案日期', }, 
+    {
+ id:'glzd',
+ name: '备案日期', }, 
+    {
+ id:'gddh',
+ name: '备案日期', }, 
+    {
+ id:'bgcszczm',
+ name: '备案日期', }, 
+    
+  ]
 }
 const TrWrapper = React.createClass({
   render() {
@@ -138,7 +227,7 @@ const TrWrapper = React.createClass({
 const jgcx = React.createClass({
   getInitialState() { //初始化State状态，使用传入参数
       return {
-        data: {},
+        data: { values: {},colGroupNum: 2,keys:data.keys},
         seconds: 0
       };
     },
@@ -149,11 +238,12 @@ const jgcx = React.createClass({
         method: 'get',
         type: 'json',
         success: (result) => {
+          console.log(result.data);
           this.setState({
-            data: result.data
-
+            data: {values:result.data,colGroupNum: 2,keys:data.keys}
           })
-          console.log(this.state.data);
+          // console.log(this.state.data);
+          console.log("111111111111111111");
           // const vdata = this.state.data;
           //   vdata.data.values=result.data;//要求后台返回json写法有属性data，该属性包含查询记录，每条查询记录必须拥有字段'key'
 
@@ -172,44 +262,12 @@ const jgcx = React.createClass({
 
     // },
     render() {
-      const colgroup = [];
-      const tr = [];
-      let td = []
-      const groupNum = 2;
-      //设置colgroup样式
-      for (let i = 0; i < (groupNum < 3 ? groupNum : 2); i++) {
-        var spanKey = 24 / (groupNum * 3);
-        var spanValue = 24 * 2 / (groupNum * 3);
-        colgroup.push(<col key={'c-k-'+i} className={'col-'+spanKey}></col>);
-        colgroup.push(<col key={'c-v-'+i} className={'col-'+spanValue}></col>);
-      }
-      //将实体内容以key:value放置到对应的td组中，再按照groupNum分列
-      for (let prop in data.keys) {
-        td.push(<td key={'td-k-'+prop}>{data.keys[prop]}</td>);
-        td.push(<td key={'td-v-'+prop}>{this.state.data[prop]}</td>);
-        if (td.length == groupNum * 2) {
-          tr.push(<TrWrapper key={'tr-'+tr.length+1}>{td}</TrWrapper>);
-          td = []
-        }
-      }
+      
       return <div className="wrap">
   
        <CompTab key='ttt'/>
-
-      <div className="base-table base-table-bordered" >
-            <table className="table-bordered table-striped ">
-                <colgroup>
-                     {colgroup}
-                </colgroup>
-                <tbody>
-                {tr}
-              
-                </tbody>
-            </table>
-        </div>
-        <p>
-        React has been running for {this.state.seconds} seconds.
-      </p>
+       <CompBaseTable data = {this.state.data} bordered striped />
+      
         </div>
     }
 })
