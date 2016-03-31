@@ -107,11 +107,9 @@ const mksz = React.createClass({
     },
 
     handleSelect(key){
-        console.log('oldstate', this.state.currentNode);
         this.setState({
             currentNode:this.state.nodes[key]
         })
-        console.log('newstate',this.state.currentNode);
     },
 
     componentDidMount(){
@@ -121,7 +119,6 @@ const mksz = React.createClass({
     },
 
     render(){
-        console.log('render',this.state.currentNode)
         return <div className="mksz">
             <CompPageHead heading={'模块设置'}/>
             <div className="wrap">
