@@ -18,6 +18,7 @@ module.exports = {
                     href: item.href,
                     orderNo: item.orderNo,
                     path: item.path,
+                    visble:item.visble,
                     key:key++
                 };
                 objMap[item.id] = node;
