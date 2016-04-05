@@ -10,7 +10,7 @@ import utils from 'common/utils'
 const TreeNode = Tree.TreeNode;
 const FormItem = Form.Item;
 const VISBLE = {
-  'Y': true, 'N': false
+  'Y': 1, 'N': 0
 }
 
 /*const json = [{"id": 1, "pid": 0, "name": "系统管理", "href": null, "orderNo": 1, "path": "000", "visble": "Y"},
@@ -111,13 +111,13 @@ let TreeNodeEdit = React.createClass({
 })
 TreeNodeEdit = Form.create({
   mapPropsToFields(props) {
-    return {
-      name: {value: props.data.name},
-      href: {value: props.data.href},
-      orderNo: {value: props.data.orderNo},
-      icon: {value: props.data.icon},
-      visble: {value: VISBLE[props.data.visble]}
-    };
+    let result={};
+    console.log(props)
+    for (let prop in props.data){
+      result[prop] = {value:props.data[prop]}
+
+    }
+    return result;
   }
 })(TreeNodeEdit);
 

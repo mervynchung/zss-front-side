@@ -7,13 +7,13 @@ const toolbar = React.createClass({
     return <div className="toolbar">
       <ButtonGroup>
         <Button>
-          添加新节点
+          添加节点
         </Button>
         <Button>
           为当前添加子节点
         </Button>
         <Button>
-          删除当前节点
+          删除节点
         </Button>
       </ButtonGroup>
     </div>
