@@ -1,6 +1,6 @@
 import './style.css'
 import React from 'react'
-import {Tree,Col,Row,Input,Form,Button,Icon,message,Tooltip,Checkbox} from 'antd'
+import {Tree,Col,Row,Input,Form,Button,Icon,message,Tooltip,Checkbox,Alert} from 'antd'
 import CompPageHead from 'component/CompPageHead'
 import Panel from 'component/compPanel'
 import Toolbar from './compToolbar'
@@ -9,8 +9,8 @@ import utils from 'common/utils'
 
 const TreeNode = Tree.TreeNode;
 const FormItem = Form.Item;
-const visble = {
-  'Y':true,'N':false
+const VISBLE = {
+  'Y': true, 'N': false
 }
 
 /*const json = [{"id": 1, "pid": 0, "name": "系统管理", "href": null, "orderNo": 1, "path": "000", "visble": "Y"},
@@ -31,7 +31,7 @@ const TreeView = React.createClass({
     }
   },
   handleSelect(key){
-    this.props.onSelect(key[0])
+    this.props.onSelect(key)
   },
   getTreeNodes(data){
     let res = data.map((item) => {
@@ -66,7 +66,6 @@ let TreeNodeEdit = React.createClass({
     this.props.onSubmit(this.props.form.getFieldsValue())
   },
   render(){
-    let data = this.props.data;
     const { getFieldProps } = this.props.form;
     const formItemLayout = {
       labelCol: {span: 8},
@@ -74,67 +73,88 @@ let TreeNodeEdit = React.createClass({
     };
     return <Form horizontal onSubmit={this.handleSubmit}>
       <FormItem
-        {...formItemLayout}
-        label="模块名称：">
+          {...formItemLayout}
+          label="模块名称：">
         <Input placeholder="名称"
-          {...getFieldProps('name',{initialValue: data.name})}/>
+            {...getFieldProps('name')}/>
       </FormItem>
       <FormItem
-        {...formItemLayout}
-        label="链接地址：">
+          {...formItemLayout}
+          label="链接地址：">
         <Input placeholder="URL..."
-          {...getFieldProps('href', {initialValue: data.href})}/>
+            {...getFieldProps('href')}/>
       </FormItem>
       <FormItem
-        {...formItemLayout}
-        label="排序号：">
-        <Input  placeholder="用于排序的号码"
-          {...getFieldProps('orderNo', {initialValue: data.orderNo})}/>
+          {...formItemLayout}
+          label="排序号：">
+        <Input placeholder="用于排序的号码"
+            {...getFieldProps('orderNo')}/>
       </FormItem>
       <FormItem
-        {...formItemLayout}
-        label="图标：">
+          {...formItemLayout}
+          label="图标：">
         <Input placeholder="图标代号"
-          {...getFieldProps('icon', {initialValue: data.icon})}/>
+            {...getFieldProps('icon')}/>
       </FormItem>
       <FormItem
-        {...formItemLayout}
-        label={<span>默认显示 <Tooltip title="选中即该模块默认显示"><Icon type="question-circle-o" /></Tooltip> ：</span>}>
+          {...formItemLayout}
+          label={<span>默认显示 <Tooltip title="选中即该模块默认显示"><Icon type="question-circle-o" /></Tooltip> ：</span>}>
         <label>
-          <Checkbox {...getFieldProps('visble',{valuePropName: 'checked',initialValue: visble[data.visble]})}/>显示
+          <Checkbox {...getFieldProps('visble', {valuePropName: 'checked'})}/>显示
         </label>
       </FormItem>
       <Row>
-        <Col offset="8"><Button  type="primary" htmlType="submit">保存修改</Button></Col>
+        <Col offset="8"><Button type="primary" htmlType="submit">保存修改</Button></Col>
       </Row>
     </Form>
   }
 })
-TreeNodeEdit = Form.create()(TreeNodeEdit);
+TreeNodeEdit = Form.create({
+  mapPropsToFields(props) {
+    return {
+      name: {value: props.data.name},
+      href: {value: props.data.href},
+      orderNo: {value: props.data.orderNo},
+      icon: {value: props.data.icon},
+      visble: {value: VISBLE[props.data.visble]}
+    };
+  }
+})(TreeNodeEdit);
 
 
 const mksz = React.createClass({
   getInitialState(){
     return {
       nodes: [],
-      currentNode: ''
+      currentNode: {},
+      alert:''
     }
   },
   handleSelect(key){
+    let currentNode = ''
+    if (key.length > 0) {
+      currentNode = this.state.nodes[key]
+    }
     this.setState({
-      currentNode: this.state.nodes[key]
+      currentNode: currentNode,
+      alert:''
     })
   },
   handleSubmit(value){
     console.log(value)
+    let submitNode = value;
+    submitNode.id = this.state.currentNode.id
+    submitNode.pid =this.state.currentNode.pid
+    submitNode.path = this.state.currentNode.path
     req({
-      url: 'api/fw/asidemenu/1',
+      url: 'api/fw/asidemenu/'+submitNode.id,
       type: 'json',
       method: 'put',
-      data: JSON.stringify(value),
-      contentType:'application/json'
+      data: JSON.stringify(submitNode),
+      contentType: 'application/json'
+    }).then((resp)=>{
+      this.setState({alert:'修改保存成功'+resp.message+ resp.name})
     })
-      .then()
 
   },
   componentDidMount(){
@@ -143,12 +163,12 @@ const mksz = React.createClass({
       type: 'json',
       method: 'get'
     })
-      .then((resp) => {
-        this.setState({nodes: resp});
-      })
-      .fail((err, msg)=> {
-        message.error('Status Code:' + err.status + '  api错误 ')
-      });
+        .then((resp) => {
+          this.setState({nodes: resp});
+        })
+        .fail((err, msg)=> {
+          message.error('Status Code:' + err.status + '  api错误 ')
+        });
   },
 
   render(){
@@ -167,6 +187,8 @@ const mksz = React.createClass({
             <Col span="10" offset="5" className="tree-node-edit">
               <Row><Col><TreeNodeEdit data={this.state.currentNode} onSubmit={this.handleSubmit}/></Col>
               </Row>
+              {this.state.alert?<Row><Col><Alert message={this.state.alert} type="success" showIcon /></Col></Row>:''}
+
             </Col>
           </Row>
         </Panel>
