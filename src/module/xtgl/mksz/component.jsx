@@ -9,8 +9,8 @@ import utils from 'common/utils'
 
 const TreeNode = Tree.TreeNode;
 const FormItem = Form.Item;
-const VISBLE = {
-  'Y': 1, 'N': 0
+const deMapper = {
+
 }
 
 /*const json = [{"id": 1, "pid": 0, "name": "系统管理", "href": null, "orderNo": 1, "path": "000", "visble": "Y"},
@@ -112,10 +112,8 @@ let TreeNodeEdit = React.createClass({
 TreeNodeEdit = Form.create({
   mapPropsToFields(props) {
     let result={};
-    console.log(props)
     for (let prop in props.data){
       result[prop] = {value:props.data[prop]}
-
     }
     return result;
   }
@@ -141,19 +139,25 @@ const mksz = React.createClass({
     })
   },
   handleSubmit(value){
-    console.log(value)
     let submitNode = value;
-    submitNode.id = this.state.currentNode.id
-    submitNode.pid =this.state.currentNode.pid
-    submitNode.path = this.state.currentNode.path
+    submitNode.id = this.state.currentNode.id;
+    submitNode.pid =this.state.currentNode.pid;
+    submitNode.path = this.state.currentNode.path;
+    submitNode.visble = value.visble?1:0;
     req({
       url: 'api/fw/asidemenu/'+submitNode.id,
       type: 'json',
       method: 'put',
       data: JSON.stringify(submitNode),
       contentType: 'application/json'
-    }).then((resp)=>{
-      this.setState({alert:'修改保存成功'+resp.message+ resp.name})
+    }).then(resp=>{
+      this.setState({alert:'修改保存成功'})
+    },err=>{
+      message.error('Status Code:' + err.status + '  api错误 ')
+    }).then({
+      url: '/api/fw/asidemenu',
+      type: 'json',
+      method: 'get'
     })
 
   },
@@ -163,7 +167,7 @@ const mksz = React.createClass({
       type: 'json',
       method: 'get'
     })
-        .then((resp) => {
+        .then(resp => {
           this.setState({nodes: resp});
         })
         .fail((err, msg)=> {
