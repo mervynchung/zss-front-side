@@ -5,13 +5,12 @@ import CompPageHead from 'component/CompPageHead'
 import Panel from 'component/compPanel'
 import Toolbar from './compToolbar'
 import req from 'reqwest'
-import utils from 'common/utils'
+import fetch from 'commmon/fetch'
+import {getTreeData} from 'common/utils'
 
 const TreeNode = Tree.TreeNode;
 const FormItem = Form.Item;
-const deMapper = {
-
-}
+const URL = HOST +'api/fw/asdiemenu'
 
 /*const json = [{"id": 1, "pid": 0, "name": "系统管理", "href": null, "orderNo": 1, "path": "000", "visble": "Y"},
  {
@@ -22,7 +21,8 @@ const deMapper = {
  const data  = utils.getTreeData(json)*/
 /**
  *  树节点组件，内部节点结构按照给定的JSON对象数组生成
- *  @props.data {Array}
+ *  @props.data {Array}  展示数据
+ *  @props.onSelect 处理select的回调函数
  */
 const TreeView = React.createClass({
   getDefaultProps(){
@@ -59,7 +59,11 @@ const TreeView = React.createClass({
   }
 })
 
-
+/**
+ *  表单组件，显示所选树节点的信息
+ *  @props.data {Array}
+ *  @props.onSubmit 处理提交动作的回调函数
+ */
 let TreeNodeEdit = React.createClass({
   handleSubmit(e) {
     e.preventDefault();
@@ -96,7 +100,7 @@ let TreeNodeEdit = React.createClass({
         <Input placeholder="图标代号"
             {...getFieldProps('icon')}/>
       </FormItem>
-      <FormItem
+      < FormItem
           {...formItemLayout}
           label={<span>默认显示 <Tooltip title="选中即该模块默认显示"><Icon type="question-circle-o" /></Tooltip> ：</span>}>
         <label>
@@ -111,21 +115,21 @@ let TreeNodeEdit = React.createClass({
 })
 TreeNodeEdit = Form.create({
   mapPropsToFields(props) {
-    let result={};
-    for (let prop in props.data){
-      result[prop] = {value:props.data[prop]}
+    let result = {};
+    for (let prop in props.data) {
+      result[prop] = {value: props.data[prop]}
     }
     return result;
   }
 })(TreeNodeEdit);
 
-
+//模块设置
 const mksz = React.createClass({
   getInitialState(){
     return {
       nodes: [],
       currentNode: {},
-      alert:''
+      alert: ''
     }
   },
   handleSelect(key){
@@ -135,48 +139,45 @@ const mksz = React.createClass({
     }
     this.setState({
       currentNode: currentNode,
-      alert:''
+      alert: ''
     })
   },
   handleSubmit(value){
     let submitNode = value;
-    submitNode.id = this.state.currentNode.id;
-    submitNode.pid =this.state.currentNode.pid;
-    submitNode.path = this.state.currentNode.path;
-    submitNode.visble = value.visble?1:0;
+    ({id: submitNode.id, pid: submitNode.pid, path: submitNode.path} = this.state.currentNode);
+    submitNode.visble = value.visble ? 1 : 0;
     req({
-      url: 'api/fw/asidemenu/'+submitNode.id,
+      url: 'api/fw/asidemenu/' + submitNode.id,
       type: 'json',
       method: 'put',
       data: JSON.stringify(submitNode),
       contentType: 'application/json'
-    }).then(resp=>{
-      this.setState({alert:'修改保存成功'})
-    },err=>{
+    }).then(resp=> {
+      this.setState({alert: '修改保存成功'})
+    }).fail(err => {
       message.error('Status Code:' + err.status + '  api错误 ')
-    }).then({
+    }).req({
       url: '/api/fw/asidemenu',
       type: 'json',
       method: 'get'
+    }).then(resp => {
+      this.setState({nodes: resp});
     })
-
   },
   componentDidMount(){
     req({
       url: '/api/fw/asidemenu',
       type: 'json',
       method: 'get'
-    })
-        .then(resp => {
-          this.setState({nodes: resp});
-        })
-        .fail((err, msg)=> {
-          message.error('Status Code:' + err.status + '  api错误 ')
-        });
+    }).then(resp => {
+      this.setState({nodes: resp});
+    }).fail((err, msg)=> {
+      message.error('Status Code:' + err.status + '  api错误 ')
+    });
   },
 
   render(){
-    const data = utils.getTreeData(this.state.nodes)
+    const data = getTreeData(this.state.nodes)
     return <div className="mksz">
       <CompPageHead heading={'模块设置'}/>
       <div className="wrap">
@@ -191,7 +192,8 @@ const mksz = React.createClass({
             <Col span="10" offset="5" className="tree-node-edit">
               <Row><Col><TreeNodeEdit data={this.state.currentNode} onSubmit={this.handleSubmit}/></Col>
               </Row>
-              {this.state.alert?<Row><Col><Alert message={this.state.alert} type="success" showIcon /></Col></Row>:''}
+              {this.state.alert ?
+                  <Row><Col><Alert message={this.state.alert} type="success" showIcon/></Col></Row> : ''}
 
             </Col>
           </Row>
