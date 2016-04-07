@@ -8,3 +8,4 @@ const config  ={
   URI_API_VERSION : '1.1'
 }
 
+module.exports=config

@@ -5,12 +5,12 @@ import CompPageHead from 'component/CompPageHead'
 import Panel from 'component/compPanel'
 import Toolbar from './compToolbar'
 import req from 'reqwest'
-import fetch from 'commmon/fetch'
 import {getTreeData} from 'common/utils'
+import config from 'common/configuration'
 
 const TreeNode = Tree.TreeNode;
 const FormItem = Form.Item;
-const URL = HOST +'api/fw/asdiemenu'
+const URL = config.HOST +config.URI_API_PREFIX+config.URI_API_FRAMEWORK+'/asidemenu/'
 
 /*const json = [{"id": 1, "pid": 0, "name": "系统管理", "href": null, "orderNo": 1, "path": "000", "visble": "Y"},
  {
@@ -127,15 +127,16 @@ TreeNodeEdit = Form.create({
 const mksz = React.createClass({
   getInitialState(){
     return {
-      nodes: [],
-      currentNode: {},
+      nodes: '',
+      currentNode: '',
       alert: ''
     }
   },
   handleSelect(key){
     let currentNode = ''
     if (key.length > 0) {
-      currentNode = this.state.nodes[key]
+      currentNode = this.state.nodes[key];
+      currentNode.key = key;
     }
     this.setState({
       currentNode: currentNode,
@@ -144,29 +145,37 @@ const mksz = React.createClass({
   },
   handleSubmit(value){
     let submitNode = value;
-    ({id: submitNode.id, pid: submitNode.pid, path: submitNode.path} = this.state.currentNode);
+    ({id: submitNode.id, pid: submitNode.pid, path: submitNode.path} = this.state.currentNode);//解构赋值
     submitNode.visble = value.visble ? 1 : 0;
     req({
-      url: 'api/fw/asidemenu/' + submitNode.id,
+      url: URL + submitNode.id,
       type: 'json',
       method: 'put',
       data: JSON.stringify(submitNode),
       contentType: 'application/json'
     }).then(resp=> {
-      this.setState({alert: '修改保存成功'})
+      let tmpArr = this.state.nodes.slice();
+      tmpArr[this.state.currentNode.key]=submitNode;
+      this.setState({alert: '修改成功',nodes:tmpArr})
     }).fail(err => {
       message.error('Status Code:' + err.status + '  api错误 ')
-    }).req({
-      url: '/api/fw/asidemenu',
-      type: 'json',
-      method: 'get'
-    }).then(resp => {
-      this.setState({nodes: resp});
     })
+  },
+  addNode(){
+    let pid = 0;
+    if(this.state.currentNode){
+      pid = this.state.currentNode.id;
+    }
+    let tmpArr = this.state.nodes.slice();
+    tmpArr.push({id:100,pid:pid,name:'新模块'})
+    this.setState({nodes:tmpArr})
+  },
+  removeNode(){
+    this.props.removeNode();
   },
   componentDidMount(){
     req({
-      url: '/api/fw/asidemenu',
+      url: URL,
       type: 'json',
       method: 'get'
     }).then(resp => {
@@ -185,7 +194,7 @@ const mksz = React.createClass({
           <Row>
             <Col span="8" className="tree-box">
               <Row>
-                <Toolbar/>
+                <Toolbar addNode={this.addNode} removeNode={this.removeNode} />
                 <TreeView data={data} onSelect={this.handleSelect}/>
               </Row>
             </Col>
