@@ -24,8 +24,7 @@ const routes = {
         require('../module/mksz'),
         require('../module/hyhfgl/hfjlqk'),
          require('../module/hyhfgl/grhyhfgl')
-       
-
+        require('../module/xtgl/mksz')
     ]
 }
 

@@ -84,11 +84,11 @@ var config = {
                 'NODE_ENV': JSON.stringify('development')
             }
         }),
-        // new webpack.optimize.UglifyJsPlugin({
-        //     compressor: {
-        //         warnings: false
-        //     }
-        // }),
+         //new webpack.optimize.UglifyJsPlugin({
+         //    compressor: {
+         //        warnings: false
+         //    }
+         //}),
         new webpack.optimize.CommonsChunkPlugin({
             name: 'vendor',
             minChunks: Infinity

@@ -1,2 +1,3 @@
 import './common.css';
-import './custom.css'
+import './custom.css';
+

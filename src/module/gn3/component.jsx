@@ -10,16 +10,16 @@ const gn3 = React.createClass({
     },
     handleClick(){
         req({
-            url:'/api/fw/asidemenu',
-            type:'json',
-            method:'get'
+            url: '/api/fw/asidemenu',
+            type: 'json',
+            method: 'get'
         })
-        .then((resp) => {
-            this.setState({res:resp[0].name});
-        })
-        .fail((err,msg)=>{
-             message.error('api错误')
-        });
+            .then((resp) => {
+                this.setState({res: resp[0].name});
+            })
+            .fail((err, msg)=> {
+                message.error('api错误')
+            });
     },
     render(){
         return <div className="wrap">

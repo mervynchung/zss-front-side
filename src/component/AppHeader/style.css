@@ -2,8 +2,8 @@
 .app-header{
     height: 64px;
     position: relative;
-    background-color: #03A9F4;
+    background-color: #FFFFFF;
 }
 .app-header,.app-header a {
-    color: #B3E5FC;
+    color: #757575;
 }
