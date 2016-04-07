@@ -12,6 +12,20 @@ const asideMenuInit = {
     name: '模块设置',
     href: '/mksz'
   },{
+    id: '10',
+    name: '会员会费管理',
+    
+    children:[{
+      id:'11',
+      name: '会费缴纳情况',
+      href: '/hyhfgl/hfjlqk',
+     
+
+    },{ id: '12',
+      name: '个人会员会费管理',
+      href: '/hyhfgl/grhyhfgl'}]
+
+  }, {
     id: '3',
     name: '系统设置',
     children: [{
