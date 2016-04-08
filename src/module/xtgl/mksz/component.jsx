@@ -10,7 +10,7 @@ import config from 'common/configuration'
 
 const TreeNode = Tree.TreeNode;
 const FormItem = Form.Item;
-const URL = config.HOST +config.URI_API_PREFIX+config.URI_API_FRAMEWORK+'/asidemenu/'
+const URL = config.HOST + config.URI_API_PREFIX + config.URI_API_FRAMEWORK + '/asidemenu/'
 
 /*const json = [{"id": 1, "pid": 0, "name": "系统管理", "href": null, "orderNo": 1, "path": "000", "visble": "Y"},
  {
@@ -25,38 +25,38 @@ const URL = config.HOST +config.URI_API_PREFIX+config.URI_API_FRAMEWORK+'/asidem
  *  @props.onSelect 处理select的回调函数
  */
 const TreeView = React.createClass({
-  getDefaultProps(){
-    return {
-      data: ''
+    getDefaultProps(){
+        return {
+            data: ''
+        }
+    },
+    handleSelect(key){
+        this.props.onSelect(key)
+    },
+    getTreeNodes(data){
+        let res = data.map((item) => {
+            if (item.children) {
+                return <TreeNode title={item.name+' - '+item.orderNo} key={item.key}
+                                 disableCheckbox>{this.getTreeNodes(item.children)}</TreeNode>;
+            }
+            return <TreeNode title={item.name+' - '+item.orderNo} key={item.key} isLeaf={true} disableCheckbox/>;
+        });
+        return res;
+    },
+    render(){
+        const data = this.props.data;
+        if (data) {
+            const treeNodes = this.getTreeNodes(data)
+            return <div>
+                <Tree onSelect={this.handleSelect}
+                      defaultExpandAll
+                      checkable>
+                    {treeNodes}
+                </Tree>
+            </div>
+        }
+        return <div style={{padding:'20px'}}>暂无数据</div>
     }
-  },
-  handleSelect(key){
-    this.props.onSelect(key)
-  },
-  getTreeNodes(data){
-    let res = data.map((item) => {
-      if (item.children) {
-        return <TreeNode title={item.name+' - '+item.orderNo} key={item.key}
-                         disableCheckbox>{this.getTreeNodes(item.children)}</TreeNode>;
-      }
-      return <TreeNode title={item.name+' - '+item.orderNo} key={item.key} isLeaf={true} disableCheckbox/>;
-    });
-    return res;
-  },
-  render(){
-    const data = this.props.data;
-    if (data) {
-      const treeNodes = this.getTreeNodes(data)
-      return <div>
-        <Tree onSelect={this.handleSelect}
-              defaultExpandAll
-              checkable>
-          {treeNodes}
-        </Tree>
-      </div>
-    }
-    return <div style={{padding:'20px'}}>暂无数据</div>
-  }
 })
 
 /**
@@ -65,152 +65,164 @@ const TreeView = React.createClass({
  *  @props.onSubmit 处理提交动作的回调函数
  */
 let TreeNodeEdit = React.createClass({
-  handleSubmit(e) {
-    e.preventDefault();
-    this.props.onSubmit(this.props.form.getFieldsValue())
-  },
-  render(){
-    const { getFieldProps } = this.props.form;
-    const formItemLayout = {
-      labelCol: {span: 8},
-      wrapperCol: {span: 16},
-    };
-    return <Form horizontal onSubmit={this.handleSubmit}>
-      <FormItem
-          {...formItemLayout}
-          label="模块名称：">
-        <Input placeholder="名称"
-            {...getFieldProps('name')}/>
-      </FormItem>
-      <FormItem
-          {...formItemLayout}
-          label="链接地址：">
-        <Input placeholder="URL..."
-            {...getFieldProps('href')}/>
-      </FormItem>
-      <FormItem
-          {...formItemLayout}
-          label="排序号：">
-        <Input placeholder="用于排序的号码"
-            {...getFieldProps('orderNo')}/>
-      </FormItem>
-      <FormItem
-          {...formItemLayout}
-          label="图标：">
-        <Input placeholder="图标代号"
-            {...getFieldProps('icon')}/>
-      </FormItem>
-      < FormItem
-          {...formItemLayout}
-          label={<span>默认显示 <Tooltip title="选中即该模块默认显示"><Icon type="question-circle-o" /></Tooltip> ：</span>}>
-        <label>
-          <Checkbox {...getFieldProps('visble', {valuePropName: 'checked'})}/>显示
-        </label>
-      </FormItem>
-      <Row>
-        <Col offset="8"><Button type="primary" htmlType="submit">保存修改</Button></Col>
-      </Row>
-    </Form>
-  }
+    handleSubmit(e) {
+        e.preventDefault();
+        this.props.onSubmit(this.props.form.getFieldsValue())
+    },
+    render(){
+        const { getFieldProps } = this.props.form;
+        const formItemLayout = {
+            labelCol: {span: 8},
+            wrapperCol: {span: 16},
+        };
+        return <Form horizontal onSubmit={this.handleSubmit}>
+            <FormItem
+                {...formItemLayout}
+                label="模块名称：">
+                <Input placeholder="名称"
+                    {...getFieldProps('name')}/>
+            </FormItem>
+            <FormItem
+                {...formItemLayout}
+                label="链接地址：">
+                <Input placeholder="URL..."
+                    {...getFieldProps('href')}/>
+            </FormItem>
+            <FormItem
+                {...formItemLayout}
+                label="排序号：">
+                <Input placeholder="用于排序的号码"
+                    {...getFieldProps('orderNo')}/>
+            </FormItem>
+            <FormItem
+                {...formItemLayout}
+                label="图标：">
+                <Input placeholder="图标代号"
+                    {...getFieldProps('icon')}/>
+            </FormItem>
+            < FormItem
+                {...formItemLayout}
+                label={<span>默认显示 <Tooltip title="选中即该模块默认显示"><Icon type="question-circle-o" /></Tooltip> ：</span>}>
+                <label>
+                    <Checkbox {...getFieldProps('visble', {valuePropName: 'checked'})}/>显示
+                </label>
+            </FormItem>
+            <Row>
+                <Col offset="8"><Button type="primary" htmlType="submit">保存修改</Button></Col>
+            </Row>
+        </Form>
+    }
 })
 TreeNodeEdit = Form.create({
-  mapPropsToFields(props) {
-    let result = {};
-    for (let prop in props.data) {
-      result[prop] = {value: props.data[prop]}
+    mapPropsToFields(props) {
+        let result = {};
+        for (let prop in props.data) {
+            result[prop] = {value: props.data[prop]}
+        }
+        return result;
     }
-    return result;
-  }
 })(TreeNodeEdit);
 
 //模块设置
 const mksz = React.createClass({
-  getInitialState(){
-    return {
-      nodes: '',
-      currentNode: '',
-      alert: ''
-    }
-  },
-  handleSelect(key){
-    let currentNode = ''
-    if (key.length > 0) {
-      currentNode = this.state.nodes[key];
-      currentNode.key = key;
-    }
-    this.setState({
-      currentNode: currentNode,
-      alert: ''
-    })
-  },
-  handleSubmit(value){
-    let submitNode = value;
-    ({id: submitNode.id, pid: submitNode.pid, path: submitNode.path} = this.state.currentNode);//解构赋值
-    submitNode.visble = value.visble ? 1 : 0;
-    req({
-      url: URL + submitNode.id,
-      type: 'json',
-      method: 'put',
-      data: JSON.stringify(submitNode),
-      contentType: 'application/json'
-    }).then(resp=> {
-      let tmpArr = this.state.nodes.slice();
-      tmpArr[this.state.currentNode.key]=submitNode;
-      this.setState({alert: '修改成功',nodes:tmpArr})
-    }).fail(err => {
-      message.error('Status Code:' + err.status + '  api错误 ')
-    })
-  },
-  addNode(){
-    let pid = 0;
-    if(this.state.currentNode){
-      pid = this.state.currentNode.id;
-    }
-    let tmpArr = this.state.nodes.slice();
-    tmpArr.push({id:100,pid:pid,name:'新模块'})
-    this.setState({nodes:tmpArr})
-  },
-  removeNode(){
-    this.props.removeNode();
-  },
-  componentDidMount(){
-    req({
-      url: URL,
-      type: 'json',
-      method: 'get'
-    }).then(resp => {
-      this.setState({nodes: resp});
-    }).fail((err, msg)=> {
-      message.error('Status Code:' + err.status + '  api错误 ')
-    });
-  },
+    getInitialState(){
+        return {
+            nodes: '',
+            currentNode: '',
+            alert: ''
+        }
+    },
+    handleSelect(key){
+        let currentNode = ''
+        if (key.length > 0) {
+            currentNode = this.state.nodes[key];
+            currentNode.key = key;
+        }
+        this.setState({
+            currentNode: currentNode,
+            alert: ''
+        })
+    },
+    handleSubmit(value){
+        let submitNode = value;
+        ({id: submitNode.id, pid: submitNode.pid, path: submitNode.path} = this.state.currentNode);//解构赋值
+        submitNode.visble = value.visble ? 1 : 0;
+        req({
+            url: URL + submitNode.id,
+            type: 'json',
+            method: 'put',
+            data: JSON.stringify(submitNode),
+            contentType: 'application/json'
+        }).then(resp=> {
+            let tmpArr = this.state.nodes.slice(0);
+            tmpArr[this.state.currentNode.key] = submitNode;
+            this.setState({alert: '修改成功', nodes: tmpArr})
+        }).fail(err => {
+            message.error('Status Code:' + err.status + '  api错误 ')
+        })
+    },
+    addNode(){
+        let pid = 0;
+        if (this.state.currentNode) {
+            pid = this.state.currentNode.id;
+        }
+        let newNode = { pid: pid, name: '新模块',orderNo:'',visble:1};
 
-  render(){
-    const data = getTreeData(this.state.nodes)
-    return <div className="mksz">
-      <CompPageHead heading={'模块设置'}/>
-      <div className="wrap">
-        <Panel>
-          <Row>
-            <Col span="8" className="tree-box">
-              <Row>
-                <Toolbar addNode={this.addNode} removeNode={this.removeNode} />
-                <TreeView data={data} onSelect={this.handleSelect}/>
-              </Row>
-            </Col>
-            <Col span="10" offset="5" className="tree-node-edit">
-              <Row><Col><TreeNodeEdit data={this.state.currentNode} onSubmit={this.handleSubmit}/></Col>
-              </Row>
-              {this.state.alert ?
-                  <Row><Col><Alert message={this.state.alert} type="success" showIcon/></Col></Row> : ''}
+        req({
+            url: URL,
+            type: 'json',
+            method: 'post',
+            data: JSON.stringify(newNode),
+            contentType: 'application/json'
+        }).then(resp=> {
+            console.log(resp);
+            let tmpArr = this.state.nodes.slice(0);
+            tmpArr.push(newNode)
+            this.setState({nodes: tmpArr})
+        })
+    },
+    removeNode(){
+        this.props.removeNode();
+    },
+    componentDidMount(){
+        req({
+            url: URL,
+            type: 'json',
+            method: 'get'
+        }).then(resp => {
+            console.log(resp)
+            this.setState({nodes: resp});
+        }).fail((err, msg)=> {
+            message.error('Status Code:' + err.status + '  api错误 ')
+        });
+    },
 
-            </Col>
-          </Row>
-        </Panel>
+    render(){
+        const data = getTreeData(this.state.nodes)
+        return <div className="mksz">
+            <CompPageHead heading={'模块设置'}/>
+            <div className="wrap">
+                <Panel>
+                    <Row>
+                        <Col span="8" className="tree-box">
+                            <Row>
+                                <Toolbar addNode={this.addNode} removeNode={this.removeNode}/>
+                                <TreeView data={data} onSelect={this.handleSelect}/>
+                            </Row>
+                        </Col>
+                        <Col span="10" offset="5" className="tree-node-edit">
+                            <Row><Col><TreeNodeEdit data={this.state.currentNode} onSubmit={this.handleSubmit}/></Col>
+                            </Row>
+                            {this.state.alert ?
+                                <Row><Col><Alert message={this.state.alert} type="success" showIcon/></Col></Row> : ''}
 
-      </div>
-    </div>
-  }
+                        </Col>
+                    </Row>
+                </Panel>
+
+            </div>
+        </div>
+    }
 })
 
 module.exports = mksz;
