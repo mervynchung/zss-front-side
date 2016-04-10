@@ -102,9 +102,9 @@ let TreeNodeEdit = React.createClass({
             </FormItem>
             < FormItem
                 {...formItemLayout}
-                label={<span>默认显示 <Tooltip title="选中即该模块默认显示"><Icon type="question-circle-o" /></Tooltip> ：</span>}>
+                label={<span> </span>}>
                 <label>
-                    <Checkbox {...getFieldProps('visble', {valuePropName: 'checked'})}/>显示
+                    <Checkbox {...getFieldProps('visble', {valuePropName: 'checked'})}/>默认显示
                 </label>
             </FormItem>
             <Row>
@@ -166,7 +166,7 @@ const mksz = React.createClass({
         if (this.state.currentNode) {
             pid = this.state.currentNode.id;
         }
-        let newNode = { pid: pid, name: '新模块',orderNo:'',visble:1};
+        let newNode = {pid: pid, name: '新模块', orderNo: '', visble: 1};
 
         req({
             url: URL,
@@ -175,14 +175,24 @@ const mksz = React.createClass({
             data: JSON.stringify(newNode),
             contentType: 'application/json'
         }).then(resp=> {
-            console.log(resp);
+            ({id:newNode.id,path:newNode.path}=resp);
             let tmpArr = this.state.nodes.slice(0);
-            tmpArr.push(newNode)
+            tmpArr.push(newNode);
             this.setState({nodes: tmpArr})
+        }).fail(err=>{
+            message.error('Status Code:' + err.status + '  api错误 ')
         })
     },
     removeNode(){
-        this.props.removeNode();
+        req({
+            url:URL+this.state.currentNode.id,
+            type:'json',
+            method:'delete'
+        }).then((resp)=>{
+            this.setState({nodes: resp});
+        }).fail(err=>{
+            message.error('Status Code:' + err.status + '  api错误 ')
+        });
     },
     componentDidMount(){
         req({
@@ -190,7 +200,6 @@ const mksz = React.createClass({
             type: 'json',
             method: 'get'
         }).then(resp => {
-            console.log(resp)
             this.setState({nodes: resp});
         }).fail((err, msg)=> {
             message.error('Status Code:' + err.status + '  api错误 ')

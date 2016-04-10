@@ -36,7 +36,7 @@ var config = {
             test: /\.jsx?$/,
             include: [
              path.resolve(__dirname, 'src'),
-             path.resolve(__dirname, 'mock')],
+             ],
             loader: 'babel',
             query: {
                 presets: ['es2015', 'react', 'stage-0'],

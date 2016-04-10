@@ -4,13 +4,13 @@ import AppHeader from './AppHeader';
 import AppSideNav from './AppSideNav';
 import AppFooter from './AppFooter';
 import {QueueAnim, Breadcrumb} from 'antd'
-
+import dataInit from '../model';
 
 class App extends React.Component {
 
     constructor(props) {
         super(props);
-        this.dataSource = this.props.route.dataSource;
+        this.dataSource = dataInit;
     }
 
     render() {
