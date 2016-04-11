@@ -81,3 +81,6 @@ $RECYCLE.BIN/
 # My Config
 asset
 dist
+
+#jetbrains
+.idea/

@@ -13,7 +13,9 @@ var config = {
             //'antd',
             //'object-assign',
             'react',
-            'react-dom'
+            'react-dom',
+            //'react-router',
+            //'reqwest'
         ]
     },
 
@@ -23,7 +25,10 @@ var config = {
     },
     resolve: {
         alias: {},
-        extensions: ['', '.js', '.jsx']
+        extensions: ['', '.js', '.jsx'],
+        root:[
+            path.resolve('./src')
+        ]
     },
     module: {
         loaders: [{

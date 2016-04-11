@@ -1,20 +1,17 @@
 var path = require('path');
 var webpack = require('webpack');
-var WebpackDevServer = require("webpack-dev-server");
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 var config = {
     entry: {
         index: [
             'webpack/hot/dev-server',
-            'webpack-dev-server/client?http://localhost:8001',
-            path.resolve(__dirname, './src/entry/index.jsx')
+            'webpack-dev-server/client?http://localhost:8002',
+            path.resolve(__dirname, './src/test/index.jsx')
         ],
         vendor: [
             'react',
-            'react-dom',
-            'react-router',
-            'reqwest'
+            'react-dom'
         ]
     },
 
@@ -25,8 +22,6 @@ var config = {
     resolve: {
         alias: {},
         extensions: ['', '.js', '.jsx'],
-        // 添加项目中引用模块时的扫描起始目录，如require('common/lib')，则会扫描src/common/lib
-        // 每项都必须为绝对路径
         root:[
             path.resolve('./src')
         ]
@@ -36,7 +31,7 @@ var config = {
             test: /\.jsx?$/,
             include: [
              path.resolve(__dirname, 'src'),
-             ],
+             path.resolve(__dirname, 'mock')],
             loader: 'babel',
             query: {
                 presets: ['es2015', 'react', 'stage-0'],
@@ -76,7 +71,6 @@ var config = {
         }]
     },
     plugins: [
-        new webpack.HotModuleReplacementPlugin(),
         new webpack.optimize.OccurenceOrderPlugin(),
         new webpack.optimize.DedupePlugin(),
         new webpack.DefinePlugin({
@@ -84,11 +78,11 @@ var config = {
                 'NODE_ENV': JSON.stringify('development')
             }
         }),
-         //new webpack.optimize.UglifyJsPlugin({
-         //    compressor: {
-         //        warnings: false
-         //    }
-         //}),
+        // new webpack.optimize.UglifyJsPlugin({
+        //     compressor: {
+        //         warnings: false
+        //     }
+        // }),
         new webpack.optimize.CommonsChunkPlugin({
             name: 'vendor',
             minChunks: Infinity
@@ -98,12 +92,9 @@ var config = {
         })
     ],
     devServer: {
-        contentBase: "entry",
-        hot:true,
         proxy: {
             "/api/*": "http://localhost:8080/"
-        },
-        compress: true
+        }
     }
 };
 

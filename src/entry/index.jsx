@@ -1,16 +1,30 @@
 import '../common/lib';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import SideNav from '../component/SideNav';
-import Header from '../component/Header';
-import LayoutTab from '../component/LayoutTab';
-import obj from '../../mock/data';
-import {
-	Menu, Dropdown, Icon
+import {Router,Route, browserHistory,hashHistory,IndexRoute} from 'react-router'
+import App from '../component/App';
+import home from '../module/home'
+
+/*路由配置*/
+const routes = {
+    path: '/',
+    component: App,
+    indexRoute:{component:home},
+    ignoreScrollBehavior:true,
+    breadcrumbName:'首页',
+    childRoutes: [
+        //模块预加载方式
+        //{ path: '/gn1(/)', component: gn1 },
+        //模块懒加载方式
+        require('../module/gn1'),
+        require('../module/gn2'),
+        require('../module/gn3'),
+        require('../module/xtgl/mksz'),
+        require('../module/ywgl/xygl')
+    ]
 }
-from 'antd';
-ReactDOM.render(<SideNav data={obj.data} />, document.getElementById('layout-aside'));
-ReactDOM.render(<Header/>, document.getElementById('layout-header'));
-ReactDOM.render(<LayoutTab/>,document.getElementById('layout-content'));
+
+ReactDOM.render(<Router history={hashHistory} routes={routes} />, document.getElementById('app'));
+
 
 

@@ -1,0 +1,56 @@
+.app-sidenav{
+    float: left;
+    width: 224px;
+    background-color: #586E80;
+    margin-top:34px;
+}
+.app-sidenav:before {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    z-index: -100;
+    width: inherit;
+    background-color: inherit;
+    border: inherit;
+    content: "";
+}
+.app-sidenav .ant-menu-inline{
+    background-color: transparent;
+    border-right: 1px solid #37474F;
+}
+.app-sidenav .ant-menu-sub.ant-menu-inline{
+    border: 0;
+}
+.app-sidenav > .ant-menu-root > .ant-menu-item,
+.app-sidenav >.ant-menu-root>.ant-menu-submenu>.ant-menu-submenu-title {
+    font-size: 14px;
+}
+.app-sidenav .ant-menu-item{
+    border-right: 1px solid #586E80;
+}
+/*选中菜单项的样式*/
+.app-sidenav .ant-menu-inline .ant-menu-item-selected{
+    border-right:0;
+    background-color: #718493;
+}
+.app-sidenav .ant-menu-inline .ant-menu-item-selected > a {
+    color: #FFFFFF;
+}
+.app-sidenav .ant-menu{
+    color:#E6E6E6;
+}
+.app-sidenav .ant-menu-item > a {
+    color:#E6E6E6;
+    display: block;
+}
+/*子级菜单背景色*/
+.app-sidenav .ant-menu-submenu-open{
+    background-color: #465866;
+}
+/*hover样式*/
+.app-sidenav .ant-menu-item-active,
+.app-sidenav .ant-menu-submenu-title:hover {
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+    background-color: #607586;
+}
