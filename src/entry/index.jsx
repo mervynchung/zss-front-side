@@ -1,7 +1,6 @@
 import '../common/lib';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import dataInit from '../model';
 import {Router,Route, browserHistory,hashHistory,IndexRoute} from 'react-router'
 import App from '../component/App';
 import home from '../module/home'
@@ -10,7 +9,6 @@ import home from '../module/home'
 const routes = {
     path: '/',
     component: App,
-    dataSource:dataInit,
     indexRoute:{component:home},
     ignoreScrollBehavior:true,
     breadcrumbName:'首页',
@@ -21,9 +19,9 @@ const routes = {
         require('../module/gn1'),
         require('../module/gn2'),
         require('../module/gn3'),
-
         require('../module/jggl/jgcx'),
-
+        require('../module/xtgl/mksz'),
+        require('../module/ywgl/xygl')
     ]
 }
 
