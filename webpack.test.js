@@ -90,7 +90,12 @@ var config = {
         new ExtractTextPlugin('[name].css', {
             allChunks: true
         })
-    ]
+    ],
+    devServer: {
+        proxy: {
+            "/api/*": "http://localhost:8080/"
+        }
+    }
 };
 
 module.exports = config;
