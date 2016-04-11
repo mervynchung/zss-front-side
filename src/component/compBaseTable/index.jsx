@@ -114,7 +114,7 @@ const baseTable = React.createClass({
              (this.props.striped?'table-striped ':' ')}>
             <table>
                 <colgroup>
-                    {colgroup}
+                     {colgroup}
                 </colgroup>
                 <tbody>
                 {tr}
