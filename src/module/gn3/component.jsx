@@ -15,9 +15,10 @@ const gn3 = React.createClass({
             method: 'get'
         })
             .then((resp) => {
-                this.setState({res: resp[0].name});
+                this.setState({res: resp.name});
             })
             .fail((err, msg)=> {
+                console.log(err);
                 message.error('api错误')
             });
     },
