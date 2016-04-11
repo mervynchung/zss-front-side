@@ -9,7 +9,7 @@ const columns = [{ //设定列
   key: 'dwmc',
   sorter: true, //是否可以排序，需后台写排序方法
 }, {
-  title: '注册资金',
+  title: '注册资金（万元）',
   dataIndex: 'zczj',
   key: 'zczj',
   sorter: true,
@@ -347,6 +347,7 @@ const columnsNjjl = [{ //设定列
   key: 'spsj',
 
 },]
+
 const model = {
   columns:columns,
   data:data,
@@ -355,6 +356,6 @@ const model = {
   columnsCyry:columnsCyry,
   columnsCzrlb:columnsCzrlb,
   columnsSwsbgxx:columnsSwsbgxx,
-  columnsNjjl:columnsNjjl
+  columnsNjjl:columnsNjjl,
 } 
 module.exports = model
