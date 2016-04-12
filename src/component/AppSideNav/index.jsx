@@ -5,7 +5,7 @@
  */
 
 import React from 'react';
-import {Menu} from 'antd';
+import {Menu,Icon} from 'antd';
 import {Link} from 'react-router';
 import {getTreeData} from 'common/utils'
 import './style.css';
@@ -41,8 +41,9 @@ class AppSideNav extends React.Component {
     }
     getMenu(data) {
         return data.map(function (item) {
+            let title = <span><Icon type={item.icon}/><span>{item.name}</span></span>;
             if (item.children) {
-                return <SubMenu key={item.id} title={item.name} children={this.getMenu(item.children)}/>;
+                return <SubMenu key={item.id}  title={title} children={this.getMenu(item.children)}/>;
             } else {
                 return <Menu.Item key={item.id}><Link to={item.href||''}>{item.name}</Link></Menu.Item>
             }

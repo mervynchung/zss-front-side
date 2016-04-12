@@ -19,6 +19,7 @@ module.exports = {
           orderNo: item.orderNo?item.orderNo:'',
           path: item.path,
           visble: item.visble,
+          icon:item.icon,
           key:key++
         };
         objMap[item.id] = node;
