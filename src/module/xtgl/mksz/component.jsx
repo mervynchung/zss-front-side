@@ -10,7 +10,7 @@ import config from 'common/configuration'
 
 const TreeNode = Tree.TreeNode;
 const FormItem = Form.Item;
-const URL = config.HOST + config.URI_API_PREFIX + config.URI_API_FRAMEWORK + '/asidemenu/'
+const URL = config.HOST + config.URI_API_PREFIX + config.URI_API_FRAMEWORK + '/asidemenu'
 
 /*const json = [{"id": 1, "pid": 0, "name": "系统管理", "href": null, "orderNo": 1, "path": "000", "visble": "Y"},
  {
@@ -148,7 +148,7 @@ const mksz = React.createClass({
         ({id: submitNode.id, pid: submitNode.pid, path: submitNode.path} = this.state.currentNode);//解构赋值
         submitNode.visble = value.visble ? 1 : 0;
         req({
-            url: URL + submitNode.id ,
+            url: URL + '/'+submitNode.id,
             type: 'json',
             method: 'put',
             data: JSON.stringify(submitNode),
@@ -185,7 +185,7 @@ const mksz = React.createClass({
     },
     removeNode(){
         req({
-            url:URL+this.state.currentNode.id,
+            url:URL+'/'+this.state.currentNode.id,
             type:'json',
             method:'delete'
         }).then((resp)=>{
