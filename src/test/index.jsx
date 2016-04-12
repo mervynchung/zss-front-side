@@ -1,61 +1,94 @@
+/*
+引入依赖库
+ */
 import 'common/lib.js'
 import React from 'react'
-import {Col,Row} from 'antd'
+import {Col,Row,Button} from 'antd'
 import ReactDom from 'react-dom'
 import BaseTable from 'component/compBaseTable'
+import req from 'reqwest'
 import './style.css'
 
-import { Menu, Icon } from 'antd';
-const SubMenu = Menu.SubMenu;
-const MenuItemGroup = Menu.ItemGroup;
-
-const Sider = React.createClass({
-    getInitialState() {
-        return {
-            current: '1'
-        };
+/*
+定义组件A
+ */
+const CompA = React.createClass({
+    onClick(){
+        this.props.onClick;// ==>compWrap.handleClick
     },
-    handleClick(e) {
-        console.log('click ', e);
-        this.setState({
-            current: e.key
-        });
-    },
-    render() {
-        return (
-            <Menu onClick={this.handleClick}
-                  style={{ width: 240 }}
-                  defaultOpenKeys={['sub1']}
-                  selectedKeys={[this.state.current]}
-                  mode="inline"
-            theme='dark'>
-                <SubMenu key="sub1" title={<span><Icon type="mail" /><span>导航一</span></span>}>
-                    <MenuItemGroup title="分组1">
-                        <Menu.Item key="1">选项1</Menu.Item>
-                        <Menu.Item key="2">选项2</Menu.Item>
-                    </MenuItemGroup>
-                    <MenuItemGroup title="分组2">
-                        <Menu.Item key="3">选项3</Menu.Item>
-                        <Menu.Item key="4">选项4</Menu.Item>
-                    </MenuItemGroup>
-                </SubMenu>
-                <SubMenu key="sub2" title={<span><Icon type="appstore" /><span>导航二</span></span>}>
-                    <Menu.Item key="5">选项5</Menu.Item>
-                    <Menu.Item key="6">选项6</Menu.Item>
-                    <SubMenu key="sub3" title="三级导航">
-                        <Menu.Item key="7">选项7</Menu.Item>
-                        <Menu.Item key="8">选项8</Menu.Item>
-                    </SubMenu>
-                </SubMenu>
-                <SubMenu key="sub4" title={<span><Icon type="setting" /><span>导航三</span></span>}>
-                    <Menu.Item key="9">选项9</Menu.Item>
-                    <Menu.Item key="10">选项10</Menu.Item>
-                    <Menu.Item key="11">选项11</Menu.Item>
-                    <Menu.Item key="12">选项12</Menu.Item>
-                </SubMenu>
-            </Menu>
-        );
+    render(){
+        return <div>
+            <h1> 组件1 标题</h1>
+            <p>内容内容内容内容内容</p>
+            <p> <Button type="primary" onClick={this.onClick}>主按钮</Button></p>
+        </div>
     }
-});
+})
 
-ReactDom.render(<Sider />, document.getElementById('react-content'));
+/*
+ * 组件B
+ */
+
+const CompB = React.createClass({
+    handleProp(data){
+        let map =''
+        if(data){
+             map = data.map(item=>{
+                return <p>{item.name}</p>
+            })
+        }
+        return map
+    },
+    render(){
+        const p = this.handleProp(this.props.content)
+        return <div>
+            <h2> 组件2标题</h2>
+            {p}
+        </div>
+    }
+})
+
+
+/*
+组件compWrap
+ */
+const CompWrap = React.createClass({
+    //==============初始化事件==================
+    getInitialState(){
+        return {
+            data: ''
+        }
+    },
+
+    //**********事件处理****************
+    handleClick(){
+
+    },
+
+    //==========生命周期事件=====================
+
+    componentDidMount(){
+        req({
+            url:'api/fw/asidemenu',
+            type:'json',
+            method:'get'
+        }).then(resp=>{
+            console.log(resp)
+            this.setState({
+                data:resp
+            })
+        }).fail(err=>{
+            console.log(err);
+        })
+    },
+
+    // =========样式渲染==================
+    render(){
+        return <div>
+            <CompA onClick={this.handleClick} />
+            <CompB content={this.state.data}  />
+        </div>
+    }
+})
+ReactDom.render(<CompWrap />, document.getElementById('react-content'));
+

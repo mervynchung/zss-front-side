@@ -16,7 +16,7 @@ module.exports = {
           pid: item.pid,
           name: item.name,
           href: item.href,
-          orderNo: item.orderNo,
+          orderNo: item.orderNo?item.orderNo:'',
           path: item.path,
           visble: item.visble,
           key:key++
@@ -46,6 +46,10 @@ module.exports = {
    */
   addZero(str, length){
     return new Array(length - str.length + 1).join("0") + str;
+  },
+
+  getTableWidth(){
+
   }
 
 }
