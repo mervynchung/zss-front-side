@@ -148,7 +148,7 @@ const mksz = React.createClass({
         ({id: submitNode.id, pid: submitNode.pid, path: submitNode.path} = this.state.currentNode);//解构赋值
         submitNode.visble = value.visble ? 1 : 0;
         req({
-            url: URL + submitNode.id,
+            url: URL + submitNode.id ,
             type: 'json',
             method: 'put',
             data: JSON.stringify(submitNode),
@@ -169,7 +169,7 @@ const mksz = React.createClass({
         let newNode = {pid: pid, name: '新模块', orderNo: '', visble: 1};
 
         req({
-            url: URL,
+            url: URL +'?q=all&l=A',
             type: 'json',
             method: 'post',
             data: JSON.stringify(newNode),
@@ -196,7 +196,7 @@ const mksz = React.createClass({
     },
     componentDidMount(){
         req({
-            url: URL,
+            url: URL+'?q=all&l=A',
             type: 'json',
             method: 'get'
         }).then(resp => {
