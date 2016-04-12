@@ -61,7 +61,7 @@ handleTableChange(pagination, filters, sorter) {//onChange方法，分页、排�
           data: result.data,//传入后台获取数据
           urls:result.data[0]._links,//传入后台获取数据
         });
-        this.fetch_jgxx()//联动详细信息，从新调用方法
+        this.fetch_jgxx()//联动详细信息，重新调用方法
       },
        error: (err) =>{alert('api错误');}//错误处理
     });
@@ -173,27 +173,30 @@ if (this.state.pagination.page){//判断是否进行分页
       };
     },
     
-    onSelect(record){
+    onSelect(record){//主查询记录被选中方法
        this.state.urls=record._links
        this.fetch_jgxx()
     },
-    callback(key) {
+
+    callback(key) {//tab标签变化返回值与方法
       this.state.tabkey=key;
      this.fetch_jgxx()
 },
-showModal() {
+
+showModal() {//查询按钮表单显示状态
     this.setState({
       visible: true
     });
   },
 
-  formatDate (strTime) {
+  formatDate (strTime) {//格式化日期
     if (strTime) {
       return strTime.Format("yyyy-MM-dd");
     };
     
 },
-handleOk() {
+
+handleOk() {//点击搜索按钮触发事件
     this.setState({
       confirmLoading: true
     });
@@ -202,11 +205,11 @@ handleOk() {
       +this.props.form.getFieldsValue().dwmc+'&zsbh='+this.props.form.getFieldsValue().zsbh+'&zczj='+this.props.form.getFieldsValue().zczj
       +'&cs='+this.props.form.getFieldsValue().cs+'&swsxz='+this.props.form.getFieldsValue().swsxz+'&zczj2='+this.props.form.getFieldsValue().zczj2
       +'&zrs='+this.props.form.getFieldsValue().zrs+'&zrs2='+this.props.form.getFieldsValue().zrs2+'&clsj='+this.formatDate(this.props.form.getFieldsValue().clsj)
-      +'&clsj2='+this.formatDate(this.props.form.getFieldsValue().clsj2),//默认数据查询后台返回JSON
+      +'&clsj2='+this.formatDate(this.props.form.getFieldsValue().clsj2),
       method: 'get',
       type: 'json',
       success: (result) => {
-        if (result.data.length!=0) {
+        if (result.data.length!=0) {//判断是否空数据
 const pagination = this.state.pagination;
         pagination.total = result.page.pageTotal;
         this.setState({
@@ -216,7 +219,7 @@ const pagination = this.state.pagination;
         confirmLoading: false,
     });
         }
-        else{
+        else{//空数据情况，清空数据记录
           const pagination = this.state.pagination;
         pagination.total = 0;
  this.setState({
@@ -226,19 +229,21 @@ const pagination = this.state.pagination;
     });
         };
         
-         this.fetch_jgxx();
-          this.state.form=this.props.form.getFieldsValue();
-          this.props.form.resetFields();
+         this.fetch_jgxx();//联动详细信息
+          this.state.form=this.props.form.getFieldsValue();//锁定搜索条件
+          this.props.form.resetFields();//清空表单组件值
       },error: (err) =>{alert('api错误');}
     })
   },
-  handleCancel() {
-    this.setState({
+
+  handleCancel() {//取消按钮
+    this.setState({//关闭表单
       visible: false
     });
- this.props.form.resetFields();
+ this.props.form.resetFields();//清空表单组件值
   },
-  disabledStartDate(rule, value, callback) {
+
+  disabledStartDate(rule, value, callback) {//日期校验规则方法
      const form = this.props.form;
      if (value && value.getTime() >= Date.now()) {
       callback(new Error('这是个将来的时间'));
@@ -253,7 +258,7 @@ const pagination = this.state.pagination;
     };
  
   },
-  disabledEndDate(rule, value, callback) {
+  disabledEndDate(rule, value, callback) {//日期校验规则方法
     const form = this.props.form;
     if (form.getFieldValue('clsj')) {
        if (value.getTime() < form.getFieldValue('clsj').getTime() ) {
@@ -272,12 +277,12 @@ const pagination = this.state.pagination;
     },
 
     render() {
-       const formItemLayout = {
+       const formItemLayout = {//表单样式
       labelCol: { span: 6 },
       wrapperCol: { span: 14 },
     };
-    const { getFieldProps } = this.props.form;
-      const clsj = getFieldProps('clsj', {
+    const { getFieldProps } = this.props.form;//获取表单输入组件值的特定写法
+      const clsj = getFieldProps('clsj', {//设置日期输入组件校验规则
       rules: [
         { 
            type: 'date', 
@@ -287,7 +292,7 @@ const pagination = this.state.pagination;
         }
       ]
     });
-       const clsj2 = getFieldProps('clsj2', {
+       const clsj2 = getFieldProps('clsj2', {//设置日期输入组件校验规则
       rules: [
         {
           type: 'date', 
@@ -464,9 +469,3 @@ jgcx = Form.create()(jgcx);
 module.exports = jgcx;
 
 
-// 
-// <CompDataGird column={columns}
-//        pageSetting = {pageSetting} 
-//        dataProvider = {dataProvider} 
-//        girdStyle = {girdStyle}
-//        key = 'yyyy'/> <Table columns={Model.columnsZyry} dataSource={this.state.dataxx} bordered   />
