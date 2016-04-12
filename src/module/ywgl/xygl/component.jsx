@@ -19,7 +19,6 @@ const xygl = React.createClass({
         }).then(resp=> {
             this.setState({data: resp})
         })
-
     },
     render(){
         return <div className="xygl">

@@ -1,12 +1,13 @@
 /**
  * 主界面侧栏导航组件
- * props.dataSource 菜单数据
+ * props.data 菜单数据
  * @export LayoutSideNav
  */
 
 import React from 'react';
 import {Menu} from 'antd';
 import {Link} from 'react-router';
+import {getTreeData} from 'common/utils'
 import './style.css';
 
 
@@ -23,7 +24,6 @@ class AppSideNav extends React.Component {
             current: '1',
             openKeys: []
         }
-        this.dataSource = this.props.dataSource;
     }
 
     //load:this.props.load , //'lazy','all'
@@ -51,7 +51,9 @@ class AppSideNav extends React.Component {
 
 
     render() {
-        const asideMenu = this.getMenu(this.dataSource);
+        const menuData = getTreeData(this.props.data);
+        console.log(menuData)
+         let asideMenu = this.getMenu(menuData);
         return (
             <aside className="app-sidenav">
                 <Menu onClick={this.handleClick.bind(this)}
