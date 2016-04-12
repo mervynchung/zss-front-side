@@ -19,8 +19,8 @@ const routes = {
         require('../module/gn1'),
         require('../module/gn2'),
         require('../module/gn3'),
-        require('../module/jggl/jgcx'),
-        require('../module/xtgl/mksz'),
+        require('../module/jggl/swscx'),
+        require('../module/xtgnsz/zxdmkgl'),
         require('../module/ywgl/xygl')
     ]
 }
