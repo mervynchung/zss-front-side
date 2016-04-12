@@ -12,6 +12,10 @@ const asideMenuInit = {
     name: '模块设置',
     href: '/xtgl/mksz'
   },{
+ id: '7',
+    name: '机构查询',
+    href: '/jggl/jgcx'
+  },  {
     id: '3',
     name: '业务管理',
     children: [{
