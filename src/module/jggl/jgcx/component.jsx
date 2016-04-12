@@ -4,6 +4,7 @@ import CompPageHead from 'component/CompPageHead'
 import Panel from 'component/compPanel'
 import Te from './cx-from'
 import './style.css'
+import './until.js'
 import req from 'reqwest'
 import Model from './model.js' 
 import {  DatePicker,Modal,Form, Input, Select,Table, Icon,Tabs,Button,Row,Col,message }from 'antd'
@@ -11,22 +12,6 @@ import {  DatePicker,Modal,Form, Input, Select,Table, Icon,Tabs,Button,Row,Col,m
 const TabPane = Tabs.TabPane;
 const FormItem = Form.Item;
 const Option = Select.Option;
-
-Date.prototype.Format = function (fmt) { //时间格式化函数
-    var o = {
-        "M+": this.getMonth() + 1, //月份 
-        "d+": this.getDate(), //日 
-        "h+": this.getHours(), //小时 
-        "m+": this.getMinutes(), //分 
-        "s+": this.getSeconds(), //秒 
-        "q+": Math.floor((this.getMonth() + 3) / 3), //季度 
-        "S": this.getMilliseconds() //毫秒 
-    };
-    if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
-    for (var k in o)
-    if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));//补0处理
-    return fmt;
-}
 
 let jgcx = React.createClass({
 
@@ -111,7 +96,8 @@ if (this.state.pagination.page){//判断是否进行分页
         type: 'json',
         success: (result) => {
           this.setState({
-            dataxx: result.data
+            dataxx: result.data,
+            datalist: result.data.nbjgsz
           })
         },error:  (err) =>{alert('api错误');}
       });
@@ -451,14 +437,14 @@ const pagination = this.state.pagination;
         loading={this.state.loading}  bordered   /></Panel>
                  </div>
 
-       <Tabs type="line" onChange={this.callback}>
-    <TabPane tab="事务所信息" key="1"><Panel ><CompBaseTable data = {this.state.dataxx}  model ={Model.data} bordered striped /></Panel></TabPane>
-    <TabPane tab="执业人员信息" key="2"><Panel ><Table columns={Model.columnsZyry} dataSource={this.state.datalist} bordered  size="small" /></Panel></TabPane>
-   <TabPane tab="从业人员信息" key="3"><Panel ><Table columns={Model.columnsCyry} dataSource={this.state.datalist} bordered  size="small" /></Panel></TabPane>
-   <TabPane tab="出资人列表" key="4"><Panel ><Table columns={Model.columnsCzrlb} dataSource={this.state.datalist} bordered  size="small" /></Panel></TabPane>
-   <TabPane tab="事务所变更信息" key="5"><Panel ><Table columns={Model.columnsSwsbgxx} dataSource={this.state.datalist} bordered  size="small" /></Panel></TabPane>
-   <TabPane tab="年检记录" key="6"><Panel ><Table columns={Model.columnsNjjl} dataSource={this.state.datalist} bordered  size="small" /></Panel></TabPane>
-        </Tabs>
+       <Panel ><Tabs type="line" onChange={this.callback}>
+    <TabPane tab="事务所信息" key="1"><CompBaseTable data = {this.state.dataxx}  model ={Model.data} bordered striped /><p className="nbjgsz">内部机构设置：</p><Table columns={Model.nbjgsz} dataSource={this.state.datalist} bordered  size="small" /></TabPane>
+    <TabPane tab="执业人员信息" key="2"><Table columns={Model.columnsZyry} dataSource={this.state.datalist} bordered  size="small" /></TabPane>
+   <TabPane tab="从业人员信息" key="3"><Table columns={Model.columnsCyry} dataSource={this.state.datalist} bordered  size="small" /></TabPane>
+   <TabPane tab="出资人列表" key="4"><Table columns={Model.columnsCzrlb} dataSource={this.state.datalist} bordered  size="small" /></TabPane>
+   <TabPane tab="事务所变更信息" key="5"><Table columns={Model.columnsSwsbgxx} dataSource={this.state.datalist} bordered  size="small" /></TabPane>
+   <TabPane tab="年检记录" key="6"><Table columns={Model.columnsNjjl} dataSource={this.state.datalist} bordered  size="small" /></TabPane>
+        </Tabs></Panel>
           </div>
 
         </div>
