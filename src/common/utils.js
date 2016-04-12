@@ -34,6 +34,8 @@ module.exports = {
           }
         }
       });
+    }else{
+      root.items=[];
     }
     return root.items;
   },
