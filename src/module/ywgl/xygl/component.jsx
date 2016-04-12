@@ -22,11 +22,10 @@ const xygl = React.createClass({
     },
     render(){
         return <div className="xygl">
-            <CompPageHead heading="协议管理"/>
             <div className="wrap">
-                <Panel>
-                    <div className="h-scroll-table table-border">
-                        <Table columns={model} dataSource={this.state.data}/>
+                <Panel title="协议管理">
+                    <div className="h-scroll-table table-border ">
+                        <Table columns={model} dataSource={this.state.data} size="middle" />
                     </div>
                 </Panel>
             </div>

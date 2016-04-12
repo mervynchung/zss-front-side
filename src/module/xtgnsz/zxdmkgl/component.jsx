@@ -209,9 +209,8 @@ const mksz = React.createClass({
     render(){
         const data = getTreeData(this.state.nodes)
         return <div className="mksz">
-            <CompPageHead heading={'模块设置'}/>
             <div className="wrap">
-                <Panel>
+                <Panel title={'中心端模块管理'}>
                     <Row>
                         <Col span="8" className="tree-box">
                             <Row>
