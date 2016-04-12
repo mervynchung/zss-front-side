@@ -169,7 +169,7 @@ const mksz = React.createClass({
         let newNode = {pid: pid, name: '新模块', orderNo: '', visble: 1};
 
         req({
-            url: URL,
+            url: URL +'?q=all&l=A',
             type: 'json',
             method: 'post',
             data: JSON.stringify(newNode),
@@ -196,7 +196,7 @@ const mksz = React.createClass({
     },
     componentDidMount(){
         req({
-            url: URL +'?l=A',
+            url: URL+'?q=all&l=A',
             type: 'json',
             method: 'get'
         }).then(resp => {
