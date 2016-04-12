@@ -1,165 +1,246 @@
-
+/* 
+ 引入依赖库 
+  */
+import 'common/lib.js'
 import React from 'react'
+import {Input, Form, Col, Row, Button} from 'antd'
+import ReactDom from 'react-dom'
+import BaseTable from 'component/compBaseTable'
+import req from 'reqwest'
+import './style.css'
+import {
+    Table, Icon
+}
+from 'antd'
 
-import'./style.css'
-import Hflb from './compHflb'
-import { Select, Radio, Checkbox, Button, DatePicker, InputNumber, Form, Row, Col, Input, Cascader } from 'antd';
-const Option = Select.Option;
-const RadioGroup = Radio.Group;
 const createForm = Form.create;
 const FormItem = Form.Item;
 
 
 
+/* 
+定义组件A 
+ */
 const columns = [{
-  title: '序号',
-  dataIndex: 'xh',
-  key: 'xh',
-},{
-  title: '年度',
-  dataIndex: 'ND',
-  key: 'ND',
-  sorter:true,
+    title: '序号',
+    dataIndex: 'xh',
+    key: 'xh',
 }, {
-  title: '地区',
-  dataIndex: 'DQ',
-  key: 'DQ',
-  sorter:true,
-},{
-  title: '事务所名称',
-  dataIndex: 'JGNAME',
-  key: 'JGNAME',
-}, {
-  title: '总缴费金额',
-  dataIndex: 'SEX',
-  key: 'SEX',
-},{
-  title: '缴费时间',
-  dataIndex: 'JFSJ',
-  key: 'JFSJ',
-},{
-  title: '操作',
-  key: 'operation',
-  render(text) {
-    return (
-      <span>
-        <a href="#">查看</a>
-      </span>
-    );
-  }
-}];
- 
- let FormItemLayout = React.createClass({
-  
+        title: '年度',
+        dataIndex: 'ND',
+        key: 'ND',
+        sorter: true,
+    }, {
+        title: '地区',
+        dataIndex: 'DQ',
+        key: 'DQ',
+    }, {
+        title: '事务所名称',
+        dataIndex: 'JGNAME',
+        key: 'JGNAME',
+    }, {
+        title: '总缴费金额',
+        dataIndex: 'SEX',
+        key: 'SEX',
+    }, {
+        title: '缴费时间',
+        dataIndex: 'JFSJ',
+        key: 'JFSJ',
+    }, {
+        title: '操作',
+        key: 'operation',
+        render(text) {
+            return (
+                <span>
+                    <a href="#">查看</a>
+                </span>
+            );
+        }
+    }];
 
-  render(){
-   
-    const { getFieldProps } = this.props.form;
-   
-   
-    const formItemLayout = {
-      labelCol: { span: 9},
-      wrapperCol: { span: 4 },
-    };
+const Hflb = React.createClass({
 
-    return(
-      <Form horizontal form={this.props.form}>
-
-     
-       <FormItem
-       {...formItemLayout}
-      label="年度："
-      labelCol={{ span: 9 }}
-      wrapperCol={{ span: 4 }}>
-      <Input id="control-input"  />
-    </FormItem>
-
-        <FormItem
-       {...formItemLayout}
-      label="地区："
-      labelCol={{ span: 9 }}
-      wrapperCol={{ span: 4 }}>
-      <Input id="control-input"  />
-    </FormItem>
-        
-          
-        <FormItem
-       {...formItemLayout}
-      label="事务所名称："
-      labelCol={{ span: 9 }}
-      wrapperCol={{ span: 6 }}>
-      <Input id="control-input"  />
-    </FormItem>
-
- <FormItem
-     {...formItemLayout}
-      label="姓名："
-      labelCol={{ span: 9 }}
-      wrapperCol={{ span: 5 }}>
-      <Input type="textarea" id="control-textarea"  rows="4" />
-    </FormItem>
-
-    <FormItem
-       {...formItemLayout}
-      label="个人会费："
-      labelCol={{ span: 9 }}
-      wrapperCol={{ span: 5 }}>
-      <Input id="control-input"  />
-    </FormItem>
-
-    <FormItem
-       {...formItemLayout}
-      label="总缴费金额："
-      labelCol={{ span: 9 }}
-      wrapperCol={{ span: 5 }}>
-      <Input id="control-input"  />
-    </FormItem>
-
-    <FormItem
-       {...formItemLayout}
-      label="缴费日期："
-      labelCol={{ span: 9 }}
-      wrapperCol={{ span: 5 }}>
-      <Input id="control-input"  />
-    </FormItem>
-
-      
-     
-      
-  
-
-     
-      
-        <FormItem
-          wrapperCol={{ span: 10, offset: 10 }} >
-          <Button type="primary" onClick={this.handleSubmit}>确定</Button>
-          &nbsp;&nbsp;&nbsp;
-          <Button type="ghost" onClick={this.handleReset}>重置</Button>
-        </FormItem>
-
-        
-       
-      </Form>
-      );
-      },
- });
-
- FormItemLayout =createForm()(FormItemLayout)
-
-
-const grhyhfgl = React.createClass({
-  render(){
-    return <div>
-                <Hflb columns={columns}/>
-                 <div className="pp">
-                  <div className="from1"><FormItemLayout />
-    
-                                 </div>
-                         </div>
-                   </div>
-  }
+    render() {
+        return <div>
+            <Table columns={this.columms}
+                bordered size="small" />
+        </div>
+    }
 })
 
 
-module.exports = grhyhfgl;
+/* 
+ * 组件B 
+ */
 
+let Hfxx = React.createClass({
+    render() {
+        const { getFieldProps } = this.props.form;
+        const formItemLayout = {
+            labelCol: { span: 9 },
+            wrapperCol: { span: 4 },
+        };
+
+        return (
+            <Form horizontal >
+                <FormItem
+                    {...formItemLayout}
+                    label="年度："
+                    labelCol={{ span: 9 }}
+                    wrapperCol={{ span: 4 }}>
+                    <Input  {...getFieldProps('ND') }  />
+                </FormItem>
+                <FormItem
+                    {...formItemLayout}
+                    label="地区："
+                    labelCol={{ span: 9 }}
+                    wrapperCol={{ span: 4 }}>
+                    <Input id="control-input2"  {...getFieldProps('DQ') }/>
+                </FormItem>
+                <FormItem
+                    {...formItemLayout}
+                    label="事务所名称："
+                    labelCol={{ span: 9 }}
+                    wrapperCol={{ span: 6 }}>
+                    <Input id="control-input3" {...getFieldProps('JGNAME') }  />
+                </FormItem>
+                <FormItem
+                    {...formItemLayout}
+                    label="姓名："
+                    labelCol={{ span: 9 }}
+                    wrapperCol={{ span: 5 }}>
+                    <Input type="textarea" id="control-textarea"  rows="4" {...getFieldProps('NAME') } />
+                </FormItem>
+                <FormItem
+                    {...formItemLayout}
+                    label="个人会费："
+                    labelCol={{ span: 9 }}
+                    wrapperCol={{ span: 5 }}>
+                    <Input id="control-input"  {...getFieldProps('MONEY') }/>
+                </FormItem>
+                <FormItem
+                    {...formItemLayout}
+                    label="总缴费金额："
+                    labelCol={{ span: 9 }}
+                    wrapperCol={{ span: 5 }}>
+                    <Input id="control-input" {...getFieldProps('SEX') } />
+                </FormItem>
+                <FormItem
+                    {...formItemLayout}
+                    label="缴费日期："
+                    labelCol={{ span: 9 }}
+                    wrapperCol={{ span: 5 }}>
+                    <Input id="control-input"  {...getFieldProps('SQDATE') } />
+                </FormItem>
+            </Form>
+        );
+    },
+});
+Hfxx = createForm({
+    mapPropsToFields(props) {
+        let result = {};
+        for (let prop in props.data) {
+            result[prop] = { value: props.data[prop] }
+        }
+        
+        return result;
+    }
+})(Hfxx)
+
+
+
+/* 
+组件compWrap 
+ */
+const grhyhfgl = React.createClass({
+    //==============初始化事件================== 
+    getInitialState() {
+        return {
+            data: [],
+            pagination: {},
+            urls: '',
+            ret: {},
+        };
+    },
+
+    //**********事件处理**************** 
+
+    //==========生命周期事件===================== 
+
+    handleTableChange(pagination, filters, sorter) {
+        req({
+            url: '/api/grhf?pagenum=' + pagination.current + '&pagesize=' + pagination.pageSize + '&sfield=' + sorter.field + '&sorder=' + sorter.order,
+            method: 'get',
+            type: 'json',
+            success: (result) => {
+                const paper = this.state.pagination;
+                paper.pageSize = pagination.pageSize;
+                this.setState({
+                    data: result.Data,
+                });
+            }
+        });
+    },
+    fetch_hflb() {
+        req({
+            url: '/api/grhf?pagenum=1&pagesize=5&sfield=unll&sorder=unll',
+            method: 'get',
+            type: 'json',
+            success: (result) => {
+                function showTotal() {
+                    return "共" + pagination.total + "条";
+                }
+                const pagination = this.state.pagination;
+                pagination.total = result.Page.total_number1;
+                pagination.pageSize = 5;
+                pagination.showSizeChanger = true;
+                pagination.showTotal = showTotal;
+                pagination.showQuickJumper = true;
+                pagination.size = 'small';
+                pagination.pageSizeOptions = ['5', '10', '20', '30', '40'];
+
+                this.setState({
+                    data: result.Data,
+                });
+            }
+        });
+    },
+
+    fetch_hfxx() {
+        req({
+            url: '/api/grhf/xx/' + this.state.urls,
+            method: 'get',
+            type: 'json',
+            success: (result) => {
+                this.setState({
+                    ret: result.xx.Data,
+                });
+            }
+        });
+    },
+
+    onSelect(record) {
+        this.state.urls = record.ID;
+        this.fetch_hfxx();
+    },
+
+    componentDidMount() {
+        this.fetch_hflb();
+    },
+
+    // =========样式渲染================== 
+    render() {
+        return <div>
+            <Table columns={columns}
+                dataSource={this.state.data}
+                pagination={this.state.pagination}
+                onChange={this.handleTableChange}
+                onRowClick={this.onSelect}
+                bordered size="small" />
+            <div className="from1"><Hfxx data={this.state.ret}/>
+            </div>
+        </div>
+    }
+})
+
+module.exports = grhyhfgl;
