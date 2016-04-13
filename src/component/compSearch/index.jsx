@@ -15,21 +15,21 @@ let AdvancedSearchForm = React.createClass({
                 <Col span="8">
                     <FormItem
                         {...formItemLayout}
-                        label="模块名称：">
-                        <Input placeholder="名称"/>
+                        label="事务所名称：">
+                        <Input placeholder="事务所名称"/>
                     </FormItem>
                 </Col>
                 <Col span="8">
                     <FormItem
                         {...formItemLayout}
-                        label="链接地址：">
+                        label="业务发生地：">
                         <Input placeholder="URL..."/>
                     </FormItem>
                 </Col>
                 <Col span="8">
                     <FormItem
                         {...formItemLayout}
-                        label="排序号：">
+                        label="报备号码：">
                         <Input placeholder="用于排序的号码"/>
                     </FormItem>
                 </Col>
@@ -38,49 +38,25 @@ let AdvancedSearchForm = React.createClass({
                 <Col span="8">
                     <FormItem
                         {...formItemLayout}
-                        label="模块名称：">
+                        label="报备日期：">
                         <Input placeholder="名称"/>
                     </FormItem>
                 </Col>
                 <Col span="8">
                     <FormItem
                         {...formItemLayout}
-                        label="链接地址：">
+                        label="报告文号：">
                         <Input placeholder="URL..."/>
                     </FormItem>
                 </Col>
                 <Col span="8">
                     <FormItem
                         {...formItemLayout}
-                        label="排序号：">
+                        label="年度：">
                         <Input placeholder="用于排序的号码"/>
                     </FormItem>
                 </Col>
             </Row>
-            <Row>
-                <Col span="8">
-                    <FormItem
-                        {...formItemLayout}
-                        label="模块名称：">
-                        <Input placeholder="名称"/>
-                    </FormItem>
-                </Col>
-                <Col span="8">
-                    <FormItem
-                        {...formItemLayout}
-                        label="链接地址：">
-                        <Input placeholder="URL..."/>
-                    </FormItem>
-                </Col>
-                <Col span="8">
-                    <FormItem
-                        {...formItemLayout}
-                        label="排序号：">
-                        <Input placeholder="用于排序的号码"/>
-                    </FormItem>
-                </Col>
-            </Row>
-
         </Form>
     }
 })
@@ -98,14 +74,9 @@ const compSearch = React.createClass({
     },
 
     render(){
-        return <Modal
-            title={this.props.title}
-            width={this.props.width}
-            visible={this.props.visible}
-            onCancel={this.handleCancel}
-            closable={true}>
+        return <div className="search-form">
             <AdvancedSearchForm />
-        </Modal>
+        </div>
     }
 })
 

@@ -7,6 +7,15 @@ import req from 'reqwest';
 import CompToolBar from 'component/compToolBar'
 import SearchForm from 'component/compSearch'
 
+const pagination = {
+    total: 0,
+    showSizeChanger: true,
+    onShowSizeChange(current, pageSize) {
+    },
+    onChange(current) {
+    }
+};
+
 const xygl = React.createClass({
     getInitialState(){
         return {
@@ -45,7 +54,7 @@ const xygl = React.createClass({
                     onCancel={this.handleCancel}/>
                 <Panel>
                     <div className="h-scroll-table table-border ">
-                        <Table columns={model} dataSource={this.state.data}/>
+                        <Table columns={model} dataSource={this.state.data} pagination={pagination}/>
                     </div>
                 </Panel>
             </div>
