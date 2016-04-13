@@ -4,7 +4,7 @@ const panel = React.createClass({
     render(){
         let {title} = this.props;
         return <div className="panel">
-            {title?<div className="panel-title"><h2>{this.props.title}</h2></div>:null}
+            {title?<div className="panel-title"><h3>{this.props.title}</h3></div>:null}
             <div className="panel-body">
                 {this.props.children}
             </div>

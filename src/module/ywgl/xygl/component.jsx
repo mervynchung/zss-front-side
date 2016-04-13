@@ -4,12 +4,24 @@ import CompPageHead from 'component/CompPageHead'
 import Panel from 'component/compPanel'
 import model from './model'
 import req from 'reqwest';
+import CompToolBar from 'component/compToolBar'
+import SearchForm from 'component/compSearch'
 
 const xygl = React.createClass({
     getInitialState(){
         return {
             data: []
         }
+    },
+    handleClick(){
+        this.setState({
+            visible: true
+        })
+    },
+    handleCancel(){
+        this.setState({
+            visible: false
+        })
     },
     componentDidMount(){
         req({
@@ -23,9 +35,17 @@ const xygl = React.createClass({
     render(){
         return <div className="xygl">
             <div className="wrap">
-                <Panel title="协议管理">
+                <CompToolBar
+                    tip="检索所有协议记录，可按条件查询"
+                    onClick={this.handleClick}/>
+                <SearchForm
+                    visible={this.state.visible}
+                    title="协议搜索"
+                    width="800"
+                    onCancel={this.handleCancel}/>
+                <Panel>
                     <div className="h-scroll-table table-border ">
-                        <Table columns={model} dataSource={this.state.data} size="middle" />
+                        <Table columns={model} dataSource={this.state.data}/>
                     </div>
                 </Panel>
             </div>
