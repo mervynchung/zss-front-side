@@ -1,5 +1,5 @@
 import React from 'react'
-import {Table,Modal} from 'antd'
+import {Table,Modal,Row,Col,Button,Icon} from 'antd'
 import CompPageHead from 'component/CompPageHead'
 import Panel from 'component/compPanel'
 import model from './model'
@@ -18,32 +18,25 @@ const xygl = React.createClass({
                 showSizeChanger: true,
                 defaultPageSize: 8,
                 showQuickJumper: true,
-                pageSizeOptions:[8,10,30,50],
+                pageSizeOptions:['8','10','30','50'],
                 showTotal (total) {
                     return `共 ${total} 条`
                 }
             },
         }
     },
-    handleClick(){
-        this.setState({
-            visible: true
-        })
-    },
-    handleCancel(){
-        this.setState({
-            visible: false
-        })
-    },
     handleChange(pagination, filters, sorter){
         const pager = this.state.pagination;
         pager.current = pagination.current;
         pager.pageSize = pagination.pageSize;
-        this.setState({pagination: pager})
+        //this.setState({pagination: pager}) 此行语句是为符合不直接修改state的语意，并不影响逻辑。
         this.fetchData({
             page: pagination.current,
             pageSize: pagination.pageSize
         })
+    },
+    handleToolClick(){
+        console.log('click')
     },
     fetchData(params = {page: 1, pageSize: this.state.pagination.defaultPageSize}){
         this.setState({loading: true});
@@ -72,18 +65,15 @@ const xygl = React.createClass({
         this.fetchData();
     },
     render(){
+        const toolbar = <Button onClick={this.handleToolClick}>搜索</Button>
         return <div className="xygl">
-            {this.state.errorAlert}
             <div className="wrap">
-                <CompToolBar
-                    tip="检索所有协议记录，可按条件查询"
-                    onClick={this.handleClick}/>
                 <SearchForm
-                    visible={this.state.visible}
-                    title="协议搜索"
-                    width="800"
-                    onCancel={this.handleCancel}/>
-                <Panel>
+                  visible={this.state.visible}
+                  title="协议搜索"
+                  width="800"
+                  onCancel={this.handleCancel}/>
+                <Panel title="协议数据检索" toolbar ={toolbar}>
                     <div className="h-scroll-table table-border ">
                         <Table columns={model}
                                dataSource={this.state.data}
