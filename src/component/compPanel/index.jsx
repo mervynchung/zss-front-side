@@ -2,8 +2,9 @@ import React from 'react'
 import './style.css'
 const panel = React.createClass({
     render(){
-        return <div className={'panel'}>
-            <div className="panel-title">{this.props.title}</div>
+        let {title} = this.props;
+        return <div className="panel">
+            {title?<div className="panel-title"><h3>{this.props.title}</h3></div>:null}
             <div className="panel-body">
                 {this.props.children}
             </div>

@@ -1,12 +1,13 @@
 /**
  * 主界面侧栏导航组件
- * props.dataSource 菜单数据
+ * props.data 菜单数据
  * @export LayoutSideNav
  */
 
 import React from 'react';
-import {Menu} from 'antd';
+import {Menu,Icon} from 'antd';
 import {Link} from 'react-router';
+import {getTreeData} from 'common/utils'
 import './style.css';
 
 
@@ -23,7 +24,6 @@ class AppSideNav extends React.Component {
             current: '1',
             openKeys: []
         }
-        this.dataSource = this.props.dataSource;
     }
 
     //load:this.props.load , //'lazy','all'
@@ -41,17 +41,19 @@ class AppSideNav extends React.Component {
     }
     getMenu(data) {
         return data.map(function (item) {
+            let title = <span><Icon type={item.icon}/><span>{item.name}</span></span>;
             if (item.children) {
-                return <SubMenu key={item.id} title={item.name} children={this.getMenu(item.children)}/>;
+                return <SubMenu key={item.id}  title={title} children={this.getMenu(item.children)}/>;
             } else {
-                return <Menu.Item key={item.id}><Link to={item.href}>{item.name}</Link></Menu.Item>
+                return <Menu.Item key={item.id}><Link to={item.href||''}>{item.name}</Link></Menu.Item>
             }
         }, this);
     }
 
 
     render() {
-        const asideMenu = this.getMenu(this.dataSource);
+        const menuData = getTreeData(this.props.data);
+         let asideMenu = this.getMenu(menuData);
         return (
             <aside className="app-sidenav">
                 <Menu onClick={this.handleClick.bind(this)}
