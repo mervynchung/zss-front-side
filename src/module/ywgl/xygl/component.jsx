@@ -7,14 +7,7 @@ import req from 'reqwest';
 import CompToolBar from 'component/compToolBar'
 import SearchForm from 'component/compSearch'
 
-const pagination = {
-    total: 0,
-    showSizeChanger: true,
-    onShowSizeChange(current, pageSize) {
-    },
-    onChange(current) {
-    }
-};
+
 
 const xygl = React.createClass({
     getInitialState(){
@@ -42,6 +35,14 @@ const xygl = React.createClass({
         })
     },
     render(){
+        const pagination = {
+            total: 0,
+            showSizeChanger: true,
+            onShowSizeChange(current, pageSize) {
+            },
+            onChange(current) {
+            }
+        };
         return <div className="xygl">
             <div className="wrap">
                 <CompToolBar
