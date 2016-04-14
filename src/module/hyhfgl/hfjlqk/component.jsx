@@ -9,6 +9,7 @@ import {
   Table, Icon
 }
 from 'antd'
+import Panel from 'component/compPanel'
 
 
 const columns = [{
@@ -121,12 +122,13 @@ function showTotal() {
 
  render() {
     return <div className="wrap">
+          <Panel>
            <Table columns={columns} 
            dataSource={this.state.data} 
            pagination={this.state.pagination}
            onChange={this.handleTableChange} 
         bordered size="small" />
-
+          </Panel>
         </div>
   }
 })

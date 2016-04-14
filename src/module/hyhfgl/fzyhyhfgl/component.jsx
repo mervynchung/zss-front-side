@@ -161,7 +161,7 @@ Hfxx = createForm({
 /* 
 组件compWrap 
  */
-const grhyhfgl = React.createClass({
+const zyhyhfgl = React.createClass({
     //==============初始化事件================== 
     getInitialState() {
         return {
@@ -239,7 +239,7 @@ const grhyhfgl = React.createClass({
 
     // =========样式渲染================== 
     render() {
-        return <div className = "grhyhfgl">
+        return <div className = "zyhyhfgl">
         <div className ="wrap">
         <Panel>
 
@@ -250,9 +250,10 @@ const grhyhfgl = React.createClass({
                 onRowClick={this.onSelect}
                 bordered size="small" />
                 </Panel>
-                <Panel title="执业会员会费信息查看">
+                <Panel>
             <div className="from1">
             <Row>
+            <Col span="10" offset="10">执业会员会费信息</Col>
             </Row>
            <Hfxx data={this.state.ret}/>
             </div>
@@ -262,4 +263,4 @@ const grhyhfgl = React.createClass({
     }
 })
 
-module.exports = grhyhfgl;
+module.exports = zyhyhfgl;

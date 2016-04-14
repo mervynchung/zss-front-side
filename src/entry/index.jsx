@@ -21,6 +21,7 @@ const routes = {
         require('../module/gn3'),
         require('../module/hyhfgl/hfjlqk'),
         require('../module/hyhfgl/grhyhfgl'),
+        require('../module/hyhfgl/fzyhyhfgl'),
         require('../module/jggl/jgcx'),
         require('../module/xtgl/mksz'),
         require('../module/ywgl/xygl')

@@ -19,12 +19,12 @@ const asideMenuInit = {
       id:'11',
       name: '会费缴纳情况',
       href: '/hyhfgl/hfjlqk',
-     
-
     },{ id: '12',
-      name: '个人会员会费管理',
-      href: '/hyhfgl/grhyhfgl'}]
-
+      name: '执业会员会费管理',
+      href: '/hyhfgl/grhyhfgl'
+    }, { id: '13',
+      name: '非执业会员会费管理',
+      href: '/hyhfgl/fzyhyhfgl'}]
   }, {
     id: '3',
     name: '业务管理',
