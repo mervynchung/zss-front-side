@@ -17,3 +17,10 @@
 .panel > .panel-body{
     padding:16px
 }
+.panel .panel-toolbar > ul >li{
+    float: right;
+    margin-left: 16px;
+}
+.panel .panel-toolbar button > i{
+    color:#2DB7F5
+}
