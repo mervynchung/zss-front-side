@@ -24,3 +24,6 @@
 .panel .panel-toolbar button > i{
     color:#2DB7F5
 }
+.panel-toolbar button > i.toggle-tip{
+    color:#666666;
+}

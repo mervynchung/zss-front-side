@@ -4,11 +4,11 @@ import CompPageHead from 'component/CompPageHead'
 import Panel from 'component/compPanel'
 import model from './model'
 import req from 'reqwest';
-import SearchForm from 'component/compSearch'
+import SearchForm from './searchForm'
 import config from 'common/configuration'
 
 const API_URL = config.URI_API_PREFIX + config.URI_API_PROJECT + 'xygl';
-const ToolBar  = Panel.ToolBar;
+const ToolBar = Panel.ToolBar;
 
 
 const xygl = React.createClass({
@@ -19,12 +19,12 @@ const xygl = React.createClass({
                 showSizeChanger: true,
                 defaultPageSize: 8,
                 showQuickJumper: true,
-                pageSizeOptions:['8','10','30','50'],
+                pageSizeOptions: ['8', '10', '30', '50'],
                 showTotal (total) {
                     return `共 ${total} 条`
                 }
             },
-            searchToggle:false
+            searchToggle: false
         }
     },
     handleChange(pagination, filters, sorter){
@@ -39,7 +39,10 @@ const xygl = React.createClass({
         })
     },
     handleSearchToggle(){
-        this.setState({searchToggle:!this.state.searchToggle});
+        this.setState({searchToggle: !this.state.searchToggle});
+    },
+    handleSubmit(value){
+        console.log(value)
     },
     fetchData(params = {page: 1, pageSize: this.state.pagination.defaultPageSize}){
         this.setState({loading: true});
@@ -57,10 +60,10 @@ const xygl = React.createClass({
             Modal.error({
                 title: '数据获取错误',
                 content: (
-                    <div>
-                        <p>无法从服务器返回数据，需检查应用服务工作情况</p>
-                        <p>Status: {err.status}</p>
-                    </div>  )
+                  <div>
+                      <p>无法从服务器返回数据，需检查应用服务工作情况</p>
+                      <p>Status: {err.status}</p>
+                  </div>  )
             });
         })
     },
@@ -69,9 +72,10 @@ const xygl = React.createClass({
     },
     render(){
         let toolbar = <ToolBar>
-            <Button  onClick={this.handleSearchToggle}>
+            <Button onClick={this.handleSearchToggle}>
                 <Icon type="search"/>查询
-                { this.state.searchToggle ? <Icon type="up" />:<Icon classtype="down" />}
+                { this.state.searchToggle ? <Icon className="toggle-tip" type="arrow-up"/> :
+                  <Icon className="toggle-tip" type="arrow-down"/>}
             </Button>
             <Button  ><Icon type="copy"/>打印</Button>
             <Button  ><Icon type="copy"/>导出</Button>
@@ -80,11 +84,9 @@ const xygl = React.createClass({
         return <div className="xygl">
             <div className="wrap">
 
-                <Panel title="协议检索" toolbar ={toolbar}>
-                    {this.state.searchToggle&&<SearchForm
-                        visible={this.state.visible}
-                        title="协议搜索"
-                        width="800"/>}
+                <Panel title="协议检索" toolbar={toolbar}>
+                    {this.state.searchToggle && <SearchForm
+                      onSubmit={this.handleSubmit}/>}
                     <div className="h-scroll-table table-border ">
                         <Table columns={model}
                                dataSource={this.state.data}
