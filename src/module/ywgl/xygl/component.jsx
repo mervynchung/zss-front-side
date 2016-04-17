@@ -17,9 +17,9 @@ const xygl = React.createClass({
             data: [],
             pagination: {
                 showSizeChanger: true,
-                defaultPageSize: 8,
+                defaultPageSize: 5,
                 showQuickJumper: true,
-                pageSizeOptions: ['8', '10', '30', '50'],
+                pageSizeOptions: ['5', '10', '20'],
                 showTotal (total) {
                     return `共 ${total} 条`
                 }
