@@ -77,7 +77,7 @@ let searchForm = React.createClass({
                 </Row>
                 <Row>
                     <Col span="2" offset="20"><Button type="primary" htmlType="submit">查询</Button></Col>
-                    <Col span="2"><Button type="ghost" onClick={this.handleReset}>清空</Button></Col>
+                    <Col span="2"><Button type="ghost" onClick={this.handleReset}>重置</Button></Col>
                 </Row>
             </Form>
         </div>

@@ -7,8 +7,9 @@ import req from 'reqwest';
 import SearchForm from './searchForm'
 import config from 'common/configuration'
 
-const API_URL = config.URI_API_PREFIX + config.URI_API_PROJECT + 'xygl';
+const API_URL = config.HOST+config.URI_API_PROJECT + '/xygl';
 const ToolBar = Panel.ToolBar;
+const ButtonGroup = Button.Group;
 
 
 const xygl = React.createClass({
@@ -16,8 +17,9 @@ const xygl = React.createClass({
         return {
             data: [],
             pagination: {
+                current:1,
                 showSizeChanger: true,
-                defaultPageSize: 5,
+                pageSize:5,
                 showQuickJumper: true,
                 pageSizeOptions: ['5', '10', '20'],
                 showTotal (total) {
@@ -31,7 +33,7 @@ const xygl = React.createClass({
         const pager = this.state.pagination;
         pager.current = pagination.current;
         pager.pageSize = pagination.pageSize;
-        this.setState({pagination: pager}) //此行语句是为符合不直接修改state的语意，并不影响逻辑。
+        this.setState({pagination: pager}); //此行语句是为符合不直接修改state的语意，并不影响逻辑。
 
         this.fetchData({
             page: pagination.current,
@@ -42,9 +44,15 @@ const xygl = React.createClass({
         this.setState({searchToggle: !this.state.searchToggle});
     },
     handleSubmit(value){
-        console.log(value)
+        const pager = this.state.pagination;
+        const params = {
+            page:pager.current,
+            pageSize:pager.pageSize,
+            where:encodeURIComponent(JSON.stringify(value))
+        }
+        this.fetchData(params);
     },
-    fetchData(params = {page: 1, pageSize: this.state.pagination.defaultPageSize}){
+    fetchData(params = {page: 1, pageSize: this.state.pagination.pageSize}){
         this.setState({loading: true});
         req({
             url: API_URL,
@@ -77,17 +85,22 @@ const xygl = React.createClass({
                 { this.state.searchToggle ? <Icon className="toggle-tip" type="arrow-up"/> :
                   <Icon className="toggle-tip" type="arrow-down"/>}
             </Button>
-            <Button  ><Icon type="copy"/>打印</Button>
-            <Button  ><Icon type="copy"/>导出</Button>
+
+            <ButtonGroup>
+
+                <Button><Icon type="copy"/>打印</Button>
+                <Button><Icon type="copy"/>导出</Button>
+            </ButtonGroup>
+
         </ToolBar>;
 
         return <div className="xygl">
             <div className="wrap">
 
-                <Panel title="协议检索" toolbar={toolbar}>
+                <Panel title="业务备案数据检索" toolbar={toolbar}>
                     {this.state.searchToggle && <SearchForm
                       onSubmit={this.handleSubmit}/>}
-                    <div className="h-scroll-table table-border ">
+                    <div className="h-scroll-table  ">
                         <Table columns={model}
                                dataSource={this.state.data}
                                pagination={this.state.pagination}

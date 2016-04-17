@@ -10,7 +10,7 @@ import config from 'common/configuration'
 
 const TreeNode = Tree.TreeNode;
 const FormItem = Form.Item;
-const URL = config.HOST + config.URI_API_PREFIX + config.URI_API_FRAMEWORK + '/asidemenu'
+const URL = config.HOST + config.URI_API_FRAMEWORK + '/asidemenu';
 
 /*const json = [{"id": 1, "pid": 0, "name": "系统管理", "href": null, "orderNo": 1, "path": "000", "visble": "Y"},
  {
@@ -77,32 +77,32 @@ let TreeNodeEdit = React.createClass({
         };
         return <Form horizontal onSubmit={this.handleSubmit}>
             <FormItem
-                {...formItemLayout}
-                label="模块名称：">
+              {...formItemLayout}
+              label="模块名称：">
                 <Input placeholder="名称"
-                    {...getFieldProps('name')}/>
+                  {...getFieldProps('name')}/>
             </FormItem>
             <FormItem
-                {...formItemLayout}
-                label="链接地址：">
+              {...formItemLayout}
+              label="链接地址：">
                 <Input placeholder="URL..."
-                    {...getFieldProps('href')}/>
+                  {...getFieldProps('href')}/>
             </FormItem>
             <FormItem
-                {...formItemLayout}
-                label="排序号：">
+              {...formItemLayout}
+              label="排序号：">
                 <Input placeholder="用于排序的号码"
-                    {...getFieldProps('orderNo')}/>
+                  {...getFieldProps('orderNo')}/>
             </FormItem>
             <FormItem
-                {...formItemLayout}
-                label="图标：">
+              {...formItemLayout}
+              label="图标：">
                 <Input placeholder="图标代号"
-                    {...getFieldProps('icon')}/>
+                  {...getFieldProps('icon')}/>
             </FormItem>
             < FormItem
-                {...formItemLayout}
-                label={<span> </span>}>
+              {...formItemLayout}
+              label={<span> </span>}>
                 <label>
                     <Checkbox {...getFieldProps('visble', {valuePropName: 'checked'})}/>默认显示
                 </label>
@@ -148,7 +148,7 @@ const mksz = React.createClass({
         ({id: submitNode.id, pid: submitNode.pid, path: submitNode.path} = this.state.currentNode);//解构赋值
         submitNode.visble = value.visble ? 1 : 0;
         req({
-            url: URL + '/'+submitNode.id,
+            url: URL + '/' + submitNode.id,
             type: 'json',
             method: 'put',
             data: JSON.stringify(submitNode),
@@ -168,37 +168,37 @@ const mksz = React.createClass({
         }
         //新建节点，并赋予基本默认属性
         //可见:是,名字:新模块,排序:空,pid:上级节点id,模块类型:A A-中心端,B-客户端
-        let newNode = {pid: pid, name: '新模块', orderNo: '', visble: 1,lx:'A'};
+        let newNode = {pid: pid, name: '新模块', orderNo: '', visble: 1, lx: 'A'};
 
         req({
-            url: URL +'?',
+            url: URL + '?',
             type: 'json',
             method: 'post',
             data: JSON.stringify(newNode),
             contentType: 'application/json'
         }).then(resp=> {
-            ({id:newNode.id,path:newNode.path}=resp);
+            ({id: newNode.id, path: newNode.path} = resp);
             let tmpArr = this.state.nodes.slice(0);
             tmpArr.push(newNode);
             this.setState({nodes: tmpArr})
-        }).fail(err=>{
+        }).fail(err=> {
             message.error('Status Code:' + err.status + '  api错误 ')
         })
     },
     removeNode(){
         req({
-            url:URL+'/'+this.state.currentNode.id,
-            type:'json',
-            method:'delete'
-        }).then((resp)=>{
+            url: URL + '/' + this.state.currentNode.id,
+            type: 'json',
+            method: 'delete'
+        }).then((resp)=> {
             this.setState({nodes: resp});
-        }).fail(err=>{
+        }).fail(err=> {
             message.error('Status Code:' + err.status + '  api错误 ')
         });
     },
     componentDidMount(){
         req({
-            url: URL+'?q=all&l=A',
+            url: URL + '?q=all&l=A',
             type: 'json',
             method: 'get'
         }).then(resp => {
@@ -224,7 +224,7 @@ const mksz = React.createClass({
                             <Row><Col><TreeNodeEdit data={this.state.currentNode} onSubmit={this.handleSubmit}/></Col>
                             </Row>
                             {this.state.alert ?
-                                <Row><Col><Alert message={this.state.alert} type="success" showIcon/></Col></Row> : ''}
+                              <Row><Col><Alert message={this.state.alert} type="success" showIcon/></Col></Row> : ''}
 
                         </Col>
                     </Row>
