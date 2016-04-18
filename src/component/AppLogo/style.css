@@ -5,21 +5,24 @@
     left:0;
     top:0;
     text-align: center;
-    background-color:#00A0E8;
+    background-color:#425366;
 }
 .app-logo .logo-icon{
     font-size: 18px;
     position: absolute;
     top:14px;
     left:32px;
-    color: #ffffff;
+    color: #FFFFFF;
     font-size: 18px;
+}
+.app-logo .logo-icon i{
+    color:#00A0E8;
 }
 .app-logo .logo-small{
     font-size:12px;
     position:absolute;
     top:36px;
     left:32px;
-    color:#A6E33C;
+    color:#2DB7F5;
     font-weight: 600;
 }

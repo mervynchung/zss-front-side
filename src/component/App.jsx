@@ -9,10 +9,10 @@ import config from 'common/configuration'
 
 
 
-const url  = config.HOST + config.URI_API_PREFIX + config.URI_API_FRAMEWORK + '/asidemenu';
-const errorAlert = <Alert
-    message="数据读取错误：无法获取所需数据，应用服务工作情况可能不正常"
-    type="error" />
+const url  = config.HOST + config.URI_API_FRAMEWORK + '/asidemenu';
+const errorAlert = <div className="sys-alert"><Alert
+  message="数据读取错误：无法获取所需数据，应用服务工作情况可能不正常"
+  type="error" /></div>
 
 class App extends React.Component {
 
@@ -42,8 +42,7 @@ class App extends React.Component {
 
     render() {
         return <div className="app-main">
-            <div>{this.state.errorAlert}</div>
-
+            {this.state.errorAlert}
             <AppHeader/>
             <AppSideNav data={this.state.asideMenu}/>
             <div className="app-breadcrumb"><Breadcrumb  {...this.props} /></div>
