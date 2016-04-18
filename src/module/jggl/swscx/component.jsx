@@ -288,7 +288,7 @@ const pagination = this.state.pagination;
       ]
     });
       return <div className="jgcx">
-      <CompPageHead heading="事务所查询" />
+   
 
         <div className="wrap">
          <Row>

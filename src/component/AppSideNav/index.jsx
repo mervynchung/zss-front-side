@@ -5,7 +5,7 @@
  */
 
 import React from 'react';
-import {Menu} from 'antd';
+import {Menu,Icon} from 'antd';
 import {Link} from 'react-router';
 import {getTreeData} from 'common/utils'
 import './style.css';
@@ -39,12 +39,15 @@ class AppSideNav extends React.Component {
             openKeys: info.open ? info.keyPath : info.keyPath.slice(1)
         });
     }
+
     getMenu(data) {
         return data.map(function (item) {
+            let title = <span><Icon type={item.icon}/>{item.name}</span>;
             if (item.children) {
-                return <SubMenu key={item.id} title={item.name} children={this.getMenu(item.children)}/>;
+                return <SubMenu key={item.id} title={title} children={this.getMenu(item.children)}/>;
             } else {
-                return <Menu.Item key={item.id}><Link to={item.href}>{item.name}</Link></Menu.Item>
+                return <Menu.Item key={item.id}><Link to={item.href||''}><span><Icon
+                  type={item.icon}/>{item.name}</span></Link></Menu.Item>
             }
         }, this);
     }
@@ -54,16 +57,16 @@ class AppSideNav extends React.Component {
         const menuData = getTreeData(this.props.data);
          let asideMenu = this.getMenu(menuData);
         return (
-            <aside className="app-sidenav">
-                <Menu onClick={this.handleClick.bind(this)}
-                      openKeys={this.state.openKeys}
-                      onOpen={this.onToggle.bind(this)}
-                      onClose={this.onToggle.bind(this)}
-                      selectedKeys={[this.state.current]}
-                      mode="inline">
-                    {asideMenu}
-                </Menu>
-            </aside>
+          <aside className="app-sidenav">
+              <Menu onClick={this.handleClick.bind(this)}
+                    openKeys={this.state.openKeys}
+                    onOpen={this.onToggle.bind(this)}
+                    onClose={this.onToggle.bind(this)}
+                    selectedKeys={[this.state.current]}
+                    mode="inline">
+                  {asideMenu}
+              </Menu>
+          </aside>
         );
     }
 }

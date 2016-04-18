@@ -2,7 +2,6 @@ import React from 'react'
 import CompBaseTable from 'component/compBaseTable';
 import CompPageHead from 'component/CompPageHead'
 import Panel from 'component/compPanel'
-import Te from './cx-from'
 import './style.css'
 import './until.js'
 import req from 'reqwest'
