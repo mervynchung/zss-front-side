@@ -1,6 +1,6 @@
 import React from 'react'
 import {Row,Col,Form,Button,Input,Modal,DatePicker} from 'antd'
-import {SelectorCS,SelectorYear,SelectorRYLB} from 'component/compSelector'
+import {SelectorCS,SelectorYear} from 'component/compSelector'
 
 import './style.css'
 
@@ -71,7 +71,7 @@ let searchForm = React.createClass({
                         <FormItem
                           {...formItemLayout}
                           label="年度：">
-                            <SelectorRYLB { ...getFieldProps('fg')}/>
+                            <SelectorCS { ...getFieldProps('nd')}/>
                         </FormItem>
                     </Col>
                 </Row>

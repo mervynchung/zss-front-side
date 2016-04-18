@@ -26,32 +26,42 @@ const xygl = React.createClass({
                     return `共 ${total} 条`
                 }
             },
-            searchToggle: false
+            searchToggle: false,
+            where:''
         }
     },
+
     handleChange(pagination, filters, sorter){
         const pager = this.state.pagination;
         pager.current = pagination.current;
         pager.pageSize = pagination.pageSize;
-        this.setState({pagination: pager}); //此行语句是为符合不直接修改state的语意，并不影响逻辑。
+        this.setState({pagination:pager});
 
         this.fetchData({
-            page: pagination.current,
-            pageSize: pagination.pageSize
+            page: pager.current,
+            pageSize: pager.pageSize,
+            where:encodeURIComponent(JSON.stringify(this.state.where))
         })
     },
+
     handleSearchToggle(){
         this.setState({searchToggle: !this.state.searchToggle});
     },
+
     handleSubmit(value){
+        console.log('submitvalue' , value)
+        console.log('JSONstring' , JSON.stringify(value) )
+        console.log('encoder',encodeURIComponent(JSON.stringify(value)) )
         const pager = this.state.pagination;
         const params = {
-            page:pager.current,
+            page:1,
             pageSize:pager.pageSize,
             where:encodeURIComponent(JSON.stringify(value))
-        }
+        };
+        this.setState({where:value});
         this.fetchData(params);
     },
+
     fetchData(params = {page: 1, pageSize: this.state.pagination.pageSize}){
         this.setState({loading: true});
         req({
@@ -75,9 +85,11 @@ const xygl = React.createClass({
             });
         })
     },
+
     componentDidMount(){
         this.fetchData();
     },
+
     render(){
         let toolbar = <ToolBar>
             <Button onClick={this.handleSearchToggle}>

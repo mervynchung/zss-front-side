@@ -13,8 +13,8 @@ const model = [{
     width:'300px'
 }, {
     title: '业务发生地',
-    key: 'ywfsd',
-    dataIndex:'ywfsd',
+    key: 'cs',
+    dataIndex:'cs',
     width:'100px'
 }, {
     title: '业务类型',
