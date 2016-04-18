@@ -3,7 +3,7 @@
   */
 import 'common/lib.js'
 import React from 'react'
-import {Input, Form, Col, Row, Button} from 'antd'
+import {Input, Form, Col, Row, Select, Modal, Button} from 'antd'
 import ReactDom from 'react-dom'
 import BaseTable from 'component/compBaseTable'
 import req from 'reqwest'
@@ -13,9 +13,11 @@ import {
 }
 from 'antd'
 import Panel from 'component/compPanel'
+import CompToolBar from 'component/compToolBar'
 
 const createForm = Form.create;
 const FormItem = Form.Item;
+const Option = Select.Option;
 
 
 
@@ -62,7 +64,7 @@ const columns = [{
 const Hflb = React.createClass({
 
     render() {
-        return <div>
+        return <div >
             <Table columns={this.columms}
                 bordered size="small" />
         </div>
@@ -185,9 +187,12 @@ const grhyhfgl = React.createClass({
                 const paper = this.state.pagination;
                 paper.pageSize = pagination.pageSize;
                 this.setState({
-                    data: result.Data,
+                    data: result.data,
+                    urls:result.data[0].ID,
                 });
-            }
+                 this.fetch_hfxx()
+            },
+           
         });
     },
     fetch_hflb() {
@@ -195,12 +200,12 @@ const grhyhfgl = React.createClass({
             url: '/api/grhf?pagenum=1&pagesize=5&sfield=unll&sorder=unll',
             method: 'get',
             type: 'json',
-            success: (result) => {
+            success: (result) => { 
                 function showTotal() {
                     return "共" + pagination.total + "条";
                 }
                 const pagination = this.state.pagination;
-                pagination.total = result.Page.total_number1;
+                pagination.total = result.page.total_number1;
                 pagination.pageSize = 5;
                 pagination.showSizeChanger = true;
                 pagination.showTotal = showTotal;
@@ -209,9 +214,13 @@ const grhyhfgl = React.createClass({
                 pagination.pageSizeOptions = ['5', '10', '20', '30', '40'];
 
                 this.setState({
-                    data: result.Data,
+                    data: result.data,
+                   urls:result.data[0].ID,
+                     
                 });
-            }
+               this.fetch_hfxx();
+            },
+            error: (err) =>{alert('api错误');}
         });
     },
 
@@ -221,39 +230,97 @@ const grhyhfgl = React.createClass({
             method: 'get',
             type: 'json',
             success: (result) => {
+              
                 this.setState({
-                    ret: result.xx.Data,
+                    ret: result.xx.data,
+
                 });
             }
         });
     },
 
     onSelect(record) {
+      
         this.state.urls = record.ID;
         this.fetch_hfxx();
     },
+    showModal() { 
+     this.setState({ 
+       visible: true 
+     }); 
+   }, 
+   handleCancel() {
+    this.setState({
+      visible: false
+    });
+   },
 
     componentDidMount() {
         this.fetch_hflb();
     },
+  
+  
+
 
     // =========样式渲染================== 
     render() {
+             const formItemLayout = {//表单样式 
+            labelCol: { span: 6 }, 
+             wrapperCol: { span: 14 }, 
+               }; 
+            
+
+      
         return <div className = "grhyhfgl">
         <div className ="wrap">
         <Panel>
-
+        <CompToolBar
+                    tip="检索所有记录，可按条件查询"
+                    onClick={this.showModal}/>    
+             <Modal title="请输入查询条件" 
+           visible={this.state.visible} 
+           onOk={this.handleOk} 
+           confirmLoading={this.state.confirmLoading} 
+          onCancel={this.handleCancel} okText="搜索" > 
+         
+          
+           <Form  form={this.props.form}> 
+       <FormItem 
+       id="" 
+       label="年度：" 
+       {...formItemLayout}> 
+      <Input id="cx-dwmc"placeholder="请输入搜索条件" /> 
+     </FormItem> 
+ 
+     <FormItem 
+       id="" 
+      label="单位名称：" 
+      {...formItemLayout}> 
+       <Input id="cx-zsbh"  placeholder="请输入搜索条件" /> 
+     </FormItem>  
+ 
+     <FormItem 
+       id="" 
+      label="缴费情况：" 
+       {...formItemLayout}> 
+       <Select showSearch id=""   style={{ width: 200 }} optionFilterProp="children" notFoundContent="无法找到" placeholder="请选择"> 
+         <Option value="1">多交</Option> 
+         <Option value="2">欠交</Option> 
+         <Option value="3" >趸交</Option> 
+       </Select> 
+     </FormItem> 
+                  </Form>
+      </Modal>
             <Table columns={columns}
                 dataSource={this.state.data}
                 pagination={this.state.pagination}
                 onChange={this.handleTableChange}
                 onRowClick={this.onSelect}
-                bordered size="small" />
+                bordered size="small" />      
                 </Panel>
                 <Panel title="执业会员会费信息查看">
             <div className="from1">
-            <Row>
-            </Row>
+           
            <Hfxx data={this.state.ret}/>
             </div>
             </Panel>

@@ -22,7 +22,7 @@ const columns = [{
   key: 'ND',
   sorter:true,
 }, {
-  title: '结构名称',
+  title: '机构名称',
   dataIndex: 'JGNAME',
   key: 'JGNAME',
   sorter:true,
@@ -59,15 +59,15 @@ const columns = [{
   dataIndex: 'QJGRHF',
   key: 'QJGRHF',
 }, {
-  title: '操作',
-  key: 'operation',
-  render(text) {
-    return (
-      <span>
-        <a href="#">更多</a>
-      </span>
-    );
-  }
+        title: '操作',
+        key: 'operation',
+        render(text) {
+            return (
+                <span>
+                    <a href="#">查看</a>
+                </span>
+            );
+        }
 }];
 
 const hfjlqk = React.createClass({
@@ -87,7 +87,7 @@ const hfjlqk = React.createClass({
         const paper = this.state.pagination;     
          paper.pageSize = pagination.pageSize;
         this.setState({
-          data: result.Data,
+          data: result.data,
         });
       }
     });
@@ -102,7 +102,7 @@ function showTotal() {
   return "共"+pagination.total+"条";
 }
  const pagination = this.state.pagination;
-        pagination.total = result.Page.total_number;
+        pagination.total = result.page.total_number;
          pagination.pageSize = 5;
         pagination.showSizeChanger = true;
           pagination.showTotal = showTotal;
@@ -111,7 +111,7 @@ function showTotal() {
         pagination.pageSizeOptions = ['5', '10', '20', '30', '40'];
       
         this.setState({
-          data: result.Data,
+          data: result.data,
         });
       }
     });
