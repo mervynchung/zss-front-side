@@ -52,7 +52,6 @@ class AppSideNav extends React.Component {
 
     render() {
         const menuData = getTreeData(this.props.data);
-        console.log(menuData)
          let asideMenu = this.getMenu(menuData);
         return (
             <aside className="app-sidenav">
