@@ -6,6 +6,8 @@ import './style.css'
 
 const FormItem = Form.Item;
 const createForm = Form.create;
+const RangePicker = DatePicker.RangePicker;
+
 let searchForm = React.createClass({
     getDefaultProps(){
         return {
@@ -57,7 +59,7 @@ let searchForm = React.createClass({
                         <FormItem
                           {...formItemLayout}
                           label="报备日期：">
-                            <DatePicker { ...getFieldProps('bbrq')}/>
+                            <RangePicker { ...getFieldProps('bbrq')}/>
                         </FormItem>
                     </Col>
                     <Col span="8">
@@ -71,7 +73,7 @@ let searchForm = React.createClass({
                         <FormItem
                           {...formItemLayout}
                           label="年度：">
-                            <SelectorCS { ...getFieldProps('nd')}/>
+                            <SelectorYear { ...getFieldProps('nd')}/>
                         </FormItem>
                     </Col>
                 </Row>

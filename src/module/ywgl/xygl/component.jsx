@@ -49,9 +49,6 @@ const xygl = React.createClass({
     },
 
     handleSubmit(value){
-        console.log('submitvalue' , value)
-        console.log('JSONstring' , JSON.stringify(value) )
-        console.log('encoder',encodeURIComponent(JSON.stringify(value)) )
         const pager = this.state.pagination;
         const params = {
             page:1,
@@ -94,8 +91,8 @@ const xygl = React.createClass({
         let toolbar = <ToolBar>
             <Button onClick={this.handleSearchToggle}>
                 <Icon type="search"/>查询
-                { this.state.searchToggle ? <Icon className="toggle-tip" type="arrow-up"/> :
-                  <Icon className="toggle-tip" type="arrow-down"/>}
+                { this.state.searchToggle ? <Icon className="toggle-tip" type="circle-o-up"/> :
+                  <Icon className="toggle-tip" type="circle-o-down" />}
             </Button>
 
             <ButtonGroup>
@@ -112,7 +109,7 @@ const xygl = React.createClass({
                 <Panel title="业务备案数据检索" toolbar={toolbar}>
                     {this.state.searchToggle && <SearchForm
                       onSubmit={this.handleSubmit}/>}
-                    <div className="h-scroll-table  ">
+                    <div className="h-scroll-table">
                         <Table columns={model}
                                dataSource={this.state.data}
                                pagination={this.state.pagination}
