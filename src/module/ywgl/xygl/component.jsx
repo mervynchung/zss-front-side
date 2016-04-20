@@ -49,6 +49,7 @@ const xygl = React.createClass({
     },
 
     handleSubmit(value){
+        console.log(value)
         const pager = this.state.pagination;
         const params = {
             page:1,
