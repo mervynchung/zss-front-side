@@ -102,6 +102,11 @@ const xygl = React.createClass({
                 <Button><Icon type="copy"/>导出</Button>
             </ButtonGroup>
 
+            <ButtonGroup>
+                <Button type="primary"><Icon type="question" /></Button>
+                <Button type="primary"><Icon type="reload" /></Button>
+            </ButtonGroup>
+
         </ToolBar>;
 
         return <div className="xygl">

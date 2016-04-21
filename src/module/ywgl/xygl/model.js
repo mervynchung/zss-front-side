@@ -5,48 +5,44 @@ const model = [{
     title: '年度',
     dataIndex: 'nd',
     key: 'nd',
-    width:'100px'
+    width: '100px'
 }, {
     title: '事务所名称',
     dataIndex: 'swsmc',
     key: 'swsmc',
-    width:'300px'
 }, {
     title: '业务发生地',
     key: 'cs',
-    dataIndex:'cs',
-    width:'100px'
+    dataIndex: 'cs',
 }, {
     title: '业务类型',
     key: 'ywlx',
-    dataIndex:'ywlx',
-    width:'100px',
-    width:'200px'
+    dataIndex: 'ywlx',
+    width: '100px',
 }, {
     title: '报告文号',
     key: 'bgwh',
-    dataIndex:'bgwh',
-    width:'200px'
+    dataIndex: 'bgwh',
 }, {
-    title: '协议收费金额',
-    key: 'xysfje',
-    dataIndex:'xysfje',
-    width:'100px'
+    title: '协议金额',
+    key: 'xyje',
+    dataIndex: 'xyje',
+}, {
+    title: '实际收取金额',
+    key: 'sjsqje',
+    dataIndex: 'sjsqje',
 }, {
     title: '报备号码',
     key: 'bbhm',
-    dataIndex:'bbhm',
-    width:'150px'
-},{
+    dataIndex: 'bbhm',
+}, {
     title: '报备日期',
     key: 'bbrq',
-    dataIndex:'bbrq',
-    width:'150px'
-},{
+    dataIndex: 'bbrq',
+}, {
     title: '验证码',
     key: 'yzm',
-    dataIndex:'yzm',
-    width:'150px'
+    dataIndex: 'yzm',
 }];
 
 module.exports = model;
