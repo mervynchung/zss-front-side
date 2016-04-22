@@ -1,5 +1,5 @@
 import React from 'react'
-import {Table,Modal,Row,Col,Button,Icon} from 'antd'
+import {Table,Modal,Row,Col,Button,Icon,Alert} from 'antd'
 import CompPageHead from 'component/CompPageHead'
 import Panel from 'component/compPanel'
 import model from './model'
@@ -7,7 +7,7 @@ import req from 'reqwest';
 import SearchForm from './searchForm'
 import config from 'common/configuration'
 
-const API_URL = config.HOST+config.URI_API_PROJECT + '/ywbb';
+const API_URL = config.HOST + config.URI_API_PROJECT + '/ywbb';
 const ToolBar = Panel.ToolBar;
 const ButtonGroup = Button.Group;
 
@@ -17,9 +17,9 @@ const xygl = React.createClass({
         return {
             data: [],
             pagination: {
-                current:1,
+                current: 1,
                 showSizeChanger: true,
-                pageSize:5,
+                pageSize: 5,
                 showQuickJumper: true,
                 pageSizeOptions: ['5', '10', '20'],
                 showTotal (total) {
@@ -27,7 +27,8 @@ const xygl = React.createClass({
                 }
             },
             searchToggle: false,
-            where:''
+            where: '',
+            helper: false
         }
     },
 
@@ -35,30 +36,44 @@ const xygl = React.createClass({
         const pager = this.state.pagination;
         pager.current = pagination.current;
         pager.pageSize = pagination.pageSize;
-        this.setState({pagination:pager});
+        this.setState({pagination: pager});
 
         this.fetchData({
             page: pager.current,
             pageSize: pager.pageSize,
-            where:encodeURIComponent(JSON.stringify(this.state.where))
+            where: encodeURIComponent(JSON.stringify(this.state.where))
         })
     },
 
     handleSearchToggle(){
         this.setState({searchToggle: !this.state.searchToggle});
     },
+    handleRefresh(){
+        const pager= this.state.pagination;
+        pager.current = 1;
+        this.setState({pagination: pager,where:''});
+        this.fetchData();
+    },
+    handleHelper(){
+        this.setState({helper: !this.state.helper})
+    },
+    handleHelperClose(){
+        this.setState({helper:false})
+    },
 
     handleSubmit(value){
-        console.log(value)
         const pager = this.state.pagination;
+        pager.current =1;
         const params = {
-            page:1,
-            pageSize:pager.pageSize,
-            where:encodeURIComponent(JSON.stringify(value))
+            page: 1,
+            pageSize: pager.pageSize,
+            where: encodeURIComponent(JSON.stringify(value))
         };
-        this.setState({where:value});
+        this.setState({where: value});
         this.fetchData(params);
+        this.setState({searchToggle:false})
     },
+
 
     fetchData(params = {page: 1, pageSize: this.state.pagination.pageSize}){
         this.setState({loading: true});
@@ -76,10 +91,10 @@ const xygl = React.createClass({
             Modal.error({
                 title: '数据获取错误',
                 content: (
-                  <div>
-                      <p>无法从服务器返回数据，需检查应用服务工作情况</p>
-                      <p>Status: {err.status}</p>
-                  </div>  )
+                    <div>
+                        <p>无法从服务器返回数据，需检查应用服务工作情况</p>
+                        <p>Status: {err.status}</p>
+                    </div>  )
             });
         })
     },
@@ -93,22 +108,27 @@ const xygl = React.createClass({
             <Button onClick={this.handleSearchToggle}>
                 <Icon type="search"/>查询
                 { this.state.searchToggle ? <Icon className="toggle-tip" type="circle-o-up"/> :
-                  <Icon className="toggle-tip" type="circle-o-down" />}
+                    <Icon className="toggle-tip" type="circle-o-down"/>}
             </Button>
 
             <ButtonGroup>
-                <Button type="primary"><Icon type="question" /></Button>
-                <Button type="primary"><Icon type="reload" /></Button>
+                <Button type="primary" onClick={this.handleHelper}><Icon type="question"/></Button>
+                <Button type="primary" onClick={this.handleRefresh} ><Icon type="reload"/></Button>
             </ButtonGroup>
 
         </ToolBar>;
 
         return <div className="xygl">
             <div className="wrap">
+                {this.state.helper && <Alert message="业务报备使用帮助"
+                                             description="本功能主要提供本年度业务备案查询 &nbsb; 本功能主要提供本年度业务备案查询"
+                                             type="info"
+                                             closable
+                                             onClose={this.handleHelperClose}/>}
 
                 <Panel title="业务备案数据检索" toolbar={toolbar}>
                     {this.state.searchToggle && <SearchForm
-                      onSubmit={this.handleSubmit}/>}
+                        onSubmit={this.handleSubmit}/>}
                     <div className="h-scroll-table">
                         <Table columns={model}
                                dataSource={this.state.data}
