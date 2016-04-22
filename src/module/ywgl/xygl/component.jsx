@@ -7,7 +7,7 @@ import req from 'reqwest';
 import SearchForm from './searchForm'
 import config from 'common/configuration'
 
-const API_URL = config.HOST+config.URI_API_PROJECT + '/xygl';
+const API_URL = config.HOST+config.URI_API_PROJECT + '/ywbb';
 const ToolBar = Panel.ToolBar;
 const ButtonGroup = Button.Group;
 
@@ -95,12 +95,6 @@ const xygl = React.createClass({
                 { this.state.searchToggle ? <Icon className="toggle-tip" type="circle-o-up"/> :
                   <Icon className="toggle-tip" type="circle-o-down" />}
             </Button>
-
-            <ButtonGroup>
-
-                <Button><Icon type="copy"/>打印</Button>
-                <Button><Icon type="copy"/>导出</Button>
-            </ButtonGroup>
 
             <ButtonGroup>
                 <Button type="primary"><Icon type="question" /></Button>
