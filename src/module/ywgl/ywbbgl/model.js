@@ -2,10 +2,14 @@
  * Created by ming on 2016/4/11.
  */
 const model = [{
+    title: '序号',
+    dataIndex: 'key',
+    key: 'key'
+},{
     title: '年度',
     dataIndex: 'nd',
     key: 'nd',
-    width: '100px'
+    width: '60px'
 }, {
     title: '事务所名称',
     dataIndex: 'swsmc',

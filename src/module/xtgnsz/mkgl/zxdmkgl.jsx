@@ -1,8 +1,9 @@
-import './style.css'
+/*
+ * 中心端模块管理
+ */
+
 import React from 'react'
 import {Tree,Col,Row,Input,Form,Button,Icon,message,Tooltip,Checkbox,Alert} from 'antd'
-import CompPageHead from 'component/CompPageHead'
-import Panel from 'component/compPanel'
 import Toolbar from './compToolbar'
 import req from 'reqwest'
 import {getTreeData} from 'common/utils'
@@ -124,7 +125,7 @@ TreeNodeEdit = Form.create({
 })(TreeNodeEdit);
 
 //模块设置
-const mksz = React.createClass({
+const zxdmkgl = React.createClass({
     getInitialState(){
         return {
             nodes: '',
@@ -187,7 +188,7 @@ const mksz = React.createClass({
     },
     removeNode(){
         req({
-            url: URL + '/' + this.state.currentNode.id,
+            url: URL + '/' + this.state.currentNode.id+'?l=A',
             type: 'json',
             method: 'delete'
         }).then((resp)=> {
@@ -210,29 +211,25 @@ const mksz = React.createClass({
 
     render(){
         const data = getTreeData(this.state.nodes)
-        return <div className="mksz">
-            <div className="wrap">
-                <Panel title={'中心端模块管理'}>
+        return <div className="zxdmkgl">
+            <Row>
+                <Col span="8" className="tree-box">
                     <Row>
-                        <Col span="8" className="tree-box">
-                            <Row>
-                                <Toolbar addNode={this.addNode} removeNode={this.removeNode}/>
-                                <TreeView data={data} onSelect={this.handleSelect}/>
-                            </Row>
-                        </Col>
-                        <Col span="10" offset="5" className="tree-node-edit">
-                            <Row><Col><TreeNodeEdit data={this.state.currentNode} onSubmit={this.handleSubmit}/></Col>
-                            </Row>
-                            {this.state.alert ?
-                              <Row><Col><Alert message={this.state.alert} type="success" showIcon/></Col></Row> : ''}
-
-                        </Col>
+                        <Toolbar addNode={this.addNode} removeNode={this.removeNode}/>
+                        <TreeView data={data} onSelect={this.handleSelect}/>
                     </Row>
-                </Panel>
+                </Col>
+                <Col span="10" offset="5" className="tree-node-edit">
+                    <Row><Col><TreeNodeEdit data={this.state.currentNode} onSubmit={this.handleSubmit}/></Col>
+                    </Row>
+                    {this.state.alert ?
+                      <Row><Col><Alert message={this.state.alert} type="success" showIcon/></Col></Row> : ''}
 
-            </div>
+                </Col>
+            </Row>
+
         </div>
     }
 })
 
-module.exports = mksz;
+module.exports = zxdmkgl;
