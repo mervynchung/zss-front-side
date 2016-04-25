@@ -2,10 +2,11 @@ import React from 'react'
 import {Table,Modal,Row,Col,Button,Icon,Alert} from 'antd'
 import CompPageHead from 'component/CompPageHead'
 import Panel from 'component/compPanel'
-import model from './model'
+import {columns,entityModel} from './model'
 import req from 'reqwest';
 import SearchForm from './searchForm'
 import config from 'common/configuration'
+import BaseTable from 'component/compBaseTable'
 
 const API_URL = config.HOST + config.URI_API_PROJECT + '/ywbb';
 const ToolBar = Panel.ToolBar;
@@ -30,7 +31,7 @@ const xygl = React.createClass({
             searchToggle: false,
             where: '',
             helper: false,
-            '#':''
+            entity:''
         }
     },
 
@@ -91,7 +92,7 @@ const xygl = React.createClass({
             type:'json',
             method:'get'
         }).then(resp=>{
-            this.setState({'#':resp});
+            this.setState({entity:resp});
         }).fail(err=>{
             Modal.error({
                 title: '数据获取错误',
@@ -164,7 +165,7 @@ const xygl = React.createClass({
                     {this.state.searchToggle && <SearchForm
                       onSubmit={this.handleSearchSubmit}/>}
                     <div className="h-scroll-table">
-                        <Table columns={model}
+                        <Table columns={columns}
                                dataSource={this.state.data}
                                pagination={this.state.pagination}
                                loading={this.state.loading}
@@ -173,7 +174,7 @@ const xygl = React.createClass({
                     </div>
                 </Panel>
                 <Panel title="业务报备详细信息">
-
+                    <BaseTable data={this.state.entity} model={entityModel} bordered striped/>
                 </Panel>
             </div>
         </div>
