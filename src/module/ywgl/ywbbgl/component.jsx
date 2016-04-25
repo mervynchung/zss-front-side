@@ -29,7 +29,8 @@ const xygl = React.createClass({
             },
             searchToggle: false,
             where: '',
-            helper: false
+            helper: false,
+            '#':''
         }
     },
 
@@ -85,9 +86,22 @@ const xygl = React.createClass({
 
     //点击某行
     handleRowClick(record,value){
-        console.log('record',record)
-        console.log('value',value)
-
+        req({
+            url:API_URL+'/'+record.id,
+            type:'json',
+            method:'get'
+        }).then(resp=>{
+            this.setState({'#':resp});
+        }).fail(err=>{
+            Modal.error({
+                title: '数据获取错误',
+                content: (
+                    <div>
+                        <p>无法从服务器返回数据，需检查应用服务工作情况</p>
+                        <p>Status: {err.status}</p>
+                    </div>  )
+            });
+        })
     },
 
     //通过API获取数据
@@ -157,6 +171,9 @@ const xygl = React.createClass({
                                onChange={this.handleChange}
                                onRowClick={this.handleRowClick}/>
                     </div>
+                </Panel>
+                <Panel title="业务报备详细信息">
+
                 </Panel>
             </div>
         </div>
