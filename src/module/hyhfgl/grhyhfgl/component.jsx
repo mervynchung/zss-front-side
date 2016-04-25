@@ -242,6 +242,7 @@ const grhyhfgl = React.createClass({
     onSelect(record) {
       
         this.state.urls = record.ID;
+          console.log(record);
         this.fetch_hfxx();
     },
     showModal() { 

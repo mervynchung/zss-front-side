@@ -26,6 +26,21 @@ const asideMenuInit = {
       name: '非执业会员会费管理',
       href: '/hyhfgl/fzyhyhfgl'}]
   }, {
+    id: '20',
+    name: '财务报表',
+    
+    children:[{
+      id:'21',
+      name: '利润分配表',
+      href: '/cwbb/lrfpb',
+    },{ id: '22',
+      name: '执业会员会费管理',
+      href: '/hyhfgl/grhyhfgl'
+    }, { id: '23',
+      name: '非执业会员会费管理',
+      href: '/hyhfgl/fzyhyhfgl'}]
+  },
+  {
     id: '3',
     name: '业务管理',
     children: [{
