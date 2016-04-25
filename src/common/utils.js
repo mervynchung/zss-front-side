@@ -20,6 +20,7 @@ module.exports = {
           path: item.path,
           visble: item.visble,
           icon:item.icon,
+          lx:item.lx,
           key:key++
         };
         objMap[item.id] = node;

@@ -24,8 +24,8 @@ const routes = {
         require('../module/hyhfgl/fzyhyhfgl'),
         require('../module/cwbb/lrfpb'),
         require('../module/jggl/swscx'),
-        require('../module/xtgnsz/zxdmkgl'),
-        require('../module/ywgl/xygl')
+        require('../module/xtgnsz/mkgl'),
+        require('../module/ywgl/ywbbgl')
     ]
 }
 

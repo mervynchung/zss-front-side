@@ -17,3 +17,13 @@
 .panel > .panel-body{
     padding:16px
 }
+.panel .panel-toolbar > ul >li{
+    float: right;
+    margin-left: 16px;
+}
+/*.panel .panel-toolbar button > i{*/
+    /*color:#1D80D3*/
+/*}*/
+/*.panel-toolbar button > i.toggle-tip{*/
+    /*color:#666666;*/
+/*}*/
