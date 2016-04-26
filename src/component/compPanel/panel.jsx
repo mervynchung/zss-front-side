@@ -8,7 +8,7 @@ const panel = React.createClass({
         let pt = <div className="panel-title">
             <Row>
                 <Col span="8"><h3>{title}</h3></Col>
-                <Col span="16">{toolbar}</Col>
+                <Col  offspan="16">{toolbar}</Col>
             </Row>
         </div>
 
