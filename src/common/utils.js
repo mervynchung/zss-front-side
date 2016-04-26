@@ -52,8 +52,14 @@ module.exports = {
     return new Array(length - str.length + 1).join("0") + str;
   },
 
-  getTableWidth(){
+  getObjBindModel(obj,model){
+    model.forEach(prop=>{
+        if(prop.type == 'date'){
+        }else{
 
+        }
+
+    })
   }
 
 }

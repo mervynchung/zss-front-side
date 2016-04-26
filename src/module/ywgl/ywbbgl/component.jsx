@@ -29,6 +29,7 @@ const xygl = React.createClass({
                 }
             },
             searchToggle: false,
+            detailViewToggle:false,
             where: '',
             helper: false,
             entity:''
@@ -146,7 +147,13 @@ const xygl = React.createClass({
                 <Button type="primary" onClick={this.handleHelper}><Icon type="question"/></Button>
                 <Button type="primary" onClick={this.handleRefresh}><Icon type="reload"/></Button>
             </ButtonGroup>
+        </ToolBar>;
 
+        let detailToolbar = <ToolBar>
+            <Button type="ghost" shape="circle-outline" onClick={this.handleDetailToggle}>
+                { this.state.detailViewToggle ? <Icon type="circle-o-up"/> :
+                    <Icon type="circle-o-down"/>}
+            </Button>
         </ToolBar>;
 
         let helper = [];
@@ -173,7 +180,7 @@ const xygl = React.createClass({
                                onRowClick={this.handleRowClick}/>
                     </div>
                 </Panel>
-                <Panel title="业务报备详细信息">
+                <Panel title="业务报备详细信息" toolbar={detailToolbar}>
                     <BaseTable data={this.state.entity} model={entityModel} bordered striped/>
                 </Panel>
             </div>
