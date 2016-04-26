@@ -48,7 +48,7 @@ const selectorDQ = React.createClass({
 
     render(){
         const data = getTreeFromList(csList,null);
-        return <Cascader {...this.props} options={data} />
+        return <Cascader {...this.props} options={data} expandTrigger="hover" changeOnSelect />
     }
 });
 

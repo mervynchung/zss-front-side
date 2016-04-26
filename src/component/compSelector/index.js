@@ -17,7 +17,7 @@ var selector = {
     SelectorNJJL: require('./njjl'), //年检结论
     SelectorRYZT: require('./ryzt'), //人员状态
     SelectorRYLB: require('./rylb'), //人员类别
-
+    SelectorYWLX:require('./ywlx'), //业务类型
 };
 
 module.exports = selector;

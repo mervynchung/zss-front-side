@@ -16,12 +16,9 @@ const routes = {
         //模块预加载方式
         //{ path: '/gn1(/)', component: gn1 },
         //模块懒加载方式
-        require('../module/gn1'),
-        require('../module/gn2'),
-        require('../module/gn3'),
         require('../module/jggl/swscx'),
-        require('../module/xtgnsz/zxdmkgl'),
-        require('../module/ywgl/xygl')
+        require('../module/xtgnsz/mkgl'),
+        require('../module/ywgl/ywbbgl')
     ]
 }
 
