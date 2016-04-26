@@ -100,10 +100,10 @@ const xygl = React.createClass({
             Modal.error({
                 title: '数据获取错误',
                 content: (
-                    <div>
-                        <p>无法从服务器返回数据，需检查应用服务工作情况</p>
-                        <p>Status: {err.status}</p>
-                    </div>  )
+                  <div>
+                      <p>无法从服务器返回数据，需检查应用服务工作情况</p>
+                      <p>Status: {err.status}</p>
+                  </div>  )
             });
         })
     },
@@ -152,18 +152,17 @@ const xygl = React.createClass({
         </ToolBar>;
 
         let helper = [];
-        helper.push(<p key="helper-0">本功能主要提供本年度业务备案查询</p>);
-        helper.push(<p key="helper-1">本功能主要提供本年度业务备案查询2</p>);
+        helper.push(<p key="helper-0">显示事务所发起撤销报告信息。管理端有撤销审批的权限。</p>);
 
         return <div className="xygl">
             <div className="wrap">
-                {this.state.helper && <Alert message="业务报备使用帮助"
+                {this.state.helper && <Alert message="使用帮助"
                                              description={helper}
                                              type="info"
                                              closable
                                              onClose={this.handleHelperClose}/>}
 
-                <Panel title="业务备案数据检索" toolbar={toolbar}>
+                <Panel title="预警数据检索结果" toolbar={toolbar}>
                     {this.state.searchToggle && <SearchForm
                       onSubmit={this.handleSearchSubmit}/>}
                     <div className="h-scroll-table">

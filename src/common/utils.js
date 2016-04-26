@@ -55,11 +55,11 @@ module.exports = {
   getObjBindModel(obj,model){
     model.forEach(prop=>{
         if(prop.type == 'date'){
-        }else{
-
+          let date = new Date(obj[prop.id]);
+          obj[prop.id] = date.getFullYear()+'年'+(date.getMonth()+1)+'月'+date.getDate()+'日'
         }
-
-    })
+    });
+    return obj;
   }
 
-}
+};

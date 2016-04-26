@@ -20,8 +20,12 @@ const routes = {
         require('../module/rygl/rycx/zyswscx'),
         require('../module/xtgnsz/mkgl'),
         require('../module/ywgl/ywbbgl'),
+        require('../module/ywgl/ywzlgl/sfjeyjgl'),
+        require('../module/ywgl/ywzlgl/ndbtyjgl'),
+        require('../module/ywgl/ywzlgl/ywwtyjgl'),
+        require('../module/ywgl/ywzlgl/cxbgyjgl')
     ]
-}
+};
 
 ReactDOM.render(<Router history={hashHistory} routes={routes} />, document.getElementById('app'));
 
