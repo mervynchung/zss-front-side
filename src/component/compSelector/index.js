@@ -17,6 +17,9 @@ var selector = {
     SelectorNJJL: require('./njjl'), //年检结论
     SelectorRYZT: require('./ryzt'), //人员状态
     SelectorRYLB: require('./rylb'), //人员类别
+    SelectorXL: require('./xl'), //学历
+    SelectorXB: require('./xb'), //性别
+    SelectorRYSF: require('./rysf'), //人员身份
 
 };
 

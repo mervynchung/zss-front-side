@@ -4,194 +4,267 @@ const columns = [{ //设定列
   dataIndex: 'xh', //设定该列对应后台字段名
   key: 'xh', //列key，必须设置，建议与字段名相同
 }, {
-  title: '机构名称',
-  dataIndex: 'dwmc',
-  key: 'dwmc',
+  title: '人员身份性质',
+  dataIndex: 'rysf',
+  key: 'rysf',
+}, {
+  title: '人员名称',
+  dataIndex: 'xm',
+  key: 'xm',
   sorter: true, //是否可以排序，需后台写排序方法
 }, {
-  title: '注册资金（万元）',
-  dataIndex: 'zczj',
-  key: 'zczj',
+  title: '性别',
+  dataIndex: 'xb',
+  key: 'xb',
+},{
+  title: '身份证号码',
+  dataIndex: 'sfzh',
+  key: 'sfzh',
+},  {
+  title: '生日',
+  dataIndex: 'srrq',
+  key: 'srrq',
   sorter: true,
-}, {
-  title: '法定代表人',
-  dataIndex: 'fddbr',
-  key: 'fddbr',
-  sorter: true,
-}, {
-  title: '证书编号',
-  dataIndex: 'zsbh',
-  key: 'zsbh',
-}, {
-  title: '事务所性质',
-  dataIndex: 'swsxz',
-  key: 'swsxz',
 }, {
   title: '城市',
   dataIndex: 'cs',
   key: 'cs',
 }, {
-  title: '总人数',
-  dataIndex: 'zrs',
-  key: 'zrs',
+  title: '民族',
+  dataIndex: 'mz',
+  key: 'mz',
 }, {
-  title: '执业注税师人数',
-  dataIndex: 'zyrs',
-  key: 'zyrs',
-}, {
-  title: '成立时间',
-  dataIndex: 'clsj',
-  key: 'clsj',
-  sorter: true,
-}, {
-  title: '操作',
-  key: 'operation',
-  render(text) {
-    return (
-      <span>
-        <a href="#">打印</a>
-      </span>
-    );
-  }
-}];
+  title: '学历',
+  dataIndex: 'xl',
+  key: 'xl',
+}, 
+];
 
-const data = {
+const autoform = {
    colGroupNum: 2,
   props: [
     {
- id:'dwmc',
- name: '单位名称：', }, 
+ id:'xm',
+ name: '姓名：', }, 
     {
  id:'cs',
  name: '所在城市：', }, 
     {
- id:'fddbr',
- name:  '法定代表人：', }, 
+ id:'xb',
+ name:  '性别：', }, 
     {
- id:'dzhi',
- name:  '办公地址：', }, 
+ id:'mz',
+ name:  '民族：', }, 
     {
- id:'sjlzxsbwh',
- name:  '省管理中心上报文号：', }, 
+ id:'csny',
+ name:  '出生年月：', }, 
     {
- id:'zcdz',
- name:  '注册地址：', }, 
+ id:'xl',
+ name:  '学历：', }, 
     {
- id:'sglzxsbsj',
- name:  '省管理中心上报时间：', }, 
+ id:'sfzh',
+ name:  '身份证号码：', }, 
     {
- id:'zjpzsj',
- name:  '总局批准时间：', }, 
+ id:'zzmm',
+ name:  '政治面貌：', }, 
+    {
+ id:'txdz',
+ name: '通讯地址：', }, 
+    {
+ id:'yddh',
+ name: '移动电话：', }, 
     {
  id:'yzbm',
- name: '邮政编码：', }, 
+ name:  '邮政编码：', }, 
     {
- id:'zjpzwh',
- name: '总局批准文号：', }, 
+ id:'zw',
+ name: '职务（职称）：', }, 
     {
- id:'czhen',
- name:  '传真：', }, 
+ id:'dhhm',
+ name:  '电话号码：', }, 
     {
- id:'dhua',
- name: '电话：', }, 
+ id:'byyx',
+ name:  '毕业院校：', }, 
     {
- id:'szyx',
- name:  '所长邮箱：', }, 
+ id:'zyzgzsbh',
+ name:  '执业资格证书编号：', }, 
     {
- id:'txyxming',
- name:  '通讯员姓名：', }, 
+ id:'bysj',
+ name:  '毕业时间：', }, 
     {
- id:'xtyyx',
- name:  '通讯员邮箱：', }, 
+ id:'qfrq',
+ name: '执业资格证书签发日期：', }, 
     {
- id:'xtyphone',
- name:  '通讯员手机：', }, 
+ id:'ywkssj',
+ name:  '业务开始时间：', }, 
     {
- id:'zsbh',
- name: '证书编号：', }, 
+ id:'zyzsbh',
+ name: '执业注册（备案）编号：', }, 
     {
- id:'zczj',
- name:  '注册资金：', }, 
+ id:'zyzcrq',
+ name: '执业注册日期：', }, 
     {
- id:'jyfw',
- name: '经营范围：', }, 
-    {
- id:'zrs',
- name: '总人数：', }, 
-    {
- id:'swsxz',
- name: '机构性质：', }, 
-    {
- id:'szphone',
- name: '所长手机：', }, 
-    {
- id:'gsyhmcbh',
- name: '工商预核名称编号：', }, 
-    {
- id:'dzyj',
- name: '电子邮件：', }, 
-    {
- id:'yhdw',
- name: '预核单位：', }, 
-    {
- id:'yhsj',
- name: '预核时间：', }, 
-    {
- id:'gzbh',
- name: '公证编号：', }, 
-    {
- id:'gzdw',
- name: '公证单位：', }, 
-    {
- id:'gzry',
- name: '公证员：', }, 
-    {
- id:'gzsj',
- name: '公证时间：', }, 
-    {
- id:'yzbh',
- name: '验资编号：', }, 
-    {
- id:'yzdw',
- name: '验资单位：', }, 
-    {
- id:'yzry',
- name: '验资人员：', }, 
-    {
- id:'yzsj',
- name: '验资时间：', }, 
-    {
- id:'tthybh',
- name: '团体会员注册号：', }, 
+ id:'grhybh',
+ name: '个人会员注册号：', }, 
     {
  id:'rhsj',
  name: '入会时间：', }, 
     {
- id:'khh',
- name: '开户行：', }, 
+ id:'czr',
+ name: '是否出资人：', }, 
     {
- id:'khhzh',
- name: '开户行帐号：', }, 
+ id:'cze',
+ name: '出资额（万元）：', }, 
     {
- id:'fj',
- name: '附件：', }, 
+ id:'fqr',
+ name: '是否发起人：', }, 
     {
- id:'swdjhm',
- name: '税务登记号码：', }, 
-    {
- id:'jbqk',
- name: '情况简介：',
- groupspan: 2 }, 
-    {
- id:'glzd',
- name: '事务所内部管理制度：', groupspan: 2}, 
-    {
- id:'gddh',
- name: '第一次股东会决议：',groupspan: 2 }, 
-    {
- id:'bgcszczm',
- name: '办公场所的产权或使用权证明：', groupspan: 2}, 
+ id:'rydazt',
+ name: '人事档案状态：',  groupspan: 2}, 
     
+  ]
+}
+const autoformFzy = {
+   colGroupNum: 2,
+  props: [
+    {
+ id:'xm',
+ name: '姓名：', }, 
+    {
+ id:'cs',
+ name: '所在城市：', }, 
+    {
+ id:'xb',
+ name:  '性别：', }, 
+    {
+ id:'mz',
+ name:  '民族：', }, 
+    {
+ id:'csny',
+ name:  '出生年月：', }, 
+    {
+ id:'xl',
+ name:  '学历：', }, 
+    {
+ id:'sfzh',
+ name:  '身份证号码：', }, 
+    {
+ id:'zzmm',
+ name:  '政治面貌：', }, 
+    {
+ id:'txdz',
+ name: '通讯地址：', }, 
+    {
+ id:'yddh',
+ name: '移动电话：', }, 
+    {
+ id:'yzbm',
+ name:  '邮政编码：', }, 
+    {
+ id:'zw',
+ name: '职务（职称）：', }, 
+    {
+ id:'dhhm',
+ name:  '电话号码：', }, 
+    {
+ id:'byyx',
+ name:  '毕业院校：', }, 
+    {
+ id:'zyzgzsbh',
+ name:  '执业资格证书编号：', }, 
+    {
+ id:'bysj',
+ name:  '毕业时间：', }, 
+    {
+ id:'fzyhybh',
+ name: '非执业会员编号：', }, 
+    {
+ id:'rhsj',
+ name:  '入会时间：', }, 
+    {
+ id:'zgzsqfrq',
+ name: '资格证书签发日期：', }, 
+    {
+ id:'dlywkssj',
+ name: '代理业务开始时间：', }, 
+    {
+ id:'fzyzczsbh',
+ name: '非执业注册编号：', }, 
+    {
+ id:'fzyzcrq',
+ name: '非执业注册日期：', }, 
+    {
+ id:'bz',
+ name: '备注：', groupspan: 2}, 
+    
+  ]
+}
+const autoformCy = {
+   colGroupNum: 2,
+  props: [
+    {
+ id:'xm',
+ name: '姓名：', }, 
+    {
+ id:'cs',
+ name: '所在城市：', }, 
+    {
+ id:'xb',
+ name:  '性别：', }, 
+    {
+ id:'mz',
+ name:  '民族：', }, 
+    {
+ id:'csny',
+ name:  '出生年月：', }, 
+    {
+ id:'xl',
+ name:  '学历：', }, 
+    {
+ id:'sfzh',
+ name:  '身份证号码：', }, 
+    {
+ id:'zzmm',
+ name:  '政治面貌：', }, 
+    {
+ id:'txdz',
+ name: '通讯地址：', }, 
+    {
+ id:'yddh',
+ name: '移动电话：', }, 
+    {
+ id:'yzbm',
+ name:  '邮政编码：', }, 
+    {
+ id:'zw',
+ name: '职务（职称）：', }, 
+    {
+ id:'dhhm',
+ name:  '电话号码：', }, 
+    {
+ id:'byyx',
+ name:  '毕业院校：', }, 
+    {
+ id:'xzsngzgw',
+ name:  '工作岗位：', }, 
+    {
+ id:'bysj',
+ name:  '毕业时间：', }, 
+    {
+ id:'lrsj',
+ name: '录入时间：', }, 
+    {
+ id:'swdlywkssj',
+ name:  '代理业务开始时间：', }, 
+    {
+ id:'zgxlzymc',
+ name: '最高学历：', }, 
+    {
+ id:'zgxlfzjgjsj',
+ name: '最高学历颁发时间：', }, 
+    {
+ id:'rydazt',
+ name: '人事档案状态：', }, 
   ]
 }
 
@@ -199,142 +272,110 @@ const pageSetting = { //分页设置
   page: true, //是否分页
   pageSize: 5, //初始化显示记录条数
   showSizeChanger: true, //是否可以改变每页记录条数
-  showTotal: true, //是否显示总条数
+  showTotal(total) {
+          return "共"+total+"条";
+        },//是否显示总条数
   showQuickJumper: true, //是否可以快速跳转至某页
   size: 'small', //分页样式，当为「small」时，是小尺寸分页
   pageSizeOptions: ['5', '10', '20', '30', '40'], //指定每页可以显示多少条，与showSizeChanger配合使用
+  current:1,
 }
 
-const columnsZyry = [{ //设定列
-  title: '姓名', //设定该列名称
-  dataIndex: 'xming', //设定该列对应后台字段名
-  key: 'xming', //列key，必须设置，建议与字段名相同
-}, {
-  title: '是否出资人',
-  dataIndex: 'czr',
-  key: 'czr',
- 
-}, {
-  title: '是否发起人',
-  dataIndex: 'fqr',
-  key: 'fqr',
-
-},{
-  title: '是否所长',
-  dataIndex: 'sz',
-  key: 'sz',
-
-},{
-  title: '打印预览',
-  dataIndex: 'dy',
-  key: 'dy',
-  render(text) {
-    return (
-      <span>
-        <a href="#">打印</a>
-      </span>
-    );
-  }
-
-},]
-const columnsCyry = [{ //设定列
-  title: '姓名', //设定该列名称
-  dataIndex: 'xming', //设定该列对应后台字段名
-  key: 'xming', //列key，必须设置，建议与字段名相同
-}, {
-  title: '学历',
-  dataIndex: 'xl',
-  key: 'xl',
- 
-}, {
-  title: '身份证号',
-  dataIndex: 'sfzh',
-  key: 'sfzh',
-
-},{
-  title: '职务（职称）',
-  dataIndex: 'zc',
-  key: 'zc',
-
-},{
-  title: '打印预览',
-  dataIndex: 'dy',
-  key: 'dy',
-  render(text) {
-    return (
-      <span>
-        <a href="#">打印</a>
-      </span>
-    );
-  }
-
-},]
-const columnsCzrlb = [{ //设定列
-  title: '姓名', //设定该列名称
-  dataIndex: 'xming', //设定该列对应后台字段名
-  key: 'xming', //列key，必须设置，建议与字段名相同
-}, {
-  title: '出资额（万元）',
-  dataIndex: 'cze',
-  key: 'cze',
- 
-}, {
-  title: '事务所名称',
-  dataIndex: 'dwmc',
-  key: 'dwmc',
-
-},{
-  title: '身份证号',
-  dataIndex: 'sfzh',
-  key: 'sfzh',
-
-},{
-  title: '打印预览',
-  dataIndex: 'dy',
-  key: 'dy',
-  render(text) {
-    return (
-      <span>
-        <a href="#">打印</a>
-      </span>
-    );
-  }
-
-},]
-const columnsSwsbgxx = [{ //设定列
+const columnsZyrybgjl = [{ //设定列
   title: '变更名称', //设定该列名称
-  dataIndex: 'MC', //设定该列对应后台字段名
-  key: 'MC', //列key，必须设置，建议与字段名相同
+  dataIndex: 'bgmc', //设定该列对应后台字段名
+  key: 'bgmc', //列key，必须设置，建议与字段名相同
 }, {
   title: '旧值',
-  dataIndex: 'JZHI',
-  key: 'JZHI',
+  dataIndex: 'jzhi',
+  key: 'jzhi',
  
 }, {
   title: '新值',
-  dataIndex: 'XZHI',
-  key: 'XZHI',
+  dataIndex: 'xzhi',
+  key: 'xzhi',
 
 },{
   title: '更新时间',
-  dataIndex: 'xgxsj',
-  key: 'xgxsj',
-  width:'90px',
+  dataIndex: 'gxsj',
+  key: 'gxsj',
 
 },]
-const columnsNjjl = [{ //设定列
+const columnsZyryzsjl = [{ //设定列
+  title: '审批状态', //设定该列名称
+  dataIndex: 'spztmc', //设定该列对应后台字段名
+  key: 'spztmc', //列key，必须设置，建议与字段名相同
+}, {
+  title: '本人意见',
+  dataIndex: 'bryj',
+  key: 'bryj',
+ 
+}, {
+  title: '原单位意见',
+  dataIndex: 'ydwyj',
+  key: 'ydwyj',
+
+},{
+  title: '填报时间',
+  dataIndex: 'tbrq',
+  key: 'tbrq',
+
+},]
+const columnsZyryzjjl = [{ //设定列
+  title: '审批状态', //设定该列名称
+  dataIndex: 'spztmc', //设定该列对应后台字段名
+  key: 'spztmc', //列key，必须设置，建议与字段名相同
+}, {
+  title: '转籍原因',
+  dataIndex: 'zjyj',
+  key: 'zjyj',
+ 
+}, {
+  title: '单位意见',
+  dataIndex: 'dwyj',
+  key: 'dwyj',
+
+},{
+  title: '填报日期',
+  dataIndex: 'tbrq',
+  key: 'tbrq',
+
+},]
+
+const columnsZyryzzjl = [{ //设定列
+  title: '转执申请', //设定该列名称
+  dataIndex: 'zzsq', //设定该列对应后台字段名
+  key: 'zzsq', //列key，必须设置，建议与字段名相同
+}, {
+  title: '单位意见',
+  dataIndex: 'dwyj',
+  key: 'dwyj',
+ 
+}, {
+  title: '填报日期',
+  dataIndex: 'tbrq',
+  key: 'tbrq',
+
+},{
+  title: '审批日期',
+  dataIndex: 'spsj',
+  key: 'spsj',
+  
+
+},]
+const columnsZyrynjjl = [{ //设定列
   title: '年检年度', //设定该列名称
   dataIndex: 'nd', //设定该列对应后台字段名
   key: 'nd', //列key，必须设置，建议与字段名相同
 }, {
-  title: '事务所名称',
+  title: '所属机构',
   dataIndex: 'dwmc',
   key: 'dwmc',
  
 }, {
-  title: '审核意见',
-  dataIndex: 'spyj',
-  key: 'spyj',
+  title: '负责人意见',
+  dataIndex: 'swsfzryj',
+  key: 'swsfzryj',
 
 },{
   title: '年检状态',
@@ -347,31 +388,90 @@ const columnsNjjl = [{ //设定列
   key: 'spsj',
 
 },]
-const nbjgsz = [{ //设定列
-  title: '部门名称', //设定该列名称
-  dataIndex: 'BMMC', //设定该列对应后台字段名
-  key: 'BMMC', //列key，必须设置，建议与字段名相同
+const columnsFzyryzxjl = [{ //设定列
+  title: '注销原因', //设定该列名称
+  dataIndex: 'zxyy', //设定该列对应后台字段名
+  key: 'zxyy', //列key，必须设置，建议与字段名相同
 }, {
-  title: '基本职能',
-  dataIndex: 'JBZN',
-  key: 'JBZN',
+  title: '变动日期',
+  dataIndex: 'bdrq',
+  key: 'bdrq',
  
 }, {
-  title: '人数',
-  dataIndex: 'RS',
-  key: 'RS',
+  title: '录入人',
+  dataIndex: 'lrr',
+  key: 'lrr',
+
+},]
+const columnsFzyryzjjl = [//设定列
+{
+  title: '转籍原因',
+  dataIndex: 'zjyy',
+  key: 'zjyy',
+ 
+}, {
+  title: '转籍日期',
+  dataIndex: 'zjyyrq',
+  key: 'zjyyrq',
+
+},{
+  title: '填报日期',
+  dataIndex: 'tbrq',
+  key: 'tbrq',
+
+},]
+const columnsFzyryzfjl = [{ //设定列
+  title: '非执业申请', //设定该列名称
+  dataIndex: 'fzysq', //设定该列对应后台字段名
+  key: 'fzysq', //列key，必须设置，建议与字段名相同
+}, {
+  title: '现单位意见',
+  dataIndex: 'xdwyj',
+  key: 'xdwyj',
+ 
+}, {
+  title: '变动日期',
+  dataIndex: 'bdrq',
+  key: 'bdrq',
+
+},{
+  title: '原单位',
+  dataIndex: 'ydwmc',
+  key: 'ydwmc',
+  
+
+},]
+
+const ryjl = [{ //设定列
+  title: '起止年月', //设定该列名称
+  dataIndex: 'qzny', //设定该列对应后台字段名
+  key: 'qzny', //列key，必须设置，建议与字段名相同
+}, {
+  title: '何时何地单位工作学习及职称（职务）',
+  dataIndex: 'xxxx',
+  key: 'xxxx',
+ 
+}, {
+  title: '证明人',
+  dataIndex: 'zmr',
+  key: 'zmr',
 
 }]
 
 const model = {
   columns:columns,
-  data:data,
+  autoform:autoform,
+  autoformFzy:autoformFzy,
+  autoformCy:autoformCy,
   pageSetting:pageSetting,
-  columnsZyry:columnsZyry,
-  columnsCyry:columnsCyry,
-  columnsCzrlb:columnsCzrlb,
-  columnsSwsbgxx:columnsSwsbgxx,
-  columnsNjjl:columnsNjjl,
-  nbjgsz:nbjgsz,
+  columnsZyrybgjl:columnsZyrybgjl,
+  columnsZyryzsjl:columnsZyryzsjl,
+  columnsZyryzjjl:columnsZyryzjjl,
+  columnsZyryzzjl:columnsZyryzzjl,
+  columnsZyrynjjl:columnsZyrynjjl,
+  ryjl:ryjl,
+  columnsFzyryzxjl:columnsFzyryzxjl,
+  columnsFzyryzjjl:columnsFzyryzjjl,
+  columnsFzyryzfjl:columnsFzyryzfjl,
 } 
 module.exports = model

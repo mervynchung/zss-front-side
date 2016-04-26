@@ -49,9 +49,6 @@ const xygl = React.createClass({
     },
 
     handleSubmit(value){
-        console.log('submitvalue' , value)
-        console.log('JSONstring' , JSON.stringify(value) )
-        console.log('encoder',encodeURIComponent(JSON.stringify(value)) )
         const pager = this.state.pagination;
         const params = {
             page:1,
