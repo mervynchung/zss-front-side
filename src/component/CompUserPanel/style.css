@@ -13,3 +13,7 @@
     padding:0 16px;
 
 }
+.user-panel .toggle-icon{
+    font-size: 12px;
+    -webkit-transform: scale(0.66666667) rotate(0deg);
+}
