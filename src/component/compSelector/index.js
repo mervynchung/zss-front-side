@@ -20,7 +20,7 @@ var selector = {
     SelectorXL: require('./xl'), //学历
     SelectorXB: require('./xb'), //性别
     SelectorRYSF: require('./rysf'), //人员身份
-
+    SelectorYWLX:require('./ywlx'), //业务类型
 };
 
 module.exports = selector;
