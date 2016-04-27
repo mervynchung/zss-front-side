@@ -88,8 +88,7 @@ const rycx = React.createClass({
          req({ url: this.state.urls.herf_spzt,method: 'get',type: 'json',
         success: (result) => {
             this.setState({ spzt: result.data})//状态是个字符串
-        },error: (err) =>{alert('api错误');}
-      });
+        },error: (err) =>{alert('api错误');}});
       }else if (tabkey==7) {
         this.gettabdata(this.state.urls.herf_njjl);
       };
