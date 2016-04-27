@@ -2,13 +2,18 @@ import React from 'react'
 import {Row,Col,Button,Icon} from 'antd'
 
 const panel = React.createClass({
+    getDefaultProps(){
+      return ({
+          funcClose:false
+      })
+    },
 
     render(){
         let {title,toolbar} = this.props;
         let pt = <div className="panel-title">
             <Row>
                 <Col span="8"><h3>{title}</h3></Col>
-                <Col span="16">{toolbar}</Col>
+                <Col  offspan="16">{toolbar}</Col>
             </Row>
         </div>
 

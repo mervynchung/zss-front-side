@@ -1,54 +1,22 @@
 /**
  * Created by ming on 2016/4/11.
  */
+
+  import React from 'react'
 const model = {
-    columns: [{
-        title: '序号',
-        dataIndex: 'key',
-        key: 'key'
-    }, {
-        title: '年度',
-        dataIndex: 'nd',
-        key: 'nd',
-        width: '60px'
-    }, {
-        title: '事务所名称',
-        dataIndex: 'swsmc',
-        key: 'swsmc',
-    }, {
-        title: '业务发生地',
-        key: 'cs',
-        dataIndex: 'cs',
-    }, {
-        title: '业务类型',
-        key: 'ywlx',
-        dataIndex: 'ywlx',
-        width: '100px',
-    }, {
-        title: '报告文号',
-        key: 'bgwh',
-        dataIndex: 'bgwh',
-    }, {
-        title: '协议金额',
-        key: 'xyje',
-        dataIndex: 'xyje',
-    }, {
-        title: '实际收取金额',
-        key: 'sjsqje',
-        dataIndex: 'sjsqje',
-    }, {
-        title: '报备号码',
-        key: 'bbhm',
-        dataIndex: 'bbhm',
-    }, {
-        title: '报备日期',
-        key: 'bbrq',
-        dataIndex: 'bbrq',
-    }, {
-        title: '验证码',
-        key: 'yzm',
-        dataIndex: 'yzm',
-    }],
+    columns: [
+        { title: '序号', dataIndex: 'key', key: 'key' },
+        { title: '年度', dataIndex: 'nd',  key: 'nd', width: '60px' },
+        { title: '事务所名称', dataIndex: 'swsmc', key: 'swsmc' },
+        { title: '业务发生地', key: 'cs', dataIndex: 'cs' },
+        { title: '业务类型', key: 'ywlx',dataIndex: 'ywlx' },
+        { title: '报告文号', key: 'bgwh',dataIndex: 'bgwh' },
+        { title: '实际收取金额', key: 'sjsqje', dataIndex: 'sjsqje' },
+        { title: '报备号码', key: 'bbhm',  dataIndex: 'bbhm' },
+        { title: '报备日期', key: 'bbrq',  dataIndex: 'bbrq' },
+        { title: '验证码',  key: 'yzm',  dataIndex: 'yzm' },
+        { title: '操作', dataIndex: '', key: 'x', render: () => <a href="#">查看</a> }
+    ],
     entityModel:{
         colGroupNum:2,
         props:[{

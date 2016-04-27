@@ -347,6 +347,21 @@ const columnsNjjl = [{ //设定列
   key: 'spsj',
 
 },]
+const nbjgsz = [{ //设定列
+  title: '部门名称', //设定该列名称
+  dataIndex: 'BMMC', //设定该列对应后台字段名
+  key: 'BMMC', //列key，必须设置，建议与字段名相同
+}, {
+  title: '基本职能',
+  dataIndex: 'JBZN',
+  key: 'JBZN',
+ 
+}, {
+  title: '人数',
+  dataIndex: 'RS',
+  key: 'RS',
+
+}]
 
 const model = {
   columns:columns,
@@ -357,5 +372,6 @@ const model = {
   columnsCzrlb:columnsCzrlb,
   columnsSwsbgxx:columnsSwsbgxx,
   columnsNjjl:columnsNjjl,
+  nbjgsz:nbjgsz,
 } 
 module.exports = model

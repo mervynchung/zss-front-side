@@ -52,8 +52,14 @@ module.exports = {
     return new Array(length - str.length + 1).join("0") + str;
   },
 
-  getTableWidth(){
-
+  getObjBindModel(obj,model){
+    model.forEach(prop=>{
+        if(prop.type == 'date'){
+          let date = new Date(obj[prop.id]);
+          obj[prop.id] = date.getFullYear()+'年'+(date.getMonth()+1)+'月'+date.getDate()+'日'
+        }
+    });
+    return obj;
   }
 
-}
+};

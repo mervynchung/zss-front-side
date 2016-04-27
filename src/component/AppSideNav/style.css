@@ -44,19 +44,19 @@
     color:#E6E6E6;
     display: block;
 }
-/*子级菜单背景色*/
-.app-sidenav .ant-menu-submenu-open{
-    background-color: #798594;
-}
 /*打开的子菜单标题样式*/
-.app-sidenav .ant-menu-submenu-open .ant-menu-submenu-title{
+.app-sidenav .ant-menu-submenu-open>.ant-menu-submenu-title{
     background-color:#606975
 }
 /*hover样式*/
 .app-sidenav .ant-menu-item-active,
+.app-sidenav .ant-menu-submenu-active,
 .app-sidenav .ant-menu-submenu-title:hover {
     -webkit-transform: translateZ(0);
     transform: translateZ(0);
     background-color: #67707d;
-
+}
+/*子级菜单背景色*/
+.app-sidenav .ant-menu-submenu-open{
+    background-color: #798594;
 }
