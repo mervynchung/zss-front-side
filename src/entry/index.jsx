@@ -17,7 +17,7 @@ const routes = {
         //{ path: '/gn1(/)', component: gn1 },
         //模块懒加载方式
         require('../module/jggl/swscx'),
-        require('../module/rygl/rycx/zyswscx'),
+        require('../module/rygl/rycx'),
         require('../module/xtgnsz/mkgl'),
         require('../module/ywgl/ywbbgl'),
     ]

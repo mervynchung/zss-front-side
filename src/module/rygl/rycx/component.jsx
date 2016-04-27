@@ -63,7 +63,6 @@ const rycx = React.createClass({
   },
 
     fetch_kzxx() {//详细信息（tab）数据处理方法，不能使用switch，否则会发生未知错误
-      this.setState({kzloading:true,})
       let tabkey =this.state.tabkey //获取当前tab标签的key
       if (tabkey==1) {
         req({
@@ -78,29 +77,13 @@ const rycx = React.createClass({
         },error:  (err) =>{alert('api错误');}
       });
       }else if (tabkey==2) {
-        req({url: this.state.urls.herf_bgjl,method: 'get',type: 'json',
-          success: (result) => {
-            this.setState({datalist: result.data,kzloading:false, })
-          },error: (err) =>{alert('api错误');}
-        });
+        this.gettabdata(this.state.urls.herf_bgjl);
       }else if (tabkey==3) {
-         req({url: this.state.urls.herf_zsjl,method: 'get',type: 'json',
-          success: (result) => {
-            this.setState({datalist: result.data,kzloading:false, })
-          },error: (err) =>{alert('api错误');}
-        });
+        this.gettabdata(this.state.urls.herf_zsjl);
       }else if (tabkey==4) {
-        req({url: this.state.urls.herf_zjjl,method: 'get',type: 'json',
-          success: (result) => {
-            this.setState({datalist: result.data,kzloading:false, })
-          },error: (err) =>{alert('api错误');}
-        });
+        this.gettabdata(this.state.urls.herf_zjjl);
       }else if (tabkey==5) {
-        req({url: this.state.urls.herf_zzjl,method: 'get',type: 'json',
-          success: (result) => {
-            this.setState({datalist: result.data,kzloading:false, })
-          },error: (err) =>{alert('api错误');}
-        });
+        this.gettabdata(this.state.urls.herf_zzjl);
       }else if (tabkey==6) {
          req({ url: this.state.urls.herf_spzt,method: 'get',type: 'json',
         success: (result) => {
@@ -108,13 +91,17 @@ const rycx = React.createClass({
         },error: (err) =>{alert('api错误');}
       });
       }else if (tabkey==7) {
-        req({url: this.state.urls.herf_njjl,method: 'get',type: 'json',
-          success: (result) => {
-            this.setState({datalist: result.data,kzloading:false, })
-          },error: (err) =>{alert('api错误');}
-        });
+        this.gettabdata(this.state.urls.herf_njjl);
       };
     },
+    gettabdata(urls){
+      req({url: urls,method: 'get',type: 'json',
+          success: (result) => {
+            this.setState({datalist: result.data})
+          },error: (err) =>{alert('api错误');}
+        });
+    },
+
     handleTableChange(pagination, filters, sorter) {//onChange方法，分页、排序、筛选变化时触发，必须三个参数才能准确获取
           const tablewhere = this.state.where;
           tablewhere.sfield = sorter.field;
@@ -233,23 +220,23 @@ const rycx = React.createClass({
       <Panel >
           {this.state.zy && <Tabs type="line" onChange={this.callback} >
                 <TabPane tab="详细信息" key="1"><CompBaseTable data = {this.state.dataxx}  model ={Model.autoform} bordered striped /><p className="nbjgsz">人员简历：</p><Table columns={Model.ryjl} dataSource={this.state.datalist} bordered  size="small" /></TabPane>
-                <TabPane tab="变更记录" key="2"><Table columns={Model.columnsZyrybgjl} dataSource={this.state.datalist} loading={this.state.kzloading}  bordered  size="small" /></TabPane>
-                <TabPane tab="转所记录" key="3"><Table columns={Model.columnsZyryzsjl} dataSource={this.state.datalist} loading={this.state.kzloading}  bordered  size="small" /></TabPane>
-                <TabPane tab="转籍记录" key="4"><Table columns={Model.columnsZyryzjjl} dataSource={this.state.datalist} loading={this.state.kzloading}  bordered  size="small" /></TabPane>
-                <TabPane tab="转执记录" key="5"><Table columns={Model.columnsZyryzzjl} dataSource={this.state.datalist} loading={this.state.kzloading}  bordered  size="small" /></TabPane>
+                <TabPane tab="变更记录" key="2"><Table columns={Model.columnsZyrybgjl} dataSource={this.state.datalist} bordered  size="small" /></TabPane>
+                <TabPane tab="转所记录" key="3"><Table columns={Model.columnsZyryzsjl} dataSource={this.state.datalist} bordered  size="small" /></TabPane>
+                <TabPane tab="转籍记录" key="4"><Table columns={Model.columnsZyryzjjl} dataSource={this.state.datalist} bordered  size="small" /></TabPane>
+                <TabPane tab="转执记录" key="5"><Table columns={Model.columnsZyryzzjl} dataSource={this.state.datalist} bordered  size="small" /></TabPane>
                 <TabPane tab="审批状态" key="6"><Row><Col  offspan="8"><p>审批状态：{this.state.spzt} </p></Col></Row></TabPane>
-                <TabPane tab="年检记录" key="7"><Table columns={Model.columnsZyrynjjl} dataSource={this.state.datalist} loading={this.state.kzloading}  bordered  size="small" /></TabPane>
+                <TabPane tab="年检记录" key="7"><Table columns={Model.columnsZyrynjjl} dataSource={this.state.datalist} bordered  size="small" /></TabPane>
           </Tabs>}
           {this.state.fz && <Tabs type="line" onChange={this.callback}>
                 <TabPane tab="详细信息" key="1"><CompBaseTable data = {this.state.dataxx}  model ={Model.autoformFzy} bordered striped /><p className="nbjgsz">人员简历：</p><Table columns={Model.ryjl} dataSource={this.state.datalist} bordered  size="small" /></TabPane>
-                <TabPane tab="变更记录" key="2"><Table columns={Model.columnsZyrybgjl} dataSource={this.state.datalist} loading={this.state.kzloading}  bordered  size="small" /></TabPane>
-                <TabPane tab="注销记录" key="3"><Table columns={Model.columnsFzyryzxjl} dataSource={this.state.datalist} loading={this.state.kzloading}  bordered  size="small" /></TabPane>
-                <TabPane tab="转籍记录" key="4"><Table columns={Model.columnsFzyryzjjl} dataSource={this.state.datalist} loading={this.state.kzloading}  bordered  size="small" /></TabPane>
-                <TabPane tab="转非记录" key="5"><Table columns={Model.columnsFzyryzfjl} dataSource={this.state.datalist} loading={this.state.kzloading}  bordered  size="small" /></TabPane>
+                <TabPane tab="变更记录" key="2"><Table columns={Model.columnsZyrybgjl} dataSource={this.state.datalist} bordered  size="small" /></TabPane>
+                <TabPane tab="注销记录" key="3"><Table columns={Model.columnsFzyryzxjl} dataSource={this.state.datalist} bordered  size="small" /></TabPane>
+                <TabPane tab="转籍记录" key="4"><Table columns={Model.columnsFzyryzjjl} dataSource={this.state.datalist} bordered  size="small" /></TabPane>
+                <TabPane tab="转非记录" key="5"><Table columns={Model.columnsFzyryzfjl} dataSource={this.state.datalist} bordered  size="small" /></TabPane>
           </Tabs>}
           {this.state.cy && <Tabs type="line" onChange={this.callback}>
                 <TabPane tab="详细信息" key="1"><CompBaseTable data = {this.state.dataxx}  model ={Model.autoformCy} bordered striped /><p className="nbjgsz">人员简历：</p><Table columns={Model.ryjl} dataSource={this.state.datalist} bordered  size="small" /></TabPane>
-                <TabPane tab="变更记录" key="2"><Table columns={Model.columnsZyrybgjl} dataSource={this.state.datalist} loading={this.state.kzloading}  bordered  size="small" /></TabPane>
+                <TabPane tab="变更记录" key="2"><Table columns={Model.columnsZyrybgjl} dataSource={this.state.datalist} bordered  size="small" /></TabPane>
           </Tabs>}
                 </Panel>
           </div>  
