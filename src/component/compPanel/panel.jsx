@@ -2,6 +2,11 @@ import React from 'react'
 import {Row,Col,Button,Icon} from 'antd'
 
 const panel = React.createClass({
+    getDefaultProps(){
+      return ({
+          funcClose:false
+      })
+    },
 
     render(){
         let {title,toolbar} = this.props;
