@@ -1,6 +1,7 @@
 import { Table} from 'antd';
 import React from 'react';
 import C_searchBar from './c_searchBar';
+import ReactDOM from 'react-dom';
 import CompPageHead from '../../component/CompPageHead'
 const columns = [{
     title: '姓名',
@@ -11,6 +12,8 @@ const columns = [{
     }, {
         text: '姓胡的',
         value: '胡',
+
+        
     }, {
         text: '子菜单',
         value: '子菜单',
