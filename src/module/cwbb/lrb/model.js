@@ -2,146 +2,106 @@
  * Created by ming on 2016/4/11.
  */
 const model = {
-    columns: [{
-        title: '序号',
-        dataIndex: 'key',
-        key: 'key'
-    }, {
-        title: '年度',
-        dataIndex: 'nd',
-        key: 'nd',
-        width: '60px'
-    }, {
-        title: '事务所名称',
-        dataIndex: 'swsmc',
-        key: 'swsmc',
-    }, {
-        title: '业务发生地',
-        key: 'cs',
-        dataIndex: 'cs',
-    }, {
-        title: '业务类型',
-        key: 'ywlx',
-        dataIndex: 'ywlx',
-        width: '100px',
-    }, {
-        title: '报告文号',
-        key: 'bgwh',
-        dataIndex: 'bgwh',
-    }, {
-        title: '协议金额',
-        key: 'xyje',
-        dataIndex: 'xyje',
-    }, {
-        title: '实际收取金额',
-        key: 'sjsqje',
-        dataIndex: 'sjsqje',
-    }, {
-        title: '报备号码',
-        key: 'bbhm',
-        dataIndex: 'bbhm',
-    }, {
-        title: '报备日期',
-        key: 'bbrq',
-        dataIndex: 'bbrq',
-    }, {
-        title: '验证码',
-        key: 'yzm',
-        dataIndex: 'yzm',
-    }],
-    entityModel:{
-        colGroupNum:2,
-        props:[{
-            id: 'XYWH',
-            name: '协议文号'
-        }, {
-            id: 'XYH',
-            name: '协议报备号码'
-        }, {
-            id: 'WTDWMC',
-            name: '委托单位名称'
-        }, {
-            id: 'DJHM_GS',
-            name: '委托企业国税税务登记证号'
-        }, {
-            id: 'DJHM_DS',
-            name: '委托企业地税税务登记证号'
-        }, {
-            id: 'JFLXR',
-            name: '甲方联系人--委托企业联系人'
-        }, {
-            id: 'JFTELEPHONE',
-            name: '甲方电话号码'
-        }, {
-            id: 'JFADDRESS',
-            name: '甲方地址--委托企业联系地址'
-        }, {
-            id: 'SWSMC',
-            name: '事务所名称'
-        }, {
-            id: 'XYJE',
-            name: '协议收费金额'
-        }, {
-            id: 'XYLX_DM',
-            name: '协议类型ID'
-        }, {
-            id: 'SHSQ1',
-            name: '所属时期开始',
-            type:'date'
-        }, {
-            id: 'SHSQ2',
-            name: '所属时期结束',
-            type:'date'
-        }, {
-            id: 'SJSQJE',
-            name: '实际收取金额'
-        }, {
-            id: 'FPHM',
-            name: '发票号码'
-        }, {
-            id: 'MEMO',
-            name: '协议备注'
-        }, {
-            id: 'SHIZS',
-            name: '主管税务机关'
-        }, {
-            id: 'HY_ID',
-            name: '行业'
-        }, {
-            id: 'BBRQ',
-            name: '报备日期',
-            type:'date'
-        },{
-            id: 'NSRXZ',
-            name: '纳税人性质'
-        },{
-            id: 'BGWH',
-            name: '报告文号'
-        },{
-            id: 'BBHM',
-            name: '报备号码'
-        },{
-            id: 'YZM',
-            name: '验证码'
-        },{
-            id: 'YJFH',
-            name: '一级复核'
-        },{
-            id: 'RJFH',
-            name: '二级复核'
-        },{
-            id: 'SJFH',
-            name: '三级复核'
-        },{
-            id: 'QZSWS',
-            name: '签字注册税务师'
-        },{
-            id: 'SFJE',
-            name: '企业营业收入'
-        },{
-            id: 'JTXM',
-            name: '具体项目名称'
-        }]
+    columns: [
+        {title: '序号', dataIndex: 'key', key: 'key'},
+        {title: '事务所名称', dataIndex: 'dwmc', key: 'dwmc'},
+        {title: '年度', dataIndex: 'nd', key: 'nd'},
+        {title: '统计时间段', key: 'tjsjd', dataIndex: 'tjsjd'},
+        {title: '城市', key: 'cs', dataIndex: 'cs'},
+        {title: '主营业务收入', key: 'zgywsr', dataIndex: 'zgywsr'},
+        {title: '主营业务利润', key: 'zgwylr', dataIndex: 'zgwylr'}
+    ],
+    entityModel: {
+        colGroupNum: 2,
+        props: [
+            {id: 'JG_ID', name: '机构ID'},
+            {id: 'USER_ID', name: '编号'},
+            {id: 'KSSJ', name: '开始时间'},
+            {id: 'JSSJ', name: '结束时间'},
+            {id: 'TJRQ', name: '提交日期'},
+            {id: 'ZTBJ', name: '状态(0:保存,1:提交)'},
+            {id: 'ZGYWSR', name: '主管业务收入'},
+            {id: 'ZGYWCB', name: '主管业务成本'},
+            {id: 'ZGYWSJ', name: '主管业务税金及附加'},
+            {id: 'ZGWYLR', name: '主管业务利润'},
+            {id: 'QTYWLR', name: '其他业务利润'},
+            {id: 'YYFY', name: '营业费用'},
+            {id: 'GLFY', name: '管理费用'},
+            {id: 'CWFY', name: '财务费用'},
+            {id: 'YYLR', name: '营业利润'},
+            {id: 'TZSY', name: '投资收益'},
+            {id: 'BTSR', name: '补贴收入'},
+            {id: 'YYWSR', name: '营业外收入'},
+            {id: 'YYWZC', name: '营业外支出'},
+            {id: 'LRZE', name: '利润总额'},
+            {id: 'SDS', name: '所得税'},
+            {id: 'JLR', name: '静利润'},
+            {id: 'CSCZSY', name: '出售、处置部门或被投资单位所得收益'},
+            {id: 'ZHSS', name: '自然灾害发生的损失'},
+            {id: 'ZCBGLR', name: '会计政策变更增加（或减少）利润总额'},
+            {id: 'GJBGLR', name: '会计估计变更增加（或减少）利润总额'},
+            {id: 'ZWCZSS', name: '债务重组损失'},
+            {id: 'QT', name: '其它'},
+            {id: 'DLSWDJHS', name: '代理税务登记户数'},
+            {id: 'DLSWDJSR', name: '代理税务登记收入'},
+            {id: 'DLNSSBSR', name: '代理纳税申报收入'},
+            {id: 'DLNSSBHS', name: '代理纳税申报户数'},
+            {id: 'DLNSSCSR', name: '代理纳税审查收入'},
+            {id: 'DLNSSCHS', name: '代理纳税审查户数'},
+            {id: 'DLJZJZSR', name: '代理建帐建制收入'},
+            {id: 'DLJZJZHS', name: '代理建帐建制户数'},
+            {id: 'SPGWZXSR', name: '受聘顾问咨询收入'},
+            {id: 'SPGWZXHS', name: '受聘顾问咨询户数'},
+            {id: 'DLSQSWFYSR', name: '代理申请税务复议收入'},
+            {id: 'DLSQSWFYHS', name: '代理申请税务复议户数'},
+            {id: 'PXSR', name: '培训收入'},
+            {id: 'PXHS', name: '培训户数'},
+            {id: 'ND', name: '年度'},
+            {id: 'TIMEVALUE', name: '时间0-上半年1全年'},
+            {id: 'QTZYYWSR', name: '其它主营业务收入'},
+            {id: 'SZ', name: '所长'},
+            {id: 'ZGKJ', name: '主管会计'},
+            {id: 'ZBR', name: '制表人'},
+            {id: 'QTZYYWSRHS', name: '其它主营业务收入户数'},
+            {id: 'ZGYWSR1', name: '主管业务收入1'},
+            {id: 'ZGYWCB1', name: '主管业务成本1'},
+            {id: 'ZGYWSJ1', name: '主管业务税金及附加1'},
+            {id: 'ZGWYLR1', name: '主管业务利润1'},
+            {id: 'QTYWLR1', name: '其他业务利润1'},
+            {id: 'YYFY1', name: '营业费用1'},
+            {id: 'GLFY1', name: '管理费用1'},
+            {id: 'CWFY1', name: '财务费用1'},
+            {id: 'YYLR1', name: '营业利润1'},
+            {id: 'TZSY1', name: '投资收益1'},
+            {id: 'BTSR1', name: '补贴收入1'},
+            {id: 'YYWSR1', name: '营业外收入1'},
+            {id: 'YYWZC1', name: '营业外支出1'},
+            {id: 'LRZE1', name: '利润总额1'},
+            {id: 'SDS1', name: '所得税1'},
+            {id: 'JLR1', name: '静利润1'},
+            {id: 'CSCZSY1', name: '出售、处置部门或被投资单位所得收益1'},
+            {id: 'ZHSS1', name: '自然灾害发生的损失1'},
+            {id: 'ZCBGLR1', name: '会计政策变更增加（或减少）利润总额1'},
+            {id: 'GJBGLR1', name: '会计估计变更增加（或减少）利润总额1'},
+            {id: 'ZWCZSS1', name: '债务重组损失1'},
+            {id: 'QT1', name: '其它1'},
+            {id: 'DLSWDJHS1', name: '代理税务登记户数1'},
+            {id: 'DLSWDJSR1', name: '代理税务登记收入1'},
+            {id: 'DLNSSBSR1', name: '代理纳税申报收入1'},
+            {id: 'DLNSSBHS1', name: '代理纳税申报户数1'},
+            {id: 'DLNSSCSR1', name: '代理纳税审查收入1'},
+            {id: 'DLNSSCHS1', name: '代理纳税审查户数1'},
+            {id: 'DLJZJZSR1', name: '代理建帐建制收入1'},
+            {id: 'DLJZJZHS1', name: '代理建帐建制户数1'},
+            {id: 'SPGWZXSR1', name: '受聘顾问咨询收入1'},
+            {id: 'SPGWZXHS1', name: '受聘顾问咨询户数1'},
+            {id: 'DLSQSWFYSR1', name: '代理申请税务复议收入1'},
+            {id: 'DLSQSWFYHS1', name: '代理申请税务复议户数1'},
+            {id: 'PXSR1', name: '培训收入1'},
+            {id: 'PXHS1', name: '培训户数1'},
+            {id: 'QTZYYWSR1', name: ''},
+            {id: 'QTZYYWSRHS1', name: ''}
+        ]
     }
 };
 

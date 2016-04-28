@@ -11,9 +11,7 @@ const toolBar = React.createClass({
             return <li>{child}</li>;
         });
         if (li) {
-            ul = <ul className="clearfix">
-                {li}
-            </ul>
+            ul = <ul className="clearfix">{li}</ul>
         }
         return <div className="panel-toolbar">
             {ul}
