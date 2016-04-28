@@ -18,29 +18,29 @@ const routes = {
 
         /* 模块懒加载方式 */
         //机构管理
-        //require('../module/jggl/swscx'),
-        //
-        ////人员管理
-        //require('../module/rygl/rycx/zyswscx'),
-        //
-        ////系统功能设置
-        //require('../module/xtgnsz/mkgl'),
-        //
-        ////业务管理
-        //require('../module/ywgl/ywbbgl'),
-        //require('../module/ywgl/ywzlgl/sfjeyjgl'),
-        //require('../module/ywgl/ywzlgl/ndbtyjgl'),
-        //require('../module/ywgl/ywzlgl/ywwtyjgl'),
-        //require('../module/ywgl/ywzlgl/cxbgyjgl'),
-        //
-        ////会员会费管理
-        //require('../module/hyhfgl/hfjlqk'),
-        //require('../module/hyhfgl/grhyhfgl'),
-        //require('../module/hyhfgl/fzyhyhfgl'),
-        //
-        ////财务报表
-        //require('../module/cwbb/lrfpb'),
-        //require('../module/cwbb/zcmxb'),
+        require('../module/jggl/swscx'),
+
+        //人员管理
+        require('../module/rygl/rycx/zyswscx'),
+
+        //系统功能设置
+        require('../module/xtgnsz/mkgl'),
+
+        //业务管理
+        require('../module/ywgl/ywbbgl'),
+        require('../module/ywgl/ywzlgl/sfjeyjgl'),
+        require('../module/ywgl/ywzlgl/ndbtyjgl'),
+        require('../module/ywgl/ywzlgl/ywwtyjgl'),
+        require('../module/ywgl/ywzlgl/cxbgyjgl'),
+
+        //会员会费管理
+        require('../module/hyhfgl/hfjlqk'),
+        require('../module/hyhfgl/grhyhfgl'),
+        require('../module/hyhfgl/fzyhyhfgl'),
+
+        //财务报表
+        require('../module/cwbb/lrfpb'),
+        require('../module/cwbb/zcmxb'),
         require('../module/cwbb/lrb')
     ]
 };
