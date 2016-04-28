@@ -6,7 +6,17 @@ const asideMenuInit = {
   }, {
     id: '2',
     name: '人员管理',
-    href: '/gn2'
+
+    children: [{
+      id: '8',
+      name: '人员查询',
+      
+      children: [{
+      id: '9',
+      name: '执业税务师查询',
+      href:'/rygl/rycx/zyswscx'
+    }]
+    }]
   }, {
     id: '6',
     name: '模块设置',

@@ -1,48 +1,13 @@
-.base-table {
-    font-size: 12px;
-    color: #666;
-}
-
-.base-table table {
-    width: 100%;
-    max-width: 100%;
-    border-collapse: separate;
-    text-align: left;
-    border-radius: 6px;
-    overflow: hidden;
-}
-
-.base-table td {
-    border-bottom: 1px solid #e9e9e9;
-}
-
-.base-table th,
-.base-table td {
-    padding: 8px 16px;
-    word-break: break-all;
-}
-
-.base-table table col[class*="col-"] {
-    position: static;
-    /*Prevent border hiding in Firefox and IE9-11 (see https://github.com/twbs/bootstrap/issues/11623)*/
-    float: none;
-    display: table-column;
-}
-
-.base-table.base-table-bordered tbody tr:last-child th,
-.base-table.base-table-bordered tbody tr:last-child td {
-    border-bottom: 0;
-}
-
-.base-table.base-table-bordered th,
-.base-table.base-table-bordered td {
-    border-right: 1px solid #e9e9e9;
+.nbjgsz {font-weight: 600;
+    padding: 12px;
+    border: 1px solid #e9e9e9;
+    background-color: #f9f9f9;
 }
 
 .jgcx .ant-table tr:hover {
     cursor: pointer;
 }
 
-.ant-form-item {
+.jgcx .ant-form-item {
     padding: 6px
 }
