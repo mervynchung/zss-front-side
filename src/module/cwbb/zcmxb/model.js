@@ -53,5 +53,36 @@ const model = [{
   }
 }
 ];
+const entityModel = {
+   colGroupNum: 2,
+  props: [
+    {
+ id:'DWMC',
+ name: '编制地区（单位）：'}, 
+    {
+ id:'KSSJ',
+ name: '统计时间' }, 
+    {
+ id:'JSSJ',
+ name:  '结束时间' }, 
+    {
+ id:'ZYYWCB1',
+ name:  '主营业务成本（本期）' }, 
+  {
+ id:'ZYYWCB',
+ name:  '主营业务成本（本年）' }, 
+  {
+ id:'ZYYWSJFJ1',
+ name:  '主营业务税金及附加（本期）' }, 
+  {
+ id:'ZYYWSJFJ',
+ name:  '主营业务税金及附加（本年）' }, 
+   ]
+}
 
-module.exports = model;
+const outModel ={
+    model : model,
+    entityModel: entityModel
+}
+
+module.exports = outModel;

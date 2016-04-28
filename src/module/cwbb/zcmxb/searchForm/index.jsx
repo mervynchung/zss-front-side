@@ -39,11 +39,11 @@ let searchForm = React.createClass({
                             <Input placeholder="事务所名称" {...getFieldProps('DWMC')}/>
                         </FormItem>
                     </Col>
-                     <Col span="8">
+                      <Col span="8">
                         <FormItem
                           {...formItemLayout}
-                          label="上报统计时间：">
-                            <RangePicker { ...getFieldProps('TJSJ')}/>
+                          label="上报统计年度">
+                            <Input placeholder="年度" {...getFieldProps('TJSJ')}/>
                         </FormItem>
                     </Col>
                     

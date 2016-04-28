@@ -2,10 +2,13 @@ import React from 'react'
 import {Table,Modal,Row,Col,Button,Icon,Alert} from 'antd'
 import CompPageHead from 'component/CompPageHead'
 import Panel from 'component/compPanel'
-import model from './model'
+import {model,entityModel} from './model'
 import req from 'reqwest';
 import SearchForm from './searchForm'
+import Zcmxbxx from './Zcmxbxx'
 import config from 'common/configuration'
+
+
 
 const API_URL = config.HOST + config.URI_API_PROJECT + '/zcmx';
 const ToolBar = Panel.ToolBar;
@@ -16,6 +19,8 @@ const zcmx = React.createClass({
     //初始化state
     getInitialState(){
         return {
+            urls: '',
+            entity: {},
             data: [],
             pagination: {
                 current: 1,
@@ -83,12 +88,7 @@ const zcmx = React.createClass({
         this.setState({searchToggle: false})
     },
 
-    //点击某行
-    handleRowClick(record,value){
-        console.log('record',record)
-        console.log('value',value)
-
-    },
+   
 
     //通过API获取数据
     fetchData(params = {page: 1, pageSize: this.state.pagination.pageSize}){
@@ -99,9 +99,16 @@ const zcmx = React.createClass({
             method: 'get',
             data: params
         }).then(resp=> {
+            if(resp.data.length!=0){
             const p = this.state.pagination;
             p.total = resp.total;
-            this.setState({data: resp.data, pagination: p, loading: false})
+            this.setState({data: resp.data, pagination: p, loading: false,urls: resp.data[0].id,});
+         this.fetch_zcmxbxx();
+            }else{
+                  const pagination = this.state.pagination;
+                   pagination.total = 0;
+                    this.setState({data: [],entity: {},loading:false});
+            }
         }).fail(err=> {
             this.setState({loading: false});
             Modal.error({
@@ -114,6 +121,36 @@ const zcmx = React.createClass({
             });
         })
     },
+     //点击某行
+  
+     fetch_zcmxbxx(){
+        req({
+            url:API_URL+'/'+this.state.urls,
+            type:'json',
+            method:'get'
+        }).then(resp=>{
+         
+            console.log('xx',resp)
+            this.setState({entity:resp.data});
+        }).fail(err=>{
+            Modal.error({
+                title: '数据获取错误',
+                content: (
+                    <div>
+                        <p>无法从服务器返回数据，需检查应用服务工作情况</p>
+                        <p>Status: {err.status}</p>
+                    </div>  )
+            });
+        })
+    },
+    
+    onSelect(record) {
+
+        this.state.urls = record.id;
+        console.log(record);
+        this.fetch_zcmxbxx();
+    },
+    
 
     componentDidMount(){
         this.fetchData();
@@ -155,8 +192,11 @@ const zcmx = React.createClass({
                                pagination={this.state.pagination}
                                loading={this.state.loading}
                                onChange={this.handleChange}
-                               onRowClick={this.handleRowClick}/>
+                               onRowClick={this.onSelect}/>
                     </div>
+                </Panel>
+                <Panel title="业务报备详细信息">
+                <Zcmxbxx data={this.state.entity} />  
                 </Panel>
             </div>
         </div>
