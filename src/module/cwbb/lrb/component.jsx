@@ -7,7 +7,8 @@ import req from 'reqwest';
 import SearchForm from './searchForm'
 import config from 'common/configuration'
 import BaseTable from 'component/compBaseTable'
-import {getObjBindModel} from 'common/utils.js'
+import {getObjBindModel} from 'common/utils'
+import DetailBox from './detailbox.jsx'
 
 
 const API_URL = config.HOST + config.URI_API_PROJECT + '/cwbb/lrb';
@@ -190,7 +191,7 @@ const lrb = React.createClass({
                 {this.state.detailHide ? null : <Panel title="利润表明细"
                                                        onClose={this.handleDetailClose}
                                                        closable>
-                    <BaseTable data={this.state.entity} model={entityModel} bordered striped/>
+                    <DetailBox data={this.state.entity}/>
                 </Panel>}
             </div>
         </div>

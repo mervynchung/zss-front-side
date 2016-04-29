@@ -14,7 +14,7 @@ const model = {
     entityModel: {
         colGroupNum: 2,
         props: [
-            {id: 'JG_ID', name: '机构ID'},
+            {id: 'DWMC', name: '机构名称'},
             {id: 'USER_ID', name: '编号'},
             {id: 'KSSJ', name: '开始时间'},
             {id: 'JSSJ', name: '结束时间'},
