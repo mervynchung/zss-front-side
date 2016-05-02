@@ -11,7 +11,7 @@ import {entityFormat} from 'common/utils'
 import DetailBox from './detailbox.jsx'
 
 
-const API_URL = config.HOST + config.URI_API_PROJECT + '/cwbb/lrb';
+const API_URL = config.HOST + config.URI_API_PROJECT + '/cwbb/zcfzb';
 const ToolBar = Panel.ToolBar;
 const ButtonGroup = Button.Group;
 
@@ -166,18 +166,18 @@ const lrb = React.createClass({
 
         //定义提示内容
         let helper = [];
-        helper.push(<p key="helper-0">点击查询结果查看利润表明细</p>);
+        helper.push(<p key="helper-0">点击查询结果查看资产负债表明细</p>);
         helper.push(<p key="helper-1">检索功能只显示前1000条记录</p>);
 
-        return <div className="cwbb-lrb">
+        return <div className="cwbb-zcfzb">
             <div className="wrap">
-                {this.state.helper && <Alert message="利润表检索查询帮助"
+                {this.state.helper && <Alert message="资产负债表查询帮助"
                                              description={helper}
                                              type="info"
                                              closable
                                              onClose={this.handleHelperClose}/>}
 
-                <Panel title="利润表" toolbar={toolbar}>
+                <Panel title="资产负债表" toolbar={toolbar}>
                     {this.state.searchToggle && <SearchForm
                         onSubmit={this.handleSearchSubmit}/>}
                     <div className="h-scroll-table">
@@ -189,7 +189,7 @@ const lrb = React.createClass({
                                onRowClick={this.handleRowClick}/>
                     </div>
                 </Panel>
-                {this.state.detailHide ? null : <Panel title="利润表明细"
+                {this.state.detailHide ? null : <Panel title="资产负债表明细"
                                                        onClose={this.handleDetailClose}
                                                        closable>
                     <DetailBox data={this.state.entity}/>

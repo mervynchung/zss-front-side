@@ -62,8 +62,20 @@ module.exports = {
         return obj;
     },
 
-    formater(){
-
-    },
+    entityFormat(entity, model){
+        let obj = entity;
+        if (model){
+            for (let i = 0; i < model.length; i++) {
+                const prop = model[i];
+                let render = prop.render;
+                let value = entity[prop.id];
+                if (render && value != null) {
+                    value = render(value);
+                }
+                obj[prop.id] = value;
+            }
+        }
+        return obj;
+    }
 
 };

@@ -226,6 +226,11 @@ const detailBox = React.createClass({
                     <td>{obj.QTZYYWSR1}</td>
                     <td>{obj.QTZYYWSR}</td>
                 </tr>
+                <tr>
+                    <td colSpan="2">所长：{obj.SZ}</td>
+                    <td colSpan="2">主管会计：{obj.ZGKJ}</td>
+                    <td>制表人：{obj.ZBR}</td>
+                </tr>
                 </tbody>
             </table>
         </div>
