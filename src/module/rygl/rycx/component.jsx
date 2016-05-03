@@ -14,7 +14,6 @@ const ToolBar = Panel.ToolBar;
 const ButtonGroup = Button.Group;
 
 const rycx = React.createClass({
-
   getInitialState() { //初始化State状态，使用传入参数
       return {
         //这些都是dataset
@@ -23,15 +22,13 @@ const rycx = React.createClass({
             data: [],//用于主查询
             pagination: Model.pageSetting,//从model加载常量
             urls:{},//详细信息URL
-            tabkey:1,//默认tab状态
             searchToggle: false,
             where:{},
-            activeKey:1,
             spzt:"",
               zy:false,
               fz:false,
               cy:false,
-
+              activeKey:"",
       };
     },
 
@@ -52,7 +49,7 @@ const rycx = React.createClass({
                                       loading:false,//关闭加载状态
                                });
                           this.onSelect(result.data[0]);//联动详细信息，重新调用方法
-                    }else{
+                    }else{//空数据处理
                          const pagination = this.state.pagination;
                          pagination.total = 0;
                          this.setState({data: [],dataxx: {values: {}},datalist:[],loading:false, zy:false,fz:false,cy:false,});
@@ -62,9 +59,9 @@ const rycx = React.createClass({
     });
   },
 
-    fetch_kzxx() {//详细信息（tab）数据处理方法，不能使用switch，否则会发生未知错误
-      let tabkey =this.state.tabkey //获取当前tab标签的key
-      if (tabkey==1) {
+    fetch_kzxx(tabkey) {//详细信息（tab）数据处理方法，不能使用switch，否则会发生未知错误
+      // let tabkey =this.state.tabkey //获取当前tab标签的key
+      if (tabkey==1||tabkey==8||tabkey==13) {
         req({
         url: this.state.urls.herf_xxzl,//从主查询获取的后台dataProvider路径
         method: 'get',
@@ -76,13 +73,13 @@ const rycx = React.createClass({
           });
         },error:  (err) =>{alert('api错误');}
       });
-      }else if (tabkey==2) {
+      }else if (tabkey==2||tabkey==9||tabkey==14) {
         this.gettabdata(this.state.urls.herf_bgjl);
-      }else if (tabkey==3) {
+      }else if (tabkey==3||tabkey==10) {
         this.gettabdata(this.state.urls.herf_zsjl);
-      }else if (tabkey==4) {
+      }else if (tabkey==4||tabkey==11) {
         this.gettabdata(this.state.urls.herf_zjjl);
-      }else if (tabkey==5) {
+      }else if (tabkey==5||tabkey==12) {
         this.gettabdata(this.state.urls.herf_zzjl);
       }else if (tabkey==6) {
          req({ url: this.state.urls.herf_spzt,method: 'get',type: 'json',
@@ -96,7 +93,11 @@ const rycx = React.createClass({
     gettabdata(urls){
       req({url: urls,method: 'get',type: 'json',
           success: (result) => {
+            if (result.data.length!=0) {
             this.setState({datalist: result.data})
+            }else{
+               this.setState({datalist:[],})
+             }
           },error: (err) =>{alert('api错误');}
         });
     },
@@ -112,21 +113,21 @@ const rycx = React.createClass({
                 pagenum: pagination.current,
                 pagesize: pagination.pageSize,
                 where:encodeURIComponent(JSON.stringify(tablewhere)),
-          })
+          });
   },
 
     onSelect(record){//主查询记录被选中方法
        this.state.urls=record._links;
        const dm = record.rysfdm;
-       this.setState({ zy:false,fz:false,cy:false,});
      if (dm==2) {//判断人员身份代码
-      this.setState({fz:true});
+            this.setState({fz:true,zy:false,cy:false});
         }else if (dm==3) {
-           this.setState({cy:true});
+           this.setState({cy:true,zy:false,fz:false});
         }else{
-          this.setState({zy:true});
+          this.setState({zy:true,fz:false,cy:false});
      };
-        this.fetch_kzxx();
+     this.setState({activeKey:1});
+       this.callback(1);
     },
 
     handleSearchToggle(){//点击查询按钮，显示查询form
@@ -145,8 +146,8 @@ const rycx = React.createClass({
   },
 
   callback(key) {//tab标签变化返回值与方法
-      this.state.tabkey=key;
-      this.fetch_kzxx();
+    this.setState({activeKey:key});
+      this.fetch_kzxx(key);
 },
 
   onClickZy(){//执业税务师快捷查询按钮
@@ -169,6 +170,7 @@ const rycx = React.createClass({
       this.onClickSf(sfbz);
   },
   onClickSf(sf){//快捷查询按钮主方法
+    this.setState({where:sf});
      const paper = this.state.pagination;     //把当前页重置为1
      paper.current = 1;
       this.fetch_rycx({//调用主查询
@@ -204,8 +206,7 @@ const rycx = React.createClass({
    <div className="dataGird">
      <Panel   toolbar={toolbar}>
 
-          {this.state.searchToggle && <SearchForm
-          onSubmit={this.handleOk}/>}
+          {this.state.searchToggle && <SearchForm onSubmit={this.handleOk}/>}
 
               <Table columns={Model.columns} 
               dataSource={this.state.data} 
@@ -217,7 +218,7 @@ const rycx = React.createClass({
     </div>
 
       <Panel >
-          {this.state.zy && <Tabs type="line" onChange={this.callback} >
+          {this.state.zy && <Tabs type="line" activeKey={this.state.activeKey} onChange={this.callback} key="A">
                 <TabPane tab="详细信息" key="1"><CompBaseTable data = {this.state.dataxx}  model ={Model.autoform} bordered striped /><p className="nbjgsz">人员简历：</p><Table columns={Model.ryjl} dataSource={this.state.datalist} bordered  size="small" /></TabPane>
                 <TabPane tab="变更记录" key="2"><Table columns={Model.columnsZyrybgjl} dataSource={this.state.datalist} bordered  size="small" /></TabPane>
                 <TabPane tab="转所记录" key="3"><Table columns={Model.columnsZyryzsjl} dataSource={this.state.datalist} bordered  size="small" /></TabPane>
@@ -226,16 +227,16 @@ const rycx = React.createClass({
                 <TabPane tab="审批状态" key="6"><Row><Col  offspan="8"><p>审批状态：{this.state.spzt} </p></Col></Row></TabPane>
                 <TabPane tab="年检记录" key="7"><Table columns={Model.columnsZyrynjjl} dataSource={this.state.datalist} bordered  size="small" /></TabPane>
           </Tabs>}
-          {this.state.fz && <Tabs type="line" onChange={this.callback}>
-                <TabPane tab="详细信息" key="1"><CompBaseTable data = {this.state.dataxx}  model ={Model.autoformFzy} bordered striped /><p className="nbjgsz">人员简历：</p><Table columns={Model.ryjl} dataSource={this.state.datalist} bordered  size="small" /></TabPane>
-                <TabPane tab="变更记录" key="2"><Table columns={Model.columnsZyrybgjl} dataSource={this.state.datalist} bordered  size="small" /></TabPane>
-                <TabPane tab="注销记录" key="3"><Table columns={Model.columnsFzyryzxjl} dataSource={this.state.datalist} bordered  size="small" /></TabPane>
-                <TabPane tab="转籍记录" key="4"><Table columns={Model.columnsFzyryzjjl} dataSource={this.state.datalist} bordered  size="small" /></TabPane>
-                <TabPane tab="转非记录" key="5"><Table columns={Model.columnsFzyryzfjl} dataSource={this.state.datalist} bordered  size="small" /></TabPane>
+          {this.state.fz && <Tabs type="line" activeKey={this.state.activeKey} onChange={this.callback} key="B">
+                <TabPane tab="详细信息" key="8"><CompBaseTable data = {this.state.dataxx}  model ={Model.autoformFzy} bordered striped /><p className="nbjgsz">人员简历：</p><Table columns={Model.ryjl} dataSource={this.state.datalist} bordered  size="small" /></TabPane>
+                <TabPane tab="变更记录" key="9"><Table columns={Model.columnsZyrybgjl} dataSource={this.state.datalist} bordered  size="small" /></TabPane>
+                <TabPane tab="注销记录" key="10"><Table columns={Model.columnsFzyryzxjl} dataSource={this.state.datalist} bordered  size="small" /></TabPane>
+                <TabPane tab="转籍记录" key="11"><Table columns={Model.columnsFzyryzjjl} dataSource={this.state.datalist} bordered  size="small" /></TabPane>
+                <TabPane tab="转非记录" key="12"><Table columns={Model.columnsFzyryzfjl} dataSource={this.state.datalist} bordered  size="small" /></TabPane>
           </Tabs>}
-          {this.state.cy && <Tabs type="line" onChange={this.callback}>
-                <TabPane tab="详细信息" key="1"><CompBaseTable data = {this.state.dataxx}  model ={Model.autoformCy} bordered striped /><p className="nbjgsz">人员简历：</p><Table columns={Model.ryjl} dataSource={this.state.datalist} bordered  size="small" /></TabPane>
-                <TabPane tab="变更记录" key="2"><Table columns={Model.columnsZyrybgjl} dataSource={this.state.datalist} bordered  size="small" /></TabPane>
+          {this.state.cy && <Tabs type="line" activeKey={this.state.activeKey} onChange={this.callback} key="C">
+                <TabPane tab="详细信息" key="13"><CompBaseTable data = {this.state.dataxx}  model ={Model.autoformCy} bordered striped /><p className="nbjgsz">人员简历：</p><Table columns={Model.ryjl} dataSource={this.state.datalist} bordered  size="small" /></TabPane>
+                <TabPane tab="变更记录" key="14"><Table columns={Model.columnsZyrybgjl} dataSource={this.state.datalist} bordered  size="small" /></TabPane>
           </Tabs>}
                 </Panel>
           </div>  
