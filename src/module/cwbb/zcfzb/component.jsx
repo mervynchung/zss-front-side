@@ -7,14 +7,16 @@ import req from 'reqwest';
 import SearchForm from './searchForm'
 import config from 'common/configuration'
 import BaseTable from 'component/compBaseTable'
-import {getObjBindModel} from 'common/utils.js'
+import {entityFormat} from 'common/utils'
+import DetailBox from './detailbox.jsx'
 
-const API_URL = config.HOST + config.URI_API_PROJECT + '/ywbb';
+
+const API_URL = config.HOST + config.URI_API_PROJECT + '/cwbb/zcfzb';
 const ToolBar = Panel.ToolBar;
 const ButtonGroup = Button.Group;
 
 
-const xygl = React.createClass({
+const lrb = React.createClass({
     //初始化state
     getInitialState(){
         return {
@@ -24,16 +26,15 @@ const xygl = React.createClass({
                 showSizeChanger: true,
                 pageSize: 5,
                 showQuickJumper: true,
-                pageSizeOptions: ['5', '10', '20'],
-                showTotal (total) {
-                    return `共 ${total} 条`
-                }
+                pageSizeOptions: ['5', '10', '20']
+
             },
             searchToggle: false,
-            detailViewToggle:false,
+            detailViewToggle: false,
             where: '',
             helper: false,
-            entity:''
+            entity: '',
+            detailHide: true
         }
     },
 
@@ -82,7 +83,7 @@ const xygl = React.createClass({
             pageSize: pager.pageSize,
             where: encodeURIComponent(JSON.stringify(value))
         };
-        this.setState({pagination:pager,where: value});
+        this.setState({pagination: pager, where: value});
         this.fetchData(params);
         this.setState({searchToggle: false})
     },
@@ -90,13 +91,13 @@ const xygl = React.createClass({
     //点击某行
     handleRowClick(record){
         req({
-            url:API_URL+'/'+record.id,
-            type:'json',
-            method:'get'
-        }).then(resp=>{
-            let entity = getObjBindModel(resp);
-            this.setState({entity:entity});
-        }).fail(err=>{
+            url: API_URL + '/' + record.id,
+            type: 'json',
+            method: 'get'
+        }).then(resp=> {
+            let entity = entityFormat(resp,entityModel);
+            this.setState({entity: entity,detailHide:false});
+        }).fail(err=> {
             Modal.error({
                 title: '数据获取错误',
                 content: (
@@ -106,6 +107,10 @@ const xygl = React.createClass({
                     </div>  )
             });
         })
+    },
+    //明细表关闭
+    handleDetailClose(){
+        this.setState({detailHide: true})
     },
 
     //通过API获取数据
@@ -118,17 +123,24 @@ const xygl = React.createClass({
             data: params
         }).then(resp=> {
             const p = this.state.pagination;
-            p.total = resp.total;
-            this.setState({data: resp.data, pagination: p, loading: false})
+            p.total = resp.total > 1000 ? 1000 : resp.total;
+            p.showTotal = total => {
+                return `共 ${resp.total} 条，显示前 ${total} 条`
+            };
+            this.setState({
+                data: resp.data,
+                pagination: p,
+                loading: false
+            })
         }).fail(err=> {
             this.setState({loading: false});
             Modal.error({
                 title: '数据获取错误',
                 content: (
-                  <div>
-                      <p>无法从服务器返回数据，需检查应用服务工作情况</p>
-                      <p>Status: {err.status}</p>
-                  </div>  )
+                    <div>
+                        <p>无法从服务器返回数据，需检查应用服务工作情况</p>
+                        <p>Status: {err.status}</p>
+                    </div>  )
             });
         })
     },
@@ -138,11 +150,12 @@ const xygl = React.createClass({
     },
 
     render(){
+        //定义工具栏内容
         let toolbar = <ToolBar>
             <Button onClick={this.handleSearchToggle}>
                 <Icon type="search"/>查询
                 { this.state.searchToggle ? <Icon className="toggle-tip" type="circle-o-up"/> :
-                  <Icon className="toggle-tip" type="circle-o-down"/>}
+                    <Icon className="toggle-tip" type="circle-o-down"/>}
             </Button>
 
             <ButtonGroup>
@@ -151,21 +164,22 @@ const xygl = React.createClass({
             </ButtonGroup>
         </ToolBar>;
 
+        //定义提示内容
         let helper = [];
-        helper.push(<p key="helper-0">本功能主要提供本年度业务备案查询</p>);
-        helper.push(<p key="helper-1">本功能主要提供本年度业务备案查询2</p>);
+        helper.push(<p key="helper-0">点击查询结果查看资产负债表明细</p>);
+        helper.push(<p key="helper-1">检索功能只显示前1000条记录</p>);
 
-        return <div className="xygl">
+        return <div className="cwbb-zcfzb">
             <div className="wrap">
-                {this.state.helper && <Alert message="业务报备使用帮助"
+                {this.state.helper && <Alert message="资产负债表查询帮助"
                                              description={helper}
                                              type="info"
                                              closable
                                              onClose={this.handleHelperClose}/>}
 
-                <Panel title="业务备案数据检索" toolbar={toolbar}>
+                <Panel title="资产负债表" toolbar={toolbar}>
                     {this.state.searchToggle && <SearchForm
-                      onSubmit={this.handleSearchSubmit}/>}
+                        onSubmit={this.handleSearchSubmit}/>}
                     <div className="h-scroll-table">
                         <Table columns={columns}
                                dataSource={this.state.data}
@@ -175,12 +189,14 @@ const xygl = React.createClass({
                                onRowClick={this.handleRowClick}/>
                     </div>
                 </Panel>
-                <Panel title="业务报备详细信息">
-                    <BaseTable data={this.state.entity} model={entityModel} bordered striped/>
-                </Panel>
+                {this.state.detailHide ? null : <Panel title="资产负债表明细"
+                                                       onClose={this.handleDetailClose}
+                                                       closable>
+                    <DetailBox data={this.state.entity}/>
+                </Panel>}
             </div>
         </div>
     }
 });
 
-module.exports = xygl;
+module.exports = lrb;

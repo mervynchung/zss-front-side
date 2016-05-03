@@ -1,29 +1,54 @@
 import React from 'react'
 import {Row,Col,Button,Icon} from 'antd'
+import ToolBar from './toolBar'
+import ReactDOM from 'react-dom'
 
 const panel = React.createClass({
     getDefaultProps(){
-      return ({
-          funcClose:false
-      })
+        return ({
+            closable: false,
+            title: '',
+            toolbar: '',
+            onClose() {},
+        })
+    },
+    getInitialState(){
+        return ({
+            closed: false
+        })
+    },
+    handleClose(e){
+        e.preventDefault();
+        this.setState({
+            closed: true
+        });
+        this.props.onClose.call(this, e);
     },
 
     render(){
-        let {title,toolbar} = this.props;
-        let pt = <div className="panel-title">
-            <Row>
-                <Col span="8"><h3>{title}</h3></Col>
-                <Col  offspan="16">{toolbar}</Col>
-            </Row>
-        </div>
+        let {title,toolbar,closable} = this.props;
+        let pt = null;
+        if (title || toolbar || closable) {
+            pt = <div className="panel-title">
+                <Row>
+                    <Col span="8"><h3>{title}</h3></Col>
+                    <Col offspan="16">
+                        {closable ? <a onClick={this.handleClose} className="close">
+                            <Icon type="cross"/></a> : null}
+                        {toolbar}
+                    </Col>
+                </Row>
+            </div>;
+        }
 
-        return <div className="panel">
-            {title||toolbar?pt:null}
+
+        return this.state.closed ? null : (<div className="panel">
+            {pt}
             <div className="panel-body">
                 {this.props.children}
             </div>
-        </div>
+        </div>)
     }
-})
+});
 
 module.exports = panel;
