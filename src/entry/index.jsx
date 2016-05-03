@@ -40,6 +40,7 @@ const routes = {
 
         //财务报表
         require('../module/cwbb/lrfpb'),
+        require('../module/cwbb/xjllb'),
         require('../module/cwbb/zcmxb'),
         require('../module/cwbb/lrb')
     ]

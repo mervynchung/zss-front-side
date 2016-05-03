@@ -10,12 +10,12 @@ import config from 'common/configuration'
 
 
 
-const API_URL = config.HOST + config.URI_API_PROJECT + '/zcmx';
+const API_URL = config.HOST + config.URI_API_PROJECT + '/cwbb/zcmxb';
 const ToolBar = Panel.ToolBar;
 const ButtonGroup = Button.Group;
 
 
-const zcmx = React.createClass({
+const zcmxb = React.createClass({
     //初始化state
     getInitialState(){
         return {
@@ -23,6 +23,7 @@ const zcmx = React.createClass({
             entity: {},
             data: [],
             pagination: {
+                
                 current: 1,
                 showSizeChanger: true,
                 pageSize: 5,
@@ -34,7 +35,8 @@ const zcmx = React.createClass({
             },
             searchToggle: false,
             where: '',
-            helper: false
+            helper: false,
+            detailHide: true
         }
     },
 
@@ -44,7 +46,7 @@ const zcmx = React.createClass({
         pager.current = pagination.current;
         pager.pageSize = pagination.pageSize;
         this.setState({pagination: pager});
-
+        
         this.fetchData({
             page: pager.current,
             pageSize: pager.pageSize,
@@ -61,7 +63,7 @@ const zcmx = React.createClass({
     handleRefresh(){
         const pager = this.state.pagination;
         pager.current = 1;
-        this.setState({pagination: pager, where: ''});
+        this.setState({pagination: pager, where: '',detailHide: true});
         this.fetchData();
     },
 
@@ -83,7 +85,7 @@ const zcmx = React.createClass({
             pageSize: pager.pageSize,
             where: encodeURIComponent(JSON.stringify(value))
         };
-        this.setState({pagination:pager,where: value});
+        this.setState({pagination:pager,where: value,detailHide: true});
         this.fetchData(params);
         this.setState({searchToggle: false})
     },
@@ -102,8 +104,8 @@ const zcmx = React.createClass({
             if(resp.data.length!=0){
             const p = this.state.pagination;
             p.total = resp.total;
-            this.setState({data: resp.data, pagination: p, loading: false,urls: resp.data[0].id,});
-         this.fetch_zcmxbxx();
+            this.setState({data: resp.data, urls:resp.data[0].id,pagination: p, loading: false,});
+         this.fetch_zcmxbxx()
             }else{
                   const pagination = this.state.pagination;
                    pagination.total = 0;
@@ -121,7 +123,7 @@ const zcmx = React.createClass({
             });
         })
     },
-     //点击某行
+     //获取表的详细信息
   
      fetch_zcmxbxx(){
         req({
@@ -130,8 +132,8 @@ const zcmx = React.createClass({
             method:'get'
         }).then(resp=>{
          
-            console.log('xx',resp)
-            this.setState({entity:resp.data});
+           
+            this.setState({entity:resp.data,});
         }).fail(err=>{
             Modal.error({
                 title: '数据获取错误',
@@ -143,11 +145,17 @@ const zcmx = React.createClass({
             });
         })
     },
+     //明细表关闭
+    handleDetailClose(){
+        this.setState({detailHide: true})
+    },
     
+    //点击某行
     onSelect(record) {
 
         this.state.urls = record.id;
-        console.log(record);
+       
+        this.setState({detailHide:false})
         this.fetch_zcmxbxx();
     },
     
@@ -172,18 +180,18 @@ const zcmx = React.createClass({
         </ToolBar>;
 
         let helper = [];
-        helper.push(<p key="helper-0">本功能主要提供本年度业务备案查询</p>);
-        helper.push(<p key="helper-1">本功能主要提供本年度业务备案查询2</p>);
+        helper.push(<p key="helper-0">本功能主要提供支出明细表查询</p>);
+        helper.push(<p key="helper-1">查询相关事务所支出明细</p>);
 
         return <div className="zcmx">
             <div className="wrap">
-                {this.state.helper && <Alert message="业务报备使用帮助"
+                {this.state.helper && <Alert message="支出明细表使用帮助"
                                              description={helper}
                                              type="info"
                                              closable
                                              onClose={this.handleHelperClose}/>}
 
-                <Panel title="业务备案数据检索" toolbar={toolbar}>
+                <Panel title="支出明细表检索" toolbar={toolbar}>
                     {this.state.searchToggle && <SearchForm
                       onSubmit={this.handleSearchSubmit}/>}
                     <div className="h-scroll-table">
@@ -195,12 +203,14 @@ const zcmx = React.createClass({
                                onRowClick={this.onSelect}/>
                     </div>
                 </Panel>
-                <Panel title="业务报备详细信息">
+              {this.state.detailHide ? null : <Panel title="支出明细表详细信息"
+              onClose={this.handleDetailClose}
+              closable >
                 <Zcmxbxx data={this.state.entity} />  
-                </Panel>
+                </Panel>}
             </div>
         </div>
     }
 });
 
-module.exports = zcmx;
+module.exports = zcmxb;

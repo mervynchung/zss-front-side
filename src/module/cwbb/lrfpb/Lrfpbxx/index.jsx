@@ -17,16 +17,17 @@
             <tbody>
              <tr className="bb-table-title">
             <td colSpan="2">编制地区（单位）：{data.DWMC}</td>
-            <td>时间：{data.SJ}</td>
-            <td>单位：元</td>
+            <td >时间：{data.SJ}</td>           
+            <td >单位：元</td>
             </tr>
+            
             <tr>
             <td>项目</td>
             <td>行次</td>
             <td>本年实际</td>
             <td>上年实际</td>
             </tr>
-
+            
             <tr>
             <td>一、净利润</td>
             <td>1</td>
@@ -125,12 +126,17 @@
             <td>{data.WFPLRUPYEAR}</td>
             </tr>
   
+
+           
+            
             <tr className="bb-table-title">
-            <td >单位负责人：{data.DWFZR} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 财会负责人：{data.CKFZR}</td>
-            <td ></td>
+            <td colSpan="2">单位负责人：{data.DWFZR} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;财会负责人：{data.CKFZR}  </td>
             <td >复核：{data.FHR}</td>
-            <td >制表：{data.ZBR}</td>
+            <td >制表人：{data.ZBR}</td>
             </tr>
+
+            
+          
 
             </tbody>
             </table>
@@ -139,4 +145,4 @@
     }
 })
 
-  module.exports = Lrfpbxx
+  module.exports =Lrfpbxx

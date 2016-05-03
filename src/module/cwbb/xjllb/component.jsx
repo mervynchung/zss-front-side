@@ -5,17 +5,17 @@ import Panel from 'component/compPanel'
 import {model,entityModel} from './model'
 import req from 'reqwest';
 import SearchForm from './searchForm'
-import Lrfpbxx from './Lrfpbxx'
+import Xjllbxx from './Xjllbxx'
 import config from 'common/configuration'
 
 
 
-const API_URL = config.HOST + config.URI_API_PROJECT + '/cwbb/lrfpb';
+const API_URL = config.HOST + config.URI_API_PROJECT + '/cwbb/xjllb';
 const ToolBar = Panel.ToolBar;
 const ButtonGroup = Button.Group;
 
 
-const lrfpb = React.createClass({
+const xjllb = React.createClass({
     //初始化state
     getInitialState(){
         return {
@@ -105,7 +105,7 @@ const lrfpb = React.createClass({
             const p = this.state.pagination;
             p.total = resp.total;
             this.setState({data: resp.data, urls:resp.data[0].id,pagination: p, loading: false,});
-         this.fetch_lrfpbxx()
+         this.fetch_xjllbxx()
             }else{
                   const pagination = this.state.pagination;
                    pagination.total = 0;
@@ -125,14 +125,14 @@ const lrfpb = React.createClass({
     },
      //获取表的详细信息
   
-     fetch_lrfpbxx(){
+     fetch_xjllbxx(){
         req({
             url:API_URL+'/'+this.state.urls,
             type:'json',
             method:'get'
         }).then(resp=>{
          
-            console.log('xx',resp)
+            
             this.setState({entity:resp.data,});
         }).fail(err=>{
             Modal.error({
@@ -154,9 +154,8 @@ const lrfpb = React.createClass({
     onSelect(record) {
 
         this.state.urls = record.id;
-        console.log(record);
         this.setState({detailHide:false})
-        this.fetch_lrfpbxx();
+        this.fetch_xjllbxx();
     },
     
 
@@ -180,18 +179,18 @@ const lrfpb = React.createClass({
         </ToolBar>;
 
         let helper = [];
-        helper.push(<p key="helper-0">本功能主要提供利润分配表查询</p>);
-        helper.push(<p key="helper-1">查询相关事务所利润分配表</p>);
+        helper.push(<p key="helper-0">本功能主要提供现金流量表查询</p>);
+        helper.push(<p key="helper-1">查询相关事务所现金流量表</p>);
 
-        return <div className="zcmx">
+        return <div className="xjllb">
             <div className="wrap">
-                {this.state.helper && <Alert message="利润分配表使用帮助"
+                {this.state.helper && <Alert message="现金流量表使用帮助"
                                              description={helper}
                                              type="info"
                                              closable
                                              onClose={this.handleHelperClose}/>}
 
-                <Panel title="利润分配表检索" toolbar={toolbar}>
+                <Panel title="现金流量表检索" toolbar={toolbar}>
                     {this.state.searchToggle && <SearchForm
                       onSubmit={this.handleSearchSubmit}/>}
                     <div className="h-scroll-table">
@@ -203,14 +202,14 @@ const lrfpb = React.createClass({
                                onRowClick={this.onSelect}/>
                     </div>
                 </Panel>
-              {this.state.detailHide ? null : <Panel title="利润分配表详细信息"
+              {this.state.detailHide ? null : <Panel title="现金流量表详细信息"
               onClose={this.handleDetailClose}
               closable >
-                <Lrfpbxx data={this.state.entity} />  
+                <Xjllbxx data={this.state.entity} />  
                 </Panel>}
             </div>
         </div>
     }
 });
 
-module.exports = lrfpb;
+module.exports = xjllb;
