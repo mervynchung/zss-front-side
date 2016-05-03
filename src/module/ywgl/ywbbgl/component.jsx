@@ -88,13 +88,13 @@ const xygl = React.createClass({
     },
 
     //点击某行
-    handleRowClick(record,value){
+    handleRowClick(record){
         req({
             url:API_URL+'/'+record.id,
             type:'json',
             method:'get'
         }).then(resp=>{
-            let entity = getObjBindModel(resp,entityModel.props);
+            let entity = getObjBindModel(resp);
             this.setState({entity:entity});
         }).fail(err=>{
             Modal.error({
