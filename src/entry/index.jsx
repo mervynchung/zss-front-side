@@ -21,7 +21,7 @@ const routes = {
         require('../module/jggl/swscx'),
 
         //人员管理
-        require('../module/rygl/rycx/zyswscx'),
+       require('../module/rygl/rycx/zyswscx'),
 
         //系统功能设置
         require('../module/xtgnsz/mkgl'),
@@ -42,7 +42,9 @@ const routes = {
         require('../module/cwbb/lrfpb'),
         require('../module/cwbb/xjllb'),
         require('../module/cwbb/zcmxb'),
-        require('../module/cwbb/lrb')
+        require('../module/cwbb/lrb'),
+        require('../module/cwbb/zcfzb')
+
     ]
 };
 
