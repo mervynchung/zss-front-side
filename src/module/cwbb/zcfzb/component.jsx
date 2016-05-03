@@ -16,7 +16,7 @@ const ToolBar = Panel.ToolBar;
 const ButtonGroup = Button.Group;
 
 
-const lrb = React.createClass({
+const zcfzb = React.createClass({
     //初始化state
     getInitialState(){
         return {
@@ -199,4 +199,4 @@ const lrb = React.createClass({
     }
 });
 
-module.exports = lrb;
+module.exports = zcfzb;
