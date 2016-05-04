@@ -1,0 +1,11 @@
+.cwbb-xjllb .fix-table table th {
+    text-align: center;
+}
+
+.cwbb-xjllb .fix-table table > tbody:first-child > tr{
+    background-color: transparent;
+}
+
+.cwbb-xjllb .fix-table table > tbody:first-child td{
+    border: none;
+}

@@ -5,17 +5,17 @@ import Panel from 'component/compPanel'
 import {model,entityModel} from './model'
 import req from 'reqwest';
 import SearchForm from './searchForm'
-import Zcmxbxx from './Zcmxbxx'
+import Xjllbxx from './Xjllbxx'
 import config from 'common/configuration'
 
 
 
-const API_URL = config.HOST + config.URI_API_PROJECT + '/cwbb/zcmxb';
+const API_URL = config.HOST + config.URI_API_PROJECT + '/cwbb/xjllb';
 const ToolBar = Panel.ToolBar;
 const ButtonGroup = Button.Group;
 
 
-const zcmxb = React.createClass({
+const xjllb = React.createClass({
     //初始化state
     getInitialState(){
         return {
@@ -125,14 +125,14 @@ const zcmxb = React.createClass({
     },
      //获取表的详细信息
   
-     fetch_zcmxbxx(){
+     fetch_xjllbxx(){
         req({
             url:API_URL+'/'+this.state.urls,
             type:'json',
             method:'get'
         }).then(resp=>{
          
-           
+            
             this.setState({entity:resp.data,});
         }).fail(err=>{
             Modal.error({
@@ -154,9 +154,8 @@ const zcmxb = React.createClass({
     onSelect(record) {
 
         this.state.urls = record.id;
-       
         this.setState({detailHide:false})
-        this.fetch_zcmxbxx();
+        this.fetch_xjllbxx();
     },
     
 
@@ -180,18 +179,18 @@ const zcmxb = React.createClass({
         </ToolBar>;
 
         let helper = [];
-        helper.push(<p key="helper-0">本功能主要提供支出明细表查询</p>);
-        helper.push(<p key="helper-1">查询相关事务所支出明细</p>);
+        helper.push(<p key="helper-0">本功能主要提供现金流量表查询</p>);
+        helper.push(<p key="helper-1">查询相关事务所现金流量表</p>);
 
-        return <div className="cwbb-zcmxb">
+        return <div className="cwbb-xjllb">
             <div className="wrap">
-                {this.state.helper && <Alert message="支出明细表使用帮助"
+                {this.state.helper && <Alert message="现金流量表使用帮助"
                                              description={helper}
                                              type="info"
                                              closable
                                              onClose={this.handleHelperClose}/>}
 
-                <Panel title="支出明细表检索" toolbar={toolbar}>
+                <Panel title="现金流量表检索" toolbar={toolbar}>
                     {this.state.searchToggle && <SearchForm
                       onSubmit={this.handleSearchSubmit}/>}
                     <div className="h-scroll-table">
@@ -203,14 +202,14 @@ const zcmxb = React.createClass({
                                onRowClick={this.onSelect}/>
                     </div>
                 </Panel>
-              {this.state.detailHide ? null : <Panel title="支出明细表详细信息"
+              {this.state.detailHide ? null : <Panel title="现金流量表详细信息"
               onClose={this.handleDetailClose}
               closable >
-                <Zcmxbxx data={this.state.entity} />  
+                <Xjllbxx data={this.state.entity} />  
                 </Panel>}
             </div>
         </div>
     }
 });
 
-module.exports = zcmxb;
+module.exports = xjllb;

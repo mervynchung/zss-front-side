@@ -1,0 +1,13 @@
+.cwbb-zcmxb .fix-table table th {
+    text-align: center;
+}
+
+.cwbb-zcmxb .fix-table table > tbody:first-child > tr,
+.cwbb-zcmxb .fix-table table > tbody:last-child > tr {
+    background-color: transparent;
+}
+
+.cwbb-zcmxb .fix-table table > tbody:first-child td,
+.cwbb-zcmxb .fix-table table > tbody:last-child td{
+    border: none;
+}
