@@ -45,7 +45,8 @@ const lrfpb = React.createClass({
         const pager = this.state.pagination;
         pager.current = pagination.current;
         pager.pageSize = pagination.pageSize;
-        this.setState({pagination: pager});
+        this.setState({pagination: pager,detailHide: true});
+        
         
         this.fetchData({
             page: pager.current,
@@ -104,8 +105,8 @@ const lrfpb = React.createClass({
             if(resp.data.length!=0){
             const p = this.state.pagination;
             p.total = resp.total;
-            this.setState({data: resp.data, urls:resp.data[0].id,pagination: p, loading: false,});
-         this.fetch_lrfpbxx()
+            this.setState({data: resp.data, pagination: p, loading: false,});
+         
             }else{
                   const pagination = this.state.pagination;
                    pagination.total = 0;
@@ -132,7 +133,7 @@ const lrfpb = React.createClass({
             method:'get'
         }).then(resp=>{
          
-            console.log('xx',resp)
+            
             this.setState({entity:resp.data,});
         }).fail(err=>{
             Modal.error({
@@ -154,7 +155,7 @@ const lrfpb = React.createClass({
     onSelect(record) {
 
         this.state.urls = record.id;
-        console.log(record);
+        
         this.setState({detailHide:false})
         this.fetch_lrfpbxx();
     },
@@ -183,7 +184,7 @@ const lrfpb = React.createClass({
         helper.push(<p key="helper-0">本功能主要提供利润分配表查询</p>);
         helper.push(<p key="helper-1">查询相关事务所利润分配表</p>);
 
-        return <div className="zcmx">
+        return <div className="cwbb-lrfpb">
             <div className="wrap">
                 {this.state.helper && <Alert message="利润分配表使用帮助"
                                              description={helper}

@@ -45,7 +45,7 @@ const zcmxb = React.createClass({
         const pager = this.state.pagination;
         pager.current = pagination.current;
         pager.pageSize = pagination.pageSize;
-        this.setState({pagination: pager});
+        this.setState({pagination: pager,detailHide: true});
         
         this.fetchData({
             page: pager.current,
@@ -104,8 +104,8 @@ const zcmxb = React.createClass({
             if(resp.data.length!=0){
             const p = this.state.pagination;
             p.total = resp.total;
-            this.setState({data: resp.data, urls:resp.data[0].id,pagination: p, loading: false,});
-         this.fetch_zcmxbxx()
+            this.setState({data: resp.data, pagination: p, loading: false,});
+         
             }else{
                   const pagination = this.state.pagination;
                    pagination.total = 0;
@@ -183,7 +183,7 @@ const zcmxb = React.createClass({
         helper.push(<p key="helper-0">本功能主要提供支出明细表查询</p>);
         helper.push(<p key="helper-1">查询相关事务所支出明细</p>);
 
-        return <div className="zcmx">
+        return <div className="cwbb-zcmxb">
             <div className="wrap">
                 {this.state.helper && <Alert message="支出明细表使用帮助"
                                              description={helper}

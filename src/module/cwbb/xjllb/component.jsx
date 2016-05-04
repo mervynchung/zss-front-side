@@ -45,7 +45,7 @@ const xjllb = React.createClass({
         const pager = this.state.pagination;
         pager.current = pagination.current;
         pager.pageSize = pagination.pageSize;
-        this.setState({pagination: pager});
+        this.setState({pagination: pager,detailHide: true});
         
         this.fetchData({
             page: pager.current,
@@ -104,8 +104,8 @@ const xjllb = React.createClass({
             if(resp.data.length!=0){
             const p = this.state.pagination;
             p.total = resp.total;
-            this.setState({data: resp.data, urls:resp.data[0].id,pagination: p, loading: false,});
-         this.fetch_xjllbxx()
+            this.setState({data: resp.data, pagination: p, loading: false,});
+         
             }else{
                   const pagination = this.state.pagination;
                    pagination.total = 0;
@@ -182,7 +182,7 @@ const xjllb = React.createClass({
         helper.push(<p key="helper-0">本功能主要提供现金流量表查询</p>);
         helper.push(<p key="helper-1">查询相关事务所现金流量表</p>);
 
-        return <div className="xjllb">
+        return <div className="cwbb-xjllb">
             <div className="wrap">
                 {this.state.helper && <Alert message="现金流量表使用帮助"
                                              description={helper}

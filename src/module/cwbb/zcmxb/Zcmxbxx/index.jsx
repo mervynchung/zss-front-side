@@ -5,10 +5,19 @@
 
     render() {
     	const data =this.props.data;
-        return <div className="cwbb-table table-bordered" >
-        <div><p></p></div>
+        return <div className="fix-table table-bordered table-striped" >
+        
             <table>
-            <colgroup>
+         
+            <tbody>
+             <tr >
+            <td colSpan="3">编制地区（单位）：{data.DWMC}</td>
+            <td >统计时间：{data.KSSJ}</td>
+            <td colSpan="3">至：{data.JSSJ}</td>
+            <td >单位：元</td>
+            </tr>
+            </tbody>
+               <colgroup>
             <col className ="col-4"></col>
             <col className="col-2"></col>
             <col className="col-2"></col>
@@ -18,13 +27,9 @@
             <col className="col-3"></col>
             <col className="col-3"></col>
             </colgroup>
+            
+            
             <tbody>
-             <tr className="bb-table-title">
-            <td colSpan="3">编制地区（单位）：{data.DWMC}</td>
-            <td >统计时间：{data.KSSJ}</td>
-            <td colSpan="3">至：{data.JSSJ}</td>
-            <td >单位：元</td>
-            </tr>
             <tr>
             <td>项目</td>
             <td>行次</td>
@@ -211,17 +216,19 @@
             <td>{data.ZCZJ1}</td>
             <td>{data.ZCZJ}</td>
             </tr>
+            </tbody>
             
-            <tr className="bb-table-title">
+            <tbody>
+            <tr >
             <td colSpan="3">所长（主任）：{data.SZ}</td>
             <td colSpan="2">主管会计：{data.AGKJ}</td>
             <td colSpan="3">制表人：{data.ZB}</td>
             </tr>
-
+            </tbody>
             
           
 
-            </tbody>
+            
             </table>
 
         </div>
