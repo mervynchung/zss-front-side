@@ -91,3 +91,4 @@ const CompWrap = React.createClass({
     }
 })
 ReactDom.render(<CompWrap />, document.getElementById('react-content'));
+

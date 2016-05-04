@@ -24,9 +24,9 @@ const ComUserPanel = React.createClass({
             <div className="user-panel">
                 <ul>
                     <li><Badge dot={this.state.show}><a href="#" onClick={this.handleClick}><Icon
-                        type="notification"/></a></Badge></li>
+                        type="mail"/></a></Badge></li>
                     <li><Dropdown overlay={menu} trigger={['click']}>
-                        <a href="/"> 注册管理科 - 陈鹏 <Icon type="circle-o-down"/></a>
+                        <a href="/"> 注册管理科 <Icon className="toggle-icon" type="down"/></a>
                     </Dropdown></li>
                 </ul>
             </div >
