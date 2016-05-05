@@ -2,38 +2,40 @@ import React from 'react'
 import {Table,Modal,Row,Col,Button,Icon,Alert} from 'antd'
 import CompPageHead from 'component/CompPageHead'
 import Panel from 'component/compPanel'
-import {columns,entityModel} from './model'
+import {model,entityModel} from './model'
 import req from 'reqwest';
 import SearchForm from './searchForm'
+import Xjllbxx from './Xjllbxx'
 import config from 'common/configuration'
-import BaseTable from 'component/compBaseTable'
-import {entityFormat} from 'common/utils'
-import DetailBox from './detailbox.jsx'
 
 
-const API_URL = config.HOST + config.URI_API_PROJECT + '/cwbb/zcfzb';
+
+const API_URL = config.HOST + config.URI_API_PROJECT + '/cwbb/xjllb';
 const ToolBar = Panel.ToolBar;
 const ButtonGroup = Button.Group;
 
 
-const zcfzb = React.createClass({
+const xjllb = React.createClass({
     //初始化state
     getInitialState(){
         return {
+            urls: '',
+            entity: {},
             data: [],
             pagination: {
+                
                 current: 1,
                 showSizeChanger: true,
                 pageSize: 5,
                 showQuickJumper: true,
-                pageSizeOptions: ['5', '10', '20']
-
+                pageSizeOptions: ['5', '10', '20'],
+                showTotal (total) {
+                    return `共 ${total} 条`
+                }
             },
             searchToggle: false,
-            detailViewToggle: false,
             where: '',
             helper: false,
-            entity: '',
             detailHide: true
         }
     },
@@ -43,8 +45,8 @@ const zcfzb = React.createClass({
         const pager = this.state.pagination;
         pager.current = pagination.current;
         pager.pageSize = pagination.pageSize;
-        this.setState({pagination: pager});
-
+        this.setState({pagination: pager,detailHide: true});
+        
         this.fetchData({
             page: pager.current,
             pageSize: pager.pageSize,
@@ -61,7 +63,7 @@ const zcfzb = React.createClass({
     handleRefresh(){
         const pager = this.state.pagination;
         pager.current = 1;
-        this.setState({pagination: pager, where: ''});
+        this.setState({pagination: pager, where: '',detailHide: true});
         this.fetchData();
     },
 
@@ -83,35 +85,12 @@ const zcfzb = React.createClass({
             pageSize: pager.pageSize,
             where: encodeURIComponent(JSON.stringify(value))
         };
-        this.setState({pagination: pager, where: value});
+        this.setState({pagination:pager,where: value,detailHide: true});
         this.fetchData(params);
         this.setState({searchToggle: false})
     },
 
-    //点击某行
-    handleRowClick(record){
-        req({
-            url: API_URL + '/' + record.id,
-            type: 'json',
-            method: 'get'
-        }).then(resp=> {
-            let entity = entityFormat(resp,entityModel);
-            this.setState({entity: entity,detailHide:false});
-        }).fail(err=> {
-            Modal.error({
-                title: '数据获取错误',
-                content: (
-                    <div>
-                        <p>无法从服务器返回数据，需检查应用服务工作情况</p>
-                        <p>Status: {err.status}</p>
-                    </div>  )
-            });
-        })
-    },
-    //明细表关闭
-    handleDetailClose(){
-        this.setState({detailHide: true})
-    },
+   
 
     //通过API获取数据
     fetchData(params = {page: 1, pageSize: this.state.pagination.pageSize}){
@@ -122,18 +101,40 @@ const zcfzb = React.createClass({
             method: 'get',
             data: params
         }).then(resp=> {
+            if(resp.data.length!=0){
             const p = this.state.pagination;
-            p.total = resp.total > 1000 ? 1000 : resp.total;
-            p.showTotal = total => {
-                return `共 ${resp.total} 条，显示前 ${total} 条`
-            };
-            this.setState({
-                data: resp.data,
-                pagination: p,
-                loading: false
-            })
+            p.total = resp.total;
+            this.setState({data: resp.data, pagination: p, loading: false,});
+         
+            }else{
+                  const pagination = this.state.pagination;
+                   pagination.total = 0;
+                    this.setState({data: [],entity: {},loading:false});
+            }
         }).fail(err=> {
             this.setState({loading: false});
+            Modal.error({
+                title: '数据获取错误',
+                content: (
+                  <div>
+                      <p>无法从服务器返回数据，需检查应用服务工作情况</p>
+                      <p>Status: {err.status}</p>
+                  </div>  )
+            });
+        })
+    },
+     //获取表的详细信息
+  
+     fetch_xjllbxx(){
+        req({
+            url:API_URL+'/'+this.state.urls,
+            type:'json',
+            method:'get'
+        }).then(resp=>{
+         
+            
+            this.setState({entity:resp.data,});
+        }).fail(err=>{
             Modal.error({
                 title: '数据获取错误',
                 content: (
@@ -144,59 +145,71 @@ const zcfzb = React.createClass({
             });
         })
     },
+     //明细表关闭
+    handleDetailClose(){
+        this.setState({detailHide: true})
+    },
+    
+    //点击某行
+    onSelect(record) {
+
+        this.state.urls = record.id;
+        this.setState({detailHide:false})
+        this.fetch_xjllbxx();
+    },
+    
 
     componentDidMount(){
         this.fetchData();
     },
 
     render(){
-        //定义工具栏内容
         let toolbar = <ToolBar>
             <Button onClick={this.handleSearchToggle}>
                 <Icon type="search"/>查询
                 { this.state.searchToggle ? <Icon className="toggle-tip" type="circle-o-up"/> :
-                    <Icon className="toggle-tip" type="circle-o-down"/>}
+                  <Icon className="toggle-tip" type="circle-o-down"/>}
             </Button>
 
             <ButtonGroup>
                 <Button type="primary" onClick={this.handleHelper}><Icon type="question"/></Button>
                 <Button type="primary" onClick={this.handleRefresh}><Icon type="reload"/></Button>
             </ButtonGroup>
+
         </ToolBar>;
 
-        //定义提示内容
         let helper = [];
-        helper.push(<p key="helper-0">点击查询结果查看资产负债表明细</p>);
-        helper.push(<p key="helper-1">检索功能只显示前1000条记录</p>);
+        helper.push(<p key="helper-0">本功能主要提供现金流量表查询</p>);
+        helper.push(<p key="helper-1">查询相关事务所现金流量表</p>);
 
-        return <div className="cwbb-zcfzb">
+        return <div className="cwbb-xjllb">
             <div className="wrap">
-                {this.state.helper && <Alert message="资产负债表查询帮助"
+                {this.state.helper && <Alert message="现金流量表使用帮助"
                                              description={helper}
                                              type="info"
                                              closable
                                              onClose={this.handleHelperClose}/>}
 
-                <Panel title="资产负债表" toolbar={toolbar}>
+                <Panel title="现金流量表检索" toolbar={toolbar}>
                     {this.state.searchToggle && <SearchForm
-                        onSubmit={this.handleSearchSubmit}/>}
+                      onSubmit={this.handleSearchSubmit}/>}
                     <div className="h-scroll-table">
-                        <Table columns={columns}
+                        <Table columns={model}
                                dataSource={this.state.data}
                                pagination={this.state.pagination}
                                loading={this.state.loading}
                                onChange={this.handleChange}
-                               onRowClick={this.handleRowClick}/>
+                               onRowClick={this.onSelect}/>
                     </div>
                 </Panel>
-                {this.state.detailHide ? null : <Panel title="资产负债表明细"
-                                                       onClose={this.handleDetailClose}
-                                                       closable>
-                    <DetailBox data={this.state.entity}/>
+              {this.state.detailHide ? null : <Panel title="现金流量表详细信息"
+              onClose={this.handleDetailClose}
+              closable >
+                <Xjllbxx data={this.state.entity} />  
                 </Panel>}
             </div>
         </div>
     }
 });
 
-module.exports = zcfzb;
+module.exports = xjllb;

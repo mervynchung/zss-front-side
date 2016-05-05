@@ -43,7 +43,7 @@ let searchForm = React.createClass({
                         <FormItem
                           {...formItemLayout}
                           label="上报统计年度">
-                            <Input placeholder="年度" {...getFieldProps('TJSJ')}/>
+                            <Input placeholder="年度" {...getFieldProps('JSSJ')}/>
                         </FormItem>
                     </Col>
                     

@@ -1,188 +1,217 @@
-/* 
- 引入依赖库 
- */
-import 'common/lib.js'
 import React from 'react'
-import {Input, Form, Col, Row, Select, Modal, Button} from 'antd'
-import ReactDom from 'react-dom'
-import BaseTable from 'component/compBaseTable'
-import req from 'reqwest'
-import './style.css'
-import { Table, Icon} from 'antd'
+import {Table,Modal,Row,Col,Button,Icon,Alert} from 'antd'
+import CompPageHead from 'component/CompPageHead'
 import Panel from 'component/compPanel'
+import {model,entityModel} from './model'
+import req from 'reqwest';
+import SearchForm from './searchForm'
+import Lrfpbxx from './Lrfpbxx'
 import config from 'common/configuration'
 
-import Lrfpbxx from './Lrfpbxx'
 
 
-const API_URL = config.URI_API_PROJECT + '/lrfp';
-
-/* 
- 定义组件A
- */
-const columns = [{
-    title: '序号',
-    dataIndex: 'JG_ID',
-    key: 'JG_ID',
-}, {
-    title: '事务所名称',
-    dataIndex: 'DWMC',
-    key: 'DWMC',
-}, {
-    title: '统计时间',
-    dataIndex: 'TJSJ',
-    key: 'TJSJ',
-}, {
-    title: '单位负责人',
-    dataIndex: 'DWFZR',
-    key: 'DWFZR',
-}, {
-    title: '财会负责人',
-    dataIndex: 'CKFZR',
-    key: 'CKFZR',
-}, {
-    title: '状态',
-    dataIndex: 'ZTBJ',
-    key: 'ZTBJ',
-}, {
-    title: '操作',
-    key: 'operation',
-    render(text) {
-        return (
-            <span>
-                    <a href="#">打印</a>
-                </span>
-        );
-    }
-}];
-
-const Lrfpb = React.createClass({
-
-    render() {
-        return <div >
-            <Table columns={this.columms}
-                   bordered size="small"/>
-        </div>
-    }
-})
+const API_URL = config.HOST + config.URI_API_PROJECT + '/cwbb/lrfpb';
+const ToolBar = Panel.ToolBar;
+const ButtonGroup = Button.Group;
 
 
-/*
- 组件compWrap
- */
-const lrfp = React.createClass({
-    //初始化
-    getInitialState() {
+const lrfpb = React.createClass({
+    //初始化state
+    getInitialState(){
         return {
-            data: [],
-            pagination: {},
             urls: '',
-            ret: {}
-        };
+            entity: {},
+            data: [],
+            pagination: {
+                
+                current: 1,
+                showSizeChanger: true,
+                pageSize: 5,
+                showQuickJumper: true,
+                pageSizeOptions: ['5', '10', '20'],
+                showTotal (total) {
+                    return `共 ${total} 条`
+                }
+            },
+            searchToggle: false,
+            where: '',
+            helper: false,
+            detailHide: true
+        }
     },
 
-    handleTableChange(pagination, filters, sorter) {
-        const pager = pagination;
+    //改变页码
+    handleChange(pagination, filters, sorter){
+        const pager = this.state.pagination;
         pager.current = pagination.current;
         pager.pageSize = pagination.pageSize;
-        this.setState({pagination: pager});
+        this.setState({pagination: pager,detailHide: true});
+        
+        
+        this.fetchData({
+            page: pager.current,
+            pageSize: pager.pageSize,
+            where: encodeURIComponent(JSON.stringify(this.state.where))
+        })
+    },
+
+    //查询按钮
+    handleSearchToggle(){
+        this.setState({searchToggle: !this.state.searchToggle});
+    },
+
+    //刷新按钮
+    handleRefresh(){
+        const pager = this.state.pagination;
+        pager.current = 1;
+        this.setState({pagination: pager, where: '',detailHide: true});
+        this.fetchData();
+    },
+
+    //帮助按钮
+    handleHelper(){
+        this.setState({helper: !this.state.helper})
+    },
+    //手动关闭帮助提示
+    handleHelperClose(){
+        this.setState({helper: false})
+    },
+
+    //提交条件查询
+    handleSearchSubmit(value){
+        const pager = this.state.pagination;
+        pager.current = 1;
+        const params = {
+            page: 1,
+            pageSize: pager.pageSize,
+            where: encodeURIComponent(JSON.stringify(value))
+        };
+        this.setState({pagination:pager,where: value,detailHide: true});
+        this.fetchData(params);
+        this.setState({searchToggle: false})
+    },
+
+   
+
+    //通过API获取数据
+    fetchData(params = {page: 1, pageSize: this.state.pagination.pageSize}){
+        this.setState({loading: true});
         req({
             url: API_URL,
-            method: 'get',
             type: 'json',
-            data: {pagenum: pager.current, pagesize: pager.pageSize},
-            success: (result) => {
-                const paper = this.state.pagination;
-                paper.pageSize = pagination.pageSize;
-                this.setState({
-                    data: result.data,
-                    urls: result.data[0].id,
-
-                });
-                this.fetch_lrfpbxx()
-            },
-
-        });
-    },
-    fetch_lrfpb() {
-        req({
-            url: API_URL+'?pagenum=1&pagesize=5',
             method: 'get',
-            type: 'json',
-            success: (result) => {
-                function showTotal() {
-                    return "共" + pagination.total + "条";
-                }
-
-                const pagination = this.state.pagination;
-                pagination.total = result.page.total_number1;
-                pagination.pageSize = 5;
-                pagination.showSizeChanger = true;
-                pagination.showTotal = showTotal;
-                pagination.showQuickJumper = true;
-                pagination.size = 'small';
-                pagination.pageSizeOptions = ['5', '10', '20', '30', '40'];
-
-                this.setState({
-                    data: result.data,
-                    urls: result.data[0].id,
-                });
-                this.fetch_lrfpbxx();
-            },
-            error: (err) => {
-                alert('api错误');
+            data: params
+        }).then(resp=> {
+            if(resp.data.length!=0){
+            const p = this.state.pagination;
+            p.total = resp.total;
+            this.setState({data: resp.data, pagination: p, loading: false,});
+         
+            }else{
+                  const pagination = this.state.pagination;
+                   pagination.total = 0;
+                    this.setState({data: [],entity: {},loading:false});
             }
-        });
+        }).fail(err=> {
+            this.setState({loading: false});
+            Modal.error({
+                title: '数据获取错误',
+                content: (
+                  <div>
+                      <p>无法从服务器返回数据，需检查应用服务工作情况</p>
+                      <p>Status: {err.status}</p>
+                  </div>  )
+            });
+        })
     },
-    fetch_lrfpbxx() {
+     //获取表的详细信息
+  
+     fetch_lrfpbxx(){
         req({
-            url: '/api/lrfp/xx/' + this.state.urls,
-            method: 'get',
-            type: 'json',
-            success: (result) => {
-
-                this.setState({
-                    ret: result.xx.data,
-
-                });
-                console.log(result);
-            }
-        });
+            url:API_URL+'/'+this.state.urls,
+            type:'json',
+            method:'get'
+        }).then(resp=>{
+         
+            
+            this.setState({entity:resp.data,});
+        }).fail(err=>{
+            Modal.error({
+                title: '数据获取错误',
+                content: (
+                    <div>
+                        <p>无法从服务器返回数据，需检查应用服务工作情况</p>
+                        <p>Status: {err.status}</p>
+                    </div>  )
+            });
+        })
     },
-
+     //明细表关闭
+    handleDetailClose(){
+        this.setState({detailHide: true})
+    },
+    
+    //点击某行
     onSelect(record) {
 
         this.state.urls = record.id;
-        console.log(record);
+        
+        this.setState({detailHide:false})
         this.fetch_lrfpbxx();
     },
+    
 
-    componentDidMount() {
-        this.fetch_lrfpb();
+    componentDidMount(){
+        this.fetchData();
     },
 
+    render(){
+        let toolbar = <ToolBar>
+            <Button onClick={this.handleSearchToggle}>
+                <Icon type="search"/>查询
+                { this.state.searchToggle ? <Icon className="toggle-tip" type="circle-o-up"/> :
+                  <Icon className="toggle-tip" type="circle-o-down"/>}
+            </Button>
 
-    // =========样式渲染================== 
-    render() {
+            <ButtonGroup>
+                <Button type="primary" onClick={this.handleHelper}><Icon type="question"/></Button>
+                <Button type="primary" onClick={this.handleRefresh}><Icon type="reload"/></Button>
+            </ButtonGroup>
 
-        return <div className="lrfp">
+        </ToolBar>;
+
+        let helper = [];
+        helper.push(<p key="helper-0">本功能主要提供利润分配表查询</p>);
+        helper.push(<p key="helper-1">查询相关事务所利润分配表</p>);
+
+        return <div className="cwbb-lrfpb">
             <div className="wrap">
-                <Panel>
-                    <Table columns={columns}
-                           dataSource={this.state.data}
-                           pagination={this.state.pagination}
-                           onChange={this.handleTableChange}
-                           onRowClick={this.onSelect}
-                           bordered size="small"/>
-                </Panel>
+                {this.state.helper && <Alert message="利润分配表使用帮助"
+                                             description={helper}
+                                             type="info"
+                                             closable
+                                             onClose={this.handleHelperClose}/>}
 
-                <Panel title="利润分配表信息查看">
-                    <Lrfpbxx data={this.state.ret}/>
+                <Panel title="利润分配表检索" toolbar={toolbar}>
+                    {this.state.searchToggle && <SearchForm
+                      onSubmit={this.handleSearchSubmit}/>}
+                    <div className="h-scroll-table">
+                        <Table columns={model}
+                               dataSource={this.state.data}
+                               pagination={this.state.pagination}
+                               loading={this.state.loading}
+                               onChange={this.handleChange}
+                               onRowClick={this.onSelect}/>
+                    </div>
                 </Panel>
-
+              {this.state.detailHide ? null : <Panel title="利润分配表详细信息"
+              onClose={this.handleDetailClose}
+              closable >
+                <Lrfpbxx data={this.state.entity} />  
+                </Panel>}
             </div>
         </div>
     }
-})
+});
 
-module.exports = lrfp;
+module.exports = lrfpb;
