@@ -25,8 +25,8 @@ const jgcx = React.createClass({
             urls:{},//详细信息URL
             tabkey:1,//默认tab状态
             visible: false,//条件查询框默认状态
-            form:{},//条件查询框获取数据dataset
             where:{},
+            activeKey:"",
       };
     },
 
@@ -52,24 +52,28 @@ const jgcx = React.createClass({
       type: 'json',
       data: params,
       success: (result) => {
+        if (result.data.length!=0) {
                 const pagination = this.state.pagination;
                 pagination.total = result.page.pageTotal;//要求后台返回json写法有属性page，该属性包含pageTotal（总条数值）
-                           function showTotal() { return "共"+pagination.total+"条";}
-                            pagination.showTotal = showTotal;//调用总条数返回方法
-          //以上判断目的是方便查询table样式根据model更改
+                function showTotal() { return "共"+pagination.total+"条";}
+                pagination.showTotal = showTotal;//调用总条数返回方法
                 this.setState({
-                  data: result.data,//传入后台获取数据，table组件要求每条查询记录必须拥有字段'key'
-                  urls:result.data[0]._links,
-                  loading:false,//关闭加载状态
+                        data: result.data,//传入后台获取数据，table组件要求每条查询记录必须拥有字段'key'
+                        urls:result.data[0]._links,
+                        loading:false,//关闭加载状态
                 });
-                this.fetch_jgxx();
+                this.onSelect(result.data[0]);
+                }else{//空数据处理
+                  const pagination = this.state.pagination;
+                         pagination.total = 0;
+                         this.setState({data: [],dataxx: {values: {}},datalist:[],loading:false,});
+                    };
               },
         error: (err) =>{alert('api错误');}
       });
   },
 
-    fetch_jgxx() {//详细信息（tab）数据处理方法，不能使用switch，否则会发生未知错误
-      let tabkey =this.state.tabkey //获取当前tab标签的key
+    fetch_jgxx(tabkey) {//详细信息（tab）数据处理方法，不能使用switch，否则会发生未知错误
       if (tabkey==1) {;
         req({
         url: this.state.urls.herf_sws,//从主查询获取的后台dataProvider路径
@@ -104,12 +108,18 @@ const jgcx = React.createClass({
     
     onSelect(record){//主查询记录被选中方法
        this.state.urls=record._links
-       this.fetch_jgxx()
+       if (this.state.tabkey) {
+        this.fetch_jgxx(this.state.tabkey);
+       }else{
+         this.fetch_jgxx(1);
+       };
+       // this.setState({activeKey:1});
+       
     },
 
     callback(key) {//tab标签变化返回值与方法
       this.state.tabkey=key;
-     this.fetch_jgxx()
+     this.fetch_jgxx(key)
   },
 
     handleSearchToggle(){//点击查询按钮，显示查询form
