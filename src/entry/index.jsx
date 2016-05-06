@@ -43,7 +43,11 @@ const routes = {
         require('../module/cwbb/xjllb'),
         require('../module/cwbb/zcmxb'),
         require('../module/cwbb/lrb'),
-        require('../module/cwbb/zcfzb')
+        require('../module/cwbb/zcfzb'),
+        
+        //手动上报报表
+        require('../module/sdsb/jzywtjb'),
+        require('../module/sdsb/jygmtjb')
 
     ]
 };
