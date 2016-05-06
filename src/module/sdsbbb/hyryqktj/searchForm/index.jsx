@@ -86,25 +86,26 @@ let searchForm = React.createClass({
         return <div className="search-form">
             <Form horizontal onSubmit={this.handleSubmit} form={this.props.form}>
                 <Row>
-                    <Col span="8">
+                <Col span="8">
                         <FormItem
                           {...formItemLayout}
                           label="事务所名称：">
-                            <Input placeholder="事务所名称" {...getFieldProps('swsmc')}/>
+                            <Input placeholder="事务所名称" {...getFieldProps('dwmc')}/>
                         </FormItem>
                     </Col>
                     <Col span="8">
                         <FormItem
                           {...formItemLayout}
-                          label="地区：">
+                          label="统计年度：">
+                            <SelectorYear { ...getFieldProps('nd')}/>
+                        </FormItem>
+                    </Col>
+                    
+                     <Col span="8">
+                        <FormItem
+                          {...formItemLayout}
+                          label="所在城市：">
                             <SelectorCS { ...getFieldProps('cs')}/>
-                        </FormItem>
-                    </Col>
-                    <Col span="8">
-                        <FormItem
-                          {...formItemLayout}
-                          label="状态：">
-                            <SelectorTGZT { ...getFieldProps('bbzt')}/>
                         </FormItem>
                     </Col>
                     </Row>
@@ -112,8 +113,8 @@ let searchForm = React.createClass({
                     <Col span="8">
                         <FormItem
                           {...formItemLayout}
-                          label="统计年度：">
-                            <SelectorYear { ...getFieldProps('nd')}/>
+                          label="状态：">
+                            <SelectorTGZT { ...getFieldProps('bbzt')}/>
                         </FormItem>
                     </Col>
                     <Col span="16">

@@ -90,7 +90,7 @@ let searchForm = React.createClass({
                         <FormItem
                           {...formItemLayout}
                           label="事务所名称：">
-                            <Input placeholder="事务所名称" {...getFieldProps('swsmc')}/>
+                            <Input placeholder="事务所名称" {...getFieldProps('dwmc')}/>
                         </FormItem>
                     </Col>
                     <Col span="8">

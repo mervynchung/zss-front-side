@@ -8,7 +8,7 @@ const detailBox = React.createClass({
 
         return <div className="fix-table table-bordered table-striped">
         <h1 style={{textAlign:'center'}}>{obj.nd}年度税务师事务所基本情况统计表（表1)</h1>
-            <Row><Col  span="12">编制地区(单位）：{obj.dwmc}</Col><Col  span="8">上报时间：{obj.sbsj}</Col><Col  span="4">单位：万元、人</Col></Row>
+            <Row className="dt"><Col  span="12">编制地区(单位）：{obj.dwmc}</Col><Col  span="8">上报时间：{obj.sbsj}</Col><Col  span="4">单位：万元、人</Col></Row>
             <table>
                 <tbody>
                 
@@ -46,8 +46,8 @@ const detailBox = React.createClass({
                 </tr>
                 </tbody>
             </table>
-            <Row><Col  span="8">填报人：{obj.tianbiaoren}</Col><Col  offspan="16">所长：{obj.suozhang}</Col></Row>
-            <div >
+            <Row className="dt"><Col  span="8">填报人：{obj.tianbiaoren}</Col><Col  offspan="16">所长：{obj.suozhang}</Col></Row>
+            <div className="sm">
                 <p>填表说明：</p>
                 <p>1、本表统计数据截止为统计年度的12月31日；上报截止期为次年3月31日。（具体时间以各省通知为准）</p>
                 <p>2、  机构所在地栏埴写XX地区（市）XX县（市、区）。</p>

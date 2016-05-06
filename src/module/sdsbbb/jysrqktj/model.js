@@ -7,6 +7,7 @@ const model = {
         {title: '收入总额', key: 'SRZE', dataIndex: 'SRZE'},
         {title: '支出总额', key: 'ZCZE', dataIndex: 'ZCZE'},
         {title: '利润总额', key: 'QTCYRY_RY_ZJ', dataIndex: 'QTCYRY_RY_ZJ'},
+        {title: '所在城市', key: 'cs', dataIndex: 'cs'},
         {title: '上报日期', key: 'sbsj', dataIndex: 'sbsj'},
         {title: '状态', key: 'bbzt', dataIndex: 'bbzt'},
     ],
