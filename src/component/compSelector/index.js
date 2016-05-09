@@ -21,6 +21,7 @@ var selector = {
     SelectorXB: require('./xb'), //性别
     SelectorRYSF: require('./rysf'), //人员身份
     SelectorYWLX:require('./ywlx'), //业务类型
+    SelectorTGZT:require('./tgzt'), //通过状态
 };
 
 module.exports = selector;

@@ -1,0 +1,12 @@
+.cwbb-lrb .fix-table td {
+    text-align: center;
+}
+.cwbb-lrb .fix-table td:first-child {
+    text-align: left;
+}
+.dt {
+	padding: 10px;
+}
+.sm {
+	padding: 20px;
+}

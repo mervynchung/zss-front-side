@@ -16,12 +16,13 @@ const routes = {
         /* 模块预加载方式 */
         //{ path: '/gn1(/)', component: gn1 },
 
+
         /* 模块懒加载方式 */
         //机构管理
-        require('../module/jggl/swscx'),
+       require('../module/jggl/swscx'),
 
         //人员管理
-       require('../module/rygl/rycx/zyswscx'),
+       require('../module/rygl/rycx'),
 
         //系统功能设置
         require('../module/xtgnsz/mkgl'),
@@ -44,10 +45,14 @@ const routes = {
         require('../module/cwbb/zcmxb'),
         require('../module/cwbb/lrb'),
         require('../module/cwbb/zcfzb'),
+
         
         //手动上报报表
-        require('../module/sdsb/jzywtjb'),
-        require('../module/sdsb/jygmtjb')
+        require('../module/sdsbbb/jzywtjb'),
+        require('../module/sdsbbb/jygmtjb'),
+        require('../module/sdsbbb/swsjbqkb'),
+        require('../module/sdsbbb/hyryqktj'),
+        require('../module/sdsbbb/jysrqktj')
 
     ]
 };
