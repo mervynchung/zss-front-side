@@ -5,8 +5,8 @@ import numeral from 'Numeral'
 
 const detailBox = React.createClass({
       formatnum(aa,bb){
-            if (aa!=0&&!!bb) {
-            return numeral((aa-bb)/aa).format('0.00%');
+            if (bb!=0&&!!bb) {
+            return numeral((aa-bb)/bb).format('0.00%');
             };
             return null
         },

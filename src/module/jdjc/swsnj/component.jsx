@@ -1,5 +1,5 @@
 import React from 'react'
-import {Table,Modal,Row,Col,Button,Icon,Alert} from 'antd'
+import {Table,Modal,Row,Col,Button,Icon,Alert,Affix} from 'antd'
 import CompPageHead from 'component/CompPageHead'
 import Panel from 'component/compPanel'
 import {columns,entityModel} from './model'
@@ -11,7 +11,7 @@ import {entityFormat} from 'common/utils'
 import DetailBox from './detailbox.jsx'
 
 
-const API_URL = config.HOST + config.URI_API_PROJECT + '/hyryqk1';
+const API_URL = config.HOST + config.URI_API_PROJECT + '/jdjc/swsnj1';
 const ToolBar = Panel.ToolBar;
 const ButtonGroup = Button.Group;
 
@@ -132,6 +132,7 @@ const lrb = React.createClass({
 
     render(){
         //定义工具栏内容
+        
         let toolbar = <ToolBar>
             <Button onClick={this.handleSearchToggle}>
                 <Icon type="search"/>查询
@@ -147,21 +148,24 @@ const lrb = React.createClass({
 
         //定义提示内容
         let helper = [];
-        helper.push(<p key="helper-0">点击查询结果查看执业税务师行业人员情况统计表明细</p>);
+        helper.push(<p key="helper-0">点击查询结果查看事务所年检情况</p>);
         helper.push(<p key="helper-1">检索功能只显示前1000条记录</p>);
 
         return <div className="cwbb-lrb">
             <div className="wrap">
-                {this.state.helper && <Alert message="执业税务师行业人员情况统计表检索查询帮助"
+                {this.state.helper && <Alert message="事务所年检情况查询帮助"
                                              description={helper}
                                              type="info"
                                              closable
                                              onClose={this.handleHelperClose}/>}
 
-                <Panel title="执业税务师行业人员情况统计表" toolbar={toolbar}>
+                <Panel title="事务所年检情况查询" toolbar={toolbar}>
                     {this.state.searchToggle && <SearchForm
                         onSubmit={this.handleSearchSubmit}/>}
                     <div className="h-scroll-table">
+                    <Affix >
+                    <Button type="primary" size="large" ><a href="javascript:scroll(0,0)">返回<p>顶部</p></a></Button>
+                    </Affix>
                         <Table columns={columns}
                                dataSource={this.state.data}
                                pagination={this.state.pagination}

@@ -19,7 +19,7 @@ const routes = {
 
         /* 模块懒加载方式 */
         //机构管理
-       require('../module/jggl/swscx'),
+      /* require('../module/jggl/swscx'),
 
         //人员管理
        require('../module/rygl/rycx'),
@@ -47,7 +47,11 @@ const routes = {
         require('../module/cwbb/zcfzb'),
         require('../module/sdsbbb/swsjbqkb'),
         require('../module/sdsbbb/hyryqktj'),
-        require('../module/sdsbbb/jysrqktj')
+        require('../module/sdsbbb/jysrqktj'),*/
+
+        //监督检查
+        require('../module/jdjc/swsnj')
+
 
     ]
 };
