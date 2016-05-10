@@ -1,7 +1,7 @@
 import '../common/lib';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Router,Route, browserHistory,hashHistory,IndexRoute} from 'react-router'
+import {Router, Route, browserHistory, hashHistory, IndexRoute} from 'react-router'
 import App from '../component/App';
 import home from '../module/home'
 
@@ -9,7 +9,7 @@ import home from '../module/home'
 const routes = {
     path: '/',
     component: App,
-    indexRoute: {component: home},
+    indexRoute: { component: home },
     ignoreScrollBehavior: true,
     breadcrumbName: '首页',
     childRoutes: [
@@ -19,10 +19,10 @@ const routes = {
 
         /* 模块懒加载方式 */
         //机构管理
-      /* require('../module/jggl/swscx'),
+        require('../module/jggl/swscx'),
 
         //人员管理
-       require('../module/rygl/rycx'),
+        require('../module/rygl/rycx'),
 
         //系统功能设置
         require('../module/xtgnsz/mkgl'),
@@ -46,13 +46,13 @@ const routes = {
         require('../module/cwbb/lrb'),
         require('../module/cwbb/zcfzb'),
 
-        
+
         //手动上报报表
         require('../module/sdsbbb/jzywtjb'),
         require('../module/sdsbbb/jygmtjb'),
         require('../module/sdsbbb/swsjbqkb'),
         require('../module/sdsbbb/hyryqktj'),
-        require('../module/sdsbbb/jysrqktj'),*/
+        require('../module/sdsbbb/jysrqktj'),
 
         //监督检查
         require('../module/jdjc/swsnj')
