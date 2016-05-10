@@ -163,9 +163,6 @@ const lrb = React.createClass({
                     {this.state.searchToggle && <SearchForm
                         onSubmit={this.handleSearchSubmit}/>}
                     <div className="h-scroll-table">
-                    <Affix >
-                    <Button type="primary" size="large" ><a href="javascript:scroll(0,0)">返回<p>顶部</p></a></Button>
-                    </Affix>
                         <Table columns={columns}
                                dataSource={this.state.data}
                                pagination={this.state.pagination}
