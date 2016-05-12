@@ -27,7 +27,7 @@ const routes = {
         require('../module/xtgnsz/mkgl'),
 
         //业务管理
-        require('../module/ywgl/ywbbgl'),
+    { /*  require('../module/ywgl/ywbbgl'),
         require('../module/ywgl/ywzlgl/sfjeyjgl'),
         require('../module/ywgl/ywzlgl/ndbtyjgl'),
         require('../module/ywgl/ywzlgl/ywwtyjgl'),
@@ -36,7 +36,7 @@ const routes = {
         //会员会费管理
         require('../module/hyhfgl/hfjlqk'),
         require('../module/hyhfgl/grhyhfgl'),
-        require('../module/hyhfgl/fzyhyhfgl'),
+        require('../module/hyhfgl/fzyhyhfgl'), 
 
         //财务报表
         require('../module/cwbb/lrfpb'),
@@ -47,7 +47,10 @@ const routes = {
         
         //手动上报报表
         require('../module/sdsb/jzywtjb'),
-        require('../module/sdsb/jygmtjb')
+        require('../module/sdsb/jygmtjb'),*/},
+        //监督检查
+        require('../module/jdjc/zyswsnjb')
+        
 
     ]
 };
