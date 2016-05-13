@@ -55,6 +55,10 @@ const routes = {
         require('../module/sdsbbb/jysrqktj'),
         require('../module/sdsbbb/wsbbbcx'),
 
+       
+        //历史记录查询
+        require('../module/lsjlcx/swslsjl/bglsjl'),
+
         //监督检查
         require('../module/jdjc/swsnj')
 
