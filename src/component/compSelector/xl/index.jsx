@@ -10,7 +10,7 @@ const Option = Select.Option;
 const selectorMZ = React.createClass({
     render(){
         const options = data.map(item=><Option key={item.id}>{item.mc}</Option>)
-        return <Select {...this.props} placeholder="选择学历" allowClear >
+        return <Select {...this.props} placeholder="选择学历"  >
             {options}
         </Select>
     }
