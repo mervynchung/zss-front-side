@@ -64,6 +64,14 @@ body {
 .h-scroll-table .ant-table-body {
     overflow-x: auto;
 }
+.h-scroll-table .fix-table th,
+.h-scroll-table .fix-table td {
+    white-space: nowrap;
+}
+
+.h-scroll-table .fix-table {
+    overflow-x: auto;
+}
 
 /*表格外边框*/
 .table-border .ant-table-body {
