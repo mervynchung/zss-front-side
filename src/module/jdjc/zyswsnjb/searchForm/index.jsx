@@ -1,6 +1,6 @@
 import React from 'react'
 import {Row,Col,Form,Button,Input,Modal,DatePicker} from 'antd'
-import {SelectorCS,SelectorDQ} from 'component/compSelector'
+import {SelectorCS,SelectorYear,SelectorZTDM} from 'component/compSelector'
 
 import './style.css'
 
@@ -35,11 +35,25 @@ let searchForm = React.createClass({
                     <Col span="8">
                         <FormItem
                           {...formItemLayout}
-                          label="名字：">
-                            <Input placeholder="名字" {...getFieldProps('XMING')}/>
+                          label="事务所名称：">
+                            <Input placeholder="事务所名称" {...getFieldProps('dwmc')}/>
                         </FormItem>
                     </Col>
-                     
+                    <Col span="8">
+                        <FormItem
+                          {...formItemLayout}
+                          label="年度：">
+                            <SelectorYear { ...getFieldProps('nd')}/>
+                        </FormItem>
+                    </Col>
+                     <Col span="8">
+                        <FormItem
+                          {...formItemLayout}
+                          label="状态：">
+                            <SelectorZTDM { ...getFieldProps('ZTDM')}/>
+                        </FormItem>
+                    </Col>
+                    
                     
                     
                 
