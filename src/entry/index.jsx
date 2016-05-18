@@ -29,7 +29,7 @@ const routes = {
         //系统功能设置
         require('../module/xtgnsz/mkgl'),
 
-       /* //业务管理
+      /*  //业务管理
         require('../module/ywgl/ywbbgl'),
         require('../module/ywgl/ywzlgl/sfjeyjgl'),
         require('../module/ywgl/ywzlgl/ndbtyjgl'),
@@ -46,7 +46,7 @@ const routes = {
         require('../module/cwbb/xjllb'),
         require('../module/cwbb/zcmxb'),
         require('../module/cwbb/lrb'),
-        require('../module/cwbb/zcfzb'),*/
+        require('../module/cwbb/zcfzb'),
 
 
         //手动上报报表
@@ -55,11 +55,19 @@ const routes = {
         require('../module/sdsbbb/swsjbqkb'),
         require('../module/sdsbbb/hyryqktj'),
         require('../module/sdsbbb/jysrqktj'),
-        require('../module/sdsbbb/wsbbbcx'),
+        require('../module/sdsbbb/wsbbbcx'),*/
 
        
         //历史记录查询
         require('../module/lsjlcx/swslsjl/bglsjl'),
+        require('../module/lsjlcx/swslsjl/yhbsws'),
+        require('../module/lsjlcx/swslsjl/yzxsws'),
+        require('../module/lsjlcx/zyswslsjl/snbgjl'),
+        require('../module/lsjlcx/zyswslsjl/snzsjl'),
+        require('../module/lsjlcx/zyswslsjl/snzzfjl'),
+        require('../module/lsjlcx/zyswslsjl/snzjjl'),
+        require('../module/lsjlcx/zyswslsjl/snzxjl'),
+        require('../module/lsjlcx/zyswslsjl/snbdjl'),
 
 
         //监督检查
