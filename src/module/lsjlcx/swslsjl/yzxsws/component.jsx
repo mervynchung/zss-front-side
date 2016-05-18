@@ -5,10 +5,9 @@ import {columns} from './model'
 import req from 'reqwest';
 import SearchForm from './searchForm'
 import config from 'common/configuration'
-import DetailBox from './detailbox.jsx'
 
 
-const API_URL = config.HOST + config.URI_API_PROJECT + '/hyryqk1';
+const API_URL = config.HOST + config.URI_API_PROJECT + '/swslsjl/yzxsws1';
 const ToolBar = Panel.ToolBar;
 const ButtonGroup = Button.Group;
 
@@ -82,14 +81,6 @@ const lrb = React.createClass({
         this.fetchData(params)
     },
 
-    //点击某行
-    handleRowClick(record){
-            this.setState({entity: record,detailHide:false});
-    },
-    //明细表关闭
-    handleDetailClose(){
-        this.setState({detailHide: true})
-    },
 
     //通过API获取数据
     fetchData(params = {pagenum: 1, pagesize: this.state.pagination.pageSize}){
@@ -144,18 +135,18 @@ const lrb = React.createClass({
 
         //定义提示内容
         let helper = [];
-        helper.push(<p key="helper-0">点击查询结果查看执业税务师行业人员情况统计表明细</p>);
-        helper.push(<p key="helper-1">检索功能只显示前1000条记录</p>);
+        helper.push(<p key="helper-0">本页显示已审核过的已注销事务所记录</p>);
+        helper.push(<p key="helper-1">只显示前1000条记录</p>);
 
         return <div className="cwbb-lrb">
             <div className="wrap">
-                {this.state.helper && <Alert message="执业税务师行业人员情况统计表检索查询帮助"
+                {this.state.helper && <Alert message="已注销事务所记录查询帮助"
                                              description={helper}
                                              type="info"
                                              closable
                                              onClose={this.handleHelperClose}/>}
 
-                <Panel title="执业税务师行业人员情况统计表" toolbar={toolbar}>
+                <Panel title="注销事务所基本情况表" toolbar={toolbar}>
                     {this.state.searchToggle && <SearchForm
                         onSubmit={this.handleSearchSubmit}/>}
                     <div className="h-scroll-table">
@@ -167,11 +158,7 @@ const lrb = React.createClass({
                                onRowClick={this.handleRowClick}/>
                     </div>
                 </Panel>
-                {this.state.detailHide ? null : <Panel 
-                                                       onClose={this.handleDetailClose}
-                                                       closable>
-                    <DetailBox data={this.state.entity}/>
-                </Panel>}
+                
             </div>
         </div>
     }

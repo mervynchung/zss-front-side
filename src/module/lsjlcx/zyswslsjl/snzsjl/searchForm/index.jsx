@@ -1,7 +1,6 @@
 import React from 'react'
 import {Row,Col,Form,Button,Input,Modal,DatePicker,Select} from 'antd'
 import {SelectorCS,SelectorYear,SelectorTGZT} from 'component/compSelector'
-
 import './style.css'
 
 const FormItem = Form.Item;
@@ -33,8 +32,8 @@ let searchForm = React.createClass({
      const form = this.props.form;
      if (value && value.getTime() >= Date.now()) {
       callback(new Error('这是个将来的时间'));
-    } else if (form.getFieldValue('sbsj2')) {
-       if (value.getTime() > form.getFieldValue('sbsj2').getTime() ) {
+    } else if (form.getFieldValue('sbrq2')) {
+       if (value.getTime() > form.getFieldValue('sbrq2').getTime() ) {
       callback(new Error('最小时间大于最大时间'));
     } else {
       callback();
@@ -46,8 +45,8 @@ let searchForm = React.createClass({
   },
   disabledEndDate(rule, value, callback) {//日期校验规则方法
     const form = this.props.form;
-    if (form.getFieldValue('sbsj')) {
-       if (value&&value.getTime() < form.getFieldValue('sbsj').getTime() ) {
+    if (form.getFieldValue('sbrq')) {
+       if (value&&value.getTime() < form.getFieldValue('sbrq').getTime() ) {
       callback(new Error('最大时间小于最小时间'));
     }else {
       callback();
@@ -66,7 +65,7 @@ let searchForm = React.createClass({
       labelCol: { span: 4 },
       wrapperCol: { span: 20 },
     };
-        const clsj = getFieldProps('sbsj', {//设置日期输入组件校验规则
+        const clsj = getFieldProps('sbrq', {//设置日期输入组件校验规则
       rules: [
         { 
            type: 'date', 
@@ -75,7 +74,7 @@ let searchForm = React.createClass({
         }
       ]
     });
-       const clsj2 = getFieldProps('sbsj2', {//设置日期输入组件校验规则
+       const clsj2 = getFieldProps('sbrq2', {//设置日期输入组件校验规则
       rules: [
         {
           type: 'date', 
@@ -89,39 +88,24 @@ let searchForm = React.createClass({
                     <Col span="8">
                         <FormItem
                           {...formItemLayout}
-                          label="事务所名称：">
-                            <Input placeholder="事务所名称" {...getFieldProps('dwmc')}/>
+                          label="姓名：">
+                            <Input placeholder="姓名" {...getFieldProps('xm')}/>
                         </FormItem>
                     </Col>
-                    <Col span="8">
-                        <FormItem
-                          {...formItemLayout}
-                          label="地区：">
-                            <SelectorCS { ...getFieldProps('cs')}/>
-                        </FormItem>
-                    </Col>
-                    <Col span="8">
+                    <Col span="4">
                         <FormItem
                           {...formItemLayout}
                           label="状态：">
-                          <Select { ...getFieldProps('bbzt')} placeholder="选择状态"   >
-                            <Option key="2">已自检</Option>
-                            <Option key="3">已年检</Option>
+                           <Select { ...getFieldProps('spzt')} placeholder="选择状态"   >
+                            <Option key="1">审批中</Option>
+                            <Option key="2">通过</Option>
+                            <Option key="3">不通过</Option>
                         </Select>
                         </FormItem>
                     </Col>
-                    </Row>
-                     <Row>
-                    <Col span="8">
+                    <Col span="12">
                         <FormItem
-                          {...formItemLayout}
-                          label="统计年度：">
-                            <SelectorYear { ...getFieldProps('nd')}/>
-                        </FormItem>
-                    </Col>
-                    <Col span="16">
-                        <FormItem
-                              label="自检时间："
+                              label="上报时间："
                               {...formItemLayout2}>
                                 <Col span="11">
                                 <FormItem>

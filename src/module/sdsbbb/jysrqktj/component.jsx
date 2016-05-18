@@ -1,13 +1,10 @@
 import React from 'react'
 import {Table,Modal,Row,Col,Button,Icon,Alert} from 'antd'
-import CompPageHead from 'component/CompPageHead'
 import Panel from 'component/compPanel'
-import {columns,entityModel} from './model'
+import {columns} from './model'
 import req from 'reqwest';
 import SearchForm from './searchForm'
 import config from 'common/configuration'
-import BaseTable from 'component/compBaseTable'
-import {entityFormat} from 'common/utils'
 import DetailBox from './detailbox.jsx'
 
 

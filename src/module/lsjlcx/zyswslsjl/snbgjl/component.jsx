@@ -8,7 +8,7 @@ import config from 'common/configuration'
 import DetailBox from './detailbox.jsx'
 
 
-const API_URL = config.HOST + config.URI_API_PROJECT + '/hyryqk1';
+const API_URL = config.HOST + config.URI_API_PROJECT + '/swslsjl/snbgjl1';
 const ToolBar = Panel.ToolBar;
 const ButtonGroup = Button.Group;
 
@@ -129,6 +129,7 @@ const lrb = React.createClass({
 
     render(){
         //定义工具栏内容
+        
         let toolbar = <ToolBar>
             <Button onClick={this.handleSearchToggle}>
                 <Icon type="search"/>查询
@@ -144,18 +145,19 @@ const lrb = React.createClass({
 
         //定义提示内容
         let helper = [];
-        helper.push(<p key="helper-0">点击查询结果查看执业税务师行业人员情况统计表明细</p>);
-        helper.push(<p key="helper-1">检索功能只显示前1000条记录</p>);
+        helper.push(<p key="helper-0">显示审核结束的执业税务师变更信息</p>);
+        helper.push(<p key="helper-1">点击查询结果查看执业人员信息变更详细项目</p>);
+        helper.push(<p key="helper-2">检索功能只显示前1000条记录</p>);
 
         return <div className="cwbb-lrb">
             <div className="wrap">
-                {this.state.helper && <Alert message="执业税务师行业人员情况统计表检索查询帮助"
+                {this.state.helper && <Alert message="执业人员信息变更查询帮助"
                                              description={helper}
                                              type="info"
                                              closable
                                              onClose={this.handleHelperClose}/>}
 
-                <Panel title="执业税务师行业人员情况统计表" toolbar={toolbar}>
+                <Panel title="执业人员信息变更查询" toolbar={toolbar}>
                     {this.state.searchToggle && <SearchForm
                         onSubmit={this.handleSearchSubmit}/>}
                     <div className="h-scroll-table">

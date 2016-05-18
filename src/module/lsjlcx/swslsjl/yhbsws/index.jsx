@@ -1,7 +1,7 @@
-/*模块设置功能*/
+/*已合并事务所*/
 module.exports = {
-    path: 'sdsb/jygmtjb(/)',
-    breadcrumbName:'报表管理/手动上报报表/经营规模统计表',
+    path: 'lsjlcx/swslsjl/yhbsws(/)',
+    breadcrumbName:'历史记录查询 / 事务所历史记录 / 注销历史记录',
     getComponent(location, cb) {
         require.ensure([], (require) => {
             cb(null, require('./component'))

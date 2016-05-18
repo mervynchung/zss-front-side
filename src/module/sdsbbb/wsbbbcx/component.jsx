@@ -5,10 +5,9 @@ import {columns} from './model'
 import req from 'reqwest';
 import SearchForm from './searchForm'
 import config from 'common/configuration'
-import DetailBox from './detailbox.jsx'
 
 
-const API_URL = config.HOST + config.URI_API_PROJECT + '/hyryqk1';
+const API_URL = config.HOST + config.URI_API_PROJECT + '/wsbbbcx1';
 const ToolBar = Panel.ToolBar;
 const ButtonGroup = Button.Group;
 
@@ -25,11 +24,12 @@ const lrb = React.createClass({
                 showQuickJumper: true,
                 pageSizeOptions: ['5', '10', '20']
                  },
-            searchToggle: false,
+            searchToggle: true,
             where: '',
-            helper: false,
+            helper: true,
             entity: '',
-            detailHide: true
+            detailHide: true,
+            tables:false,
         }
     },
 
@@ -39,7 +39,6 @@ const lrb = React.createClass({
         pager.current = pagination.current;
         pager.pageSize = pagination.pageSize;
         this.setState({pagination: pager});
-
         this.fetchData({
             pagenum: pager.current,
             pagesize: pager.pageSize,
@@ -47,18 +46,6 @@ const lrb = React.createClass({
         })
     },
 
-    //查询按钮
-    handleSearchToggle(){
-        this.setState({searchToggle: !this.state.searchToggle});
-    },
-
-    //刷新按钮
-    handleRefresh(){
-        const pager = this.state.pagination;
-        pager.current = 1;
-        this.setState({pagination: pager, where: ''});
-        this.fetchData();
-    },
 
     //帮助按钮
     handleHelper(){
@@ -82,14 +69,6 @@ const lrb = React.createClass({
         this.fetchData(params)
     },
 
-    //点击某行
-    handleRowClick(record){
-            this.setState({entity: record,detailHide:false});
-    },
-    //明细表关闭
-    handleDetailClose(){
-        this.setState({detailHide: true})
-    },
 
     //通过API获取数据
     fetchData(params = {pagenum: 1, pagesize: this.state.pagination.pageSize}){
@@ -108,7 +87,8 @@ const lrb = React.createClass({
             this.setState({
                 data: resp.data,
                 pagination: p,
-                loading: false
+                loading: false,
+                tables:true,
             })
         }).fail(err=> {
             this.setState({loading: false});
@@ -123,58 +103,44 @@ const lrb = React.createClass({
         })
     },
 
-    componentDidMount(){
-        this.fetchData();
-    },
 
     render(){
         //定义工具栏内容
         let toolbar = <ToolBar>
-            <Button onClick={this.handleSearchToggle}>
-                <Icon type="search"/>查询
-                { this.state.searchToggle ? <Icon className="toggle-tip" type="circle-o-up"/> :
-                    <Icon className="toggle-tip" type="circle-o-down"/>}
-            </Button>
 
             <ButtonGroup>
                 <Button type="primary" onClick={this.handleHelper}><Icon type="question"/></Button>
-                <Button type="primary" onClick={this.handleRefresh}><Icon type="reload"/></Button>
             </ButtonGroup>
         </ToolBar>;
 
         //定义提示内容
         let helper = [];
-        helper.push(<p key="helper-0">点击查询结果查看执业税务师行业人员情况统计表明细</p>);
-        helper.push(<p key="helper-1">检索功能只显示前1000条记录</p>);
+        helper.push(<p key="helper-0">选择报表类型和年度，<b>点击查询按钮</b>，查看该类报表当年度未上报报表事务所及其信息</p>);
+        helper.push(<p key="helper-1">系统默认选择当前时间应上报报表年度，默认类型为税务师事务所基本情况统计表（表1)</p>);
 
         return <div className="cwbb-lrb">
             <div className="wrap">
-                {this.state.helper && <Alert message="执业税务师行业人员情况统计表检索查询帮助"
+                {this.state.helper && <Alert message="未上报报表查询帮助"
                                              description={helper}
                                              type="info"
                                              closable
                                              onClose={this.handleHelperClose}/>}
 
-                <Panel title="执业税务师行业人员情况统计表" toolbar={toolbar}>
+                <Panel title="事务所基本情况表" toolbar={toolbar}>
                     {this.state.searchToggle && <SearchForm
                         onSubmit={this.handleSearchSubmit}/>}
                     <div className="h-scroll-table">
-                        <Table columns={columns}
+                      {this.state.tables && <Table columns={columns}
                                dataSource={this.state.data}
                                pagination={this.state.pagination}
                                loading={this.state.loading}
-                               onChange={this.handleChange}
-                               onRowClick={this.handleRowClick}/>
+                               onChange={this.handleChange} />}
                     </div>
                 </Panel>
-                {this.state.detailHide ? null : <Panel 
-                                                       onClose={this.handleDetailClose}
-                                                       closable>
-                    <DetailBox data={this.state.entity}/>
-                </Panel>}
             </div>
         </div>
     }
 });
 
 module.exports = lrb;
+  
