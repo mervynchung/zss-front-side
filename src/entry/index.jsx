@@ -49,7 +49,11 @@ const routes = {
         require('../module/sdsb/jzywtjb'),
         require('../module/sdsb/jygmtjb'),*/},
         //监督检查
-        require('../module/jdjc/zyswsnjb')
+        require('../module/jdjc/zyswsnjb'),
+        require('../module/cwbb/wsbbb'),
+        require('../module/lsjlcx/fzyzjjl'),
+        require('../module/lsjlcx/fzyzxjl'),
+        require('../module/lsjlcx/fzyzzyjl'),
         
 
     ]
