@@ -1,12 +1,12 @@
 import React from 'react'
-import {Row,Col,Form,Button,Input,Modal,DatePicker} from 'antd'
+import {Row,Col,Form,Button,Input,Modal,DatePicker,Select} from 'antd'
 import {SelectorCS,SelectorYear,SelectorTGZT} from 'component/compSelector'
 
 import './style.css'
 
 const FormItem = Form.Item;
 const createForm = Form.create;
-
+const Option = Select.Option;
 let searchForm = React.createClass({
     getDefaultProps(){
         return {
@@ -104,7 +104,10 @@ let searchForm = React.createClass({
                         <FormItem
                           {...formItemLayout}
                           label="状态：">
-                            <SelectorTGZT { ...getFieldProps('bbzt')}/>
+                          <Select { ...getFieldProps('bbzt')} placeholder="选择状态"   >
+                            <Option key="2">已自检</Option>
+                            <Option key="3">已年检</Option>
+                        </Select>
                         </FormItem>
                     </Col>
                     </Row>
@@ -118,18 +121,18 @@ let searchForm = React.createClass({
                     </Col>
                     <Col span="16">
                         <FormItem
-                              label="上报时间："
+                              label="自检时间："
                               {...formItemLayout2}>
                                 <Col span="11">
                                 <FormItem>
-                                <DatePicker id="clsj1"  placeholder="请选择日期" {...sbsj} /></FormItem>
+                                <DatePicker id="clsj1"  placeholder="请选择日期" {...clsj} /></FormItem>
                                 </Col>
                                 <Col span="2">
                                   <p className="ant-form-split">至</p>
                                 </Col>
                                 <Col span="11">
                                  <FormItem>
-                                    <DatePicker id="clsj2" placeholder="请选择日期"  {...sbsj2} /></FormItem>
+                                    <DatePicker id="clsj2" placeholder="请选择日期"  {...clsj2} /></FormItem>
                                 </Col>
                             </FormItem>
                     </Col>

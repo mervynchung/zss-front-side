@@ -19,7 +19,9 @@ const routes = {
 
         /* 模块懒加载方式 */
         //机构管理
-        require('../module/jggl/swscx'),
+
+       require('../module/jggl/swscx'),
+
 
         //人员管理
         require('../module/rygl/rycx'),
@@ -27,7 +29,7 @@ const routes = {
         //系统功能设置
         require('../module/xtgnsz/mkgl'),
 
-        //业务管理
+       //业务管理
         require('../module/ywgl/ywbbgl'),
         require('../module/ywgl/ywzlgl/sfjeyjgl'),
         require('../module/ywgl/ywzlgl/ndbtyjgl'),
@@ -37,7 +39,7 @@ const routes = {
         //会员会费管理
         require('../module/hyhfgl/hfjlqk'),
         require('../module/hyhfgl/grhyhfgl'),
-        require('../module/hyhfgl/fzyhyhfgl'),
+        require('../module/hyhfgl/fzyhyhfgl'), 
 
         //财务报表
         require('../module/cwbb/lrfpb'),
@@ -45,6 +47,7 @@ const routes = {
         require('../module/cwbb/zcmxb'),
         require('../module/cwbb/lrb'),
         require('../module/cwbb/zcfzb'),
+        require('../module/cwbb/wsbbb'),
 
 
         //手动上报报表
@@ -53,8 +56,26 @@ const routes = {
         require('../module/sdsbbb/swsjbqkb'),
         require('../module/sdsbbb/hyryqktj'),
         require('../module/sdsbbb/jysrqktj'),
+        require('../module/sdsbbb/wsbbbcx'),
+
+       
+        //历史记录查询
+        require('../module/lsjlcx/swslsjl/bglsjl'),
+        require('../module/lsjlcx/swslsjl/yhbsws'),
+        require('../module/lsjlcx/swslsjl/yzxsws'),
+        require('../module/lsjlcx/zyswslsjl/snbgjl'),
+        require('../module/lsjlcx/zyswslsjl/snzsjl'),
+        require('../module/lsjlcx/zyswslsjl/snzzfjl'),
+        require('../module/lsjlcx/zyswslsjl/snzjjl'),
+        require('../module/lsjlcx/zyswslsjl/snzxjl'),
+        require('../module/lsjlcx/zyswslsjl/snbdjl'),
+        require('../module/lsjlcx/fzyzjjl'),
+        require('../module/lsjlcx/fzyzxjl'),
+        require('../module/lsjlcx/fzyzzyjl'),
+
 
         //监督检查
+        require('../module/jdjc/zyswsnjb'),
         require('../module/jdjc/swsnj')
 
 

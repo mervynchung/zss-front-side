@@ -5,7 +5,7 @@ import './style.css'
 
 const detailBox = React.createClass({
     render(){
-        const obj = this.props.data;//style={{position:'fixed'},{top:'75%'},{left:'85%'}} 
+        const obj = this.props.data;
         var arr1 =[];
         arr1 = obj.ZJWGDM.split(',');
         var obj2={};
@@ -19,10 +19,7 @@ const detailBox = React.createClass({
             obj3[arr2[i]]=true;
         }
         return <div className="fix-table table-bordered table-striped">
-         <div className="go-top">
-        <div className="arrow"></div>
-        <div className="stick"></div>
-    </div>
+         
             <table >
                 <tbody>
                 
