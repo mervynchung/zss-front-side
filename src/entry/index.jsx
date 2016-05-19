@@ -3,8 +3,18 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {Router, Route, browserHistory, hashHistory, IndexRoute} from 'react-router';
 import App from '../component/App';
-import Login from 'component/login';
+import Login from 'module/login';
 import home from '../module/home';
+import auth from 'common/auth'
+
+function requireAuth(nextState, replace) {
+    if (!auth.loggedIn()) {
+        replace({
+            pathname: '/login',
+            state: { nextPathname: nextState.location.pathname }
+        })
+    }
+}
 
 /*路由配置*/
 const routes = [{
@@ -13,6 +23,7 @@ const routes = [{
     indexRoute: {component: home},
     ignoreScrollBehavior: true,
     breadcrumbName: '首页',
+    onEnter:requireAuth,
     childRoutes: [
         /* 模块预加载方式
          { path: '/gn1(/)', component: gn1 },
@@ -80,11 +91,11 @@ const routes = [{
         require('../module/jdjc/swsnj')
     ]
 },{
-    path:'/',
+    path:'/login',
     component: Login
 }];
 
-ReactDOM.render(<Router history={hashHistory} routes={routes}/>, document.getElementById('app'));
+ReactDOM.render(<Router history={browserHistory } routes={routes}/>, document.getElementById('app'));
 
 
 
