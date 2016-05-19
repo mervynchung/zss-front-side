@@ -1,26 +1,27 @@
 import '../common/lib';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Router, Route, browserHistory, hashHistory, IndexRoute} from 'react-router'
+import {Router, Route, browserHistory, hashHistory, IndexRoute} from 'react-router';
 import App from '../component/App';
-import home from '../module/home'
+import Login from 'component/login';
+import home from '../module/home';
 
 /*路由配置*/
-const routes = {
+const routes = [{
     path: '/',
     component: App,
-    indexRoute: { component: home },
+    indexRoute: {component: home},
     ignoreScrollBehavior: true,
     breadcrumbName: '首页',
     childRoutes: [
-        /* 模块预加载方式 */
-        //{ path: '/gn1(/)', component: gn1 },
-
+        /* 模块预加载方式
+         { path: '/gn1(/)', component: gn1 },
+         */
 
         /* 模块懒加载方式 */
         //机构管理
 
-       require('../module/jggl/swscx'),
+        require('../module/jggl/swscx'),
 
 
         //人员管理
@@ -29,7 +30,7 @@ const routes = {
         //系统功能设置
         require('../module/xtgnsz/mkgl'),
 
-       //业务管理
+        //业务管理
         require('../module/ywgl/ywbbgl'),
         require('../module/ywgl/ywzlgl/sfjeyjgl'),
         require('../module/ywgl/ywzlgl/ndbtyjgl'),
@@ -39,7 +40,7 @@ const routes = {
         //会员会费管理
         require('../module/hyhfgl/hfjlqk'),
         require('../module/hyhfgl/grhyhfgl'),
-        require('../module/hyhfgl/fzyhyhfgl'), 
+        require('../module/hyhfgl/fzyhyhfgl'),
 
         //财务报表
         require('../module/cwbb/lrfpb'),
@@ -58,7 +59,7 @@ const routes = {
         require('../module/sdsbbb/jysrqktj'),
         require('../module/sdsbbb/wsbbbcx'),
 
-       
+
         //历史记录查询
         require('../module/lsjlcx/swslsjl/bglsjl'),
         require('../module/lsjlcx/swslsjl/yhbsws'),
@@ -77,10 +78,11 @@ const routes = {
         //监督检查
         require('../module/jdjc/zyswsnjb'),
         require('../module/jdjc/swsnj')
-
-
     ]
-};
+},{
+    path:'/',
+    component: Login
+}];
 
 ReactDOM.render(<Router history={hashHistory} routes={routes}/>, document.getElementById('app'));
 
