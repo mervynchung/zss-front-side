@@ -103,7 +103,8 @@ var config = {
         proxy: {
             "/api/*": "http://localhost:8080/"
         },
-        compress: true
+        compress: true,
+        historyApiFallback:true
     }
 };
 
