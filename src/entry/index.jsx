@@ -24,6 +24,7 @@ const routes = [{
     indexRoute: {component: home},
     ignoreScrollBehavior: true,
     breadcrumbName: '首页',
+    onEnter:requireAuth,
     childRoutes: [
         /* 模块预加载方式
          { path: '/gn1(/)', component: gn1 },
@@ -33,8 +34,7 @@ const routes = [{
         //机构管理
         require('../module/xtgnsz/mkgl'),
         require('../module/jggl/swscx'),
-        { path: '/xtgnsz/login', component: Login }
-
+        require('../module/cwbb/lrb')
 
         //人员管理
         /*       require('../module/rygl/rycx'),
