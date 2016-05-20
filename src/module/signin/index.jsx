@@ -7,7 +7,7 @@ import {withRouter} from 'react-router'
 
 const API_URL = config.HOST + config.URI_API_FRAMEWORK + '/auth';
 
-const login = withRouter(React.createClass({
+const signin = withRouter(React.createClass({
     handleSubmit(value){
         req({
             url: API_URL,
@@ -29,11 +29,11 @@ const login = withRouter(React.createClass({
 
     },
     render(){
-        return <div>
+        return <div className="sign-in">
             <LoginForm onSubmit={this.handleSubmit}/>
         </div>
     }
 }));
 
 
-module.exports = login;
+module.exports = signin;

@@ -3,7 +3,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {Router, Route, browserHistory, hashHistory, IndexRoute} from 'react-router';
 import App from '../component/App';
-import Login from 'module/login';
+import Signin from 'module/signin';
 import home from '../module/home';
 import auth from 'common/auth'
 import NotFound from 'module/notfound'
@@ -11,7 +11,7 @@ import NotFound from 'module/notfound'
 function requireAuth(nextState, replace) {
     if (!auth.loggedIn()) {
         replace({
-            pathname: '/login',
+            pathname: '/signin',
             state: {nextPathname: nextState.location.pathname}
         })
     }
@@ -92,8 +92,8 @@ const routes = [{
          require('../module/jdjc/swsnj')*/
     ]
 }, {
-    path: '/login',
-    component: Login
+    path: '/signin',
+    component: Signin
 }, {
     path: '*',
     component: NotFound
