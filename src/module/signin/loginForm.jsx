@@ -33,7 +33,7 @@ let loginForm = React.createClass({
                             {...getFieldProps('agreement')} />记住我
                     </label>
                 </FormItem>
-                <Button type="primary" htmlType="submit">登录</Button>
+                <Button type="primary" htmlType="submit" loading={this.props.loading}>登录</Button>
             </Form></div>
     }
 });

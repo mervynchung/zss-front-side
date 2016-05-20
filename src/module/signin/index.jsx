@@ -8,7 +8,14 @@ import {withRouter} from 'react-router'
 const API_URL = config.HOST + config.URI_API_FRAMEWORK + '/auth';
 
 const signin = withRouter(React.createClass({
+    getInitialState(){
+        return {
+            loading: false
+        }
+    },
+
     handleSubmit(value){
+        this.setState({loading: true})
         req({
             url: API_URL,
             method: 'post',
@@ -28,9 +35,14 @@ const signin = withRouter(React.createClass({
         })
 
     },
+    componentWillMount(){
+        if(store.get("token")){
+            this.props.router.replace('/')
+        }
+    },
     render(){
         return <div className="sign-in">
-            <LoginForm onSubmit={this.handleSubmit}/>
+            <LoginForm onSubmit={this.handleSubmit} loading={this.state.loading}/>
         </div>
     }
 }));
