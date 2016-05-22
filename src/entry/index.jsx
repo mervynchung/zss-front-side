@@ -1,21 +1,26 @@
 import '../common/lib';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Router, Route, browserHistory, hashHistory, IndexRoute} from 'react-router';
+import {Router, Route, browserHistory, hashHistory, IndexRoute,useRouterHistory} from 'react-router';
+import { createHistory } from 'history'
 import App from '../component/App';
 import Signin from 'module/signin';
 import home from '../module/home';
 import auth from 'common/auth'
-import NotFound from 'module/notfound'
+import NotFound from 'module/404notfound'
 
+/*登录校验*/
 function requireAuth(nextState, replace) {
-    if (!auth.loggedIn()) {
+    let logged = auth.isloggedIn();
+    if (!auth.isloggedIn()) {
         replace({
             pathname: '/signin',
             state: {nextPathname: nextState.location.pathname}
         })
     }
 }
+
+const history = useRouterHistory(createHistory)({ basename:'/' });
 
 /*路由配置*/
 const routes = [{
@@ -99,7 +104,7 @@ const routes = [{
     component: NotFound
 }];
 
-ReactDOM.render(<Router history={browserHistory} routes={routes}/>, document.getElementById('app'));
+ReactDOM.render(<Router history={history} routes={routes}/>, document.getElementById('app'));
 
 
 

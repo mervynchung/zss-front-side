@@ -3,7 +3,7 @@
     width:100%;
     height:auto;
     min-height:100%;
-    padding-top:72px
+    padding-top:120px
 }
 .sign-in:before{
     position: absolute;
@@ -44,10 +44,10 @@
     line-height: 1.3333333;
     border-radius: 2px;
     width:312px;
-    background-color: #5E30B5;
-    border-color: #7A43E2;
+    background-color:#18791B;
+    border-color:#39A30E;
 }
 .sign-in button:hover{
-    background-color: #7A43E2;
-    border-color: #7A43E2;
+    background-color:#39A30E;
+    border-color:#39A30E;
 }
