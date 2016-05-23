@@ -4,18 +4,21 @@ import req from 'reqwest'
 import config from 'common/configuration'
 import store from 'storejs'
 import {withRouter} from 'react-router'
+import {Alert} from 'antd'
 
 const API_URL = config.HOST + config.URI_API_FRAMEWORK + '/auth';
 
 const signin = withRouter(React.createClass({
     getInitialState(){
         return {
-            loading: false
+            loading: false,
+            authFail:false,
+            authFailMes:''
         }
     },
 
     handleSubmit(value){
-        this.setState({loading: true})
+        this.setState({loading: true});
         req({
             url: API_URL,
             method: 'post',
@@ -32,7 +35,14 @@ const signin = withRouter(React.createClass({
             } else {
                 this.props.router.replace('/')
             }
-        }).fail()
+        }).fail((e)=>{
+            e = JSON.parse(e.response)
+            this.setState({
+                loading:false,
+                authFail:true,
+                authFailMes:e.text
+            });
+        })
 
     },
     componentWillMount(){
@@ -43,6 +53,13 @@ const signin = withRouter(React.createClass({
     render(){
         return <div className="sign-in">
             <LoginForm onSubmit={this.handleSubmit} loading={this.state.loading}/>
+            <div className="feedback">
+                {this.state.authFail &&
+                <Alert
+                  message={this.state.authFailMes}
+                  type="error" showIcon
+                />}
+            </div>
         </div>
     }
 }));
