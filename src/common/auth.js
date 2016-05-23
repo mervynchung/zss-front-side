@@ -4,10 +4,14 @@
 import req from 'reqwest'
 import config from './configuration'
 import store from 'storejs'
-const URL = config.URI_API_FRAMEWORK + '/auth';
+import md5  from 'crypto-js/md5'
 
+const salt = 'Z2R6c21pcw==';
 module.exports = {
     verifyAuth(){
-        return  store.get("token");
+        let token =  store.get("token");
+        const tokenhash = store.get("tokenhash");
+        token = md5(md5(token)+salt);
+        return (token.toString() == tokenhash);
     }
 };
