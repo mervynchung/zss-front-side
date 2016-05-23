@@ -3,24 +3,20 @@ import React from 'react';
 import AppHeader from './AppHeader';
 import AppSideNav from './AppSideNav';
 import AppFooter from './AppFooter';
-import {QueueAnim, Breadcrumb,Alert} from 'antd'
+import {QueueAnim, Breadcrumb,Alert,Modal} from 'antd'
 import req from 'reqwest'
 import config from 'common/configuration'
 
 
 
 const url  = config.HOST + config.URI_API_FRAMEWORK + '/asidemenu';
-const errorAlert = <div className="sys-alert"><Alert
-  message="数据读取错误：无法获取所需数据，应用服务工作情况可能不正常"
-  type="error" /></div>
 
 class App extends React.Component {
 
     constructor(props) {
         super(props);
         this.state={
-            asideMenu : [],
-            errorAlert:''
+            asideMenu : []
         };
     }
 
@@ -34,15 +30,15 @@ class App extends React.Component {
                 asideMenu:resp
             })
         }).fail(err=>{
-            this.setState({
-                errorAlert:errorAlert
-            })
+            Modal.error({
+                title: '数据获取错误',
+                content: '无法获取所需数据，请检查应用服务工作情况'
+            });
         })
     }
 
     render() {
         return <div className="app-main">
-            {this.state.errorAlert}
             <AppHeader/>
             <AppSideNav data={this.state.asideMenu}/>
             <div className="app-breadcrumb"><Breadcrumb  {...this.props} /></div>

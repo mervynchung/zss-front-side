@@ -3,20 +3,11 @@
  */
 import req from 'reqwest'
 import config from './configuration'
+import store from 'storejs'
 const URL = config.URI_API_FRAMEWORK + '/auth';
 
 module.exports = {
-    isloggedIn(){
-        let loggedIn = false;
-        const token = localStorage.getItem("token");
-        req({
-            url: URL,
-            method: 'get',
-            type: 'json',
-            headers: {'x-auth-token': token}
-        }).then(()=> {
-            loggedIn = true
-        });
-        return loggedIn;
+    verifyAuth(){
+        return  store.get("token");
     }
 };

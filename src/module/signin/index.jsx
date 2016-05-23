@@ -32,7 +32,7 @@ const signin = withRouter(React.createClass({
             } else {
                 this.props.router.replace('/')
             }
-        })
+        }).fail()
 
     },
     componentWillMount(){
