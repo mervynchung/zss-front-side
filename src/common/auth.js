@@ -3,7 +3,7 @@
  */
 import req from 'reqwest'
 import config from './configuration'
-import store from 'storejs'
+import store from 'store2'
 import md5  from 'crypto-js/md5'
 
 const salt = 'Z2R6c21pcw==';

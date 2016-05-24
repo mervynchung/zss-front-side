@@ -2,7 +2,7 @@ import React from 'react'
 import LoginForm from './loginForm'
 import req from 'reqwest'
 import config from 'common/configuration'
-import store from 'storejs'
+import store from 'store2'
 import {withRouter} from 'react-router'
 import {Alert} from 'antd'
 
