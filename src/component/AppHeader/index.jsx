@@ -8,7 +8,7 @@ const AppHeader = React.createClass({
         return (
             <header className="app-header box-shadow">
                 <AppLogo/>
-                <CompUserPanel />
+                <CompUserPanel data={this.props.data}/>
             </header>
         );
     }

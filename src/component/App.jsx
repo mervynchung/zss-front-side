@@ -9,48 +9,34 @@ import config from 'common/configuration'
 import store from 'store2'
 
 
-
-const url  = config.HOST + config.URI_API_FRAMEWORK + '/asidemenu';
 const API_URL = config.URI_API_FRAMEWORK + '/account';
 
 class App extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state={
-            asideMenu : []
+        this.state = {
+            asideMenu: [],
+            accountInfo:{}
         };
     }
 
-/*    componentDidMount(){
-        req({
-            url:url + '?l=A', //获取中心端模块菜单
-            type:'json',
-            method:'get'
-        }).then(resp=>{
-            this.setState({
-                asideMenu:resp
-            })
-        }).fail(err=>{
-            Modal.error({
-                title: '数据获取错误',
-                content: '无法获取所需数据，请检查应用服务工作情况'
-            });
-        })
-    }*/
-
-    componentDidMount(){
+    componentDidMount() {
         let userId = store.get("userId");
+        let accountInfo = {
+            names: store.get("names"),
+            newMsg: false
+        };
+        this.setState({accountInfo: accountInfo});
         req({
-            url:API_URL +'/'+ userId,
-            type:'json',
-            method:'get'
-        }).then(resp=>{
-            console.log(resp)
+            url: API_URL + '/' + userId,
+            type: 'json',
+            method: 'get'
+        }).then(resp=> {
             this.setState({
-                asideMenu:resp.menu
+                asideMenu: resp.menu
             })
-        }).fail(err=>{
+        }).fail(err=> {
             Modal.error({
                 title: '数据获取错误',
                 content: '无法获取所需数据，请稍后再尝试'
@@ -60,14 +46,14 @@ class App extends React.Component {
 
     render() {
         return <div className="app-main">
-            <AppHeader/>
+            <AppHeader data={this.state.accountInfo}/>
             <AppSideNav data={this.state.asideMenu}/>
             <div className="app-breadcrumb"><Breadcrumb  {...this.props} /></div>
 
             <QueueAnim type={['bottom', 'top']} duration={450} className="app-content">
-            {React.cloneElement(this.props.children, {
-            key: this.props.location.pathname
-            })}
+                {React.cloneElement(this.props.children, {
+                    key: this.props.location.pathname
+                })}
             </QueueAnim>
             <AppFooter/>
         </div>
