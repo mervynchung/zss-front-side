@@ -26,6 +26,12 @@ const Index = React.createClass({
                 state: {nextPathname: nextState.location.pathname}
             })
         }
+        if (!auth.verifyPermission(nextState.location)){
+            replace({
+                pathname: '/404',
+                state: {nextPathname: nextState.location.pathname}
+            })
+        }
     },
     render(){
         /*路由配置*/
@@ -41,7 +47,7 @@ const Index = React.createClass({
                  { path: '/gn1(/)', component: gn1 },
                  */
 
-                /* 模块懒加载方式 */
+                /* 中心端 */
                 //机构管理
                 require('../module/jggl/swscx'),
 
