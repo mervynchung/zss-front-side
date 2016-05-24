@@ -3,7 +3,7 @@
  */
 import 'common/lib.js'
 import React from 'react'
-import {Col,Row,Button} from 'antd'
+import {Col,Row,Button,Affix,Checkbox} from 'antd'
 import ReactDom from 'react-dom'
 import BaseTable from 'component/compBaseTable'
 import req from 'reqwest'
@@ -90,5 +90,7 @@ const CompWrap = React.createClass({
         </div>
     }
 })
-ReactDom.render(<CompWrap />, document.getElementById('react-content'));
+
+ReactDom.render(<detailBox data={"this.state.data"} />
+     , document.getElementById('react-content'));
 

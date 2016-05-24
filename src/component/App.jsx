@@ -3,54 +3,57 @@ import React from 'react';
 import AppHeader from './AppHeader';
 import AppSideNav from './AppSideNav';
 import AppFooter from './AppFooter';
-import {QueueAnim, Breadcrumb,Alert} from 'antd'
+import {QueueAnim, Breadcrumb,Alert,Modal} from 'antd'
 import req from 'reqwest'
 import config from 'common/configuration'
+import store from 'store2'
 
 
-
-const url  = config.HOST + config.URI_API_FRAMEWORK + '/asidemenu';
-const errorAlert = <div className="sys-alert"><Alert
-  message="数据读取错误：无法获取所需数据，应用服务工作情况可能不正常"
-  type="error" /></div>
+const API_URL = config.URI_API_FRAMEWORK + '/account';
 
 class App extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state={
-            asideMenu : [],
-            errorAlert:''
+        this.state = {
+            asideMenu: [],
+            accountInfo:{}
         };
     }
 
-    componentDidMount(){
+    componentDidMount() {
+        let userId = store.get("userId");
+        let accountInfo = {
+            names: store.get("names"),
+            newMsg: false
+        };
+        this.setState({accountInfo: accountInfo});
         req({
-            url:url + '?l=A', //获取中心端模块菜单
-            type:'json',
-            method:'get'
-        }).then(resp=>{
+            url: API_URL + '/' + userId,
+            type: 'json',
+            method: 'get'
+        }).then(resp=> {
             this.setState({
-                asideMenu:resp
+                asideMenu: resp.menu
             })
-        }).fail(err=>{
-            this.setState({
-                errorAlert:errorAlert
-            })
+        }).fail(err=> {
+            Modal.error({
+                title: '数据获取错误',
+                content: '无法获取所需数据，请稍后再尝试'
+            });
         })
     }
 
     render() {
         return <div className="app-main">
-            {this.state.errorAlert}
-            <AppHeader/>
+            <AppHeader data={this.state.accountInfo}/>
             <AppSideNav data={this.state.asideMenu}/>
             <div className="app-breadcrumb"><Breadcrumb  {...this.props} /></div>
 
             <QueueAnim type={['bottom', 'top']} duration={450} className="app-content">
-            {React.cloneElement(this.props.children, {
-            key: this.props.location.pathname
-            })}
+                {React.cloneElement(this.props.children, {
+                    key: this.props.location.pathname
+                })}
             </QueueAnim>
             <AppFooter/>
         </div>

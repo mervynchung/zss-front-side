@@ -210,7 +210,7 @@ const zxdmkgl = React.createClass({
     },
 
     render(){
-        const data = getTreeData(this.state.nodes)
+        const data = getTreeData(this.state.nodes);
         return <div className="zxdmkgl">
             <Row>
                 <Col span="8" className="tree-box">

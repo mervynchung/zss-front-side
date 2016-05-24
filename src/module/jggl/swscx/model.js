@@ -203,6 +203,7 @@ const pageSetting = { //分页设置
   showQuickJumper: true, //是否可以快速跳转至某页
   size: 'small', //分页样式，当为「small」时，是小尺寸分页
   pageSizeOptions: ['5', '10', '20', '30', '40'], //指定每页可以显示多少条，与showSizeChanger配合使用
+  current:1,
 }
 
 const columnsZyry = [{ //设定列
