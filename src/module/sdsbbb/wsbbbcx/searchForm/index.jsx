@@ -29,7 +29,6 @@ let searchForm = React.createClass({
       for(let i=0;i<4;i++){
         yy.push(nowy.getFullYear()-1-i);
       }
-      console.log(yy);
         const { getFieldProps } = this.props.form;
         const formItemLayout = {
             labelCol: {span: 8},

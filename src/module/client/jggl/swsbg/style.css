@@ -1,0 +1,78 @@
+.cwbb-lrb .fix-table td {
+    text-align: right;
+}
+
+.sm {
+	padding: 10px;
+}
+/*表格外边框*/
+.table-border .ant-table-body {
+    border: 1px solid #e9e9e9;
+    border-radius: 6px;
+}
+
+/*固定样式表格*/
+.fix-table {
+    font-size: 12px;
+    color: #666;
+    overflow: hidden;
+}
+
+.fix-table table {
+    width: 100%;
+    max-width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    border-radius: 6px;
+}
+
+.fix-table td,
+.fix-table th {
+    border-bottom: 1px solid #e9e9e9;
+}
+
+.fix-table th,
+.fix-table td {
+    padding: 8px 16px;
+    word-break: break-all;
+}
+
+.fix-table table col[class*="col-"] {
+    position: static; /*Prevent border hiding in Firefox and IE9-11 (see https://github.com/twbs/bootstrap/issues/11623)*/
+    float: none;
+    display: table-column;
+}
+
+.fix-table tbody tr:last-child th,
+.fix-table tbody tr:last-child td {
+    border-bottom: 1px solid #e9e9e9;
+}
+
+.fix-table tbody tr:first-child th,
+.fix-table tbody tr:first-child td {
+    border-top: 1px solid #e9e9e9;
+}
+
+.fix-table.table-bordered th,
+.fix-table.table-bordered td {
+    border-right: 1px solid #e9e9e9;
+}
+
+.fix-table.table-striped tbody > tr:nth-of-type(odd) {
+    background-color: #fafbfc;
+}
+
+.fix-table .prop-name {
+    font-weight: 600;
+}
+
+.fix-table.table-bordered table > thead > tr > th:last-child,
+.fix-table.table-bordered table > tbody > tr > th:last-child,
+.fix-table.table-bordered table > tfoot > tr > th:last-child,
+.fix-table.table-bordered table > thead > tr > td:last-child,
+.fix-table.table-bordered table > tbody > tr > td:last-child {
+    border-right: 0;
+}
+
+
+

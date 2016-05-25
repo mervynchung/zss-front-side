@@ -20,11 +20,11 @@ const routes = {
         /* 模块懒加载方式 */
         //机构管理
 
-       require('../module/jggl/swscx'),
+       // require('../module/jggl/swscx'),
 
 
         //人员管理
-        require('../module/rygl/rycx'),
+        // require('../module/rygl/rycx'),
 
         //系统功能设置
         require('../module/xtgnsz/mkgl'),
@@ -59,7 +59,7 @@ const routes = {
 
        
         //历史记录查询
-        require('../module/lsjlcx/swslsjl/bglsjl'),
+     /*   require('../module/lsjlcx/swslsjl/bglsjl'),
         require('../module/lsjlcx/swslsjl/yhbsws'),
         require('../module/lsjlcx/swslsjl/yzxsws'),
         require('../module/lsjlcx/zyswslsjl/snbgjl'),
@@ -69,10 +69,11 @@ const routes = {
         require('../module/lsjlcx/zyswslsjl/snzxjl'),
         require('../module/lsjlcx/zyswslsjl/snbdjl'),
 
-
         //监督检查
-        require('../module/jdjc/swsnj')
+        require('../module/jdjc/swsnj'),*/
 
+        //客户端——机构管理
+        require('../module/client/jggl/swsbg')
 
     ]
 };

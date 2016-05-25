@@ -8,7 +8,7 @@ const Option = Select.Option;
 
 const selectorJGXZ = React.createClass({
     render(){
-        return <Select {...this.props} placeholder="选择机构性质" allowClear>
+        return <Select {...this.props} placeholder="选择机构性质" >
             <Option key="1">合伙事务所</Option>
             <Option key="2">有限公司</Option>
             <Option key="3">无</Option>
