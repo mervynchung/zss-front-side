@@ -38,7 +38,7 @@ const signin = withRouter(React.createClass({
         }).fail((e)=>{
             let errMsg ;
             if(e.status == 401 || e.status == 403){
-                errMsg = JSON.parse(e.response)
+                errMsg = JSON.parse(e.response).text
             }else{
                 errMsg = "登录失败";
             }
