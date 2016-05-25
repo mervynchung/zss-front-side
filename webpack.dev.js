@@ -40,7 +40,7 @@ var config = {
             loader: 'babel',
             query: {
                 presets: ['es2015', 'react', 'stage-0'],
-                plugins: ['antd']
+                plugins: ['antd','transform-runtime']
             }
         }, {
             test: /\.css$/,
@@ -103,7 +103,8 @@ var config = {
         proxy: {
             "/api/*": "http://localhost:8080/"
         },
-        compress: true
+        compress: true,
+        historyApiFallback:true
     }
 };
 

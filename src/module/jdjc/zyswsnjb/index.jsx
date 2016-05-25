@@ -1,7 +1,7 @@
-/*中心端模块设置功能*/
+/*模块设置功能*/
 module.exports = {
-    path: '/xtgnsz/mkgl',
-    breadcrumbName:'模块管理',
+    path: 'jdjc/zyswsnjb(/)',
+    breadcrumbName:'执业注册税务师年检',
     getComponent(location, cb) {
         require.ensure([], (require) => {
             cb(null, require('./component'))

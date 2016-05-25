@@ -39,7 +39,7 @@ let searchForm = React.createClass({
                             <Input placeholder="名字" {...getFieldProps('XMING')}/>
                         </FormItem>
                     </Col>
-                     
+                   
                     
                     
                 
