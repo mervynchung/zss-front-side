@@ -62,8 +62,7 @@ const signin = withRouter(React.createClass({
                 {this.state.authFail &&
                 <Alert
                   message={this.state.authFailMes}
-                  type="error" showIcon
-                />}
+                  type="error" showIcon />}
             </div>
         </div>
     }
