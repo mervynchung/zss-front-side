@@ -36,11 +36,16 @@ const signin = withRouter(React.createClass({
                 this.props.router.replace('/')
             }
         }).fail((e)=>{
-            e = JSON.parse(e.response)
+            let errMsg ;
+            if(e.status == 401 || e.status == 403){
+                errMsg = JSON.parse(e.response).text
+            }else{
+                errMsg = "登录失败";
+            }
             this.setState({
                 loading:false,
                 authFail:true,
-                authFailMes:e.text
+                authFailMes:errMsg
             });
         })
 
@@ -57,8 +62,7 @@ const signin = withRouter(React.createClass({
                 {this.state.authFail &&
                 <Alert
                   message={this.state.authFailMes}
-                  type="error" showIcon
-                />}
+                  type="error" showIcon />}
             </div>
         </div>
     }

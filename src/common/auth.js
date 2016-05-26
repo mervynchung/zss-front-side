@@ -13,5 +13,8 @@ module.exports = {
         const tokenhash = store.get("tokenhash");
         token = md5(md5(token)+salt);
         return (token.toString() == tokenhash);
+    },
+    verifyPermission(path){
+
     }
 };
