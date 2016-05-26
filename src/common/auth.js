@@ -7,6 +7,7 @@ import store from 'store2'
 import md5  from 'crypto-js/md5'
 
 const salt = 'Z2R6c21pcw==';
+const AUTH_URL= config.HOST+config.URI_API_FRAMEWORK+'/account';
 module.exports = {
     verifyAuth(){
         let token =  store.get("token") || store.session.get("token");
@@ -31,6 +32,13 @@ module.exports = {
     logout(){
         store.clear();
         store.session.clear();
+    },
+    getAccountInfo(){
+        return req({
+            url:AUTH_URL+'/'+store.get("userId"),
+            method:'get',
+            type:'json'
+        })
     }
 
 };

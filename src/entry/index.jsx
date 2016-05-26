@@ -34,6 +34,14 @@ const Index = React.createClass({
             })
         }
     },
+    componentDidMount(){
+      auth.getAccountInfo()
+        .then(resp=>{
+            this.setState({isLoggedIn:true});
+        }).fail(err=>{
+
+      })
+    },
     render(){
         /*路由配置*/
         const routes = [{
@@ -114,7 +122,7 @@ const Index = React.createClass({
             path: '*',
             component: NotFound
         }];
-        return <Router history={history} routes={routes}/>
+        return this.state.isLoggedIn && <Router history={history} routes={routes}/>
     }
 });
 ReactDOM.render(<Index/>, document.getElementById('app'));
