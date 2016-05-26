@@ -21,7 +21,6 @@ const Index = React.createClass({
 
     /*登录校验*/
     requireAuth(nextState, replace){
-        console.log('verify')
         if (!auth.verifyAuth()) {
             replace({
                 pathname: '/signin',
@@ -54,7 +53,7 @@ const Index = React.createClass({
                 require('../module/jggl/swscx'),
 
                 //人员管理
-                require('../module/rygl/rycx'),
+                /*require('../module/rygl/rycx'),
 
                 //系统功能设置
                 require('../module/xtgnsz/mkgl'),
@@ -106,7 +105,7 @@ const Index = React.createClass({
 
                 //监督检查
                 require('../module/jdjc/zyswsnjb'),
-                require('../module/jdjc/swsnj')
+                require('../module/jdjc/swsnj')*/
             ]
         }, {
             path: '/signin',

@@ -1,7 +1,7 @@
 import React from 'react';
 import {Menu, Dropdown, Icon,Badge}from 'antd';
 import {withRouter} from 'react-router'
-import store from 'store2'
+import auth from 'common/auth'
 import './style.css'
 
 const ComUserPanel = withRouter(React.createClass({
@@ -17,7 +17,7 @@ const ComUserPanel = withRouter(React.createClass({
     },
     handleLogout(e){
         e.preventDefault();
-        store.clear();
+        auth.logout();
         this.props.router.replace('/signin')
     },
     render() {

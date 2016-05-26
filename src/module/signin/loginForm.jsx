@@ -30,7 +30,7 @@ let loginForm = React.createClass({
                 <FormItem>
                     <label className="ant-checkbox-inline">
                         <Checkbox
-                            {...getFieldProps('agreement')} />记住我
+                            {...getFieldProps('isRemember')} />记住我
                     </label>
                 </FormItem>
                 <Button type="primary" htmlType="submit" loading={this.props.loading}>登录</Button>

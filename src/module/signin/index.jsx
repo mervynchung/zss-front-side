@@ -5,6 +5,7 @@ import config from 'common/configuration'
 import store from 'store2'
 import {withRouter} from 'react-router'
 import {Alert} from 'antd'
+import auth from 'common/auth'
 
 const API_URL = config.HOST + config.URI_API_FRAMEWORK + '/auth';
 
@@ -25,9 +26,10 @@ const signin = withRouter(React.createClass({
             contentType: 'application/json',
             data: JSON.stringify(value)
         }).then(resp=> {
-            for (let prop in resp) {
-                store.set(prop, resp[prop]);
-            }
+            auth.setToken(resp.token,resp.tokenhash,value.isRemember);
+            store.set('names',resp.names);
+            store.set('userId',resp.userId);
+
             const { location } = this.props;
 
             if (location.state && location.state.nextPathname) {
