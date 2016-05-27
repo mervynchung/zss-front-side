@@ -2,7 +2,7 @@ import React from 'react'
 import {Input,Form,Checkbox,Button} from 'antd'
 import req from 'reqwest'
 import config from 'common/configuration'
-import store from 'storejs'
+import store from 'store2'
 import './style.css'
 
 
@@ -20,7 +20,7 @@ let loginForm = React.createClass({
             <h3>系统登录</h3>
             <Form onSubmit={this.handleSubmit}>
                 <FormItem>
-                    <Input placeholder="输入用户名"
+                    <Input placeholder="输入用户名" defaultValue={store.get('uname')}
                         {...getFieldProps('username')} />
                 </FormItem>
                 <FormItem>

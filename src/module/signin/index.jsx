@@ -27,9 +27,7 @@ const signin = withRouter(React.createClass({
             data: JSON.stringify(value)
         }).then(resp=> {
             auth.setToken(resp.token,resp.tokenhash,value.isRemember);
-            store.set('names',resp.names);
-            store.set('userId',resp.userId);
-
+            store.set('uname',value.username);
             const { location } = this.props;
 
             if (location.state && location.state.nextPathname) {

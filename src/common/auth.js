@@ -33,11 +33,12 @@ module.exports = {
         store.clear();
         store.session.clear();
     },
-    getAccountInfo(){
+    getAccount(){
         return req({
-            url:AUTH_URL+'/'+store.get("userId"),
-            method:'get',
-            type:'json'
+            url: AUTH_URL,
+            method: 'get',
+            type: 'json',
+            headers: {'x-auth-token': this.getToken()}
         })
     }
 
