@@ -29,7 +29,7 @@ const routes = {
         //系统功能设置
         require('../module/xtgnsz/mkgl'),
 
-       //业务管理
+    { /*   //业务管理
         require('../module/ywgl/ywbbgl'),
         require('../module/ywgl/ywzlgl/sfjeyjgl'),
         require('../module/ywgl/ywzlgl/ndbtyjgl'),
@@ -68,15 +68,17 @@ const routes = {
         require('../module/lsjlcx/zyswslsjl/snzzfjl'),
         require('../module/lsjlcx/zyswslsjl/snzjjl'),
         require('../module/lsjlcx/zyswslsjl/snzxjl'),
-        require('../module/lsjlcx/zyswslsjl/snbdjl'),
+        require('../module/lsjlcx/zyswslsjl/snbdjl'),  
         require('../module/lsjlcx/fzyzjjl'),
         require('../module/lsjlcx/fzyzxjl'),
-        require('../module/lsjlcx/fzyzzyjl'),
+        require('../module/lsjlcx/fzyzzyjl'), */},
 
 
         //监督检查
         require('../module/jdjc/zyswsnjb'),
-        require('../module/jdjc/swsnj')
+        require('../module/jdjc/swsnj'),
+        require('../module/client/lrb')
+        
 
 
     ]
