@@ -4,6 +4,7 @@ import AppHeader from './AppHeader';
 import AppSideNav from './AppSideNav';
 import AppFooter from './AppFooter';
 import {QueueAnim, Breadcrumb,Alert,Modal} from 'antd'
+import {withRouter} from 'react-router';
 import req from 'reqwest'
 import config from 'common/configuration'
 import store from 'store2'
@@ -47,7 +48,7 @@ class App extends React.Component {
     render() {
         return <div className="app-main">
             <AppHeader data={this.state.accountInfo}/>
-            <AppSideNav data={this.state.asideMenu}/>
+            <AppSideNav data={this.state.menu}/>
             <div className="app-breadcrumb"><Breadcrumb  {...this.props} /></div>
 
             <QueueAnim type={['bottom', 'top']} duration={450} className="app-content">
@@ -60,4 +61,4 @@ class App extends React.Component {
     }
 }
 
-module.exports = App;
+module.exports = withRouter(App);
