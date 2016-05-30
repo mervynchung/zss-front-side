@@ -26,10 +26,10 @@ const signin = withRouter(React.createClass({
             contentType: 'application/json',
             data: JSON.stringify(value)
         }).then(resp=> {
-            auth.setToken(resp.token,resp.tokenhash,value.isRemember);
             store.set('uname',value.username);
-            const { location } = this.props;
+            auth.setToken(resp.token,resp.tokenhash,value.isRemember);
 
+            const { location } = this.props;
             if (location.state && location.state.nextPathname) {
                 this.props.router.replace(location.state.nextPathname)
             } else {
@@ -51,7 +51,7 @@ const signin = withRouter(React.createClass({
 
     },
     componentWillMount(){
-        if(store.get("token")){
+        if(auth.getToken()){
             this.props.router.replace('/')
         }
     },

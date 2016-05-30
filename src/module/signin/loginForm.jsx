@@ -20,8 +20,8 @@ let loginForm = React.createClass({
             <h3>系统登录</h3>
             <Form onSubmit={this.handleSubmit}>
                 <FormItem>
-                    <Input placeholder="输入用户名" defaultValue={store.get('uname')}
-                        {...getFieldProps('username')} />
+                    <Input placeholder="输入用户名"
+                        {...getFieldProps('username',{initialValue:store.get('uname')})} />
                 </FormItem>
                 <FormItem>
                     <Input type="password" placeholder="输入密码"

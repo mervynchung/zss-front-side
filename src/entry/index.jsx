@@ -5,58 +5,44 @@ import {Router, Route, browserHistory, hashHistory, IndexRoute,useRouterHistory}
 import { createHistory } from 'history'
 import App from '../component/App';
 import Signin from 'module/signin';
-import home from '../module/home';
+import {cenHome,clientHome } from '../module/home';
 import NotFound from 'module/404notfound'
 import auth from 'common/auth'
 
-
+//使用browserHistory需要预设basename
 const history = useRouterHistory(createHistory)({basename: '/'});
 
 const Index = React.createClass({
     getInitialState(){
         return {
-            isLoggedIn: false,
-            accountInfo:{},
-            menu:{}
+            accountInfo: {},
+            menu: {}
         }
     },
 
     /*登录校验*/
     requireAuth(nextState, replace){
-        if (!auth.verifyAuth() || this.state.isLoggedIn) {
+        /*if (!auth.verifyPermission(nextState.location.pathname)) {
+         replace({
+         pathname: '/404',
+         state: {nextPathname: nextState.location.pathname}
+         })
+         }*/
+        if (!auth.verifyAuth()) {
             replace({
                 pathname: '/signin',
                 state: {nextPathname: nextState.location.pathname}
             })
         }
-        if (auth.verifyPermission(nextState.location)) {
-            replace({
-                pathname: '/404',
-                state: {nextPathname: nextState.location.pathname}
-            })
-        }
-    },
-    componentDidMount(){
-        auth.getAccount()
-            .then(resp=> {
-                this.setState({
-                    isLoggedIn: true,
-                    accountInfo:{names:resp.names,jgId:resp.jgId},
-                    menu:resp.menu
-                });
-            }).fail(err=> {
-
-        })
     },
     render(){
         /*路由配置*/
         const routes = [{
             path: '/',
             component: App,
-            indexRoute: {component: home},
+            indexRoute: {component: auth.isClient() ? clientHome : cenHome},
             ignoreScrollBehavior: true,
             breadcrumbName: '首页',
-            menu:this.state.menu,
             onEnter: this.requireAuth,
             childRoutes: [
                 /* 模块预加载方式
