@@ -13,9 +13,12 @@ const signin = withRouter(React.createClass({
     getInitialState(){
         return {
             loading: false,
-            authFail:false,
-            authFailMes:''
+            authFail: false,
+            authFailMes: ''
         }
+    },
+    handleLogin(param){
+        this.props.onLogin(param)
     },
 
     handleSubmit(value){
@@ -26,8 +29,9 @@ const signin = withRouter(React.createClass({
             contentType: 'application/json',
             data: JSON.stringify(value)
         }).then(resp=> {
-            store.set('uname',value.username);
-            auth.setToken(resp.token,resp.tokenhash,value.isRemember);
+            store.set('uname', value.username);
+            auth.setToken(resp.token, resp.tokenhash, value.isRemember);
+            auth.setAuthorization({jgId:resp.jgId,permission:resp.permission})
 
             const { location } = this.props;
             if (location.state && location.state.nextPathname) {
@@ -35,23 +39,24 @@ const signin = withRouter(React.createClass({
             } else {
                 this.props.router.replace('/')
             }
-        }).fail((e)=>{
-            let errMsg ;
-            if(e.status == 401 || e.status == 403){
+
+        }).fail((e)=> {
+            let errMsg;
+            if (e.status == 401 || e.status == 403) {
                 errMsg = JSON.parse(e.response).text
-            }else{
+            } else {
                 errMsg = "登录失败";
             }
             this.setState({
-                loading:false,
-                authFail:true,
-                authFailMes:errMsg
+                loading: false,
+                authFail: true,
+                authFailMes: errMsg
             });
         })
 
     },
     componentWillMount(){
-        if(auth.getToken()){
+        if (auth.getToken()) {
             this.props.router.replace('/')
         }
     },
@@ -61,8 +66,8 @@ const signin = withRouter(React.createClass({
             <div className="feedback">
                 {this.state.authFail &&
                 <Alert
-                  message={this.state.authFailMes}
-                  type="error" showIcon />}
+                    message={this.state.authFailMes}
+                    type="error" showIcon/>}
             </div>
         </div>
     }

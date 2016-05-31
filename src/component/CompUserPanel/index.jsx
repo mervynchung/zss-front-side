@@ -28,7 +28,7 @@ const ComUserPanel = withRouter(React.createClass({
         return (
             <div className="user-panel">
                 <ul>
-                    <li><Badge dot={this.state.newMsg}><a href="#" onClick={this.handleClick}><Icon
+                    <li><Badge dot={accountInfo.newMsg}><a href="#" onClick={this.handleClick}><Icon
                         type="mail"/></a></Badge></li>
                     <li><Dropdown overlay={menu} trigger={['click']}>
                         <a href="/"> {accountInfo.names} <Icon className="toggle-icon" type="down"/></a>

@@ -13,21 +13,15 @@ import auth from 'common/auth'
 const history = useRouterHistory(createHistory)({basename: '/'});
 
 const Index = React.createClass({
-    getInitialState(){
-        return {
-            accountInfo: {},
-            menu: {}
-        }
-    },
 
     /*登录校验*/
     requireAuth(nextState, replace){
-        /*if (!auth.verifyPermission(nextState.location.pathname)) {
-         replace({
-         pathname: '/404',
-         state: {nextPathname: nextState.location.pathname}
-         })
-         }*/
+        if (!auth.verifyPermission(nextState.location.pathname)) {
+            replace({
+                pathname: '/404',
+                state: {nextPathname: nextState.location.pathname}
+            })
+        }
         if (!auth.verifyAuth()) {
             replace({
                 pathname: '/signin',
@@ -35,6 +29,7 @@ const Index = React.createClass({
             })
         }
     },
+
     render(){
         /*路由配置*/
         const routes = [{
@@ -52,6 +47,7 @@ const Index = React.createClass({
                 /* 中心端 */
                 //机构管理
                 require('../module/jggl/swscx'),
+                require('../module/xtgnsz/mkgl')
 
                 //人员管理
                 /*require('../module/rygl/rycx'),

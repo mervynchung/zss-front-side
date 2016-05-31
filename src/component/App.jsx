@@ -23,8 +23,6 @@ class App extends React.Component {
     componentDidMount() {
         auth.getAccount()
             .then(resp=> {
-                auth.setJgid(resp.jgId);
-                auth.setPermission(resp.permisssion);
                 this.setState({
                     accountInfo: {names: resp.names, newMsg: resp.newMsg},
                     menu: resp.menu

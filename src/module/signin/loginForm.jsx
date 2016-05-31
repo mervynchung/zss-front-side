@@ -27,12 +27,7 @@ let loginForm = React.createClass({
                     <Input type="password" placeholder="输入密码"
                         {...getFieldProps('password')} />
                 </FormItem>
-                <FormItem>
-                    <label className="ant-checkbox-inline">
-                        <Checkbox
-                            {...getFieldProps('isRemember')} />记住我
-                    </label>
-                </FormItem>
+
                 <Button type="primary" htmlType="submit" loading={this.props.loading}>登录</Button>
             </Form></div>
     }
