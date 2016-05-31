@@ -2,7 +2,7 @@ import React from 'react'
 import {Input,Form,Checkbox,Button} from 'antd'
 import req from 'reqwest'
 import config from 'common/configuration'
-import store from 'storejs'
+import store from 'store2'
 import './style.css'
 
 
@@ -21,19 +21,14 @@ let loginForm = React.createClass({
             <Form onSubmit={this.handleSubmit}>
                 <FormItem>
                     <Input placeholder="输入用户名"
-                        {...getFieldProps('username')} />
+                        {...getFieldProps('username',{initialValue:store.get('uname')})} />
                 </FormItem>
                 <FormItem>
                     <Input type="password" placeholder="输入密码"
                         {...getFieldProps('password')} />
                 </FormItem>
-                <FormItem>
-                    <label className="ant-checkbox-inline">
-                        <Checkbox
-                            {...getFieldProps('agreement')} />记住我
-                    </label>
-                </FormItem>
-                <Button type="primary" htmlType="submit" loading={this.props.loading}>登录</Button>
+
+                <Button className="submit" type="primary" htmlType="submit" loading={this.props.loading}>登录</Button>
             </Form></div>
     }
 });
