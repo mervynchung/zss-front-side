@@ -5,42 +5,37 @@ import {Router, Route, browserHistory, hashHistory, IndexRoute,useRouterHistory}
 import { createHistory } from 'history'
 import App from '../component/App';
 import Signin from 'module/signin';
-import home from '../module/home';
+import {cenHome,clientHome } from '../module/home';
 import NotFound from 'module/404notfound'
 import auth from 'common/auth'
 
-
+//使用browserHistory需要预设basename
 const history = useRouterHistory(createHistory)({basename: '/'});
 
 const Index = React.createClass({
-    getInitialState(){
-        return {
-            isLoggedIn: false
-        }
-    },
 
     /*登录校验*/
     requireAuth(nextState, replace){
-        console.log('verify')
+        if (!auth.verifyPermission(nextState.location.pathname)) {
+            replace({
+                pathname: '/404',
+                state: {nextPathname: nextState.location.pathname}
+            })
+        }
         if (!auth.verifyAuth()) {
             replace({
                 pathname: '/signin',
                 state: {nextPathname: nextState.location.pathname}
             })
         }
-        if (auth.verifyPermission(nextState.location)){
-            replace({
-                pathname: '/404',
-                state: {nextPathname: nextState.location.pathname}
-            })
-        }
     },
+
     render(){
         /*路由配置*/
         const routes = [{
             path: '/',
             component: App,
-            indexRoute: {component: home},
+            indexRoute: {component: auth.isClient() ? clientHome : cenHome},
             ignoreScrollBehavior: true,
             breadcrumbName: '首页',
             onEnter: this.requireAuth,
@@ -110,6 +105,7 @@ const Index = React.createClass({
 
                 //客户端——机构管理
                 require('../module/client/jggl/swsbg')
+
             ]
         }, {
             path: '/signin',
