@@ -28,7 +28,7 @@ let loginForm = React.createClass({
                         {...getFieldProps('password')} />
                 </FormItem>
 
-                <Button type="primary" htmlType="submit" loading={this.props.loading}>登录</Button>
+                <Button className="submit" type="primary" htmlType="submit" loading={this.props.loading}>登录</Button>
             </Form></div>
     }
 });
