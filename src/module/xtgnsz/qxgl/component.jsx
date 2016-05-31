@@ -10,9 +10,11 @@ const qxgl = React.createClass({
         return <div className="qxgl">
             <Row>
                 <Col span="12">
-                    <Table></Table>
+                    <Panel>
+                        <Table />
+                    </Panel>
                 </Col>
-                <Col span="12"></Col>
+                <Col span="12"> </Col>
             </Row>
 
         </div>

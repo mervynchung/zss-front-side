@@ -1,15 +1,15 @@
-module.exports={
+module.exports = {
     columns: [{
         title: '序号',
         dataIndex: 'xh',
         key: 'xh'
     }, {
-        title: '年龄',
-        dataIndex: 'age',
-        key: 'age'
+        title: '角色代码',
+        dataIndex: 'name',
+        key: 'name'
     }, {
-        title: '住址',
-        dataIndex: 'address',
-        key: 'address'
+        title: '角色名称',
+        dataIndex: 'description',
+        key: 'description'
     }]
-}
+};
