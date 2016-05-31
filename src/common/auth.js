@@ -24,7 +24,7 @@ module.exports = {
         if (path == '/'){
             return true
         }else{
-            return  md5(path).toString().indexOf(store.session.get('permission')) >= 0
+            return store.session.get('permission').indexOf(md5(path).toString()) != -1
         }
     },
 
