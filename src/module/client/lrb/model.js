@@ -4,7 +4,9 @@
 import React from 'react'
 import {Button ,Icon} from 'antd'
 import numeral from 'Numeral'
-const model = {
+var model = {
+    // handleRowButton(){},
+
     columns: [
         {title: '序号', dataIndex: 'key', key: 'key'},
         {title: '事务所名称', dataIndex: 'DWMC', key: 'DWMC'},
@@ -14,15 +16,19 @@ const model = {
         {
         title: '操作',
     key: 'operation',
-     render(text) {
+     render(text,record,index) {
         return (
            <span>
-         <Button size="small" >
+        <Button size="small" onClick={this.handleRowButton} >
     <Icon type="edit" />编辑
   </Button>
   
   <Button size="small" >
     <Icon type="arrow-up" />提交
+  </Button>
+  
+   <Button size="small" >
+    <Icon type="book" />查看
   </Button>
         
         
