@@ -3,6 +3,7 @@ import {Table,Modal,Row,Col,Button,Icon,Alert} from 'antd'
 import Panel from 'component/compPanel'
 import {columns} from './model'
 import req from 'reqwest';
+import  './style.css';
 import SearchForm from './searchForm'
 import config from 'common/configuration'
 
@@ -138,7 +139,7 @@ const lrb = React.createClass({
         helper.push(<p key="helper-0">本页显示已审核过的事务所变更申请记录</p>);
         helper.push(<p key="helper-1">只显示前1000条记录</p>);
 
-        return <div className="cwbb-lrb">
+        return <div className="swslsjl-bglsjl">
             <div className="wrap">
                 {this.state.helper && <Alert message="事务所变更申请记录查询帮助"
                                              description={helper}

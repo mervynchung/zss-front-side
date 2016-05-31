@@ -100,8 +100,6 @@ const lrb = React.createClass({
     handleHelperClose(){
         this.setState({helper: false})
     },
-
-
     //通过API获取数据
     fetchData(params = {jgid: 1}){
         req({
@@ -113,7 +111,6 @@ const lrb = React.createClass({
             this.setState({
                 entity: resp,
             });
-
         }).fail(err=> {
             Modal.error({
                 title: '数据获取错误',
@@ -141,9 +138,8 @@ const lrb = React.createClass({
 
         //定义提示内容
         let helper = [];
-        helper.push(<p key="helper-0">显示审核结束的执业税务师变更信息</p>);
-        helper.push(<p key="helper-1">点击查询结果查看执业人员信息变更详细项目</p>);
-        helper.push(<p key="helper-2">检索功能只显示前1000条记录</p>);
+        helper.push(<p key="helper-0">1)    变更备案需要审批项：单位名称、所在城市、地址、机构性质、注册资金</p>);
+        helper.push(<p key="helper-1">2)    法人在变更备案页面是无法变更的</p>);
 
         return <div className="cwbb-lrb">
             <div className="wrap">

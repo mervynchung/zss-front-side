@@ -2,10 +2,13 @@ import React from 'react'
 import {Row,Col,Form,Checkbox,Button,Input,Select,Tooltip,DatePicker,Modal  } from 'antd'
 import {SelectorCS,SelectorYear,SelectorTGZT,SelectorJGXZ} from 'component/compSelector'
 import './style.css'
+import './untils.js'
 import Model from './model.js' 
+
 const FormItem = Form.Item;
 const createForm = Form.create;
 const Option = Select.Option;
+
 let detailBox = React.createClass({
     getDefaultProps(){
         return {
@@ -28,7 +31,11 @@ let detailBox = React.createClass({
         const old = this.props.data;
         for(var key in value){
             if (old[key]!=value[key]) {
-                if (value[key]=='') {
+                if(Object.prototype.toString.call(value[key])=="[object Date]"){//时间格式化
+                    var dd = value[key].Format("yyyy-MM-dd");
+                    value[key]=dd;
+                }
+                if (value[key]=='') {//空值处理
                     ls.push({mc:Model[key],jzhi:old[key],xzhi:null});
                     }else{
                     ls.push({mc:Model[key],jzhi:old[key],xzhi:value[key]});
@@ -43,6 +50,9 @@ let detailBox = React.createClass({
             return;
         };
     });
+    },
+    onChangeTime(Datevalue){
+        this.props.onChangeTime(Datevalue);
     },
     render(){
         const obj = this.props.data;
@@ -110,7 +120,7 @@ let detailBox = React.createClass({
                         <td ><b>预核单位：</b></td>
                         <td ><Input { ...getFieldProps('yhdw', { initialValue: obj.yhdw})}></Input></td>
                         <td ><b>预核时间：</b></td>
-                        <td style={{textAlign:'left'}}><DatePicker { ...getFieldProps('yhsj', { initialValue: obj.yhsj})}></DatePicker></td>
+                        <td style={{textAlign:'left'}}><DatePicker  { ...getFieldProps('yhsj', { initialValue: obj.yhsj})}></DatePicker></td>
                     </tr>
                     <tr>
                         <td ><b>公证编号：</b></td>
@@ -122,7 +132,7 @@ let detailBox = React.createClass({
                         <td ><b>公证员：</b></td>
                         <td ><Input { ...getFieldProps('gzry', { initialValue: obj.gzry})}></Input></td>
                         <td ><b>公证时间：</b></td>
-                        <td style={{textAlign:'left'}}><DatePicker { ...getFieldProps('gzsj', { initialValue: obj.gzsj})}></DatePicker></td>
+                        <td style={{textAlign:'left'}}><DatePicker  { ...getFieldProps('gzsj', { initialValue: obj.gzsj})}></DatePicker></td>
                     </tr>
                     <tr>
                         <td ><b>验资编号：</b></td>
@@ -134,13 +144,13 @@ let detailBox = React.createClass({
                         <td ><b>验资人员：</b></td>
                         <td ><Input { ...getFieldProps('yzry', { initialValue: obj.yzry })}></Input></td>
                         <td ><b>验资时间：</b></td>
-                        <td style={{textAlign:'left'}}><DatePicker { ...getFieldProps('yzsj', { initialValue: obj.yzsj})}></DatePicker></td>
+                        <td style={{textAlign:'left'}}><DatePicker  { ...getFieldProps('yzsj', { initialValue: obj.yzsj})}></DatePicker></td>
                     </tr>
                     <tr>
                         <td ><b>团体会员注册号：</b></td>
                         <td ><Input { ...getFieldProps('tthybh', { initialValue: obj.tthybh})}></Input></td>
                         <td ><b>入会时间：</b></td>
-                        <td style={{textAlign:'left'}}><DatePicker { ...getFieldProps('rhsj', { initialValue: obj.rhsj})}></DatePicker></td>
+                        <td style={{textAlign:'left'}}><DatePicker  { ...getFieldProps('rhsj', { initialValue: obj.rhsj})}></DatePicker></td>
                     </tr>
                     <tr>
                         <td ><span style={{'color':'red',fontSize:'large'}}>*</span><b>情况简介：</b></td>
@@ -159,7 +169,7 @@ let detailBox = React.createClass({
                         <td colSpan="3" style={{textAlign:'left'}}><Col span="20"><Input type="textarea" rows="3" { ...getFieldProps('bgcszczm', { initialValue: obj.bgcszczm,rules: [{ required: true}]})}></Input></Col></td>
                     </tr>
                       <tr >
-                        <td colSpan="3" style={{textAlign:'left'}}><p>说明：</p><p>需要审批的变更项目提交后将提交中心管理端审批</p><p> 事务所变更审批时，不能再进行变更操作，必须等待审批结束后，才能变更。</p></td>
+                        <td colSpan="3" style={{textAlign:'left'}}><p>说明：</p><p>普通项目变更信息会立即修改无需进入审批流程</p></td>
                         <td ><Col offSpan="8"><Button type="primary" htmlType="submit" loading={this.props.submitLoading}>提交</Button></Col></td>
                     </tr>
                 </tbody>

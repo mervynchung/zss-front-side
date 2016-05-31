@@ -1,11 +1,13 @@
 import React from 'react'
-import {Row,Col,Form,Checkbox,Button,Input,Select,Tooltip,DatePicker  } from 'antd'
+import {Row,Col,Form,Checkbox,Button,Input,Select,Tooltip,DatePicker,Modal  } from 'antd'
 import {SelectorCS,SelectorYear,SelectorTGZT,SelectorJGXZ} from 'component/compSelector'
 import './style.css'
-// import Top from'./toTop.jsx'
+import './untils.js'
+
 const FormItem = Form.Item;
 const createForm = Form.create;
 const Option = Select.Option;
+
 let detailBox = React.createClass({
     getDefaultProps(){
         return {
@@ -13,41 +15,49 @@ let detailBox = React.createClass({
             submitLoading:false
         }
     },
- handleSubmit(e){
-      e.preventDefault();
+    handleSubmit(e){
+        e.preventDefault();
         this.props.form.validateFieldsAndScroll((errors, values) => {//条件校验处理
-      if (!!errors) {
-        for(var key in errors){
-        var div1 = document.getElementById(key);
-        div1.style.backgroundColor="rgba(255, 0, 0, 0.09)"; 
-        }
-        return;
-      }
-        let value = this.props.form.getFieldsValue();
-        var ls = [];
-        const old = this.props.data;
-        for(var key in value){
-            if (old[key]!=value[key]) {
-                if (value[key]=='') {
-                    ls.push({mc:Model[key],jzhi:old[key],xzhi:null});
-                    }else{
+              if (!!errors) {
+                    for(var key in errors){//定位控件更改颜色
+                    var div1 = document.getElementById(key);
+                    div1.style.backgroundColor="rgba(255, 0, 0, 0.09)"; 
+                    }
+                return;
+            }
+
+            let value = this.props.form.getFieldsValue();
+            var ls = [];
+            const old = this.props.data;
+            for(var key in value){
+                if (old[key]!=value[key]) {//是否变更数据
+                    if(Object.prototype.toString.call(value[key])=="[object Date]"){//时间格式化
+                        var dd = value[key].Format("yyyy-MM-dd");
+                        value[key]=dd;
+                    }
                     ls.push({mc:Model[key],jzhi:old[key],xzhi:value[key]});
-                    };
+                };
             };
-        };
-        if (ls.length!=0) {
-            value.bgjl=ls;
-            this.props.onSubmit(value);
-        }else{
-            Modal.info({ title: '提示', content: (<div><p>没有变更数据，请检查后提交</p> </div>)});
-            return;
-        };
-    });
+
+            if (ls.length!=0) {
+                value.bgjl=ls;
+                this.props.onSubmit(value);
+            }else{
+                Modal.info({ title: '提示', content: (<div><p>没有变更数据，请检查后提交</p> </div>)});
+                return;
+            };
+
+            });
     },
+
     render(){
         const obj = this.props.data;
+        var dd = null;
+        if (!!obj) {
+            dd = new Date(obj.clsj.toString().replace(/-/g, "/"));//String 转Date
+        };
         const { getFieldProps } = this.props.form;//, { initialValue: {obj}}
-         let helper = [];
+        let helper = [];
         helper.push(<p key="helper-0">省外事务所在广东省内设立分所</p>);
         helper.push(<p key="helper-1">请选择有限公司性质</p>);
         return <div className="fix-table table-bordered table-striped">
@@ -68,8 +78,8 @@ let detailBox = React.createClass({
                         <td ><Input id='dzhi' { ...getFieldProps('dzhi', { initialValue: obj.dzhi,rules: [{ required: true}]})}></Input></td>
                     </tr>
                     <tr>
-                        <td ><span style={{'color':'red',fontSize:'large'}}>*</span><b>注册资金：</b></td>
-                        <td ><Input id='zczj' { ...getFieldProps('zczj', { initialValue: obj.zczj,rules: [{ required: true}]})}></Input></td>
+                        <td ><span style={{'color':'red',fontSize:'large'}}>*</span><b>注册资金（万元）：</b></td>
+                        <td style={{textAlign:'left'}}><Input id='zczj' { ...getFieldProps('zczj', { initialValue: obj.zczj,rules: [{ type: 'number',required: true}]})}></Input></td>
                         <td ><span style={{'color':'red',fontSize:'large'}}>*</span><b>注册地址：</b></td>
                         <td ><Input id='zcdz' { ...getFieldProps('zcdz', { initialValue: obj.zcdz,rules: [{ required: true}]})}></Input></td>
                     </tr>
@@ -77,7 +87,7 @@ let detailBox = React.createClass({
                         <td ><span style={{'color':'red',fontSize:'large'}}>*</span><b>营业执照号：</b></td>
                         <td ><Input id='yyzzhm' { ...getFieldProps('yyzzhm', { initialValue: obj.yyzzhm,rules: [{ required: true}]})}></Input></td>
                         <td ><span style={{'color':'red',fontSize:'large'}}>*</span><b>正式成立时间：</b></td>
-                        <td style={{textAlign:'left'}}><DatePicker id='clrq' { ...getFieldProps('clrq', { initialValue: obj.clrq,rules: [{ required: true}]})}></DatePicker></td>
+                        <td id='clsj'  style={{textAlign:'left'}}><DatePicker  { ...getFieldProps('clsj', { initialValue: dd,rules: [{type: 'date',required: true}]})}></DatePicker></td>
                     </tr>
                       <tr >
                         <td colSpan="3" style={{textAlign:'left'}}><p>说明：</p><p>需要审批的变更项目提交后将提交中心管理端审批</p><p> 事务所变更审批时，不能再进行变更操作，必须等待审批结束后，才能变更。</p></td>
