@@ -33,11 +33,12 @@ const qxgl = React.createClass({
             <div className="wrap">
                 <Row>
                 <Col span="12">
-                    <Panel>
+                    <Panel title="角色管理">
                         <Table
                             columns={model.columns}
                             dataSource={this.state.roles}
                             pagination={pagination}
+                            rowKey={record => record.id}
                         />
                     </Panel>
                 </Col>
