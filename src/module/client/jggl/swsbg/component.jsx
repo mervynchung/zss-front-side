@@ -16,90 +16,95 @@ const ButtonGroup = Button.Group;
 const lrb = React.createClass({
     //初始化state
     getInitialState(){
-        return {
-            data: [],
-            searchToggle: false,
-            helper: false,
-            entity: '',
-            detailHide: true,
-        }
-    },
- handleSearchSubmit(value){
-      this.setState({submitLoading:true});
-        var ls = value;
-        ls.jgid=1;
-         req({
-            url: API_URL_S,
-            type: 'json',
-            method: 'put',
-            data: JSON.stringify(ls),
-            contentType: 'application/json'
-        }).then(resp=> {
-             this.setState({submitLoading:false});
-            Modal.success({
-                title: '提交成功',
-                content: (
-                    <div>
-                        <p>变更提交成功，数据已更新</p>
-                    </div>  ),
-                onOk() {
-                          window.location.reload();
-                        },
-            });
-             
-        }).fail(err=> {
-            Modal.error({
-                title: '数据获取错误',
-                content: (
-                    <div>
-                        <p>无法从服务器返回数据，需检查应用服务工作情况</p>
-                        <p>Status: {err.status}</p>
-                    </div>  )
-            });
-        })
-    },
- handlePTSubmit(value){
-    this.setState({submitLoading:true});
-        var ls = value;
-        ls.jgid=1;
-         req({
-            url: API_URL_P,
-            type: 'json',
-            method: 'put',
-            data: JSON.stringify(ls),
-            contentType: 'application/json'
-        }).then(resp=> {
-             this.setState({submitLoading:false});
-            Modal.success({
-                title: '提交成功',
-                content: (
-                    <div>
-                        <p>变更提交成功，数据已更新</p>
-                    </div>  ),
-                onOk() {
-                          window.location.reload();
-                        },
-            });
-             
-        }).fail(err=> {
-            Modal.error({
-                title: '数据获取错误',
-                content: (
-                    <div>
-                        <p>无法从服务器返回数据，需检查应用服务工作情况</p>
-                        <p>Status: {err.status}</p>
-                    </div>  )
-            });
-        })
-    },
-    //帮助按钮
+            return {
+                data: [],
+                searchToggle: false,
+                helper: false,
+                entity: '',
+                detailHide: true,
+            }
+        },
+
+    handleSearchSubmit(value){
+          this.setState({sPLoading:true});
+            var ls = value;
+            ls.jgid=1;
+             req({
+                url: API_URL_S,
+                type: 'json',
+                method: 'post',
+                data: JSON.stringify(ls),
+                contentType: 'application/json'
+            }).then(resp=> {
+                 this.setState({sPLoading:false});
+                Modal.success({
+                    title: '提交成功',
+                    content: (
+                        <div>
+                            <p>变更提交成功，数据已更新</p>
+                        </div>  ),
+                    onOk() {
+                              window.location.reload();
+                            },
+                });
+                 
+            }).fail(err=> {
+                Modal.error({
+                    title: '数据获取错误',
+                    content: (
+                        <div>
+                            <p>无法从服务器返回数据，需检查应用服务工作情况</p>
+                            <p>Status: {err.status}</p>
+                        </div>  )
+                });
+            })
+        },
+
+    handlePTSubmit(value){
+        this.setState({submitLoading:true});
+            var ls = value;
+            ls.jgid=1;
+             req({
+                url: API_URL_P,
+                type: 'json',
+                method: 'put',
+                data: JSON.stringify(ls),
+                contentType: 'application/json'
+            }).then(resp=> {
+                 this.setState({submitLoading:false});
+                Modal.success({
+                    title: '提交成功',
+                    content: (
+                        <div>
+                            <p>变更提交成功，数据已更新</p>
+                        </div>  ),
+                    onOk() {
+                              window.location.reload();
+                            },
+                });
+                 
+            }).fail(err=> {
+                Modal.error({
+                    title: '数据获取错误',
+                    content: (
+                        <div>
+                            <p>无法从服务器返回数据，需检查应用服务工作情况</p>
+                            <p>Status: {err.status}</p>
+                        </div>  )
+                });
+            })
+        },
+
+        //帮助按钮
     handleHelper(){
         this.setState({helper: !this.state.helper})
     },
+
     //手动关闭帮助提示
     handleHelperClose(){
         this.setState({helper: false})
     },
+    
     //通过API获取数据
     fetchData(params = {jgid: 1}){
         req({
@@ -150,7 +155,7 @@ const lrb = React.createClass({
                                              onClose={this.handleHelperClose}/>}
 
                 <Panel title="事务所信息变更" toolbar={toolbar}>
-                    <DetailBox data={this.state.entity} onSubmit={this.handleSearchSubmit}/>
+                    <DetailBox data={this.state.entity} onSubmit={this.handleSearchSubmit} submitLoading={this.state.sPLoading}/>
                 </Panel>
                 <Panel >
                     <DetailBoxPT data={this.state.entity} onSubmit={this.handlePTSubmit} submitLoading={this.state.submitLoading}/>
