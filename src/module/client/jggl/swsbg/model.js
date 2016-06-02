@@ -48,6 +48,7 @@ const props={
     'wangzhi':'事物所网址',
     'yyzzhm':'营业执照号',
     'jgdmzh':'机构代码证号',
+    'clsj':'成立时间',
   }
   
 

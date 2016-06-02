@@ -1,6 +1,7 @@
 import React from 'react'
 import {Table,Modal,Row,Col,Button,Icon,Alert} from 'antd'
 import Panel from 'component/compPanel'
+import auth from 'common/auth'
 import req from 'reqwest';
 import config from 'common/configuration'
 import DetailBox from './detailbox.jsx'
@@ -25,29 +26,38 @@ const lrb = React.createClass({
             }
         },
 
-    handleSearchSubmit(value){
+    handleSPSubmit(value){
           this.setState({sPLoading:true});
             var ls = value;
-            ls.jgid=1;
              req({
                 url: API_URL_S,
                 type: 'json',
                 method: 'post',
                 data: JSON.stringify(ls),
-                contentType: 'application/json'
+                contentType: 'application/json',
+                headers:{'x-auth-token':auth.getToken()}
             }).then(resp=> {
-                 this.setState({sPLoading:false});
-                Modal.success({
-                    title: '提交成功',
-                    content: (
-                        <div>
-                            <p>变更提交成功，数据已更新</p>
-                        </div>  ),
-                    onOk() {
-                              window.location.reload();
-                            },
-                });
-                 
+                 if (resp) {
+                        Modal.success({
+                            title: '提交成功',
+                            content: (
+                                <div>
+                                    <p>提交成功，请等待管理中心审核</p>
+                                </div>  ),
+                            onOk() {
+                                      window.location.reload();
+                                    },
+                        });
+                 }else{
+                        Modal.error({
+                        title: '无法提交',
+                        content: (
+                            <div>
+                                <p>事务所变更审批中，无法进行变更操作</p>
+                            </div>  ),
+                    });
+                      this.setState({sPLoading:false});
+                     };
             }).fail(err=> {
                 Modal.error({
                     title: '数据获取错误',
@@ -63,13 +73,13 @@ const lrb = React.createClass({
     handlePTSubmit(value){
         this.setState({submitLoading:true});
             var ls = value;
-            ls.jgid=1;
              req({
                 url: API_URL_P,
                 type: 'json',
                 method: 'put',
                 data: JSON.stringify(ls),
-                contentType: 'application/json'
+                contentType: 'application/json',
+                headers:{'x-auth-token':auth.getToken()}
             }).then(resp=> {
                  this.setState({submitLoading:false});
                 Modal.success({
@@ -82,7 +92,6 @@ const lrb = React.createClass({
                               window.location.reload();
                             },
                 });
-                 
             }).fail(err=> {
                 Modal.error({
                     title: '数据获取错误',
@@ -106,12 +115,12 @@ const lrb = React.createClass({
     },
     
     //通过API获取数据
-    fetchData(params = {jgid: 1}){
+    fetchData(){
         req({
             url: API_URL,
             type: 'json',
             method: 'get',
-            data: params
+            headers:{'x-auth-token':auth.getToken()}
         }).then(resp=> {
             this.setState({
                 entity: resp,
@@ -143,19 +152,19 @@ const lrb = React.createClass({
 
         //定义提示内容
         let helper = [];
-        helper.push(<p key="helper-0">1)    变更备案需要审批项：单位名称、所在城市、地址、机构性质、注册资金</p>);
+        helper.push(<p key="helper-0">1)    变更备案需要审批项：单位名称、所在城市、地址、机构性质、注册资金等</p>);
         helper.push(<p key="helper-1">2)    法人在变更备案页面是无法变更的</p>);
 
         return <div className="cwbb-lrb">
             <div className="wrap">
-                {this.state.helper && <Alert message="执业人员信息变更帮助"
+                {this.state.helper && <Alert message="变更备案申请帮助"
                                              description={helper}
                                              type="info"
                                              closable
                                              onClose={this.handleHelperClose}/>}
 
                 <Panel title="事务所信息变更" toolbar={toolbar}>
-                    <DetailBox data={this.state.entity} onSubmit={this.handleSearchSubmit} submitLoading={this.state.sPLoading}/>
+                    <DetailBox data={this.state.entity} onSubmit={this.handleSPSubmit} submitLoading={this.state.sPLoading}/>
                 </Panel>
                 <Panel >
                     <DetailBoxPT data={this.state.entity} onSubmit={this.handlePTSubmit} submitLoading={this.state.submitLoading}/>

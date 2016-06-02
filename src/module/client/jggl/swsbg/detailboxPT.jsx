@@ -17,24 +17,25 @@ let detailBox = React.createClass({
         }
     },
  handleSubmit(e){
-      e.preventDefault();
-        this.props.form.validateFieldsAndScroll((errors, values) => {//条件校验处理
-      if (!!errors) {
-        for(var key in errors){
-        var div1 = document.getElementById(key);
-        div1.style.backgroundColor="rgba(255, 0, 0, 0.09)"; 
-        }
-        return;
-      }
+          e.preventDefault();
+          this.props.form.validateFieldsAndScroll((errors, values) => {//条件校验处理
+          if (!!errors) {
+                for(var key in errors){
+                    var div1 = document.getElementById(key);
+                    div1.style.backgroundColor="rgba(255, 0, 0, 0.09)"; 
+                }
+                Modal.info({ title: '提示', content: (<div><p><b>请填写所有必填项</b></p> </div>)});
+                return;
+          }
         let value = this.props.form.getFieldsValue();
         var ls = [];
         const old = this.props.data;
         for(var key in value){
+            if(Object.prototype.toString.call(value[key])=="[object Date]"){//时间格式化
+                var dd = value[key].Format("yyyy-MM-dd");
+                value[key]=dd;
+            }
             if (old[key]!=value[key]) {
-                if(Object.prototype.toString.call(value[key])=="[object Date]"){//时间格式化
-                    var dd = value[key].Format("yyyy-MM-dd");
-                    value[key]=dd;
-                }
                 if (value[key]=='') {//空值处理
                     ls.push({mc:Model[key],jzhi:old[key],xzhi:null});
                     }else{

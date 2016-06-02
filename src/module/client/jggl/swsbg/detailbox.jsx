@@ -3,6 +3,7 @@ import {Row,Col,Form,Checkbox,Button,Input,Select,Tooltip,DatePicker,Modal  } fr
 import {SelectorCS,SelectorYear,SelectorTGZT,SelectorJGXZ} from 'component/compSelector'
 import './style.css'
 import './untils.js'
+import Model from './model.js' 
 
 const FormItem = Form.Item;
 const createForm = Form.create;
@@ -23,6 +24,7 @@ let detailBox = React.createClass({
                     var div1 = document.getElementById(key);
                     div1.style.backgroundColor="rgba(255, 0, 0, 0.09)"; 
                     }
+                    Modal.info({ title: '提示', content: (<div><p><b>请填写所有必填项</b></p> </div>)});
                 return;
             }
 
@@ -30,11 +32,11 @@ let detailBox = React.createClass({
             var ls = [];
             const old = this.props.data;
             for(var key in value){
+                if(Object.prototype.toString.call(value[key])=="[object Date]"){//时间格式化
+                    var dd = value[key].Format("yyyy-MM-dd");
+                    value[key]=dd;
+                }
                 if (old[key]!=value[key]) {//是否变更数据
-                    if(Object.prototype.toString.call(value[key])=="[object Date]"){//时间格式化
-                        var dd = value[key].Format("yyyy-MM-dd");
-                        value[key]=dd;
-                    }
                     ls.push({mc:Model[key],jzhi:old[key],xzhi:value[key]});
                 };
             };
@@ -53,8 +55,10 @@ let detailBox = React.createClass({
     render(){
         const obj = this.props.data;
         var dd = null;
+        var zj = null;
         if (!!obj) {
             dd = new Date(obj.clsj.toString().replace(/-/g, "/"));//String 转Date
+            zj = String(obj.zczj);
         };
         const { getFieldProps } = this.props.form;//, { initialValue: {obj}}
         let helper = [];
@@ -79,7 +83,7 @@ let detailBox = React.createClass({
                     </tr>
                     <tr>
                         <td ><span style={{'color':'red',fontSize:'large'}}>*</span><b>注册资金（万元）：</b></td>
-                        <td style={{textAlign:'left'}}><Input id='zczj' { ...getFieldProps('zczj', { initialValue: obj.zczj,rules: [{ type: 'number',required: true}]})}></Input></td>
+                        <td style={{textAlign:'left'}}><Input id='zczj' { ...getFieldProps('zczj', { initialValue: zj,rules: [{ required: true}]})}></Input></td>
                         <td ><span style={{'color':'red',fontSize:'large'}}>*</span><b>注册地址：</b></td>
                         <td ><Input id='zcdz' { ...getFieldProps('zcdz', { initialValue: obj.zcdz,rules: [{ required: true}]})}></Input></td>
                     </tr>
