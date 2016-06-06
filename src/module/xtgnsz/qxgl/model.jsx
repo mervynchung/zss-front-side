@@ -1,5 +1,6 @@
 import React from 'react'
 
+
 module.exports = {
     columns: [
         { title: '角色名称', dataIndex: 'name',  key: 'name' },
@@ -14,8 +15,6 @@ module.exports = {
     ],
     pagination:{
         pageSize:10
-    },
-    rowSelection:{
-        type:'radio'
     }
+
 };
