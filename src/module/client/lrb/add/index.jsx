@@ -371,13 +371,8 @@ let Addlrb = React.createClass({
                        
                         
                               <td>               
-                        <Button type="primary" onClick={this.showModal}> <Icon type="arrow-up"/>保存</Button>
-                                       <Modal title="你确定要保存吗？" visible={this.state.visible}
-                                             onOk={this.handleSubmit} onCancel={this.handleCancel}>
-                                                 <p>确定请点击确定按钮</p>
-                                                 <p>取消请点击取消按钮</p>
-                                          
-        </Modal>
+                        <Button type="primary" onClick={this.handleSubmit}> <Icon type="arrow-up"/>保存</Button>
+                                      
                       </td>
                       
                        <td style={{textAlign:'center'}}>

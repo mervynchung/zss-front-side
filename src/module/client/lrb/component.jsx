@@ -15,6 +15,7 @@ import DetailBox from './detailbox.jsx'
 
 const API_URL = config.HOST + config.URI_API_PROJECT + '/add/lrb';
 const URL = config.HOST + config.URI_API_PROJECT + '/addlrb';
+
 const ToolBar = Panel.ToolBar;
 const ButtonGroup = Button.Group;
 
@@ -121,12 +122,52 @@ const lrb = React.createClass({
             message.error('Status Code:' + err.status + '  api错误 ')
         })
     },
-
+ 
     //点击保存
     handleSubmit(value) {
         let vv = value;
         vv.ztbj = '0'
+        vv.jg_id = '68'
         this.fetchHandle(vv);
+    },
+    
+     //点击编辑提交
+    handleOk1(e) {
+       let vv = e;
+        vv.ztbj = '1'
+       
+        this.fetchHandle1(vv);
+      
+    },
+    fetchHandle1(value) {
+       console.log("value",value)
+        req({
+            url: URL + '/' + value.id,
+            type: 'json',
+            method: 'put',
+            data: JSON.stringify(value),
+            contentType: 'application/json'
+
+        }).then(resp => {
+            Modal.success({
+                title: '操作成功',
+                content: (
+                    <div>
+                        <p>操作成功！</p>
+                    </div>)
+            });
+        }).fail(err => {
+            message.error('Status Code:' + err.status + '  api错误 ')
+        })
+    },
+ 
+    //点击编辑保存
+    handleSubmit1(value) {
+        let vv = value;
+        vv.ztbj = '0'
+        vv.jg_id = '68'
+        this.fetchHandle1(vv);
+       
     },
 
     //提交条件查询
@@ -216,7 +257,7 @@ function ddd() {
             type: 'json',
             method: 'get'
         }).then(resp => {
-           console.log(resp)
+          
          
             that.setState({update: !that.state.update,detailHide: true,entity:resp,});
            
@@ -239,6 +280,7 @@ function look() {
 }
     return ( <span> 
     <Button size="small" onClick={ddd} >
+    
     <Icon type="edit" />编辑
   </Button>
   <Button size="small" onClick={look} >
@@ -313,7 +355,7 @@ const column1=[
                     {!this.state.add && <Add onSubmit={this.handleSubmit} handleOk={this.handleOk} />}
                     {!this.state.update && <Panel title="修改"  onClose={this.handleDetailClose}
                     closable> 
-                    <Update onSubmit={this.handleSubmit} handleOk={this.handleOk} data1={this.state.entity} />
+                    <Update onSubmit={this.handleSubmit1} handleOk={this.handleOk1} data1={this.state.entity} />
                     </Panel>}
                 </Panel>
                 {this.state.detailHide ? null : <Panel title="利润表明细"

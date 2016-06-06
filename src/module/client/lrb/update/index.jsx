@@ -1,11 +1,12 @@
 import React from 'react'
-import {Col, Input,Row,Button,Icon,Form,Modal } from 'antd'
+import {Col, Input,Row,Button,Icon,Form,Modal,Select } from 'antd'
 import {SelectorYear,SelectorXZ} from 'component/compSelector'
 import './style.css'
 
 const ButtonGroup = Button.Group;
 const createForm = Form.create;
 const FormItem = Form.Item;
+const Option = Select.Option;
  
 let Updatelrb = React.createClass({
     getDefaultProps(){
@@ -25,7 +26,7 @@ let Updatelrb = React.createClass({
     }
 
     value.id = obj.ID;
-        console.log('收到表单值：', obj.ID);
+      
     this.props.onSubmit(value);
   },
 
@@ -55,7 +56,7 @@ let Updatelrb = React.createClass({
     const obj = this.props.data1;
     value.id = obj.ID;   
     value.jg_id=obj.JG_ID;
-     console.log("值",value);
+     
   },
   handleOk(e) {
     // console.log('点击了确定',this.state.okValue);
@@ -105,11 +106,12 @@ let Updatelrb = React.createClass({
                             <SelectorYear  { ...getFieldProps('nd', { initialValue:data.ND })}/>
                         </Col>
                            </td>
-                        <td> <Col
-                         
-                          >
-                            <SelectorXZ { ...getFieldProps('timevalue', { initialValue:data.TIMEVALUE })}/>
-                        </Col>
+                        <td>
+                             <Select  { ...getFieldProps('timevalue', { initialValue: data.TIMEVALUE})} >
+                            <Option value="0">半年</Option>
+                            <Option value="1">全年</Option>
+                           
+                        </Select>
                            </td>
                         <td>单位：元</td>
                     </tr>
@@ -359,7 +361,7 @@ let Updatelrb = React.createClass({
                         <td style={{textAlign:'center'}}  colSpan="2">
                         
                         <Row>
-                                 <Col span="2" offset="6">所长：</Col>
+                                 <Col span="3" offset="4">所长：</Col>
                                 <Col span="5" ><Input  {...getFieldProps('sz', { initialValue:data.SZ })} />  </Col>
                           </Row>
                          </td>
@@ -383,13 +385,7 @@ let Updatelrb = React.createClass({
                        
                         
                               <td>               
-                        <Button type="primary" onClick={this.showModal}> <Icon type="arrow-up"/>保存</Button>
-                                       <Modal title="你确定要保存吗？" visible={this.state.visible}
-                                             onOk={this.handleSubmit} onCancel={this.handleCancel}>
-                                                 <p>确定请点击确定按钮</p>
-                                                 <p>取消请点击取消按钮</p>
-                                          
-        </Modal>
+                       <Button type="primary" onClick={this.handleSubmit}> <Icon type="arrow-up"/>保存</Button>
                       </td>
                       
                        <td style={{textAlign:'center'}}>
