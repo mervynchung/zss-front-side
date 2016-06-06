@@ -1,6 +1,5 @@
 import React from 'react'
-import {Row,Col,Form,Checkbox,Button,Input,Select,Tooltip,DatePicker,Modal  } from 'antd'
-import {SelectorCS,SelectorYear,SelectorTGZT,SelectorJGXZ} from 'component/compSelector'
+import {Row,Col,Form,Button,Input,Select,DatePicker,Modal  } from 'antd'
 import './style.css'
 import './untils.js'
 import Model from './model.js' 
@@ -52,9 +51,7 @@ let detailBox = React.createClass({
         };
     });
     },
-    onChangeTime(Datevalue){
-        this.props.onChangeTime(Datevalue);
-    },
+
     render(){
         const obj = this.props.data;
         const { getFieldProps, getFieldError, isFieldValidating } = this.props.form;//, { initialValue: {obj}}
@@ -88,12 +85,6 @@ let detailBox = React.createClass({
                         <td ><Input id='swdjhm' { ...getFieldProps('swdjhm', { initialValue: obj.swdjhm,rules: [{ required: true}]})}></Input></td>
                     </tr>
                     <tr>
-                        <td ><b>机构代码证号：</b></td>
-                        <td ><Input { ...getFieldProps('jgdmzh', { initialValue: obj.jgdmzh})}></Input></td>
-                        <td ><b>工商预核名称编号：</b></td>
-                        <td ><Input { ...getFieldProps('gsyhmcbh', { initialValue: obj.gsyhmcbh})}></Input></td>
-                    </tr>
-                    <tr>
                         <td ><span style={{'color':'red',fontSize:'large'}}>*</span><b>开户行：</b></td>
                         <td ><Input id='khh' { ...getFieldProps('khh', { initialValue: obj.khh,rules: [{ required: true}]})}></Input></td>
                         <td ><span style={{'color':'red',fontSize:'large'}}>*</span><b>开户行帐号：</b></td>
@@ -110,6 +101,12 @@ let detailBox = React.createClass({
                         <td ><Input id='xtyyx' { ...getFieldProps('xtyyx', { initialValue: obj.xtyyx,rules: [{ required: true}]})}></Input></td>
                         <td ><span style={{'color':'red',fontSize:'large'}}>*</span><b>所长邮箱：</b></td>
                         <td ><Input id='szyx' { ...getFieldProps('szyx', { initialValue: obj.szyx,rules: [{ required: true}]})}></Input></td>
+                    </tr>
+                    <tr>
+                        <td ><b>机构代码证号：</b></td>
+                        <td ><Input { ...getFieldProps('jgdmzh', { initialValue: obj.jgdmzh})}></Input></td>
+                        <td ><b>工商预核名称编号：</b></td>
+                        <td ><Input { ...getFieldProps('gsyhmcbh', { initialValue: obj.gsyhmcbh})}></Input></td>
                     </tr>
                     <tr>
                         <td ><b>事务所网址：</b></td>

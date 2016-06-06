@@ -155,7 +155,7 @@ const lrb = React.createClass({
         helper.push(<p key="helper-0">1)    变更备案需要审批项：单位名称、所在城市、地址、机构性质、注册资金等</p>);
         helper.push(<p key="helper-1">2)    法人在变更备案页面是无法变更的</p>);
 
-        return <div className="cwbb-lrb">
+        return <div className="khd-jggl-swsbg">
             <div className="wrap">
                 {this.state.helper && <Alert message="变更备案申请帮助"
                                              description={helper}
