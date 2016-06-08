@@ -1,6 +1,8 @@
 import React from 'react'
 import {Tree} from 'antd'
+import {jsonCopy} from 'common/utils'
 const TreeNode = Tree.TreeNode;
+
 
 const comp = React.createClass({
     getDefaultProps(){
@@ -11,10 +13,10 @@ const comp = React.createClass({
         }
     },
     deflatten(data){
-        var root = [], objMap = {};
-        if (data.length > 0) {
-            for (var i = 0; i < data.length; i++) {
-                var node = data[i];
+        var root = [], objMap = {}, list=jsonCopy(data);
+        if (list.length > 0) {
+            for (var i = 0; i < list.length; i++) {
+                var node = list[i];
                 node.key = node.id;
                 objMap[node.id] = node;
                 if (node.pid !== 0) {
@@ -47,9 +49,9 @@ const comp = React.createClass({
 
     render(){
         let gData = this.deflatten(this.props.data);
-        console.log(gData)
         return <div>
-            <Tree checkable defaultExpandAll
+            <Tree checkable
+                  defaultExpandAll
                   onCheck={this.props.onCheck} checkedKeys={this.props.checkedKeys}
                   onSelect={this.props.onSelect} selectedKeys={this.props.selectedKeys}>
                 {this.genTree(gData)}
