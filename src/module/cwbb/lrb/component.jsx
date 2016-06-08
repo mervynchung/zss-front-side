@@ -81,7 +81,8 @@ const lrb = React.createClass({
         const params = {
             page: 1,
             pageSize: pager.pageSize,
-            where: encodeURIComponent(JSON.stringify(value))
+            //where: encodeURIComponent(JSON.stringify(value))
+            where: JSON.stringify(value)
         };
         this.setState({pagination: pager, where: value});
         this.fetchData(params);
@@ -120,7 +121,8 @@ const lrb = React.createClass({
             url: API_URL,
             type: 'json',
             method: 'get',
-            data: params
+            data: params,
+            contentType: 'application/json'
         }).then(resp=> {
             const p = this.state.pagination;
             p.total = resp.total > 1000 ? 1000 : resp.total;

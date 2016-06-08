@@ -169,7 +169,7 @@ const khdmkgl = React.createClass({
         }
         //新建节点，并赋予基本默认属性
         //可见:是,名字:新模块,排序:空,pid:上级节点id,模块类型:A A-中心端,B-客户端
-        let newNode = {pid: pid, name: '新模块', orderNo: '', visble: 1, lx: 'A'};
+        let newNode = {pid: pid, name: '新模块', orderNo: '', visble: 1, lx: 'B'};
 
         req({
             url: URL + '?',
@@ -200,7 +200,7 @@ const khdmkgl = React.createClass({
     },
     componentDidMount(){
         req({
-            url: URL + '?q=all&l=A',
+            url: URL + '?q=all&l=B',
             type: 'json',
             method: 'get'
         }).then(resp => {
@@ -211,7 +211,7 @@ const khdmkgl = React.createClass({
     },
 
     render(){
-        const data = getTreeData(this.state.nodes)
+        const data = getTreeData(this.state.nodes);
         return <div className="zxdmkgl">
             <Row>
                 <Col span="8" className="tree-box">
