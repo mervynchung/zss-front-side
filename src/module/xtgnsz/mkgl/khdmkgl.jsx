@@ -188,10 +188,10 @@ const khdmkgl = React.createClass({
     },
     removeNode(){
         req({
-            url: URL + '/' + this.state.currentNode.id,
+            url: URL + '/' + this.state.currentNode.id+'?l=b',
             type: 'json',
             method: 'delete',
-            data:{l:'B'}
+            contentType:'application/json'
         }).then((resp)=> {
             this.setState({nodes: resp});
         }).fail(err=> {
