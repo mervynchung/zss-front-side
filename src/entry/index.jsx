@@ -77,7 +77,8 @@ const routes = {
         //监督检查
         require('../module/jdjc/zyswsnjb'),
         require('../module/jdjc/swsnj'),
-        require('../module/client/lrb')
+        require('../module/client/lrb'),
+        require('../module/client/lrfpb')
         
 
 

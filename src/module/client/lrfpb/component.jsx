@@ -13,14 +13,14 @@ import {entityFormat} from 'common/utils'
 import DetailBox from './detailbox.jsx'
 
 
-const API_URL = config.HOST + config.URI_API_PROJECT + '/add/lrb';
-const URL = config.HOST + config.URI_API_PROJECT + '/addlrb';
+const API_URL = config.HOST + config.URI_API_PROJECT + '/add/lrfpb';
+const URL = config.HOST + config.URI_API_PROJECT + '/addlrfpb';
 
 const ToolBar = Panel.ToolBar;
 const ButtonGroup = Button.Group;
 
 
-const lrb = React.createClass({
+const lrfpb = React.createClass({
     //初始化state
     getInitialState() {
         return {
@@ -223,7 +223,7 @@ const lrb = React.createClass({
             const p = this.state.pagination;
             p.total = resp.total > 1000 ? 1000 : resp.total;
             p.showTotal = total => {
-                return `共 ${resp.total} 条，`
+                return `共 ${resp.total} 条`
             };
             this.setState({
                 data: resp.data,
@@ -312,7 +312,7 @@ const column1=[
         {title: '事务所名称', dataIndex: 'DWMC', key: 'DWMC'},
         {title: '年度', dataIndex: 'nd', key: 'nd'},
         {title: '状态', key: 'ZTBJ', dataIndex: 'ZTBJ'},
-        {title: '性质', key: 'TIMEVALUE', dataIndex: 'TIMEVALUE'},
+       
         {
         title: '操作',
     key: 'operation',
@@ -344,18 +344,18 @@ const column1=[
 
         //定义提示内容
         let helper = [];
-        helper.push(<p key="helper-0">点击查询结果查看利润表明细</p>);
-        helper.push(<p key="helper-1">也可以添加修改和提交利润表</p>);
+        helper.push(<p key="helper-0">点击查询结果查看利润分配表明细</p>);
+        helper.push(<p key="helper-1">也可以添加修改和提交利润分配表</p>);
         return <div className="cwbb-lrb">
             <div className="wrap">
-                {this.state.helper && <Alert message="利润表检索查询帮助"
+                {this.state.helper && <Alert message="利润分配表检索查询帮助"
                     description={helper}
                     type="info"
                     closable
                     onClose={this.handleHelperClose}/>}
 
 
-                <Panel title="利润表" toolbar={toolbar}>
+                <Panel title="利润分配表" toolbar={toolbar}>
                     {this.state.searchToggle && <SearchForm
                         onSubmit={this.handleSearchSubmit}/>}
                     { this.state.add &&  <div className="h-scroll-table">
@@ -373,7 +373,7 @@ const column1=[
                     <Update onSubmit={this.handleSubmit1} handleOk={this.handleOk1} data1={this.state.entity} />
                     </Panel>}
                 </Panel>
-                {this.state.detailHide ? null : <Panel title="利润表明细"
+                {this.state.detailHide ? null : <Panel title="利润分配表明细"
                     onClose={this.handleDetailClose}
                     closable>
                     <DetailBox data={this.state.entity}/>
@@ -383,4 +383,4 @@ const column1=[
     }
 });
 
-module.exports = lrb;
+module.exports = lrfpb;

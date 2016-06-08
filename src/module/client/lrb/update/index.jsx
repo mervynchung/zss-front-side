@@ -393,8 +393,8 @@ let Updatelrb = React.createClass({
                          <Button type="primary" onClick={this.showModal}> <Icon type="arrow-up"/>提交</Button>
                                        <Modal title="你确定要提交吗？" visible={this.state.visible}
                                              onOk={this.handleOk} onCancel={this.handleCancel}>
-                                                 <p>确定请点击确定按钮</p>
-                                                 <p>取消请点击取消按钮</p>
+                                                 <p>提交后就不能修改了！！！</p>
+                                                
                                           
         </Modal>
                         </td>
