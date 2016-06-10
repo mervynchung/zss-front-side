@@ -80,35 +80,12 @@ const Demo = React.createClass({
             selectedKeys: [],
         };
     },
-    onExpand(treeNode, expand, expandedKeys) {
-        console.log('onExpand', expand, expandedKeys);
-        const index = expandedKeys.indexOf(treeNode.props.eventKey);
-        if (expand) {
-            if (index > -1) {
-                expandedKeys.splice(index, 1);
-            }
-        } else {
-            if (index === -1) {
-                expandedKeys.push(treeNode.props.eventKey);
-            }
-        }
-        this.setState({ expandedKeys });
-    },
-    onCheck(checkedKeys) {
-        this.setState({
-            checkedKeys,
-            selectedKeys: ['0-3', '0-4'],
-        });
-    },
-    onSelect(selectedKeys, info) {
-        console.log('onSelect', info);
-        this.setState({ selectedKeys });
-    },
+
     render() {
         const loop = data => data.map((item) => {
             if (item.children) {
                 return (
-                    <TreeNode key={item.key} title={item.key} disableCheckbox={item.key === '0-0-0'}>
+                    <TreeNode key={item.key} title={item.key}>
                         {loop(item.children)}
                     </TreeNode>
                 );
@@ -116,7 +93,7 @@ const Demo = React.createClass({
             return <TreeNode key={item.key} title={item.key} />;
         });
         return (
-            <Tree checkable multiple={this.props.multiple}  defaultExpandAll>
+            <Tree checkable  defaultExpandAll>
                 {loop(gData)}
             </Tree>
         );

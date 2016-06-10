@@ -3,13 +3,16 @@ import {Tree} from 'antd'
 import {jsonCopy} from 'common/utils'
 const TreeNode = Tree.TreeNode;
 
+const noop = function(){};
 
 const comp = React.createClass({
     getDefaultProps(){
         return {
             data: [],
             checkedKeys:[],
-            selectedKeys:[]
+            selectedKeys:[],
+            onSelect:noop,
+            onCheck:noop
         }
     },
     deflatten(data){
@@ -49,14 +52,16 @@ const comp = React.createClass({
 
     render(){
         let gData = this.deflatten(this.props.data);
-        return <div>
+        return (
             <Tree checkable
                   defaultExpandAll
-                  onCheck={this.props.onCheck} checkedKeys={this.props.checkedKeys}
-                  onSelect={this.props.onSelect} selectedKeys={this.props.selectedKeys}>
+                  defaultCheckedKeys={this.props.defaultCheckedKeys}
+                  //onCheck={this.props.onCheck}
+                  //onCheck={this.props.onCheck} checkedKeys={this.props.checkedKeys}
+                  //onSelect={this.props.onSelect} selectedKeys={this.props.selectedKeys}
+                  >
                 {this.genTree(gData)}
-            </Tree>
-        </div>
+            </Tree>)
     }
 });
 
