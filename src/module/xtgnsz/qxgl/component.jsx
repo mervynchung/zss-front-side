@@ -29,7 +29,12 @@ const qxgl = React.createClass({
         }).then(resp=> {
             this.setState({roles: resp})
         });
-        this.fetchMenu();
+
+        this.fetchData().then(resp=>{
+            console.log('success',resp.center);
+        }).catch(e=>{
+            console.log('reject',e)
+        })
     },
     handleRowClick(record){
         this.setState({currentIndex: record.id, currentEntity: record})
@@ -38,22 +43,24 @@ const qxgl = React.createClass({
         console.log(checkedKeys)
     },
     fetchMenu(lx){
-        req({
-            url: MENU_URL + lx=='A'?'?l=A':'?l=B',
+        return req({
+            url: MENU_URL + (lx=='A'?'?l=A':'?l=B'),
             type: 'json',
             method: 'get'
-        }).then(resp=> {
-            lx=='A'?this.setState({center: resp}):this.setState({client: resp})
+        })
+    },
+    async fetchData(){
+        let center = await this.fetchMenu('A');
+        return {center:center}
 
-        });
     },
     render(){
 
         //中心端权限表
-        const CenterPrivileges = <TreeView data={this.state.center} onCheck={this.handleTreeCheck}/>;
+        //const CenterPrivileges = <TreeView data={this.state.center} onCheck={this.handleTreeCheck}/>;
 
        //客户端权限表
-        const ClientPrivileges = <TreeView data={this.state.client} onCheck={this.handleTreeCheck}/>;
+       // const ClientPrivileges = <TreeView data={this.state.client} onCheck={this.handleTreeCheck}/>;
 
         const rowSelection = {
             type: 'radio',
@@ -77,10 +84,10 @@ const qxgl = React.createClass({
                     </Col>
                     <Col span="12" style={{paddingLeft:'16px'}}>
                         <Panel title="权限分配">
-                            <Tabs defaultActiveKey="1">
+                            {/*<Tabs defaultActiveKey="1">
                                 <TabPane tab="中心端" key="1"><CenterPrivileges /></TabPane>
                                 <TabPane tab="客户端" key="2"><ClientPrivileges /></TabPane>
-                            </Tabs>
+                            </Tabs>*/}
 
                         </Panel>
                     </Col>

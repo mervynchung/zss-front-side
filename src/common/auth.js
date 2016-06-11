@@ -21,8 +21,10 @@ module.exports = {
     },
 
     verifyPermission(path){
-        if (path == '/'){
+        if (path == '/') {
             return true
+        }else if (!store.session.get('permission')) {
+            return false
         }else{
             return store.session.get('permission').indexOf(md5(path).toString()) != -1
         }
