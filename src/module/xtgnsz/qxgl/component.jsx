@@ -1,6 +1,6 @@
 import './style.css'
 import React from 'react'
-import {Table,Col,Row,Tree,Tabs} from 'antd'
+import {Table,Col,Row,Tree,Tabs,Modal} from 'antd'
 import Panel from 'component/compPanel'
 import config from 'common/configuration'
 import model from './model.jsx'
@@ -16,24 +16,30 @@ const qxgl = React.createClass({
     getInitialState(){
         return {
             roles: [],
+            center:[],
+            client:[],
             currentIndex: '',
             currentEntity: ''
         }
     },
 
     componentDidMount(){
-        req({
-            url: ROLE_URL,
-            type: 'json',
-            method: 'get'
-        }).then(resp=> {
-            this.setState({roles: resp})
-        });
-
         this.fetchData().then(resp=>{
-            console.log('success',resp.center);
+            console.log(resp)
+            this.setState({
+                roles: resp.roles,
+                center:resp.center,
+                client:resp.client
+            })
         }).catch(e=>{
-            console.log('reject',e)
+            Modal.error({
+                title: '数据获取错误',
+                content: (
+                    <div>
+                        <p>无法从服务器返回数据，需检查应用服务工作情况</p>
+                        <p>Status: {e.status}</p>
+                    </div>  )
+            });
         })
     },
     handleRowClick(record){
@@ -49,18 +55,28 @@ const qxgl = React.createClass({
             method: 'get'
         })
     },
+    fetchRole(){
+        return req({
+            url: ROLE_URL,
+            type: 'json',
+            method: 'get'
+        })
+    },
     async fetchData(){
         let center = await this.fetchMenu('A');
-        return {center:center}
+        let client = await this.fetchMenu('B');
+        let roles = await this.fetchRole();
 
+        return {center:center,client:client,roles:roles}
     },
+
     render(){
 
         //中心端权限表
-        //const CenterPrivileges = <TreeView data={this.state.center} onCheck={this.handleTreeCheck}/>;
+        const centerPrivileges = <TreeView data={this.state.center} onCheck={this.handleTreeCheck}/>;
 
        //客户端权限表
-       // const ClientPrivileges = <TreeView data={this.state.client} onCheck={this.handleTreeCheck}/>;
+        const clientPrivileges = <TreeView data={this.state.client} onCheck={this.handleTreeCheck}/>;
 
         const rowSelection = {
             type: 'radio',
@@ -84,10 +100,11 @@ const qxgl = React.createClass({
                     </Col>
                     <Col span="12" style={{paddingLeft:'16px'}}>
                         <Panel title="权限分配">
-                            {/*<Tabs defaultActiveKey="1">
-                                <TabPane tab="中心端" key="1"><CenterPrivileges /></TabPane>
-                                <TabPane tab="客户端" key="2"><ClientPrivileges /></TabPane>
-                            </Tabs>*/}
+                            <Tabs defaultActiveKey="1">
+                                <TabPane tab="中心端" key="1">{centerPrivileges}</TabPane>
+                                <TabPane tab="客户端" key="2">{clientPrivileges}</TabPane>
+                            </Tabs>
+                            <div></div>
 
                         </Panel>
                     </Col>
