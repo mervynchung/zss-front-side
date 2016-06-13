@@ -1,6 +1,6 @@
 import './style.css'
 import React from 'react'
-import {Table,Col,Row,Tree,Tabs,Modal,Button} from 'antd'
+import {Table,Col,Row,Tree,Tabs,Modal,Button,Spin} from 'antd'
 import Panel from 'component/compPanel'
 import config from 'common/configuration'
 import model from './model.jsx'
@@ -10,29 +10,33 @@ import TreeView from 'component/treeView'
 const TabPane = Tabs.TabPane;
 const ROLE_URL = config.HOST + config.URI_API_FRAMEWORK + '/roles';
 const MENU_URL = config.HOST + config.URI_API_FRAMEWORK + '/asidemenu';
-const Privileges_URL = config.HOST+  config.URI_API_FRAMEWORK +'/privileges';
+const Privileges_URL = config.HOST + config.URI_API_FRAMEWORK + '/privileges';
 
 //权限管理
 const qxgl = React.createClass({
     getInitialState(){
         return {
             roles: [],
-            center:[],
-            client:[],
+            center: [],
+            client: [],
             currentIndex: '',
             currentEntity: '',
-            privileges:[]
+            privileges: [],
+            privilegesLoading: false,
+            pageLoading: true
         }
     },
 
     componentDidMount(){
-        this.fetchData().then(resp=>{
+        this.fetchData().then(resp=> {
             this.setState({
+                pageLoading:false,
                 roles: resp.roles,
-                center:resp.center,
-                client:resp.client
+                center: resp.center,
+                client: resp.client
             })
-        }).catch(e=>{
+        }).catch(e=> {
+            this.setState({pageLoading:false});
             Modal.error({
                 title: '数据获取错误',
                 content: (
@@ -45,34 +49,34 @@ const qxgl = React.createClass({
     },
     handleRowClick(record){
         req({
-            url:Privileges_URL+'/'+record.id,
-            type:'json',
-            method:'get'
-        }).then(resp=>{
+            url: Privileges_URL + '/' + record.id,
+            type: 'json',
+            method: 'get'
+        }).then(resp=> {
             let privileges = [];
-            for (let i =0; i< resp.length; i++){
-                privileges.push(resp[i].menuId+'');
+            for (let i = 0; i < resp.length; i++) {
+                privileges.push(resp[i].menuId + '');
             }
-            this.setState({privileges:privileges})
+            this.setState({privileges: privileges})
         });
         this.setState({currentIndex: record.id, currentEntity: record})
     },
     handleTreeCheck(checkedKeys){
         this.setState({
-            privileges:checkedKeys
+            privileges: checkedKeys
         });
     },
     handleTreeSubmit(){
-        this.setState({privilegesLoading:true});
+        this.setState({privilegesLoading: true});
         req({
-            url:Privileges_URL,
-            type:'json',
-            method:'post',
-            contentType:'application/json',
-            data:JSON.stringify(this.state.privileges)
-        }).then(resp=>{
-            this.setState({privilegesLoading:false})
-        }).fail(e=>{
+            url: Privileges_URL,
+            type: 'json',
+            method: 'put',
+            contentType: 'application/json',
+            data: JSON.stringify(this.state.privileges)
+        }).then(resp=> {
+            this.setState({privilegesLoading: false})
+        }).fail(e=> {
             Modal.error({
                 title: '更新失败',
                 content: (
@@ -85,7 +89,7 @@ const qxgl = React.createClass({
     },
     fetchMenu(lx){
         return req({
-            url: MENU_URL + (lx=='A'?'?l=A':'?l=B'),
+            url: MENU_URL + (lx == 'A' ? '?l=A' : '?l=B'),
             type: 'json',
             method: 'get'
         })
@@ -103,7 +107,7 @@ const qxgl = React.createClass({
         let client = await this.fetchMenu('B');
         let roles = await this.fetchRole();
 
-        return {center:center,client:client,roles:roles}
+        return {center: center, client: client, roles: roles}
     },
 
     render(){
@@ -114,7 +118,7 @@ const qxgl = React.createClass({
             onCheck={this.handleTreeCheck}
             checkedKeys={this.state.privileges}/>;
 
-       //客户端权限表
+        //客户端权限表
         const clientPrivileges = <TreeView
             data={this.state.client}
             onCheck={this.handleTreeCheck}
@@ -126,33 +130,36 @@ const qxgl = React.createClass({
         };
         return <div className="qxgl">
             <div className="wrap">
-                <Row>
-                    <Col span="12">
-                        <Panel title="角色管理">
-                            <Table className="outer-border"
-                                   columns={model.columns}
-                                   dataSource={this.state.roles}
-                                   pagination={model.pagination}
-                                   rowKey={record => record.id}
-                                   rowSelection={rowSelection}
-                                   onRowClick={this.handleRowClick}
-                                   rowClassName={(record)=>{return record.id==this.state.currentIndex?'row-selected':''}}
-                            />
-                        </Panel>
-                    </Col>
-                    <Col span="12" style={{paddingLeft:'16px'}}>
-                        <Panel title="权限分配" className="qxfp">
-                            <Tabs defaultActiveKey="1">
-                                <TabPane tab="中心端" key="1">{centerPrivileges}</TabPane>
-                                <TabPane tab="客户端" key="2">{clientPrivileges}</TabPane>
-                            </Tabs>
-                            <div className="bar">
-                                <Button type="primary" size="large" onClick={this.handleTreeSubmit}>确认</Button>
-                            </div>
-
-                        </Panel>
-                    </Col>
-                </Row>
+                <Spin spining={this.state.pageLoading}>
+                    <Row>
+                        <Col span="12">
+                            <Panel title="角色管理">
+                                <Table className="outer-border"
+                                       columns={model.columns}
+                                       dataSource={this.state.roles}
+                                       pagination={model.pagination}
+                                       rowKey={record => record.id}
+                                       rowSelection={rowSelection}
+                                       onRowClick={this.handleRowClick}
+                                       rowClassName={(record)=>{return record.id==this.state.currentIndex?'row-selected':''}}
+                                />
+                            </Panel>
+                        </Col>
+                        <Col span="12" style={{paddingLeft:'16px'}}>
+                            <Panel title="权限分配" className="qxfp">
+                                <Spin spining={this.state.privilegesLoading}>
+                                    <Tabs defaultActiveKey="1">
+                                        <TabPane tab="中心端" key="1">{centerPrivileges}</TabPane>
+                                        <TabPane tab="客户端" key="2">{clientPrivileges}</TabPane>
+                                    </Tabs>
+                                    <div className="bar">
+                                        <Button type="primary" size="large" onClick={this.handleTreeSubmit}>确认</Button>
+                                    </div>
+                                </Spin>
+                            </Panel>
+                        </Col>
+                    </Row>
+                </Spin>
             </div>
         </div>
     }
