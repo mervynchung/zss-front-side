@@ -10,3 +10,8 @@
 .qxgl .row-selected {
     background-color:#eaf8fe ;
 }
+.qxgl .qxfp .bar {
+    margin-top:16px;
+    margin-left:8px;
+    text-align: left;
+}

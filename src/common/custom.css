@@ -81,6 +81,10 @@ body {
 .outer-border tbody tr:last-child td {
     border-bottom: 0;
 }
+/*水平居中*/
+.horizon-m{
+    margin:0 auto;
+}
 
 /*固定样式表格*/
 .fix-table {

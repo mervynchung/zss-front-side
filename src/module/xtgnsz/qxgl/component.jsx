@@ -1,6 +1,6 @@
 import './style.css'
 import React from 'react'
-import {Table,Col,Row,Tree,Tabs,Modal} from 'antd'
+import {Table,Col,Row,Tree,Tabs,Modal,Button} from 'antd'
 import Panel from 'component/compPanel'
 import config from 'common/configuration'
 import model from './model.jsx'
@@ -10,6 +10,7 @@ import TreeView from 'component/treeView'
 const TabPane = Tabs.TabPane;
 const ROLE_URL = config.HOST + config.URI_API_FRAMEWORK + '/roles';
 const MENU_URL = config.HOST + config.URI_API_FRAMEWORK + '/asidemenu';
+const Privileges_URL = config.HOST+  config.URI_API_FRAMEWORK +'/privileges';
 
 //权限管理
 const qxgl = React.createClass({
@@ -19,13 +20,13 @@ const qxgl = React.createClass({
             center:[],
             client:[],
             currentIndex: '',
-            currentEntity: ''
+            currentEntity: '',
+            privileges:[]
         }
     },
 
     componentDidMount(){
         this.fetchData().then(resp=>{
-            console.log(resp)
             this.setState({
                 roles: resp.roles,
                 center:resp.center,
@@ -43,10 +44,44 @@ const qxgl = React.createClass({
         })
     },
     handleRowClick(record){
+        req({
+            url:Privileges_URL+'/'+record.id,
+            type:'json',
+            method:'get'
+        }).then(resp=>{
+            let privileges = [];
+            for (let i =0; i< resp.length; i++){
+                privileges.push(resp[i].menuId+'');
+            }
+            this.setState({privileges:privileges})
+        });
         this.setState({currentIndex: record.id, currentEntity: record})
     },
     handleTreeCheck(checkedKeys){
-        console.log(checkedKeys)
+        this.setState({
+            privileges:checkedKeys
+        });
+    },
+    handleTreeSubmit(){
+        this.setState({privilegesLoading:true});
+        req({
+            url:Privileges_URL,
+            type:'json',
+            method:'post',
+            contentType:'application/json',
+            data:JSON.stringify(this.state.privileges)
+        }).then(resp=>{
+            this.setState({privilegesLoading:false})
+        }).fail(e=>{
+            Modal.error({
+                title: '更新失败',
+                content: (
+                    <div>
+                        <p>更新权限失败，需检查应用服务工作情况</p>
+                        <p>Status: {e.status}</p>
+                    </div>  )
+            })
+        })
     },
     fetchMenu(lx){
         return req({
@@ -62,6 +97,7 @@ const qxgl = React.createClass({
             method: 'get'
         })
     },
+
     async fetchData(){
         let center = await this.fetchMenu('A');
         let client = await this.fetchMenu('B');
@@ -73,10 +109,16 @@ const qxgl = React.createClass({
     render(){
 
         //中心端权限表
-        const centerPrivileges = <TreeView data={this.state.center} onCheck={this.handleTreeCheck}/>;
+        const centerPrivileges = <TreeView
+            data={this.state.center}
+            onCheck={this.handleTreeCheck}
+            checkedKeys={this.state.privileges}/>;
 
        //客户端权限表
-        const clientPrivileges = <TreeView data={this.state.client} onCheck={this.handleTreeCheck}/>;
+        const clientPrivileges = <TreeView
+            data={this.state.client}
+            onCheck={this.handleTreeCheck}
+            checkedKeys={this.state.privileges}/>;
 
         const rowSelection = {
             type: 'radio',
@@ -99,12 +141,14 @@ const qxgl = React.createClass({
                         </Panel>
                     </Col>
                     <Col span="12" style={{paddingLeft:'16px'}}>
-                        <Panel title="权限分配">
+                        <Panel title="权限分配" className="qxfp">
                             <Tabs defaultActiveKey="1">
                                 <TabPane tab="中心端" key="1">{centerPrivileges}</TabPane>
                                 <TabPane tab="客户端" key="2">{clientPrivileges}</TabPane>
                             </Tabs>
-                            <div></div>
+                            <div className="bar">
+                                <Button type="primary" size="large" onClick={this.handleTreeSubmit}>确认</Button>
+                            </div>
 
                         </Panel>
                     </Col>
@@ -112,6 +156,6 @@ const qxgl = React.createClass({
             </div>
         </div>
     }
-})
+});
 
 module.exports = qxgl;

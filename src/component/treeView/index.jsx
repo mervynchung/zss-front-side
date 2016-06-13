@@ -8,11 +8,16 @@ const noop = function(){};
 const comp = React.createClass({
     getDefaultProps(){
         return {
-            data: [],
             checkedKeys:[],
             selectedKeys:[],
+            data: [],
             onSelect:noop,
             onCheck:noop
+        }
+    },
+    getInitialState(){
+        return {
+            checkedKeys:[]
         }
     },
     deflatten(data){
@@ -56,9 +61,9 @@ const comp = React.createClass({
             <Tree checkable
                   defaultExpandAll
                   defaultCheckedKeys={this.props.defaultCheckedKeys}
-                  //onCheck={this.props.onCheck}
-                  //onCheck={this.props.onCheck} checkedKeys={this.props.checkedKeys}
-                  //onSelect={this.props.onSelect} selectedKeys={this.props.selectedKeys}
+                  onCheck={this.props.onCheck}
+                  checkedKeys={this.props.checkedKeys}
+                  onSelect={this.props.onSelect} selectedKeys={this.props.selectedKeys}
                   >
                 {this.genTree(gData)}
             </Tree>)
