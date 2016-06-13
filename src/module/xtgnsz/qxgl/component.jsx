@@ -47,6 +47,7 @@ const qxgl = React.createClass({
             });
         })
     },
+    //处理角色列表点击
     handleRowClick(record){
         req({
             url: Privileges_URL + '/' + record.id,
@@ -61,22 +62,29 @@ const qxgl = React.createClass({
         });
         this.setState({currentIndex: record.id, currentEntity: record})
     },
+    //处理树节点勾选
     handleTreeCheck(checkedKeys){
         this.setState({
             privileges: checkedKeys
         });
     },
+    //权限修改提交
     handleTreeSubmit(){
         this.setState({privilegesLoading: true});
+        let param = {
+            roleId:this.state.currentIndex,
+            privileges:this.state.privileges
+        };
         req({
             url: Privileges_URL,
             type: 'json',
             method: 'put',
             contentType: 'application/json',
-            data: JSON.stringify(this.state.privileges)
+            data: JSON.stringify(param)
         }).then(resp=> {
             this.setState({privilegesLoading: false})
         }).fail(e=> {
+            this.setState({privilegesLoading: false});
             Modal.error({
                 title: '更新失败',
                 content: (
@@ -87,6 +95,7 @@ const qxgl = React.createClass({
             })
         })
     },
+    //获取菜单树数据
     fetchMenu(lx){
         return req({
             url: MENU_URL + (lx == 'A' ? '?l=A' : '?l=B'),
@@ -94,6 +103,7 @@ const qxgl = React.createClass({
             method: 'get'
         })
     },
+    //获取角色列表
     fetchRole(){
         return req({
             url: ROLE_URL,
@@ -101,7 +111,7 @@ const qxgl = React.createClass({
             method: 'get'
         })
     },
-
+    //异步获取管理端、客户端、角色数据
     async fetchData(){
         let center = await this.fetchMenu('A');
         let client = await this.fetchMenu('B');
