@@ -385,7 +385,7 @@ let Updatelrb = React.createClass({
                        
                         
                               <td>               
-                       <Button type="primary" onClick={this.handleSubmit}> <Icon type="arrow-up"/>保存</Button>
+                       <Button type="primary" onClick={this.handleSubmit}> <Icon type="check"/>保存</Button>
                       </td>
                       
                        <td style={{textAlign:'center'}}>
