@@ -39,7 +39,6 @@ const lrb = React.createClass({
         pager.current = pagination.current;
         pager.pageSize = pagination.pageSize;
         this.setState({pagination: pager});
-
         this.fetchData({
             pagenum: pager.current,
             pagesize: pager.pageSize,

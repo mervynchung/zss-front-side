@@ -54,7 +54,7 @@ let detailBox = React.createClass({
 
     render(){
         const obj = this.props.data;
-        const { getFieldProps, getFieldError, isFieldValidating } = this.props.form;//, { initialValue: {obj}}
+        const { getFieldProps, getFieldError, isFieldValidating } = this.props.form;
         return <div className="fix-table table-bordered table-striped">
          <Form horizontal onSubmit={this.handleSubmit} form={this.props.form}>
               <h2 className="sm">普通项目变更</h2>
