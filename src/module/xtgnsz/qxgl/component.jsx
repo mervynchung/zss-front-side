@@ -12,6 +12,15 @@ const ROLE_URL = config.HOST + config.URI_API_FRAMEWORK + '/roles';
 const MENU_URL = config.HOST + config.URI_API_FRAMEWORK + '/asidemenu';
 const Privileges_URL = config.HOST + config.URI_API_FRAMEWORK + '/privileges';
 
+const isParent = (nodeId, nodeList)=> {
+    for (let i = 0; i < nodeList.length; i++) {
+        if (nodeList[i].pid == nodeId) {
+            return true
+        }
+    }
+    return false
+};
+
 //权限管理
 const qxgl = React.createClass({
     getInitialState(){
@@ -30,13 +39,13 @@ const qxgl = React.createClass({
     componentDidMount(){
         this.fetchData().then(resp=> {
             this.setState({
-                pageLoading:false,
+                pageLoading: false,
                 roles: resp.roles,
                 center: resp.center,
                 client: resp.client
             })
         }).catch(e=> {
-            this.setState({pageLoading:false});
+            this.setState({pageLoading: false});
             Modal.error({
                 title: '数据获取错误',
                 content: (
@@ -56,7 +65,9 @@ const qxgl = React.createClass({
         }).then(resp=> {
             let privileges = [];
             for (let i = 0; i < resp.length; i++) {
-                privileges.push(resp[i].menuId + '');
+                if (!isParent(resp[i].menuId, this.state.center) && !isParent(resp[i].menuId, this.state.client)) {
+                    privileges.push(resp[i].menuId + '');
+                }
             }
             this.setState({privileges: privileges})
         });
@@ -64,6 +75,7 @@ const qxgl = React.createClass({
     },
     //处理树节点勾选
     handleTreeCheck(checkedKeys){
+        console.log(checkedKeys);
         this.setState({
             privileges: checkedKeys
         });
@@ -72,8 +84,8 @@ const qxgl = React.createClass({
     handleTreeSubmit(){
         this.setState({privilegesLoading: true});
         let param = {
-            roleId:this.state.currentIndex,
-            privileges:this.state.privileges
+            roleId: this.state.currentIndex,
+            privileges: this.state.privileges
         };
         req({
             url: Privileges_URL,

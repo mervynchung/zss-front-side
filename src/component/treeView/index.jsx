@@ -46,7 +46,7 @@ const comp = React.createClass({
         return gData.map((item) => {
             if (item.children) {
                 return (
-                    <TreeNode key={item.key} title={item.name}>
+                    <TreeNode key={item.key} title={item.name} >
                         {this.genTree(item.children)}
                     </TreeNode>
                 );
