@@ -3,7 +3,8 @@ import React from 'react';
 import AppHeader from './AppHeader';
 import AppSideNav from './AppSideNav';
 import AppFooter from './AppFooter';
-import {QueueAnim, Breadcrumb,Alert,Modal} from 'antd'
+import {Breadcrumb,Alert,Modal} from 'antd'
+import QueueAnim from 'rc-queue-anim'
 import {withRouter} from 'react-router'
 import req from 'reqwest'
 import config from 'common/configuration'

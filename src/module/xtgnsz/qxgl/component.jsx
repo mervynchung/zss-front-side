@@ -169,7 +169,7 @@ const qxgl = React.createClass({
         };
         return <div className="qxgl">
             <div className="wrap">
-                <Spin spining={this.state.pageLoading}>
+                <Spin spinning={this.state.pageLoading}>
                     <Row>
                         <Col span="12">
                             <Panel title="角色管理">
@@ -186,7 +186,7 @@ const qxgl = React.createClass({
                         </Col>
                         <Col span="12" style={{paddingLeft:'16px'}}>
                             <Panel title="权限分配" className="qxfp">
-                                <Spin spining={this.state.privilegesLoading}>
+                                <Spin spinning={this.state.privilegesLoading}>
                                     <Tabs defaultActiveKey="1">
                                         <TabPane tab="中心端" key="1">{centerPrivileges}</TabPane>
                                         <TabPane tab="客户端" key="2">{clientPrivileges}</TabPane>
