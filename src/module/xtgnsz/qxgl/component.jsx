@@ -1,6 +1,6 @@
 import './style.css'
 import React from 'react'
-import {Table,Col,Row,Tree,Tabs,Modal,Button,Spin} from 'antd'
+import {Table,Col,Row,Tree,Tabs,Modal,Button,Spin,notification} from 'antd'
 import Panel from 'component/compPanel'
 import config from 'common/configuration'
 import model from './model.jsx'
@@ -58,6 +58,7 @@ const qxgl = React.createClass({
     },
     //处理角色列表点击
     handleRowClick(record){
+        this.setState({currentIndex: record.id, currentEntity: record,privilegesLoading:true});
         req({
             url: Privileges_URL + '/' + record.id,
             type: 'json',
@@ -69,13 +70,12 @@ const qxgl = React.createClass({
                     privileges.push(resp[i].menuId + '');
                 }
             }
-            this.setState({privileges: privileges})
+            this.setState({privileges: privileges,privilegesLoading:false})
         });
-        this.setState({currentIndex: record.id, currentEntity: record})
+
     },
     //处理树节点勾选
     handleTreeCheck(checkedKeys){
-        console.log(checkedKeys);
         this.setState({
             privileges: checkedKeys
         });
@@ -83,6 +83,17 @@ const qxgl = React.createClass({
     //权限修改提交
     handleTreeSubmit(){
         this.setState({privilegesLoading: true});
+        if (!this.state.currentIndex) {
+            Modal.error({
+                title: '操作失败',
+                content: (
+                    <div>
+                        <p>请先选择角色</p>
+                    </div>  )
+            });
+            this.setState({privilegesLoading: false});
+            return false
+        }
         let param = {
             roleId: this.state.currentIndex,
             privileges: this.state.privileges
@@ -93,7 +104,12 @@ const qxgl = React.createClass({
             method: 'put',
             contentType: 'application/json',
             data: JSON.stringify(param)
-        }).then(resp=> {
+        }).then(()=> {
+            notification.success({
+                duration:1,
+                message:'操作成功',
+                description:'访问允许列表已更新'
+            });
             this.setState({privilegesLoading: false})
         }).fail(e=> {
             this.setState({privilegesLoading: false});
@@ -106,6 +122,7 @@ const qxgl = React.createClass({
                     </div>  )
             })
         })
+
     },
     //获取菜单树数据
     fetchMenu(lx){
