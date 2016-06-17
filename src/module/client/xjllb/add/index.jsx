@@ -77,7 +77,8 @@ let Addxjllb = React.createClass({
   handleOk(e) {
     // console.log('点击了确定',this.state.okValue);
     
-    console.log(this.state.okValue);
+    
+    this.props.handleOk(this.state.okValue)
     this.setState({
       visible: false
     });
@@ -97,10 +98,10 @@ let Addxjllb = React.createClass({
             <table>    
                 <colgroup>
                     <col className ="col-2"></col>
-                    <col className="col-6"></col>
+                    <col className="col-5"></col>
                     <col className="col-2"></col>
                     <col className="col-9"></col>
-                    <col className ="col-2"></col>
+                    <col className ="col-3"></col>
                     <col className ="col-3"></col>                  
                 </colgroup>
                 <tbody>
@@ -117,18 +118,18 @@ let Addxjllb = React.createClass({
                         </div>
                          </td>   
                            
-                        <td>  <Col 
+                        <td width="12%">  <Col 
                           label="年度：">
                             <SelectorYear { ...getFieldProps('nd')}/>
                         </Col>
                            </td>
                       
-                       <td>单位：元</td>
+                       <td width="12%">单位：元</td>
                     
                        </tr>  
                         <tr>
                         <td colSpan="4" style={{textAlign:'center'}} >项目</td>
-                        <td>行次</td>
+                        <td >行次</td>
                         <td >金额</td>                       
                        </tr>
                        

@@ -13,20 +13,16 @@ import {entityFormat} from 'common/utils'
 import DetailBox from './detailbox.jsx'
 
 
-const API_URL = config.HOST + config.URI_API_PROJECT + '/add/xjllb';
-const URL = config.HOST + config.URI_API_PROJECT + '/addxjllb';
+const API_URL = config.HOST + config.URI_API_PROJECT + '/add/zcfzb';
+const URL = config.HOST + config.URI_API_PROJECT + '/addzcfzb';
 
 const ToolBar = Panel.ToolBar;
 const ButtonGroup = Button.Group;
 
-function GetDates() {
-            var dates = new Date();
-            var s = dates.getFullYear().toString() + dates.getMonth+1().toString() + dates.getDate().toString();
-
-        }
 
 
-const xjllb = React.createClass({
+
+const zcfzb = React.createClass({
     //初始化state
     getInitialState() {
         return {
@@ -105,10 +101,12 @@ const xjllb = React.createClass({
     //点击提交
     handleOk(e) {
         let vv = e;
-        vv.ztbj = '1';
-        vv.jg_id ='68';
+        vv.ztbj = '1';    
+         vv.jg_id = '68';          
         this.fetchHandle(vv);
-         this.handleAdd();
+            this.handleAdd();
+       
+       
     },
     fetchHandle(value) {
         req({
@@ -124,7 +122,9 @@ const xjllb = React.createClass({
                 content: (
                     <div>
                         <p>操作成功！</p>
-                    </div>)
+                    </div>),
+             
+                   
             });
         }).fail(err => {
             message.error('Status Code:' + err.status + '  api错误 ')
@@ -134,26 +134,25 @@ const xjllb = React.createClass({
     //点击保存
     handleSubmit(value) {
         let vv = value;
-        vv.ztbj = '0'
-        vv.jg_id = '68'     
+        vv.ztbj = '0';
+        vv.jg_id = '68';
         this.fetchHandle(vv);
         
-        this.handleAdd();
-        
+         this.handleAdd();
        
+        
     },
     
      //点击编辑提交
     handleOk1(e) {
-       let vv = e;      
-        vv.ztbj = '1'     
-         this.fetchHandle1(vv);
-         this.handleUpdate();
-         
+       let vv = e;
+        vv.ztbj = '1'
+        this.fetchHandle1(vv);
+        this.handleUpdate();
       
     },
     fetchHandle1(value) {
-       
+       console.log("value",value)
         req({
             url: URL + '/' + value.id,
             type: 'json',
@@ -169,7 +168,7 @@ const xjllb = React.createClass({
                         <p>操作成功！</p>
                     </div>)
             });
-            
+            console.log("修改",resp);
         }).fail(err => {
             message.error('Status Code:' + err.status + '  api错误 ')
         })
@@ -178,10 +177,9 @@ const xjllb = React.createClass({
     //点击编辑保存
     handleSubmit1(value) {
         let vv = value;
-        vv.ztbj = '0'
+        vv.ztbj = '0';
         this.fetchHandle1(vv);
         this.handleUpdate();
-       
        
     },
 
@@ -209,7 +207,7 @@ const xjllb = React.createClass({
         }).then(resp => {
             let entity = entityFormat(resp, entityModel);
             this.setState({ entity: entity, detailHide: false });
-           
+            
         }).fail(err => {
             Modal.error({
                 title: '数据获取错误',
@@ -326,7 +324,7 @@ if(record.ZTBJ=="提交"){
 const column1=[
         {title: '序号', dataIndex: 'key', key: 'key'},       
         {title: '事务所名称', dataIndex: 'DWMC', key: 'DWMC'},
-        {title: '结束时间', dataIndex: 'JSSJ', key: 'JSSJ'},
+        {title: '性质', dataIndex: 'TIMEVALUE', key: 'TIMEVALUE'},
         {title: '年度', dataIndex: 'nd', key: 'nd'},
         {title: '状态', key: 'ZTBJ', dataIndex: 'ZTBJ'},
        
@@ -361,18 +359,18 @@ const column1=[
 
         //定义提示内容
         let helper = [];
-        helper.push(<p key="helper-0">点击查询结果查看现金流量表明细</p>);
-        helper.push(<p key="helper-1">也可以添加修改和提交现金流量表</p>);
+        helper.push(<p key="helper-0">点击查询结果查看资产负债表明细</p>);
+        helper.push(<p key="helper-1">也可以添加修改和提交资产负债表</p>);
         return <div className="cwbb-lrb">
             <div className="wrap">
-                {this.state.helper && <Alert message="现金流量表检索查询帮助"
+                {this.state.helper && <Alert message="资产负债表检索查询帮助"
                     description={helper}
                     type="info"
                     closable
                     onClose={this.handleHelperClose}/>}
 
 
-                <Panel title="现金流量表" toolbar={toolbar}>
+                <Panel title="资产负债表" toolbar={toolbar}>
                     {this.state.searchToggle && <SearchForm
                         onSubmit={this.handleSearchSubmit}/>}
                     { this.state.add &&  <div className="h-scroll-table">
@@ -390,7 +388,7 @@ const column1=[
                     <Update onSubmit={this.handleSubmit1} handleOk={this.handleOk1} data1={this.state.entity} />
                     </Panel>}
                 </Panel>
-                {this.state.detailHide ? null : <Panel title="现金流量表明细"
+                {this.state.detailHide ? null : <Panel title="资产负债表明细"
                     onClose={this.handleDetailClose}
                     closable>
                     <DetailBox data={this.state.entity}/>
@@ -400,4 +398,4 @@ const column1=[
     }
 });
 
-module.exports = xjllb;
+module.exports = zcfzb;

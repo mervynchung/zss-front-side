@@ -100,6 +100,7 @@ const lrb = React.createClass({
     handleOk(e) {
         let vv = e;
         vv.ztbj = '1'
+        vv.jg_id = '68'
         this.fetchHandle(vv);
     },
     fetchHandle(value) {

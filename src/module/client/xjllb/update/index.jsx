@@ -46,7 +46,7 @@ let Updatexjllb = React.createClass({
     }
 
     value.id = obj.ID;
-      
+    value.jg_id=obj.JG_ID;  
     this.props.onSubmit(value);
   },
 

@@ -96,15 +96,16 @@ const Index = React.createClass({
                  require('../module/lsjlcx/zyswslsjl/snbdjl'),
                  require('../module/lsjlcx/fzyzjjl'),
                  require('../module/lsjlcx/fzyzxjl'),
-                 require('../module/lsjlcx/fzyzzyjl'),  */} ,
+                 require('../module/lsjlcx/fzyzzyjl'),  
 
 
                  //监督检查
                  require('../module/jdjc/zyswsnjb'),
-                 require('../module/jdjc/swsnj'),
+                 require('../module/jdjc/swsnj'),*/} ,
                  require('../module/client/lrb'),
                  require('../module/client/lrfpb'),
-                  require('../module/client/xjllb')
+                  require('../module/client/xjllb'),
+                  require('../module/client/zcfzb'),
             ]
         }, {
             path: '/signin',
