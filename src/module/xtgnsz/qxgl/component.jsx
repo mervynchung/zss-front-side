@@ -6,6 +6,7 @@ import config from 'common/configuration'
 import model from './model.jsx'
 import req from 'reqwest'
 import TreeView from 'component/treeView'
+import RoleDialog from './roleDialog.jsx'
 
 const TabPane = Tabs.TabPane;
 const ToolBar = Panel.ToolBar;
@@ -35,7 +36,8 @@ const qxgl = React.createClass({
             currentEntity: '',
             privileges: [],
             privilegesLoading: false,
-            pageLoading: true
+            pageLoading: true,
+            dialogVisible:false
         }
     },
 
@@ -109,7 +111,7 @@ const qxgl = React.createClass({
             data: JSON.stringify(param)
         }).then(()=> {
             notification.success({
-                duration:1,
+                duration:2,
                 message:'操作成功',
                 description:'访问允许列表已更新'
             });
@@ -129,12 +131,43 @@ const qxgl = React.createClass({
     },
     //添加角色
     handleAdd(){
-        
-    },
-    handleDel(){
-
+        this.setState({dialogVisible:true})
     },
     //删除角色
+    handleDel(){
+        if(this.state.currentEntity){
+            Modal.confirm({
+                title: '您是否确认要删除这项内容',
+                content: [
+                    <p key="1">角色名称：{this.state.currentEntity.name}</p>,
+                    <p key="2">描述：{this.state.currentEntity.description}</p>
+                ],
+                onOk() {
+                    return new Promise((resolve) => {
+                        setTimeout(resolve, 1000);
+                    });
+                },
+                onCancel() {}
+            });
+        }
+    },
+    //对话框确定
+    handleDialogOk(value){
+        req({
+            url:ROLE_URL,
+            method:'post',
+            type:'json',
+            contentType:'application/json',
+            data:JSON.stringify(value)
+        }).then(resp=>{
+
+        })
+        this.setState({dialogVisible:false})
+    },
+    //对话框取消
+    handleDialogCancel(){
+        this.setState({dialogVisible:false})
+    },
     //获取菜单树数据
     fetchMenu(lx){
         return req({
@@ -190,6 +223,12 @@ const qxgl = React.createClass({
         </ToolBar>;
 
         return <div className="qxgl">
+            <RoleDialog
+                title="编辑角色资料"
+                width="420"
+                visible={this.state.dialogVisible}
+                onOk={this.handleDialogOk}
+                onCancel={this.handleDialogCancel} />
             <div className="wrap">
                 <Spin spinning={this.state.pageLoading}>
                     <Row>
