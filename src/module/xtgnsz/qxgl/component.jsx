@@ -8,6 +8,9 @@ import req from 'reqwest'
 import TreeView from 'component/treeView'
 
 const TabPane = Tabs.TabPane;
+const ToolBar = Panel.ToolBar;
+const ButtonGroup = Button.Group;
+
 const ROLE_URL = config.HOST + config.URI_API_FRAMEWORK + '/roles';
 const MENU_URL = config.HOST + config.URI_API_FRAMEWORK + '/asidemenu';
 const Privileges_URL = config.HOST + config.URI_API_FRAMEWORK + '/privileges';
@@ -124,6 +127,14 @@ const qxgl = React.createClass({
         })
 
     },
+    //添加角色
+    handleAdd(){
+        
+    },
+    handleDel(){
+
+    },
+    //删除角色
     //获取菜单树数据
     fetchMenu(lx){
         return req({
@@ -153,12 +164,16 @@ const qxgl = React.createClass({
 
         //中心端权限表
         const centerPrivileges = <TreeView
+            defaultExpandAll
+            checkable
             data={this.state.center}
             onCheck={this.handleTreeCheck}
             checkedKeys={this.state.privileges}/>;
 
         //客户端权限表
         const clientPrivileges = <TreeView
+            defaultExpandAll
+            checkable
             data={this.state.client}
             onCheck={this.handleTreeCheck}
             checkedKeys={this.state.privileges}/>;
@@ -167,12 +182,19 @@ const qxgl = React.createClass({
             type: 'radio',
             selectedRowKeys: [this.state.currentIndex]
         };
+        const toolbar = <ToolBar>
+            <ButtonGroup>
+                <Button  onClick={this.handleAdd}>添加</Button>
+                <Button  onClick={this.handleDel}>删除</Button>
+            </ButtonGroup>
+        </ToolBar>;
+
         return <div className="qxgl">
             <div className="wrap">
                 <Spin spinning={this.state.pageLoading}>
                     <Row>
                         <Col span="12">
-                            <Panel title="角色管理">
+                            <Panel title="角色管理" toolbar={toolbar}>
                                 <Table className="outer-border"
                                        columns={model.columns}
                                        dataSource={this.state.roles}
