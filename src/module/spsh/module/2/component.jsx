@@ -214,7 +214,7 @@ let wspcx = React.createClass({
                                    <tr>
                                       <td>审核选项：</td>
                                       <td >
-                                              <RadioGroup { ...getFieldProps('sftg',{ initialValue: "Y"})}>
+                                              <RadioGroup { ...getFieldProps('sftg',{ initialValue:config.AGREE_SP})}>
                                                   <Radio key="a" value={config.AGREE_SP}>同意</Radio>
                                                   <Radio key="b" value={config.DISAGREE_SP}>驳回</Radio>  
                                               </RadioGroup> 

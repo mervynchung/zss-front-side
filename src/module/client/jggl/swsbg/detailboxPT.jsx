@@ -1,12 +1,11 @@
 import React from 'react'
-import {Row,Col,Form,Button,Input,Select,DatePicker,Modal  } from 'antd'
+import {Row,Col,Form,Button,Input,DatePicker,Modal  } from 'antd'
 import './style.css'
 import './untils.js'
 import Model from './model.js' 
 
 const FormItem = Form.Item;
 const createForm = Form.create;
-const Option = Select.Option;
 
 let detailBox = React.createClass({
     getDefaultProps(){
@@ -36,9 +35,9 @@ let detailBox = React.createClass({
             }
             if (old[key]!=value[key]) {
                 if (value[key]=='') {//空值处理
-                    ls.push({mc:Model[key],jzhi:old[key],xzhi:null});
+                    ls.push({mc:Model.props[key],jzhi:old[key],xzhi:null});
                     }else{
-                    ls.push({mc:Model[key],jzhi:old[key],xzhi:value[key]});
+                    ls.push({mc:Model.props[key],jzhi:old[key],xzhi:value[key]});
                     };
             };
         };

@@ -1,13 +1,12 @@
 import React from 'react'
-import {Row,Col,Form,Checkbox,Button,Input,Select,Tooltip,DatePicker,Modal  } from 'antd'
-import {SelectorCS,SelectorYear,SelectorTGZT,SelectorJGXZ} from 'component/compSelector'
+import {Row,Col,Form,Checkbox,Button,Input,Tooltip,DatePicker,Modal  } from 'antd'
+import {SelectorCS,SelectorJGXZ} from 'component/compSelector'
 import './style.css'
 import './untils.js'
 import Model from './model.js' 
 
 const FormItem = Form.Item;
 const createForm = Form.create;
-const Option = Select.Option;
 
 let detailBox = React.createClass({
     getDefaultProps(){
@@ -32,13 +31,17 @@ let detailBox = React.createClass({
             var ls = [];
             const old = this.props.data;
             for(var key in value){
-                if(Object.prototype.toString.call(value[key])=="[object Date]"){//时间格式化
-                    var dd = value[key].Format("yyyy-MM-dd");
-                    value[key]=dd;
-                }
-                if (old[key]!=value[key]) {//是否变更数据
-                    ls.push({mc:Model[key],jzhi:old[key],xzhi:value[key]});
-                };
+                    if(Object.prototype.toString.call(value[key])=="[object Date]"){//时间格式化
+                        var dd = value[key].Format("yyyy-MM-dd");
+                        value[key]=dd;
+                    };
+                    if (old[key]!=value[key]) {//是否变更数据
+                                if(Object.prototype.toString.call(value[key])=="[object Number]"){//变更项代码--名称转换
+                                ls.push({mc:Model.props[key],jzhi:Model.dzb[key][old[key]],xzhi:Model.dzb[key][value[key]]});
+                            }else{
+                                ls.push({mc:Model.props[key],jzhi:old[key],xzhi:value[key]});
+                            };
+                    };
             };
 
             if (ls.length!=0) {
@@ -73,11 +76,11 @@ let detailBox = React.createClass({
                         <td style={{width:'180px'}}><span style={{'color':'red',fontSize:'large'}}>*</span><b>单位名称：</b></td>
                         <td ><Input id='dwmc' { ...getFieldProps('dwmc', { initialValue: obj.dwmc,rules: [{ required: true}]})}></Input></td>
                         <td ><span style={{'color':'red',fontSize:'large'}}>*</span><b>所在城市：</b></td>
-                        <td style={{textAlign:'left'}}><SelectorCS id='cs' { ...getFieldProps('cs', { initialValue: obj.cs,rules: [{ required: true}]})}></SelectorCS></td>
+                        <td style={{textAlign:'left'}}><SelectorCS id='csdm' { ...getFieldProps('csdm', { initialValue: obj.csdm,rules: [{ type: 'number',required: true}]})}></SelectorCS></td>
                     </tr>
                     <tr>
                         <td ><span style={{'color':'red',fontSize:'large'}}>*</span><b>机构性质：</b></td>
-                        <td style={{textAlign:'left'}}><Tooltip placement="rightTop" title={helper}><SelectorJGXZ id='swsxz' { ...getFieldProps('swsxz', { initialValue: obj.swsxz,rules: [{ required: true}]})}></SelectorJGXZ></Tooltip></td>
+                        <td style={{textAlign:'left'}}><Tooltip placement="rightTop" title={helper}><SelectorJGXZ id='jgxzdm' { ...getFieldProps('jgxzdm', { initialValue: obj.jgxzdm,rules: [{ type: 'number',required: true}]})}></SelectorJGXZ></Tooltip></td>
                         <td ><span style={{'color':'red',fontSize:'large'}}>*</span><b>办公地址：</b></td>
                         <td ><Input id='dzhi' { ...getFieldProps('dzhi', { initialValue: obj.dzhi,rules: [{ required: true}]})}></Input></td>
                     </tr>
