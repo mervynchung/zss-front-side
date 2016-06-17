@@ -48,10 +48,10 @@ const Index = React.createClass({
                 //机构管理
                 require('../module/jggl/swscx'),
                 require('../module/xtgnsz/mkgl'),
-                require('../module/xtgnsz/qxgl')
+                require('../module/xtgnsz/qxgl'),
 
                 //人员管理
-                /*require('../module/rygl/rycx'),
+                require('../module/rygl/rycx'),
 
                  //系统功能设置
                  require('../module/xtgnsz/mkgl'),
@@ -104,7 +104,7 @@ const Index = React.createClass({
 
                  //监督检查
                  require('../module/jdjc/zyswsnjb'),
-                 require('../module/jdjc/swsnj')*/
+                 require('../module/jdjc/swsnj')
             ]
         }, {
             path: '/signin',
