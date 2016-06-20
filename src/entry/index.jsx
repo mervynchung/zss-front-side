@@ -53,58 +53,67 @@ const Index = React.createClass({
                 //人员管理
                 require('../module/rygl/rycx'),
 
-                 //系统功能设置
-                 require('../module/xtgnsz/mkgl'),
-                 require('../module/xtgnsz/qxgl'),
+                //系统功能设置
+                require('../module/xtgnsz/mkgl'),
+                require('../module/xtgnsz/qxgl'),
 
-                 //业务管理
-                 require('../module/ywgl/ywbbgl'),
-                 require('../module/ywgl/ywzlgl/sfjeyjgl'),
-                 require('../module/ywgl/ywzlgl/ndbtyjgl'),
-                 require('../module/ywgl/ywzlgl/ywwtyjgl'),
-                 require('../module/ywgl/ywzlgl/cxbgyjgl'),
+                //业务管理
+                require('../module/ywgl/ywbbgl'),
+                require('../module/ywgl/ywzlgl/sfjeyjgl'),
+                require('../module/ywgl/ywzlgl/ndbtyjgl'),
+                require('../module/ywgl/ywzlgl/ywwtyjgl'),
+                require('../module/ywgl/ywzlgl/cxbgyjgl'),
 
-                 //会员会费管理
-                 require('../module/hyhfgl/hfjlqk'),
-                 require('../module/hyhfgl/grhyhfgl'),
-                 require('../module/hyhfgl/fzyhyhfgl'),
+                //会员会费管理
+                require('../module/hyhfgl/hfjlqk'),
+                require('../module/hyhfgl/grhyhfgl'),
+                require('../module/hyhfgl/fzyhyhfgl'),
 
-                 //财务报表
-                 require('../module/cwbb/lrfpb'),
-                 require('../module/cwbb/xjllb'),
-                 require('../module/cwbb/zcmxb'),
-                 require('../module/cwbb/lrb'),
-                 require('../module/cwbb/zcfzb'),
-                 require('../module/cwbb/wsbbb'),
-
-
-                 //手动上报报表
-                 require('../module/sdsbbb/jzywtjb'),
-                 require('../module/sdsbbb/jygmtjb'),
-                 require('../module/sdsbbb/swsjbqkb'),
-                 require('../module/sdsbbb/hyryqktj'),
-                 require('../module/sdsbbb/jysrqktj'),
-                 require('../module/sdsbbb/wsbbbcx'),
+                //财务报表
+                require('../module/cwbb/lrfpb'),
+                require('../module/cwbb/xjllb'),
+                require('../module/cwbb/zcmxb'),
+                require('../module/cwbb/lrb'),
+                require('../module/cwbb/zcfzb'),
+                require('../module/cwbb/wsbbb'),
 
 
-                 //历史记录查询
-                 require('../module/lsjlcx/swslsjl/bglsjl'),
-                 require('../module/lsjlcx/swslsjl/yhbsws'),
-                 require('../module/lsjlcx/swslsjl/yzxsws'),
-                 require('../module/lsjlcx/zyswslsjl/snbgjl'),
-                 require('../module/lsjlcx/zyswslsjl/snzsjl'),
-                 require('../module/lsjlcx/zyswslsjl/snzzfjl'),
-                 require('../module/lsjlcx/zyswslsjl/snzjjl'),
-                 require('../module/lsjlcx/zyswslsjl/snzxjl'),
-                 require('../module/lsjlcx/zyswslsjl/snbdjl'),
-                 require('../module/lsjlcx/fzyzjjl'),
-                 require('../module/lsjlcx/fzyzxjl'),
-                 require('../module/lsjlcx/fzyzzyjl'),
+                //手动上报报表
+                require('../module/sdsbbb/jzywtjb'),
+                require('../module/sdsbbb/jygmtjb'),
+                require('../module/sdsbbb/swsjbqkb'),
+                require('../module/sdsbbb/hyryqktj'),
+                require('../module/sdsbbb/jysrqktj'),
+                require('../module/sdsbbb/wsbbbcx'),
 
 
-                 //监督检查
-                 require('../module/jdjc/zyswsnjb'),
-                 require('../module/jdjc/swsnj')
+                //历史记录查询
+                require('../module/lsjlcx/swslsjl/bglsjl'),
+                require('../module/lsjlcx/swslsjl/yhbsws'),
+                require('../module/lsjlcx/swslsjl/yzxsws'),
+                require('../module/lsjlcx/zyswslsjl/snbgjl'),
+                require('../module/lsjlcx/zyswslsjl/snzsjl'),
+                require('../module/lsjlcx/zyswslsjl/snzzfjl'),
+                require('../module/lsjlcx/zyswslsjl/snzjjl'),
+                require('../module/lsjlcx/zyswslsjl/snzxjl'),
+                require('../module/lsjlcx/zyswslsjl/snbdjl'),
+                require('../module/lsjlcx/fzyzjjl'),
+                require('../module/lsjlcx/fzyzxjl'),
+                require('../module/lsjlcx/fzyzzyjl'),
+
+
+                //监督检查
+                require('../module/jdjc/zyswsnjb'),
+                require('../module/jdjc/swsnj'),
+
+
+                /*客户端*/
+                //财务报表上传
+                require('../module/client/lrb'),
+                require('../module/client/lrfpb'),
+                require('../module/client/xjllb'),
+                require('../module/client/zcfzb'),
+                require('../module/client/zcmxb')
             ]
         }, {
             path: '/signin',
