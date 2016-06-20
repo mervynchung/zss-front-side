@@ -175,7 +175,7 @@ const qxgl = React.createClass({
     //获取菜单树数据
     fetchMenu(lx){
         return req({
-            url: MENU_URL + (lx == 'A' ? '?l=A' : '?l=B'),
+            url: MENU_URL + (lx == 'A' ? '?l=A' : '?l=B') + '&q=all',
             type: 'json',
             method: 'get'
         })
