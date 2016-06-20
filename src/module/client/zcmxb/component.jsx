@@ -13,8 +13,8 @@ import {entityFormat} from 'common/utils'
 import DetailBox from './detailbox.jsx'
 
 
-const API_URL = config.HOST + config.URI_API_PROJECT + '/add/zcfzb';
-const URL = config.HOST + config.URI_API_PROJECT + '/addzcfzb';
+const API_URL = config.HOST + config.URI_API_PROJECT + '/add/zcmxb';
+const URL = config.HOST + config.URI_API_PROJECT + '/addzcmxb';
 
 const ToolBar = Panel.ToolBar;
 const ButtonGroup = Button.Group;
@@ -22,7 +22,7 @@ const ButtonGroup = Button.Group;
 
 
 
-const zcfzb = React.createClass({
+const zcmxb = React.createClass({
     //初始化state
     getInitialState() {
         return {
@@ -323,7 +323,7 @@ if(record.ZTBJ=="提交"){
 const column1=[
         {title: '序号', dataIndex: 'key', key: 'key'},       
         {title: '事务所名称', dataIndex: 'DWMC', key: 'DWMC'},
-        {title: '性质', dataIndex: 'TIMEVALUE', key: 'TIMEVALUE'},
+        {title: '主营业务成本（单位：元）', dataIndex: 'ZYYWCB', key: 'ZYYWCB'},
         {title: '年度', dataIndex: 'nd', key: 'nd'},
         {title: '状态', key: 'ZTBJ', dataIndex: 'ZTBJ'},
        
@@ -358,18 +358,18 @@ const column1=[
 
         //定义提示内容
         let helper = [];
-        helper.push(<p key="helper-0">点击查询结果查看资产负债表明细</p>);
-        helper.push(<p key="helper-1">也可以添加修改和提交资产负债表</p>);
+        helper.push(<p key="helper-0">点击查询结果查看支出明细表明细</p>);
+        helper.push(<p key="helper-1">也可以添加修改和提交支出明细表</p>);
         return <div className="cwbb-lrb">
             <div className="wrap">
-                {this.state.helper && <Alert message="资产负债表检索查询帮助"
+                {this.state.helper && <Alert message="支出明细表检索查询帮助"
                     description={helper}
                     type="info"
                     closable
                     onClose={this.handleHelperClose}/>}
 
 
-                <Panel title="资产负债表" toolbar={toolbar}>
+                <Panel title="支出明细表" toolbar={toolbar}>
                     {this.state.searchToggle && <SearchForm
                         onSubmit={this.handleSearchSubmit}/>}
                     { this.state.add &&  <div className="h-scroll-table">
@@ -387,7 +387,7 @@ const column1=[
                     <Update onSubmit={this.handleSubmit1} handleOk={this.handleOk1} data1={this.state.entity} />
                     </Panel>}
                 </Panel>
-                {this.state.detailHide ? null : <Panel title="资产负债表明细"
+                {this.state.detailHide ? null : <Panel title="支出明细表明细"
                     onClose={this.handleDetailClose}
                     closable>
                     <DetailBox data={this.state.entity}/>
@@ -397,4 +397,4 @@ const column1=[
     }
 });
 
-module.exports = zcfzb;
+module.exports = zcmxb;
