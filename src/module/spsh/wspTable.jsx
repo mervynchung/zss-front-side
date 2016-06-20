@@ -4,7 +4,6 @@ import { Router, Route, Link } from 'react-router'
 import Panel from 'component/compPanel'
 import auth from 'common/auth'
 import req from 'reqwest';
-import WSPTable from './wspTable.jsx';
 import config from 'common/configuration'
 
 
@@ -14,10 +13,21 @@ const ToolBar = Panel.ToolBar;
 const ButtonGroup = Button.Group;
 
 const wspcx = React.createClass({
-    //初始化state
+    //初始化props
+    getDefaultProps(){
+        return {
+            onSubmit: {},
+             entity: '',
+                dl: '',
+                lcxx:[],
+                titlemc:'',
+                titlebz:'',
+                bzxx:[],
+                bzxxhider:false,
+        }
+    },
     getInitialState(){
             return {
-                helper: true,
                 entity: '',
                 dl: '',
                 lcxx:[],
@@ -55,60 +65,11 @@ const wspcx = React.createClass({
      handleLCBZ(bzxx,bzmc){
         this.setState({bzxx: bzxx,titlebz:bzmc,bzxxhider:true});
      },
-        //帮助按钮
-    handleHelper(){
-        this.setState({helper: !this.state.helper})
-    },
-
-    //手动关闭帮助提示
-    handleHelperClose(){
-        this.setState({helper: false})
-    },
     
-    //通过API获取数据
-    fetchData(){
-        req({
-            url: API_URL,
-            type: 'json',
-            method: 'get',
-            headers:{'x-auth-token':auth.getToken()}
-        }).then(resp=> {
-            this.setState({
-                entity: resp.ls,
-                dl:resp.dl
-            });
-        }).fail(err=> {
-            Modal.error({
-                title: '数据获取错误',
-                content: (
-                    <div>
-                        <p>无法从服务器返回数据，需检查应用服务工作情况</p>
-                        <p>Status: {err.status}</p>
-                    </div>  )
-            });
-        })
-    },
-
-    componentDidMount(){
-        this.fetchData();
-    },
 
     render(){
-        //定义工具栏内容
-        
-        let toolbar = <ToolBar>
-            <ButtonGroup>
-                <Button type="primary" onClick={this.handleHelper}><Icon type="question"/></Button>
-            </ButtonGroup>
-        </ToolBar>;
-
-        //定义提示内容
-        let helper = [];
-        helper.push(<p key="helper-0">1）显示当前用户待审核事项，其中事项性质分为两种：由事务所发起或管理中心发起；</p>);
-        helper.push(<p key="helper-1">2)   可进行审批操作和具体审批流程查看</p>);
-
-        var ls = this.state.entity;
-        var dl = this.state.dl;
+        var ls = this.props.entity;
+        var dl = this.props.dl;
         var tr = [];
         let lx =0;
         let lx2 =0;
@@ -146,13 +107,13 @@ const wspcx = React.createClass({
                     </tr> );
             };
         };
-        const obj = this.state.lcxx;
+        const obj = this.props.lcxx;
         const lcxxOptions = obj.map(lc => <tr key={lc.lcmc} style={{textAlign:'center'}}>
                     <td>{lc.lcmc}</td>
                     <td >{lc.lcms}</td>
                     <td ><a  onClick={this.handleLCBZ.bind(this,lc.xxlc,lc.lcmc)}>[查看步骤]</a></td>
                  </tr>);
-        const objbz = this.state.bzxx;
+        const objbz = this.props.bzxx;
         const lcbzOptions = objbz.map(lcbz => <tr key={lcbz.lcbz} style={{textAlign:'center'}}>
                     <td>{lcbz.lcbz}</td>
                     <td >{lcbz.js}</td>
@@ -161,10 +122,7 @@ const wspcx = React.createClass({
                     <td >{lcbz.sfhq}</td>
                  </tr>);
 
-        return <div className="zjsh-wspxm">
-            <div className="wrap">
-                {this.state.helper && <Alert message="待审核事项帮助" description={helper} type="info" closable onClose={this.handleHelperClose}/>}
-            <Panel title="待审核事项" toolbar={toolbar}>
+        return 
                     <div className="h-scroll-table" >
                         <div className="fix-table table-bordered table-striped">
                                   <table >
@@ -172,7 +130,7 @@ const wspcx = React.createClass({
                                              {tr}
                                         </tbody>
                                 </table>
-                                <Modal  title={this.state.titlemc+"审批流程"} visible={this.state.visible} closable={false} width="50%" footer={[
+                                <Modal  title={this.props.titlemc+"审批流程"} visible={this.props.visible} closable={false} width="50%" footer={[
                                     <Button key="back" type="ghost" size="large" onClick={this.handleCancel}>关 闭</Button>]}>
                                         <div className="h-scroll-table" >
                                             <div className="fix-table table-bordered table-striped">
@@ -186,8 +144,8 @@ const wspcx = React.createClass({
                                                                 {lcxxOptions}
                                                             </tbody>
                                                      </table> 
-                                            {this.state.bzxxhider && <Panel  style={{fontSize:'x-small'}}>
-                                                    <Row><Col span="16"><h3>{this.state.titlebz+"步骤"}</h3></Col></Row>
+                                            {this.props.bzxxhider && <Panel  style={{fontSize:'x-small'}}>
+                                                    <Row><Col span="16"><h3>{this.props.titlebz+"步骤"}</h3></Col></Row>
                                                             <table >
                                                                     <tbody>
                                                                              <tr style={{textAlign:'center'}}>
@@ -206,13 +164,7 @@ const wspcx = React.createClass({
                                 </Modal>
                             </div>
                         </div>
-                </Panel>
-                        <WSPTable entity={this.state.entity} dl={this.state.dl}
-                         lcxx={this.state.lcxx} bzxx={this.state.bzxx}
-                          titlemc={this.state.titlemc}
-                           visible={this.state.visible} bzxxhider={this.state.bzxxhider} titlebz={this.state.titlebz} ></WSPTable>
-            </div>
-        </div>
+              
     }
 });
 

@@ -9,6 +9,7 @@ import config from 'common/configuration'
 
 const API_URL = config.HOST + config.URI_API_PROJECT + '/zjsh/wspxq1';
 const API_URL_XX = config.HOST + config.URI_API_PROJECT + '/zjsh/wspxq/bgxx1';
+const API_URL_TJ = config.HOST + config.URI_API_PROJECT + '/zjsh/wspxq/wsptj1';
 const ToolBar = Panel.ToolBar;
 const ButtonGroup = Button.Group;
 const RadioGroup = Radio.Group;
@@ -51,11 +52,6 @@ let wspcx = React.createClass({
                 entity: [],
                 detailHide:true,
                 dl: '',
-                lcxx:[],
-                titlemc:'',
-                titlebz:'',
-                bzxx:[],
-                bzxxhider:false,
             }
         },
 
@@ -90,9 +86,45 @@ let wspcx = React.createClass({
             });
     },
      handleSubmit(e){
+      this.setState({submitLoading:true});
           e.preventDefault();
           let value = this.props.form.getFieldsValue();
-          console.log(value,this.state.dl.id);
+          value.spid=this.state.dl.id;
+          req({
+                url: API_URL_TJ,
+                type: 'json',
+                method: 'put',
+                data: JSON.stringify(value),
+                contentType: 'application/json',
+                headers:{'x-auth-token':auth.getToken()}
+            }).then(resp=> {
+                 this.setState({submitLoading:false});
+                Modal.success({
+                    title: '提交成功',
+                    content: (
+                        <div>
+                            <p>审批提交成功，数据已更新</p>
+                        </div>  ),
+                    onOk() {
+                              this.setState({detailHide: true});
+                               const paper = this.state.pagination;     //把this.state.pagination指向paper，与setState异曲同工，目的是更改单一属性数据
+                                paper.current = 1;
+                                this.fetchData({//调用主查询
+                                      pagenum: paper.current,
+                                      pagesize: paper.pageSize,
+                                })
+                            },
+                });
+            }).fail(err=> {
+                Modal.error({
+                    title: '数据提交错误',
+                    content: (
+                        <div>
+                            <p>无法向服务器提交数据，需检查应用服务工作情况</p>
+                            <p>Status: {err.status}</p>
+                        </div>  )
+                });
+            })
     },
     //明细表关闭
     handleDetailClose(){
@@ -149,7 +181,7 @@ let wspcx = React.createClass({
         this.fetchData();
     },
 
-    render(){//loading={this.props.submitLoading}
+    render(){
         //定义工具栏内容
         
         let toolbar = <ToolBar>
@@ -214,7 +246,7 @@ let wspcx = React.createClass({
                                    <tr>
                                       <td>审核选项：</td>
                                       <td >
-                                              <RadioGroup { ...getFieldProps('sftg',{ initialValue:config.AGREE_SP})}>
+                                              <RadioGroup { ...getFieldProps('ispass',{ initialValue:config.AGREE_SP})}>
                                                   <Radio key="a" value={config.AGREE_SP}>同意</Radio>
                                                   <Radio key="b" value={config.DISAGREE_SP}>驳回</Radio>  
                                               </RadioGroup> 
@@ -222,10 +254,10 @@ let wspcx = React.createClass({
                                    </tr>
                                    <tr>
                                       <td>审核人：</td>
-                                      <td ><a >[系统默认当前登陆人]</a></td>
+                                      <td ><a >[系统默认当前登陆角色]</a></td>
                                    </tr>
                                     <tr >
-                                          <td colSpan="4" ><Button style={{float:'right'}} type="primary" htmlType="submit" onClick={this.handleSubmit}>提交</Button></td>
+                                          <td colSpan="4" ><Button style={{float:'right'}} type="primary" htmlType="submit"  onClick={this.handleSubmit}>提交</Button></td>
                                     </tr>
                                    </tbody>
                  </table>
@@ -237,5 +269,5 @@ let wspcx = React.createClass({
         </div>
     }
 });
-wspcx = createForm()(wspcx);
+wspcx = createForm()(wspcx);//loading={this.state.submitLoading}
 module.exports = wspcx;
