@@ -58,13 +58,7 @@ const comp = React.createClass({
     render(){
         let gData = this.deflatten(this.props.data);
         return (
-            <Tree checkable
-                  defaultExpandAll
-                  defaultCheckedKeys={this.props.defaultCheckedKeys}
-                  onCheck={this.props.onCheck}
-                  checkedKeys={this.props.checkedKeys}
-                  onSelect={this.props.onSelect} selectedKeys={this.props.selectedKeys}
-                  >
+            <Tree {...this.props}>
                 {this.genTree(gData)}
             </Tree>)
     }
