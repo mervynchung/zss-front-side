@@ -23,7 +23,9 @@ var selector = {
     SelectorYWLX:require('./ywlx'), //业务类型
     SelectorZTBJ:require('./ztbj'), //通过状态
      SelectorZTDM:require('./ztdm'), //年检状态
-    SelectorTGZT:require('./tgzt') //通过状态
+    SelectorTGZT:require('./tgzt'), //通过状态
+    SelectorXZ:require('./xz'), //性质
+    SelectorZT:require('./zt') //性质
 
 };
 
