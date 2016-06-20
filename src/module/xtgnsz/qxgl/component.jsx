@@ -79,6 +79,23 @@ const qxgl = React.createClass({
         });
 
     },
+    //处理列表中的单选框点击
+    handleSelect(record){
+        this.setState({currentIndex: record.id, currentEntity: record, privilegesLoading: true});
+        req({
+            url: Privileges_URL + '/' + record.id,
+            type: 'json',
+            method: 'get'
+        }).then(resp=> {
+            let privileges = [];
+            for (let i = 0; i < resp.length; i++) {
+                if (!isParent(resp[i].menuId, this.state.center) && !isParent(resp[i].menuId, this.state.client)) {
+                    privileges.push(resp[i].menuId + '');
+                }
+            }
+            this.setState({privileges: privileges, privilegesLoading: false})
+        });
+    },
     //处理树节点勾选
     handleTreeCheck(checkedKeys){
         this.setState({
@@ -146,7 +163,7 @@ const qxgl = React.createClass({
                 ],
                 onOk(){
                     return _self.delRole().then(resp=>{
-                        _self.setState({roles:resp})
+                        _self.setState({roles:resp,currentEntity:'',currentIndex:'',privileges: []})
                     })
                 },
                 onCancel() {
@@ -157,16 +174,20 @@ const qxgl = React.createClass({
 
     //对话框确定
     handleDialogOk(value){
-        req({
-            url: ROLE_URL,
-            method: 'post',
-            type: 'json',
-            contentType: 'application/json',
-            data: JSON.stringify(value)
-        }).then(resp=> {
-
-        });
-        this.setState({dialogVisible: false})
+        this.addRole(value)
+          .then(resp=>{
+              this.setState({dialogVisible: false,roles:resp,currentEntity:'',currentIndex:'',privileges: []})
+          }).catch(e=>{
+            this.setState({dialogVisible: false});
+            Modal.error({
+                title: '操作失败',
+                content: (
+                  <div>
+                      <p>添加角色失败，需检查应用服务工作情况</p>
+                      <p>Status: {e.status}</p>
+                  </div>  )
+            })
+        })
     },
     //对话框取消
     handleDialogCancel(){
@@ -204,6 +225,19 @@ const qxgl = React.createClass({
         let [center, client,roles] = await Promise.all([this.fetchMenu('A'),this.fetchMenu('B'),this.fetchRole()]);
         return {center: center, client: client, roles: roles}
     },
+    //新增角色操作
+    async addRole(value){
+        let rs = await req({
+            url: ROLE_URL,
+            method: 'post',
+            type: 'json',
+            contentType: 'application/json',
+            data: JSON.stringify(value)
+        });
+        rs = await this.fetchRole();
+        return rs;
+    },
+
 
     render(){
 
@@ -225,7 +259,8 @@ const qxgl = React.createClass({
 
         const rowSelection = {
             type: 'radio',
-            selectedRowKeys: [this.state.currentIndex]
+            selectedRowKeys: [this.state.currentIndex],
+            onSelect:this.handleSelect
         };
         const toolbar = <ToolBar>
             <ButtonGroup>
