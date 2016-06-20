@@ -58,7 +58,7 @@ const Index = React.createClass({
                  require('../module/xtgnsz/qxgl'),
 
                  //业务管理
-              { /* require('../module/ywgl/ywbbgl'),
+                require('../module/ywgl/ywbbgl'),
                  require('../module/ywgl/ywzlgl/sfjeyjgl'),
                  require('../module/ywgl/ywzlgl/ndbtyjgl'),
                  require('../module/ywgl/ywzlgl/ywwtyjgl'),
@@ -104,12 +104,13 @@ const Index = React.createClass({
 
                  //监督检查
                  require('../module/jdjc/zyswsnjb'),
-                 require('../module/jdjc/swsnj'),*/} ,
+                 require('../module/jdjc/swsnj'),
                  require('../module/client/lrb'),
                  require('../module/client/lrfpb'),
                   require('../module/client/xjllb'),
                   require('../module/client/zcfzb'),
                    require('../module/client/zcmxb'),
+
             ]
         }, {
             path: '/signin',
