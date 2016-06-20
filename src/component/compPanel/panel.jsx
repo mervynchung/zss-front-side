@@ -9,7 +9,8 @@ const panel = React.createClass({
             closable: false,
             title: '',
             toolbar: '',
-            onClose() {},
+            className:'',
+            onClose() {}
         })
     },
     getInitialState(){
@@ -42,7 +43,7 @@ const panel = React.createClass({
         }
 
 
-        return this.state.closed ? null : (<div className="panel">
+        return this.state.closed ? null : (<div className={'panel '+this.props.className}>
             {pt}
             <div className="panel-body">
                 {this.props.children}

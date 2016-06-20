@@ -5,21 +5,23 @@ import {Router, Route, browserHistory, hashHistory, IndexRoute,useRouterHistory}
 import { createHistory } from 'history'
 import App from '../component/App';
 import Signin from 'module/signin';
-import home from '../module/home';
+import {cenHome,clientHome } from '../module/home';
 import NotFound from 'module/404notfound'
 import auth from 'common/auth'
 
-
+//使用browserHistory需要预设basename
 const history = useRouterHistory(createHistory)({basename: '/'});
 
 const Index = React.createClass({
-    getInitialState(){
-        return {
-            isLoggedIn: false
-        }
-    },
+
     /*登录校验*/
     requireAuth(nextState, replace){
+        if (!auth.verifyPermission(nextState.location.pathname)) {
+            replace({
+                pathname: '/404',
+                state: {nextPathname: nextState.location.pathname}
+            })
+        }
         if (!auth.verifyAuth()) {
             replace({
                 pathname: '/signin',
@@ -27,12 +29,13 @@ const Index = React.createClass({
             })
         }
     },
+
     render(){
         /*路由配置*/
         const routes = [{
             path: '/',
             component: App,
-            indexRoute: {component: home},
+            indexRoute: {component: auth.isClient() ? clientHome : cenHome},
             ignoreScrollBehavior: true,
             breadcrumbName: '首页',
             onEnter: this.requireAuth,
@@ -41,17 +44,18 @@ const Index = React.createClass({
                  { path: '/gn1(/)', component: gn1 },
                  */
 
-                /* 模块懒加载方式 */
+                /* 中心端 */
                 //机构管理
-                require('../module/xtgnsz/mkgl'),
                 require('../module/jggl/swscx'),
-                require('../module/cwbb/lrb')
+                require('../module/xtgnsz/mkgl'),
+                require('../module/xtgnsz/qxgl'),
 
                 //人员管理
-                /*       require('../module/rygl/rycx'),
+                require('../module/rygl/rycx'),
 
                  //系统功能设置
                  require('../module/xtgnsz/mkgl'),
+                 require('../module/xtgnsz/qxgl'),
 
                  //业务管理
                  require('../module/ywgl/ywbbgl'),
@@ -100,7 +104,7 @@ const Index = React.createClass({
 
                  //监督检查
                  require('../module/jdjc/zyswsnjb'),
-                 require('../module/jdjc/swsnj')*/
+                 require('../module/jdjc/swsnj')
             ]
         }, {
             path: '/signin',

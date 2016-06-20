@@ -1,7 +1,7 @@
 import React from 'react';
 import {Menu, Dropdown, Icon,Badge}from 'antd';
 import {withRouter} from 'react-router'
-import store from 'store2'
+import auth from 'common/auth'
 import './style.css'
 
 const ComUserPanel = withRouter(React.createClass({
@@ -17,7 +17,7 @@ const ComUserPanel = withRouter(React.createClass({
     },
     handleLogout(e){
         e.preventDefault();
-        store.clear();
+        auth.logout();
         this.props.router.replace('/signin')
     },
     render() {
@@ -28,7 +28,7 @@ const ComUserPanel = withRouter(React.createClass({
         return (
             <div className="user-panel">
                 <ul>
-                    <li><Badge dot={this.state.show}><a href="#" onClick={this.handleClick}><Icon
+                    <li><Badge dot={accountInfo.newMsg}><a href="#" onClick={this.handleClick}><Icon
                         type="mail"/></a></Badge></li>
                     <li><Dropdown overlay={menu} trigger={['click']}>
                         <a href="/"> {accountInfo.names} <Icon className="toggle-icon" type="down"/></a>
