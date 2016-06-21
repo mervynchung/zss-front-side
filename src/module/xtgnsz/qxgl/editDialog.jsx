@@ -4,22 +4,10 @@ import {Button, Form, Input, Modal} from 'antd'
 const FormItem = Form.Item;
 
 let dialog = React.createClass({
-    getInitialState(){
-        return {
-            visible:false
-        }
-    },
 
     handleSubmit(){
         this.props.onOk(this.props.form.getFieldsValue())
     },
-    handleCancel(){
-        this.close();
-    },
-    close(){
-        this.setState({visible:false});
-    },
-
     render(){
         const { getFieldProps } = this.props.form;
         const formItemLayout = {

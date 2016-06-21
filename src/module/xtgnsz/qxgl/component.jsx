@@ -197,7 +197,18 @@ const qxgl = React.createClass({
     },
     //编辑对话框
     handleEdit(record){
-        EditDialog.open();
+        let form = EditDialog;
+        Modal.confirm({
+            content:form,
+            width:420,
+            onOk(){
+                this.handleUpdateRole()
+            }
+        })
+    },
+    //更新角色
+    handleUpdateRole(){
+
     },
     //获取菜单树数据
     fetchMenu(lx){
