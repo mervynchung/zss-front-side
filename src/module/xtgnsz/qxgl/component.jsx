@@ -7,6 +7,7 @@ import model from './model.jsx'
 import req from 'reqwest'
 import TreeView from 'component/treeView'
 import RoleDialog from './roleDialog.jsx'
+import EditDialog from './editDialog.jsx'
 
 const TabPane = Tabs.TabPane;
 const ToolBar = Panel.ToolBar;
@@ -37,7 +38,8 @@ const qxgl = React.createClass({
             privileges: [],
             privilegesLoading: false,
             pageLoading: true,
-            dialogVisible: false
+            dialogVisible: false,
+            editDialog:false
         }
     },
 
@@ -153,7 +155,7 @@ const qxgl = React.createClass({
     //删除角色按钮
     handleDel(){
         let currentEntity = this.state.currentEntity;
-        let _self = this;
+        let that = this;
         if (currentEntity) {
             Modal.confirm({
                 title: '您是否确认要删除这项内容',
@@ -162,8 +164,8 @@ const qxgl = React.createClass({
                     <p key="2">描述：{currentEntity.description}</p>
                 ],
                 onOk(){
-                    return _self.delRole().then(resp=>{
-                        _self.setState({roles:resp,currentEntity:'',currentIndex:'',privileges: []})
+                    return that.delRole().then(resp=>{
+                        that.setState({roles:resp,currentEntity:'',currentIndex:'',privileges: []})
                     })
                 },
                 onCancel() {
@@ -192,6 +194,10 @@ const qxgl = React.createClass({
     //对话框取消
     handleDialogCancel(){
         this.setState({dialogVisible: false})
+    },
+    //编辑对话框
+    handleEdit(record){
+        EditDialog.open();
     },
     //获取菜单树数据
     fetchMenu(lx){
@@ -268,6 +274,8 @@ const qxgl = React.createClass({
                 <Button onClick={this.handleDel}>删除</Button>
             </ButtonGroup>
         </ToolBar>;
+
+        model.handleEdit(this.handleEdit);
 
         return <div className="qxgl">
             <RoleDialog
