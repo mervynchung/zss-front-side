@@ -1,5 +1,5 @@
 import React from 'react'
-import {Row,Col,Form,Checkbox,Button,Input,Tooltip,DatePicker,Modal  } from 'antd'
+import {Row,Col,Form,Checkbox,Button,Input,DatePicker,Modal  } from 'antd'
 import {SelectorCS,SelectorJGXZ} from 'component/compSelector'
 import './style.css'
 import './untils.js'
@@ -15,8 +15,7 @@ let detailBox = React.createClass({
             submitLoading:false
         }
     },
-    handleSubmit(e){
-        e.preventDefault();
+    handleSubmit(){
         this.props.form.validateFieldsAndScroll((errors, values) => {//条件校验处理
               if (!!errors) {
                     for(var key in errors){//定位控件更改颜色
@@ -54,6 +53,17 @@ let detailBox = React.createClass({
 
             });
     },
+    showConfirm(e) {
+            e.preventDefault();
+            var that=this;
+              Modal.confirm({
+                title: '您是否确认要提交以上变更信息？',
+                content: '变更项目提交后将提交中心管理端审批，在变更审批完成前，将不能再进行变更操作',
+                onOk() {
+                  that.handleSubmit();
+                },
+              });
+            },
 
     render(){
         const obj = this.props.data;
@@ -63,12 +73,9 @@ let detailBox = React.createClass({
             dd = new Date(obj.clsj.toString().replace(/-/g, "/"));//String 转Date
             zj = String(obj.zczj);
         };
-        const { getFieldProps } = this.props.form;//, { initialValue: {obj}}
-        let helper = [];
-        helper.push(<p key="helper-0">省外事务所在广东省内设立分所</p>);
-        helper.push(<p key="helper-1">请选择有限公司性质</p>);
+        const { getFieldProps } = this.props.form;//, { initialValue: {obj}}{this.handleSubmit}
         return <div className="fix-table table-bordered table-striped">
-         <Form horizontal onSubmit={this.handleSubmit} form={this.props.form}>
+         <Form horizontal onSubmit={this.showConfirm} form={this.props.form}>
               <h2>需审批项目变更</h2>
             <table >
                 <tbody>
@@ -80,7 +87,7 @@ let detailBox = React.createClass({
                     </tr>
                     <tr>
                         <td ><span style={{'color':'red',fontSize:'large'}}>*</span><b>机构性质：</b></td>
-                        <td style={{textAlign:'left'}}><Tooltip placement="rightTop" title={helper}><SelectorJGXZ id='jgxzdm' { ...getFieldProps('jgxzdm', { initialValue: obj.jgxzdm,rules: [{ type: 'number',required: true}]})}></SelectorJGXZ></Tooltip></td>
+                        <td style={{textAlign:'left'}}><SelectorJGXZ id='jgxzdm' { ...getFieldProps('jgxzdm', { initialValue: obj.jgxzdm,rules: [{ type: 'number',required: true}]})}></SelectorJGXZ></td>
                         <td ><span style={{'color':'red',fontSize:'large'}}>*</span><b>办公地址：</b></td>
                         <td ><Input id='dzhi' { ...getFieldProps('dzhi', { initialValue: obj.dzhi,rules: [{ required: true}]})}></Input></td>
                     </tr>
@@ -98,7 +105,7 @@ let detailBox = React.createClass({
                     </tr>
                       <tr >
                         <td colSpan="3" style={{textAlign:'left'}}><p>说明：</p><p>需要审批的变更项目提交后将提交中心管理端审批</p><p> 事务所变更审批时，不能再进行变更操作，必须等待审批结束后，才能变更。</p></td>
-                        <td ><Col offSpan="8"><Button type="primary" htmlType="submit" loading={this.props.submitLoading}>提交</Button></Col></td>
+                        <td ><Col offSpan="8"><Button type="primary" disabled={!obj.checked} htmlType="submit" loading={this.props.submitLoading}>提交</Button></Col></td>
                     </tr>
                 </tbody>
             </table>

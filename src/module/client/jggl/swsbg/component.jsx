@@ -1,5 +1,5 @@
 import React from 'react'
-import {Table,Modal,Row,Col,Button,Icon,Alert} from 'antd'
+import {Table,Modal,Row,Col,Button,Icon,Alert,Tooltip,Spin} from 'antd'
 import Panel from 'component/compPanel'
 import auth from 'common/auth'
 import req from 'reqwest';
@@ -12,7 +12,6 @@ const API_URL = config.HOST + config.URI_API_PROJECT + '/swsbg/swsjgGet1';
 const API_URL_P = config.HOST + config.URI_API_PROJECT + '/swsbg/swsjgPut1';
 const API_URL_S = config.HOST + config.URI_API_PROJECT + '/swsbg/swsjgPost1';
 const ToolBar = Panel.ToolBar;
-const ButtonGroup = Button.Group;
 
 const lrb = React.createClass({
     //初始化state
@@ -71,7 +70,7 @@ const lrb = React.createClass({
         },
 
     handlePTSubmit(value){
-        this.setState({submitLoading:true});
+        this.setState({sPLoading:true});
             var ls = value;
              req({
                 url: API_URL_P,
@@ -81,7 +80,7 @@ const lrb = React.createClass({
                 contentType: 'application/json',
                 headers:{'x-auth-token':auth.getToken()}
             }).then(resp=> {
-                 this.setState({submitLoading:false});
+                var that=this;
                 Modal.success({
                     title: '提交成功',
                     content: (
@@ -89,9 +88,10 @@ const lrb = React.createClass({
                             <p>变更提交成功，数据已更新</p>
                         </div>  ),
                     onOk() {
-                              window.location.reload();
+                             that.fetchData();
                             },
                 });
+                 this.setState({sPLoading:false});
             }).fail(err=> {
                 Modal.error({
                     title: '数据获取错误',
@@ -124,6 +124,7 @@ const lrb = React.createClass({
         }).then(resp=> {
             this.setState({
                 entity: resp,
+                sloading:false,
             });
         }).fail(err=> {
             Modal.error({
@@ -145,9 +146,7 @@ const lrb = React.createClass({
         //定义工具栏内容
         
         let toolbar = <ToolBar>
-            <ButtonGroup>
                 <Button type="primary" onClick={this.handleHelper}><Icon type="question"/></Button>
-            </ButtonGroup>
         </ToolBar>;
 
         //定义提示内容
@@ -157,17 +156,13 @@ const lrb = React.createClass({
 
         return <div className="khd-jggl-swsbg">
             <div className="wrap">
-                {this.state.helper && <Alert message="变更备案申请帮助"
-                                             description={helper}
-                                             type="info"
-                                             closable
-                                             onClose={this.handleHelperClose}/>}
-
-                <Panel title="事务所信息变更" toolbar={toolbar}>
+                {this.state.helper && <Alert message="变更备案申请帮助" description={helper} type="info" closable onClose={this.handleHelperClose}/>}
+                <Spin spinning={this.state.sloading}><Panel title="事务所信息变更" toolbar={toolbar}>
+                   {!this.state.entity.checked&&<h3 style={{'padding':'5px','color':'red'}}>事务所变更审批中，无法进行变更操作</h3>}
                     <DetailBox data={this.state.entity} onSubmit={this.handleSPSubmit} submitLoading={this.state.sPLoading}/>
-                </Panel>
+                </Panel></Spin>
                 <Panel >
-                    <DetailBoxPT data={this.state.entity} onSubmit={this.handlePTSubmit} submitLoading={this.state.submitLoading}/>
+                   <Spin spinning={this.state.sloading}> <DetailBoxPT data={this.state.entity} onSubmit={this.handlePTSubmit} submitLoading={this.state.sPLoading}/></Spin>
                 </Panel>
             </div>
         </div>

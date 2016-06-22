@@ -167,7 +167,7 @@ let detailBox = React.createClass({
                     </tr>
                       <tr >
                         <td colSpan="3" style={{textAlign:'left'}}><p>说明：</p><p>普通项目变更信息会立即修改无需进入审批流程</p></td>
-                        <td ><Col offSpan="8"><Button type="primary" htmlType="submit" loading={this.props.submitLoading}>提交</Button></Col></td>
+                        <td ><Col offSpan="8"><Button type="primary" htmlType="submit" disabled={!obj.checked} loading={this.props.submitLoading}>提交</Button></Col></td>
                     </tr>
                 </tbody>
             </table>
