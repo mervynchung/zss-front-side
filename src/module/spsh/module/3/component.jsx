@@ -6,7 +6,6 @@ import auth from 'common/auth'
 import req from 'reqwest';
 import SPTJ from '../sptj.jsx';
 import config from 'common/configuration'
-import SearchForm from '../searchFormForJG'
 
 
 
@@ -50,13 +49,10 @@ const wspcx = React.createClass({
                 entity: [],
                 detailHide:true,
                 dl: '',
-                searchToggle: false,
-                dqlcbz:'',
-                lcbzmx:'', 
             }
         },
 
-    //点击某行
+
     handleRowClick(record){
       req({
                 url: API_URL_XX,
@@ -77,8 +73,6 @@ const wspcx = React.createClass({
                 });
             });
     },
-
-    //审批提交按钮
      handleSubmit(e){
       this.setState({submitLoading:true});
           let value = e;
@@ -92,18 +86,17 @@ const wspcx = React.createClass({
                 headers:{'x-auth-token':auth.getToken()}
             }).then(resp=> {
                  this.setState({submitLoading:false});
-                 var that = this;
                 Modal.success({
                     title: '提交成功',
                     content: (
                         <div>
                             <p>审批提交成功，数据已更新</p>
                         </div>  ),
-                    onOk() {//点击ok后页面刷新
-                              that.setState({detailHide: true});
-                               const paper = that.state.pagination;    
+                    onOk() {
+                              this.setState({detailHide: true});
+                               const paper = this.state.pagination;     //把this.state.pagination指向paper，与setState异曲同工，目的是更改单一属性数据
                                 paper.current = 1;
-                                that.fetchData({//调用主查询
+                                this.fetchData({//调用主查询
                                       pagenum: paper.current,
                                       pagesize: paper.pageSize,
                                 })
@@ -131,28 +124,9 @@ const wspcx = React.createClass({
                 pagesize: pagination.pageSize,
           })
   },
-
-      //提交条件查询
-    handleSearchSubmit(value){
-        const pager = this.state.pagination;
-        pager.current = 1;
-        const params = {
-            pagenum: 1,
-            pagesize: pager.pageSize,
-            where: encodeURIComponent(JSON.stringify(value))
-        };
-        this.setState({where: value});
-        this.fetchData(params)
-    },
-
     //明细表关闭
     handleDetailClose(){
         this.setState({detailHide: true})
-    },
-
-     //查询按钮
-    handleSearchToggle(){
-        this.setState({searchToggle: !this.state.searchToggle});
     },
 
     //通过API获取数据
@@ -174,8 +148,6 @@ const wspcx = React.createClass({
                 this.setState({
                         data: result.data,//传入后台获取数据，table组件要求每条查询记录必须拥有字段'key'
                         loading:false,//关闭加载状态
-                        dqlcbz:result.dqlcbz,
-                        lcbzmx:result.lcbzmx,
                 });
                 }else{//空数据处理
                   const pagination = this.state.pagination;
@@ -202,11 +174,6 @@ const wspcx = React.createClass({
         //定义工具栏内容
         
         let toolbar = <ToolBar>
-            <Button onClick={this.handleSearchToggle} size="large" type="primary">
-                <Icon type="search"/>查询
-                { this.state.searchToggle ? <Icon className="toggle-tip" type="circle-o-up"/> :
-                    <Icon className="toggle-tip" type="circle-o-down"/>}
-            </Button>
             <Button type="ghost" size="large"><Link to="spsh"><Icon type="circle-o-left" />返回</Link></Button>
         </ToolBar>;
 
@@ -223,7 +190,6 @@ const wspcx = React.createClass({
         return <div className="wspxm-swsbgsp">
             <div className="wrap">
             <Panel title="待审变更申请" toolbar={toolbar}>
-                {this.state.searchToggle && <SearchForm onSubmit={this.handleSearchSubmit}/>}
                 <Table style={{'cursor':'pointer'}} columns={coumls} dataSource={this.state.data} bordered onChange={this.handleTableChange} pagination={this.state.pagination} loading={this.state.loading} onRowClick={this.handleRowClick}  />
                 </Panel>
                 {this.state.detailHide ? null : <Panel title="变更申请明细" onClose={this.handleDetailClose} closable>
@@ -243,9 +209,9 @@ const wspcx = React.createClass({
                                    </tbody>
                              {bgxmOptions}
                  </table>
-               <div style={{'padding':'10px'}}><h3 style={{'backgroundColor':'#fafbfc'}}>流程状态：</h3><h3 style={{'textAlign':'center','backgroundColor':'#fafbfc'}}><span style={{'color':'red'}}>{this.state.dqlcbz}</span></h3></div>
+               <div style={{'padding':'10px'}}><h3 style={{'backgroundColor':'#fafbfc'}}>流程状态：</h3><h3 style={{'textAlign':'center','backgroundColor':'#fafbfc'}}><span style={{'color':'red'}}>1.广东省注册管理科</span></h3></div>
                <Panel title="事项审核">
-                    <SPTJ onSubmit={this.handleSubmit} loading={this.state.submitLoading} lcbzmx={this.state.lcbzmx}/>
+                    <SPTJ onSubmit={this.handleSubmit} loading={this.state.submitLoading}/>
                </Panel>
                    </div>
                </div>

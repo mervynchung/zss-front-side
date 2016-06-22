@@ -1,10 +1,9 @@
 import React from 'react'
-import {Table,Modal,Row,Col,Button,Icon,Alert} from 'antd'
+import {Table,Modal,Row,Col,Button,Icon,Alert,Spin} from 'antd'
 import { Router, Route, Link } from 'react-router'
 import Panel from 'component/compPanel'
 import auth from 'common/auth'
 import req from 'reqwest';
-import WSPTable from './wspTable.jsx';
 import config from 'common/configuration'
 
 
@@ -25,10 +24,12 @@ const wspcx = React.createClass({
                 titlebz:'',
                 bzxx:[],
                 bzxxhider:false,
+                sloading:false,
             }
         },
 
     handleCKLC(para,mc,e){
+        this.setState({sloading: true});
          req({
                 url: API_URL_XX,
                 type: 'json',
@@ -36,7 +37,7 @@ const wspcx = React.createClass({
                 data: {lid:para},
                 contentType: 'application/json',
             }).then(resp=> {
-                this.setState({lcxx: resp,titlemc:mc});
+                this.setState({sloading:false,lcxx: resp,titlemc:mc});
             }).fail(err=> {
                 Modal.error({
                     title: '数据获取错误',
@@ -50,7 +51,7 @@ const wspcx = React.createClass({
             this.setState({visible: true});
         },
     handleCancel() {
-    this.setState({ visible: false,bzxxhider:false });
+    this.setState({ visible: false,bzxxhider:false,lcxx: [],titlemc:'' });
      },
      handleLCBZ(bzxx,bzmc){
         this.setState({bzxx: bzxx,titlebz:bzmc,bzxxhider:true});
@@ -67,6 +68,7 @@ const wspcx = React.createClass({
     
     //通过API获取数据
     fetchData(){
+        this.setState({sloading1: true});
         req({
             url: API_URL,
             type: 'json',
@@ -75,7 +77,8 @@ const wspcx = React.createClass({
         }).then(resp=> {
             this.setState({
                 entity: resp.ls,
-                dl:resp.dl
+                dl:resp.dl,
+                sloading1:false,
             });
         }).fail(err=> {
             Modal.error({
@@ -165,16 +168,16 @@ const wspcx = React.createClass({
             <div className="wrap">
                 {this.state.helper && <Alert message="待审核事项帮助" description={helper} type="info" closable onClose={this.handleHelperClose}/>}
             <Panel title="待审核事项" toolbar={toolbar}>
-                    <div className="h-scroll-table" >
+                    <Spin spinning={this.state.sloading1}><div className="h-scroll-table" >
                         <div className="fix-table table-bordered table-striped">
                                   <table >
                                         <tbody>
                                              {tr}
                                         </tbody>
-                                </table>
-                                <Modal  title={this.state.titlemc+"审批流程"} visible={this.state.visible} closable={false} width="50%" footer={[
-                                    <Button key="back" type="ghost" size="large" onClick={this.handleCancel}>关 闭</Button>]}>
-                                        <div className="h-scroll-table" >
+                                 </table>
+                                <Modal  title={this.state.titlemc+"审批流程"} visible={this.state.visible} closable={false} width="50%" 
+                                footer={[<Button key="back" type="ghost" size="large" onClick={this.handleCancel}>关 闭</Button>]}>
+                                        <Spin spinning={this.state.sloading}><div className="h-scroll-table" >
                                             <div className="fix-table table-bordered table-striped">
                                                       <table >
                                                             <tbody>
@@ -186,31 +189,30 @@ const wspcx = React.createClass({
                                                                 {lcxxOptions}
                                                             </tbody>
                                                      </table> 
-                                            {this.state.bzxxhider && <Panel  style={{fontSize:'x-small'}}>
-                                                    <Row><Col span="16"><h3>{this.state.titlebz+"步骤"}</h3></Col></Row>
-                                                            <table >
-                                                                    <tbody>
-                                                                             <tr style={{textAlign:'center'}}>
-                                                                                <th><b>步骤</b></th>
-                                                                                <th><b>角色</b></th>
-                                                                                <th><b>是否提交步骤</b></th>
-                                                                                <th><b>是否驳回步骤</b></th>
-                                                                                <th><b>是否会签</b></th>
-                                                                            </tr>
-                                                                            {lcbzOptions}
-                                                                    </tbody>
-                                                            </table>
-                                                </Panel> }
+                                                {this.state.bzxxhider && <Panel  style={{fontSize:'x-small'}}>
+                                                        <Row><Col span="16"><h3>{this.state.titlebz+"步骤"}</h3></Col></Row>
+                                                                <table >
+                                                                        <tbody>
+                                                                                 <tr style={{textAlign:'center'}}>
+                                                                                    <th><b>步骤</b></th>
+                                                                                    <th><b>角色</b></th>
+                                                                                    <th><b>是否提交步骤</b></th>
+                                                                                    <th><b>是否驳回步骤</b></th>
+                                                                                    <th><b>是否会签</b></th>
+                                                                                </tr>
+                                                                                {lcbzOptions}
+                                                                        </tbody>
+                                                                </table>
+                                                    </Panel> 
+                                                }
                                             </div>
                                         </div>
+                                    </Spin>
                                 </Modal>
                             </div>
                         </div>
+                    </Spin>
                 </Panel>
-                        <WSPTable entity={this.state.entity} dl={this.state.dl}
-                         lcxx={this.state.lcxx} bzxx={this.state.bzxx}
-                          titlemc={this.state.titlemc}
-                           visible={this.state.visible} bzxxhider={this.state.bzxxhider} titlebz={this.state.titlebz} ></WSPTable>
             </div>
         </div>
     }
