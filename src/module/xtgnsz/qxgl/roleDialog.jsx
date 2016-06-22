@@ -15,7 +15,7 @@ let dialog = React.createClass({
         };
         return <Modal {...this.props} onOk={this.handleSubmit}>
             <div className="qxgl-dialog">
-                <Form horizontal onSubmit={this.handleSubmit}>
+                <Form horizontal >
                     <FormItem {...formItemLayout} label="名称">
                         <Input  {...getFieldProps('name')}  />
                     </FormItem>

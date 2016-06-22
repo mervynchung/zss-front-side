@@ -39,7 +39,7 @@ const qxgl = React.createClass({
             privilegesLoading: false,
             pageLoading: true,
             dialogVisible: false,
-            editDialog:false
+            editDialog: false
         }
     },
 
@@ -56,10 +56,10 @@ const qxgl = React.createClass({
             Modal.error({
                 title: '数据获取错误',
                 content: (
-                  <div>
-                      <p>无法从服务器返回数据，需检查应用服务工作情况</p>
-                      <p>Status: {e.status}</p>
-                  </div>  )
+                    <div>
+                        <p>无法从服务器返回数据，需检查应用服务工作情况</p>
+                        <p>Status: {e.status}</p>
+                    </div>  )
             });
         })
     },
@@ -111,9 +111,9 @@ const qxgl = React.createClass({
             Modal.error({
                 title: '操作失败',
                 content: (
-                  <div>
-                      <p>请先选择角色</p>
-                  </div>  )
+                    <div>
+                        <p>请先选择角色</p>
+                    </div>  )
             });
             this.setState({privilegesLoading: false});
             return false
@@ -140,17 +140,17 @@ const qxgl = React.createClass({
             Modal.error({
                 title: '更新失败',
                 content: (
-                  <div>
-                      <p>更新权限失败，需检查应用服务工作情况</p>
-                      <p>Status: {e.status}</p>
-                  </div>  )
+                    <div>
+                        <p>更新权限失败，需检查应用服务工作情况</p>
+                        <p>Status: {e.status}</p>
+                    </div>  )
             })
         })
 
     },
     //添加角色按钮
     handleAdd(){
-        this.setState({dialogVisible: true})
+       this.setState({dialogVisible: true})
     },
     //删除角色按钮
     handleDel(){
@@ -164,8 +164,8 @@ const qxgl = React.createClass({
                     <p key="2">描述：{currentEntity.description}</p>
                 ],
                 onOk(){
-                    return that.delRole().then(resp=>{
-                        that.setState({roles:resp,currentEntity:'',currentIndex:'',privileges: []})
+                    return that.delRole().then(resp=> {
+                        that.setState({roles: resp, currentEntity: '', currentIndex: '', privileges: []})
                     })
                 },
                 onCancel() {
@@ -177,17 +177,17 @@ const qxgl = React.createClass({
     //对话框确定
     handleDialogOk(value){
         this.addRole(value)
-          .then(resp=>{
-              this.setState({dialogVisible: false,roles:resp,currentEntity:'',currentIndex:'',privileges: []})
-          }).catch(e=>{
+            .then(resp=> {
+                this.setState({dialogVisible: false, roles: resp, currentEntity: '', currentIndex: '', privileges: []})
+            }).catch(e=> {
             this.setState({dialogVisible: false});
             Modal.error({
                 title: '操作失败',
                 content: (
-                  <div>
-                      <p>添加角色失败，需检查应用服务工作情况</p>
-                      <p>Status: {e.status}</p>
-                  </div>  )
+                    <div>
+                        <p>添加角色失败，需检查应用服务工作情况</p>
+                        <p>Status: {e.status}</p>
+                    </div>  )
             })
         })
     },
@@ -197,18 +197,19 @@ const qxgl = React.createClass({
     },
     //编辑对话框
     handleEdit(record){
-        let form = EditDialog;
+        let form = <EditDialog data={record} />;
+        let that = this;
         Modal.confirm({
-            content:form,
-            width:420,
+            title: '修改角色资料',
+            content: form,
+            width: 420,
             onOk(){
-                this.handleUpdateRole()
             }
         })
     },
     //更新角色
-    handleUpdateRole(){
-
+    handleUpdateRole(value){
+        console.log(value);
     },
     //获取菜单树数据
     fetchMenu(lx){
@@ -239,7 +240,7 @@ const qxgl = React.createClass({
     },
     //异步获取管理端、客户端、角色数据
     async fetchData(){
-        let [center, client,roles] = await Promise.all([this.fetchMenu('A'),this.fetchMenu('B'),this.fetchRole()]);
+        let [center, client,roles] = await Promise.all([this.fetchMenu('A'), this.fetchMenu('B'), this.fetchRole()]);
         return {center: center, client: client, roles: roles}
     },
     //新增角色操作
@@ -260,24 +261,24 @@ const qxgl = React.createClass({
 
         //中心端权限表
         const centerPrivileges = <TreeView
-          defaultExpandAll
-          checkable
-          data={this.state.center}
-          onCheck={this.handleTreeCheck}
-          checkedKeys={this.state.privileges}/>;
+            defaultExpandAll
+            checkable
+            data={this.state.center}
+            onCheck={this.handleTreeCheck}
+            checkedKeys={this.state.privileges}/>;
 
         //客户端权限表
         const clientPrivileges = <TreeView
-          defaultExpandAll
-          checkable
-          data={this.state.client}
-          onCheck={this.handleTreeCheck}
-          checkedKeys={this.state.privileges}/>;
+            defaultExpandAll
+            checkable
+            data={this.state.client}
+            onCheck={this.handleTreeCheck}
+            checkedKeys={this.state.privileges}/>;
 
         const rowSelection = {
             type: 'radio',
             selectedRowKeys: [this.state.currentIndex],
-            onSelect:this.handleSelect
+            onSelect: this.handleSelect
         };
         const toolbar = <ToolBar>
             <ButtonGroup>
@@ -290,11 +291,11 @@ const qxgl = React.createClass({
 
         return <div className="qxgl">
             <RoleDialog
-              title="编辑角色资料"
-              width="420"
-              visible={this.state.dialogVisible}
-              onOk={this.handleDialogOk}
-              onCancel={this.handleDialogCancel}/>
+                title="编辑角色资料"
+                width="420"
+                visible={this.state.dialogVisible}
+                onOk={this.handleDialogOk}
+                onCancel={this.handleDialogCancel}/>
             <div className="wrap">
                 <Spin spinning={this.state.pageLoading}>
                     <Row>

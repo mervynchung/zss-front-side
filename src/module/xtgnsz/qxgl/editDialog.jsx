@@ -4,9 +4,8 @@ import {Button, Form, Input, Modal} from 'antd'
 const FormItem = Form.Item;
 
 let dialog = React.createClass({
-
     handleSubmit(){
-        this.props.onOk(this.props.form.getFieldsValue())
+        this.props.onSubmit(this.props.form.getFieldsValue())
     },
     render(){
         const { getFieldProps } = this.props.form;
@@ -14,29 +13,24 @@ let dialog = React.createClass({
             labelCol: {span: 6},
             wrapperCol: {span: 18}
         };
-        return <Modal
-            {...this.props}
-            visible
-            onOk={this.handleSubmit}
-            onCancel={this.handleCancel} >
-            <div className="qxgl-dialog">
-                <Form horizontal onSubmit={this.handleSubmit}>
-                    <FormItem {...formItemLayout} label="名称">
-                        <Input  {...getFieldProps('name')}  />
-                    </FormItem>
-                    <FormItem {...formItemLayout} label="描述">
-                        <Input  {...getFieldProps('description')}  />
-                    </FormItem>
-                </Form>
-            </div>
-        </Modal>
+        return <div className="qxgl-dialog">
+            <Form horizontal onSubmit={this.handleSubmit}>
+                <FormItem {...formItemLayout} label="名称">
+                    <Input  {...getFieldProps('name')}  />
+                </FormItem>
+                <FormItem {...formItemLayout} label="描述">
+                    <Input  {...getFieldProps('description')}  />
+                </FormItem>
+            </Form>
+        </div>
+
     }
 });
 dialog = Form.create({
-    mapPropsToFields(data) {
+    mapPropsToFields(props) {
         let result = {};
-        for (let prop in data) {
-            result[prop] = {value: data[prop]}
+        for (let prop in props.data) {
+            result[prop] = {value: props.data[prop]}
         }
         return result;
     }
