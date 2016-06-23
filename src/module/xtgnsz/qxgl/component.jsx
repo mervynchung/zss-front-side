@@ -5,8 +5,11 @@ import Panel from 'component/compPanel'
 import config from 'common/configuration'
 import model from './model.jsx'
 import req from 'reqwest'
+import assign from 'object-assign'
+import {jsonCopy} from 'common/utils.js'
 import TreeView from 'component/treeView'
 import RoleDialog from './roleDialog.jsx'
+import EditDialog from './editDialog.jsx'
 
 const TabPane = Tabs.TabPane;
 const ToolBar = Panel.ToolBar;
@@ -37,7 +40,8 @@ const qxgl = React.createClass({
             privileges: [],
             privilegesLoading: false,
             pageLoading: true,
-            dialogVisible: false
+            addDialog: false,
+            editDialog: false
         }
     },
 
@@ -54,10 +58,10 @@ const qxgl = React.createClass({
             Modal.error({
                 title: '数据获取错误',
                 content: (
-                  <div>
-                      <p>无法从服务器返回数据，需检查应用服务工作情况</p>
-                      <p>Status: {e.status}</p>
-                  </div>  )
+                    <div>
+                        <p>无法从服务器返回数据，需检查应用服务工作情况</p>
+                        <p>Status: {e.status}</p>
+                    </div>  )
             });
         })
     },
@@ -109,9 +113,9 @@ const qxgl = React.createClass({
             Modal.error({
                 title: '操作失败',
                 content: (
-                  <div>
-                      <p>请先选择角色</p>
-                  </div>  )
+                    <div>
+                        <p>请先选择角色</p>
+                    </div>  )
             });
             this.setState({privilegesLoading: false});
             return false
@@ -138,22 +142,22 @@ const qxgl = React.createClass({
             Modal.error({
                 title: '更新失败',
                 content: (
-                  <div>
-                      <p>更新权限失败，需检查应用服务工作情况</p>
-                      <p>Status: {e.status}</p>
-                  </div>  )
+                    <div>
+                        <p>更新权限失败，需检查应用服务工作情况</p>
+                        <p>Status: {e.status}</p>
+                    </div>  )
             })
         })
 
     },
     //添加角色按钮
     handleAdd(){
-        this.setState({dialogVisible: true})
+       this.setState({addDialog: true})
     },
     //删除角色按钮
     handleDel(){
         let currentEntity = this.state.currentEntity;
-        let _self = this;
+        let that = this;
         if (currentEntity) {
             Modal.confirm({
                 title: '您是否确认要删除这项内容',
@@ -162,8 +166,8 @@ const qxgl = React.createClass({
                     <p key="2">描述：{currentEntity.description}</p>
                 ],
                 onOk(){
-                    return _self.delRole().then(resp=>{
-                        _self.setState({roles:resp,currentEntity:'',currentIndex:'',privileges: []})
+                    return that.delRole().then(resp=> {
+                        that.setState({roles: resp, currentEntity: '', currentIndex: '', privileges: []})
                     })
                 },
                 onCancel() {
@@ -175,23 +179,52 @@ const qxgl = React.createClass({
     //对话框确定
     handleDialogOk(value){
         this.addRole(value)
-          .then(resp=>{
-              this.setState({dialogVisible: false,roles:resp,currentEntity:'',currentIndex:'',privileges: []})
-          }).catch(e=>{
-            this.setState({dialogVisible: false});
+            .then(resp=> {
+                this.setState({addDialog: false, roles: resp, currentEntity: '', currentIndex: '', privileges: []})
+            }).catch(e=> {
+            this.setState({addDialog: false});
             Modal.error({
                 title: '操作失败',
                 content: (
-                  <div>
-                      <p>添加角色失败，需检查应用服务工作情况</p>
-                      <p>Status: {e.status}</p>
-                  </div>  )
+                    <div>
+                        <p>添加角色失败，需检查应用服务工作情况</p>
+                        <p>Status: {e.status}</p>
+                    </div>  )
             })
         })
     },
     //对话框取消
     handleDialogCancel(){
-        this.setState({dialogVisible: false})
+        this.setState({addDialog: false})
+    },
+    //编辑对话框
+    editDialogOpen(){
+        this.setState({editDialog:true});
+    },
+    //更新角色
+    handleUpdateRole(value){
+        let entity = jsonCopy(this.state.currentEntity);
+        entity = assign(entity,value);
+        function update() {
+            return req({
+                url: ROLE_URL,
+                type: 'json',
+                method: 'put',
+                contentType: 'application/json',
+                data: JSON.stringify(entity)
+            })
+        }
+        let process = async ()=>{
+            let rs = await update();
+            rs = await this.fetchRole();
+            return rs
+        };
+        process().then(resp=>{
+            this.setState({roles:resp,editDialog:false,currentEntity:entity})
+        })
+    },
+    editDialogClose(){
+      this.setState({editDialog:false})
     },
     //获取菜单树数据
     fetchMenu(lx){
@@ -222,7 +255,7 @@ const qxgl = React.createClass({
     },
     //异步获取管理端、客户端、角色数据
     async fetchData(){
-        let [center, client,roles] = await Promise.all([this.fetchMenu('A'),this.fetchMenu('B'),this.fetchRole()]);
+        let [center, client,roles] = await Promise.all([this.fetchMenu('A'), this.fetchMenu('B'), this.fetchRole()]);
         return {center: center, client: client, roles: roles}
     },
     //新增角色操作
@@ -243,24 +276,24 @@ const qxgl = React.createClass({
 
         //中心端权限表
         const centerPrivileges = <TreeView
-          defaultExpandAll
-          checkable
-          data={this.state.center}
-          onCheck={this.handleTreeCheck}
-          checkedKeys={this.state.privileges}/>;
+            defaultExpandAll
+            checkable
+            data={this.state.center}
+            onCheck={this.handleTreeCheck}
+            checkedKeys={this.state.privileges}/>;
 
         //客户端权限表
         const clientPrivileges = <TreeView
-          defaultExpandAll
-          checkable
-          data={this.state.client}
-          onCheck={this.handleTreeCheck}
-          checkedKeys={this.state.privileges}/>;
+            defaultExpandAll
+            checkable
+            data={this.state.client}
+            onCheck={this.handleTreeCheck}
+            checkedKeys={this.state.privileges}/>;
 
         const rowSelection = {
             type: 'radio',
             selectedRowKeys: [this.state.currentIndex],
-            onSelect:this.handleSelect
+            onSelect: this.handleSelect
         };
         const toolbar = <ToolBar>
             <ButtonGroup>
@@ -269,13 +302,21 @@ const qxgl = React.createClass({
             </ButtonGroup>
         </ToolBar>;
 
+        model.handleEdit(this.editDialogOpen);
+
         return <div className="qxgl">
+            <EditDialog title="编辑角色资料"
+                        width="420"
+                        data={this.state.currentEntity}
+                        visible={this.state.editDialog}
+                        onOk={this.handleUpdateRole}
+                        onCancel={this.editDialogClose}/>
             <RoleDialog
-              title="编辑角色资料"
-              width="420"
-              visible={this.state.dialogVisible}
-              onOk={this.handleDialogOk}
-              onCancel={this.handleDialogCancel}/>
+                title="编辑角色资料"
+                width="420"
+                visible={this.state.addDialog}
+                onOk={this.handleDialogOk}
+                onCancel={this.handleDialogCancel}/>
             <div className="wrap">
                 <Spin spinning={this.state.pageLoading}>
                     <Row>
