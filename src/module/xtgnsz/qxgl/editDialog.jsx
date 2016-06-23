@@ -4,8 +4,9 @@ import {Button, Form, Input, Modal} from 'antd'
 const FormItem = Form.Item;
 
 let dialog = React.createClass({
-    handleSubmit(){
-        this.props.onSubmit(this.props.form.getFieldsValue())
+    handleSubmit(e){
+        if(e) e.preventDefault();
+        this.props.onOk(this.props.form.getFieldsValue())
     },
     render(){
         const { getFieldProps } = this.props.form;
@@ -13,16 +14,20 @@ let dialog = React.createClass({
             labelCol: {span: 6},
             wrapperCol: {span: 18}
         };
-        return <div className="qxgl-dialog">
-            <Form horizontal onSubmit={this.handleSubmit}>
-                <FormItem {...formItemLayout} label="名称">
-                    <Input  {...getFieldProps('name')}  />
-                </FormItem>
-                <FormItem {...formItemLayout} label="描述">
-                    <Input  {...getFieldProps('description')}  />
-                </FormItem>
-            </Form>
-        </div>
+        return <Modal {...this.props} onOk={this.handleSubmit}>
+            <div className="qxgl-dialog">
+                <Form horizontal onSubmit={this.handleSubmit}>
+                    <FormItem {...formItemLayout} label="名称">
+                        <Input  {...getFieldProps('name')}  />
+                    </FormItem>
+                    <FormItem {...formItemLayout} label="描述">
+                        <Input  {...getFieldProps('description')}  />
+                    </FormItem>
+                    <Button htmlType="submit" style={{display:'none'}}/>
+                </Form>
+            </div>
+        </Modal>
+
 
     }
 });

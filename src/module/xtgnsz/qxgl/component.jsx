@@ -5,6 +5,8 @@ import Panel from 'component/compPanel'
 import config from 'common/configuration'
 import model from './model.jsx'
 import req from 'reqwest'
+import assign from 'object-assign'
+import {jsonCopy} from 'common/utils.js'
 import TreeView from 'component/treeView'
 import RoleDialog from './roleDialog.jsx'
 import EditDialog from './editDialog.jsx'
@@ -38,7 +40,7 @@ const qxgl = React.createClass({
             privileges: [],
             privilegesLoading: false,
             pageLoading: true,
-            dialogVisible: false,
+            addDialog: false,
             editDialog: false
         }
     },
@@ -150,7 +152,7 @@ const qxgl = React.createClass({
     },
     //添加角色按钮
     handleAdd(){
-       this.setState({dialogVisible: true})
+       this.setState({addDialog: true})
     },
     //删除角色按钮
     handleDel(){
@@ -178,9 +180,9 @@ const qxgl = React.createClass({
     handleDialogOk(value){
         this.addRole(value)
             .then(resp=> {
-                this.setState({dialogVisible: false, roles: resp, currentEntity: '', currentIndex: '', privileges: []})
+                this.setState({addDialog: false, roles: resp, currentEntity: '', currentIndex: '', privileges: []})
             }).catch(e=> {
-            this.setState({dialogVisible: false});
+            this.setState({addDialog: false});
             Modal.error({
                 title: '操作失败',
                 content: (
@@ -193,23 +195,36 @@ const qxgl = React.createClass({
     },
     //对话框取消
     handleDialogCancel(){
-        this.setState({dialogVisible: false})
+        this.setState({addDialog: false})
     },
     //编辑对话框
-    handleEdit(record){
-        let form = <EditDialog data={record} />;
-        let that = this;
-        Modal.confirm({
-            title: '修改角色资料',
-            content: form,
-            width: 420,
-            onOk(){
-            }
-        })
+    editDialogOpen(){
+        this.setState({editDialog:true});
     },
     //更新角色
     handleUpdateRole(value){
-        console.log(value);
+        let entity = jsonCopy(this.state.currentEntity);
+        entity = assign(entity,value);
+        function update() {
+            return req({
+                url: ROLE_URL,
+                type: 'json',
+                method: 'put',
+                contentType: 'application/json',
+                data: JSON.stringify(entity)
+            })
+        }
+        let process = async ()=>{
+            let rs = await update();
+            rs = await this.fetchRole();
+            return rs
+        };
+        process().then(resp=>{
+            this.setState({roles:resp,editDialog:false,currentEntity:entity})
+        })
+    },
+    editDialogClose(){
+      this.setState({editDialog:false})
     },
     //获取菜单树数据
     fetchMenu(lx){
@@ -287,13 +302,19 @@ const qxgl = React.createClass({
             </ButtonGroup>
         </ToolBar>;
 
-        model.handleEdit(this.handleEdit);
+        model.handleEdit(this.editDialogOpen);
 
         return <div className="qxgl">
+            <EditDialog title="编辑角色资料"
+                        width="420"
+                        data={this.state.currentEntity}
+                        visible={this.state.editDialog}
+                        onOk={this.handleUpdateRole}
+                        onCancel={this.editDialogClose}/>
             <RoleDialog
                 title="编辑角色资料"
                 width="420"
-                visible={this.state.dialogVisible}
+                visible={this.state.addDialog}
                 onOk={this.handleDialogOk}
                 onCancel={this.handleDialogCancel}/>
             <div className="wrap">
