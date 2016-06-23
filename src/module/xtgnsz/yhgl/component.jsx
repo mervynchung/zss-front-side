@@ -13,26 +13,26 @@ const USER_URL = config.HOST + config.URI_API_FRAMEWORK + '/users';
 const ROLE_URL = config.HOST + config.URI_API_FRAMEWORK + '/roles';
 
 //获取用户列表
-const fetchUsers = function(param ={page: 1, pageSize:10}){
+const fetchUsers = function (param = {page: 1, pageSize: 10}) {
     return req({
-        url:USER_URL,
-        method:'get',
-        type:'json',
-        data:param
+        url: USER_URL,
+        method: 'get',
+        type: 'json',
+        data: param
     })
 };
 //获取角色列表
-const fetchRoles = function(){
+const fetchRoles = function () {
     return req({
-        url:ROLE_URL,
-        method:'get',
-        type:'json'
+        url: ROLE_URL,
+        method: 'get',
+        type: 'json'
     })
 };
 
 //异步获取数据
-const fetchData = async function(){
-    let [users,roles] = await Promise.all([fetchUsers(),fetchRoles()]);
+const fetchData = async function () {
+    let [users,roles] = await Promise.all([fetchUsers(), fetchRoles()]);
 };
 
 
@@ -40,8 +40,8 @@ const fetchData = async function(){
 const qxgl = React.createClass({
     getInitialState(){
         return {
-            pageLoading:true,
-            roles:[]
+            pageLoading: true,
+            roles: []
         }
     },
 
@@ -57,10 +57,10 @@ const qxgl = React.createClass({
             Modal.error({
                 title: '数据获取错误',
                 content: (
-                    <div>
-                        <p>无法从服务器返回数据，需检查应用服务工作情况</p>
-                        <p>Status: {e.status}</p>
-                    </div>  )
+                  <div>
+                      <p>无法从服务器返回数据，需检查应用服务工作情况</p>
+                      <p>Status: {e.status}</p>
+                  </div>  )
             });
         })
     },
@@ -79,15 +79,17 @@ const qxgl = React.createClass({
         return <div className="yhgl">
             <div className="wrap">
                 <Spin spinning={this.state.pageLoading}>
-                    <Table className="outer-border"
-                           columns={model.columns}
-                           dataSource={this.state.roles}
-                           pagination={model.pagination}
-                           rowKey={record => record.id}
-                           rowSelection={rowSelection}
-                           onRowClick={this.handleRowClick}
-                           rowClassName={(record)=>{return record.id==this.state.currentIndex?'row-selected':''}}
-                    />
+                    <Panel title="用户管理" toolbar={toolbar}>
+                        <Table className="outer-border"
+                               columns={model.columns}
+                               dataSource={this.state.roles}
+                               pagination={model.pagination}
+                               rowKey={record => record.id}
+                               rowSelection={rowSelection}
+                               onRowClick={this.handleRowClick}
+                               rowClassName={(record)=>{return record.id==this.state.currentIndex?'row-selected':''}}
+                        />
+                    </Panel>
                 </Spin>
             </div>
         </div>
