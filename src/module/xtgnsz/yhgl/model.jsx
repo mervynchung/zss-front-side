@@ -2,8 +2,8 @@ import React from 'react'
 
 module.exports = {
     columns: [
-        {title: '用户名', dataIndex: 'username', key: 'username'},
-        {title: '登录名', dataIndex: 'uname', key: 'uname'},
+        {title: '用户名', dataIndex: 'USERNAME', key: 'USERNAME'},
+        {title: '登录名', dataIndex: 'UNAME', key: 'UNAME'},
         {title: 'Email', dataIndex: 'email', key: 'email'},
         {title: '账户有效', dataIndex: 'accountEnabled', key: 'accountEnabled'},
         {title: '账户过期', dataIndex: 'accountExpired', key: 'accountExpired'},

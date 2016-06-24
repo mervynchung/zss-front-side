@@ -6,9 +6,9 @@ import config from 'common/configuration'
 import {SelectorRoles} from 'component/compSelector'
 import model from './model.jsx'
 import req from 'reqwest'
-import assign from 'object-assign'
 import {jsonCopy} from 'common/utils.js'
 
+const ToolBar = Panel.ToolBar;
 const USER_URL = config.HOST + config.URI_API_FRAMEWORK + '/users';
 const ROLE_URL = config.HOST + config.URI_API_FRAMEWORK + '/roles';
 
@@ -33,15 +33,18 @@ const fetchRoles = function () {
 //异步获取数据
 const fetchData = async function () {
     let [users,roles] = await Promise.all([fetchUsers(), fetchRoles()]);
+    return {users:users,roles:roles}
 };
 
 
 //权限管理
-const qxgl = React.createClass({
+const yhgl = React.createClass({
     getInitialState(){
         return {
             pageLoading: true,
-            roles: []
+            roles: [],
+            users:[],
+            select:''
         }
     },
 
@@ -50,7 +53,7 @@ const qxgl = React.createClass({
             this.setState({
                 pageLoading: false,
                 roles: resp.roles,
-                users: resp.users,
+                users: resp.users.data
             })
         }).catch(e=> {
             this.setState({pageLoading: false});
@@ -65,9 +68,10 @@ const qxgl = React.createClass({
         })
     },
 
+
     render(){
         const rowSelection = {
-            type: 'radio',
+            type: 'checkbox',
             selectedRowKeys: [this.state.currentIndex],
             onSelect: this.handleSelect
         };
@@ -82,12 +86,11 @@ const qxgl = React.createClass({
                     <Panel title="用户管理" toolbar={toolbar}>
                         <Table className="outer-border"
                                columns={model.columns}
-                               dataSource={this.state.roles}
+                               dataSource={this.state.users}
                                pagination={model.pagination}
-                               rowKey={record => record.id}
+                               rowKey={record => record.ID}
                                rowSelection={rowSelection}
                                onRowClick={this.handleRowClick}
-                               rowClassName={(record)=>{return record.id==this.state.currentIndex?'row-selected':''}}
                         />
                     </Panel>
                 </Spin>
@@ -96,4 +99,4 @@ const qxgl = React.createClass({
     }
 });
 
-module.exports = qxgl;
+module.exports = yhgl;
