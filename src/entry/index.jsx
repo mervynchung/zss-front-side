@@ -112,7 +112,8 @@ const Index = React.createClass({
                 require('../module/spsh/module/2'),
 
                 //客户端——机构管理
-                require('../module/client/jggl/swsbg')
+                require('../module/client/jggl/swsbg'),
+                require('../module/client/jggl/swszx')
 
             ]
         }, {

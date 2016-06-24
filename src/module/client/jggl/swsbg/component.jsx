@@ -36,7 +36,7 @@ const lrb = React.createClass({
                 contentType: 'application/json',
                 headers:{'x-auth-token':auth.getToken()}
             }).then(resp=> {
-                 if (resp) {
+                        var that=this;
                         Modal.success({
                             title: '提交成功',
                             content: (
@@ -44,19 +44,10 @@ const lrb = React.createClass({
                                     <p>提交成功，请等待管理中心审核</p>
                                 </div>  ),
                             onOk() {
-                                      window.location.reload();
+                                       that.fetchData();
                                     },
                         });
-                 }else{
-                        Modal.error({
-                        title: '无法提交',
-                        content: (
-                            <div>
-                                <p>事务所变更审批中，无法进行变更操作</p>
-                            </div>  ),
-                    });
                       this.setState({sPLoading:false});
-                     };
             }).fail(err=> {
                 Modal.error({
                     title: '数据获取错误',

@@ -5,6 +5,7 @@ import './style.css'
 
 const FormItem = Form.Item;
 const createForm = Form.create;
+const Option = Select.Option;
 let searchForm = React.createClass({
     getDefaultProps(){
         return {
@@ -92,26 +93,26 @@ let searchForm = React.createClass({
             <Row>
                     <Col span="6">
                 <FormItem
-      id="cx-dwmc"
+      
       label="单位名称："
       {...formItemLayout}>
-      <Input id="cx-dwmc" {...getFieldProps('dwmc')} placeholder="请输入搜索条件" />
+      <Input {...getFieldProps('dwmc')} placeholder="请输入搜索条件" />
     </FormItem>
 </Col>
                     <Col span="6">
     <FormItem
-      id="cx-zsbh"
+     
       label="证书编号："
       {...formItemLayout}>
-      <Input id="cx-zsbh" {...getFieldProps('zsbh')} placeholder="请输入搜索条件" />
+      <Input  {...getFieldProps('zsbh')} placeholder="请输入搜索条件" />
     </FormItem> 
 </Col>
                     <Col span="6">
     <FormItem
-      id="cx-cs"
+  
       label="城市："
       {...formItemLayout}>
-      <Select showSearch id="cx-cs"  {...getFieldProps('cs')}  optionFilterProp="children" notFoundContent="无法找到" placeholder="请选择城市">
+      <Select showSearch  {...getFieldProps('cs')}  optionFilterProp="children" notFoundContent="无法找到" placeholder="请选择城市">
         <Option value="1">广州市</Option>
         <Option value="2">珠海市</Option>
         <Option value="3" >汕头市</Option>
@@ -137,10 +138,10 @@ let searchForm = React.createClass({
 </Col>
                     <Col span="6">
 <FormItem
-      id="cx-swsxz"
+      
       label="机构性质："
       {...formItemLayout}>
-      <Select  id="cx-swsxz"  {...getFieldProps('swsxz')} placeholder="请选择机构性质" >
+      <Select    {...getFieldProps('swsxz')} placeholder="请选择机构性质" >
         <Option value="1">合伙事务所</Option>
         <Option value="2">有限公司</Option>
         <Option value="3" >无</Option>
@@ -155,18 +156,18 @@ let searchForm = React.createClass({
                   
                     <Col span="12">
     <FormItem
-      id="cx-zrs"
+     
       label="总人数："
       {...formItemLayout2}>
        <Row>
         <Col span="11">
-          <Input id="zrs1" {...getFieldProps('zrs')} placeholder="请输入人数"/>
+          <Input  {...getFieldProps('zrs')} placeholder="请输入人数"/>
         </Col>
         <Col span="2">
           <p className="ant-form-split">至</p>
         </Col>
         <Col span="11">
-           <Input id="zrs2" {...getFieldProps('zrs2')} placeholder="请输入人数"/>
+           <Input  {...getFieldProps('zrs2')} placeholder="请输入人数"/>
         </Col>
         
       </Row>
@@ -174,18 +175,18 @@ let searchForm = React.createClass({
     </Col>
                     <Col span="12">
     <FormItem
-      id="cx-zyrs"
+     
       label="执业人数："
       {...formItemLayout2}>
        <Row>
         <Col span="11">
-          <Input id="zyrs1" {...getFieldProps('zyrs')} placeholder="请输入人数"/>
+          <Input  {...getFieldProps('zyrs')} placeholder="请输入人数"/>
         </Col>
         <Col span="2">
           <p className="ant-form-split">至</p>
         </Col>
         <Col span="11">
-           <Input id="zyrs2" {...getFieldProps('zyrs2')} placeholder="请输入人数"/>
+           <Input  {...getFieldProps('zyrs2')} placeholder="请输入人数"/>
         </Col>
         
       </Row>
@@ -196,36 +197,36 @@ let searchForm = React.createClass({
                   
                     <Col span="12">
                 <FormItem
-      id="cx-zczj"
+     
       label="注册资金（万元）："
       {...formItemLayout3}>
       
         <Col span="11">
-          <Input id="zj1" {...getFieldProps('zczj')} placeholder="请输入金额"/>
+          <Input  {...getFieldProps('zczj')} placeholder="请输入金额"/>
         </Col>
         <Col span="2">
           <p className="ant-form-split">至</p>
         </Col>
         <Col span="11">
-           <Input id="zj2"  {...getFieldProps('zczj2')} placeholder="请输入金额"/>
+           <Input  {...getFieldProps('zczj2')} placeholder="请输入金额"/>
         </Col>
     </FormItem>
         </Col>
                     <Col span="12">
     <FormItem
-      id="cx-clsj"
+     
       label="成立日期："
       {...formItemLayout2}>
         <Col span="11">
         <FormItem>
-        <DatePicker id="clsj1"  placeholder="请选择日期" {...clsj} /></FormItem>
+        <DatePicker  placeholder="请选择日期" {...clsj} /></FormItem>
         </Col>
         <Col span="2">
           <p className="ant-form-split">至</p>
         </Col>
         <Col span="11">
          <FormItem>
-            <DatePicker id="clsj2" placeholder="请选择日期"  {...clsj2} /></FormItem>
+            <DatePicker  placeholder="请选择日期"  {...clsj2} /></FormItem>
         </Col>
     </FormItem>
      </Col>
