@@ -53,6 +53,7 @@ let detailBox = React.createClass({
 
     render(){
         const obj = this.props.data;
+        const check = this.props.check;
         const { getFieldProps, getFieldError, isFieldValidating } = this.props.form;
         return <div className="fix-table table-bordered table-striped">
          <Form horizontal onSubmit={this.handleSubmit} form={this.props.form}>
@@ -167,7 +168,7 @@ let detailBox = React.createClass({
                     </tr>
                       <tr >
                         <td colSpan="3" style={{textAlign:'left'}}><p>说明：</p><p>普通项目变更信息会立即修改无需进入审批流程</p></td>
-                        <td ><Col offSpan="8"><Button type="primary" htmlType="submit" disabled={!obj.checked} loading={this.props.submitLoading}>提交</Button></Col></td>
+                        <td ><Col offSpan="8"><Button type="primary" htmlType="submit" disabled={check} loading={this.props.submitLoading}>提交</Button></Col></td>
                     </tr>
                 </tbody>
             </table>

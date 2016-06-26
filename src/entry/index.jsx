@@ -47,18 +47,16 @@ const Index = React.createClass({
                 /* 中心端 */
                 //机构管理
                 require('../module/jggl/swscx'),
-                require('../module/xtgnsz/mkgl'),
-                require('../module/xtgnsz/qxgl'),
 
                 //人员管理
                 require('../module/rygl/rycx'),
-
 
                 //系统功能设置
                 require('../module/xtgnsz/mkgl'),
                 require('../module/xtgnsz/qxgl'),
 
                /* //业务管理
+
                 require('../module/ywgl/ywbbgl'),
                 require('../module/ywgl/ywzlgl/sfjeyjgl'),
                 require('../module/ywgl/ywzlgl/ndbtyjgl'),
@@ -113,7 +111,15 @@ const Index = React.createClass({
 
                 //客户端——机构管理
                 require('../module/client/jggl/swsbg'),
-                require('../module/client/jggl/swszx')
+                require('../module/client/jggl/swszx'),
+
+                /*客户端*/
+                //财务报表上传
+                require('../module/client/lrb'),
+                require('../module/client/lrfpb'),
+                require('../module/client/xjllb'),
+                require('../module/client/zcfzb'),
+                require('../module/client/zcmxb')
 
             ]
         }, {

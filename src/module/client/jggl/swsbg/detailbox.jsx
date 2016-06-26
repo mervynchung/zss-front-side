@@ -67,6 +67,7 @@ let detailBox = React.createClass({
 
     render(){
         const obj = this.props.data;
+        const check = this.props.check;
         var dd = null;
         var zj = null;
         if (!!obj) {
@@ -105,7 +106,7 @@ let detailBox = React.createClass({
                     </tr>
                       <tr >
                         <td colSpan="3" style={{textAlign:'left'}}><p>说明：</p><p>需要审批的变更项目提交后将提交中心管理端审批</p><p> 事务所变更审批时，不能再进行变更操作，必须等待审批结束后，才能变更。</p></td>
-                        <td ><Col offSpan="8"><Button type="primary" disabled={!obj.checked} htmlType="submit" loading={this.props.submitLoading}>提交</Button></Col></td>
+                        <td ><Col offSpan="8"><Button type="primary" disabled={check} htmlType="submit" loading={this.props.submitLoading}>提交</Button></Col></td>
                     </tr>
                 </tbody>
             </table>

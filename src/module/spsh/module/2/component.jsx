@@ -10,9 +10,9 @@ import SearchForm from '../searchFormForJG'
 
 
 
-const API_URL = config.HOST + config.URI_API_PROJECT + '/zjsh/wspxq1';
-const API_URL_XX = config.HOST + config.URI_API_PROJECT + '/zjsh/wspxq/bgxx1';
-const API_URL_TJ = config.HOST + config.URI_API_PROJECT + '/zjsh/wspxq/wsptj1';
+const API_URL = config.HOST + config.URI_API_PROJECT + '/spapi/wspcx/2';
+const API_URL_XX = config.HOST + config.URI_API_PROJECT + '/spapi/spmxxx/jgbgsp';
+const API_URL_TJ = config.HOST + config.URI_API_PROJECT + '/spapi/sptj/';
 const ToolBar = Panel.ToolBar;
 
 const coumls = [{ //设定列
@@ -82,9 +82,8 @@ const wspcx = React.createClass({
      handleSubmit(e){
       this.setState({submitLoading:true});
           let value = e;
-          value.spid=this.state.dl.id;
           req({
-                url: API_URL_TJ,
+                url: API_URL_TJ+this.state.dl.id,
                 type: 'json',
                 method: 'put',
                 data: JSON.stringify(value),
@@ -158,7 +157,6 @@ const wspcx = React.createClass({
     //通过API获取数据
     fetchData(params = {pagenum: this.state.pagination.current, pagesize: this.state.pagination.pageSize}){
          this.setState({loading:true,});
-         params.lcid=2
         req({
             url: API_URL,
             type: 'json',

@@ -7,8 +7,8 @@ import req from 'reqwest';
 import config from 'common/configuration'
 
 
-const API_URL = config.HOST + config.URI_API_PROJECT + '/zjsh/wspcx1';
-const API_URL_XX= config.HOST + config.URI_API_PROJECT + '/zjsh/cklc1';
+const API_URL = config.HOST + config.URI_API_PROJECT + '/spapi/wspcx';
+const API_URL_XX= config.HOST + config.URI_API_PROJECT + '/spapi/cklc';
 const ToolBar = Panel.ToolBar;
 const ButtonGroup = Button.Group;
 

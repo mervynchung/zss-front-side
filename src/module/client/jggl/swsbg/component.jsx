@@ -8,12 +8,13 @@ import DetailBox from './detailbox.jsx'
 import DetailBoxPT from './detailboxPT.jsx'
 
 
-const API_URL = config.HOST + config.URI_API_PROJECT + '/swsbg/swsjgGet1';
-const API_URL_P = config.HOST + config.URI_API_PROJECT + '/swsbg/swsjgPut1';
-const API_URL_S = config.HOST + config.URI_API_PROJECT + '/swsbg/swsjgPost1';
+const API_URL = config.HOST + config.URI_API_PROJECT + '/jgsxx/';
+const API_URL_C = config.HOST + config.URI_API_PROJECT + '/commont/checksping/jgbg/';
+const API_URL_P = config.HOST + config.URI_API_PROJECT + '/spapi/fspsq/jgbgsp';
+const API_URL_S = config.HOST + config.URI_API_PROJECT + '/spapi/spsq/jgbgsp';
 const ToolBar = Panel.ToolBar;
 
-const lrb = React.createClass({
+const swsbgsq = React.createClass({
     //初始化state
     getInitialState(){
             return {
@@ -63,13 +64,13 @@ const lrb = React.createClass({
     handlePTSubmit(value){
         this.setState({sPLoading:true});
             var ls = value;
+            ls.jgid=auth.getJgid();
              req({
                 url: API_URL_P,
                 type: 'json',
                 method: 'put',
                 data: JSON.stringify(ls),
                 contentType: 'application/json',
-                headers:{'x-auth-token':auth.getToken()}
             }).then(resp=> {
                 var that=this;
                 Modal.success({
@@ -106,31 +107,46 @@ const lrb = React.createClass({
     },
     
     //通过API获取数据
-    fetchData(){
-        req({
-            url: API_URL,
+        fetchSWSXX(){
+        return req({
+            url: API_URL+auth.getJgid(),
             type: 'json',
-            method: 'get',
-            headers:{'x-auth-token':auth.getToken()}
-        }).then(resp=> {
+            method: 'get'
+        })
+    },
+        fetchSPing(){
+        return req({
+            url: API_URL_C+auth.getJgid(),
+            type: 'json',
+            method: 'get'
+        })
+    },
+    async fetchAll(){
+        let [data, checked] = await Promise.all([this.fetchSWSXX(), this.fetchSPing()]);
+        return {data: data, checked: checked}
+    },
+
+    fetchData(){
+           this.fetchAll().then(resp=> {
             this.setState({
-                entity: resp,
-                sloading:false,
-            });
-        }).fail(err=> {
+                sloading: false,
+                checked: resp.checked,
+                entity: resp.data,
+            })
+        }).catch(e=> {
+            this.setState({sloading: false});
             Modal.error({
                 title: '数据获取错误',
                 content: (
                     <div>
                         <p>无法从服务器返回数据，需检查应用服务工作情况</p>
-                        <p>Status: {err.status}</p>
+                        <p>Status: {e.status}</p>
                     </div>  )
             });
         })
     },
-
     componentDidMount(){
-        this.fetchData();
+     this.fetchData();
     },
 
     render(){
@@ -149,15 +165,15 @@ const lrb = React.createClass({
             <div className="wrap">
                 {this.state.helper && <Alert message="变更备案申请帮助" description={helper} type="info" closable onClose={this.handleHelperClose}/>}
                 <Spin spinning={this.state.sloading}><Panel title="事务所信息变更" toolbar={toolbar}>
-                   {!this.state.entity.checked&&<h3 style={{'padding':'5px','color':'red'}}>事务所变更审批中，无法进行变更操作</h3>}
-                    <DetailBox data={this.state.entity} onSubmit={this.handleSPSubmit} submitLoading={this.state.sPLoading}/>
+                   {!this.state.checked&&<h3 style={{'padding':'5px','color':'red'}}>事务所变更审批中，无法进行变更操作</h3>}
+                    <DetailBox data={this.state.entity} onSubmit={this.handleSPSubmit} submitLoading={this.state.sPLoading} check={!this.state.checked}/>
                 </Panel></Spin>
                 <Panel >
-                   <Spin spinning={this.state.sloading}> <DetailBoxPT data={this.state.entity} onSubmit={this.handlePTSubmit} submitLoading={this.state.sPLoading}/></Spin>
+                   <Spin spinning={this.state.sloading}> <DetailBoxPT data={this.state.entity} check={!this.state.checked} onSubmit={this.handlePTSubmit} submitLoading={this.state.sPLoading}/></Spin>
                 </Panel>
             </div>
         </div>
     }
 });
 
-module.exports = lrb;
+module.exports = swsbgsq;
