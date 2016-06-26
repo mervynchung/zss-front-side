@@ -33,7 +33,7 @@ const fetchRoles = function () {
 //异步获取数据
 const fetchData = async function () {
     let [users,roles] = await Promise.all([fetchUsers(), fetchRoles()]);
-    return {users:users,roles:roles}
+    return {users: users, roles: roles}
 };
 
 
@@ -43,17 +43,32 @@ const yhgl = React.createClass({
         return {
             pageLoading: true,
             roles: [],
-            users:[],
-            select:''
+            users: [],
+            select: '',
+            where:'',
+            pagination: {
+                current: 1,
+                showSizeChanger: true,
+                pageSize: 10,
+                showQuickJumper: true,
+                pageSizeOptions: ['5', '10', '20']
+
+            }
         }
     },
 
     componentDidMount(){
         fetchData().then(resp=> {
+            const p = this.state.pagination;
+            p.total = resp.users.total > 1000 ? 1000 : resp.users.total;
+            p.showTotal = total => {
+                return `共 ${resp.users.total} 条，显示前 ${total} 条`
+            };
             this.setState({
                 pageLoading: false,
                 roles: resp.roles,
-                users: resp.users.data
+                users: resp.users.data,
+                pagination: p
             })
         }).catch(e=> {
             this.setState({pageLoading: false});
@@ -65,6 +80,23 @@ const yhgl = React.createClass({
                       <p>Status: {e.status}</p>
                   </div>  )
             });
+        })
+    },
+    handlePageChange(pagination){
+        const pager = this.state.pagination;
+        pager.current = pagination.current;
+        pager.pageSize = pagination.pageSize;
+        this.setState({pagination: pager});
+
+        fetchUsers({
+            page: pager.current,
+            pageSize: pager.pageSize,
+            where: encodeURIComponent(JSON.stringify(this.state.where))
+        }).then(resp=>{
+            const pager = this.state.pagination;
+            pager.current = pagination.current;
+            pager.pageSize = pagination.pageSize;
+            this.setState({pagination: pager,users:resp.data});
         })
     },
 
@@ -87,8 +119,9 @@ const yhgl = React.createClass({
                         <Table className="outer-border"
                                columns={model.columns}
                                dataSource={this.state.users}
-                               pagination={model.pagination}
-                               rowKey={record => record.ID}
+                               pagination={this.state.pagination}
+                               onChange={this.handlePageChange}
+                               rowKey={record => record.id}
                                rowSelection={rowSelection}
                                onRowClick={this.handleRowClick}
                         />
