@@ -3,7 +3,7 @@ import React from 'react'
 import {Table,Col,Row,Tree,Tabs,Modal,Button,Spin,notification } from 'antd'
 import Panel from 'component/compPanel'
 import config from 'common/configuration'
-import {SelectorRoles} from 'component/compSelector'
+import {SelectorRoles,SelectorDQ,SelectorCS} from 'component/compSelector'
 import model from './model.jsx'
 import req from 'reqwest'
 import {jsonCopy} from 'common/utils.js'
@@ -108,7 +108,7 @@ const yhgl = React.createClass({
             onSelect: this.handleSelect
         };
         const toolbar = <ToolBar>
-            <SelectorRoles data={this.state.roles}/>
+            <SelectorRoles style={{width:'200px'}}/>
         </ToolBar>;
 
 
@@ -116,6 +116,7 @@ const yhgl = React.createClass({
             <div className="wrap">
                 <Spin spinning={this.state.pageLoading}>
                     <Panel title="用户管理" toolbar={toolbar}>
+
                         <Table className="outer-border"
                                columns={model.columns}
                                dataSource={this.state.users}
