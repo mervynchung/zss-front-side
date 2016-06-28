@@ -107,8 +107,9 @@ const yhgl = React.createClass({
             selectedRowKeys: [this.state.currentIndex],
             onSelect: this.handleSelect
         };
+
         const toolbar = <ToolBar>
-            <SelectorRoles style={{width:'200px'}}/>
+            <SelectorRoles style={{width:'180px'}} data={this.state.roles}/>
         </ToolBar>;
 
 

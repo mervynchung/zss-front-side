@@ -9,7 +9,7 @@ const Option = Select.Option;
 
 
 const genOptions = (data) =>{
-    data.map(item=><Option key={item.id}>item.name</Option>)
+    return data.map(item=><Option key={item.id}>{item.description}</Option>)
 };
 
 const selectorRoles = React.createClass({
@@ -26,8 +26,8 @@ const selectorRoles = React.createClass({
             <Option key="17">事务所分所用户</Option>,
             <Option key="18">事务所外省分所用户</Option>
         ];
-        //const options = this.props.data?genOptions(this.props.data):defaultOptions;
-        const options = defaultOptions;
+
+        const options = this.props.data?genOptions(this.props.data):defaultOptions;
         return <Select {...this.props} placeholder="选择角色分类" allowClear showSearch>
             {options}
         </Select>
