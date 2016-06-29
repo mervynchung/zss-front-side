@@ -99,6 +99,19 @@ const yhgl = React.createClass({
             this.setState({pagination: pager,users:resp.data});
         })
     },
+    handleRoleSelected(value){
+        const pager = this.state.pagination;
+        pager.current = 1;
+        let where = {roleId:value};
+        const param = {
+            page:1,
+            pageSize:pager.pageSize,
+            where: JSON.stringify(where)
+        };
+        fetchUsers(param).then(resp=>{
+            this.setState({users:resp.data,where:where,pagination:pager});
+        })
+    },
 
 
     render(){
@@ -109,7 +122,11 @@ const yhgl = React.createClass({
         };
 
         const toolbar = <ToolBar>
-            <SelectorRoles style={{width:'180px'}} data={this.state.roles}/>
+            <SelectorRoles
+                style={{width:'180px'}}
+                data={this.state.roles}
+                optionFilterProp="children"
+                onChange = {this.handleRoleSelected}/>
         </ToolBar>;
 
 
