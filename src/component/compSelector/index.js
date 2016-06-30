@@ -4,7 +4,7 @@
 'use strict'
 
 var selector = {
-    SelectorDQ:require('./dq'), //地区
+    SelectorDQ: require('./dq'), //地区
     SelectorCS: require('./cs'), //城市
     SelectorYear: require('./year'), //年度
     SelectorDF: require('./df'), //省份
@@ -20,12 +20,13 @@ var selector = {
     SelectorXL: require('./xl'), //学历
     SelectorXB: require('./xb'), //性别
     SelectorRYSF: require('./rysf'), //人员身份
-    SelectorYWLX:require('./ywlx'), //业务类型
-    SelectorZTBJ:require('./ztbj'), //通过状态
-     SelectorZTDM:require('./ztdm'), //年检状态
-    SelectorTGZT:require('./tgzt'), //通过状态
-    SelectorXZ:require('./xz'), //性质
-    SelectorZT:require('./zt') //性质
+    SelectorYWLX: require('./ywlx'), //业务类型
+    SelectorZTBJ: require('./ztbj'), //通过状态
+    SelectorZTDM: require('./ztdm'), //年检状态
+    SelectorTGZT: require('./tgzt'), //通过状态
+    SelectorXZ: require('./xz'), //性质
+    SelectorZT: require('./zt'), //性质
+    SelectorRoles: require('./roles') //角色
 
 };
 

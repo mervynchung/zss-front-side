@@ -10,7 +10,9 @@ import NotFound from 'module/404notfound'
 import auth from 'common/auth'
 
 //使用browserHistory需要预设basename
-const history = useRouterHistory(createHistory)({basename: '/'});
+const history = useRouterHistory(createHistory)({
+    basename: '/'
+});
 
 const Index = React.createClass({
 
@@ -49,6 +51,7 @@ const Index = React.createClass({
                 require('../module/jggl/swscx'),
                 require('../module/xtgnsz/mkgl'),
                 require('../module/xtgnsz/qxgl'),
+                require('../module/xtgnsz/yhgl'),
 
                 //人员管理
                 require('../module/rygl/rycx'),

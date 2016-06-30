@@ -2,7 +2,6 @@ import React from 'react'
 import {Row,Col,Form,Button,Input,Modal,DatePicker} from 'antd'
 import {SelectorCS,SelectorXL,SelectorXB,SelectorRYSF} from 'component/compSelector'
 
-import './style.css'
 
 const FormItem = Form.Item;
 const createForm = Form.create;
