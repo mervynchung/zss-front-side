@@ -358,13 +358,13 @@ let Updatelrb = React.createClass({
                     
                      <tr>
                     
-                        <td style={{textAlign:'center'}}  colSpan="2">
+                        <td >  所长：</td>
                         
-                        <Row>
-                                 <Col span="3" offset="4">所长：</Col>
-                                <Col span="5" ><Input  {...getFieldProps('sz', { initialValue:data.SZ })} />  </Col>
-                          </Row>
-                         </td>
+                        
+                               
+                          <td> <Input  {...getFieldProps('sz', { initialValue:data.SZ })} />  </td> 
+                          
+                        
                         <td>主管会计</td>
                         
                          <td > <Input   {...getFieldProps('zgkj', { initialValue:data.ZGKJ })}/></td>

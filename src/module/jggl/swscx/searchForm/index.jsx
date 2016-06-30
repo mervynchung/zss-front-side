@@ -1,8 +1,6 @@
 import React from 'react'
 import {  DatePicker,Modal,Form, Input, Select,Table, Icon,Tabs,Button,Row,Col,message }from 'antd'
 
-import './style.css'
-
 const FormItem = Form.Item;
 const createForm = Form.create;
 const Option = Select.Option;
