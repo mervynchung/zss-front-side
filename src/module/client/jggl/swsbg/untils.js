@@ -1,7 +1,8 @@
 /*调用： 
 var time1 = new Date().Format("yyyy-MM-dd");
 var time2 = new Date().Format("yyyy-MM-dd HH:mm:ss"); */
-Date.prototype.Format = function (fmt) { //时间格式化函数
+
+Date.prototype.Format = function (fmt) { //时间函数重写
     var o = {
         "M+": this.getMonth() + 1, //月份 
         "d+": this.getDate(), //日 

@@ -47,6 +47,9 @@ const autoform = {
  id:'xm',
  name: '姓名：', }, 
     {
+ id:'dwmc',
+ name: '所属机构：', }, 
+    {
  id:'cs',
  name: '所在城市：', }, 
     {
@@ -120,7 +123,7 @@ const autoform = {
  name: '是否发起人：', }, 
     {
  id:'rydazt',
- name: '人事档案状态：',  groupspan: 2}, 
+ name: '人事档案状态：', }, 
     
   ]
 }
@@ -130,6 +133,9 @@ const autoformFzy = {
     {
  id:'xm',
  name: '姓名：', }, 
+    {
+ id:'zzdw',
+ name: '所在单位：', }, 
     {
  id:'cs',
  name: '所在城市：', }, 
@@ -205,6 +211,9 @@ const autoformCy = {
     {
  id:'xm',
  name: '姓名：', }, 
+    {
+ id:'dwmc',
+ name: '所属机构：', }, 
     {
  id:'cs',
  name: '所在城市：', }, 

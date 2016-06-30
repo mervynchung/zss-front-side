@@ -1,6 +1,5 @@
 import React from 'react'
 import {Row,Col,Form,Button,Input,Modal,DatePicker,Select} from 'antd'
-
 import './style.css'
 
 const FormItem = Form.Item;
