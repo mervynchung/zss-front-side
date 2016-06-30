@@ -10,8 +10,8 @@ import DetailBoxPT from './detailboxPT.jsx'
 
 const API_URL = config.HOST + config.URI_API_PROJECT + '/jgsxx/';
 const API_URL_C = config.HOST + config.URI_API_PROJECT + '/commont/checksping/jgbg/';
-const API_URL_P = config.HOST + config.URI_API_PROJECT + '/spapi/fspsq/jgbgsp';
-const API_URL_S = config.HOST + config.URI_API_PROJECT + '/spapi/spsq/jgbgsp';
+const API_URL_P = config.HOST + config.URI_API_PROJECT + '/spapi/fspsq/jgbgsq';
+const API_URL_S = config.HOST + config.URI_API_PROJECT + '/spapi/spsq/jgbgsq';
 const ToolBar = Panel.ToolBar;
 
 const swsbgsq = React.createClass({

@@ -108,6 +108,8 @@ const Index = React.createClass({
                 //逐级审核
                 require('../module/spsh'),
                 require('../module/spsh/module/2'),
+                require('../module/spsh/module/4'),
+                require('../module/spsh/module/5'),
 
                 //客户端——机构管理
                 require('../module/client/jggl/swsbg'),
@@ -115,11 +117,11 @@ const Index = React.createClass({
 
                 /*客户端*/
                 //财务报表上传
-                require('../module/client/lrb'),
-                require('../module/client/lrfpb'),
-                require('../module/client/xjllb'),
-                require('../module/client/zcfzb'),
-                require('../module/client/zcmxb')
+                // require('../module/client/lrb'),
+                // require('../module/client/lrfpb'),
+                // require('../module/client/xjllb'),
+                // require('../module/client/zcfzb'),
+                // require('../module/client/zcmxb')
 
             ]
         }, {
