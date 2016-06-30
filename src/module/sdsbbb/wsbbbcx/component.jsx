@@ -118,7 +118,7 @@ const lrb = React.createClass({
         helper.push(<p key="helper-0">选择报表类型和年度，<b>点击查询按钮</b>，查看该类报表当年度未上报报表事务所及其信息</p>);
         helper.push(<p key="helper-1">系统默认选择当前时间应上报报表年度，默认类型为税务师事务所基本情况统计表（表1)</p>);
 
-        return <div className="cwbb-lrb">
+        return <div className="wsbbbcx">
             <div className="wrap">
                 {this.state.helper && <Alert message="未上报报表查询帮助"
                                              description={helper}

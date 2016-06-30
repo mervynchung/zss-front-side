@@ -64,6 +64,9 @@ module.exports = {
 
     isClient(){
         return !!store.session.get('jid')
+    },
+    getJgid(){
+        return store.get("jid") || store.session.get("jid");
     }
 
 
