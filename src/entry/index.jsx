@@ -49,9 +49,6 @@ const Index = React.createClass({
                 /* 中心端 */
                 //机构管理
                 require('../module/jggl/swscx'),
-                require('../module/xtgnsz/mkgl'),
-                require('../module/xtgnsz/qxgl'),
-                require('../module/xtgnsz/yhgl'),
 
                 //人员管理
                 require('../module/rygl/rycx'),
@@ -59,6 +56,7 @@ const Index = React.createClass({
                 //系统功能设置
                 require('../module/xtgnsz/mkgl'),
                 require('../module/xtgnsz/qxgl'),
+                require('../module/xtgnsz/yhgl'),
 
                 //业务管理
                 require('../module/ywgl/ywbbgl'),
