@@ -114,6 +114,7 @@ const Index = React.createClass({
                 //客户端——机构管理
                 require('../module/client/jggl/swsbg'),
                 require('../module/client/jggl/swszx'),
+                require('../module/client/jggl/swshb'),
 
                 /*客户端*/
                 //财务报表上传

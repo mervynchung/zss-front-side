@@ -1,5 +1,5 @@
 import React from 'react'
-import {Table,Modal,Row,Col,Button,Icon,Alert,Tooltip,Spin,Form,Input,Select,Upload,message } from 'antd'
+import {Table,Modal,Row,Col,Button,Icon,Alert,Tooltip,Spin,Form,Input,Select,Upload,message,DatePicker } from 'antd'
 import Panel from 'component/compPanel'
 import auth from 'common/auth'
 import req from 'reqwest';
@@ -56,8 +56,8 @@ getInitialState(){
         let value = this.props.form.getFieldsValue();
         var that=this;
           Modal.confirm({
-            title: '您是否确认要提交注销申请？',
-            content: '省管理中心审核通过后，事务所将不存在，并无法登录系统',
+            title: '您是否确认要提交合并申请？',
+            content: '请确认合并双方无诉讼争议事项和未完成事项，确认无误后点击确定提交，提交后将交付中心端审批',
             onOk() {
               that.handleSubmit(value);
             },
@@ -83,7 +83,7 @@ getInitialState(){
     },
 
     render(){
-        const { getFieldProps, getFieldError, isFieldValidating } = this.props.form;
+        const { getFieldProps } = this.props.form;
         const props = {
               name: 'file',
               action: '/api/zs/swszx/swszxfjPost1',
@@ -99,25 +99,36 @@ getInitialState(){
                 }
               },
             };
-        return <div className="khd-jggl-swszx">
+        return <div className="khd-jggl-swshb">
         <div className="fix-table table-bordered table-striped">
-                <Panel title="事务所注销申请" >
+                <Spin spinning={!this.state.checked}><Panel title="事务所合并申请" >
                                <Form horizontal onSubmit={this.showConfirm} form={this.props.form}>
                                   {!!this.state.checked&&<h3 style={{'padding':'5px','color':'red'}}>事务所注销审批中，无需重复操作</h3>}
                                 <table >
                                             <tbody>
                                                     <tr>
-                                                            <td ><b>注销原因说明：</b></td>
-                                                            <td colSpan="3" ><Col span="20"><Input type="textarea" rows="3" { ...getFieldProps('zxsm')}></Input></Col></td>
+                                                            <td ><b>申请合并事务所双方名称：</b></td>
+                                                            <td colSpan="3" ><Col span="10"><Input  { ...getFieldProps('zxsm')} /></Col><Col offspan="12"><span >（以半角的,分隔）</span></Col></td>
                                                     </tr>
                                                     <tr>
-                                                            <td ><b>注销类别：</b></td>
-                                                            <td colSpan="3" >  
-                                                                        <Select  id="cx-swsxz"  style={{ width: 200 }}  { ...getFieldProps('zxyy', {initialValue:4})}  >
-                                                                                <Option value={4} >发起人解散</Option>
-                                                                                <Option value={5} >其他</Option>
-                                                                       </Select>
-                                                           </td>
+                                                            <td ><b>双方证书编号：</b></td>
+                                                            <td colSpan="3" ><Col span="10"><Input  { ...getFieldProps('zxsm')} /></Col><Col offspan="12"><span >（以半角的,分隔）</span></Col></td>
+                                                    </tr>
+                                                    <tr>
+                                                            <td ><b>新事务所单位名称：</b></td>
+                                                            <td colSpan="3" ><Col span="10"><Input  { ...getFieldProps('zxsm')} /></Col></td>
+                                                    </tr>
+                                                    <tr>
+                                                            <td ><b>工商名称预核编号：</b></td>
+                                                            <td colSpan="3" ><Col span="10"><Input  { ...getFieldProps('zxsm')} /></Col></td>
+                                                    </tr>
+                                                    <tr>
+                                                            <td ><b>合并时间：</b></td>
+                                                            <td colSpan="3" ><DatePicker  { ...getFieldProps('clsj')}></DatePicker></td>
+                                                    </tr>
+                                                    <tr>
+                                                            <td ><b>申请人：</b></td>
+                                                            <td colSpan="3" ><Col span="5"><Input  { ...getFieldProps('zxsm')} /></Col></td>
                                                     </tr>
                                                     <tr>
                                                             <td ><b>附 件：</b></td>
@@ -127,16 +138,21 @@ getInitialState(){
                                                                       </Upload>
                                                            </td>
                                                     </tr>
+                                                    <tr>
+                                                            <td ><b>说明：</b></td>
+                                                            <td colSpan="3" ><p>1、机构合并后，双方的系统用户将无效；</p>
+                                                            <p>2、机构合并后，双方的执业税务师与从业人员将放入人才库中，在新设立事务所时可进行调入操作，将原事务所的人员调入新事务所。</p></td>
+                                                    </tr>
                                                     <tr >
                                                             <td ></td>
-                                                            <td ><p style={{'color':'red'}}>*省管理中心审核通过后，事务所将不存在，不能再登录系统</p>
+                                                            <td ><p style={{'color':'red'}}>*请确定合并双方无诉讼争议事项和未完成事项</p>
                                                                     <Button style={{float:'right'}} type="primary" disabled={this.state.checked} oading={this.state.sqLoading} htmlType="submit" >提交</Button>
                                                             </td>
                                                     </tr>
                                             </tbody>
                                 </table>
                           </Form>
-                </Panel>
+                </Panel></Spin>
             </div>
         </div>
     }
