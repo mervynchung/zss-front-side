@@ -11,6 +11,7 @@ const selectorCS = React.createClass({
     render(){
         const options = data.map(item=><Option key={item.id} value={item.id} >{item.mc}</Option>)
         return <Select {...this.props} placeholder="选择城市" showSearch optionFilterProp="children" notFoundContent="无法找到"  >
+
             {options}
         </Select>
     }

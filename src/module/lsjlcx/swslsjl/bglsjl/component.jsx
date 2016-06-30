@@ -138,6 +138,7 @@ const lrb = React.createClass({
         helper.push(<p key="helper-0">本页显示已审核过的事务所变更申请记录</p>);
         helper.push(<p key="helper-1">只显示前1000条记录</p>);
 
+
         return <div className="swslsjl-bglsjl">
             <div className="wrap">
                 {this.state.helper && <Alert message="事务所变更申请记录查询帮助"
