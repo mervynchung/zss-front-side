@@ -14,9 +14,9 @@ import {entityFormat} from 'common/utils'
 import DetailBox from './detailbox.jsx'
 
 
-const API_URL = config.HOST + config.URI_API_PROJECT + '/add/swsjbb';
-const URL = config.HOST + config.URI_API_PROJECT + '/addswsjbb';
-const URL_ok = config.HOST + config.URI_API_PROJECT + '/add/swsjbbok';
+const API_URL = config.HOST + config.URI_API_PROJECT + '/add/jygmtjb';
+const URL = config.HOST + config.URI_API_PROJECT + '/addjygmtjb';
+const URL_ok = config.HOST + config.URI_API_PROJECT + '/add/jygmtjbok';
 
 const ToolBar = Panel.ToolBar;
 const ButtonGroup = Button.Group;
@@ -24,7 +24,7 @@ const ButtonGroup = Button.Group;
 
 
 
-const swsjbb = React.createClass({
+const jygmtjb = React.createClass({
     //初始化state
     getInitialState() {
         return {
@@ -46,7 +46,7 @@ const swsjbb = React.createClass({
             where: '',
             helper: false,
             entity: '',
-           checkTJ:{},
+           checkTJ:[{}],
             detailHide: true,
             add: true,
             update: true,
@@ -269,29 +269,7 @@ const swsjbb = React.createClass({
             method: 'get',
             data: params,
           
-        })/*.then(resp => {
-            const p = this.state.pagination;
-            p.total = resp.total > 1000 ? 1000 : resp.total;
-            p.showTotal = total => {
-                return `共 ${resp.total} 条`
-                
-            };
-            this.setState({
-                data: resp.data,
-                pagination: p,
-                loading: false
-            })
-        }).fail(err => {
-            this.setState({ loading: false });
-            Modal.error({
-                title: '数据获取错误',
-                content: (
-                    <div>
-                        <p>无法从服务器返回数据，需检查应用服务工作情况</p>
-                        <p>Status: {err.status}</p>
-                    </div>)
-            });
-        })*/
+        })
     },
         //判断是否可填
     fetchOK(){
@@ -310,7 +288,7 @@ const swsjbb = React.createClass({
 
     componentDidMount() {
         this.setState({ loading: true });
-        this.fetchDatanew().then(resp=>{                    
+        this.fetchDatanew().then(resp=>{                            
             const p = this.state.pagination;
             p.total = resp.one.total > 1000 ? 1000 : resp.one.total;
             p.showTotal = total => {
@@ -321,15 +299,15 @@ const swsjbb = React.createClass({
                 data: resp.one.data,
                 pagination: p,
                 loading: false,
-                checkTJ:resp.two,
-                
+                checkTJ:resp.two.data,
                 
         })
      
+      
         }) 
         },
-    
-    
+   
+      
 testee(text,record,index){
 
     var that = this;
@@ -340,10 +318,7 @@ function ddd() {
             type: 'json',
             method: 'get'
         }).then(resp => {
-          
-         
-            that.setState({update: !that.state.update,detailHide: true,entity:resp,});
-           
+            that.setState({update: !that.state.update,detailHide: true,entity:resp,});     
         }).fail(err => {
             Modal.error({
                 title: '数据获取错误',
@@ -391,13 +366,12 @@ if(record.ZTBJ=="通过" || record.ZTBJ=="提交"){
     render() {
 const column1=[
         {title: '序号', dataIndex: 'key', key: 'key'},  
-        {title: '年度', dataIndex: 'nd', key: 'nd'},       
-        {title: '法人', dataIndex: 'FRDBXM', key: 'FRDBXM'},  
-        {title: '组织形式', dataIndex: 'JGXZ', key: 'JGXZ'}, 
-        {title: '股东人数', dataIndex: 'CZRS', key: 'CZRS'},  
-        {title: '人员人数', dataIndex: 'RYZS', key: 'RYZS'}, 
-        {title: '执业人数', dataIndex: 'ZYZCSWSRS', key: 'ZYZCSWSRS'}, 
-        {title: '注册资金（单位：万元）', dataIndex: 'ZCZJ', key: 'ZCZJ'},           
+        {title: '上年收入总计', dataIndex: 'SNSRZE', key: 'SNSRZE'},       
+        {title: '年度', dataIndex: 'nd', key: 'nd'},  
+        {title: '本年收入总额合计', dataIndex: 'BNSRZE_HJ', key: 'BNSRZE_HJ'}, 
+        {title: '本年收入总额涉税服务', dataIndex: 'BNSRZE_SSFW', key: 'BNSRZE_SSFW'},  
+        {title: '本年收入总额涉税鉴证', dataIndex: 'BNSRZE_SSJZ', key: 'BNSRZE_SSJZ'}, 
+        {title: '本年收入总额其他收入', dataIndex: 'BNSRZE_QTYW', key: 'BNSRZE_QTYW'},                 
         {title: '状态', key: 'ZTBJ', dataIndex: 'ZTBJ'},
        
         {
@@ -408,17 +382,14 @@ const column1=[
         //定义工具栏内容
             var checkTJ = '';
             var d = new Date();
-            var str = (d.getFullYear()-1)
-           
-           if(this.state.checkTJ.ND==str && this.state.checkTJ.TIMEVALUE=="1") { 
-               
-               checkTJ=false;
-           }else{ 
-               checkTJ=true;
-            };
-          
-           
-        
+            var str = (d.getFullYear()-1)         
+           if(this.state.checkTJ.length<=0)
+            {     checkTJ=true;}
+           else  if (this.state.checkTJ[0].ND == str ){ 
+               checkTJ=false;}           
+          else {
+              checkTJ=true;
+          };
         let toolbar = <ToolBar>
             { this.state.add && <Button onClick={this.handleSearchToggle}>
                 <Icon type="search"/>查询
@@ -445,19 +416,21 @@ const column1=[
 
         //定义提示内容
         let helper = [];
-        helper.push(<p key="helper-0">点击查询结果查看事务所基本情况表明细</p>);
-        helper.push(<p key="helper-1">也可以添加修改和提交事务所基本情况表</p>);
-        helper.push(<p key="helper-2">如果不能添加则要添加财务报表，否则不能添加</p>);
+        helper.push(<p key="helper-0">点击查询结果查看经营规模统计表明细</p>);
+        helper.push(<p key="helper-1">也可以添加修改和提交经营规模统计表</p>);
+        
+        helper.push(<p key="helper-2">如果不能添加则要先添加事务所基本情况表，否则不能添加</p>);
+         
         return <div className="swsjbb">
             <div className="wrap">
-                {this.state.helper && <Alert message="事务所基本情况表检索查询帮助"
+                {this.state.helper && <Alert message="经营规模统计表检索查询帮助"
                     description={helper}
                     type="info"
                     closable
                     onClose={this.handleHelperClose}/>}
 
 
-                <Panel title="事务所基本情况表" toolbar={toolbar}>
+                <Panel title="经营规模统计表" toolbar={toolbar}>
                     {this.state.searchToggle && <SearchForm
                         onSubmit={this.handleSearchSubmit}/>}
                     { this.state.add &&  <div className="h-scroll-table">
@@ -475,7 +448,7 @@ const column1=[
                     <Update onSubmit={this.handleSubmit1} handleOk={this.handleOk1} data1={this.state.entity} />
                     </Panel>}
                 </Panel>
-                {this.state.detailHide ? null : <Panel title="事务所基本情况表明细"
+                {this.state.detailHide ? null : <Panel title="经营规模统计表明细"
                     onClose={this.handleDetailClose}
                     closable>
                     <DetailBox data={this.state.entity}/>
@@ -485,4 +458,4 @@ const column1=[
     }
 });
 
-module.exports = swsjbb;
+module.exports = jygmtjb;

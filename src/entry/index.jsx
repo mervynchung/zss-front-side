@@ -111,6 +111,7 @@ const Index = React.createClass({
                  require('../module/client/zcfzb'),
                  require('../module/client/zcmxb'),
                  require('../module/client_1/swsqkb'),
+                  require('../module/client_1/jygmtjb'),
 
             ]
         }, {
