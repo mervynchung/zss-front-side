@@ -54,7 +54,7 @@ const Index = React.createClass({
                 require('../module/xtgnsz/yhgl'),
 
                 //人员管理
-                /*require('../module/rygl/rycx'),
+                require('../module/rygl/rycx'),
 
                 //系统功能设置
                 require('../module/xtgnsz/mkgl'),
@@ -75,9 +75,9 @@ const Index = React.createClass({
                 //财务报表
                 require('../module/cwbb/lrfpb'),
                 require('../module/cwbb/xjllb'),
-                require('../module/cwbb/zcmxb'),*/
+                require('../module/cwbb/zcmxb'),
                 require('../module/cwbb/lrb'),
-                /*require('../module/cwbb/zcfzb'),
+                require('../module/cwbb/zcfzb'),
                 require('../module/cwbb/wsbbb'),
 
 
@@ -110,13 +110,13 @@ const Index = React.createClass({
                 require('../module/jdjc/swsnj'),
 
 
-                /!*客户端*!/
+                /*客户端*/
                 //财务报表上传
                 require('../module/client/lrb'),
                 require('../module/client/lrfpb'),
                 require('../module/client/xjllb'),
                 require('../module/client/zcfzb'),
-                require('../module/client/zcmxb')*/
+                require('../module/client/zcmxb')
             ]
         }, {
             path: '/signin',
