@@ -149,7 +149,7 @@ const lrb = React.createClass({
         helper.push(<p key="helper-1">点击查询结果查看执业人员信息变更详细项目</p>);
         helper.push(<p key="helper-2">检索功能只显示前1000条记录</p>);
 
-        return <div className="cwbb-lrb">
+        return <div className="snbgil">
             <div className="wrap">
                 {this.state.helper && <Alert message="执业人员信息变更查询帮助"
                                              description={helper}

@@ -2,8 +2,6 @@ import React from 'react'
 import {Row,Col,Form,Button,Input,Modal,DatePicker,Select} from 'antd'
 import {SelectorCS,SelectorYear} from 'component/compSelector'
 
-import './style.css'
-
 const Option = Select.Option;
 const FormItem = Form.Item;
 const createForm = Form.create;
@@ -96,7 +94,7 @@ let searchForm = React.createClass({
                 </Row>
                 <Row>
                     <Col span="4" offset="20">
-                        <Button type="primary" htmlType="submit">查询</Button>
+                        <Button type="primary" htmlType="submit" className="query">查询</Button>
                         <Button type="ghost" onClick={this.handleReset}>重置</Button>
                     </Col>
                 </Row>

@@ -138,7 +138,7 @@ const lrb = React.createClass({
         helper.push(<p key="helper-0">本页显示已审核过的已注销事务所记录</p>);
         helper.push(<p key="helper-1">只显示前1000条记录</p>);
 
-        return <div className="cwbb-lrb">
+        return <div className="yzxsws">
             <div className="wrap">
                 {this.state.helper && <Alert message="已注销事务所记录查询帮助"
                                              description={helper}

@@ -147,7 +147,7 @@ const lrb = React.createClass({
         helper.push(<p key="helper-0">点击查询结果查看事务所基本情况表明细</p>);
         helper.push(<p key="helper-1">检索功能只显示前1000条记录</p>);
 
-        return <div className="cwbb-lrb">
+        return <div className="swsjbqkb">
             <div className="wrap">
                 {this.state.helper && <Alert message="事务所基本情况表检索查询帮助"
                                              description={helper}

@@ -147,7 +147,7 @@ const lrb = React.createClass({
         helper.push(<p key="helper-0">点击查询结果查看执业税务师行业收入情况统计表明细</p>);
         helper.push(<p key="helper-1">检索功能只显示前1000条记录</p>);
 
-        return <div className="cwbb-lrb">
+        return <div className="jysrqktj">
             <div className="wrap">
                 {this.state.helper && <Alert message="执业税务师行业收入情况统计表检索查询帮助"
                                              description={helper}
