@@ -9,7 +9,7 @@ import model from './model.jsx'
 import req from 'reqwest'
 import {jsonCopy} from 'common/utils.js'
 
-const ToolBar = Panel.ToolBar;
+const PanelBar = Panel.ToolBar;
 const ButtonGroup = Button.Group;
 const USER_URL = config.HOST + config.URI_API_FRAMEWORK + '/users';
 const ROLE_URL = config.HOST + config.URI_API_FRAMEWORK + '/roles';
@@ -148,7 +148,21 @@ const yhgl = React.createClass({
     },
     //查询提交
     handleSearchSubmit(values){
-
+        this.setState({pageLoading:true})
+        const pager = this.state.pagination;
+        const param = {
+            page:1,
+            pageSize:pager.pageSize,
+            where: encodeURIComponent(JSON.stringify(values))
+        };
+        fetchUsers(param).then(resp=>{
+            pager.total = resp.total > 1000 ? 1000 : resp.total;
+            pager.showTotal = total => {
+                return `共 ${resp.total} 条，显示前 ${total} 条`
+            };
+            pager.current = 1;
+            this.setState({users:resp.data,where:values, pagination: pager,pageLoading:false})
+        })
     },
 
 
@@ -159,7 +173,7 @@ const yhgl = React.createClass({
             onChange: this.handleSelectedRowChange
         };
 
-        const toolbar = <ToolBar>
+        const panelBar = <PanelBar>
             <Button onClick={this.handleSearchToggle}>
                 <Icon type="search"/>查询
                 { this.state.searchToggle ? <Icon className="toggle-tip" type="circle-o-up"/> :
@@ -175,13 +189,13 @@ const yhgl = React.createClass({
                 data={this.state.roles}
                 optionFilterProp="children"
                 onChange={this.handleRoleSelected}/>
-        </ToolBar>;
+        </PanelBar>;
 
 
         return <div className="yhgl">
             <div className="wrap">
                 <Spin spinning={this.state.pageLoading}>
-                    <Panel title="用户管理" toolbar={toolbar}>
+                    <Panel title="用户管理" toolbar={panelBar}>
                         {this.state.searchToggle && <SearchForm
                             onSubmit={this.handleSearchSubmit}/>}
                         <Table className="outer-border"
