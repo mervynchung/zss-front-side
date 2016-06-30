@@ -114,7 +114,12 @@ const Index = React.createClass({
                 require('../module/client/lrfpb'),
                 require('../module/client/xjllb'),
                 require('../module/client/zcfzb'),
-                require('../module/client/zcmxb')
+                require('../module/client/zcmxb'),
+
+                //手动上报报表
+                require('../module/client_1/swsqkb'),
+                require('../module/client_1/jygmtjb')
+
             ]
         }, {
             path: '/signin',
