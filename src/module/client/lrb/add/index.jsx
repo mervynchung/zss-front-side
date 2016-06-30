@@ -347,8 +347,8 @@ let Addlrb = React.createClass({
                         <td style={{textAlign:'center'}}  colSpan="2">
                         
                         <Row>
-                                 <Col span="2" offset="6">所长：</Col>
-                                <Col span="5" ><Input  {...getFieldProps('sz')} />  </Col>
+                                 <Col span="12" >所长：</Col>
+                                <Col span="12" ><Input  {...getFieldProps('sz')} />  </Col>
                           </Row>
                          </td>
                         <td>主管会计</td>
