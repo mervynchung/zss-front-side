@@ -17,6 +17,7 @@ import DetailBox from './detailbox.jsx'
 const API_URL = config.HOST + config.URI_API_PROJECT + '/add/jzywqktjb';
 const URL = config.HOST + config.URI_API_PROJECT + '/addjzywqktjb';
 const URL_ok = config.HOST + config.URI_API_PROJECT + '/add/jygmtjbok';
+const URL_upyear = config.HOST + config.URI_API_PROJECT + '/add/upyear';
 
 const ToolBar = Panel.ToolBar;
 const ButtonGroup = Button.Group;
@@ -32,6 +33,7 @@ const jzywqktjb = React.createClass({
             datatwo:[],
              one: [],
             two: [],
+            three: [],
             pagination: {
                 current: 1,
                 showSizeChanger: true,
@@ -47,6 +49,7 @@ const jzywqktjb = React.createClass({
             helper: false,
             entity: '',
            checkTJ:[{}],
+            upyear:[{}],
             detailHide: true,
             add: true,
             update: true,
@@ -279,16 +282,25 @@ const jzywqktjb = React.createClass({
             method: 'get'
         })
     },
+         //获取去年数据
+    fetchUpyear(){
+        return req({
+            url: URL_upyear,
+            type: 'json',
+            method: 'get'
+        })
+    },
     
     //异步获取多条数据
     async fetchDatanew(params = { page: 1, pageSize: this.state.pagination.pageSize }){     
-        let [one, two] = await Promise.all([this.fetchData(params),this.fetchOK()]);     
-        return {one: one, two: two}
+        let [one, two, three] = await Promise.all([this.fetchData(params),this.fetchOK(),this.fetchUpyear()]);     
+        return {one: one, two: two,three: three}
     },
 
     componentDidMount() {
         this.setState({ loading: true });
-        this.fetchDatanew().then(resp=>{                            
+        this.fetchDatanew().then(resp=>{    
+                            
             const p = this.state.pagination;
             p.total = resp.one.total > 1000 ? 1000 : resp.one.total;
             p.showTotal = total => {
@@ -300,10 +312,11 @@ const jzywqktjb = React.createClass({
                 pagination: p,
                 loading: false,
                 checkTJ:resp.two.data,
+                upyear: resp.three.upyear,
                 
         })
      
-      
+    
         }) 
         },
    
@@ -444,7 +457,7 @@ const column1=[
                             onChange={this.handleChange}
                             onRowClick={this.handleRowClick}/>
                     </div>}
-                    {!this.state.add && <Add onSubmit={this.handleSubmit} handleOk={this.handleOk} data2={this.state.checkTJ} />}
+                    {!this.state.add && <Add onSubmit={this.handleSubmit} handleOk={this.handleOk} data2={this.state.upyear} />}
                     {!this.state.update && <Panel title="修改"  onClose={this.handleDetailClose}
                     closable> 
                     <Update onSubmit={this.handleSubmit1} handleOk={this.handleOk1} data1={this.state.entity} />

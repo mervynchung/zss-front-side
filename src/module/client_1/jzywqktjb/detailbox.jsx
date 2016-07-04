@@ -14,22 +14,18 @@ const detailBox = React.createClass({
             
             <tbody>
             <tr >
-            <td colSpan="5">编制地区（单位）：{obj.DWMC}</td>
-            <td colSpan="4">上报时间：{obj.SBRQ}</td>
-            <td >单位：万元、户</td>
+            <td colSpan="2">编制地区（单位）：{obj.DWMC}</td>
+            <td colSpan="2">上报时间：{obj.SBRQ}</td>
+            <td colSpan="2">单位：万元、户</td>
             </tr>
             </tbody>
             <colgroup>
-                    <col className ="col-1.5"></col>
-                    <col className="col-6.5"></col>
-                    <col className="col-1.5"></col>
-                    <col className ="col-1.5"></col>
-                    <col className="col-1.5"></col>
-                    <col className="col-1.5"></col>
-                    <col className ="col-2"></col>
-                    <col className="col-2"></col>
-                    <col className="col-3"></col>
-                    <col className ="col-3"></col>   
+                    <col className ="col-4"></col>
+                    <col className="col-4"></col>
+                    <col className="col-4"></col>
+                    <col className ="col-4"></col>
+                    <col className="col-4"></col>
+                    <col className="col-4"></col>
                 </colgroup> 
                 <tbody>
                 <tr>
@@ -37,8 +33,7 @@ const detailBox = React.createClass({
                         <td rowSpan="2">项目</td>
                         <td colSpan="2">上半年数</td>          
                         <td colSpan="2">本年数</td>                        
-                        <td colSpan="2"></td>                      
-                        <td colSpan="2"></td>
+                      
                        
                    </tr>
                     <tr>
@@ -47,10 +42,7 @@ const detailBox = React.createClass({
                         <td>金额</td>
                         <td>户数</td>
                         <td>金额</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>   
+                      
                    </tr>
                     <tr>
                         
@@ -60,10 +52,7 @@ const detailBox = React.createClass({
                         <td>--</td>
                         <td>--</td>
                         <td>--</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>  
+                   
                    </tr>
                    
                      <tr>
@@ -74,10 +63,7 @@ const detailBox = React.createClass({
                         <td>{obj.HSQJJE_JE0}</td>
                         <td>{obj.HSQJJE_HS}</td>
                         <td>{obj.HSQJJE_JE}</td>
-                        <td>{obj.HSZJE2}</td>
-                        <td>{obj.JEZJE2}</td>
-                        <td>{obj.HSZZB2}</td>
-                        <td>{obj.JEZZB2}</td>
+                 
                         
                    </tr>
                    
@@ -89,10 +75,7 @@ const detailBox = React.createClass({
                         <td>{obj.TZYNSDSE_JE0}</td>
                         <td>{obj.TZYNSDSE_HS}</td>
                         <td>{obj.TZYNSDSE_JE}</td>
-                        <td>{obj.HSZJE3}</td>
-                        <td>{obj.JEZJE3}</td>
-                        <td>{obj.HSZZB3}</td>
-                        <td>{obj.JEZZB3}</td>
+                     
                         
                    </tr>
                    
@@ -104,10 +87,7 @@ const detailBox = React.createClass({
                         <td>{obj.TJYNSDSE_JE0}</td>
                         <td>{obj.TJYNSDSE_HS}</td>
                         <td>{obj.TJYNSDSE_JE}</td>
-                        <td>{obj.HSZJE4}</td>
-                        <td>{obj.JEZJE4}</td>
-                        <td>{obj.HSZZB4}</td>
-                        <td>{obj.JEZZB4}</td>
+                    
                         
                    </tr>
                    
@@ -119,10 +99,7 @@ const detailBox = React.createClass({
                         <td>{obj.MBKSJE_JE0}</td>
                         <td>{obj.MBKSJE_HS}</td>
                         <td>{obj.MBKSJE_JE}</td>
-                        <td>{obj.HSZJE5}</td>
-                        <td>{obj.JEZJE5}</td>
-                        <td>{obj.HSZZB5}</td>
-                        <td>{obj.JEZZB5}</td>
+                  
                         
                    </tr>
                    
@@ -134,10 +111,7 @@ const detailBox = React.createClass({
                         <td>{obj.CCSSKC_JE0}</td>
                         <td>{obj.CCSSKC_HS}</td>
                         <td>{obj.CCSSKC_JE}</td>
-                        <td>{obj.HSZJE6}</td>
-                        <td>{obj.JEZJE6}</td>
-                        <td>{obj.HSZZB6}</td>
-                        <td>{obj.JEZZB6}</td>
+                    
                         
                    </tr>
                    
@@ -149,10 +123,7 @@ const detailBox = React.createClass({
                         <td>{obj.TDZZSQSJZ_JE0}</td>
                         <td>{obj.TDZZSQSJZ_HS}</td>
                         <td>{obj.TDZZSQSJZ_JE}</td>
-                        <td>{obj.HSZJE7}</td>
-                        <td>{obj.JEZJE7}</td>
-                        <td>{obj.HSZZB7}</td>
-                        <td>{obj.JEZZB7}</td>
+                     
                         
                    </tr>
                    
@@ -164,10 +135,7 @@ const detailBox = React.createClass({
                         <td>{obj.QTJZ_JE0}</td>
                         <td>{obj.QTJZ_HS}</td>
                         <td>{obj.QTJZ_JE}</td>
-                        <td>{obj.HSZJE8}</td>
-                        <td>{obj.JEZJE8}</td>
-                        <td>{obj.HSZZB8}</td>
-                        <td>{obj.JEZZB8}</td>
+                     
                         
                    </tr>
                    
@@ -179,10 +147,7 @@ const detailBox = React.createClass({
                         <td>{obj.GXJSQYRDQZYW_JE0}</td>
                         <td>{obj.GXJSQYRDQZYW_HS}</td>
                         <td>{obj.GXJSQYRDQZYW_JE}</td>
-                        <td>{obj.HSZJE9}</td>
-                        <td>{obj.JEZJE9}</td>
-                        <td>{obj.HSZZB9}</td>
-                        <td>{obj.JEZZB9}</td>
+                     
                         
                    </tr>
                    
@@ -194,10 +159,7 @@ const detailBox = React.createClass({
                         <td>{obj.QYZXSWDESKJSJZYW_JE0}</td>
                         <td>{obj.QYZXSWDESKJSJZYW_HS}</td>
                         <td>{obj.QYZXSWDESKJSJZYW_JE}</td>
-                        <td>{obj.HSZJE10}</td>
-                        <td>{obj.JEZJE10}</td>
-                        <td>{obj.HSZZB10}</td>
-                        <td>{obj.JEZZB10}</td>
+                    
                         
                    </tr>
                    
@@ -209,10 +171,7 @@ const detailBox = React.createClass({
                         <td>{obj.YFFJJKCJZYW_JE0}</td>
                         <td>{obj.YFFJJKCJZYW_HS}</td>
                         <td>{obj.YFFJJKCJZYW_JE}</td>
-                        <td>{obj.HSZJE11}</td>
-                        <td>{obj.JEZJE11}</td>
-                        <td>{obj.HSZZB11}</td>
-                        <td>{obj.JEZZB11}</td>
+                     
                         
                    </tr>
                    
@@ -224,10 +183,7 @@ const detailBox = React.createClass({
                         <td>{obj.QT_JE0}</td>
                         <td>{obj.QT_HS}</td>
                         <td>{obj.QT_JE}</td>
-                        <td>{obj.HSZJE12}</td>
-                        <td>{obj.JEZJE12}</td>
-                        <td>{obj.HSZZB12}</td>
-                        <td>{obj.JEZZB12}</td>
+                   
                         
                    </tr>
                    
@@ -236,8 +192,8 @@ const detailBox = React.createClass({
                 <tbody>
                 
                    <tr>                        
-                        <td colSpan="4">填报人：{obj.TIANBIAOREN}</td>
-                        <td colSpan="6">所长：{obj.SUOZHANG}</td>
+                        <td colSpan="3">填报人：{obj.TIANBIAOREN}</td>
+                        <td colSpan="3">所长：{obj.SUOZHANG}</td>
                         
                    </tr>
                 

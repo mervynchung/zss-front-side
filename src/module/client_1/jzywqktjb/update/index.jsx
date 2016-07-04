@@ -107,58 +107,163 @@ let Updatejygmtjb = React.createClass({
         return <div className="add">
         <div className="fix-table table-bordered table-striped" >
         <Form horizontal onSubmit={this.handleSubmit}>
-           <table>    
+          <table>    
                 <colgroup>
-                    <col className ="col-3"></col>
-                    <col className="col-3"></col>
-                    <col className="col-3"></col>
-                    <col className="col-3"></col>
-                    <col className ="col-3"></col>
-                    <col className ="col-3"></col>  
-                    <col className ="col-3"></col>
-                    <col className ="col-3"></col>                 
+                    <col className ="col-2"></col>
+                    <col className="col-6"></col>
+                    <col className="col-4"></col>
+                    <col className="col-4"></col>
+                    <col className ="col-4"></col>
+                    <col className ="col-4"></col>  
+                                   
                 </colgroup>
                 <tbody>
                     <tr>
-                        <td colSpan="3">单位： 大信税务师事务所（广州）有限公司</td>                                                                                              
+                        <td >单位:</td>  
+                        <td> 大信税务师事务所（广州）有限公司</td>                                                                                            
                         <td  >  <Col 
                           label="年度：">
                             <SelectorYear  { ...getFieldProps('nd', { initialValue:data.ND})}/>
                         </Col>
                            </td>
-                           <td >制表人：<Input   {...getFieldProps('tbr', { initialValue:data.TBR})}/> </td>
-                           <td >所长：<Input   {...getFieldProps('sz', { initialValue:data.SZ})}/> </td> 
-                             <td  >上年收入总计</td>
-                        <td ><Input   {...getFieldProps('snsrze', { initialValue:data.SNSRZE})}/> </td>
-                        
-                    </tr>
-                    
-                      <tr>
+                           <td >制表人：<Input   {...getFieldProps('tianbiaoren', { initialValue:data.TIANBIAOREN})}/> </td>
+                           <td >所长：<Input   {...getFieldProps('suozhang', { initialValue:data.SUOZHANG})}/> </td> 
+                       <td>单位：万元、户</td>                
+                      </tr>        
+                     <tr>
+                        <td rowSpan="2">序号</td>
+                        <td rowSpan="2">项目</td>
+                        <td colSpan="2">上年数</td>          
+                        <td colSpan="2">本年数</td>                        
+                         
+                   </tr>
+                    <tr>
+                        <td>户数</td>
+                        <td>金额</td>
+                        <td>户数</td>
+                        <td>金额</td>
                       
-                        <td  >本年收入总额合计</td>                       
-                        <td ><Input   {...getFieldProps('bnsrze_hj', { initialValue:data.BNSRZE_HJ})}/> </td>
-                        <td >本年收入总额涉税服务</td>
-                        <td ><Input   {...getFieldProps('bnsrze_ssfw', { initialValue:data.BNSRZE_SSFW})}/> </td>
-                        <td  >本年收入总额涉税鉴证</td>
-                         <td ><Input   {...getFieldProps('bnsrze_ssjz', { initialValue:data.BNSRZE_SSJZ})}/> </td>     
-                          <td  >本年收入总额涉税鉴证</td>
-                         <td ><Input   {...getFieldProps('bnsrze_qtyw', { initialValue:data.BNSRZE_QTYW})}/> </td>  
-                    </tr>
-                </tbody>
-                
+                   </tr>
+                    <tr>
+                        
+                        <td>1</td>
+                        <td>企业所得税汇算清缴总户数</td>
+                        <td>--</td>
+                        <td>--</td>
+                        <td>--</td>
+                        <td>--</td>
+                   </tr>       
+                      <tr>
+                        <td  >2</td>                       
+                        <td >企业所得税汇算清缴纳税申报鉴证业务  </td>
+                        <td ><Input   {...getFieldProps('hsqjje_hs0', { initialValue:data.HSQJJE_HS0})}/> </td> 
+                         <td ><Input   {...getFieldProps('hsqjje_je0', { initialValue:data.HSQJJE_JE0})}/> </td>      
+                         <td ><Input   {...getFieldProps('hsqjje_hs', { initialValue:data.HSQJJE_HS})}/> </td>  
+                         <td ><Input   {...getFieldProps('hsqjje_je', { initialValue:data.HSQJJE_JE})}/> </td>  
+                      </tr>  
+                       <tr>
+                        <td  >3</td>                       
+                        <td >其中：（1）调增应纳所得税税额  </td>
+                        <td ><Input   {...getFieldProps('tzynsdse_hs0', { initialValue:data.TZYNSDSE_HS0})}/> </td> 
+                         <td ><Input   {...getFieldProps('tzynsdse_je0', { initialValue:data.TZYNSDSE_JE0})}/> </td>      
+                         <td ><Input   {...getFieldProps('tzynsdse_hs', { initialValue:data.TZYNSDSE_HS})}/> </td>  
+                         <td ><Input   {...getFieldProps('tzynsdse_je', { initialValue:data.TZYNSDSE_JE})}/> </td>  
+                      </tr>  
+                      
+                      <tr>
+                        <td  >4</td>                       
+                        <td > &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;（2）调减应纳所得税税额  </td>
+                        <td ><Input   {...getFieldProps('tjynsdse_hs0', { initialValue:data.TJYNSDSE_HS0})}/> </td> 
+                         <td ><Input   {...getFieldProps('tjynsdse_je0', { initialValue:data.TJYNSDSE_JE0})}/> </td>      
+                         <td ><Input   {...getFieldProps('tjynsdse_hs', { initialValue:data.TJYNSDSE_HS})}/> </td>  
+                         <td ><Input   {...getFieldProps('tjynsdse_je', { initialValue:data.TJYNSDSE_JE})}/> </td>  
+                      </tr> 
+                      
+                      <tr>
+                        <td  >5</td>                       
+                        <td > 企业税前弥补亏损鉴证业务 </td>
+                        <td ><Input   {...getFieldProps('mbksje_hs0', { initialValue:data.MBKSJE_HS0})}/> </td> 
+                         <td ><Input   {...getFieldProps('mbksje_je0', { initialValue:data.MBKSJE_JE0})}/> </td>      
+                         <td ><Input   {...getFieldProps('mbksje_hs', { initialValue:data.MBKSJE_HS})}/> </td>  
+                         <td ><Input   {...getFieldProps('mbksje_je', { initialValue:data.MBKSJE_JE})}/> </td>  
+                      </tr> 
+                      
+                       <tr>
+                        <td  >6</td>                       
+                        <td > 企业资产损失税前扣除鉴证业务 </td>
+                        <td ><Input   {...getFieldProps('ccsskc_hs0', { initialValue:data.CCSSKC_HS0})}/> </td> 
+                         <td ><Input   {...getFieldProps('ccsskc_je0', { initialValue:data.CCSSKC_JE0})}/> </td>      
+                         <td ><Input   {...getFieldProps('ccsskc_hs', { initialValue:data.CCSSKC_HS})}/> </td>  
+                         <td ><Input   {...getFieldProps('ccsskc_je', { initialValue:data.CCSSKC_JE})}/> </td>  
+                      </tr> 
+                      
+                        <tr>
+                        <td  >7</td>                       
+                        <td > 土地增值税清算鉴证业务 </td>
+                        <td ><Input   {...getFieldProps('tdzzsqsjz_hs0', { initialValue:data.TDZZSQSJZ_HS0})}/> </td> 
+                         <td ><Input   {...getFieldProps('tdzzsqsjz_je0', { initialValue:data.TDZZSQSJZ_JE0})}/> </td>      
+                         <td ><Input   {...getFieldProps('tdzzsqsjz_hs', { initialValue:data.TDZZSQSJZ_HS})}/> </td>  
+                         <td ><Input   {...getFieldProps('tdzzsqsjz_je', { initialValue:data.TDZZSQSJZ_JE})}/> </td>  
+                      </tr> 
+                      
+                      <tr>
+                        <td  >8</td>                       
+                        <td > 其他鉴证业务小计 </td>
+                        <td ><Input   {...getFieldProps('qtjz_hs0', { initialValue:data.QTJZ_HS0})}/> </td> 
+                         <td ><Input   {...getFieldProps('qtjz_je0', { initialValue:data.QTJZ_JE0})}/> </td>      
+                         <td ><Input   {...getFieldProps('qtjz_hs', { initialValue:data.QTJZ_HS})}/> </td>  
+                         <td ><Input   {...getFieldProps('qtjz_je', { initialValue:data.QTJZ_JE})}/> </td>  
+                      </tr> 
+                      
+                       <tr>
+                        <td  >9</td>                       
+                        <td > 其中：（1）高新技术企业认定鉴证业务 </td>
+                        <td ><Input   {...getFieldProps('gxjsqyrdqzyw_hs0', { initialValue:data.GXJSQYRDQZYW_HS0})}/> </td> 
+                         <td ><Input   {...getFieldProps('gxjsqyrdqzyw_je0', { initialValue:data.GXJSQYRDQZYW_JE0})}/> </td>      
+                         <td ><Input   {...getFieldProps('gxjsqyrdqzyw_hs', { initialValue:data.GXJSQYRDQZYW_HS})}/> </td>  
+                         <td ><Input   {...getFieldProps('gxjsqyrdqzyw_je', { initialValue:data.GXJSQYRDQZYW_JE})}/> </td>  
+                      </tr> 
+                      
+                       <tr>
+                        <td  >10</td>                       
+                        <td >&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;（2）企业注销税务登记税款清算鉴证业务 </td>
+                        <td ><Input   {...getFieldProps('qyzxswdeskjsjzyw_hs0', { initialValue:data.QYZXSWDESKJSJZYW_HS0})}/> </td> 
+                         <td ><Input   {...getFieldProps('qyzxswdeskjsjzyw_je0', { initialValue:data.QYZXSWDESKJSJZYW_JE0})}/> </td>      
+                         <td ><Input   {...getFieldProps('qyzxswdeskjsjzyw_hs', { initialValue:data.QYZXSWDESKJSJZYW_HS})}/> </td>  
+                         <td ><Input   {...getFieldProps('qyzxswdeskjsjzyw_je', { initialValue:data.QYZXSWDESKJSJZYW_JE})}/> </td>  
+                      </tr> 
+                      
+                       <tr>
+                        <td  >11</td>                       
+                        <td >&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;（3）研发费加计扣除鉴证业务 </td>
+                        <td ><Input   {...getFieldProps('yffjjkcjzyw_hs0', { initialValue:data.YFFJJKCJZYW_HS0})}/> </td> 
+                         <td ><Input   {...getFieldProps('yffjjkcjzyw_je0', { initialValue:data.YFFJJKCJZYW_JE0})}/> </td>      
+                         <td ><Input   {...getFieldProps('yffjjkcjzyw_hs', { initialValue:data.YFFJJKCJZYW_HS})}/> </td>  
+                         <td ><Input   {...getFieldProps('yffjjkcjzyw_je', { initialValue:data.YFFJJKCJZYW_JE})}/> </td>  
+                      </tr> 
+                      
+                       <tr>
+                        <td  >12</td>                       
+                        <td >&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;（4）其他 </td>
+                        <td ><Input   {...getFieldProps('qt_hs0', { initialValue:data.QT_HS0})}/> </td> 
+                         <td ><Input   {...getFieldProps('qt_je0', { initialValue:data.QT_JE0})}/> </td>      
+                         <td ><Input   {...getFieldProps('qt_hs', { initialValue:data.QT_HS})}/> </td>  
+                         <td ><Input   {...getFieldProps('qt_je', { initialValue:data.QT_JE})}/> </td>  
+                      </tr> 
+                      
+                </tbody>   
                  <tbody>
                     <tr >                      
-                              <td  colSpan="4" style={{textAlign:'center'}}>               
+                              <td  colSpan="3" style={{textAlign:'center'}}>               
                         <Button type="primary" onClick={this.handleSubmit}> <Icon type="check"/>保存</Button>
                          </td>
-                         <td  colSpan="4" style={{textAlign:'center'}}> 
+                         <td  colSpan="2" style={{textAlign:'center'}}> 
                          <Button type="primary" onClick={this.showModal}> <Icon type="arrow-up"/>提交</Button>
                                        <Modal title="你确定要提交吗？" visible={this.state.visible}
                                              onOk={this.handleOk} onCancel={this.handleCancel}>
                                                  <p>提交后就不能修改了！！！</p>                             
                                         </Modal>
                         </td>
-                   
                     </tr>
                 </tbody>
                

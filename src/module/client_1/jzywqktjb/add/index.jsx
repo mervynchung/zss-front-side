@@ -95,44 +95,154 @@ let Addjzywqktjb = React.createClass({
     render() {
         
          const { getFieldProps } = this.props.form;
-         const data = this.props.data2;      
-        return <div className="swsjbb">
+         const data = this.props.data2;   
+        return <div className="add">
         <div className="fix-table table-bordered table-striped" >
         <Form horizontal onSubmit={this.handleSubmit}>
             <table>    
                 <colgroup>
-                    <col className ="col-3"></col>
-                    <col className="col-3"></col>
-                    <col className="col-3"></col>
-                    <col className="col-3"></col>
-                    <col className ="col-3"></col>
-                    <col className ="col-3"></col>  
-                    <col className ="col-3"></col>
-                    <col className ="col-3"></col>                 
+                    <col className ="col-2"></col>
+                    <col className="col-6"></col>
+                    <col className="col-4"></col>
+                    <col className="col-4"></col>
+                    <col className ="col-4"></col>
+                    <col className ="col-4"></col>  
+                                   
                 </colgroup>
                 <tbody>
                     <tr>
-                        <td colSpan="3">单位： 大信税务师事务所（广州）有限公司</td>                                                                                              
+                        <td >单位:</td>  
+                        <td> 大信税务师事务所（广州）有限公司</td>                                                                                            
                         <td  >  <Col 
                           label="年度：">
                             <SelectorYear  { ...getFieldProps('nd')}/>
                         </Col>
                            </td>
-                           <td >制表人：<Input   {...getFieldProps('tbr')}/> </td>
-                           <td >所长：<Input   {...getFieldProps('sz')}/> </td> 
+                           <td >制表人：<Input   {...getFieldProps('tianbiaoren')}/> </td>
+                           <td >所长：<Input   {...getFieldProps('suozhang')}/> </td> 
                        <td>单位：万元、户</td>                
-                      </tr>            
-                      <tr>
+                      </tr>        
+                     <tr>
+                        <td rowSpan="2">序号</td>
+                        <td rowSpan="2">项目</td>
+                        <td colSpan="2">上年数</td>          
+                        <td colSpan="2">本年数</td>                        
+                         
+                   </tr>
+                    <tr>
+                        <td>户数</td>
+                        <td>金额</td>
+                        <td>户数</td>
+                        <td>金额</td>
                       
-                        <td  >本年收入总额合计</td>                       
-                        <td ><Input   {...getFieldProps('bnsrze_hj')}/> </td>
-                        <td >本年收入总额涉税服务</td>
-                        <td ><Input   {...getFieldProps('bnsrze_ssfw')}/> </td>
-                        <td  >本年收入总额涉税鉴证</td>
-                         <td ><Input   {...getFieldProps('bnsrze_ssjz')}/> </td>     
-                          <td  >本年收入总额涉税鉴证</td>
-                         <td ><Input   {...getFieldProps('bnsrze_qtyw')}/> </td>  
-                      </tr>   
+                   </tr>
+                    <tr>
+                        
+                        <td>1</td>
+                        <td>企业所得税汇算清缴总户数</td>
+                        <td>--</td>
+                        <td>--</td>
+                        <td>--</td>
+                        <td>--</td>
+                   </tr>       
+                      <tr>
+                        <td  >2</td>                       
+                        <td >企业所得税汇算清缴纳税申报鉴证业务  </td>
+                        <td ><Input   {...getFieldProps('hsqjje_hs0', { initialValue:data[0].HSQJJE_HS})}/> </td> 
+                         <td ><Input   {...getFieldProps('hsqjje_je0', { initialValue:data[0].HSQJJE_JE})}/> </td>      
+                         <td ><Input   {...getFieldProps('hsqjje_hs')}/> </td>  
+                         <td ><Input   {...getFieldProps('hsqjje_je')}/> </td>  
+                      </tr>  
+                       <tr>
+                        <td  >3</td>                       
+                        <td >其中：（1）调增应纳所得税税额  </td>
+                        <td ><Input   {...getFieldProps('tzynsdse_hs0', { initialValue:data[0].TZYNSDSE_HS})}/> </td> 
+                         <td ><Input   {...getFieldProps('tzynsdse_je0', { initialValue:data[0].TZYNSDSE_JE})}/> </td>      
+                         <td ><Input   {...getFieldProps('tzynsdse_hs')}/> </td>  
+                         <td ><Input   {...getFieldProps('tzynsdse_je')}/> </td>  
+                      </tr>  
+                      
+                      <tr>
+                        <td  >4</td>                       
+                        <td > &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;（2）调减应纳所得税税额  </td>
+                        <td ><Input   {...getFieldProps('tjynsdse_hs0', { initialValue:data[0].TJYNSDSE_HS})}/> </td> 
+                         <td ><Input   {...getFieldProps('tjynsdse_je0', { initialValue:data[0].TJYNSDSE_JE})}/> </td>      
+                         <td ><Input   {...getFieldProps('tjynsdse_hs')}/> </td>  
+                         <td ><Input   {...getFieldProps('tjynsdse_je')}/> </td>  
+                      </tr> 
+                      
+                      <tr>
+                        <td  >5</td>                       
+                        <td > 企业税前弥补亏损鉴证业务 </td>
+                        <td ><Input   {...getFieldProps('mbksje_hs0', { initialValue:data[0].MBKSJE_HS})}/> </td> 
+                         <td ><Input   {...getFieldProps('mbksje_je0', { initialValue:data[0].MBKSJE_HS})}/> </td>      
+                         <td ><Input   {...getFieldProps('mbksje_hs')}/> </td>  
+                         <td ><Input   {...getFieldProps('mbksje_je')}/> </td>  
+                      </tr> 
+                      
+                       <tr>
+                        <td  >6</td>                       
+                        <td > 企业资产损失税前扣除鉴证业务 </td>
+                        <td ><Input   {...getFieldProps('ccsskc_hs0', { initialValue:data[0].CCSSKC_HS})}/> </td> 
+                         <td ><Input   {...getFieldProps('ccsskc_je0', { initialValue:data[0].CCSSKC_JE})}/> </td>      
+                         <td ><Input   {...getFieldProps('ccsskc_hs')}/> </td>  
+                         <td ><Input   {...getFieldProps('ccsskc_je')}/> </td>  
+                      </tr> 
+                      
+                        <tr>
+                        <td  >7</td>                       
+                        <td > 土地增值税清算鉴证业务 </td>
+                        <td ><Input   {...getFieldProps('tdzzsqsjz_hs0', { initialValue:data[0].TDZZSQSJZ_HS})}/> </td> 
+                         <td ><Input   {...getFieldProps('tdzzsqsjz_je0', { initialValue:data[0].TDZZSQSJZ_JE})}/> </td>      
+                         <td ><Input   {...getFieldProps('tdzzsqsjz_hs')}/> </td>  
+                         <td ><Input   {...getFieldProps('tdzzsqsjz_je')}/> </td>  
+                      </tr> 
+                      
+                      <tr>
+                        <td  >8</td>                       
+                        <td > 其他鉴证业务小计 </td>
+                        <td ><Input   {...getFieldProps('qtjz_hs0', { initialValue:data[0].QTJZ_HS})}/> </td> 
+                         <td ><Input   {...getFieldProps('qtjz_je0', { initialValue:data[0].QTJZ_JE})}/> </td>      
+                         <td ><Input   {...getFieldProps('qtjz_hs')}/> </td>  
+                         <td ><Input   {...getFieldProps('qtjz_je')}/> </td>  
+                      </tr> 
+                      
+                       <tr>
+                        <td  >9</td>                       
+                        <td > 其中：（1）高新技术企业认定鉴证业务 </td>
+                        <td ><Input   {...getFieldProps('gxjsqyrdqzyw_hs0', { initialValue:data[0].GXJSQYRDQZYW_HS})}/> </td> 
+                         <td ><Input   {...getFieldProps('gxjsqyrdqzyw_je0', { initialValue:data[0].GXJSQYRDQZYW_JE})}/> </td>      
+                         <td ><Input   {...getFieldProps('gxjsqyrdqzyw_hs')}/> </td>  
+                         <td ><Input   {...getFieldProps('gxjsqyrdqzyw_je')}/> </td>  
+                      </tr> 
+                      
+                       <tr>
+                        <td  >10</td>                       
+                        <td >&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;（2）企业注销税务登记税款清算鉴证业务 </td>
+                        <td ><Input   {...getFieldProps('qyzxswdeskjsjzyw_hs0', { initialValue:data[0].QYZXSWDESKJSJZYW_HS})}/> </td> 
+                         <td ><Input   {...getFieldProps('qyzxswdeskjsjzyw_je0', { initialValue:data[0].QYZXSWDESKJSJZYW_HS})}/> </td>      
+                         <td ><Input   {...getFieldProps('qyzxswdeskjsjzyw_hs')}/> </td>  
+                         <td ><Input   {...getFieldProps('qyzxswdeskjsjzyw_je')}/> </td>  
+                      </tr> 
+                      
+                       <tr>
+                        <td  >11</td>                       
+                        <td >&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;（3）研发费加计扣除鉴证业务 </td>
+                        <td ><Input   {...getFieldProps('yffjjkcjzyw_hs0', { initialValue:data[0].YFFJJKCJZYW_HS})}/> </td> 
+                         <td ><Input   {...getFieldProps('yffjjkcjzyw_je0', { initialValue:data[0].YFFJJKCJZYW_JE})}/> </td>      
+                         <td ><Input   {...getFieldProps('yffjjkcjzyw_hs')}/> </td>  
+                         <td ><Input   {...getFieldProps('yffjjkcjzyw_je')}/> </td>  
+                      </tr> 
+                      
+                       <tr>
+                        <td  >12</td>                       
+                        <td >&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;（4）其他 </td>
+                        <td ><Input   {...getFieldProps('qt_hs0', { initialValue:data[0].QT_HS})}/> </td> 
+                         <td ><Input   {...getFieldProps('qt_je0', { initialValue:data[0].QT_JE})}/> </td>      
+                         <td ><Input   {...getFieldProps('qt_hs')}/> </td>  
+                         <td ><Input   {...getFieldProps('qt_je')}/> </td>  
+                      </tr> 
+                      
                 </tbody>   
                  <tbody>
                     <tr >                      
