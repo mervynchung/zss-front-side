@@ -4,10 +4,11 @@ import Panel from 'component/compPanel'
 import auth from 'common/auth'
 import req from 'reqwest';
 import config from 'common/configuration'
+import './untils.js'
 
 
-const API_URL = config.HOST + config.URI_API_PROJECT + '/spapi/spsq/jgzxsq';
-const API_URL_C = config.HOST + config.URI_API_PROJECT + '/commont/checksping/jgzx/';
+const API_URL = config.HOST + config.URI_API_PROJECT + '/spapi/spsq/jghbsq';
+const API_URL_C = config.HOST + config.URI_API_PROJECT + '/commont/checksping/jghb/';
 const createForm = Form.create;
 const Option = Select.Option;
 let swszxP = React.createClass({
@@ -17,6 +18,11 @@ getInitialState(){
             }
         },
     handleSubmit(value){
+        for(var key in value){
+                    if(Object.prototype.toString.call(value[key])=="[object Date]"){//时间格式化
+                        var dd = value[key].Format("yyyy-MM-dd");
+                        value[key]=dd;
+                    };};
           this.setState({sqLoading:true});
             var ls = value;
              req({
@@ -35,7 +41,7 @@ getInitialState(){
                                     <p>提交成功，请等待管理中心审核</p>
                                 </div>  ),
                             onOk() {
-                                      that.setState({checked: false, })
+                                      that.setState({checked: true, })
                                     },
                         });
                       this.setState({sqLoading:false});
@@ -64,12 +70,13 @@ getInitialState(){
           });
         },
       componentDidMount(){
+            this.setState({loading: true, })
      req({
             url: API_URL_C+auth.getJgid(),
             type: 'json',
             method: 'get'
         }).then(resp=> {
-            this.setState({checked: !resp, })
+            this.setState({checked: !resp,loading:false })
         }).catch(e=> {
             Modal.error({
                 title: '数据获取错误',
@@ -101,39 +108,39 @@ getInitialState(){
             };
         return <div className="khd-jggl-swshb">
         <div className="fix-table table-bordered table-striped">
-                <Spin spinning={!this.state.checked}><Panel title="事务所合并申请" >
+                <Spin spinning={this.state.loading}><Panel title="事务所合并申请" >
                                <Form horizontal onSubmit={this.showConfirm} form={this.props.form}>
                                   {!!this.state.checked&&<h3 style={{'padding':'5px','color':'red'}}>事务所注销审批中，无需重复操作</h3>}
                                 <table >
                                             <tbody>
                                                     <tr>
                                                             <td ><b>申请合并事务所双方名称：</b></td>
-                                                            <td colSpan="3" ><Col span="10"><Input  { ...getFieldProps('zxsm')} /></Col><Col offspan="12"><span >（以半角的,分隔）</span></Col></td>
+                                                            <td colSpan="3" ><Col span="10"><Input  { ...getFieldProps('SFMC')} /></Col><Col offspan="12"><span >（以半角的,分隔）</span></Col></td>
                                                     </tr>
                                                     <tr>
                                                             <td ><b>双方证书编号：</b></td>
-                                                            <td colSpan="3" ><Col span="10"><Input  { ...getFieldProps('zxsm')} /></Col><Col offspan="12"><span >（以半角的,分隔）</span></Col></td>
+                                                            <td colSpan="3" ><Col span="10"><Input  { ...getFieldProps('SFZSBH')} /></Col><Col offspan="12"><span >（以半角的,分隔）</span></Col></td>
                                                     </tr>
                                                     <tr>
                                                             <td ><b>新事务所单位名称：</b></td>
-                                                            <td colSpan="3" ><Col span="10"><Input  { ...getFieldProps('zxsm')} /></Col></td>
+                                                            <td colSpan="3" ><Col span="10"><Input  { ...getFieldProps('XSWSMC')} /></Col></td>
                                                     </tr>
                                                     <tr>
                                                             <td ><b>工商名称预核编号：</b></td>
-                                                            <td colSpan="3" ><Col span="10"><Input  { ...getFieldProps('zxsm')} /></Col></td>
+                                                            <td colSpan="3" ><Col span="10"><Input  { ...getFieldProps('GSMCYHBH')} /></Col></td>
                                                     </tr>
                                                     <tr>
                                                             <td ><b>合并时间：</b></td>
-                                                            <td colSpan="3" ><DatePicker  { ...getFieldProps('clsj')}></DatePicker></td>
+                                                            <td colSpan="3" ><DatePicker  { ...getFieldProps('HBSJ')}></DatePicker></td>
                                                     </tr>
                                                     <tr>
                                                             <td ><b>申请人：</b></td>
-                                                            <td colSpan="3" ><Col span="5"><Input  { ...getFieldProps('zxsm')} /></Col></td>
+                                                            <td colSpan="3" ><Col span="5"><Input  { ...getFieldProps('SQR')} /></Col></td>
                                                     </tr>
                                                     <tr>
                                                             <td ><b>附 件：</b></td>
                                                             <td colSpan="3" > 
-                                                                    <Upload  {...props} {...getFieldProps('zxupload', {valuePropName: 'file',})}>
+                                                                    <Upload  {...props} {...getFieldProps('FJ', {valuePropName: 'file',})}>
                                                                                 <Button type="ghost"><Icon type="upload" /> 点击上传</Button>
                                                                       </Upload>
                                                            </td>
