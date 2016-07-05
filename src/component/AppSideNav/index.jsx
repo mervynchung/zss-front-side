@@ -42,7 +42,12 @@ class AppSideNav extends React.Component {
 
     getMenu(data) {
         return data.map(function (item) {
-            let title = <span><Icon type={item.icon}/>{item.name}</span>;
+            let title;
+            if(item.icon){
+                title = <span><Icon type={item.icon}/>{item.name}</span>;
+            }else{
+                title = <span>{item.name}</span>;
+            }
             if (item.children) {
                 return <SubMenu key={item.id} title={title} children={this.getMenu(item.children)}/>;
             } else {
@@ -54,18 +59,22 @@ class AppSideNav extends React.Component {
 
     render() {
         const menuData = getTreeData(this.props.data);
-         let asideMenu = this.getMenu(menuData);
+        let asideMenu = this.getMenu(menuData);
         return (
-          <aside className="app-sidenav">
-              <Menu onClick={this.handleClick.bind(this)}
-                    openKeys={this.state.openKeys}
-                    onOpen={this.onToggle.bind(this)}
-                    onClose={this.onToggle.bind(this)}
-                    selectedKeys={[this.state.current]}
-                    mode="inline">
-                  {asideMenu}
-              </Menu>
-          </aside>
+            <aside className="app-sidenav">
+                <div className="aside-wrap">
+                    <div className="nav-wrap">
+                        <Menu onClick={this.handleClick.bind(this)}
+                              openKeys={this.state.openKeys}
+                              onOpen={this.onToggle.bind(this)}
+                              onClose={this.onToggle.bind(this)}
+                              selectedKeys={[this.state.current]}
+                              mode="inline">
+                            {asideMenu}
+                        </Menu>
+                    </div>
+                </div>
+            </aside>
         );
     }
 }
