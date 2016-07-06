@@ -31,7 +31,7 @@ const detailBox = React.createClass({
                 <tr>
                         <td rowSpan="2">序号</td>
                         <td rowSpan="2">项目</td>
-                        <td colSpan="2">上半年数</td>          
+                        <td colSpan="2">上年数</td>          
                         <td colSpan="2">本年数</td>                        
                       
                        

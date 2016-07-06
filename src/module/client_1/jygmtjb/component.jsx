@@ -128,8 +128,7 @@ const jygmtjb = React.createClass({
     //点击提交
     handleOk(e) {
         let vv = e;
-        vv.ztbj = '1';          
-         vv.jg_id = '68';          
+        vv.ztbj = '1';                         
         this.fetchHandle(vv);
             this.handleAdd();   
     },
@@ -139,6 +138,7 @@ const jygmtjb = React.createClass({
             type: 'json',
             method: 'post',
             data: JSON.stringify(value),
+            headers:{'x-auth-token':auth.getToken()},
             contentType: 'application/json'
 
         }).then(resp => {
@@ -158,12 +158,8 @@ const jygmtjb = React.createClass({
     handleSubmit(value) {
         let vv = value;
         vv.ztbj = '0';
-        vv.jg_id = '68';
         this.fetchHandle(vv);
-        
-         this.handleAdd();
-       
-        
+         this.handleAdd();   
     },
     
      //点击编辑提交
@@ -180,6 +176,7 @@ const jygmtjb = React.createClass({
             type: 'json',
             method: 'put',
             data: JSON.stringify(value),
+            headers:{'x-auth-token':auth.getToken()},
             contentType: 'application/json'
 
         }).then(resp => {
@@ -268,15 +265,19 @@ const jygmtjb = React.createClass({
             type: 'json',
             method: 'get',
             data: params,
-          
+           headers:{'x-auth-token':auth.getToken()},
+           contentType:'application/json',
         })
     },
         //判断是否可填
     fetchOK(){
         return req({
-            url: URL_ok,
+            url: URL_ok+ '/' + auth.getJgid(),
             type: 'json',
-            method: 'get'
+            method: 'get',
+            headers:{'x-auth-token':auth.getToken()},
+           contentType:'application/json',
+           
         })
     },
     
@@ -292,8 +293,7 @@ const jygmtjb = React.createClass({
             const p = this.state.pagination;
             p.total = resp.one.total > 1000 ? 1000 : resp.one.total;
             p.showTotal = total => {
-                return `共 ${resp.one.total} 条`
-                
+                return `共 ${resp.one.total} 条`   
             };
             this.setState({
                 data: resp.one.data,

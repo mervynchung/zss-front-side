@@ -95,7 +95,11 @@ let Addswsjbb = React.createClass({
     render() {
         
          const { getFieldProps } = this.props.form;
-         const data = this.props.data2;      
+           let data =[{}];
+         if(this.props.data2.length!=0){
+              data = this.props.data2;
+         };
+    
         return <div className="swsjbb">
         <div className="fix-table table-bordered table-striped" >
         <Form horizontal onSubmit={this.handleSubmit}>
@@ -150,7 +154,7 @@ let Addswsjbb = React.createClass({
                     
                      <tr>
                         <td width="11%" style={{textAlign:'center'}} >利润总额</td> 
-                        <td ><Input disabled  {...getFieldProps('lrze', { initialValue:data.ZGYWSR})}/> </td>                     
+                        <td ><Input disabled  {...getFieldProps('lrze', { initialValue:data[0].ZGYWSR})}/> </td>                     
                         <td style={{textAlign:'center'}} >机构所在地</td>                       
                          <td  >  <Col 
                           label="选择：">

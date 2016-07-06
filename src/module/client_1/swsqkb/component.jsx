@@ -46,7 +46,9 @@ const swsjbb = React.createClass({
             where: '',
             helper: false,
             entity: '',
-           checkTJ:{},
+           checkTJ:[{}],
+          jg_id:{},
+           usid:{},
             detailHide: true,
             add: true,
             update: true,
@@ -127,9 +129,9 @@ const swsjbb = React.createClass({
 
     //点击提交
     handleOk(e) {
+       
         let vv = e;
         vv.ztbj = '1';          
-         vv.jg_id = '68';          
         this.fetchHandle(vv);
             this.handleAdd();   
     },
@@ -139,8 +141,8 @@ const swsjbb = React.createClass({
             type: 'json',
             method: 'post',
             data: JSON.stringify(value),
-            contentType: 'application/json'
-
+            headers:{'x-auth-token':auth.getToken()},
+            contentType: 'application/json',
         }).then(resp => {
             Modal.success({
                 title: '操作成功',
@@ -158,12 +160,8 @@ const swsjbb = React.createClass({
     handleSubmit(value) {
         let vv = value;
         vv.ztbj = '0';
-        vv.jg_id = '68';
-        this.fetchHandle(vv);
-        
-         this.handleAdd();
-       
-        
+        this.fetchHandle(vv); 
+        this.handleAdd();
     },
     
      //点击编辑提交
@@ -180,8 +178,8 @@ const swsjbb = React.createClass({
             type: 'json',
             method: 'put',
             data: JSON.stringify(value),
-            contentType: 'application/json'
-
+            headers:{'x-auth-token':auth.getToken()},
+            contentType: 'application/json',
         }).then(resp => {
             Modal.success({
                 title: '操作成功',
@@ -268,7 +266,9 @@ const swsjbb = React.createClass({
             type: 'json',
             method: 'get',
             data: params,
-          
+            headers:{'x-auth-token':auth.getToken()},
+           contentType:'application/json',
+           
         })/*.then(resp => {
             const p = this.state.pagination;
             p.total = resp.total > 1000 ? 1000 : resp.total;
@@ -295,13 +295,17 @@ const swsjbb = React.createClass({
     },
         //判断是否可填
     fetchOK(){
+        
         return req({
-            url: URL_ok,
+            url: URL_ok + '/' + auth.getJgid(),
             type: 'json',
-            method: 'get'
-        })
-    },
-    
+            method: 'get',
+             headers:{'x-auth-token':auth.getToken()},
+        }
+        )
+          
+    },    
+ 
     //异步获取多条数据
     async fetchDatanew(params = { page: 1, pageSize: this.state.pagination.pageSize }){     
         let [one, two] = await Promise.all([this.fetchData(params),this.fetchOK()]);     
@@ -309,8 +313,10 @@ const swsjbb = React.createClass({
     },
 
     componentDidMount() {
-        this.setState({ loading: true });
-        this.fetchDatanew().then(resp=>{                    
+        this.setState({ loading: true });       
+        this.fetchDatanew().then(resp=>{ 
+            // console.log("机构ID",auth.getJgid()),  
+            // console.log("数据",resp)                 
             const p = this.state.pagination;
             p.total = resp.one.total > 1000 ? 1000 : resp.one.total;
             p.showTotal = total => {
@@ -321,11 +327,10 @@ const swsjbb = React.createClass({
                 data: resp.one.data,
                 pagination: p,
                 loading: false,
-                checkTJ:resp.two,
-                
-                
+                checkTJ:resp.two.upyear,
+                usid:resp.one,
+                jg_id:resp.one,  
         })
-     
         }) 
         },
     
@@ -409,16 +414,15 @@ const column1=[
             var checkTJ = '';
             var d = new Date();
             var str = (d.getFullYear()-1)
-           
-           if(this.state.checkTJ.ND==str && this.state.checkTJ.TIMEVALUE=="1") { 
-               
-               checkTJ=false;
-           }else{ 
-               checkTJ=true;
-            };
+ 
+              if(this.state.checkTJ.length<=0)
+            {     checkTJ=true;}
+           else  if (this.state.checkTJ[0].ND==str && this.state.checkTJ[0].TIMEVALUE=="1"){ 
+               checkTJ=false;}           
+          else {
+              checkTJ=true;
+          }; 
           
-           
-        
         let toolbar = <ToolBar>
             { this.state.add && <Button onClick={this.handleSearchToggle}>
                 <Icon type="search"/>查询
@@ -431,10 +435,7 @@ const column1=[
                 <Button type="primary" onClick={this.handleRefresh}><Icon type="reload"/></Button>
             </ButtonGroup>
             }
-      
-            
 
-   
        <Button disabled={checkTJ} onClick={this.handleAdd}>
                 <Icon type="primary"  />{this.state.add ? "添加" : "返回"}
                 { this.state.add ? <Icon className="toggle-tip" type="plus-square"  /> :

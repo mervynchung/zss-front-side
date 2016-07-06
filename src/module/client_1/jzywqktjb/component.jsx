@@ -131,8 +131,7 @@ const jzywqktjb = React.createClass({
     //点击提交
     handleOk(e) {
         let vv = e;
-        vv.ztbj = '1';          
-         vv.jg_id = '68';          
+        vv.ztbj = '1';                  
         this.fetchHandle(vv);
             this.handleAdd();   
     },
@@ -142,6 +141,7 @@ const jzywqktjb = React.createClass({
             type: 'json',
             method: 'post',
             data: JSON.stringify(value),
+            headers:{'x-auth-token':auth.getToken()},
             contentType: 'application/json'
 
         }).then(resp => {
@@ -161,9 +161,7 @@ const jzywqktjb = React.createClass({
     handleSubmit(value) {
         let vv = value;
         vv.ztbj = '0';
-        vv.jg_id = '68';
-        this.fetchHandle(vv);
-        
+        this.fetchHandle(vv);  
          this.handleAdd();
        
         
@@ -183,6 +181,7 @@ const jzywqktjb = React.createClass({
             type: 'json',
             method: 'put',
             data: JSON.stringify(value),
+            headers:{'x-auth-token':auth.getToken()},
             contentType: 'application/json'
 
         }).then(resp => {
@@ -271,23 +270,27 @@ const jzywqktjb = React.createClass({
             type: 'json',
             method: 'get',
             data: params,
+            headers:{'x-auth-token':auth.getToken()},
+            contentType:'application/json',
           
         })
     },
         //判断是否可填
     fetchOK(){
         return req({
-            url: URL_ok,
+            url: URL_ok+ '/' + auth.getJgid(),
             type: 'json',
-            method: 'get'
+            method: 'get',
+            headers:{'x-auth-token':auth.getToken()},
         })
     },
          //获取去年数据
     fetchUpyear(){
         return req({
-            url: URL_upyear,
+            url: URL_upyear+ '/' + auth.getJgid(),
             type: 'json',
-            method: 'get'
+            method: 'get',
+            headers:{'x-auth-token':auth.getToken()},
         })
     },
     
@@ -300,7 +303,7 @@ const jzywqktjb = React.createClass({
     componentDidMount() {
         this.setState({ loading: true });
         this.fetchDatanew().then(resp=>{    
-                            
+          //   console.log("数据",resp)        
             const p = this.state.pagination;
             p.total = resp.one.total > 1000 ? 1000 : resp.one.total;
             p.showTotal = total => {
