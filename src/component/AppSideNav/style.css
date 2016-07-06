@@ -2,11 +2,10 @@
     float: left;
     width: 224px;
     background-color: #707B88;
-    margin-top:34px;
 
 }
 .app-sidenav:before {
-    position: absolute;
+    position: fixed;
     top: 0;
     bottom: 0;
     z-index: -100;
@@ -17,14 +16,18 @@
 }
 .aside-wrap {
     position: fixed;
-    height: 100%;
     overflow: hidden;
-    width:224px
+    z-index:1000;
+    width:224px;
+    top:64px;
+    left:0;
+    bottom: 0;
 }
 .nav-wrap{
     width:242px;
     overflow-x: hidden;
     overflow-y: scroll;
+    height: 100%;
 }
 
 .app-sidenav .ant-menu-inline{

@@ -4,7 +4,7 @@ import req from 'reqwest'
 import config from 'common/configuration'
 import store from 'store2'
 import {withRouter} from 'react-router'
-import {Alert} from 'antd'
+import {Alert,Icon} from 'antd'
 import auth from 'common/auth'
 
 const API_URL = config.HOST + config.URI_API_FRAMEWORK + '/auth';
@@ -31,7 +31,7 @@ const signin = withRouter(React.createClass({
         }).then(resp=> {
             store.set('uname', value.username);
             auth.setToken(resp.token, resp.tokenhash, value.isRemember);
-            auth.setAuthorization({jgId:resp.jgId,permission:resp.permission})
+            auth.setAuthorization({jgId: resp.jgId, permission: resp.permission})
 
             const { location } = this.props;
             if (location.state && location.state.nextPathname) {
@@ -62,12 +62,23 @@ const signin = withRouter(React.createClass({
     },
     render(){
         return <div className="sign-in">
+            <div className="header">
+                <div className="logo">
+                    <h1>
+                        <Icon type="area-chart"/>
+                        广东省注册税务师行业信息化管理系统
+                    </h1>
+                </div>
+            </div>
             <LoginForm onSubmit={this.handleSubmit} loading={this.state.loading}/>
             <div className="feedback">
                 {this.state.authFail &&
                 <Alert
-                    message={this.state.authFailMes}
-                    type="error" showIcon/>}
+                  message={this.state.authFailMes}
+                  type="error" showIcon/>}
+            </div>
+            <div className="footer">
+                <div className="copyright"><span>广东科溢 © 2016  内测版ver.0.9</span></div>
             </div>
         </div>
     }
