@@ -14,9 +14,10 @@ import {entityFormat} from 'common/utils'
 import DetailBox from './detailbox.jsx'
 
 
-const API_URL = config.HOST + config.URI_API_PROJECT + '/add/swsjbb';
-const URL = config.HOST + config.URI_API_PROJECT + '/addswsjbb';
-const URL_ok = config.HOST + config.URI_API_PROJECT + '/add/swsjbbok';
+const API_URL = config.HOST + config.URI_API_PROJECT + '/add/jzywqktjb';
+const URL = config.HOST + config.URI_API_PROJECT + '/addjzywqktjb';
+const URL_ok = config.HOST + config.URI_API_PROJECT + '/add/jygmtjbok';
+const URL_upyear = config.HOST + config.URI_API_PROJECT + '/add/upyear';
 
 const ToolBar = Panel.ToolBar;
 const ButtonGroup = Button.Group;
@@ -24,7 +25,7 @@ const ButtonGroup = Button.Group;
 
 
 
-const swsjbb = React.createClass({
+const jzywqktjb = React.createClass({
     //初始化state
     getInitialState() {
         return {
@@ -32,6 +33,7 @@ const swsjbb = React.createClass({
             datatwo:[],
              one: [],
             two: [],
+            three: [],
             pagination: {
                 current: 1,
                 showSizeChanger: true,
@@ -47,8 +49,7 @@ const swsjbb = React.createClass({
             helper: false,
             entity: '',
            checkTJ:[{}],
-          jg_id:{},
-           usid:{},
+            upyear:[{}],
             detailHide: true,
             add: true,
             update: true,
@@ -129,9 +130,8 @@ const swsjbb = React.createClass({
 
     //点击提交
     handleOk(e) {
-       
         let vv = e;
-        vv.ztbj = '1';          
+        vv.ztbj = '1';                  
         this.fetchHandle(vv);
             this.handleAdd();   
     },
@@ -142,7 +142,8 @@ const swsjbb = React.createClass({
             method: 'post',
             data: JSON.stringify(value),
             headers:{'x-auth-token':auth.getToken()},
-            contentType: 'application/json',
+            contentType: 'application/json'
+
         }).then(resp => {
             Modal.success({
                 title: '操作成功',
@@ -160,8 +161,10 @@ const swsjbb = React.createClass({
     handleSubmit(value) {
         let vv = value;
         vv.ztbj = '0';
-        this.fetchHandle(vv); 
-        this.handleAdd();
+        this.fetchHandle(vv);  
+         this.handleAdd();
+       
+        
     },
     
      //点击编辑提交
@@ -179,7 +182,8 @@ const swsjbb = React.createClass({
             method: 'put',
             data: JSON.stringify(value),
             headers:{'x-auth-token':auth.getToken()},
-            contentType: 'application/json',
+            contentType: 'application/json'
+
         }).then(resp => {
             Modal.success({
                 title: '操作成功',
@@ -267,56 +271,39 @@ const swsjbb = React.createClass({
             method: 'get',
             data: params,
             headers:{'x-auth-token':auth.getToken()},
-           contentType:'application/json',
-           
-        })/*.then(resp => {
-            const p = this.state.pagination;
-            p.total = resp.total > 1000 ? 1000 : resp.total;
-            p.showTotal = total => {
-                return `共 ${resp.total} 条`
-                
-            };
-            this.setState({
-                data: resp.data,
-                pagination: p,
-                loading: false
-            })
-        }).fail(err => {
-            this.setState({ loading: false });
-            Modal.error({
-                title: '数据获取错误',
-                content: (
-                    <div>
-                        <p>无法从服务器返回数据，需检查应用服务工作情况</p>
-                        <p>Status: {err.status}</p>
-                    </div>)
-            });
-        })*/
+            contentType:'application/json',
+          
+        })
     },
         //判断是否可填
     fetchOK(){
-        
         return req({
-            url: URL_ok + '/' + auth.getJgid(),
+            url: URL_ok+ '/' + auth.getJgid(),
             type: 'json',
             method: 'get',
-             headers:{'x-auth-token':auth.getToken()},
-        }
-        )
-          
-    },    
- 
+            headers:{'x-auth-token':auth.getToken()},
+        })
+    },
+         //获取去年数据
+    fetchUpyear(){
+        return req({
+            url: URL_upyear+ '/' + auth.getJgid(),
+            type: 'json',
+            method: 'get',
+            headers:{'x-auth-token':auth.getToken()},
+        })
+    },
+    
     //异步获取多条数据
     async fetchDatanew(params = { page: 1, pageSize: this.state.pagination.pageSize }){     
-        let [one, two] = await Promise.all([this.fetchData(params),this.fetchOK()]);     
-        return {one: one, two: two}
+        let [one, two, three] = await Promise.all([this.fetchData(params),this.fetchOK(),this.fetchUpyear()]);     
+        return {one: one, two: two,three: three}
     },
 
     componentDidMount() {
-        this.setState({ loading: true });       
-        this.fetchDatanew().then(resp=>{ 
-            // console.log("机构ID",auth.getJgid()),  
-            // console.log("数据",resp)                 
+        this.setState({ loading: true });
+        this.fetchDatanew().then(resp=>{    
+          //   console.log("数据",resp)        
             const p = this.state.pagination;
             p.total = resp.one.total > 1000 ? 1000 : resp.one.total;
             p.showTotal = total => {
@@ -327,14 +314,16 @@ const swsjbb = React.createClass({
                 data: resp.one.data,
                 pagination: p,
                 loading: false,
-                checkTJ:resp.two.upyear,
-                usid:resp.one,
-                jg_id:resp.one,  
+                checkTJ:resp.two.data,
+                upyear: resp.three.upyear,
+                
         })
+     
+    
         }) 
         },
-    
-    
+   
+      
 testee(text,record,index){
 
     var that = this;
@@ -345,10 +334,7 @@ function ddd() {
             type: 'json',
             method: 'get'
         }).then(resp => {
-          
-         
-            that.setState({update: !that.state.update,detailHide: true,entity:resp,});
-           
+            that.setState({update: !that.state.update,detailHide: true,entity:resp,});     
         }).fail(err => {
             Modal.error({
                 title: '数据获取错误',
@@ -395,14 +381,15 @@ if(record.ZTBJ=="通过" || record.ZTBJ=="提交"){
 
     render() {
 const column1=[
-        {title: '序号', dataIndex: 'key', key: 'key'},  
-        {title: '年度', dataIndex: 'nd', key: 'nd'},       
-        {title: '法人', dataIndex: 'FRDBXM', key: 'FRDBXM'},  
-        {title: '组织形式', dataIndex: 'JGXZ', key: 'JGXZ'}, 
-        {title: '股东人数', dataIndex: 'CZRS', key: 'CZRS'},  
-        {title: '人员人数', dataIndex: 'RYZS', key: 'RYZS'}, 
-        {title: '执业人数', dataIndex: 'ZYZCSWSRS', key: 'ZYZCSWSRS'}, 
-        {title: '注册资金（单位：万元）', dataIndex: 'ZCZJ', key: 'ZCZJ'},           
+        {title: '序号', dataIndex: 'key', key: 'key'},           
+        {title: '年度', dataIndex: 'nd', key: 'nd'},  
+        {title: '单位名称', dataIndex: 'DWMC', key: 'DWMC'},
+        {title: '汇算清缴户数', dataIndex: 'HSQJJE_HS', key: 'HSQJJE_HS'}, 
+        {title: '汇算清缴金额', dataIndex: 'HSQJJE_JE', key: 'HSQJJE_JE'},  
+        {title: '调增户数', dataIndex: 'TZYNSDSE_HS', key: 'TZYNSDSE_HS'}, 
+        {title: '调增金额', dataIndex: 'TZYNSDSE_JE', key: 'TZYNSDSE_JE'},
+        {title: '调减户数', dataIndex: 'TJYNSDSE_HS', key: 'TJYNSDSE_HS'}, 
+        {title: '调减金额', dataIndex: 'TJYNSDSE_JE', key: 'TJYNSDSE_JE'},                   
         {title: '状态', key: 'ZTBJ', dataIndex: 'ZTBJ'},
        
         {
@@ -413,16 +400,14 @@ const column1=[
         //定义工具栏内容
             var checkTJ = '';
             var d = new Date();
-            var str = (d.getFullYear()-1)
- 
-              if(this.state.checkTJ.length<=0)
+            var str = (d.getFullYear()-1)         
+           if(this.state.checkTJ.length<=0)
             {     checkTJ=true;}
-           else  if (this.state.checkTJ[0].ND==str && this.state.checkTJ[0].TIMEVALUE=="1"){ 
+           else  if (this.state.checkTJ[0].ND == str ){ 
                checkTJ=false;}           
           else {
               checkTJ=true;
-          }; 
-          
+          };
         let toolbar = <ToolBar>
             { this.state.add && <Button onClick={this.handleSearchToggle}>
                 <Icon type="search"/>查询
@@ -435,7 +420,10 @@ const column1=[
                 <Button type="primary" onClick={this.handleRefresh}><Icon type="reload"/></Button>
             </ButtonGroup>
             }
+      
+            
 
+   
        <Button disabled={checkTJ} onClick={this.handleAdd}>
                 <Icon type="primary"  />{this.state.add ? "添加" : "返回"}
                 { this.state.add ? <Icon className="toggle-tip" type="plus-square"  /> :
@@ -446,19 +434,21 @@ const column1=[
 
         //定义提示内容
         let helper = [];
-        helper.push(<p key="helper-0">点击查询结果查看事务所基本情况表明细</p>);
-        helper.push(<p key="helper-1">也可以添加修改和提交事务所基本情况表</p>);
-        helper.push(<p key="helper-2">如果不能添加则要添加财务报表，否则不能添加</p>);
-        return <div className="swsjbb">
+        helper.push(<p key="helper-0">点击查询结果查看鉴证业务情况统计表明细</p>);
+        helper.push(<p key="helper-1">也可以添加修改和提交鉴证业务情况统计表</p>);
+        
+        helper.push(<p key="helper-2">如果不能添加则要先添加事务所基本情况表，否则不能添加</p>);
+         
+        return <div className="client_1-jzywqktjb">
             <div className="wrap">
-                {this.state.helper && <Alert message="事务所基本情况表检索查询帮助"
+                {this.state.helper && <Alert message="鉴证业务情况统计表检索查询帮助"
                     description={helper}
                     type="info"
                     closable
                     onClose={this.handleHelperClose}/>}
 
 
-                <Panel title="事务所基本情况表" toolbar={toolbar}>
+                <Panel title="鉴证业务情况统计表" toolbar={toolbar}>
                     {this.state.searchToggle && <SearchForm
                         onSubmit={this.handleSearchSubmit}/>}
                     { this.state.add &&  <div className="h-scroll-table">
@@ -470,13 +460,13 @@ const column1=[
                             onChange={this.handleChange}
                             onRowClick={this.handleRowClick}/>
                     </div>}
-                    {!this.state.add && <Add onSubmit={this.handleSubmit} handleOk={this.handleOk} data2={this.state.checkTJ} />}
+                    {!this.state.add && <Add onSubmit={this.handleSubmit} handleOk={this.handleOk} data2={this.state.upyear} />}
                     {!this.state.update && <Panel title="修改"  onClose={this.handleDetailClose}
                     closable> 
                     <Update onSubmit={this.handleSubmit1} handleOk={this.handleOk1} data1={this.state.entity} />
                     </Panel>}
                 </Panel>
-                {this.state.detailHide ? null : <Panel title="事务所基本情况表明细"
+                {this.state.detailHide ? null : <Panel title="鉴证业务情况统计表明细"
                     onClose={this.handleDetailClose}
                     closable>
                     <DetailBox data={this.state.entity}/>
@@ -486,4 +476,4 @@ const column1=[
     }
 });
 
-module.exports = swsjbb;
+module.exports = jzywqktjb;
