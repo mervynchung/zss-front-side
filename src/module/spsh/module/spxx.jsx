@@ -1,37 +1,18 @@
 import React from 'react'
-import {Table,Modal,Row,Col,Button,Icon } from 'antd'
+import {Table,Modal,Row,Col,Button,Icon,Spin } from 'antd'
 import {Link} from 'react-router'
 import Panel from 'component/compPanel'
 import auth from 'common/auth'
 import req from 'reqwest';
 import SPTJ from './sptj.jsx';
 import config from 'common/configuration'
-import SearchForm from './searchFormForJG'
+import SearchFormJG from './searchFormForJG'
 
 const API_URL_TJ = config.HOST + config.URI_API_PROJECT + '/spapi/sptj/';
 const API_URL_C = config.HOST + config.URI_API_PROJECT + '/commont/checkisbh/';
 const API_URL_YJ = config.HOST + config.URI_API_PROJECT + '/spapi/sjbhyj/';
 const ToolBar = Panel.ToolBar;
 
-const coumls = [{ //设定列
-  title: '序号', //设定该列名称
-  dataIndex: 'key', //设定该列对应后台字段名
-  key: 'key', //列key，必须设置，建议与字段名相同
-  render(value, row, index) {
-    return {children: index+1};
-  }}, { //设定列
-  title: '事务所名称', //设定该列名称
-  dataIndex: 'dwmc', //设定该列对应后台字段名
-  key: 'dwmc', //列key，必须设置，建议与字段名相同
-}, {
-  title: '审批类型',
-  dataIndex: 'wsxm',
-  key: 'wsxm',
-}, {
-  title: '提交时间',
-  dataIndex: 'tjsj',
-  key: 'tjsj',
-}]
 const wspcx = React.createClass({
 // getDefaultProps(){
 //         return {
@@ -52,18 +33,19 @@ const wspcx = React.createClass({
                 helper: false,
                 entity: [],
                 detailHide:true,
-                dl: '',
                 searchToggle: false,
                 dqlcbz:'',
                 lcbzmx:'', 
+                rowSjid:'',
             }
         },
 
     //点击某行
     handleRowClick(record){
+        this.setState({sloading: true, })
       this.fetchAll(record).then(resp=> {
-                this.setState({entity: resp.data,dl:record,checked: resp.checked,detailHide:false});
-                this.props.getbg(resp.data);
+                this.setState({entity: resp.data,checked: resp.checked,rowSjid:record.id,detailHide:false,sloading: false});
+                this.props.getbg(resp.data,record);
                 if (!resp.checked) {
                    let bz=record.lcbz+1;
                    req({
@@ -81,6 +63,7 @@ const wspcx = React.createClass({
                         <div>
                             <p>无法从服务器返回数据，需检查应用服务工作情况</p>
                             <p>Status: {err.status}</p>
+                            <p>111111</p>
                         </div>  )
                 });
             });
@@ -110,7 +93,7 @@ const wspcx = React.createClass({
       this.setState({submitLoading:true});
           let value = e;
           req({
-                url: API_URL_TJ+this.state.dl.id,
+                url: API_URL_TJ+this.state.rowSjid,
                 type: 'json',
                 method: 'put',
                 data: JSON.stringify(value),
@@ -238,28 +221,15 @@ const wspcx = React.createClass({
         return <div className="wspxm-swszxsp">
             <div className="wrap">
             <Panel title={this.props.titleTop} toolbar={toolbar}>
-                {this.state.searchToggle && <SearchForm onSubmit={this.handleSearchSubmit}/>}
+                {this.state.searchToggle && <SearchFormJG onSubmit={this.handleSearchSubmit} isJG={this.props.isJG}/>}
                 <Table style={{'cursor':'pointer'}} columns={this.props.columns} dataSource={this.state.data} bordered 
                 onChange={this.handleTableChange} pagination={this.state.pagination} loading={this.state.loading} 
                 onRowClick={this.handleRowClick}  />
                 </Panel>
                 {this.state.detailHide ? null : <Panel title={this.props.titleSecond} onClose={this.handleDetailClose} closable>
-                <div className="h-scroll-table" >
+                <Spin spinning={this.state.sloading}><div className="h-scroll-table" >
                         <div className="fix-table table-bordered table-striped">
-                        <h3 style={{'padding':'5px'}}>预警信息：<span style={{'color':'red'}}>{this.state.dl.yjxx}</span></h3>
-                    <table >
-                            <tbody >
-                                  <tr>
-                                      <td ><b>申请单位名称：</b></td>
-                                      <td>{this.state.dl.dwmc}</td>
-                                      </tr>
-                                      <tr>
-                                      <td><b>申请时间：</b></td>
-                                      <td >{this.state.dl.tjsj}</td>
-                                   </tr>
-                                   </tbody>
-                             {bgxmOptions}
-                 </table>
+                        {bgxmOptions}
                <div style={{'padding':'10px'}}>
                        <h3 style={{'backgroundColor':'#fafbfc'}}>流程状态：</h3>
                        <h3 style={{'textAlign':'center','backgroundColor':'#fafbfc'}}>
@@ -270,7 +240,7 @@ const wspcx = React.createClass({
                     <SPTJ onSubmit={this.handleSubmit} loading={this.state.submitLoading} lcbzmx={this.state.lcbzmx}/>
                </Panel>
                    </div>
-               </div>
+               </div></Spin>
                 </Panel>}
             </div>
         </div>
