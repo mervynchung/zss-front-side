@@ -3,7 +3,8 @@
     width:100%;
     height:auto;
     min-height:100%;
-    padding-top:120px
+    padding-top:130px;
+    background:rgba(0, 0, 0, 0) url("../../common/img/signin-bg.jpg") repeat scroll 0 0
 }
 .sign-in:before{
     position: absolute;
@@ -59,4 +60,38 @@
 }
 .sign-in .submit{
     margin-top:32px
+}
+.sign-in .header{
+    position: absolute;
+    top:0;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.8) none repeat scroll 0 0;
+    height: 56px;
+}
+.sign-in .footer{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background: #1c262e none repeat scroll 0 0;
+    height: 100px;
+    text-align: center;
+}
+.sign-in .copyright{
+    margin-top: 24px;
+    color: #ccc;
+    font-size: 14px;
+}
+.sign-in  .logo{
+    position: absolute;
+    left:100px;
+    top:16px;
+}
+.sign-in  .logo i{
+    color:#00A9EB;
+    font-size: 24px;
+}
+.sign-in h1{
+    font-size: 0;
+    background: url("../../common/img/sign-in-header-logo.png") 30px 4px no-repeat;
+    width:300px;
 }

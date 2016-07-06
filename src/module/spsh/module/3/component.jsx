@@ -6,36 +6,49 @@ const wspcx = React.createClass({
       getInitialState(){
                   return {
                     entity:[],
+                    dl: '',
                   }},
-      makebg(data){
-        this.setState({entity:data});
+      makebg(data,rowData){
+        this.setState({entity:data,dl:rowData});
       },
     render(){
         //定义工具栏内容
        const obj = this.state.entity;
-      const bgxmOptions = obj.map(spxm => <tbody key={spxm.ID}>
-                <tr >
-                    <td ><b>申请合并事务所双方名称：</b></td>
-                    <td>{spxm.SFMC}</td> </tr>
-                    <tr >
-                    <td><b>新事务所单位名称：</b></td>
-                    <td >{spxm.XSWSMC}</td>
-                 </tr>
-                    <tr >
-                    <td><b>工商名称预核编号：</b></td>
-                    <td >{spxm.GSMCYHBH}</td>
-                 </tr>
-                    <tr >
-                    <td><b>合并时间：</b></td>
-                    <td >{spxm.HBSJ}</td>
-                 </tr>
-                    <tr >
-                    <td><b>申请人：</b></td>
-                    <td >{spxm.SQR}</td>
-                 </tr></tbody>);
+      const mxbg=<div ><h3 style={{'padding':'5px'}}>预警信息：<span style={{'color':'red'}}>{this.state.dl.yjxx}</span></h3>
+                    <table >
+                            <tbody >
+                                  <tr>
+                                      <td ><b>申请单位名称：</b></td>
+                                      <td>{this.state.dl.dwmc}</td>
+                                      </tr>
+                                      <tr>
+                                      <td><b>申请时间：</b></td>
+                                      <td >{this.state.dl.tjsj}</td>
+                                   </tr>
+                                   <tr >
+                                      <td ><b>申请合并事务所双方名称：</b></td>
+                                      <td>{obj.SFMC}</td> </tr>
+                                      <tr >
+                                      <td><b>新事务所单位名称：</b></td>
+                                      <td >{obj.XSWSMC}</td>
+                                   </tr>
+                                      <tr >
+                                      <td><b>工商名称预核编号：</b></td>
+                                      <td >{obj.GSMCYHBH}</td>
+                                   </tr>
+                                      <tr >
+                                      <td><b>合并时间：</b></td>
+                                      <td >{obj.HBSJ}</td>
+                                   </tr>
+                                      <tr >
+                                      <td><b>申请人：</b></td>
+                                      <td >{obj.SQR}</td>
+                                   </tr>
+                                   </tbody>
+                 </table> </div>
         return <div className="wspxm-spsh">
             <div className="wrap">
-          <SPXX wspcxurl='/spapi/wspcx/3' spmxurl='/spapi/spmxxx/jghbsp' mxbg={bgxmOptions} getbg={this.makebg}
+          <SPXX wspcxurl='/spapi/wspcx/sws/3' spmxurl='/spapi/spmxxx/jghbsp' mxbg={mxbg} getbg={this.makebg}
                           columns={C_JG.jg} titleTop="待审合并申请" titleSecond="合并申请明细"
           />
             </div>

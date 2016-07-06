@@ -164,7 +164,7 @@ const jgcx = React.createClass({
                                </div>
 
                      <Panel ><Tabs type="line" onChange={this.callback}>
-                            <TabPane tab="事务所信息" key="1"><CompBaseTable data = {this.state.dataxx}  model ={Model.data} bordered striped /><p className="nbjgsz">内部机构设置：</p><Table columns={Model.nbjgsz} dataSource={this.state.datalist} bordered  size="small" /></TabPane>
+                            <TabPane tab="事务所信息" key="1"><CompBaseTable data = {this.state.dataxx}  model ={Model.data} bordered striped /><p className="nbjgsz">内部机构设置：</p><Table columns={Model.nbjgsz} dataSource={this.state.datalist} bordered  size="small" pagination={false} /></TabPane>
                             <TabPane tab="执业人员信息" key="2"><Table columns={Model.columnsZyry} dataSource={this.state.datalist} bordered  size="small" /></TabPane>
                            <TabPane tab="从业人员信息" key="3"><Table columns={Model.columnsCyry} dataSource={this.state.datalist} bordered  size="small" /></TabPane>
                            <TabPane tab="出资人列表" key="4"><Table columns={Model.columnsCzrlb} dataSource={this.state.datalist} bordered  size="small" /></TabPane>

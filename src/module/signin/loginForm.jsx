@@ -16,15 +16,15 @@ let loginForm = React.createClass({
     render(){
         const { getFieldProps } = this.props.form;
         return <div className="login-form">
-            <h2>广东注册税务师行业信息化系统</h2>
+            <h2>欢迎来到注师行业信息化系统</h2>
             <h3>系统登录</h3>
             <Form onSubmit={this.handleSubmit}>
                 <FormItem>
-                    <Input placeholder="输入用户名"
+                    <Input placeholder="用户名"
                         {...getFieldProps('username',{initialValue:store.get('uname')})} />
                 </FormItem>
                 <FormItem>
-                    <Input type="password" placeholder="输入密码"
+                    <Input type="password" placeholder="密码"
                         {...getFieldProps('password')} />
                 </FormItem>
 
