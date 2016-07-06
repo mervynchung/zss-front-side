@@ -1,19 +1,9 @@
 import React from 'react'
-import {Row,Col,Form,Button,Input,Modal,DatePicker,Select} from 'antd'
+import {Row,Col,Form,Button,Input} from 'antd'
 import {SelectorCS,SelectorYear} from 'component/compSelector'
 
-const Option = Select.Option;
 const FormItem = Form.Item;
 const createForm = Form.create;
-
-const SelectBoolean = React.createClass({
-    render(){
-        return <Select {...this.props} allowClear>
-            <Option value="1">是</Option>
-            <Option value="0">否</Option>
-        </Select>
-    }
-});
 
 let searchForm = React.createClass({
     getDefaultProps(){
@@ -39,56 +29,35 @@ let searchForm = React.createClass({
         return <div className="search-form">
             <Form horizontal onSubmit={this.handleSubmit} form={this.props.form}>
                 <Row>
-                    <Col span="6">
+                    <Col span="12">
                         <FormItem
                             {...formItemLayout}
-                            label="用户名">
-                            <Input placeholder="用户名" {...getFieldProps('username')}/>
+                            label="客户单位名称">
+                            <Input placeholder="客户单位名称" {...getFieldProps('dwmc')}/>
                         </FormItem>
                     </Col>
-                    <Col span="6">
+                    <Col span="12">
                         <FormItem
                             {...formItemLayout}
-                            label="登录名">
-                            <Input placeholder="登录名" {...getFieldProps('uname')}/>
+                            label="联系人">
+                            <Input placeholder="联系人" {...getFieldProps('lxr')}/>
 
-                        </FormItem>
-                    </Col>
-                    <Col span="6">
-                        <FormItem
-                            {...formItemLayout}
-                            label="账户描述">
-                            <Input placeholder="账户描述" {...getFieldProps('names')}/>
                         </FormItem>
                     </Col>
                 </Row>
                 <Row>
-                    <Col span="6">
+                    <Col span="12">
                         <FormItem
-                            {...formItemLayout}
-                            label="账户有效">
-                            <SelectBoolean {...getFieldProps('accountEnabled')}/>
+                          {...formItemLayout}
+                          label="纳税人识别号">
+                            <Input placeholder="纳税人识别号" {...getFieldProps('nsrsbh')}/>
                         </FormItem>
                     </Col>
-                    <Col span="6">
+                    <Col span="12">
                         <FormItem
-                            {...formItemLayout}
-                            label="账户过期">
-                            <SelectBoolean { ...getFieldProps('accountExpired')}/>
-                        </FormItem>
-                    </Col>
-                    <Col span="6">
-                        <FormItem
-                            {...formItemLayout}
-                            label="账户锁定">
-                            <SelectBoolean { ...getFieldProps('accountLocked')}/>
-                        </FormItem>
-                    </Col>
-                    <Col span="6">
-                        <FormItem
-                            {...formItemLayout}
-                            label="密码过期">
-                            <SelectBoolean { ...getFieldProps('credentialsExpired')}/>
+                          {...formItemLayout}
+                          label="地税纳税人识别号">
+                            <Input placeholder="地税纳税人识别号" {...getFieldProps('nsrsbhdf')}/>
                         </FormItem>
                     </Col>
                 </Row>

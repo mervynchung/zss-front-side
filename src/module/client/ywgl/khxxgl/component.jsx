@@ -43,7 +43,7 @@ const khxxgl = React.createClass({
             helper:false,
             customers: [],
             select: '',
-            where: '',
+            where: {},
             selectedRowKeys: [],
             pagination: {
                 current: 1,
@@ -168,7 +168,7 @@ const khxxgl = React.createClass({
                                dataSource={this.state.customers}
                                pagination={this.state.pagination}
                                onChange={this.handlePageChange}
-                               rowKey={record => record.id}
+                               rowKey={record => record.ID}
                                onRowClick={this.handleRowClick}
                         />
                     </Panel>
