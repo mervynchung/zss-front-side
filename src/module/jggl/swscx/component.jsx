@@ -11,7 +11,6 @@ import {  Input,Table, Icon,Tabs,Button,Row,Col,message }from 'antd'
 const TabPane = Tabs.TabPane;
 const API_URL = config.HOST+config.URI_API_PROJECT + '/jgs';
 const ToolBar = Panel.ToolBar;
-
 const jgcx = React.createClass({
 
     getInitialState() { //初始化State状态，使用传入参数
@@ -142,7 +141,6 @@ const jgcx = React.createClass({
     },
 
     render() {
-       
                  let toolbar = <ToolBar>
                       <Button onClick={this.handleSearchToggle}>
                           <Icon type="search"/>查询

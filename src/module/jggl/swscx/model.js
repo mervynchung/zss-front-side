@@ -1,4 +1,5 @@
 import React from 'react'
+import {  DatePicker,Modal,Form, Input, Select,Table, Icon,Tabs,Button,Row,Col,message }from 'antd'
 const columns = [{ //设定列
   title: '序号', //设定该列名称
   dataIndex: 'xh', //设定该列对应后台字段名
@@ -45,14 +46,7 @@ const columns = [{ //设定列
   sorter: true,
 }, {
   title: '操作',
-  key: 'operation',
-  render(text) {
-    return (
-      <span>
-        <a href="#">打印</a>
-      </span>
-    );
-  }
+  key: 'operation'
 }];
 
 const data = {
