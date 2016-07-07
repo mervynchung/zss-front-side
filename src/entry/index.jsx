@@ -59,7 +59,7 @@ const Index = React.createClass({
                 require('../module/xtgnsz/yhgl'),
 
             //业务管理
-                require('../module/ywgl/ywbbgl'),
+               /* require('../module/ywgl/ywbbgl'),
                 require('../module/ywgl/ywzlgl/sfjeyjgl'),
                 require('../module/ywgl/ywzlgl/ndbtyjgl'),
                 require('../module/ywgl/ywzlgl/ywwtyjgl'),
@@ -135,7 +135,7 @@ const Index = React.createClass({
                 require('../module/client_1/jzywqktjb'),
 
                 //业务管理
-                require('../module/client/ywgl/khxxgl') //客户信息管理
+                require('../module/client/ywgl/khxxgl') //客户信息管理*/
 
             ]
         }, {
