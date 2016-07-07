@@ -97,7 +97,7 @@ const wspcx = React.createClass({
                                    </tbody>
                  </table> 
                 <p className="nbjgsz">个人简介：</p>
-                      <Table columns={ryjl} dataSource={obj.fzjl} bordered  size="small" rowKey={record => record.xxxx} pagination={false} />
+                      <Table columns={ryjl} dataSource={obj.fzjl} bordered  size="small" rowKey={record => record.id} pagination={false} />
                
                 </div>
         return <div className="wspxm-spsh">
