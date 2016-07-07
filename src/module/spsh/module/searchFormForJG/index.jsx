@@ -10,7 +10,8 @@ const createForm = Form.create;
 let searchForm = React.createClass({
     getDefaultProps(){
         return {
-            onSubmit: {}
+            onSubmit: {},
+            isJG:true
         }
     },
     handleReset(e) {
@@ -76,11 +77,15 @@ let searchForm = React.createClass({
             <Form horizontal onSubmit={this.handleSubmit} form={this.props.form}>
                      <Row>
                     <Col span="8">
-                       <FormItem
+                       {this.props.isJG?<FormItem
                           {...formItemLayout}
                           label="事务所名称：">
                             <Input placeholder="事务所名称" {...getFieldProps('dwmc')}/>
-                        </FormItem>
+                        </FormItem>:<FormItem
+                          {...formItemLayout}
+                          label="人员姓名：">
+                            <Input placeholder="人员姓名" {...getFieldProps('xming')}/>
+                        </FormItem>}
                     </Col>
                     <Col span="16">
                         <FormItem

@@ -110,8 +110,10 @@ const Index = React.createClass({
                 //逐级审核
                 require('../module/spsh'),
                 require('../module/spsh/module/2'),
+                require('../module/spsh/module/3'),
                 require('../module/spsh/module/4'),
                 require('../module/spsh/module/5'),
+                require('../module/spsh/module/20'),
 
                 //客户端
                 //机构管理
@@ -126,13 +128,14 @@ const Index = React.createClass({
                 require('../module/client/zcfzb'),
                 require('../module/client/zcmxb'),
 
-                //手动上报报表
+
+                // //手动上报报表
                 require('../module/client_1/swsqkb'),
                 require('../module/client_1/jygmtjb'),
                 require('../module/client_1/jzywqktjb'),
 
                 //业务管理
-              require('../module/client/ywgl/khxxgl') //客户信息管理
+                require('../module/client/ywgl/khxxgl') //客户信息管理
 
             ]
         }, {
