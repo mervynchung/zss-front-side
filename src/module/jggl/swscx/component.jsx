@@ -27,6 +27,7 @@ const jgcx = React.createClass({
             where:{},
             activeKey:"",
       };
+      
     },
 
   handleTableChange(pagination, filters, sorter) {//onChange方法，分页、排序、筛选变化时触发，必须三个参数才能准确获取
