@@ -38,7 +38,7 @@ const wspcx = React.createClass({
                                       <td>{obj.XMING}</td>
                                       <td ><b>工作所在地：</b></td>
                                       <td>{obj.CS}</td>
-                                      <td rowSpan="7">相片位</td>
+                                      <td rowSpan="7" style={{'textAlign':'center'}}>{!obj.XPIAN?"未上传相片":<img src={obj.XPIAN}  width="116px" height="160px"/>}</td>
                                 </tr>
                                 <tr>
                                       <td ><b>性 别：</b></td>
