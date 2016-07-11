@@ -1,50 +1,51 @@
 import React from 'react'
 import SPXX from '../spxx.jsx'
 import C_JG from '../model.js'
-import {  Table }from 'antd'
+import {Table}from 'antd'
 import Panel from 'component/compPanel'
 
 const wspcx = React.createClass({
-      getInitialState(){
+    getInitialState(){
                   return {
                     entity:[],
-                 dl: '',
+                    dl: '',
                   }},
-      makebg(data,rowData){
+
+    makebg(data,rowData){
         this.setState({entity:data,dl:rowData});
       },
+
     render(){
         //定义工具栏内容
        const obj = this.state.entity;
-      const bgxmOptions = obj.map(bgxm => 
+       const bgxmOptions = obj.map(bgxm => 
                 <tr key={bgxm.MC}>
                     <td ><b>变更前{bgxm.MC}：</b></td>
                     <td>{bgxm.JZHI}</td> 
                     <td><b>变更后{bgxm.MC}：</b></td>
                     <td >{bgxm.XZHI}</td>
                  </tr>);
-      const mxbg=<table >
-                            <tbody >
-                                  <tr>
-                                      <td ><b>姓 名：</b></td>
-                                      <td>{this.state.dl.xming}</td>
-                                      <td ><b>所属事务所：</b></td>
-                                      <td>{this.state.dl.dwmc}</td>
-                                      </tr>
-                                      <tr>
-                                      <td ><b>性 别：</b></td>
-                                      <td>{this.state.dl.xb}</td>
-                                      <td><b>身份证号：</b></td>
-                                      <td >{this.state.dl.sfzh}</td>
-                                   </tr>
-                                   {bgxmOptions}
-                                   </tbody>
+       const mxbg=<table >
+                    <tbody >
+                            <tr>
+                                <td ><b>姓 名：</b></td>
+                                <td>{this.state.dl.xming}</td>
+                                <td ><b>所属事务所：</b></td>
+                                <td>{this.state.dl.dwmc}</td>
+                            </tr>
+                            <tr>
+                                <td ><b>性 别：</b></td>
+                                <td>{this.state.dl.xb}</td>
+                                <td><b>身份证号：</b></td>
+                                <td >{this.state.dl.sfzh}</td>
+                            </tr>
+                            {bgxmOptions}
+                            </tbody>
                       </table> 
-        return <div className="wspxm-spsh">
+    return <div className="wspxm-spsh">
             <div className="wrap">
-          <SPXX wspcxurl='/spapi/wspcx/fzy/6' spmxurl='/spapi/spmxxx/zybgsp' mxbg={mxbg} getbg={this.makebg} isJG={false}
-                          columns={C_JG.zy} titleTop="待审非执业税务师备案申请" titleSecond="非执业税务师备案申请明细"
-          />
+                <SPXX wspcxurl='/spapi/wspcx/ry/6' spmxurl='/spapi/spmxxx/zybgsp' mxbg={mxbg} getbg={this.makebg} isJG={false}
+                          columns={C_JG.zy} titleTop="待审执业税务师变更申请" titleSecond="执业税务师变更申请明细"/>
             </div>
         </div>
     }
