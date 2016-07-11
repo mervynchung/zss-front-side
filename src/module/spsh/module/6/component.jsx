@@ -1,7 +1,6 @@
 import React from 'react'
 import SPXX from '../spxx.jsx'
 import C_JG from '../model.js'
-import {Table}from 'antd'
 import Panel from 'component/compPanel'
 
 const wspcx = React.createClass({

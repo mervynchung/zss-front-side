@@ -105,7 +105,7 @@ const wspcx = React.createClass({
             </div>
             return <div className="wspxm-spsh">
                   <div className="wrap">
-                        <SPXX wspcxurl='/spapi/wspcx/ry/20' spmxurl='/spapi/spmxxx/fzyswsba' mxbg={mxbg} getbg={this.makebg} isJG={false}
+                        <SPXX wspcxurl='/spapi/wspcx/ry/20' spmxurl='/spapi/spmxxx/fzyba' mxbg={mxbg} getbg={this.makebg} isJG={false}
                               columns={C_JG.ry} titleTop="待审非执业税务师备案申请" titleSecond="非执业税务师备案申请明细"
                               />
                   </div>
