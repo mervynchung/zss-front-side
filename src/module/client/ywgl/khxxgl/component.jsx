@@ -138,6 +138,10 @@ const khxxgl = React.createClass({
             this.setState({customers:resp.data,where:values, pagination: pager,pageLoading:false})
         })
     },
+    //增加客户信息
+    handleAddCustomer(){
+
+    },
 
 
     render(){
@@ -148,6 +152,10 @@ const khxxgl = React.createClass({
                 { this.state.searchToggle ? <Icon className="toggle-tip" type="circle-o-up"/> :
                     <Icon className="toggle-tip" type="circle-o-down"/>}
             </Button>
+
+            <ButtonGroup>
+                <Button onClick={this.handleAddCustomer}><Icon type="plus"/></Button>
+            </ButtonGroup>
 
             <ButtonGroup>
                 <Button type="primary" onClick={this.handleHelper}><Icon type="question"/></Button>
