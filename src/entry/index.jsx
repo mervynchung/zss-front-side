@@ -18,12 +18,12 @@ const Index = React.createClass({
 
     /*登录校验*/
     requireAuth(nextState, replace){
-        if (!auth.verifyPermission(nextState.location.pathname)) {
+        /*if (!auth.verifyPermission(nextState.location.pathname)) {
             replace({
                 pathname: '/404',
                 state: {nextPathname: nextState.location.pathname}
             })
-        }
+        }*/
         if (!auth.verifyAuth()) {
             replace({
                 pathname: '/signin',
