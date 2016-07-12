@@ -8,10 +8,8 @@ module.exports = {
         })
     },
     childRoutes:[{
-        path:'/new',
-        component:'./new'
-    },{
-        path:'/edit',
-        component:'./edit'
+        path:'new',
+        component:require('./new')
     }]
+
 };

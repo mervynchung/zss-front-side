@@ -1,9 +1,10 @@
 import React from 'react'
 import {Table,Col,Row,Tree,Tabs,Modal,Button,Spin,notification,Icon } from 'antd'
+import {Link} from 'react-router'
 import Panel from 'component/compPanel'
 import config from 'common/configuration'
 import {SelectorDQ,SelectorCS} from 'component/compSelector'
-import SearchForm from './searchForm'
+import SearchForm from './searchForm.jsx'
 import model from './model.jsx'
 import req from 'reqwest'
 import auth from 'common/auth.js'
@@ -159,7 +160,7 @@ const khxxList = React.createClass({
             </Button>
 
             <ButtonGroup>
-                <Button onClick={this.handleAddCustomer}><Icon type="plus"/>添加</Button>
+                <Link to="/ywgl/khxxgl/new"><Button onClick={this.handleAddCustomer}><Icon type="plus"/>添加</Button></Link>
             </ButtonGroup>
 
             <ButtonGroup>
