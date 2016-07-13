@@ -100,21 +100,34 @@ const Index = React.createClass({
                 require('../module/lsjlcx/zyswslsjl/snbdjl'),
                 require('../module/lsjlcx/fzyzjjl'),
                 require('../module/lsjlcx/fzyzxjl'),
-                require('../module/lsjlcx/fzyzzyjl'),
+                require('../module/lsjlcx/fzyzzyjl'),*/
 
 
                 //监督检查
                 require('../module/jdjc/zyswsnjb'),
-                require('../module/jdjc/swsnj'),*/
+                require('../module/jdjc/swsnj'),
 
                 //逐级审核
                 require('../module/spsh'),
+                require('../module/spsh/module/1'),
                 require('../module/spsh/module/2'),
                 require('../module/spsh/module/3'),
                 require('../module/spsh/module/4'),
                 require('../module/spsh/module/5'),
                 require('../module/spsh/module/6'),
+                require('../module/spsh/module/7'),
+                require('../module/spsh/module/8'),
+                require('../module/spsh/module/9'),
+                require('../module/spsh/module/10'),
+                require('../module/spsh/module/11'),
+                require('../module/spsh/module/12'),
+                require('../module/spsh/module/13'),
+                require('../module/spsh/module/14'),
+                require('../module/spsh/module/15'),
                 require('../module/spsh/module/20'),
+                require('../module/spsh/module/43'),
+                require('../module/spsh/module/44'),
+                require('../module/spsh/module/46'),
 
                 //客户端
                 //机构管理

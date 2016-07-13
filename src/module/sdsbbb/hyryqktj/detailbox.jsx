@@ -10,19 +10,19 @@ const detailBox = React.createClass({
         <div className="fix-table table-bordered table-striped">
         <h1 style={{textAlign:'center'}}>{obj.ND}年度执业税务师行业人员情况统计表（表2)</h1>
             <Row className="dt"><Col  span="12">编制地区(单位）：{obj.dwmc}</Col><Col  span="8">上报时间：{obj.sbsj}</Col><Col  span="4">单位：万元、人</Col></Row>
-            <table>
-                <tbody>
+            <table >
+                <tbody style={{'width':'3300px'}}>
                 
                 <tr style={{textAlign:'center'}}>
                     <th rowSpan="3" colSpan="2">项目</th>
-                    <th colSpan="2">人员</th>
+                    <th colSpan="2" style={{'width':'330px'}}>人员</th>
                     <th colSpan="4">学历</th>
                     <th colSpan="4">年龄</th>
                     <th colSpan="2">政治面貌</th>
                     <th colSpan="8">备注</th>
                 </tr>
                  <tr>
-                    <th rowSpan="2">总计</th>
+                    <th rowSpan="2" >总计</th>
                     <th rowSpan="2">其中:女</th>
                     <th rowSpan="2">研宄生及以上</th>
                     <th rowSpan="2">大学本科</th>
