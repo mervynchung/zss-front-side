@@ -116,7 +116,7 @@ let Addjzywqktjb = React.createClass({
                 <tbody>
                     <tr>
                         <td >单位:</td>  
-                        <td> 大信税务师事务所（广州）有限公司</td>                                                                                            
+                        <td>{data[0].DWMC}</td>                                                                                            
                         <td  >  <Col 
                           label="年度：">
                             <SelectorYear  { ...getFieldProps('nd')}/>

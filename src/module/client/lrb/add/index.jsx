@@ -21,7 +21,7 @@ let Addlrb = React.createClass({
             value[key]=null;
         }
     }
-    console.log('收到表单值：', value);
+   // console.log('收到表单值：', value);
     this.props.onSubmit(value);
   },
 
@@ -64,7 +64,7 @@ let Addlrb = React.createClass({
     render() {
         
          const { getFieldProps } = this.props.form;
-       
+         const obj = this.props.data;       
         return <div className="add">
         <div className="fix-table table-bordered table-striped" >
         <Form horizontal onSubmit={this.handleSubmit}>
@@ -84,9 +84,9 @@ let Addlrb = React.createClass({
                 <tbody>
                     <tr>
                         <td>单位：</td>
-                        <td></td>
-                        <td></td>
-                        <td>时间</td>
+                        <td colSpan="2">{obj[0].DWMC}</td>
+                        
+                        <td>年度：</td>
                         <td>  <Col
                          
                           label="年度：">
