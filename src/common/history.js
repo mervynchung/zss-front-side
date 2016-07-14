@@ -1,6 +1,11 @@
 /**
  * Created by ming on 2016/7/13.
  */
-import { createHashHistory } from 'history'
-const history = createHashHistory();
+import {useRouterHistory}  from 'react-router'
+import createHistory from 'history/lib/createBrowserHistory'
+
+const history = useRouterHistory(createHistory)({
+    basename: '/'
+});
+
 module.exports = history;
