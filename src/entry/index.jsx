@@ -60,8 +60,8 @@ const Index = React.createClass({
 
 
 
-
-            //业务管理
+         
+        /*    //业务管理
                 require('../module/ywgl/ywbbgl'),
 
                 require('../module/ywgl/ywzlgl/sfjeyjgl'),
@@ -126,7 +126,7 @@ const Index = React.createClass({
 
 
 
-
+*/
                 //财务报表上传
                 require('../module/client/lrb'),
                 require('../module/client/lrfpb'),
@@ -138,6 +138,8 @@ const Index = React.createClass({
                 require('../module/client_1/swsqkb'),
                 require('../module/client_1/jygmtjb'),
                 require('../module/client_1/jzywqktjb'),
+                require('../module/client_1/hyryqktjb'),
+                require('../module/client_1/jysrqkb'),
 
 
             ]

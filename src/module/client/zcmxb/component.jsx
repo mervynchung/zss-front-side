@@ -7,6 +7,7 @@ import req from 'reqwest';
 import SearchForm from './searchForm'
 import Add from './Add'
 import Update from './Update'
+import auth from 'common/auth'
 import config from 'common/configuration'
 import BaseTable from 'component/compBaseTable'
 import {entityFormat} from 'common/utils'
@@ -101,10 +102,9 @@ const zcmxb = React.createClass({
     //点击提交
     handleOk(e) {
         let vv = e;
-        vv.ztbj = '1';          
-         vv.jg_id = '68';          
+        vv.ztbj = '1';                  
         this.fetchHandle(vv);
-            this.handleAdd();
+        this.handleAdd();
        
        
     },
@@ -114,17 +114,15 @@ const zcmxb = React.createClass({
             type: 'json',
             method: 'post',
             data: JSON.stringify(value),
-            contentType: 'application/json'
-
+            headers:{'x-auth-token':auth.getToken()},
+            contentType:'application/json',            
         }).then(resp => {
             Modal.success({
                 title: '操作成功',
                 content: (
                     <div>
                         <p>操作成功！</p>
-                    </div>),
-             
-                   
+                    </div>),       
             });
         }).fail(err => {
             message.error('Status Code:' + err.status + '  api错误 ')
@@ -135,10 +133,8 @@ const zcmxb = React.createClass({
     handleSubmit(value) {
         let vv = value;
         vv.ztbj = '0';
-        vv.jg_id = '68';
-        this.fetchHandle(vv);
-        
-         this.handleAdd();
+        this.fetchHandle(vv); 
+        this.handleAdd();
        
         
     },
@@ -157,8 +153,8 @@ const zcmxb = React.createClass({
             type: 'json',
             method: 'put',
             data: JSON.stringify(value),
-            contentType: 'application/json'
-
+            headers:{'x-auth-token':auth.getToken()},
+            contentType:'application/json',
         }).then(resp => {
             Modal.success({
                 title: '操作成功',
@@ -231,7 +227,9 @@ const zcmxb = React.createClass({
             url: API_URL,
             type: 'json',
             method: 'get',
-            data: params
+            data: params,
+            headers:{'x-auth-token':auth.getToken()},
+            contentType:'application/json',
         }).then(resp => {
             const p = this.state.pagination;
             p.total = resp.total > 1000 ? 1000 : resp.total;
@@ -381,7 +379,7 @@ const column1=[
                             onChange={this.handleChange}
                             onRowClick={this.handleRowClick}/>
                     </div>}
-                    {!this.state.add && <Add onSubmit={this.handleSubmit} handleOk={this.handleOk} />}
+                    {!this.state.add && <Add onSubmit={this.handleSubmit} handleOk={this.handleOk} data={this.state.data} />}
                     {!this.state.update && <Panel title="修改"  onClose={this.handleDetailClose}
                     closable> 
                     <Update onSubmit={this.handleSubmit1} handleOk={this.handleOk1} data1={this.state.entity} />

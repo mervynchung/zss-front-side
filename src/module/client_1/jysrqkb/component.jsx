@@ -14,24 +14,26 @@ import {entityFormat} from 'common/utils'
 import DetailBox from './detailbox.jsx'
 
 
-const API_URL = config.HOST + config.URI_API_PROJECT + '/add/xjllb';
-const URL = config.HOST + config.URI_API_PROJECT + '/addxjllb';
+const API_URL = config.HOST + config.URI_API_PROJECT + '/add/jysrqkb';
+const URL = config.HOST + config.URI_API_PROJECT + '/addjysrqkb';
+const URL_ok = config.HOST + config.URI_API_PROJECT + '/add/hyryqktjbok';
+const URL_upyear = config.HOST + config.URI_API_PROJECT + '/add/upyear1';
 
 const ToolBar = Panel.ToolBar;
 const ButtonGroup = Button.Group;
 
-function GetDates() {
-            var dates = new Date();
-            var s = dates.getFullYear().toString() + dates.getMonth+1().toString() + dates.getDate().toString();
-
-        }
 
 
-const xjllb = React.createClass({
+
+const jysrqkb = React.createClass({
     //初始化state
     getInitialState() {
         return {
             data: [],
+            datatwo:[],
+             one: [],
+            two: [],
+            three: [],
             pagination: {
                 current: 1,
                 showSizeChanger: true,
@@ -46,7 +48,8 @@ const xjllb = React.createClass({
             where: '',
             helper: false,
             entity: '',
-           
+           checkTJ:[{}],
+            upyear:[{}],
             detailHide: true,
             add: true,
             update: true,
@@ -55,17 +58,28 @@ const xjllb = React.createClass({
     },
 
     //改变页码
-    handleChange(pagination, filters, sorter) {
+        handleChange(pagination, filters, sorter) {
         const pager = this.state.pagination;
         pager.current = pagination.current;
         pager.pageSize = pagination.pageSize;
         this.setState({ pagination: pager, detailHide: true });
 
-        this.fetchData({
+        this.fetchDatanew({
             page: pager.current,
             pageSize: pager.pageSize,
             where: encodeURIComponent(JSON.stringify(this.state.where))
-        })
+        }).then(resp=>{                    
+            const p = this.state.pagination;
+            p.total = resp.one.total > 1000 ? 1000 : resp.one.total;
+            p.showTotal = total => {
+                return `共 ${resp.one.total} 条`                
+            };
+          this.setState({
+                data: resp.one.data,
+                pagination: p,
+                loading: false,                    
+        })     
+        }) ;
     },
 
     //查询按钮
@@ -79,12 +93,23 @@ const xjllb = React.createClass({
         const pager = this.state.pagination;
         pager.current = 1;
         this.setState({ pagination: pager, where: '', detailHide: true,update:true });
-        this.fetchData();
+        this.fetchDatanew().then(resp=>{                    
+            const p = this.state.pagination;
+            p.total = resp.one.total > 1000 ? 1000 : resp.one.total;
+            p.showTotal = total => {
+                return `共 ${resp.one.total} 条`                
+            };
+          this.setState({
+                data: resp.one.data,
+                pagination: p,
+                loading: false,                    
+        })     
+        }) ;
     },
 
     //帮助按钮
     handleHelper() {
-        this.setState({ helper: !this.state.helper })
+        this.setState({ helper: !this.state.helper ,})
     },
     //打开添加表
     handleAdd() {
@@ -106,9 +131,9 @@ const xjllb = React.createClass({
     //点击提交
     handleOk(e) {
         let vv = e;
-        vv.ztbj = '1';       
+        vv.ztbj = '1';                  
         this.fetchHandle(vv);
-         this.handleAdd();
+            this.handleAdd();   
     },
     fetchHandle(value) {
         req({
@@ -117,8 +142,7 @@ const xjllb = React.createClass({
             method: 'post',
             data: JSON.stringify(value),
             headers:{'x-auth-token':auth.getToken()},
-            contentType:'application/json',
-            
+            contentType: 'application/json'
 
         }).then(resp => {
             Modal.success({
@@ -126,7 +150,7 @@ const xjllb = React.createClass({
                 content: (
                     <div>
                         <p>操作成功！</p>
-                    </div>)
+                    </div>),      
             });
         }).fail(err => {
             message.error('Status Code:' + err.status + '  api错误 ')
@@ -136,29 +160,30 @@ const xjllb = React.createClass({
     //点击保存
     handleSubmit(value) {
         let vv = value;
-        vv.ztbj = '0'   
-        this.fetchHandle(vv);     
-        this.handleAdd();
-        
+        vv.ztbj = '0';
+        this.fetchHandle(vv);  
+         this.handleAdd();
        
+        
     },
     
      //点击编辑提交
     handleOk1(e) {
-       let vv = e;      
-        vv.ztbj = '1'     
-         this.fetchHandle1(vv);
-         this.handleUpdate(); 
+       let vv = e;
+        vv.ztbj = '1'
+        this.fetchHandle1(vv);
+        this.handleUpdate();
+      
     },
-    fetchHandle1(value) {
-       
+    fetchHandle1(value) {     
         req({
             url: URL + '/' + value.id,
             type: 'json',
             method: 'put',
             data: JSON.stringify(value),
-             headers:{'x-auth-token':auth.getToken()},
-            contentType:'application/json',
+            headers:{'x-auth-token':auth.getToken()},
+            contentType: 'application/json'
+
         }).then(resp => {
             Modal.success({
                 title: '操作成功',
@@ -176,14 +201,14 @@ const xjllb = React.createClass({
     //点击编辑保存
     handleSubmit1(value) {
         let vv = value;
-        vv.ztbj = '0'
+        vv.ztbj = '0';
         this.fetchHandle1(vv);
         this.handleUpdate();
-       
        
     },
 
     //提交条件查询
+    
     handleSearchSubmit(value) {
         const pager = this.state.pagination;
         pager.current = 1;
@@ -193,9 +218,21 @@ const xjllb = React.createClass({
             where: encodeURIComponent(JSON.stringify(value))
         };
         this.setState({ pagination: pager, where: value });
-        this.fetchData(params);
+        this.fetchDatanew(params).then(resp=>{                    
+            const p = this.state.pagination;
+            p.total = resp.one.total > 1000 ? 1000 : resp.one.total;
+            p.showTotal = total => {
+                return `共 ${resp.one.total} 条`                
+            };
+          this.setState({
+                data: resp.one.data,
+                pagination: p,
+                loading: false,                    
+        })     
+        }) ;
         this.setState({ searchToggle: false })
     },
+
 
     //点击某行
     fetchData2(record) {
@@ -207,7 +244,7 @@ const xjllb = React.createClass({
         }).then(resp => {
             let entity = entityFormat(resp, entityModel);
             this.setState({ entity: entity, detailHide: false });
-           
+            
         }).fail(err => {
             Modal.error({
                 title: '数据获取错误',
@@ -227,43 +264,66 @@ const xjllb = React.createClass({
 
     //通过API获取数据
     fetchData(params = { page: 1, pageSize: this.state.pagination.pageSize }) {
-        this.setState({ loading: true });
-        req({
+       
+        return req({
             url: API_URL,
             type: 'json',
             method: 'get',
             data: params,
             headers:{'x-auth-token':auth.getToken()},
             contentType:'application/json',
-        }).then(resp => {
-            const p = this.state.pagination;
-            p.total = resp.total > 1000 ? 1000 : resp.total;
-            p.showTotal = total => {
-                return `共 ${resp.total} 条`
-            };
-            this.setState({
-                data: resp.data,
-                pagination: p,
-                loading: false
-            })
-        }).fail(err => {
-            this.setState({ loading: false });
-            Modal.error({
-                title: '数据获取错误',
-                content: (
-                    <div>
-                        <p>无法从服务器返回数据，需检查应用服务工作情况</p>
-                        <p>Status: {err.status}</p>
-                    </div>)
-            });
+          
         })
+    },
+        //判断是否可填
+    fetchOK(){
+        return req({
+            url: URL_ok+ '/' + auth.getJgid(),
+            type: 'json',
+            method: 'get',
+            headers:{'x-auth-token':auth.getToken()},
+        })
+    },
+         //获取去年数据
+    fetchUpyear(){
+        return req({
+            url: URL_upyear+ '/' + auth.getJgid(),
+            type: 'json',
+            method: 'get',
+            headers:{'x-auth-token':auth.getToken()},
+        })
+    },
+    
+    //异步获取多条数据
+    async fetchDatanew(params = { page: 1, pageSize: this.state.pagination.pageSize }){     
+        let [one, two, three] = await Promise.all([this.fetchData(params),this.fetchOK(),this.fetchUpyear()]);     
+        return {one: one, two: two,three: three}
     },
 
     componentDidMount() {
-        this.fetchData();
-    },
+        this.setState({ loading: true });
+        this.fetchDatanew().then(resp=>{    
+          //   console.log("数据",resp)        
+            const p = this.state.pagination;
+            p.total = resp.one.total > 1000 ? 1000 : resp.one.total;
+            p.showTotal = total => {
+                return `共 ${resp.one.total} 条`
+                
+            };
+            this.setState({
+                data: resp.one.data,
+                pagination: p,
+                loading: false,
+                checkTJ:resp.two.data,
+                upyear: resp.three.upyear,
+                
+        })
+     
     
-    
+        }) 
+        },
+   
+      
 testee(text,record,index){
 
     var that = this;
@@ -274,9 +334,7 @@ function ddd() {
             type: 'json',
             method: 'get'
         }).then(resp => {
-
-            that.setState({update: !that.state.update,detailHide: true,entity:resp,});
-           
+            that.setState({update: !that.state.update,detailHide: true,entity:resp,});     
         }).fail(err => {
             Modal.error({
                 title: '数据获取错误',
@@ -294,7 +352,7 @@ function look() {
      that.fetchData2(record)
      that.setState({update: true})
 }
-if(record.ZTBJ=="提交"){
+if(record.ZTBJ=="通过" || record.ZTBJ=="提交"){
      return ( <span> 
     <Button disabled size="small" onClick={ddd} >
     
@@ -323,10 +381,12 @@ if(record.ZTBJ=="提交"){
 
     render() {
 const column1=[
-        {title: '序号', dataIndex: 'key', key: 'key'},       
-        {title: '事务所名称', dataIndex: 'DWMC', key: 'DWMC'},
-        {title: '结束时间', dataIndex: 'JSSJ', key: 'JSSJ'},
-        {title: '年度', dataIndex: 'nd', key: 'nd'},
+        {title: '序号', dataIndex: 'key', key: 'key'},           
+        {title: '年度', dataIndex: 'nd', key: 'nd'},  
+        {title: '单位名称', dataIndex: 'DWMC', key: 'DWMC'},
+        {title: '收入总额（单位：万元）', dataIndex: 'SRZE', key: 'SRZE'}, 
+        {title: '支出总额（单位：万元）', dataIndex: 'ZCZE', key: 'ZCZE'},  
+        {title: '利润总额（单位：万元）', dataIndex: 'LRZE', key: 'LRZE'},                      
         {title: '状态', key: 'ZTBJ', dataIndex: 'ZTBJ'},
        
         {
@@ -335,6 +395,16 @@ const column1=[
      render:this.testee,
 } ];
         //定义工具栏内容
+            var checkTJ = '';
+            var d = new Date();
+            var str = (d.getFullYear()-1)         
+           if(this.state.checkTJ.length<=0)
+            {     checkTJ=true;}
+           else  if (this.state.checkTJ[0].ND == str ){ 
+               checkTJ=false;}           
+          else {
+              checkTJ=true;
+          };
         let toolbar = <ToolBar>
             { this.state.add && <Button onClick={this.handleSearchToggle}>
                 <Icon type="search"/>查询
@@ -347,31 +417,35 @@ const column1=[
                 <Button type="primary" onClick={this.handleRefresh}><Icon type="reload"/></Button>
             </ButtonGroup>
             }
+      
+            
 
-
-            <Button onClick={this.handleAdd}>
-                <Icon type="primary"/>{this.state.add ? "添加" : "返回"}
-                { this.state.add ? <Icon className="toggle-tip" type="plus-square"/> :
+   
+       <Button disabled={checkTJ} onClick={this.handleAdd}>
+                <Icon type="primary"  />{this.state.add ? "添加" : "返回"}
+                { this.state.add ? <Icon className="toggle-tip" type="plus-square"  /> :
                     <Icon className="toggle-tip" type="arrow-left"/>}
             </Button>
-            
 
         </ToolBar>;
 
         //定义提示内容
         let helper = [];
-        helper.push(<p key="helper-0">点击查询结果查看现金流量表明细</p>);
-        helper.push(<p key="helper-1">也可以添加修改和提交现金流量表</p>);
-        return <div className="cwbb-lrb">
+        helper.push(<p key="helper-0">点击查询结果查看经营收入统计表明细</p>);
+        helper.push(<p key="helper-1">也可以添加修改和提交经营收入统计表</p>);
+        
+        helper.push(<p key="helper-2">如果不能添加则要先添加事务所基本情况表，否则不能添加</p>);
+         
+        return <div className="client_1-jysrqkb">
             <div className="wrap">
-                {this.state.helper && <Alert message="现金流量表检索查询帮助"
+                {this.state.helper && <Alert message="经营收入统计表检索查询帮助"
                     description={helper}
                     type="info"
                     closable
                     onClose={this.handleHelperClose}/>}
 
 
-                <Panel title="现金流量表" toolbar={toolbar}>
+                <Panel title="经营收入统计表" toolbar={toolbar}>
                     {this.state.searchToggle && <SearchForm
                         onSubmit={this.handleSearchSubmit}/>}
                     { this.state.add &&  <div className="h-scroll-table">
@@ -383,13 +457,13 @@ const column1=[
                             onChange={this.handleChange}
                             onRowClick={this.handleRowClick}/>
                     </div>}
-                    {!this.state.add && <Add onSubmit={this.handleSubmit} handleOk={this.handleOk} data={this.state.data} />}
+                    {!this.state.add && <Add onSubmit={this.handleSubmit} handleOk={this.handleOk} data2={this.state.upyear} />}
                     {!this.state.update && <Panel title="修改"  onClose={this.handleDetailClose}
                     closable> 
                     <Update onSubmit={this.handleSubmit1} handleOk={this.handleOk1} data1={this.state.entity} />
                     </Panel>}
                 </Panel>
-                {this.state.detailHide ? null : <Panel title="现金流量表明细"
+                {this.state.detailHide ? null : <Panel title="经营收入统计表明细"
                     onClose={this.handleDetailClose}
                     closable>
                     <DetailBox data={this.state.entity}/>
@@ -399,4 +473,4 @@ const column1=[
     }
 });
 
-module.exports = xjllb;
+module.exports = jysrqkb;
