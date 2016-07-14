@@ -9,8 +9,6 @@ import model from './model.jsx'
 import req from 'reqwest'
 import auth from 'common/auth.js'
 import {jsonCopy} from 'common/utils.js'
-import history from 'common/history.js'
-import { withRouter } from 'react-router'
 
 const PanelBar = Panel.ToolBar;
 const ButtonGroup = Button.Group;
@@ -147,8 +145,8 @@ const khxxList = React.createClass({
         })
     },
     //增加客户信息
-    handleAddCustomer(){
-       this.props.router.replace('ywgl/khxxgl/new')
+    pageJump(){
+       this.props.onPageJump('new')
     },
 
 
@@ -162,7 +160,7 @@ const khxxList = React.createClass({
             </Button>
 
             <ButtonGroup>
-                <Button onClick={this.handleAddCustomer}><Icon type="plus"/>添加</Button>
+                <Button onClick={this.pageJump}><Icon type="plus"/>添加</Button>
             </ButtonGroup>
 
             <ButtonGroup>
@@ -190,4 +188,4 @@ const khxxList = React.createClass({
     }
 });
 
-module.exports = withRouter(khxxList);
+module.exports = khxxList;
