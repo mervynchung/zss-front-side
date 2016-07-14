@@ -18,12 +18,12 @@ const Index = React.createClass({
 
     /*登录校验*/
     requireAuth(nextState, replace){
-        if (!auth.verifyPermission(nextState.location.pathname)) {
+        /*if (!auth.verifyPermission(nextState.location.pathname)) {
             replace({
                 pathname: '/404',
                 state: {nextPathname: nextState.location.pathname}
             })
-        }
+        }*/
         if (!auth.verifyAuth()) {
             replace({
                 pathname: '/signin',
@@ -59,11 +59,9 @@ const Index = React.createClass({
                 require('../module/xtgnsz/yhgl'),
 
 
+            //业务管理
 
-         
-        /*    //业务管理
                 require('../module/ywgl/ywbbgl'),
-
                 require('../module/ywgl/ywzlgl/sfjeyjgl'),
                 require('../module/ywgl/ywzlgl/ndbtyjgl'),
                 require('../module/ywgl/ywzlgl/ywwtyjgl'),
@@ -114,8 +112,10 @@ const Index = React.createClass({
                 //逐级审核
                 require('../module/spsh'),
                 require('../module/spsh/module/2'),
+                require('../module/spsh/module/3'),
                 require('../module/spsh/module/4'),
                 require('../module/spsh/module/5'),
+                require('../module/spsh/module/20'),
 
                 //客户端
                 //机构管理
@@ -125,8 +125,6 @@ const Index = React.createClass({
 
 
 
-
-*/
                 //财务报表上传
                 require('../module/client/lrb'),
                 require('../module/client/lrfpb'),
@@ -134,13 +132,16 @@ const Index = React.createClass({
                 require('../module/client/zcfzb'),
                 require('../module/client/zcmxb'),
 
-                //手动上报报表
+
+                // //手动上报报表
                 require('../module/client_1/swsqkb'),
                 require('../module/client_1/jygmtjb'),
                 require('../module/client_1/jzywqktjb'),
                 require('../module/client_1/hyryqktjb'),
                 require('../module/client_1/jysrqkb'),
 
+                //业务管理
+                require('../module/client/ywgl/khxxgl') //客户信息管理
 
             ]
         }, {

@@ -1,7 +1,7 @@
-/*事务所变更审批*/
+/*客户信息管理功能*/
 module.exports = {
-    path: 'spsh/module/3',
-    breadcrumbName:'逐级审核 / 待审批事项 / 事务所合并审批',
+    path: '/ywgl/khxxgl',
+    breadcrumbName:'客户信息管理',
     getComponent(location, cb) {
         require.ensure([], (require) => {
             cb(null, require('./component'))

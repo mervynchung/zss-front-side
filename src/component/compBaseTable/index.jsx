@@ -92,12 +92,12 @@ const baseTable = React.createClass({
                     td = [];
                     colCount = 0;
                 }
-                td.push(<td key={'td-k-'+prop.id} className="prop-name">{prop.name}</td>);
+                td.push(<td style={{'width':'200px'}} key={'td-k-'+prop.id} className="prop-name">{prop.name}</td>);
                 td.push(<td key={'td-v-'+prop.id} colSpan={prop.groupspan*2-1}>{this.props.data[prop.id]}</td>);
                 colCount += prop.groupspan
                 //处理非跨列项目
             } else {
-                td.push(<td key={'td-k-'+prop.id} className="prop-name">{prop.name}</td>);
+                td.push(<td key={'td-k-'+prop.id} style={{'width':'200px'}} className="prop-name">{prop.name}</td>);
                 td.push(<td key={'td-v-'+prop.id}>{this.props.data[prop.id]}</td>);
                 colCount += 1;
             }
