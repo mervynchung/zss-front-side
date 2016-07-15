@@ -18,12 +18,12 @@ const Index = React.createClass({
 
     /*登录校验*/
     requireAuth(nextState, replace){
-        if (!auth.verifyPermission(nextState.location.pathname)) {
+        /*if (!auth.verifyPermission(nextState.location.pathname)) {
             replace({
                 pathname: '/404',
                 state: {nextPathname: nextState.location.pathname}
             })
-        }
+        }*/
         if (!auth.verifyAuth()) {
             replace({
                 pathname: '/signin',
@@ -58,8 +58,11 @@ const Index = React.createClass({
                 require('../module/xtgnsz/qxgl'),
                 require('../module/xtgnsz/yhgl'),
 
+
             //业务管理
+
    /*             require('../module/ywgl/ywbbgl'),
+
                 require('../module/ywgl/ywzlgl/sfjeyjgl'),
                 require('../module/ywgl/ywzlgl/ndbtyjgl'),
                 require('../module/ywgl/ywzlgl/ywwtyjgl'),
@@ -136,6 +139,8 @@ const Index = React.createClass({
                 require('../module/client/jggl/swshb'),
                 require('../module/client/swsrygl/zyrygl'),
 
+
+
                 //财务报表上传
                 require('../module/client/lrb'),
                 require('../module/client/lrfpb'),
@@ -148,6 +153,8 @@ const Index = React.createClass({
                 require('../module/client_1/swsqkb'),
                 require('../module/client_1/jygmtjb'),
                 require('../module/client_1/jzywqktjb'),
+                require('../module/client_1/hyryqktjb'),
+                require('../module/client_1/jysrqkb'),
 
                 //业务管理
                 require('../module/client/ywgl/khxxgl') //客户信息管理
