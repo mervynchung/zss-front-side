@@ -6,10 +6,5 @@ module.exports = {
         require.ensure([], (require) => {
             cb(null, require('./component'))
         })
-    },
-    childRoutes:[{
-        path:'new',
-        component:require('./new')
-    }]
-
+    }
 };

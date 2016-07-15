@@ -160,10 +160,6 @@ const khxxList = React.createClass({
             </Button>
 
             <ButtonGroup>
-                <Button onClick={this.pageJump}><Icon type="plus"/>添加</Button>
-            </ButtonGroup>
-
-            <ButtonGroup>
                 <Button type="primary" onClick={this.handleHelper}><Icon type="question"/></Button>
                 <Button type="primary" onClick={this.handleRefresh}><Icon type="reload"/></Button>
             </ButtonGroup>
@@ -172,7 +168,7 @@ const khxxList = React.createClass({
 
 
         return   <Spin spinning={this.state.pageLoading}>
-                    <Panel title="客户信息列表" toolbar={panelBar}>
+                    <Panel title="已有客户列表" toolbar={panelBar}>
                         {this.state.searchToggle && <SearchForm
                             onSubmit={this.handleSearchSubmit}/>}
                         <Table className="outer-border"
