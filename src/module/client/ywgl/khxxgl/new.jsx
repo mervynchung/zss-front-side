@@ -45,7 +45,7 @@ let EditForm = React.createClass({
                     </Col>
                     <Col span="15">
                         <FormItem
-                            labelCol ={{span: 4}} wrapperCol={{span: 16}}
+                            labelCol ={{span: 4}} wrapperCol={{span: 20}}
                             label="单位地址">
                             <Input placeholder="单位地址" {...getFieldProps('DWDZ')}/>
                         </FormItem>
@@ -68,7 +68,7 @@ let EditForm = React.createClass({
                     </Col>
                     <Col span="6">
                         <FormItem
-                            labelCol ={{span: 7}} wrapperCol={{span: 16}}
+                            labelCol ={{span: 8}} wrapperCol={{span: 16}}
                             label="纳税人性质">
                             <SelectNSRXZ  {...getFieldProps('NSRXZ')}/>
                         </FormItem>
