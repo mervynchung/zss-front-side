@@ -84,12 +84,12 @@ const Index = React.createClass({
                 require('../module/sdsbbb/jygmtjb'),
                 require('../module/sdsbbb/swsjbqkb'),
                 require('../module/sdsbbb/hyryqktj'),
-                require('../module/sdsbbb/jysrqktj'),
+                require('../module/sdsbbb/jysrqktj'),*/
                 require('../module/sdsbbb/wsbbbcx'),
 
 
                 //历史记录查询
-                require('../module/lsjlcx/swslsjl/bglsjl'),
+           /*     require('../module/lsjlcx/swslsjl/bglsjl'),
                 require('../module/lsjlcx/swslsjl/yhbsws'),
                 require('../module/lsjlcx/swslsjl/yzxsws'),
                 require('../module/lsjlcx/zyswslsjl/snbgjl'),
@@ -134,13 +134,14 @@ const Index = React.createClass({
                 require('../module/client/jggl/swsbg'),
                 require('../module/client/jggl/swszx'),
                 require('../module/client/jggl/swshb'),
+                require('../module/client/swsrygl/zyrygl'),
 
                 //财务报表上传
-                // require('../module/client/lrb'),
-                // require('../module/client/lrfpb'),
-                // require('../module/client/xjllb'),
-                // require('../module/client/zcfzb'),
-                // require('../module/client/zcmxb'),
+                require('../module/client/lrb'),
+                require('../module/client/lrfpb'),
+                require('../module/client/xjllb'),
+                require('../module/client/zcfzb'),
+                require('../module/client/zcmxb'),
 
 
                 // //手动上报报表
