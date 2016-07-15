@@ -75,9 +75,7 @@ let Updatelrb = React.createClass({
     render() {
          
          const { getFieldProps } = this.props.form;
-         const data = this.props.data1;
-        
-       
+         const data = this.props.data1;  
         return <div className="add">
         <div className="fix-table table-bordered table-striped" >
         <Form horizontal onSubmit={this.handleSubmit}>

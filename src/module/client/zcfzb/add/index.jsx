@@ -44,7 +44,7 @@ let Addzcfzb = React.createClass({
                 }
         
     }
-    console.log('收到表单值：', value);
+
     this.props.onSubmit(value);
   },
 
@@ -95,6 +95,7 @@ let Addzcfzb = React.createClass({
     render() {
         
          const { getFieldProps } = this.props.form;
+         const obj = this.props.data; 
         return <div className="add">
         <div className="fix-table table-bordered table-striped" >
         <Form horizontal onSubmit={this.handleSubmit}>
@@ -111,7 +112,7 @@ let Addzcfzb = React.createClass({
                 </colgroup>
                 <tbody>
                     <tr>
-                        <td colSpan="2">单位： 大信税务师事务所（广州）有限公司</td>
+                        <td colSpan="2">单位： {obj[0].DWMC}</td>
                         
                         <td colSpan="3">统计时间段：
                          <div>
