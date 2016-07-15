@@ -4,19 +4,19 @@ import CompPageHead from 'component/CompPageHead'
 import Panel from 'component/compPanel'
 import {columns,entityModel} from './model'
 import req from 'reqwest';
-import SearchForm from './searchForm'
 import config from 'common/configuration'
 import BaseTable from 'component/compBaseTable'
 import {entityFormat} from 'common/utils'
-import DetailBox from './detailbox.jsx'
 
 
-const API_URL = config.HOST + config.URI_API_PROJECT + '/cwbb/lrb';
+
+
+const API_URL = config.HOST + config.URI_API_PROJECT + '/xttjbb/swsqktj_b';
 const ToolBar = Panel.ToolBar;
 const ButtonGroup = Button.Group;
 
 
-const lrb = React.createClass({
+const swsqktj_b = React.createClass({
     //初始化state
     getInitialState(){
         return {
@@ -29,7 +29,7 @@ const lrb = React.createClass({
                 pageSizeOptions: ['5', '10', '20']
 
             },
-           
+            searchToggle: false,
             detailViewToggle: false,
             where: '',
             helper: false,
@@ -167,10 +167,10 @@ const lrb = React.createClass({
 
         //定义提示内容
         let helper = [];
-        helper.push(<p key="helper-0">点击查询结果查看利润表明细</p>);
-        helper.push(<p key="helper-1">检索功能只显示前1000条记录</p>);
+        helper.push(<p key="helper-0">点击数字可以查看机构详细信息</p>);
+      //  helper.push(<p key="helper-1">检索功能只显示前1000条记录</p>);
 
-        return <div className="cwbb-lrb">
+        return <div className="xttjbb-swsqktj_b">
             <div className="wrap">
                 {this.state.helper && <Alert message="利润表检索查询帮助"
                                              description={helper}
@@ -178,7 +178,7 @@ const lrb = React.createClass({
                                              closable
                                              onClose={this.handleHelperClose}/>}
 
-                <Panel title="利润表" toolbar={toolbar}>
+                <Panel title="事物所情况统计" toolbar={toolbar}>
                     {this.state.searchToggle && <SearchForm
                         onSubmit={this.handleSearchSubmit}/>}
                     <div className="h-scroll-table">
@@ -200,4 +200,4 @@ const lrb = React.createClass({
     }
 });
 
-module.exports = lrb;
+module.exports =swsqktj_b;

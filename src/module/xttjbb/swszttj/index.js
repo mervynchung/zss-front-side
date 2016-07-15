@@ -1,10 +1,11 @@
-/*未上报报表查询*/
+/*税务师状态统计*/
 module.exports = {
-    path: 'cwbb/wsbbb(/)',
-    breadcrumbName:'财务报表-未上报报表查询',
+    path: 'xttjbb/swszttj(/)',
+    breadcrumbName:'报表管理/系统统计报表/税务师状态统计',
     getComponent(location, cb) {
         require.ensure([], (require) => {
             cb(null, require('./component'))
+            
         })
     }
 }
