@@ -17,6 +17,11 @@ const SelectNSRXZ = React.createClass({
 });
 //定义客户信息录入表单
 let EditForm = React.createClass({
+    getInitialState(){
+        return {
+            updating:false
+        }
+    },
     getDefaultProps(){
         return {
             onSubmit: {}
@@ -38,14 +43,14 @@ let EditForm = React.createClass({
                 <Row>
                     <Col span="9">
                         <FormItem
-                            labelCol ={{span: 7}} wrapperCol={{span: 15}}
+                            labelCol={{span: 7}} wrapperCol={{span: 15}}
                             label="单位名称">
                             <Input placeholder="单位名称" {...getFieldProps('DWMC')}/>
                         </FormItem>
                     </Col>
                     <Col span="15">
                         <FormItem
-                            labelCol ={{span: 4}} wrapperCol={{span: 20}}
+                            labelCol={{span: 4}} wrapperCol={{span: 20}}
                             label="单位地址">
                             <Input placeholder="单位地址" {...getFieldProps('DWDZ')}/>
                         </FormItem>
@@ -54,21 +59,21 @@ let EditForm = React.createClass({
                 <Row>
                     <Col span="9">
                         <FormItem
-                            labelCol ={{span: 7}} wrapperCol={{span: 15}}
+                            labelCol={{span: 7}} wrapperCol={{span: 15}}
                             label="纳税人识别号">
                             <Input placeholder="纳税人识别号" {...getFieldProps('NSRSBH')}/>
                         </FormItem>
                     </Col>
                     <Col span="9">
                         <FormItem
-                            labelCol ={{span: 7}} wrapperCol={{span: 15}}
+                            labelCol={{span: 7}} wrapperCol={{span: 15}}
                             label="地税税务登记证号">
                             <Input placeholder="地税税务登记证号" {...getFieldProps('NSRSBHDF')}/>
                         </FormItem>
                     </Col>
                     <Col span="6">
                         <FormItem
-                            labelCol ={{span: 8}} wrapperCol={{span: 16}}
+                            labelCol={{span: 8}} wrapperCol={{span: 16}}
                             label="纳税人性质">
                             <SelectNSRXZ  {...getFieldProps('NSRXZ')}/>
                         </FormItem>
@@ -77,14 +82,14 @@ let EditForm = React.createClass({
                 <Row>
                     <Col span="9">
                         <FormItem
-                            labelCol ={{span: 7}} wrapperCol={{span: 15}}
+                            labelCol={{span: 7}} wrapperCol={{span: 15}}
                             label="联系人">
                             <Input placeholder="联系人" {...getFieldProps('LXR')}/>
                         </FormItem>
                     </Col>
                     <Col span="9">
                         <FormItem
-                            labelCol ={{span: 7}} wrapperCol={{span: 15}}
+                            labelCol={{span: 7}} wrapperCol={{span: 15}}
                             label="联系电话">
                             <Input placeholder="联系电话" {...getFieldProps('LXDH')}/>
                         </FormItem>
@@ -92,10 +97,14 @@ let EditForm = React.createClass({
                 </Row>
 
 
-
                 <Row>
                     <Col span="24">
-                        <Button type="primary" htmlType="submit" style={{float:'right'}}>保存</Button>
+                        <Button
+                            type="primary"
+                            htmlType="submit"
+                            style={{float:'right'}}
+                            size="large"
+                            loading={this.state.updating}>保存</Button>
                     </Col>
                 </Row>
             </Form>
