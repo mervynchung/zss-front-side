@@ -1,0 +1,12 @@
+.wsbbbcx .fix-table td {
+    text-align: center;
+}
+.wsbbbcx .fix-table td:first-child {
+    text-align: left;
+}
+.wsbbbcx .sm {
+	padding: 20px;
+}
+.wsbbbcx .dt {
+	padding: 10px;
+}
