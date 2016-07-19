@@ -9,11 +9,19 @@ import './style.css'
 
 //客户信息
 const khxxgl = React.createClass({
-    render(){
+    getInitialState(){
+        return {
+            isSaved:false
+        }
+    },
+    handleEditSave(boolean){
+        this.setState({isSaved:true})
+    },
 
+    render(){
         return <div className="khxxgl">
             <div className="wrap">
-                <KhxxNew />
+                <KhxxNew onSaved={this.handleEditSave} />
                 <KhxxList />
             </div>
         </div>
