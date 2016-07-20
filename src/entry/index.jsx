@@ -61,7 +61,7 @@ const Index = React.createClass({
 
             //业务管理
 
-   /*             require('../module/ywgl/ywbbgl'),
+                require('../module/ywgl/ywbbgl'),
 
                 require('../module/ywgl/ywzlgl/sfjeyjgl'),
                 require('../module/ywgl/ywzlgl/ndbtyjgl'),
@@ -87,12 +87,12 @@ const Index = React.createClass({
                 require('../module/sdsbbb/jygmtjb'),
                 require('../module/sdsbbb/swsjbqkb'),
                 require('../module/sdsbbb/hyryqktj'),
-                require('../module/sdsbbb/jysrqktj'),*/
+                require('../module/sdsbbb/jysrqktj'),
                 require('../module/sdsbbb/wsbbbcx'),
 
 
                 //历史记录查询
-           /*     require('../module/lsjlcx/swslsjl/bglsjl'),
+                require('../module/lsjlcx/swslsjl/bglsjl'),
                 require('../module/lsjlcx/swslsjl/yhbsws'),
                 require('../module/lsjlcx/swslsjl/yzxsws'),
                 require('../module/lsjlcx/zyswslsjl/snbgjl'),
@@ -103,7 +103,7 @@ const Index = React.createClass({
                 require('../module/lsjlcx/zyswslsjl/snbdjl'),
                 require('../module/lsjlcx/fzyzjjl'),
                 require('../module/lsjlcx/fzyzxjl'),
-                require('../module/lsjlcx/fzyzzyjl'),*/
+                require('../module/lsjlcx/fzyzzyjl'),
 
 
                 //监督检查
