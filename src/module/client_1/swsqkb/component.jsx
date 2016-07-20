@@ -236,7 +236,9 @@ const swsjbb = React.createClass({
         req({
             url: API_URL + '/' + record.id,
             type: 'json',
-            method: 'get'
+            method: 'get',
+            headers:{'x-auth-token':auth.getToken()},
+            contentType: 'application/json',
         }).then(resp => {
             let entity = entityFormat(resp, entityModel);
             this.setState({ entity: entity, detailHide: false });
@@ -300,7 +302,7 @@ const swsjbb = React.createClass({
             url: URL_ok + '/' + auth.getJgid(),
             type: 'json',
             method: 'get',
-             headers:{'x-auth-token':auth.getToken()},
+            headers:{'x-auth-token':auth.getToken()},
         }
         )
           
@@ -343,12 +345,11 @@ function ddd() {
      req({
             url: API_URL + '/' + record.id,
             type: 'json',
-            method: 'get'
+            method: 'get',
+            headers:{'x-auth-token':auth.getToken()},
+            contentType: 'application/json',
         }).then(resp => {
-          
-         
-            that.setState({update: !that.state.update,detailHide: true,entity:resp,});
-           
+            that.setState({update: !that.state.update,detailHide: true,entity:resp,});         
         }).fail(err => {
             Modal.error({
                 title: '数据获取错误',

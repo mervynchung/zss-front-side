@@ -201,9 +201,7 @@ let Updateswsjbb = React.createClass({
                                                  <p>提交后就不能修改了！！！</p>                             
                                         </Modal>
                         </td>
-                      <td  colSpan="3" style={{textAlign:'center'}}> 
-                        <Button type="primary" onClick={this.handleReset}><Icon type="cross"/>重置</Button>
-                      </td>
+                     
                       
                       
                     </tr>

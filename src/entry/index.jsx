@@ -61,7 +61,7 @@ const Index = React.createClass({
 
             //业务管理
 
-               require('../module/ywgl/ywbbgl'),
+           /*    require('../module/ywgl/ywbbgl'),
                 require('../module/ywgl/ywzlgl/sfjeyjgl'),
                 require('../module/ywgl/ywzlgl/ndbtyjgl'),
                 require('../module/ywgl/ywzlgl/ywwtyjgl'),
@@ -70,7 +70,7 @@ const Index = React.createClass({
                 //会员会费管理
                 require('../module/hyhfgl/hfjlqk'),
                 require('../module/hyhfgl/grhyhfgl'),
-                require('../module/hyhfgl/fzyhyhfgl'),
+                require('../module/hyhfgl/fzyhyhfgl'),*/
 
                 //财务报表
                 require('../module/cwbb/lrfpb'),
@@ -82,7 +82,7 @@ const Index = React.createClass({
 
 
                 //手动上报报表
-                require('../module/sdsbbb/jzywtjb'),
+           /*     require('../module/sdsbbb/jzywtjb'),
                 require('../module/sdsbbb/jygmtjb'),
                 require('../module/sdsbbb/swsjbqkb'),
                 require('../module/sdsbbb/hyryqktj'),
@@ -121,7 +121,7 @@ const Index = React.createClass({
                 //机构管理
                 require('../module/client/jggl/swsbg'),
                 require('../module/client/jggl/swszx'),
-                require('../module/client/jggl/swshb'),
+                require('../module/client/jggl/swshb'),*/
 
 
 
@@ -138,7 +138,10 @@ const Index = React.createClass({
                 require('../module/client_1/jygmtjb'),
                 require('../module/client_1/jzywqktjb'),
                 require('../module/client_1/hyryqktjb'),
-                require('../module/client_1/jysrqkb'),
+                require('../module/client_1/jysrqkb'),  
+                
+                //系统数据分析
+                require('../module/xtsjfx/jgnjsjfxb'),
 
                 //业务管理
                 require('../module/client/ywgl/khxxgl') //客户信息管理

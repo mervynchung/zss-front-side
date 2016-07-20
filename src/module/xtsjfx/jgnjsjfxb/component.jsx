@@ -1,19 +1,21 @@
 import React from 'react'
 import {Table,Modal,Row,Col,Button,Icon,Alert} from 'antd'
+import CompPageHead from 'component/CompPageHead'
 import Panel from 'component/compPanel'
-import {columns} from './model'
+import {model,entityModel} from './model'
 import req from 'reqwest';
 import auth from 'common/auth'
 import SearchForm from './searchForm'
 import config from 'common/configuration'
 
 
-const API_URL = config.HOST + config.URI_API_PROJECT + '/wsbbb';
+
+const API_URL = config.HOST + config.URI_API_PROJECT + '/jgnjsjfxb';
 const ToolBar = Panel.ToolBar;
 const ButtonGroup = Button.Group;
 
 
-const wsbbb = React.createClass({
+const lrfpb = React.createClass({
     //初始化state
     getInitialState(){
         return {
@@ -21,7 +23,7 @@ const wsbbb = React.createClass({
             pagination: {
                 current: 1,
                 showSizeChanger: true,
-                pageSize: 5,
+                pageSize: 10,
                 showQuickJumper: true,
                 pageSizeOptions: ['5', '10', '20']
                  },
@@ -82,7 +84,7 @@ const wsbbb = React.createClass({
             headers:{'x-auth-token':auth.getToken()},
             contentType: 'application/json'
         }).then(resp=> {
-            console.log("zhi",resp)
+            
             const p = this.state.pagination;
             p.total = resp.total > 1000 ? 1000 : resp.total;
             p.showTotal = total => {
@@ -122,32 +124,32 @@ const wsbbb = React.createClass({
 
         //定义提示内容
         let helper = [];
-        helper.push(<p key="helper-0">选择报表类型和年度，<b>点击查询按钮</b>，查看该类报表当年度未上报报表事务所及其信息</p>);
-        helper.push(<p key="helper-1">系统默认选择当前时间应上报报表年度，默认类型为利润表</p>);
+        helper.push(<p key="helper-0">选择相应的年度，<b>点击查询按钮</b>，查看机构年检数据分析表</p>);
+        helper.push(<p key="helper-1">可以按照年份来查看每年的数据分析情况</p>);
 
         return <div className="cwbb-wsbbb">
             <div className="wrap">
-                {this.state.helper && <Alert message="未上报报表查询帮助"
+                {this.state.helper && <Alert message="机构年检查询帮助"
                                              description={helper}
                                              type="info"
                                              closable
                                              onClose={this.handleHelperClose}/>}
 
-                <Panel title="事务所基本情况表" toolbar={toolbar}>
+                <Panel title="机构年检数据分析表" toolbar={toolbar}>
                     {this.state.searchToggle && <SearchForm
                         onSubmit={this.handleSearchSubmit}/>}
                     <div className="h-scroll-table">
-                      {this.state.tables && <Table columns={columns}
+                      {this.state.tables && <Table columns={model}
                                dataSource={this.state.data}
                                pagination={this.state.pagination}
                                loading={this.state.loading}
-                               onChange={this.handleChange} />}
+                               onChange={this.handleChange} 
+                               bordered />}
                     </div>
-                </Panel>
+                </Panel> 
             </div>
         </div>
     }
 });
 
-module.exports = wsbbb;
-  
+module.exports = lrfpb;
