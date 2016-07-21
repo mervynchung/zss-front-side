@@ -59,7 +59,7 @@ const Index = React.createClass({
                 require('../module/xtgnsz/yhgl'),
 
 
-            //业务管理
+           //业务管理
                 require('../module/ywgl/ywbbgl'),
                 require('../module/ywgl/ywzlgl/sfjeyjgl'),
                 require('../module/ywgl/ywzlgl/ndbtyjgl'),
@@ -89,7 +89,7 @@ const Index = React.createClass({
                 require('../module/sdsbbb/wsbbbcx'),
 
 
-                //历史记录查询
+             //历史记录查询
                 require('../module/lsjlcx/swslsjl/bglsjl'),
                 require('../module/lsjlcx/swslsjl/yhbsws'),
                 require('../module/lsjlcx/swslsjl/yzxsws'),
@@ -108,7 +108,7 @@ const Index = React.createClass({
                 require('../module/jdjc/zyswsnjb'),
                 require('../module/jdjc/swsnj'),
 
-                //逐级审核
+               //逐级审核
                 require('../module/spsh'),
                 require('../module/spsh/module/1'),
                 require('../module/spsh/module/2'),
@@ -141,19 +141,19 @@ const Index = React.createClass({
 
 
                 //财务报表上传
-                require('../module/client/lrb'),
-                require('../module/client/lrfpb'),
-                require('../module/client/xjllb'),
-                require('../module/client/zcfzb'),
-                require('../module/client/zcmxb'),
+                require('../module/client/cwbb/lrb'),
+                require('../module/client/cwbb/lrfpb'),
+                require('../module/client/cwbb/xjllb'),
+                require('../module/client/cwbb/zcfzb'),
+                require('../module/client/cwbb/zcmxb'),
 
 
                 // //手动上报报表
-                require('../module/client_1/swsqkb'),
-                require('../module/client_1/jygmtjb'),
-                require('../module/client_1/jzywqktjb'),
-                require('../module/client_1/hyryqktjb'),
-                require('../module/client_1/jysrqkb'),  
+                require('../module/client/sdsb/swsqkb'),
+                require('../module/client/sdsb/jygmtjb'),
+                require('../module/client/sdsb/jzywqktjb'),
+                require('../module/client/sdsb/hyryqktjb'),
+                require('../module/client/sdsb/jysrqkb'),  
                 
                 //系统数据分析
                 require('../module/xtsjfx/jgnjsjfxb'),
