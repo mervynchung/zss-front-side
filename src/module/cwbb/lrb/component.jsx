@@ -4,6 +4,7 @@ import CompPageHead from 'component/CompPageHead'
 import Panel from 'component/compPanel'
 import {columns,entityModel} from './model'
 import req from 'reqwest';
+import auth from 'common/auth'
 import SearchForm from './searchForm'
 import config from 'common/configuration'
 import BaseTable from 'component/compBaseTable'
@@ -93,7 +94,9 @@ const lrb = React.createClass({
         req({
             url: API_URL + '/' + record.id,
             type: 'json',
-            method: 'get'
+            method: 'get',
+            headers:{'x-auth-token':auth.getToken()},
+            contentType: 'application/json'
         }).then(resp=> {
             let entity = entityFormat(resp,entityModel);
             this.setState({entity: entity,detailHide:false});
@@ -121,7 +124,8 @@ const lrb = React.createClass({
             type: 'json',
             method: 'get',
             data: params,
-            contentType: 'application/json'
+             headers:{'x-auth-token':auth.getToken()},
+            contentType: 'application/json'          
         }).then(resp=> {
             const p = this.state.pagination;
             p.total = resp.total > 1000 ? 1000 : resp.total;
