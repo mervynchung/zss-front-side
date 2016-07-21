@@ -48,7 +48,7 @@ const wspcx = React.createClass({
                  </table> </div>
         return <div className="wspxm-spsh">
             <div className="wrap">
-          <SPXX wspcxurl='/spapi/wspcx/sws/3' spmxurl='/spapi/spmxxx/jghbsp' mxbg={mxbg} getbg={this.makebg}
+          <SPXX wspcxurl='/spapi/wspcx/jg/3' spmxurl='/spapi/spmxxx/jghbsp' mxbg={mxbg} getbg={this.makebg}
                           columns={C_JG.jg} titleTop="待审合并申请" titleSecond="合并申请明细"
           />
             </div>

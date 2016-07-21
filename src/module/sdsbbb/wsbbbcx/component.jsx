@@ -1,7 +1,6 @@
 import React from 'react'
 import {Table,Modal,Row,Col,Button,Icon,Alert} from 'antd'
 import Panel from 'component/compPanel'
-import {columns} from './model'
 import req from 'reqwest';
 import SearchForm from './searchForm'
 import config from 'common/configuration'
@@ -65,7 +64,7 @@ const lrb = React.createClass({
             pagesize: pager.pageSize,
             where: encodeURIComponent(JSON.stringify(value))
         };
-        this.setState({pagination: pager, where: value});
+        this.setState({pagination: pager, where: value,bblx:value.bblx,sloading:true});
         this.fetchData(params)
     },
 
@@ -89,6 +88,7 @@ const lrb = React.createClass({
                 pagination: p,
                 loading: false,
                 tables:true,
+                sloading:false
             })
         }).fail(err=> {
             this.setState({loading: false});
@@ -105,6 +105,34 @@ const lrb = React.createClass({
 
 
     render(){
+        var that=this
+        const columns=[
+             {title: '序号', dataIndex: 'key', key: 'key'},
+        {title: '报表年度', dataIndex: 'nd', key: 'nd'},
+        {title: '事务所名称', dataIndex: 'dwmc', key: 'dwmc'},
+        {title: '证书编号', key: 'zsbh', dataIndex: 'zsbh'},
+        {title: '城市', key: 'cs', dataIndex: 'cs'},
+        {title: '联系电话', key: 'dhhm', dataIndex: 'dhhm'},
+        {title: '通讯员姓名', key: 'txyxm', dataIndex: 'txyxm'},
+        {title: '通讯员联系电话', key: 'txyyddh', dataIndex: 'txyyddh'},
+        {title: '上报状态', key: 'sbzt', dataIndex: 'sbzt'},
+        {title: '报表类型',
+            key: 'operation',
+              render(text, row, index) {
+                switch(that.state.bblx){
+                    case "0":
+                        return <p>事务所情况统计表1</p>;
+                    case "1":
+                        return <p>行业人员情况统计表2</p>;
+                    case "2":
+                        return <p>经营收入统计表4</p>;
+                    case "3":
+                        return <p>经营规模统计表5</p>;
+                    case "4":
+                        return <p>鉴证业务情况统计表6</p>;
+                }
+              }}
+    ]
         //定义工具栏内容
         let toolbar = <ToolBar>
 
@@ -128,7 +156,7 @@ const lrb = React.createClass({
 
                 <Panel title="事务所基本情况表" toolbar={toolbar}>
                     {this.state.searchToggle && <SearchForm
-                        onSubmit={this.handleSearchSubmit}/>}
+                        onSubmit={this.handleSearchSubmit} loading={this.state.sloading}/>}
                     <div className="h-scroll-table">
                       {this.state.tables && <Table columns={columns}
                                dataSource={this.state.data}

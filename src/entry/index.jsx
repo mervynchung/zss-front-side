@@ -60,8 +60,7 @@ const Index = React.createClass({
 
 
             //业务管理
-
-           /*    require('../module/ywgl/ywbbgl'),
+                require('../module/ywgl/ywbbgl'),
                 require('../module/ywgl/ywzlgl/sfjeyjgl'),
                 require('../module/ywgl/ywzlgl/ndbtyjgl'),
                 require('../module/ywgl/ywzlgl/ywwtyjgl'),
@@ -70,7 +69,7 @@ const Index = React.createClass({
                 //会员会费管理
                 require('../module/hyhfgl/hfjlqk'),
                 require('../module/hyhfgl/grhyhfgl'),
-                require('../module/hyhfgl/fzyhyhfgl'),*/
+                require('../module/hyhfgl/fzyhyhfgl'),
 
                 //财务报表
                 require('../module/cwbb/lrfpb'),
@@ -82,7 +81,7 @@ const Index = React.createClass({
 
 
                 //手动上报报表
-           /*     require('../module/sdsbbb/jzywtjb'),
+                require('../module/sdsbbb/jzywtjb'),
                 require('../module/sdsbbb/jygmtjb'),
                 require('../module/sdsbbb/swsjbqkb'),
                 require('../module/sdsbbb/hyryqktj'),
@@ -111,17 +110,33 @@ const Index = React.createClass({
 
                 //逐级审核
                 require('../module/spsh'),
+                require('../module/spsh/module/1'),
                 require('../module/spsh/module/2'),
                 require('../module/spsh/module/3'),
                 require('../module/spsh/module/4'),
                 require('../module/spsh/module/5'),
+                require('../module/spsh/module/6'),
+                require('../module/spsh/module/7'),
+                require('../module/spsh/module/8'),
+                require('../module/spsh/module/9'),
+                require('../module/spsh/module/10'),
+                require('../module/spsh/module/11'),
+                require('../module/spsh/module/12'),
+                require('../module/spsh/module/13'),
+                require('../module/spsh/module/14'),
+                require('../module/spsh/module/15'),
                 require('../module/spsh/module/20'),
+                require('../module/spsh/module/43'),
+                require('../module/spsh/module/44'),
+                require('../module/spsh/module/46'),
 
                 //客户端
                 //机构管理
                 require('../module/client/jggl/swsbg'),
                 require('../module/client/jggl/swszx'),
-                require('../module/client/jggl/swshb'),*/
+                require('../module/client/jggl/swshb'),
+                require('../module/client/swsrygl/zyrygl'),
+
 
 
 
