@@ -11,18 +11,25 @@ import './style.css'
 const khxxgl = React.createClass({
     getInitialState(){
         return {
-            isSaved:false
+            isSaved:false,
+            entity:{}
         }
     },
     handleEditSave(boolean){
         this.setState({isSaved:true})
     },
+    handleEdit(record){
+        this.setState({entity:record})
+    },
+    handleDel(record){
+      console.log('gldel',record)
+    },
 
     render(){
         return <div className="khxxgl">
             <div className="wrap">
-                <KhxxNew onSaved={this.handleEditSave} />
-                <KhxxList />
+                <KhxxNew onSaved={this.handleEditSave} data={this.state.entity} />
+                <KhxxList onEdit={this.handleEdit} onDel={this.handleDel}/>
             </div>
         </div>
     }

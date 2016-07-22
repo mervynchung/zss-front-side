@@ -4,6 +4,7 @@ import {Button,Icon,Form,Input,notification,Select,Row,Col} from 'antd';
 import config from 'common/configuration'
 import auth from 'common/auth'
 import req from 'reqwest'
+import utils from 'common/utils'
 
 const Option = Select.Option;
 const FormItem = Form.Item;
@@ -19,9 +20,9 @@ const addCustomers = function (param) {
         url: CUSTOMER_URL,
         method: 'post',
         type: 'json',
-        contentType:'application/json',
+        contentType: 'application/json',
         data: JSON.stringify(param),
-        headers:{'x-auth-token':token}
+        headers: {'x-auth-token': token}
     })
 };
 
@@ -55,35 +56,42 @@ let EditForm = React.createClass({
     },
     handleSubmit(e){
         e.preventDefault();
-        this.props.form.validateFieldsAndScroll((errors, values) => {
+        this.props.form.validateFieldsAndScroll({ scroll: { offsetTop: 84 } },(errors, values) => {
             if (!!errors) {
-                console.log('Errors in form!!!');
                 return;
             }
-            console.log('Submit!!!');
-            console.log(values);
+            let value = this.props.form.getFieldsValue();
+            console.log('orginal', value);
+            value = utils.transEmpty2Null(value);
+            console.log('trans',value);
+
+            value.JG_ID = JG_ID;
+            addCustomers(value).then(resp=> {
+                this.setFinished(true);
+                this.props.form.resetFields();
+                notification.success({
+                    duration: 2,
+                    message: '操作成功',
+                    description: '新的客户信息已添加'
+                });
+            }).fail(e=> {
+                notification.error({
+                    duration: 2,
+                    message: '操作失败',
+                    description: '可能网络访问原因，请稍后尝试'
+                });
+            });
         })
-        let value = this.props.form.getFieldsValue();
-        value.JG_ID = JG_ID;
-        addCustomers(value).then(resp=>{
-            this.setFinished(true);
-            this.props.form.resetFields();
-            notification.success({
-                duration: 2,
-                message: '操作成功',
-                description: '新的客户信息已添加'
-            });
-        }).fail(e=>{
-            notification.error({
-                duration: 2,
-                message: '操作失败',
-                description: '可能网络访问原因，请稍后尝试'
-            });
-        });
+
     },
     render(){
         let title = '新增客户信息';
         const { getFieldProps } = this.props.form;
+        const dwmcProps = getFieldProps('DWMC', {
+            rules: [
+                {required: true, whitespace: true, message: '请填写客户单位名称'}
+            ]
+        });
         return <Panel title={title}>
             <div className="new-form">
                 <Form horizontal onSubmit={this.handleSubmit} form={this.props.form}>
@@ -92,8 +100,8 @@ let EditForm = React.createClass({
                             <FormItem
                                 labelCol={{span: 7}} wrapperCol={{span: 15}}
                                 label="单位名称"
-                                required = {true}>
-                                <Input placeholder="单位名称" {...getFieldProps('DWMC')}/>
+                                required={true}>
+                                <Input placeholder="单位名称" {...dwmcProps}/>
                             </FormItem>
                         </Col>
                         <Col span="15">
@@ -158,6 +166,14 @@ let EditForm = React.createClass({
         </Panel>
     }
 });
-EditForm = createForm()(EditForm);
+EditForm = createForm({
+    mapPropsToFields(props) {
+        let result = {};
+        for (let prop in props.data) {
+            result[prop] = {value: props.data[prop]}
+        }
+        return result;
+    }
+})(EditForm);
 
 module.exports = EditForm;

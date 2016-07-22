@@ -111,7 +111,7 @@ const khxxList = React.createClass({
                 return `共 ${resp.total} 条，显示前 ${total} 条`
             };
             pager.current = 1;
-            this.setState({users: resp.data, where:'', pagination: pager});
+            this.setState({customers: resp.data, where:'', pagination: pager});
         });
     },
 
@@ -151,6 +151,10 @@ const khxxList = React.createClass({
 
 
     render(){
+        //配置修改动作对应的方法
+        model.setEdit(this.props.onEdit);
+        //配置删除动作对应的方法
+        model.setDel(this.props.onDel);
 
         const panelBar = <PanelBar>
             <Button onClick={this.handleSearchToggle}>
