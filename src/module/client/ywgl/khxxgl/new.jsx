@@ -14,11 +14,22 @@ const token = auth.getToken();
 const JG_ID = auth.getJgid();
 const CUSTOMER_URL = config.HOST + config.URI_API_PROJECT + '/customers';
 
-//获取客户信息列表
+//新增客户信息
 const addCustomers = function (param) {
     return req({
         url: CUSTOMER_URL,
         method: 'post',
+        type: 'json',
+        contentType: 'application/json',
+        data: JSON.stringify(param),
+        headers: {'x-auth-token': token}
+    })
+};
+//修改客户信息
+const updateCustomer = function(param){
+    return req({
+        url: CUSTOMER_URL+'/'+param.ID,
+        method: 'put',
         type: 'json',
         contentType: 'application/json',
         data: JSON.stringify(param),
@@ -56,15 +67,16 @@ let EditForm = React.createClass({
     },
     handleSubmit(e){
         e.preventDefault();
+        let ajaxAction = addCustomers;
+        if(this.props.type=='edit'){
+            ajaxAction = updateCustomer;
+        }
         this.props.form.validateFieldsAndScroll({ scroll: { offsetTop: 84 } },(errors, values) => {
             if (!!errors) {
                 return;
             }
             let value = this.props.form.getFieldsValue();
-            console.log('orginal', value);
             value = utils.transEmpty2Null(value);
-            console.log('trans',value);
-
             value.JG_ID = JG_ID;
             addCustomers(value).then(resp=> {
                 this.setFinished(true);
@@ -72,7 +84,7 @@ let EditForm = React.createClass({
                 notification.success({
                     duration: 2,
                     message: '操作成功',
-                    description: '新的客户信息已添加'
+                    description: '客户信息已保存'
                 });
             }).fail(e=> {
                 notification.error({

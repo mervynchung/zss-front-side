@@ -12,7 +12,8 @@ const khxxgl = React.createClass({
     getInitialState(){
         return {
             isSaved:false,
-            entity:{}
+            entity:{},
+            type:'new'
         }
     },
     handleEditSave(boolean){
@@ -28,7 +29,9 @@ const khxxgl = React.createClass({
     render(){
         return <div className="khxxgl">
             <div className="wrap">
-                <KhxxNew onSaved={this.handleEditSave} data={this.state.entity} />
+                <KhxxNew onSaved={this.handleEditSave}
+                         data={this.state.entity}
+                         type={this.state.type}/>
                 <KhxxList onEdit={this.handleEdit} onDel={this.handleDel}/>
             </div>
         </div>
