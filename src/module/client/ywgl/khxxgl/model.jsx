@@ -1,5 +1,5 @@
 import React from 'react'
-import {Icon} from 'antd'
+import {Icon,Popconfirm} from 'antd'
 
 let handleEdit = function (record) {
     console.log('edit',record)
@@ -42,7 +42,10 @@ module.exports = {
             render: (text, record) => {
                 return <span>
                     <a onClick={()=>handleEdit(record)}>修改</a> &nbsp;&nbsp;
-                    <a onClick={()=>handleDel(record)}>删除</a>
+                    <Popconfirm title="确定要删除吗？" placement="left" onConfirm={()=>handleDel(record)}>
+                        <a>删除</a>
+                    </Popconfirm>
+
                 </span>
             }
         }

@@ -14,27 +14,35 @@ const token = auth.getToken();
 const JG_ID = auth.getJgid();
 const CUSTOMER_URL = config.HOST + config.URI_API_PROJECT + '/customers';
 
-//新增客户信息
-const addCustomers = function (param) {
-    return req({
-        url: CUSTOMER_URL,
-        method: 'post',
-        type: 'json',
-        contentType: 'application/json',
-        data: JSON.stringify(param),
-        headers: {'x-auth-token': token}
-    })
+const updateAction = {
+    //新增客户信息
+    add: function (param) {
+        return req({
+            url: CUSTOMER_URL,
+            method: 'post',
+            type: 'json',
+            contentType: 'application/json',
+            data: JSON.stringify(param),
+            headers: {'x-auth-token': token}
+        })
+    },
+    //修改客户信息
+    update: function (param) {
+        return req({
+            url: CUSTOMER_URL + '/' + param.ID,
+            method: 'put',
+            type: 'json',
+            contentType: 'application/json',
+            data: JSON.stringify(param),
+            headers: {'x-auth-token': token}
+        })
+    }
 };
-//修改客户信息
-const updateCustomer = function(param){
-    return req({
-        url: CUSTOMER_URL+'/'+param.ID,
-        method: 'put',
-        type: 'json',
-        contentType: 'application/json',
-        data: JSON.stringify(param),
-        headers: {'x-auth-token': token}
-    })
+
+//根据不同类型分别显示新增、修改标题
+const titelType = {
+    add: '新增',
+    update: '修改'
 };
 
 //定义纳税人性质下拉
@@ -67,18 +75,15 @@ let EditForm = React.createClass({
     },
     handleSubmit(e){
         e.preventDefault();
-        let ajaxAction = addCustomers;
-        if(this.props.type=='edit'){
-            ajaxAction = updateCustomer;
-        }
-        this.props.form.validateFieldsAndScroll({ scroll: { offsetTop: 84 } },(errors, values) => {
+        this.props.form.validateFieldsAndScroll({scroll: {offsetTop: 84}}, (errors, values) => {
             if (!!errors) {
                 return;
             }
             let value = this.props.form.getFieldsValue();
             value = utils.transEmpty2Null(value);
             value.JG_ID = JG_ID;
-            addCustomers(value).then(resp=> {
+            value.ID = this.props.data.ID;
+            updateAction[this.props.type](value).then(resp=> {
                 this.setFinished(true);
                 this.props.form.resetFields();
                 notification.success({
@@ -96,8 +101,11 @@ let EditForm = React.createClass({
         })
 
     },
+    handleUpdateCancel(){
+        this.props.onReset();
+    },
     render(){
-        let title = '新增客户信息';
+        let title = titelType[this.props.type] + '客户信息';
         const { getFieldProps } = this.props.form;
         const dwmcProps = getFieldProps('DWMC', {
             rules: [
@@ -110,16 +118,16 @@ let EditForm = React.createClass({
                     <Row>
                         <Col span="9">
                             <FormItem
-                                labelCol={{span: 7}} wrapperCol={{span: 15}}
-                                label="单位名称"
-                                required={true}>
+                              labelCol={{span: 7}} wrapperCol={{span: 15}}
+                              label="单位名称"
+                              required={true}>
                                 <Input placeholder="单位名称" {...dwmcProps}/>
                             </FormItem>
                         </Col>
                         <Col span="15">
                             <FormItem
-                                labelCol={{span: 4}} wrapperCol={{span: 20}}
-                                label="单位地址">
+                              labelCol={{span: 4}} wrapperCol={{span: 20}}
+                              label="单位地址">
                                 <Input placeholder="单位地址" {...getFieldProps('DWDZ')}/>
                             </FormItem>
                         </Col>
@@ -127,22 +135,22 @@ let EditForm = React.createClass({
                     <Row>
                         <Col span="9">
                             <FormItem
-                                labelCol={{span: 7}} wrapperCol={{span: 15}}
-                                label="纳税人识别号">
+                              labelCol={{span: 7}} wrapperCol={{span: 15}}
+                              label="纳税人识别号">
                                 <Input placeholder="纳税人识别号" {...getFieldProps('NSRSBH')}/>
                             </FormItem>
                         </Col>
                         <Col span="9">
                             <FormItem
-                                labelCol={{span: 7}} wrapperCol={{span: 15}}
-                                label="地税税务登记证号">
+                              labelCol={{span: 7}} wrapperCol={{span: 15}}
+                              label="地税税务登记证号">
                                 <Input placeholder="地税税务登记证号" {...getFieldProps('NSRSBHDF')}/>
                             </FormItem>
                         </Col>
                         <Col span="6">
                             <FormItem
-                                labelCol={{span: 8}} wrapperCol={{span: 16}}
-                                label="纳税人性质">
+                              labelCol={{span: 8}} wrapperCol={{span: 16}}
+                              label="纳税人性质">
                                 <SelectNSRXZ  {...getFieldProps('NSRXZ')}/>
                             </FormItem>
                         </Col>
@@ -150,27 +158,34 @@ let EditForm = React.createClass({
                     <Row>
                         <Col span="9">
                             <FormItem
-                                labelCol={{span: 7}} wrapperCol={{span: 15}}
-                                label="联系人">
+                              labelCol={{span: 7}} wrapperCol={{span: 15}}
+                              label="联系人">
                                 <Input placeholder="联系人" {...getFieldProps('LXR')}/>
                             </FormItem>
                         </Col>
                         <Col span="9">
                             <FormItem
-                                labelCol={{span: 7}} wrapperCol={{span: 15}}
-                                label="联系电话">
+                              labelCol={{span: 7}} wrapperCol={{span: 15}}
+                              label="联系电话">
                                 <Input placeholder="联系电话" {...getFieldProps('LXDH')}/>
                             </FormItem>
                         </Col>
                     </Row>
                     <Row>
-                        <Col span="24">
+                        <Col span="4" offset="20">
+
                             <Button
-                                type="primary"
-                                htmlType="submit"
-                                style={{float:'right'}}
-                                size="large"
-                                loading={this.state.updating}>保存</Button>
+                              type="primary"
+                              htmlType="submit"
+                              style={{float:'right'}}
+                              size="large"
+                              loading={this.state.updating}>保存</Button>
+
+                            {this.props.type == 'update' ?
+                              <Button type="ghost"
+                                      style={{float:'right',marginRight:'16px'}}
+                                      size="large"
+                                      onClick={this.handleUpdateCancel}>取消</Button> : null}
                         </Col>
                     </Row>
                 </Form>

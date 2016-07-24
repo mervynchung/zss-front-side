@@ -1,5 +1,5 @@
 import React from 'react'
-import {Table,Col,Row,Tree,Tabs,Modal,Button,Spin,notification,Icon } from 'antd'
+import {Table,Col,Row,Tree,Tabs,Modal,Button,Spin,notification,Icon} from 'antd'
 import {Link} from 'react-router'
 import Panel from 'component/compPanel'
 import config from 'common/configuration'
@@ -104,14 +104,14 @@ const khxxList = React.createClass({
     //刷新数据
     handleRefresh(){
         const pager = this.state.pagination;
-        this.setState({pagination: pager, where: ''});
+        this.setState({pagination: pager, where: '',pageLoading:true});
         fetchCustomers().then(resp=> {
             pager.total = resp.total > 1000 ? 1000 : resp.total;
             pager.showTotal = total => {
                 return `共 ${resp.total} 条，显示前 ${total} 条`
             };
             pager.current = 1;
-            this.setState({customers: resp.data, where:'', pagination: pager});
+            this.setState({customers: resp.data, where:'', pagination: pager,pageLoading:false});
         });
     },
 
@@ -148,13 +148,35 @@ const khxxList = React.createClass({
     pageJump(){
        this.props.onPageJump('new')
     },
-
+    //删除用户信息
+    handleDel(record){
+        req({
+            url:CUSTOMER_URL + '/' +record.ID,
+            method:'delete',
+            type:'json',
+            data: JSON.stringify(record),
+            headers:{'x-auth-token':token}
+        }).then(resp=>{
+            notification.success({
+                duration: 2,
+                message: '操作成功',
+                description: '客户信息已更新'
+            });
+            this.handleRefresh();
+        }).fail(e=>{
+            notification.error({
+                duration: 2,
+                message: '操作失败',
+                description: '可能网络访问原因，请稍后尝试'
+            });
+        })
+    },
 
     render(){
         //配置修改动作对应的方法
         model.setEdit(this.props.onEdit);
         //配置删除动作对应的方法
-        model.setDel(this.props.onDel);
+        model.setDel(this.handleDel);
 
         const panelBar = <PanelBar>
             <Button onClick={this.handleSearchToggle}>
