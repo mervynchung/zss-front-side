@@ -1,7 +1,7 @@
 import '../common/lib';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Router, Route, browserHistory, hashHistory, IndexRoute,useRouterHistory} from 'react-router';
+import {Router, Route, IndexRoute,useRouterHistory} from 'react-router';
 import { createHistory } from 'history'
 import App from '../component/App';
 import Signin from 'module/signin';
@@ -19,11 +19,11 @@ const Index = React.createClass({
     /*登录校验*/
     requireAuth(nextState, replace){
         /*if (!auth.verifyPermission(nextState.location.pathname)) {
-            replace({
-                pathname: '/404',
-                state: {nextPathname: nextState.location.pathname}
-            })
-        }*/
+         replace({
+         pathname: '/404',
+         state: {nextPathname: nextState.location.pathname}
+         })
+         }*/
         if (!auth.verifyAuth()) {
             replace({
                 pathname: '/signin',
@@ -58,8 +58,7 @@ const Index = React.createClass({
                 require('../module/xtgnsz/qxgl'),
                 require('../module/xtgnsz/yhgl'),
 
-
-           //业务管理
+                //业务管理
                 require('../module/ywgl/ywbbgl'),
                 require('../module/ywgl/ywzlgl/sfjeyjgl'),
                 require('../module/ywgl/ywzlgl/ndbtyjgl'),
@@ -79,7 +78,6 @@ const Index = React.createClass({
                 require('../module/cwbb/zcfzb'),
                 require('../module/cwbb/wsbbb'),
 
-
                 //手动上报报表
                 require('../module/sdsbbb/jzywtjb'),
                 require('../module/sdsbbb/jygmtjb'),
@@ -88,8 +86,7 @@ const Index = React.createClass({
                 require('../module/sdsbbb/jysrqktj'),
                 require('../module/sdsbbb/wsbbbcx'),
 
-
-             //历史记录查询
+                //历史记录查询
                 require('../module/lsjlcx/swslsjl/bglsjl'),
                 require('../module/lsjlcx/swslsjl/yhbsws'),
                 require('../module/lsjlcx/swslsjl/yzxsws'),
@@ -103,12 +100,11 @@ const Index = React.createClass({
                 require('../module/lsjlcx/fzyzxjl'),
                 require('../module/lsjlcx/fzyzzyjl'),
 
-
                 //监督检查
                 require('../module/jdjc/zyswsnjb'),
                 require('../module/jdjc/swsnj'),
 
-               //逐级审核
+                //逐级审核
                 require('../module/spsh'),
                 require('../module/spsh/module/1'),
                 require('../module/spsh/module/2'),
@@ -130,15 +126,14 @@ const Index = React.createClass({
                 require('../module/spsh/module/44'),
                 require('../module/spsh/module/46'),
 
+
+              
                 //客户端
                 //机构管理
                 require('../module/client/jggl/swsbg'),
                 require('../module/client/jggl/swszx'),
                 require('../module/client/jggl/swshb'),
                 require('../module/client/swsrygl/zyrygl'),
-
-
-
 
                 //财务报表上传
                 require('../module/client/cwbb/lrb'),
@@ -147,14 +142,13 @@ const Index = React.createClass({
                 require('../module/client/cwbb/zcfzb'),
                 require('../module/client/cwbb/zcmxb'),
 
-
-                // //手动上报报表
+                //手动上报报表
                 require('../module/client/sdsb/swsqkb'),
                 require('../module/client/sdsb/jygmtjb'),
                 require('../module/client/sdsb/jzywqktjb'),
                 require('../module/client/sdsb/hyryqktjb'),
-                require('../module/client/sdsb/jysrqkb'),  
-                
+                require('../module/client/sdsb/jysrqkb'),
+
                 //系统数据分析
                 require('../module/xtsjfx/jgnjsjfxb'),
 
