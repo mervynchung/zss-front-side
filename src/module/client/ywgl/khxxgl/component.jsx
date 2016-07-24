@@ -1,4 +1,3 @@
-import './style.css'
 import React from 'react'
 import KhxxList from './list'
 import QueueAnim from 'rc-queue-anim'
