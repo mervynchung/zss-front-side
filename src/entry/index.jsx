@@ -19,11 +19,11 @@ const Index = React.createClass({
     /*登录校验*/
     requireAuth(nextState, replace){
         /*if (!auth.verifyPermission(nextState.location.pathname)) {
-            replace({
-                pathname: '/404',
-                state: {nextPathname: nextState.location.pathname}
-            })
-        }*/
+         replace({
+         pathname: '/404',
+         state: {nextPathname: nextState.location.pathname}
+         })
+         }*/
         if (!auth.verifyAuth()) {
             replace({
                 pathname: '/signin',
@@ -59,7 +59,7 @@ const Index = React.createClass({
                 require('../module/xtgnsz/yhgl'),
 
                 //业务管理
-               /* require('../module/ywgl/ywbbgl'),
+                require('../module/ywgl/ywbbgl'),
                 require('../module/ywgl/ywzlgl/sfjeyjgl'),
                 require('../module/ywgl/ywzlgl/ndbtyjgl'),
                 require('../module/ywgl/ywzlgl/ywwtyjgl'),
@@ -78,7 +78,6 @@ const Index = React.createClass({
                 require('../module/cwbb/zcfzb'),
                 require('../module/cwbb/wsbbb'),
 
-
                 //手动上报报表
                 require('../module/sdsbbb/jzywtjb'),
                 require('../module/sdsbbb/jygmtjb'),
@@ -86,7 +85,6 @@ const Index = React.createClass({
                 require('../module/sdsbbb/hyryqktj'),
                 require('../module/sdsbbb/jysrqktj'),
                 require('../module/sdsbbb/wsbbbcx'),
-
 
                 //历史记录查询
                 require('../module/lsjlcx/swslsjl/bglsjl'),
@@ -102,37 +100,57 @@ const Index = React.createClass({
                 require('../module/lsjlcx/fzyzxjl'),
                 require('../module/lsjlcx/fzyzzyjl'),
 
-
                 //监督检查
                 require('../module/jdjc/zyswsnjb'),
                 require('../module/jdjc/swsnj'),
 
                 //逐级审核
                 require('../module/spsh'),
+                require('../module/spsh/module/1'),
                 require('../module/spsh/module/2'),
                 require('../module/spsh/module/3'),
                 require('../module/spsh/module/4'),
                 require('../module/spsh/module/5'),
+                require('../module/spsh/module/6'),
+                require('../module/spsh/module/7'),
+                require('../module/spsh/module/8'),
+                require('../module/spsh/module/9'),
+                require('../module/spsh/module/10'),
+                require('../module/spsh/module/11'),
+                require('../module/spsh/module/12'),
+                require('../module/spsh/module/13'),
+                require('../module/spsh/module/14'),
+                require('../module/spsh/module/15'),
                 require('../module/spsh/module/20'),
+                require('../module/spsh/module/43'),
+                require('../module/spsh/module/44'),
+                require('../module/spsh/module/46'),
 
+
+              
                 //客户端
                 //机构管理
                 require('../module/client/jggl/swsbg'),
                 require('../module/client/jggl/swszx'),
                 require('../module/client/jggl/swshb'),
+                require('../module/client/swsrygl/zyrygl'),
 
                 //财务报表上传
-                require('../module/client/lrb'),
-                require('../module/client/lrfpb'),
-                require('../module/client/xjllb'),
-                require('../module/client/zcfzb'),
-                require('../module/client/zcmxb'),
+                require('../module/client/cwbb/lrb'),
+                require('../module/client/cwbb/lrfpb'),
+                require('../module/client/cwbb/xjllb'),
+                require('../module/client/cwbb/zcfzb'),
+                require('../module/client/cwbb/zcmxb'),
 
+                //手动上报报表
+                require('../module/client/sdsb/swsqkb'),
+                require('../module/client/sdsb/jygmtjb'),
+                require('../module/client/sdsb/jzywqktjb'),
+                require('../module/client/sdsb/hyryqktjb'),
+                require('../module/client/sdsb/jysrqkb'),
 
-                // //手动上报报表
-                require('../module/client_1/swsqkb'),
-                require('../module/client_1/jygmtjb'),
-                require('../module/client_1/jzywqktjb'),*/
+                //系统数据分析
+                require('../module/xtsjfx/jgnjsjfxb'),
 
                 //业务管理
                 require('../module/client/ywgl/khxxgl') //客户信息管理

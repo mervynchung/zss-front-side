@@ -3,6 +3,7 @@ import {Table,Modal,Row,Col,Button,Icon,Alert} from 'antd'
 import Panel from 'component/compPanel'
 import {columns} from './model'
 import req from 'reqwest';
+import auth from 'common/auth'
 import SearchForm from './searchForm'
 import config from 'common/configuration'
 
@@ -77,9 +78,11 @@ const wsbbb = React.createClass({
             url: API_URL,
             type: 'json',
             method: 'get',
-            data: params
+            data: params,
+            headers:{'x-auth-token':auth.getToken()},
+            contentType: 'application/json'
         }).then(resp=> {
-            
+            console.log("zhi",resp)
             const p = this.state.pagination;
             p.total = resp.total > 1000 ? 1000 : resp.total;
             p.showTotal = total => {
