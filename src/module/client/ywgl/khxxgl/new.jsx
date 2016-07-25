@@ -112,6 +112,21 @@ let EditForm = React.createClass({
                 {required: true, whitespace: true, message: '请填写客户单位名称'}
             ]
         });
+        const nsrsbhProps = getFieldProps('NSRSBH', {
+            rules: [
+                {required: true, whitespace: true, message: '请填写纳税人识别号'}
+            ]
+        });
+        const nsrsbhdfProps = getFieldProps('NSRSBHDF', {
+            rules: [
+                {required: true, whitespace: true, message: '请填写纳税人地方识别号'}
+            ]
+        });
+        const lxrProps = getFieldProps('LXR', {
+            rules: [
+                {required: true, whitespace: true, message: '请填写联系人'}
+            ]
+        });
         return <Panel title={title}>
             <div className="new-form">
                 <Form horizontal onSubmit={this.handleSubmit} form={this.props.form}>
@@ -137,14 +152,14 @@ let EditForm = React.createClass({
                             <FormItem
                               labelCol={{span: 7}} wrapperCol={{span: 15}}
                               label="纳税人识别号">
-                                <Input placeholder="纳税人识别号" {...getFieldProps('NSRSBH')}/>
+                                <Input placeholder="纳税人识别号" {...nsrsbhProps}/>
                             </FormItem>
                         </Col>
                         <Col span="9">
                             <FormItem
                               labelCol={{span: 7}} wrapperCol={{span: 15}}
                               label="地税税务登记证号">
-                                <Input placeholder="地税税务登记证号" {...getFieldProps('NSRSBHDF')}/>
+                                <Input placeholder="地税税务登记证号" {...nsrsbhdfProps}/>
                             </FormItem>
                         </Col>
                         <Col span="6">
@@ -160,7 +175,7 @@ let EditForm = React.createClass({
                             <FormItem
                               labelCol={{span: 7}} wrapperCol={{span: 15}}
                               label="联系人">
-                                <Input placeholder="联系人" {...getFieldProps('LXR')}/>
+                                <Input placeholder="联系人" {...lxrProps}/>
                             </FormItem>
                         </Col>
                         <Col span="9">
