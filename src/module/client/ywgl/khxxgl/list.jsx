@@ -1,57 +1,49 @@
-import './style.css'
 import React from 'react'
-import {Table,Col,Row,Tree,Tabs,Modal,Button,Spin,notification,Icon } from 'antd'
+import {Table,Col,Row,Tree,Tabs,Modal,Button,Spin,notification,Icon} from 'antd'
+import {Link} from 'react-router'
 import Panel from 'component/compPanel'
 import config from 'common/configuration'
-import {SelectorRoles,SelectorDQ,SelectorCS} from 'component/compSelector'
-import SearchForm from './searchForm'
+import {SelectorDQ,SelectorCS} from 'component/compSelector'
+import SearchForm from './searchForm.jsx'
 import model from './model.jsx'
 import req from 'reqwest'
+import auth from 'common/auth.js'
 import {jsonCopy} from 'common/utils.js'
 
 const PanelBar = Panel.ToolBar;
 const ButtonGroup = Button.Group;
-const USER_URL = config.HOST + config.URI_API_FRAMEWORK + '/users';
-const ROLE_URL = config.HOST + config.URI_API_FRAMEWORK + '/roles';
+const CUSTOMER_URL = config.HOST + config.URI_API_PROJECT + '/customers';
+const jid = auth.getJgid();
 const token = auth.getToken();
-//获取用户列表
-const fetchUsers = function (param = {page: 1, pageSize: 10}) {
+
+//获取客户信息列表
+const fetchCustomers = function (param = {page: 1, pageSize: 10,jid:jid}) {
     return req({
-        url: USER_URL,
+        url: CUSTOMER_URL,
         method: 'get',
         type: 'json',
         data: param,
         headers:{'x-auth-token':token}
     })
 };
-//获取角色列表
-const fetchRoles = function () {
-    return req({
-        url: ROLE_URL,
-        method: 'get',
-        type: 'json',
-        headers:{'x-auth-token':token}
-    })
-};
 
 //异步获取数据
 const fetchData = async function () {
-    let [users,roles] = await Promise.all([fetchUsers(), fetchRoles()]);
-    return {users: users, roles: roles}
+    let [customers] = await Promise.all([fetchCustomers()]);
+    return {customers: customers}
 };
 
 
-//权限管理
-const yhgl = React.createClass({
+//客户信息
+const khxxList = React.createClass({
     getInitialState(){
         return {
             pageLoading: true,
             searchToggle:false,
             helper:false,
-            roles: [],
-            users: [],
+            customers: [],
             select: '',
-            where: '',
+            where: {},
             selectedRowKeys: [],
             pagination: {
                 current: 1,
@@ -67,14 +59,13 @@ const yhgl = React.createClass({
     componentDidMount(){
         fetchData().then(resp=> {
             const p = this.state.pagination;
-            p.total = resp.users.total > 1000 ? 1000 : resp.users.total;
+            p.total = resp.customers.total > 1000 ? 1000 : resp.customers.total;
             p.showTotal = total => {
-                return `共 ${resp.users.total} 条，显示前 ${total} 条`
+                return `共 ${resp.customers.total} 条，显示前 ${total} 条`
             };
             this.setState({
                 pageLoading: false,
-                roles: resp.roles,
-                users: resp.users.data,
+                customers: resp.customers.data,
                 pagination: p
             })
         }).catch(e=> {
@@ -92,40 +83,20 @@ const yhgl = React.createClass({
 
     //数据表换页
     handlePageChange(pager){
-        fetchUsers({
+        fetchCustomers({
             page: pager.current,
             pageSize: pager.pageSize,
+            jid:jid,
             where: encodeURIComponent(JSON.stringify(this.state.where))
         }).then(resp=> {
             pager.total = resp.total > 1000 ? 1000 : resp.total;
             pager.showTotal = total => {
                 return `共 ${resp.total} 条，显示前 ${total} 条`
             };
-            this.setState({pagination: pager, users: resp.data, selectedRowKeys: []});
+            this.setState({pagination: pager, customers: resp.data});
         })
     },
-    //选择角色
-    handleRoleSelected(value){
-        const pager = this.state.pagination;
-        let where = {roleId: value};
-        const param = {
-            page: 1,
-            pageSize: pager.pageSize,
-            where: JSON.stringify(where)
-        };
-        fetchUsers(param).then(resp=> {
-            pager.total = resp.total > 1000 ? 1000 : resp.total;
-            pager.showTotal = total => {
-                return `共 ${resp.total} 条，显示前 ${total} 条`
-            };
-            pager.current = 1;
-            this.setState({users: resp.data, where: where, pagination: pager});
-        })
-    },
-    //表格中的复选框勾选
-    handleSelectedRowChange(selectedRowKeys, selectedRows){
-        this.setState({selectedRowKeys: selectedRowKeys})
-    },
+
     //打开关闭查询框
     handleSearchToggle(){
         this.setState({searchToggle: !this.state.searchToggle})
@@ -133,14 +104,14 @@ const yhgl = React.createClass({
     //刷新数据
     handleRefresh(){
         const pager = this.state.pagination;
-        this.setState({pagination: pager, where: ''});
-        fetchUsers().then(resp=> {
+        this.setState({pagination: pager, where: '',pageLoading:true});
+        fetchCustomers().then(resp=> {
             pager.total = resp.total > 1000 ? 1000 : resp.total;
             pager.showTotal = total => {
                 return `共 ${resp.total} 条，显示前 ${total} 条`
             };
             pager.current = 1;
-            this.setState({users: resp.data, where:'', pagination: pager});
+            this.setState({customers: resp.data, where:'', pagination: pager,pageLoading:false});
         });
     },
 
@@ -149,31 +120,63 @@ const yhgl = React.createClass({
         this.setState({helper: !this.state.helper})
     },
     //查询提交
-    handleSearchSubmit(values){
-        this.setState({pageLoading:true})
+    handleSearchSubmit(commitValues){
+        const values = new Object();
+        for (let prop in commitValues) {
+            if (commitValues[prop]){
+                values[prop] = commitValues[prop].trim();
+            }
+        }
+        this.setState({pageLoading:true});
         const pager = this.state.pagination;
         const param = {
             page:1,
             pageSize:pager.pageSize,
+            jid:jid,
             where: encodeURIComponent(JSON.stringify(values))
         };
-        fetchUsers(param).then(resp=>{
+        fetchCustomers(param).then(resp=>{
             pager.total = resp.total > 1000 ? 1000 : resp.total;
             pager.showTotal = total => {
                 return `共 ${resp.total} 条，显示前 ${total} 条`
             };
             pager.current = 1;
-            this.setState({users:resp.data,where:values, pagination: pager,pageLoading:false})
+            this.setState({customers:resp.data,where:values, pagination: pager,pageLoading:false})
+        })
+    },
+    //增加客户信息
+    pageJump(){
+       this.props.onPageJump('new')
+    },
+    //删除用户信息
+    handleDel(record){
+        req({
+            url:CUSTOMER_URL + '/' +record.ID,
+            method:'delete',
+            type:'json',
+            data: JSON.stringify(record),
+            headers:{'x-auth-token':token}
+        }).then(resp=>{
+            notification.success({
+                duration: 2,
+                message: '操作成功',
+                description: '客户信息已更新'
+            });
+            this.handleRefresh();
+        }).fail(e=>{
+            notification.error({
+                duration: 2,
+                message: '操作失败',
+                description: '可能网络访问原因，请稍后尝试'
+            });
         })
     },
 
-
     render(){
-        const rowSelection = {
-            type: 'checkbox',
-            selectedRowKeys: this.state.selectedRowKeys,
-            onChange: this.handleSelectedRowChange
-        };
+        //配置修改动作对应的方法
+        model.setEdit(this.props.onEdit);
+        //配置删除动作对应的方法
+        model.setDel(this.handleDel);
 
         const panelBar = <PanelBar>
             <Button onClick={this.handleSearchToggle}>
@@ -186,34 +189,25 @@ const yhgl = React.createClass({
                 <Button type="primary" onClick={this.handleHelper}><Icon type="question"/></Button>
                 <Button type="primary" onClick={this.handleRefresh}><Icon type="reload"/></Button>
             </ButtonGroup>
-            <SelectorRoles
-                style={{width:'180px'}}
-                data={this.state.roles}
-                optionFilterProp="children"
-                onChange={this.handleRoleSelected}/>
+
         </PanelBar>;
 
 
-        return <div className="yhgl">
-            <div className="wrap">
-                <Spin spinning={this.state.pageLoading}>
-                    <Panel title="用户管理" toolbar={panelBar}>
+        return   <Spin spinning={this.state.pageLoading}>
+                    <Panel title="已有客户列表" toolbar={panelBar}>
                         {this.state.searchToggle && <SearchForm
                             onSubmit={this.handleSearchSubmit}/>}
                         <Table className="outer-border"
                                columns={model.columns}
-                               dataSource={this.state.users}
+                               dataSource={this.state.customers}
                                pagination={this.state.pagination}
                                onChange={this.handlePageChange}
-                               rowKey={record => record.id}
-                               rowSelection={rowSelection}
+                               rowKey={record => record.ID}
                                onRowClick={this.handleRowClick}
                         />
                     </Panel>
                 </Spin>
-            </div>
-        </div>
     }
 });
 
-module.exports = yhgl;
+module.exports = khxxList;

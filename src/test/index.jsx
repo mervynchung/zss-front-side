@@ -1,103 +1,164 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import 'antd/lib/index.css';
-import { Tree } from 'antd';
-const TreeNode = Tree.TreeNode;
+import 'antd/dist/antd.css';
 
-const x = 3;
-const y = 2;
-const z = 1;
-const gData = [];
+import { Button, Form, Input } from 'antd';
+const createForm = Form.create;
+const FormItem = Form.Item;
 
-const generateData = (_level, _preKey, _tns) => {
-    const preKey = _preKey || '0';
-    const tns = _tns || gData;
-
-    const children = [];
-    for (let i = 0; i < x; i++) {
-        const key = `${preKey}-${i}`;
-        tns.push({ title: key, key });
-        if (i < y) {
-            children.push(key);
-        }
-    }
-    if (_level < 0) {
-        return tns;
-    }
-    const __level = _level - 1;
-    children.forEach((key, index) => {
-        tns[index].children = [];
-        return generateData(__level, key, tns[index].children);
-    });
-};
-generateData(z);
-console.log(gData)
-
-
-function loopData(data, callback) {
-    const loop = (d, level = 0) => {
-        d.forEach((item, index) => {
-            const pos = `${level}-${index}`;
-            if (item.children) {
-                loop(item.children, pos);
-            }
-            callback(item, index, pos);
-        });
-    };
-    loop(data);
+function noop() {
+    return false;
 }
 
-function getFilterExpandedKeys(data, expandedKeys) {
-    const expandedPosArr = [];
-    loopData(data, (item, index, pos) => {
-        if (expandedKeys.indexOf(item.key) > -1) {
-            expandedPosArr.push(pos);
-        }
-    });
-    const filterExpandedKeys = [];
-    loopData(data, (item, index, pos) => {
-        expandedPosArr.forEach(p => {
-            if ((pos.split('-').length < p.split('-').length
-                && p.indexOf(pos) === 0 || pos === p)
-                && filterExpandedKeys.indexOf(item.key) === -1) {
-                filterExpandedKeys.push(item.key);
-            }
-        });
-    });
-    return filterExpandedKeys;
-}
-
-const Demo = React.createClass({
-    getDefaultProps() {
-        return {
-            multiple: true,
-        };
+let BasicDemo = React.createClass({
+    handleReset(e) {
+        e.preventDefault();
+        this.props.form.resetFields();
     },
-    getInitialState() {
-        return {
-            expandedKeys: getFilterExpandedKeys(gData, ['0-0-0', '0-0-1']),
-            checkedKeys: ['0-0-0'],
-            selectedKeys: [],
-        };
+
+    handleSubmit(e) {
+        e.preventDefault();
+        this.props.form.validateFields((errors, values) => {
+            if (!!errors) {
+                console.log('Errors in form!!!');
+                return;
+            }
+            console.log('Submit!!!');
+            console.log(values);
+        });
+    },
+
+    userExists(rule, value, callback) {
+        if (!value) {
+            callback();
+        } else {
+            setTimeout(() => {
+                if (value === 'JasonWood') {
+                    callback([new Error('抱歉，该用户名已被占用。')]);
+                } else {
+                    callback();
+                }
+            }, 800);
+        }
+    },
+
+    checkPass(rule, value, callback) {
+        const { validateFields } = this.props.form;
+        if (value) {
+            validateFields(['rePasswd'], { force: true });
+        }
+        callback();
+    },
+
+    checkPass2(rule, value, callback) {
+        const { getFieldValue } = this.props.form;
+        if (value && value !== getFieldValue('passwd')) {
+            callback('两次输入密码不一致！');
+        } else {
+            callback();
+        }
     },
 
     render() {
-        const loop = data => data.map((item) => {
-            if (item.children) {
-                return (
-                    <TreeNode key={item.key} title={item.key}>
-                        {loop(item.children)}
-                    </TreeNode>
-                );
-            }
-            return <TreeNode key={item.key} title={item.key} />;
+        const { getFieldProps, getFieldError, isFieldValidating } = this.props.form;
+        const nameProps = getFieldProps('name', {
+            rules: [
+                { required: true, min: 5, message: '用户名至少为 5 个字符' },
+                { validator: this.userExists },
+            ],
         });
+        const emailProps = getFieldProps('email', {
+            validate: [{
+                rules: [
+                    { required: true },
+                ],
+                trigger: 'onBlur',
+            }, {
+                rules: [
+                    { type: 'email', message: '请输入正确的邮箱地址' },
+                ],
+                trigger: ['onBlur', 'onChange'],
+            }],
+        });
+        const passwdProps = getFieldProps('passwd', {
+            rules: [
+                { required: true, whitespace: true, message: '请填写密码' },
+                { validator: this.checkPass },
+            ],
+        });
+        const rePasswdProps = getFieldProps('rePasswd', {
+            rules: [{
+                required: true,
+                whitespace: true,
+                message: '请再次输入密码',
+            }, {
+                validator: this.checkPass2,
+            }],
+        });
+        const textareaProps = getFieldProps('textarea', {
+            rules: [
+                { required: true, message: '真的不打算写点什么吗？' },
+            ],
+        });
+        const formItemLayout = {
+            labelCol: { span: 7 },
+            wrapperCol: { span: 12 },
+        };
         return (
-            <Tree checkable  defaultExpandAll>
-                {loop(gData)}
-            </Tree>
+            <Form horizontal form={this.props.form}>
+                <FormItem
+                    {...formItemLayout}
+                    label="用户名"
+                    hasFeedback
+                    help={isFieldValidating('name') ? '校验中...' : (getFieldError('name') || []).join(', ')}
+                >
+                    <Input {...nameProps} placeholder="实时校验，输入 JasonWood 看看" />
+                </FormItem>
+
+                <FormItem
+                    {...formItemLayout}
+                    label="邮箱"
+                    hasFeedback
+                >
+                    <Input {...emailProps} type="email" placeholder="onBlur 与 onChange 相结合" />
+                </FormItem>
+
+                <FormItem
+                    {...formItemLayout}
+                    label="密码"
+                    hasFeedback
+                >
+                    <Input {...passwdProps} type="password" autoComplete="off"
+                                            onContextMenu={noop} onPaste={noop} onCopy={noop} onCut={noop}
+                    />
+                </FormItem>
+
+                <FormItem
+                    {...formItemLayout}
+                    label="确认密码"
+                    hasFeedback
+                >
+                    <Input {...rePasswdProps} type="password" autoComplete="off" placeholder="两次输入密码保持一致"
+                                              onContextMenu={noop} onPaste={noop} onCopy={noop} onCut={noop}
+                    />
+                </FormItem>
+
+                <FormItem
+                    {...formItemLayout}
+                    label="备注"
+                >
+                    <Input {...textareaProps} type="textarea" placeholder="随便写" id="textarea" name="textarea" />
+                </FormItem>
+
+                <FormItem wrapperCol={{ span: 12, offset: 7 }}>
+                    <Button type="primary" onClick={this.handleSubmit}>确定</Button>
+                    &nbsp;&nbsp;&nbsp;
+                    <Button type="ghost" onClick={this.handleReset}>重置</Button>
+                </FormItem>
+            </Form>
         );
     },
 });
 
-ReactDOM.render(<Demo />, document.getElementById('react-content'));
+BasicDemo = createForm()(BasicDemo);
+ReactDOM.render(<BasicDemo />, document.getElementById("react-content"));

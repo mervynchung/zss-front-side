@@ -1,10 +1,10 @@
-/*客户信息管理功能*/
+/*模块设置功能*/
 module.exports = {
-    path: '/ywgl/khxxgl',
-    breadcrumbName:'客户信息管理',
+    path: 'xtsjfx/jgnjsjfxb(/)',
+    breadcrumbName:'机构年检数据分析表',
     getComponent(location, cb) {
         require.ensure([], (require) => {
             cb(null, require('./component'))
         })
     }
-};
+}

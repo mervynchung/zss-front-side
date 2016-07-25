@@ -1,10 +1,10 @@
-/*客户信息管理功能*/
+/*利润表*/
 module.exports = {
-    path: '/ywgl/khxxgl',
-    breadcrumbName:'客户信息管理',
+    path: 'add/xjllb(/)',
+    breadcrumbName:'现金流量表',
     getComponent(location, cb) {
         require.ensure([], (require) => {
             cb(null, require('./component'))
         })
     }
-};
+}

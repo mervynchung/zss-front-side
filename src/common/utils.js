@@ -62,6 +62,7 @@ module.exports = {
         return obj;
     },
 
+    //根据model中定义的渲染方式，格式化数据对象
     entityFormat(entity, model){
         let obj = entity;
         if (model){
@@ -78,8 +79,24 @@ module.exports = {
         return obj;
     },
 
+    //拷贝对象一份副本
     jsonCopy(obj){
         return JSON.parse(JSON.stringify(obj));
+    },
+
+    //将对象中的空值置换为null
+    transEmpty2Null(obj){
+        let entity = new Object();
+        for(let prop in obj){
+            if(!obj[prop]){
+                entity[prop]=null;
+            }else if (obj[prop] && !(obj[prop].trim())){
+                entity[prop]=null;
+            }else{
+                entity[prop]=obj[prop];
+            }
+        }
+        return entity;
     }
 
 };

@@ -4,6 +4,7 @@ import CompPageHead from 'component/CompPageHead'
 import Panel from 'component/compPanel'
 import {model,entityModel} from './model'
 import req from 'reqwest';
+import auth from 'common/auth'
 import SearchForm from './searchForm'
 import Xjllbxx from './Xjllbxx'
 import config from 'common/configuration'
@@ -99,7 +100,9 @@ const xjllb = React.createClass({
             url: API_URL,
             type: 'json',
             method: 'get',
-            data: params
+            data: params,
+            headers:{'x-auth-token':auth.getToken()},
+            contentType: 'application/json'
         }).then(resp=> {
             if(resp.data.length!=0){
             const p = this.state.pagination;
@@ -129,7 +132,9 @@ const xjllb = React.createClass({
         req({
             url:API_URL+'/'+this.state.urls,
             type:'json',
-            method:'get'
+            method:'get',
+            headers:{'x-auth-token':auth.getToken()},
+            contentType: 'application/json'
         }).then(resp=>{
          
             
