@@ -8,6 +8,7 @@ import SearchForm from './searchForm'
 import model from './model.jsx'
 import req from 'reqwest'
 import {jsonCopy} from 'common/utils.js'
+import auth from 'common/auth.js'
 
 const PanelBar = Panel.ToolBar;
 const ButtonGroup = Button.Group;
