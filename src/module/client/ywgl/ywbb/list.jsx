@@ -1,7 +1,7 @@
 import React from 'react'
 import {Table,Modal,Button,Spin,notification,Icon,Tab} from 'antd'
 import Panel from 'component/compPanel'
-import model from './model.jsx'
+
 import {jsonCopy} from 'common/utils.js'
 
 const PanelBar = Panel.ToolBar;
@@ -23,12 +23,8 @@ const list = React.createClass({
     handleSearchtoggle(){
         this.setState({searchToggle: !this.state.searchToggle})
     },
-    handlePageChange(pager){
-        this.props.onPageChange(pager)
-    },
 
     render(){
-        const {spinning,data,pagination} = this.props;
         const panelBar = <PanelBar>
             <Button onClick={this.handleSearchToggle}>
                 <Icon type="search"/>查询
@@ -42,14 +38,10 @@ const list = React.createClass({
             </ButtonGroup>
         </PanelBar>;
         return <Spin spinning={false}>
-            <Panel toolbar={panelBar}>
+            <Panel title="业务记录" toolbar={panelBar}>
                 <Table className="outer-border"
-                       columns={model.columns}
-                       dataSource={data}
-                       pagination={pagination}
-                       onChange={this.handlePageChange}
-                       rowKey={record => record.ID}
-                />
+                       {...this.props}
+                       rowKey={record => record.ID}/>
             </Panel>
         </Spin>
     }
