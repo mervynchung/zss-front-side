@@ -16,26 +16,16 @@ module.exports = {
         handleDel = func;
     },
     columns: [
-        {title: '客户单位名称', dataIndex: 'DWMC', key: 'DWMC'},
-        {title: '联系地址', dataIndex: 'DWDZ', key: 'DWDZ'},
-        {title: '联系人', dataIndex: 'LXR', key: 'LXR'},
-        {title: '联系电话', dataIndex: 'LXDH', key: 'LXDH'},
-        {title: '纳税人识别号', dataIndex: 'NSRSBH', key: 'NSRSBH'},
-        {title: '地税纳税人识别号', dataIndex: 'NSRSBHDF', key: 'NSRSBHDF'},
-        {
-            title: '纳税人性质',
-            dataIndex: 'NSRXZ',
-            key: 'NSRXZ',
-            render(text){
-                if (text == 0) {
-                    return '一般纳税人'
-                } else if (text == 1) {
-                    return '小规模纳税人'
-                } else {
-                    return ''
-                }
-            }
-        },
+        {title: '年度', dataIndex: 'ND', key: 'ND'},
+        {title: '委托企业名称', dataIndex: 'WTDWMC', key: 'WTDWMC'},
+        {title: '业务发生地', dataIndex: 'CS', key: 'CS'},
+        {title: '业务类型', dataIndex: 'LX', key: 'LX'},
+        {title: '协议文号', dataIndex: 'XYWH', key: 'XYWH'},
+        {title: '协议金额', dataIndex: 'XYJE', key: 'XYJE'},
+        {title: '发票金额', dataIndex: 'FPJE', key: 'FPJE'},
+        {title: '报备号码', dataIndex: 'BBHM', key: 'BBHM'},
+        {title: '签字税务师', dataIndex: 'QZSWS', key: 'QZSWS'},
+        {title: '状态', dataIndex: 'ZT', key: 'ZT'},
         {
             title: '操作',
             key: 'action',

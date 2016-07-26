@@ -5,6 +5,7 @@ import './style.css'
 import config from 'common/configuration'
 import req from 'reqwest'
 import auth from 'common/auth.js'
+import List from './list'
 
 const TabPane = Tabs.TabPane;
 
@@ -25,9 +26,6 @@ const fetchYwbb =function (param = {page: 1, pageSize: 10,jid:jid}) {
 const ywbb = React.createClass({
     getInitialState(){
         return {
-            isSaved: false,
-            entity: {},
-            type: 'add'
         }
     },
 
@@ -35,8 +33,8 @@ const ywbb = React.createClass({
         return <div className="client-ywbb">
             <div className="wrap">
                 <Tabs type="card">
-                    <TabPane tab="业务报备" key="1">选项卡一内容</TabPane>
-                    <TabPane tab= {<Icon type="plus-circle-o" />} key="2">选项卡二内容</TabPane>
+                    <TabPane tab="业务报备" key="1"><List /></TabPane>
+                    <TabPane tab= {<span><Icon type="plus-circle-o" />添加</span>} key="2">选项卡二内容</TabPane>
                 </Tabs>
             </div>
         </div>
