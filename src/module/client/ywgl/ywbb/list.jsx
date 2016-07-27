@@ -1,6 +1,7 @@
 import React from 'react'
 import {Table,Modal,Button,Spin,notification,Icon,Tab} from 'antd'
 import Panel from 'component/compPanel'
+import SearchForm from './searchForm.jsx'
 
 import {jsonCopy} from 'common/utils.js'
 
@@ -20,7 +21,8 @@ const list = React.createClass({
     handleRefresh(){
         this.props.onRefresh()
     },
-    handleSearchtoggle(){
+    handleSearchToggle(){
+        console.log('search')
         this.setState({searchToggle: !this.state.searchToggle})
     },
 
@@ -39,6 +41,8 @@ const list = React.createClass({
         </PanelBar>;
         return <Spin spinning={false}>
             <Panel title="业务记录" toolbar={panelBar}>
+                {this.state.searchToggle && <SearchForm
+                    onSubmit={this.props.onSubmit}/>}
                 <Table className="outer-border"
                        {...this.props}
                        rowKey={record => record.ID}/>

@@ -1,6 +1,6 @@
 import React from 'react'
-import {Row,Col,Form,Button,Input} from 'antd'
-import {SelectorCS,SelectorYear} from 'component/compSelector'
+import {Row,Col,Form,Button,Input,InputNumber} from 'antd'
+import {SelectorCS,SelectorYear,SelectorYWLX} from 'component/compSelector'
 
 const FormItem = Form.Item;
 const createForm = Form.create;
@@ -29,35 +29,81 @@ let searchForm = React.createClass({
         return <div className="search-form">
             <Form horizontal onSubmit={this.handleSubmit} form={this.props.form}>
                 <Row>
-                    <Col span="12">
+
+                    <Col span="8">
                         <FormItem
                             {...formItemLayout}
-                            label="客户单位名称">
-                            <Input placeholder="客户单位名称" {...getFieldProps('dwmc')}/>
+                            label="委托企业名称">
+                            <Input placeholder="委托企业名称" {...getFieldProps('WTDWMC')}/>
+
                         </FormItem>
                     </Col>
-                    <Col span="12">
+                    <Col span="8">
                         <FormItem
                             {...formItemLayout}
-                            label="联系人">
-                            <Input placeholder="联系人" {...getFieldProps('lxr')}/>
-
+                            label="业务发生地">
+                            <SelectorCS {...getFieldProps('CS')}/>
+                        </FormItem>
+                    </Col>
+                    <Col span="8">
+                        <FormItem
+                            {...formItemLayout}
+                            label="业务类型">
+                            <SelectorYWLX  {...getFieldProps('LX')}/>
                         </FormItem>
                     </Col>
                 </Row>
                 <Row>
-                    <Col span="12">
+                    <Col span="8">
                         <FormItem
-                          {...formItemLayout}
-                          label="纳税人识别号">
-                            <Input placeholder="纳税人识别号" {...getFieldProps('nsrsbh')}/>
+                            {...formItemLayout}
+                            label="协议文号">
+                            <Input placeholder="协议文号" {...getFieldProps('XYWH')}/>
+
                         </FormItem>
                     </Col>
-                    <Col span="12">
+                    <Col span="8">
                         <FormItem
-                          {...formItemLayout}
-                          label="地税纳税人识别号">
-                            <Input placeholder="地税纳税人识别号" {...getFieldProps('nsrsbhdf')}/>
+                            {...formItemLayout}
+                            label="协议金额">
+                            <InputNumber min={1} max={13} style={{ width: '100%' }} {...getFieldProps('XYJE')}/>
+                        </FormItem>
+                    </Col>
+                    <Col span="8">
+                        <FormItem
+                            {...formItemLayout}
+                            label="发票金额">
+                            <InputNumber  min={1} max={13} style={{ width: '100%' }} {...getFieldProps('FPJE')}/>
+                        </FormItem>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col span="6">
+                        <FormItem
+                            {...formItemLayout}
+                            label="年度">
+                            <SelectorYear {...getFieldProps('ND')}/>
+                        </FormItem>
+                    </Col>
+                    <Col span="6">
+                        <FormItem
+                            {...formItemLayout}
+                            label="报备号码">
+                            <Input placeholder="协议文号" {...getFieldProps('BBHM')}/>
+                        </FormItem>
+                    </Col>
+                    <Col span="6">
+                        <FormItem
+                            {...formItemLayout}
+                            label="签字税务师">
+                            <Input placeholder="签字税务师" {...getFieldProps('QZSWS')}/>
+                        </FormItem>
+                    </Col>
+                    <Col span="6">
+                        <FormItem
+                            {...formItemLayout}
+                            label="状态">
+                            <Input placeholder="状态" {...getFieldProps('ZT')}/>
                         </FormItem>
                     </Col>
                 </Row>

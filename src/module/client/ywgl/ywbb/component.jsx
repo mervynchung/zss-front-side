@@ -6,6 +6,7 @@ import config from 'common/configuration'
 import req from 'reqwest'
 import auth from 'common/auth.js'
 import List from './list'
+import NewYwbb from './newYwbb.jsx'
 import model from './model.jsx'
 
 const TabPane = Tabs.TabPane;
@@ -46,6 +47,10 @@ const ywbb = React.createClass({
     handleListRefresh(){
 
     },
+    //搜索
+    handleSearchSubmit(){
+
+    },
 
     render(){
         return <div className="client-ywbb">
@@ -57,9 +62,12 @@ const ywbb = React.createClass({
                               pagination={this.state.pagination}
                               onChange={this.handlePageChange}
                               onRefresh={this.handleListRefresh}
+                              onSubmit={this.handleSearchSubmit}
                         />
                     </TabPane>
-                    <TabPane tab= {<span><Icon type="plus-circle-o" />添加</span>} key="2">选项卡二内容</TabPane>
+                    <TabPane tab= {<span><Icon type="plus-circle-o" />添加</span>} key="2">
+                        <NewYwbb />
+                    </TabPane>
                 </Tabs>
             </div>
         </div>
