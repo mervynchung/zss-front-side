@@ -93,15 +93,12 @@ inputType:'zzmm',},
     
   ]
 }
-const autoform2 = {
+const autoform1 = {
    colGroupNum: 2,
   props: [
     {
  id:'xm',
  name: '姓名：',required:true }, 
-    {
- id:'dwmc',
- name: '所属机构：',required:true }, 
     {
  id:'CS_DM',
  name: '所在城市：',
@@ -184,7 +181,7 @@ const autoform2 = {
  name: '是否出资人：',inputType:'is',type: 'number' }, 
     {
  id:'cze',
- name: '出资额（万元）：',type: 'number' }, 
+ name: '出资额（万元）：',inputType:'number',type: 'number' }, 
     {
  id:'fqr_dm',
  name: '是否发起人：',inputType:'is',type: 'number' }, 
@@ -194,7 +191,31 @@ const autoform2 = {
     
   ]
 }
-
+const autoform4 = {
+   colGroupNum: 1,
+props: [
+    {   id:'drs',
+        name:  '调入地区：',
+        required:true,
+    },{   id:'xjgmc',
+        name:  '新机构名称：',
+        required:true,
+        width:300,
+    },{   id:'xjgdh',
+        name:  '新机构电话：',
+        required:true,
+    },{   id:'zjyyrq',
+        name:  '转籍原因日期：',
+        inputType:'date',
+        required:true,
+        type: 'date' 
+    },{  id:'zjyy',
+        name: '转籍原因：',
+        required:true,
+        inputType: 'textarea',
+        rows:3
+    }, 
+]};
 
 const pageSetting = { //分页设置
   page: true, //是否分页
@@ -301,7 +322,7 @@ const props={
     'fqr_dm': '是否发起人',
     'rydazt': '人事档案状态',
     
-  }
+  };
   const dzb = {
     'CS_DM':{
         '-1':'直属',
@@ -388,17 +409,91 @@ const props={
 '54':'裕固族',
 '55':'藏族',
 '56':'壮族',
-
     },
     'XL_DM': {
-        '1':'男',
-        '2':'女',
-    }
+'1':'本科',
+'2':'大专',
+'3':'高中以下',
+'4':'研究生',
+'5':'博士及以上',
+'6':'中专',
+    },
+    'ZZMM_DM': {
+'1':'中共党员',
+'2':'中共预备党员',
+'3':'共青团员',
+'4':'民革会员',
+'5':'民盟盟员',
+'6':'民建会员',
+'7':'民进会员',
+'8':'农工党党员',
+'9':'致公党党员',
+'10':'九三学社社员',
+'11':'台盟盟员',
+'12':'无党派民主人士',
+'13':'群众',
+    },
+    'ZW_DM': {
+'1':'董事长',
+'2':'总经理',
+'3':'总会计师',
+'4':'总经济师',
+'5':'所长',
+'6':'副所长',
+'7':'会计师',
+'8':'注册税务师',
+'9':'副总经理',
+'10':'高级会计师',
+'11':'中级会计师',
+'12':'助理会计师',
+'13':'高级经济师',
+'14':'副经理',
+'15':'高级审计师',
+'16':'经济师',
+'17':'部门经理',
+'18':'部门主任',
+'19':'项目经理',
+'20':'项目主任',
+'21':'经理',
+'22':'档案管理',
+'23':'行政文员',
+'24':'后勤管理',
+'25':'培训管理',
+'26':'注册律师',
+'27':'注册评估师',
+'28':'人大代表',
+'29':'政协委员',
+'30':'其他',
+'31':'局长',
+'32':'巡视员',
+'33':'副巡视员',
+'34':'处长',
+'35':'科长',
+'36':'主任科员',
+'37':'科员',
+'38':'办事员',
+'39':'副处长',
+'40':'副科长',
+'41':'副主任科员',
+'42':'副局长',
+'43':'会长',
+'44':'秘书长',
+'45':'总审计师',
+'46':'主任',
+'47':'副主任',
+'48':'调研员',
+'49':'助理调研员',
+'50':'副会长',
+'51':'注册会计师',
+'52':'审计师',
+'53':'书记',
+    },
   }
 
 const model = {
   autoform:autoform,
-  autoform2:autoform2,
+  autoform1:autoform1,
+  autoform4:autoform4,
   pageSetting:pageSetting,
   columnsZyrybgjl:columnsZyrybgjl,
   columnsZyrynjjl:columnsZyrynjjl,

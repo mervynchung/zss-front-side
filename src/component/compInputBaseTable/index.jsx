@@ -1,5 +1,5 @@
 import React from 'react'
-import {Row,Col,Form,Checkbox,Button,Input,DatePicker,Modal  } from 'antd'
+import {Row,Col,Form,Checkbox,Button,Input,DatePicker,Modal,InputNumber  } from 'antd'
 import {SelectorCS,SelectorMZ,SelectorXL,SelectorZZMM,SelectorXB,SelectorZW,SelectorIS} from 'component/compSelector'
 import './untils.js'
 
@@ -12,15 +12,16 @@ const TrWrapper = React.createClass({
 })
 
 let baseTable = React.createClass({
-    handleReset(e) {
-        this.props.form.resetFields();
-    },
-
-    // componentWillReceiveProps(nextProps){
+    // componentWillReceiveProps(nextProps){//检测父组件state变化
     //     if (this.props.re!=nextProps.re) {
     //         this.handleReset();
     //     };
     // },
+
+    handleReset(e) {
+        this.props.form.resetFields();
+    },
+
     handleSubmit(){
         this.props.form.validateFieldsAndScroll((errors, values) => {//条件校验处理
               if (!!errors) {
@@ -29,6 +30,7 @@ let baseTable = React.createClass({
             }
 
             let value = this.props.form.getFieldsValue();
+            if (this.props.bglx) {
             var ls = [];
             const old = this.props.data;
             for(var key in value){
@@ -44,15 +46,22 @@ let baseTable = React.createClass({
                             };
                     };
             };
-
             if (ls.length!=0) {
                 value.bgjl=ls;
-                // this.props.onSubmit(value);
-                console.log(value);
+                this.props.onSubmit(value);
             }else{
-                Modal.info({ title: '提示', content: (<div><p>没有变更数据，请检查后提交</p> </div>)});
+                Modal.info({ title: '提示', content: (<div><p>没有数据更新，请检查后提交</p> </div>)});
                 return;
             };
+        }else{
+                for(var key in value){
+                    if(Object.prototype.toString.call(value[key])=="[object Date]"){//时间格式化
+                            var dd = value[key].Format("yyyy-MM-dd");
+                            value[key]=dd;
+                        };
+                };
+                this.props.onSubmit(value);
+        };
 
             });
     },
@@ -60,8 +69,8 @@ let baseTable = React.createClass({
             e.preventDefault();
             var that=this;
               Modal.confirm({
-                title: '您是否确认要提交以上变更信息？',
-                content: '变更项目提交后将提交中心管理端审批，在变更审批完成前，将不能再进行变更操作',
+                title: this.props.title,
+                content: this.props.content,
                 onOk() {
                   that.handleSubmit();
                 },
@@ -109,24 +118,28 @@ let baseTable = React.createClass({
                 if (!!prop.inputType) {
                     switch(prop.inputType){
                         case "date":
-                                 td.push(<td key={'td-v-'+prop.id}><DatePicker { ...getFieldProps(prop.id, {rules: [{ type: prop.type,required: !!prop.required}]})}></DatePicker></td>);break;
+                                 td.push(<td key={'td-v-'+prop.id}><DatePicker disabled={prop.disabled} { ...getFieldProps(prop.id, {rules: [{ type: prop.type,required: !!prop.required}]})}></DatePicker></td>);break;
                         case "cs":
-                                 td.push(<td key={'td-v-'+prop.id}><SelectorCS style={{'width':'200px'}} { ...getFieldProps(prop.id, { rules: [{ type: prop.type,required: !!prop.required}]})}></SelectorCS></td>);break;
+                                 td.push(<td key={'td-v-'+prop.id}><SelectorCS disabled={prop.disabled} style={{'width':prop.width?prop.width:'200px'}} { ...getFieldProps(prop.id, { rules: [{ type: prop.type,required: !!prop.required}]})}></SelectorCS></td>);break;
                         case "mz":
-                                 td.push(<td key={'td-v-'+prop.id}><SelectorMZ style={{'width':'200px'}} { ...getFieldProps(prop.id, { rules: [{ type: prop.type,required: !!prop.required}]})}></SelectorMZ></td>);break;
+                                 td.push(<td key={'td-v-'+prop.id}><SelectorMZ disabled={prop.disabled} style={{'width':prop.width?prop.width:'200px'}} { ...getFieldProps(prop.id, { rules: [{ type: prop.type,required: !!prop.required}]})}></SelectorMZ></td>);break;
                         case "xl":
-                                 td.push(<td key={'td-v-'+prop.id}><SelectorXL style={{'width':'200px'}} { ...getFieldProps(prop.id, { rules: [{ type: prop.type,required: !!prop.required}]})}></SelectorXL></td>);break;
+                                 td.push(<td key={'td-v-'+prop.id}><SelectorXL disabled={prop.disabled} style={{'width':prop.width?prop.width:'200px'}} { ...getFieldProps(prop.id, { rules: [{ type: prop.type,required: !!prop.required}]})}></SelectorXL></td>);break;
                         case "xb":
-                                 td.push(<td key={'td-v-'+prop.id}><SelectorXB style={{'width':'100px'}} { ...getFieldProps(prop.id, { rules: [{ type: prop.type,required: !!prop.required}]})}></SelectorXB></td>);break;
+                                 td.push(<td key={'td-v-'+prop.id}><SelectorXB disabled={prop.disabled} style={{'width':prop.width?prop.width:'100px'}} { ...getFieldProps(prop.id, { rules: [{ type: prop.type,required: !!prop.required}]})}></SelectorXB></td>);break;
                         case "zzmm":
-                                 td.push(<td key={'td-v-'+prop.id}><SelectorZZMM style={{'width':'200px'}} { ...getFieldProps(prop.id, { rules: [{ type: prop.type,required: !!prop.required}]})}></SelectorZZMM></td>);break;
+                                 td.push(<td key={'td-v-'+prop.id}><SelectorZZMM disabled={prop.disabled} style={{'width':prop.width?prop.width:'200px'}} { ...getFieldProps(prop.id, { rules: [{ type: prop.type,required: !!prop.required}]})}></SelectorZZMM></td>);break;
                         case "zw":
-                                 td.push(<td key={'td-v-'+prop.id}><SelectorZW style={{'width':'200px'}} { ...getFieldProps(prop.id, { rules: [{ type: prop.type,required: !!prop.required}]})}></SelectorZW></td>);break;
+                                 td.push(<td key={'td-v-'+prop.id}><SelectorZW disabled={prop.disabled} style={{'width':prop.width?prop.width:'200px'}} { ...getFieldProps(prop.id, { rules: [{ type: prop.type,required: !!prop.required}]})}></SelectorZW></td>);break;
                         case "is":
-                                 td.push(<td key={'td-v-'+prop.id}><SelectorIS style={{'width':'100px'}} { ...getFieldProps(prop.id, { rules: [{ type: prop.type,required: !!prop.required}]})}></SelectorIS></td>);break;
+                                 td.push(<td key={'td-v-'+prop.id}><SelectorIS disabled={prop.disabled} style={{'width':prop.width?prop.width:'100px'}} { ...getFieldProps(prop.id, { rules: [{ type: prop.type,required: !!prop.required}]})}></SelectorIS></td>);break;
+                        case "number":
+                                 td.push(<td key={'td-v-'+prop.id}><Input style={{'width':prop.width?prop.width:'200px'}} disabled={prop.disabled} { ...getFieldProps(prop.id, { rules: [{ required: !!prop.required}]})}></Input></td>);break;
+                        case "textarea":
+                                 td.push(<td key={'td-v-'+prop.id} ><Col span={prop.span?prop.span:20}><Input disabled={prop.disabled} type="textarea" rows={prop.rows} { ...getFieldProps(prop.id, { rules: [{ required: !!prop.required}]})}></Input></Col></td>);break;
                     }
                 }else{
-                 td.push(<td key={'td-v-'+prop.id}><Input { ...getFieldProps(prop.id, { rules: [{type: prop.type, required: !!prop.required}]})}></Input></td>);
+                 td.push(<td key={'td-v-'+prop.id}><Input style={{'width':prop.width?prop.width:'200px'}} disabled={prop.disabled} { ...getFieldProps(prop.id, { rules: [{type: prop.type, required: !!prop.required}]})}></Input></td>);
                 };
                 colCount += 1;
             }
@@ -150,8 +163,8 @@ let baseTable = React.createClass({
                 </tbody>
                 <tbody key="0002">
                 <tr key="0003"><td key="0004" colSpan='10'><div style={{float:'right'}}>
-                <Button type="primary"  htmlType="submit" onClick={this.showConfirm} loading={this.props.submitLoading}>提交</Button><span className="ant-divider"></span>
-                <Button type="ghost"  htmlType="submit" onClick={this.handleReset} >重置</Button>
+                <Button type="primary"  htmlType="submit" onClick={this.props.showConfirm?this.showConfirm:this.handleSubmit} disabled={this.props.disabled} loading={this.props.submitLoading}>提交</Button>
+                {this.props.reset?<span ><span className="ant-divider"></span><Button type="ghost"  htmlType="submit" onClick={this.handleReset} >重置</Button></span>:null}
                 </div></td></tr>
                 </tbody>
                 
@@ -170,6 +183,12 @@ baseTable = createForm({
                          dd = new Date(props.data[prop.id].toString().replace(/-/g, "/"));
                  };
                 result[prop.id] = {value: dd};
+            }else if (prop.inputType=="number") {
+                var num = null;
+                if (!!props.data[prop.id]) {
+                         num = String(props.data[prop.id]);
+                 };
+                result[prop.id] = {value: num};
             }else{
             result[prop.id] = {value: props.data[prop.id]}
             };

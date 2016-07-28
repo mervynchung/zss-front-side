@@ -18,6 +18,7 @@ var selector = {
     SelectorZZMM: require('./zzmm'), //政治面貌
     SelectorNJJL: require('./njjl'), //年检结论
     SelectorRYZT: require('./ryzt'), //人员状态
+    SelectorRYSPZT: require('./ryspzt'), //人员审批状态
     SelectorRYLB: require('./rylb'), //人员类别
     SelectorXL: require('./xl'), //学历
     SelectorXB: require('./xb'), //性别
