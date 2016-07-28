@@ -9,26 +9,34 @@ const newYwbb = React.createClass({
     getInitialState(){
         return {
             stage:0,
-            dataStage0:{},
-            dataStage1:{},
-            dataStage2:{}
+            dataXY:{},
+            dataYW:{},
+            dataJG:{}
         }
     },
     handleStageChange(value){
         this.setState({stage:value})
     },
     handleStage0Submit(param){
-        this.setState({stage:param.stage,dataStage0:param.values})
+        this.setState({stage:param.stage,dataXY:param.dataXY})
+
+    },
+    handleStage1Submit(param){
+        this.setState({stage:param.stage,dataYW:param.dataYW})
+
+    },
+    handleStage2Submit(param){
+        this.setState({stage:param.stage,dataJG:param.dataJG})
 
     },
 
     render(){
-        let {stage,dataStage0,dataStage1,dataStage2} = this.state;
+        let {stage,dataXY,dataYW,dataJG} = this.state;
         let stageContent ={
-            '0' : <Stage0 data={dataStage0}
+            '0' : <Stage0 data={dataXY}
                           onSubmit={this.handleStage0Submit}/>,
             '1' : <Stage1 onStageChange={this.handleStageChange}
-                          data={dataStage1}/>
+                          data={dataYW}/>
         };
 
         return <Panel>
