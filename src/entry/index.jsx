@@ -151,6 +151,7 @@ const Index = React.createClass({
 
                 //系统数据分析
                 require('../module/xtsjfx/jgnjsjfxb'),
+                require('../module/xtsjfx/swsqktjA'),
 
                 //业务管理
                 require('../module/client/ywgl/khxxgl') //客户信息管理
