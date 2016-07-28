@@ -15,3 +15,18 @@
 .client-ywbb > .wrap > .ant-tabs-card > .ant-tabs-bar .ant-tabs-tab-active {
     border-color: #fff;
 }
+.client-ywbb .panel {
+    margin-bottom: 0;
+}
+.client-ywbb .panel > .panel-body {
+    padding:16px 0 0 0
+}
+.client-ywbb .panel >.panel-title {
+    padding:14px 0
+}
+.client-ywbb .steps{
+    padding:24px
+}
+.client-ywbb .stage{
+    margin-top:16px
+}
