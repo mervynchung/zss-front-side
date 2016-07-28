@@ -9,7 +9,7 @@ import BaseTable from 'component/compBaseTable'
 import {entityFormat} from 'common/utils'
 
 
-const API_URL = config.HOST + config.URI_API_PROJECT + '/xttjbb/swszttj';
+const API_URL = config.HOST + config.URI_API_PROJECT + '/swszt1';
 const ToolBar = Panel.ToolBar;
 const ButtonGroup = Button.Group;
 
@@ -87,7 +87,7 @@ const swszttj = React.createClass({
     },
 
     //点击某行
-    handleRowClick(record){
+  /*  handleRowClick(record){
         req({
             url: API_URL + '/' + record.id,
             type: 'json',
@@ -109,10 +109,10 @@ const swszttj = React.createClass({
     //明细表关闭
     handleDetailClose(){
         this.setState({detailHide: true})
-    },
+    },*/
 
     //通过API获取数据
-    fetchData(params = {page: 1, pageSize: this.state.pagination.pageSize}){
+    fetchData(params = {year:2015}){
         this.setState({loading: true});
         req({
             url: API_URL,
@@ -162,6 +162,7 @@ const swszttj = React.createClass({
                 <Button type="primary" onClick={this.handleRefresh}><Icon type="reload"/></Button>
             </ButtonGroup>
         </ToolBar>;
+        
 
         //定义提示内容
         let helper = [];
@@ -181,6 +182,7 @@ const swszttj = React.createClass({
                         onSubmit={this.handleSearchSubmit}/>}
                     <div className="h-scroll-table">
                         <Table columns={columns}
+                        //数据是从{column}中取，column通过import引入，column的定义在model中
                                dataSource={this.state.data}
                                pagination={this.state.pagination}
                                loading={this.state.loading}
