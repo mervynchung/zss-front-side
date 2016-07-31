@@ -1,6 +1,7 @@
 import React from 'react'
-import {Form,Row,Col,Input,Button} from 'antd'
+import {Form,Row,Col,Input,Button,InputNumber} from 'antd'
 import Panel from 'component/compPanel'
+import {SelectorISWS,SelectorSB,SelectorYWLX} from 'component/compSelector'
 
 const FormItem = Form.Item;
 const createForm = Form.create;
@@ -15,61 +16,91 @@ let stage =  React.createClass({
     render(){
         const { getFieldProps } = this.props.form;
         return <Panel title="填写业务详细资料" className="stage">
-            <div className="new-form">
-                <Form horizontal onSubmit={this.handleSubmit} form={this.props.form}>
+
+                <Form horizontal  form={this.props.form}>
                     <Row>
-                        <Col span="9">
+                        <Col span="6">
                             <FormItem
-                                labelCol={{span: 7}} wrapperCol={{span: 15}}
-                                label="单位名称"
-                                required={true}>
-                                <Input placeholder="单位名称" {...getFieldProps('DWDZ')}/>
-                            </FormItem>
-                        </Col>
-                        <Col span="15">
-                            <FormItem
-                                labelCol={{span: 4}} wrapperCol={{span: 20}}
-                                label="单位地址">
-                                <Input placeholder="单位地址" {...getFieldProps('DWDZ')}/>
-                            </FormItem>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col span="9">
-                            <FormItem
-                                labelCol={{span: 7}} wrapperCol={{span: 15}}
-                                label="纳税人识别号">
-                                <Input placeholder="纳税人识别号" {...getFieldProps('DWDZ')}/>
-                            </FormItem>
-                        </Col>
-                        <Col span="9">
-                            <FormItem
-                                labelCol={{span: 7}} wrapperCol={{span: 15}}
-                                label="地税税务登记证号">
-                                <Input placeholder="地税税务登记证号" {...getFieldProps('DWDZ')}/>
+                              labelCol={{span: 8}} wrapperCol={{span: 16}}
+                              label="主管税务机关">
+                                <SelectorISWS {...getFieldProps('ISWS',{initialValue:'N'})} />
                             </FormItem>
                         </Col>
                         <Col span="6">
                             <FormItem
-                                labelCol={{span: 8}} wrapperCol={{span: 16}}
-                                label="纳税人性质">
-                                <Input placeholder="单位名称" {...getFieldProps('NSRXZ')}/>
+                              labelCol={{span: 8}} wrapperCol={{span: 16}}>
+                                <SelectorSB  {...getFieldProps('SB',{initialValue:'1'})}/>
+                            </FormItem>
+                        </Col>
+
+                    </Row>
+                    <Row>
+                        <Col span="24">
+                            <FormItem
+                              labelCol={{span: 3}} wrapperCol={{span: 5}}
+                              label="委托企业">
+                                <Input  />
                             </FormItem>
                         </Col>
                     </Row>
                     <Row>
-                        <Col span="9">
+                        <Col span="24">
                             <FormItem
-                                labelCol={{span: 7}} wrapperCol={{span: 15}}
-                                label="联系人">
-                                <Input placeholder="联系人" {...getFieldProps('DWDZ')}/>
+                              labelCol={{span: 3}} wrapperCol={{span: 5}}
+                              label="纳税人识别号">
+                                <Input placeholder="纳税人识别号" disabled {...getFieldProps('NSRSBH')}/>
                             </FormItem>
                         </Col>
-                        <Col span="9">
+                    </Row>
+                    <Row>
+                        <Col span="24">
                             <FormItem
-                                labelCol={{span: 7}} wrapperCol={{span: 15}}
-                                label="联系电话">
-                                <Input placeholder="联系电话" {...getFieldProps('LXDH')}/>
+                              labelCol={{span: 3}} wrapperCol={{span: 5}}
+                              label="地税税务登记证号">
+                                <Input placeholder="地税税务登记证号" disabled {...getFieldProps('NSRSBHDF')}/>
+                            </FormItem>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col span="8">
+                            <FormItem
+                              labelCol={{span: 9}} wrapperCol={{span: 15}}
+                              label="联系人">
+                                <Input disabled {...getFieldProps('DWDZ')}/>
+                            </FormItem>
+                        </Col>
+                        <Col span="8">
+                            <FormItem
+                              labelCol={{span: 9}} wrapperCol={{span: 15}}
+                              label="联系电话">
+                                <Input disabled {...getFieldProps('LXDH')}/>
+                            </FormItem>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col span="24">
+                            <FormItem
+                              labelCol={{span: 3}} wrapperCol={{span: 13}}
+                              label="委托企业联系地址">
+                                <Input disabled {...getFieldProps('DWDZ')}/>
+                            </FormItem>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col span="24">
+                            <FormItem
+                              labelCol={{span: 3}} wrapperCol={{span: 6}}
+                              label="委托项目类型">
+                                <SelectorYWLX  />
+                            </FormItem>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col span="24">
+                            <FormItem
+                              labelCol={{span: 3}} wrapperCol={{span: 5}}
+                              label="协议收费金额">
+                                <InputNumber style={{width:'100%'}} />
                             </FormItem>
                         </Col>
                     </Row>
@@ -86,7 +117,6 @@ let stage =  React.createClass({
                         </Col>
                     </Row>
                 </Form>
-            </div>
 
         </Panel>
     }

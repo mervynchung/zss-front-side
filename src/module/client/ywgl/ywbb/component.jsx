@@ -56,7 +56,7 @@ const ywbb = React.createClass({
         return <div className="client-ywbb">
             <div className="wrap">
                 <Tabs type="card">
-                    <TabPane tab="业务报备" key="1">
+                    <TabPane tab="业务报备记录" key="1">
                         <List datasource={this.state.data}
                               columns={model.columns}
                               pagination={this.state.pagination}

@@ -33,9 +33,9 @@ const newYwbb = React.createClass({
     render(){
         let {stage,dataXY,dataYW,dataJG} = this.state;
         let stageContent ={
-            '0' : <Stage0 data={dataXY}
+            '1' : <Stage0 data={dataXY}
                           onSubmit={this.handleStage0Submit}/>,
-            '1' : <Stage1 onStageChange={this.handleStageChange}
+            '0' : <Stage1 onStageChange={this.handleStageChange}
                           data={dataYW}/>
         };
 
