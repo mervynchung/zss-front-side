@@ -27,8 +27,19 @@ let stage =  React.createClass({
                             </FormItem>
                         </Col>
                         <Col span="6">
+                            <FormItem labelCol={{span: 8}} wrapperCol={{span: 16}}>
+                                <SelectorSB  {...getFieldProps('SB',{initialValue:'1'})}/>
+                            </FormItem>
+                        </Col>
+                        <Col span="6">
                             <FormItem
-                              labelCol={{span: 8}} wrapperCol={{span: 16}}>
+                                labelCol={{span: 8}} wrapperCol={{span: 16}}>
+                                <SelectorSB  {...getFieldProps('SB',{initialValue:'1'})}/>
+                            </FormItem>
+                        </Col>
+                        <Col span="6">
+                            <FormItem
+                                labelCol={{span: 8}} wrapperCol={{span: 16}}>
                                 <SelectorSB  {...getFieldProps('SB',{initialValue:'1'})}/>
                             </FormItem>
                         </Col>
