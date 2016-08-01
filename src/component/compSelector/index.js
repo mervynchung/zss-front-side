@@ -19,6 +19,7 @@ var selector = {
     SelectorNJJL: require('./njjl'), //年检结论
     SelectorRYZT: require('./ryzt'), //人员状态
     SelectorRYSPZT: require('./ryspzt'), //人员审批状态
+    SelectorZYSWSZXYY: require('./zyswszxyy'), //执业税务师注销原因
     SelectorRYLB: require('./rylb'), //人员类别
     SelectorXL: require('./xl'), //学历
     SelectorXB: require('./xb'), //性别

@@ -16,6 +16,8 @@ const ToolBar = Panel.ToolBar;
 const ButtonGroup = Button.Group;
 const API_URL = config.HOST+config.URI_API_PROJECT + '/swsrycx/zyry';
 const API_URL_BG = config.HOST+config.URI_API_PROJECT + '/spapi/spsq/zyswsbgsq';
+const API_URL_ZFZY= config.HOST+config.URI_API_PROJECT + '/spapi/spsq/zyzfzysq';
+const API_URL_ZX = config.HOST+config.URI_API_PROJECT + '/spapi/spsq/zyzxsq';
 const API_URL_ZJ = config.HOST+config.URI_API_PROJECT + '/spapi/spsq/zyzjsq';
 const API_URL_C = config.HOST + config.URI_API_PROJECT + '/commont/checksping/zysp/';
  
@@ -164,6 +166,8 @@ const rycx = React.createClass({
             let squrls="";
             switch(this.state.czAll){
                 case 1: squrls=API_URL_BG;break;
+                case 2: squrls=API_URL_ZFZY;break;
+                case 3: squrls=API_URL_ZX;break;
                 case 4: squrls=API_URL_ZJ;break;
             }
              req({
@@ -331,6 +335,20 @@ const rycx = React.createClass({
                           submitLoading={this.state.bgLoading} title='您是否确认要提交以上变更信息？' 
                           content='变更项目提交后将提交中心管理端审批，在变更审批完成前，将不能再进行变更操作' />
                          </Spin></Panel>}
+                        {this.state.czAll==2 &&<Panel title="转非执业" toolbar={toolbar2}>
+                        <Spin spinning={this.state.sloading}><p className="nbjgsz"><b style={{'padding':'10px'}}>{this.state.dataxx.xm} 注销备案申请</b></p>
+                        <CompInputBaseTable data={this.state.dataxx}  model={Model.autoform2} bordered striped reset showConfirm
+                        onSubmit={this.handleBGSubmit} bgmc={Model.bgmc} disabled={this.state.onSubmitZT} 
+                        submitLoading={this.state.bgLoading} title='您是否确认提交以上信息？'  
+                        content='申请提交后将提交中心管理端审批，在审批完成前，将不能再进行操作'  />
+                        </Spin></Panel>}
+                        {this.state.czAll==3 &&<Panel title="注销备案" toolbar={toolbar2}>
+                        <Spin spinning={this.state.sloading}><p className="nbjgsz"><b style={{'padding':'10px'}}>{this.state.dataxx.xm} 注销备案申请</b></p>
+                        <CompInputBaseTable data={this.state.dataxx}  model={Model.autoform3} bordered striped reset showConfirm
+                        onSubmit={this.handleBGSubmit} bgmc={Model.bgmc} disabled={this.state.onSubmitZT} 
+                        submitLoading={this.state.bgLoading} title='您是否确认提交以上信息？'  
+                        content='申请提交后将提交中心管理端审批，审批通过后，该人员将注销'  />
+                        </Spin></Panel>}
                         {this.state.czAll==4 &&<Panel title="转籍出省" toolbar={toolbar2}>
                         <Spin spinning={this.state.sloading}><p className="nbjgsz"><b style={{'padding':'10px'}}>{this.state.dataxx.xm} 转籍申请</b></p>
                         <CompInputBaseTable data={this.state.dataxx}  model={Model.autoform4} bordered striped reset showConfirm

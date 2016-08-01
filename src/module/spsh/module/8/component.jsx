@@ -34,7 +34,7 @@ const wspcx = React.createClass({
                                     <tr >
                                     <td><b>转籍原因日期：</b></td>
                                     <td >{this.state.entity.ZJYYRQ}</td>
-                                 </tr>
+                                    </tr>
                                     <tr >
                                     <td><b>调入城市：</b></td>
                                     <td >{this.state.entity.DRS}</td>

@@ -191,6 +191,42 @@ const autoform1 = {
     
   ]
 }
+const autoform2 = {
+   colGroupNum: 1,
+props: [
+    {   id:'FZYSQ',
+        name:  '转非原因：',
+        inputType: 'textarea',
+        rows:2,
+        span:10,
+        required:true,
+    },{  id:'XDWYJ',
+        name: '现单位意见：',
+        required:true,
+        inputType: 'textarea',
+        rows:3
+    }, 
+]};
+const autoform3 = {
+   colGroupNum: 1,
+props: [
+    {   id:'ZYSWSZXYY_DM',
+        name:  '注销原因：',
+        inputType: 'zyzxyy',
+        required:true,
+        type: 'number' 
+    },{   id:'ZXRQ',
+        name:  '注销日期：',
+        inputType:'date',
+        required:true,
+        type: 'date' 
+    },{  id:'SWSYJ',
+        name: '事务所意见：',
+        required:true,
+        inputType: 'textarea',
+        rows:3
+    }, 
+]};
 const autoform4 = {
    colGroupNum: 1,
 props: [
@@ -493,6 +529,8 @@ const props={
 const model = {
   autoform:autoform,
   autoform1:autoform1,
+  autoform2:autoform2,
+  autoform3:autoform3,
   autoform4:autoform4,
   pageSetting:pageSetting,
   columnsZyrybgjl:columnsZyrybgjl,

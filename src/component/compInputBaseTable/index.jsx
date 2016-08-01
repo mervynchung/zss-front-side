@@ -1,6 +1,6 @@
 import React from 'react'
 import {Row,Col,Form,Checkbox,Button,Input,DatePicker,Modal,InputNumber  } from 'antd'
-import {SelectorCS,SelectorMZ,SelectorXL,SelectorZZMM,SelectorXB,SelectorZW,SelectorIS} from 'component/compSelector'
+import {SelectorCS,SelectorMZ,SelectorXL,SelectorZZMM,SelectorXB,SelectorZW,SelectorIS,SelectorZYSWSZXYY} from 'component/compSelector'
 import './untils.js'
 
 const FormItem = Form.Item;
@@ -137,6 +137,8 @@ let baseTable = React.createClass({
                                  td.push(<td key={'td-v-'+prop.id}><Input style={{'width':prop.width?prop.width:'200px'}} disabled={prop.disabled} { ...getFieldProps(prop.id, { rules: [{ required: !!prop.required}]})}></Input></td>);break;
                         case "textarea":
                                  td.push(<td key={'td-v-'+prop.id} ><Col span={prop.span?prop.span:20}><Input disabled={prop.disabled} type="textarea" rows={prop.rows} { ...getFieldProps(prop.id, { rules: [{ required: !!prop.required}]})}></Input></Col></td>);break;
+                        case "zyzxyy":
+                                 td.push(<td key={'td-v-'+prop.id}><SelectorZYSWSZXYY disabled={prop.disabled} style={{'width':prop.width?prop.width:'200px'}} { ...getFieldProps(prop.id, { rules: [{ type: prop.type,required: !!prop.required}]})}></SelectorZYSWSZXYY></td>);break;
                     }
                 }else{
                  td.push(<td key={'td-v-'+prop.id}><Input style={{'width':prop.width?prop.width:'200px'}} disabled={prop.disabled} { ...getFieldProps(prop.id, { rules: [{type: prop.type, required: !!prop.required}]})}></Input></td>);
