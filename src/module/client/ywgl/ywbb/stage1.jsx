@@ -1,7 +1,7 @@
 import React from 'react'
 import {Form,Row,Col,Input,Button,InputNumber} from 'antd'
 import Panel from 'component/compPanel'
-import {SelectorISWS,SelectorSB,SelectorYWLX} from 'component/compSelector'
+import {SelectorISWS,SelectorSB,SelectorYWLX,SelectorHY} from 'component/compSelector'
 
 const FormItem = Form.Item;
 const createForm = Form.create;
@@ -21,38 +21,44 @@ let stage =  React.createClass({
                     <Row>
                         <Col span="6">
                             <FormItem
-                              labelCol={{span: 8}} wrapperCol={{span: 16}}
+                              labelCol={{span: 12}} wrapperCol={{span: 11}}
                               label="主管税务机关">
                                 <SelectorISWS {...getFieldProps('ISWS',{initialValue:'N'})} />
                             </FormItem>
                         </Col>
-                        <Col span="6">
-                            <FormItem labelCol={{span: 8}} wrapperCol={{span: 16}}>
+                        <Col span="3">
+                            <FormItem style={{width:'90%'}}>
                                 <SelectorSB  {...getFieldProps('SB',{initialValue:'1'})}/>
                             </FormItem>
                         </Col>
-                        <Col span="6">
-                            <FormItem
-                                labelCol={{span: 8}} wrapperCol={{span: 16}}>
+                        <Col span="3">
+                            <FormItem  style={{width:'90%'}} >
                                 <SelectorSB  {...getFieldProps('SB',{initialValue:'1'})}/>
                             </FormItem>
                         </Col>
-                        <Col span="6">
-                            <FormItem
-                                labelCol={{span: 8}} wrapperCol={{span: 16}}>
+                        <Col span="4">
+                            <FormItem style={{width:'90%'}}>
                                 <SelectorSB  {...getFieldProps('SB',{initialValue:'1'})}/>
                             </FormItem>
                         </Col>
 
                     </Row>
                     <Row>
-                        <Col span="24">
+                        <Col span="12">
                             <FormItem
-                              labelCol={{span: 3}} wrapperCol={{span: 5}}
-                              label="委托企业">
-                                <Input  />
+                              labelCol={{span: 6}} wrapperCol={{span: 12}}
+                              label="委托企业行业类型">
+                                <SelectorHY  {...getFieldProps('HY_ID',{initialValue:'1'})}/>
                             </FormItem>
                         </Col>
+                        <Col span="12">
+                            <FormItem
+                              labelCol={{span: 3}} wrapperCol={{span: 5}}
+                              label="委托企业增值税纳税人类型">
+                                <SelectorHY  {...getFieldProps('SB',{initialValue:'1'})}/>
+                            </FormItem>
+                        </Col>
+
                     </Row>
                     <Row>
                         <Col span="24">
