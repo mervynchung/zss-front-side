@@ -4,7 +4,12 @@ import CompPageHead from 'component/CompPageHead'
 import Panel from 'component/compPanel'
 import {columns,entityModel} from './model'
 import req from 'reqwest';
+<<<<<<< HEAD:src/module/xtywbb/zyzzsjfx/component.jsx
 
+=======
+import auth from 'common/auth'
+import SearchForm from './searchForm'
+>>>>>>> refs/remotes/origin/master:src/module/cwbb/wsbbb/component.jsx
 import config from 'common/configuration'
 import BaseTable from 'component/compBaseTable'
 import {entityFormat} from 'common/utils'
@@ -121,8 +126,15 @@ const zyzzsjfx = React.createClass({
             type: 'json',
             method: 'get',
             data: params,
+<<<<<<< HEAD:src/module/xtywbb/zyzzsjfx/component.jsx
             contentType: 'application/json'
         }).then(resp=> {
+=======
+            headers:{'x-auth-token':auth.getToken()},
+            contentType: 'application/json'
+        }).then(resp=> {
+            console.log("zhi",resp)
+>>>>>>> refs/remotes/origin/master:src/module/cwbb/wsbbb/component.jsx
             const p = this.state.pagination;
             p.total = resp.total > 1000 ? 1000 : resp.total;
             p.showTotal = total => {
