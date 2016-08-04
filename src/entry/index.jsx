@@ -149,10 +149,17 @@ const Index = React.createClass({
                 // require('../module/client/sdsb/hyryqktjb'),
                 // require('../module/client/sdsb/jysrqkb'),
 
+                //系统业务报表
+                require('../module/xtywbb/ndjysrtj'),
+                
+                //人员年检数据分析
+                require('../module/njsjfx/rynjsjfx'),
+
                 //系统数据分析
                 require('../module/xtsjfx/jgnjsjfxb'),
                 require('../module/xtsjfx/swsqktjA'),
                 require('../module/xtsjfx/hyryqktj'),
+
 
                 //会员会费缴纳
                 require('../module/hyhf_new/hyhfjnqk'),
