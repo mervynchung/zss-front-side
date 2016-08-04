@@ -154,6 +154,10 @@ const Index = React.createClass({
                 require('../module/xtsjfx/swsqktjA'),
                 require('../module/xtsjfx/hyryqktj'),
 
+                //会员会费缴纳
+                require('../module/hyhf_new/hyhfjnqk'),
+                require('../module/hyhf_new/fpdy'),
+
                 //业务管理
                 require('../module/client/ywgl/khxxgl') //客户信息管理
 
