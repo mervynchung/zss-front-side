@@ -7,7 +7,7 @@ import req from 'reqwest'
 import config from 'common/configuration'
 import BaseTable from 'component/compBaseTable'
 import {entityFormat} from 'common/utils'
-
+import SelectorYear from './year'
 
 const API_URL = config.HOST + config.URI_API_PROJECT + '/swszt1';
 const ToolBar = Panel.ToolBar;
@@ -112,7 +112,7 @@ const swszttj = React.createClass({
     },*/
 
     //通过API获取数据
-    fetchData(params = {year:2015}){
+    fetchData(params = {year:2016}){
         this.setState({loading: true});
         req({
             url: API_URL,
@@ -147,20 +147,19 @@ const swszttj = React.createClass({
     componentDidMount(){
         this.fetchData();
     },
+    //下拉框选择日期执行的方法
+    handleYearChange(value){
+             const params={
+            year:value
+           };
+           
+       this.fetchData(params) 
+    },
 
-    render(){
-        //定义工具栏内容
-        let toolbar = <ToolBar>
-            <Button onClick={this.handleSearchToggle}>
-                <Icon type="search"/>查询
-                { this.state.searchToggle ? <Icon className="toggle-tip" type="circle-o-up"/> :
-                    <Icon className="toggle-tip" type="circle-o-down"/>}
-            </Button>
+     render(){
+       //定义工具栏内容
+        let toolbar = <ToolBar><SelectorYear style={{width:'100px'}} onChange={this.handleYearChange}/>
 
-            <ButtonGroup>
-                <Button type="primary" onClick={this.handleHelper}><Icon type="question"/></Button>
-                <Button type="primary" onClick={this.handleRefresh}><Icon type="reload"/></Button>
-            </ButtonGroup>
         </ToolBar>;
         
 

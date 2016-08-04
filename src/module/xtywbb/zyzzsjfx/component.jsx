@@ -1,24 +1,22 @@
-/*
-事务所情况统计表b
-*/
 import React from 'react'
-import {Table,Modal,Row,Col,Button,Icon,Alert,Select,Form} from 'antd'
+import {Table,Modal,Row,Col,Button,Icon,Alert} from 'antd'
 import CompPageHead from 'component/CompPageHead'
 import Panel from 'component/compPanel'
-import {columns} from './model'
+import {columns,entityModel} from './model'
 import req from 'reqwest';
+
 import config from 'common/configuration'
 import BaseTable from 'component/compBaseTable'
 import {entityFormat} from 'common/utils'
-import SelectorYear from './year'
 
 
-const API_URL = config.HOST + config.URI_API_PROJECT + '/swstj1';
+
+const API_URL = config.HOST + config.URI_API_PROJECT + '/zyzzsjfx';
 const ToolBar = Panel.ToolBar;
 const ButtonGroup = Button.Group;
 
 
-const swsqktj_b = React.createClass({
+const zyzzsjfx = React.createClass({
     //初始化state
     getInitialState(){
         return {
@@ -31,7 +29,7 @@ const swsqktj_b = React.createClass({
                 pageSizeOptions: ['5', '10', '20']
 
             },
-            searchToggle: false,
+           
             detailViewToggle: false,
             where: '',
             helper: false,
@@ -114,9 +112,9 @@ const swsqktj_b = React.createClass({
     handleDetailClose(){
         this.setState({detailHide: true})
     },
-    
+
     //通过API获取数据
-    fetchData(params = {year:this.state.year}){
+    fetchData(params = {nd:2015}){
         this.setState({loading: true});
         req({
             url: API_URL,
@@ -149,40 +147,38 @@ const swsqktj_b = React.createClass({
     },
 
     componentDidMount(){
-        const params={
-             year:2016
-        }
-        this.fetchData(params);
-    },
-    //下拉框选择日期执行的方法
-    handleYearChange(value){
-             const params={
-            year:value
-           };
-           
-       this.fetchData(params) 
+        this.fetchData();
     },
 
     render(){
-       //定义工具栏内容
-        let toolbar = <ToolBar><SelectorYear style={{width:'100px'}} onChange={this.handleYearChange}/>
+        //定义工具栏内容
+        let toolbar = <ToolBar>
+            <Button onClick={this.handleSearchToggle}>
+                <Icon type="search"/>查询
+                { this.state.searchToggle ? <Icon className="toggle-tip" type="circle-o-up"/> :
+                    <Icon className="toggle-tip" type="circle-o-down"/>}
+            </Button>
 
+            <ButtonGroup>
+                <Button type="primary" onClick={this.handleHelper}><Icon type="question"/></Button>
+                <Button type="primary" onClick={this.handleRefresh}><Icon type="reload"/></Button>
+            </ButtonGroup>
         </ToolBar>;
 
         //定义提示内容
         let helper = [];
-        helper.push(<p key="helper-0">下拉选择年份可以查看当年机构详细信息</p>);
-   
+        helper.push(<p key="helper-0">点击查询结果查看利润表明细</p>);
+        helper.push(<p key="helper-1">检索功能只显示前1000条记录</p>);
 
-        return <div className="xttjbb-swsqktj_b">
+        return <div className="cwbb-lrb">
             <div className="wrap">
-                {<Alert message="操作提示"
-                                         description={helper}
+                {this.state.helper && <Alert message="利润表检索查询帮助"
+                                             description={helper}
                                              type="info"
-                                             />}
+                                             closable
+                                             onClose={this.handleHelperClose}/>}
 
-                <Panel title="事物所情况统计" toolbar={toolbar}> 
-               
+                <Panel title="利润表" toolbar={toolbar}>
                     {this.state.searchToggle && <SearchForm
                         onSubmit={this.handleSearchSubmit}/>}
                     <div className="h-scroll-table">
@@ -190,14 +186,18 @@ const swsqktj_b = React.createClass({
                                dataSource={this.state.data}
                                pagination={this.state.pagination}
                                loading={this.state.loading}
-                               onChange={this.handleSelectYear}
+                               onChange={this.handleChange}
                                onRowClick={this.handleRowClick}/>
                     </div>
                 </Panel>
-               
+                {this.state.detailHide ? null : <Panel title="利润表明细"
+                                                       onClose={this.handleDetailClose}
+                                                       closable>
+                    <DetailBox data={this.state.entity}/>
+                </Panel>}
             </div>
         </div>
     }
 });
 
-module.exports =swsqktj_b;
+module.exports = zyzzsjfx;
