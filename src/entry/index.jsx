@@ -78,7 +78,7 @@ const Index = React.createClass({
                 require('../module/cwbb/zcmxb'),
                 require('../module/cwbb/lrb'),
                 require('../module/cwbb/zcfzb'),
-                require('../module/cwbb/wsbbb'),
+              //  require('../module/cwbb/wsbbb'),
 
                 //手动上报报表
                 require('../module/sdsbbb/jzywtjb'),
@@ -104,7 +104,7 @@ const Index = React.createClass({
 
                 //监督检查
                 require('../module/jdjc/zyswsnjb'),
-                require('../module/jdjc/swsnj'),*/
+                require('../module/jdjc/swsnj'),
 
                 //逐级审核
                 require('../module/spsh'),
@@ -129,7 +129,7 @@ const Index = React.createClass({
                 require('../module/spsh/module/46'),
 
 
-              
+                /*
                 //客户端
                 //机构管理
                 require('../module/client/jggl/swsbg'),
@@ -151,14 +151,16 @@ const Index = React.createClass({
                 require('../module/client/sdsb/jzywqktjb'),
                 require('../module/client/sdsb/hyryqktjb'),
                 require('../module/client/sdsb/jysrqkb'),
-
+*/
                 //系统统计报表
                 require('../module/xttjbb/swsqktj_b'),
                 require('../module/xttjbb/swszttj'),
                 //系统业务报表
-                require('../module/xtywbb/zyzzsjfx'),
-                  require('../module/xtywbb/ndjzqktj'),
                 
+                  require('../module/xtywbb/ndjzqktj'),
+                //机构数据分析
+                require('../module/jgsjfx/zyzzsjfx'),
+
                 //人员年检数据分析
                 require('../module/njsjfx/rynjsjfx'),
 
@@ -167,14 +169,14 @@ const Index = React.createClass({
                 require('../module/xtsjfx/swsqktjA'),
                 require('../module/xtsjfx/hyryqktj'),
 
-
+/*
                 //会员会费缴纳
                 require('../module/hyhf_new/hyhfjnqk'),
                 require('../module/hyhf_new/fpdy'),
 
                 //业务管理
                 require('../module/client/ywgl/khxxgl') //客户信息管理
-
+*/
             ]
         }, {
             path: '/signin',

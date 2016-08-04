@@ -4,12 +4,9 @@ import CompPageHead from 'component/CompPageHead'
 import Panel from 'component/compPanel'
 import {columns,entityModel} from './model'
 import req from 'reqwest';
-<<<<<<< HEAD:src/module/xtywbb/zyzzsjfx/component.jsx
 
-=======
 import auth from 'common/auth'
-import SearchForm from './searchForm'
->>>>>>> refs/remotes/origin/master:src/module/cwbb/wsbbb/component.jsx
+//import SearchForm from './searchForm'
 import config from 'common/configuration'
 import BaseTable from 'component/compBaseTable'
 import {entityFormat} from 'common/utils'
@@ -119,22 +116,15 @@ const zyzzsjfx = React.createClass({
     },
 
     //通过API获取数据
-    fetchData(params = {nd:2015}){
+    fetchData(params = {nd:2014}){
         this.setState({loading: true});
         req({
             url: API_URL,
             type: 'json',
             method: 'get',
             data: params,
-<<<<<<< HEAD:src/module/xtywbb/zyzzsjfx/component.jsx
             contentType: 'application/json'
         }).then(resp=> {
-=======
-            headers:{'x-auth-token':auth.getToken()},
-            contentType: 'application/json'
-        }).then(resp=> {
-            console.log("zhi",resp)
->>>>>>> refs/remotes/origin/master:src/module/cwbb/wsbbb/component.jsx
             const p = this.state.pagination;
             p.total = resp.total > 1000 ? 1000 : resp.total;
             p.showTotal = total => {
@@ -199,7 +189,7 @@ const zyzzsjfx = React.createClass({
                                pagination={this.state.pagination}
                                loading={this.state.loading}
                                onChange={this.handleChange}
-                               onRowClick={this.handleRowClick}/>
+                               />
                     </div>
                 </Panel>
                 {this.state.detailHide ? null : <Panel title="利润表明细"

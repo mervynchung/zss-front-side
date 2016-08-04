@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 /*
 年度经营收入统计
 */
@@ -97,22 +97,5 @@ const ndjysrtj = React.createClass({
 });
 
 module.exports =ndjysrtj;
-=======
-import React from 'react'
-import QueueAnim from 'rc-queue-anim'
-import KhxxList from './list'
-import './style.css'
 
-//测试信息
-const test = React.createClass({
-     render(){
-         return <div className="test">
-            <div className="wrap">
-                <KhxxList />
-            </div>
-         </div>
-     }
-});
 
-module.exports = test;
->>>>>>> refs/remotes/origin/master
