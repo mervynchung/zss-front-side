@@ -9,8 +9,8 @@ const Option = Select.Option;
 
 const selectorRYZT = React.createClass({
     render(){
-        const options = data.map(item=><Option key={item.id}>{item.mc}</Option>)
-        return <Select {...this.props} placeholder="选择人员状态" allowClear>
+        const options = data.map(item=><Option key={item.id} value={item.id}>{item.mc}</Option>)
+        return <Select {...this.props} placeholder="请选择" >
             {options}
         </Select>
     }

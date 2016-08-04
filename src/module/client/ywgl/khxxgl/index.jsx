@@ -7,4 +7,4 @@ module.exports = {
             cb(null, require('./component'))
         })
     }
-}
+};

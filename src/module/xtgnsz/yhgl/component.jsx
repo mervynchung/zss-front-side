@@ -8,19 +8,21 @@ import SearchForm from './searchForm'
 import model from './model.jsx'
 import req from 'reqwest'
 import {jsonCopy} from 'common/utils.js'
+import auth from 'common/auth.js'
 
 const PanelBar = Panel.ToolBar;
 const ButtonGroup = Button.Group;
 const USER_URL = config.HOST + config.URI_API_FRAMEWORK + '/users';
 const ROLE_URL = config.HOST + config.URI_API_FRAMEWORK + '/roles';
-
+const token = auth.getToken();
 //获取用户列表
 const fetchUsers = function (param = {page: 1, pageSize: 10}) {
     return req({
         url: USER_URL,
         method: 'get',
         type: 'json',
-        data: param
+        data: param,
+        headers:{'x-auth-token':token}
     })
 };
 //获取角色列表
@@ -28,7 +30,8 @@ const fetchRoles = function () {
     return req({
         url: ROLE_URL,
         method: 'get',
-        type: 'json'
+        type: 'json',
+        headers:{'x-auth-token':token}
     })
 };
 

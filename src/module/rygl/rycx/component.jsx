@@ -219,7 +219,7 @@ const rycx = React.createClass({
 
       <Panel >
           {this.state.zy && <Tabs type="line" activeKey={this.state.activeKey} onChange={this.callback} key="A">
-                <TabPane tab="详细信息" key="1"><CompBaseTable data = {this.state.dataxx}  model ={Model.autoform} bordered striped /><p className="nbjgsz">人员简历：</p><Table columns={Model.ryjl} dataSource={this.state.datalist} bordered  size="small" /></TabPane>
+                <TabPane tab="详细信息" key="1"><CompBaseTable data = {this.state.dataxx}  model ={Model.autoform} bordered striped /><p className="nbjgsz">人员简历：</p><Table columns={Model.ryjl} dataSource={this.state.datalist} bordered  size="small" pagination={false} /></TabPane>
                 <TabPane tab="变更记录" key="2"><Table columns={Model.columnsZyrybgjl} dataSource={this.state.datalist} bordered  size="small" /></TabPane>
                 <TabPane tab="转所记录" key="3"><Table columns={Model.columnsZyryzsjl} dataSource={this.state.datalist} bordered  size="small" /></TabPane>
                 <TabPane tab="转籍记录" key="4"><Table columns={Model.columnsZyryzjjl} dataSource={this.state.datalist} bordered  size="small" /></TabPane>
@@ -228,14 +228,14 @@ const rycx = React.createClass({
                 <TabPane tab="年检记录" key="7"><Table columns={Model.columnsZyrynjjl} dataSource={this.state.datalist} bordered  size="small" /></TabPane>
           </Tabs>}
           {this.state.fz && <Tabs type="line" activeKey={this.state.activeKey} onChange={this.callback} key="B">
-                <TabPane tab="详细信息" key="8"><CompBaseTable data = {this.state.dataxx}  model ={Model.autoformFzy} bordered striped /><p className="nbjgsz">人员简历：</p><Table columns={Model.ryjl} dataSource={this.state.datalist} bordered  size="small" /></TabPane>
+                <TabPane tab="详细信息" key="8"><CompBaseTable data = {this.state.dataxx}  model ={Model.autoformFzy} bordered striped /><p className="nbjgsz">人员简历：</p><Table columns={Model.ryjl} dataSource={this.state.datalist} bordered  size="small" pagination={false} /></TabPane>
                 <TabPane tab="变更记录" key="9"><Table columns={Model.columnsZyrybgjl} dataSource={this.state.datalist} bordered  size="small" /></TabPane>
                 <TabPane tab="注销记录" key="10"><Table columns={Model.columnsFzyryzxjl} dataSource={this.state.datalist} bordered  size="small" /></TabPane>
                 <TabPane tab="转籍记录" key="11"><Table columns={Model.columnsFzyryzjjl} dataSource={this.state.datalist} bordered  size="small" /></TabPane>
                 <TabPane tab="转非记录" key="12"><Table columns={Model.columnsFzyryzfjl} dataSource={this.state.datalist} bordered  size="small" /></TabPane>
           </Tabs>}
           {this.state.cy && <Tabs type="line" activeKey={this.state.activeKey} onChange={this.callback} key="C">
-                <TabPane tab="详细信息" key="13"><CompBaseTable data = {this.state.dataxx}  model ={Model.autoformCy} bordered striped /><p className="nbjgsz">人员简历：</p><Table columns={Model.ryjl} dataSource={this.state.datalist} bordered  size="small" /></TabPane>
+                <TabPane tab="详细信息" key="13"><CompBaseTable data = {this.state.dataxx}  model ={Model.autoformCy} bordered striped /><p className="nbjgsz">人员简历：</p><Table columns={Model.ryjl} dataSource={this.state.datalist} bordered  size="small" pagination={false} /></TabPane>
                 <TabPane tab="变更记录" key="14"><Table columns={Model.columnsZyrybgjl} dataSource={this.state.datalist} bordered  size="small" /></TabPane>
           </Tabs>}
                 </Panel>

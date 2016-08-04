@@ -1,7 +1,20 @@
 import React from 'react'
-import {Icon} from 'antd'
+import {Icon,Popconfirm} from 'antd'
 
+let handleEdit = function (record) {
+    console.log('edit',record)
+};
+let handleDel = function (record) {
+    console.log('del',record)
+};
 module.exports = {
+
+    setEdit: function (func) {
+        handleEdit = func;
+    },
+    setDel: function (func) {
+        handleDel = func;
+    },
     columns: [
         {title: '客户单位名称', dataIndex: 'DWMC', key: 'DWMC'},
         {title: '联系地址', dataIndex: 'DWDZ', key: 'DWDZ'},
@@ -16,13 +29,25 @@ module.exports = {
             render(text){
                 if (text == 0) {
                     return '一般纳税人'
-                } else if(text == 1){
+                } else if (text == 1) {
                     return '小规模纳税人'
-                } else{
+                } else {
                     return ''
                 }
             }
+        },
+        {
+            title: '操作',
+            key: 'action',
+            render: (text, record) => {
+                return <span>
+                    <a onClick={()=>handleEdit(record)}>修改</a> &nbsp;&nbsp;
+                    <Popconfirm title="确定要删除吗？" placement="left" onConfirm={()=>handleDel(record)}>
+                        <a>删除</a>
+                    </Popconfirm>
 
+                </span>
+            }
         }
     ]
 };

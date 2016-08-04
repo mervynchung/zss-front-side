@@ -63,7 +63,7 @@ const wspcx = React.createClass({
                         <div>
                             <p>无法从服务器返回数据，需检查应用服务工作情况</p>
                             <p>Status: {err.status}</p>
-                            <p>111111</p>
+                            <p>onRowClick error</p>
                         </div>  )
                 });
             });
@@ -232,8 +232,8 @@ const wspcx = React.createClass({
                         {bgxmOptions}
                <div style={{'padding':'10px'}}>
                        <h3 style={{'backgroundColor':'#fafbfc'}}>流程状态：</h3>
-                       <h3 style={{'textAlign':'center','backgroundColor':'#fafbfc'}}>
-                       <span style={{'color':'red'}}>{!this.state.checked&&<span>上级驳回：{this.state.sjyj}  - - - -＞</span>}{this.state.dqlcbz}</span>
+                       <h3 style={{'textAlign':'center','backgroundColor':'#fafbfc','color':'red'}}>
+                       {!this.state.checked&&<span>上级驳回：{this.state.sjyj}  - - - -＞</span>}{this.state.dqlcbz}
                        </h3>
                </div>
                <Panel title="事项审核">
