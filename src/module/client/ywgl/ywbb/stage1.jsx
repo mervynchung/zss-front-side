@@ -1,14 +1,16 @@
 import React from 'react'
 import {Form,Row,Col,Input,Button,InputNumber} from 'antd'
 import Panel from 'component/compPanel'
-import {SelectorISWS,SelectorSB,SelectorYWLX,SelectorHY} from 'component/compSelector'
+import {SelectorISWS,SelectorSB,SelectorYWLX,SelectorHY,SelectorDQ} from 'component/compSelector'
 
 const FormItem = Form.Item;
 const createForm = Form.create;
 
 let stage =  React.createClass({
     next(){
-        this.props.onStageChange(2)
+        let value = this.props.form.getFieldsValue();
+        console.log(value)
+        //this.props.onStageChange(2)
     },
     back(){
         this.props.onStageChange(0)
@@ -28,17 +30,17 @@ let stage =  React.createClass({
                         </Col>
                         <Col span="3">
                             <FormItem style={{width:'90%'}}>
-                                <SelectorSB  {...getFieldProps('SB',{initialValue:'1'})}/>
+                                <SelectorSB  {...getFieldProps('SB_DM',{initialValue:'1'})}/>
                             </FormItem>
                         </Col>
-                        <Col span="3">
+                        <Col span="5">
                             <FormItem  style={{width:'90%'}} >
-                                <SelectorSB  {...getFieldProps('SB',{initialValue:'1'})}/>
+                                <SelectorDQ  placeholder="选择地区" {...getFieldProps('CS_DM')}/>
                             </FormItem>
                         </Col>
                         <Col span="4">
                             <FormItem style={{width:'90%'}}>
-                                <SelectorSB  {...getFieldProps('SB',{initialValue:'1'})}/>
+                                <Input placeholder="主管税务机关名称"  {...getFieldProps('ZGSWJG')}/>
                             </FormItem>
                         </Col>
 
@@ -115,8 +117,8 @@ let stage =  React.createClass({
                     <Row>
                         <Col span="24">
                             <FormItem
-                              labelCol={{span: 3}} wrapperCol={{span: 5}}
-                              label="协议收费金额">
+                                labelCol={{span: 3}} wrapperCol={{span: 5}}
+                                label="协议收费金额">
                                 <InputNumber style={{width:'100%'}} />
                             </FormItem>
                         </Col>
