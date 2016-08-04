@@ -3,19 +3,19 @@ import {Table,Col,Row,Tree,Tabs,Modal,Button,Spin,notification,Icon} from 'antd'
 import {Link} from 'react-router'
 import Panel from 'component/compPanel'
 import config from 'common/configuration'
-import {SelectorDQ,SelectorCS} from 'component/compSelector'
-import model from './model.jsx'
+import {SelectorDQ,SelectorCS,SelectorYear} from 'component/compSelector'
 import req from 'reqwest'
 import auth from 'common/auth.js'
 import {jsonCopy} from 'common/utils.js'
+import Detail from './detail.jsx'
 
 const PanelBar = Panel.ToolBar;
 const ButtonGroup = Button.Group;
-const CUSTOMER_URL = config.HOST + config.URI_API_PROJECT + '/xttjbb/hyryqktj';
+const CUSTOMER_URL = config.HOST + config.URI_API_PROJECT + '/xtywbb/ndjysrtj';
 const token = auth.getToken();
 
 //获取客户信息列表
-const fetchCustomers = function (param = {page: 0, pageSize: 0}) {
+const fetchCustomers = function (param = {page: 1, pageSize: 10}) {
     return req({
         url: CUSTOMER_URL,
         method: 'get',
@@ -142,6 +142,26 @@ const khxxList = React.createClass({
             this.setState({customers:resp.data,where:values, pagination: pager,pageLoading:false})
         })
     },
+    
+    //测试.....
+    yearChange(year){
+        this.setState({pageLoading:true});
+        const pager = this.state.pagination;
+        const param = {
+            page:1,
+            pageSize:pager.pageSize,
+            where: encodeURIComponent(JSON.stringify({"year":year}))
+        }
+        fetchCustomers(param).then(resp=>{
+            pager.total = resp.total > 1000 ? 1000 : resp.total;
+            pager.showTotal = total => {
+                return `共 ${resp.total} 条，显示前 ${total} 条`
+            };
+            pager.current = 1;
+            this.setState({customers:resp.data,where:year, pagination: pager,pageLoading:false})
+        })
+    },
+    
     //增加客户信息
     pageJump(){
        this.props.onPageJump('new')
@@ -171,14 +191,11 @@ const khxxList = React.createClass({
     },
 
     render(){
-            return <Spin spinning={this.state.pageLoading}>
-                <Panel title="行业人员情况统计">
-                        <Table //className="outer-border"
-                            columns={model.columns}
-                            dataSource={this.state.customers}
-                        />
-                </Panel>
-             </Spin>
+        return <Spin spinning={this.state.pageLoading}>
+            <Panel title="年度经营收入统计">
+                <Detail data={this.state.customers}/>
+            </Panel>
+           </Spin>
     }
 });
 
