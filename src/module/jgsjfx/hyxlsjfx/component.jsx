@@ -116,7 +116,7 @@ const zyzzsjfx = React.createClass({
     },
 
     //通过API获取数据
-    fetchData(params = {nd:2014}){
+    fetchData(params = {page: 1, pageSize: this.state.pagination.pageSize}){
         this.setState({loading: true});
         req({
             url: API_URL,
