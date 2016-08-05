@@ -6,7 +6,7 @@ import auth from 'common/auth'
 import req from 'reqwest'
 import utils from 'common/utils'
 
-const Option = Select.Option;
+
 const FormItem = Form.Item;
 const createForm = Form.create;
 
@@ -45,15 +45,7 @@ const titelType = {
     update: '修改'
 };
 
-//定义纳税人性质下拉
-const SelectNSRXZ = React.createClass({
-    render(){
-        return <Select {...this.props} allowClear>
-            <Option value="0">一般纳税人</Option>
-            <Option value="1">小规模纳税人</Option>
-        </Select>
-    }
-});
+
 //定义客户信息录入表单
 let EditForm = React.createClass({
     getInitialState(){
@@ -139,7 +131,7 @@ let EditForm = React.createClass({
                                 <Input placeholder="单位名称" {...dwmcProps}/>
                             </FormItem>
                         </Col>
-                        <Col span="15">
+                        <Col span="14">
                             <FormItem
                               labelCol={{span: 4}} wrapperCol={{span: 20}}
                               label="单位地址">
@@ -155,18 +147,11 @@ let EditForm = React.createClass({
                                 <Input placeholder="纳税人识别号" {...nsrsbhProps}/>
                             </FormItem>
                         </Col>
-                        <Col span="9">
+                        <Col span="10">
                             <FormItem
                               labelCol={{span: 7}} wrapperCol={{span: 15}}
                               label="地税税务登记证号">
                                 <Input placeholder="地税税务登记证号" {...nsrsbhdfProps}/>
-                            </FormItem>
-                        </Col>
-                        <Col span="6">
-                            <FormItem
-                              labelCol={{span: 8}} wrapperCol={{span: 16}}
-                              label="纳税人性质">
-                                <SelectNSRXZ  {...getFieldProps('NSRXZ')}/>
                             </FormItem>
                         </Col>
                     </Row>
@@ -178,7 +163,7 @@ let EditForm = React.createClass({
                                 <Input placeholder="联系人" {...lxrProps}/>
                             </FormItem>
                         </Col>
-                        <Col span="9">
+                        <Col span="10">
                             <FormItem
                               labelCol={{span: 7}} wrapperCol={{span: 15}}
                               label="联系电话">

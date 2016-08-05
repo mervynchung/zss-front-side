@@ -15,7 +15,7 @@ const khxxgl = React.createClass({
         }
     },
     handleEditSave(boolean){
-        this.setState({isSaved: true})
+        this.setState({isSaved: true,type:'add'})
     },
     handleEdit(record){
         this.setState({entity: record, type: 'update'})
