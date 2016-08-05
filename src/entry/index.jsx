@@ -148,9 +148,11 @@ const Index = React.createClass({
                 // require('../module/client/sdsb/jzywqktjb'),
                 // require('../module/client/sdsb/hyryqktjb'),
                 // require('../module/client/sdsb/jysrqkb'),
+                require('../module/client/ywgl/test'),
 
                 //系统业务报表
                 require('../module/xtywbb/ndjysrtj'),
+                require('../module/xtywbb/hyjygmqktj'),
                 
                 //人员年检数据分析
                 require('../module/njsjfx/rynjsjfx'),
@@ -160,7 +162,10 @@ const Index = React.createClass({
                 require('../module/xtsjfx/swsqktjA'),
                 require('../module/xtsjfx/hyryqktj'),
 
-
+                //数据系统分析
+                require('../module/jgsjfx/hynlsjfx'),
+                require('../module/jgsjfx/ryztsjfx'),
+                
                 //会员会费缴纳
                 require('../module/hyhf_new/hyhfjnqk'),
                 require('../module/hyhf_new/fpdy'),
