@@ -3,21 +3,18 @@ import {Table,Modal,Row,Col,Button,Icon,Alert} from 'antd'
 import CompPageHead from 'component/CompPageHead'
 import Panel from 'component/compPanel'
 import {columns,entityModel} from './model'
-import req from 'reqwest';
-import auth from 'common/auth'
-import SearchForm from './searchForm'
+import req from 'reqwest'
 import config from 'common/configuration'
 import BaseTable from 'component/compBaseTable'
 import {entityFormat} from 'common/utils'
-import DetailBox from './detailbox.jsx'
+import SelectorYear from './year'
 
-
-const API_URL = config.HOST + config.URI_API_PROJECT + '/cwbb/lrb';
+const API_URL = config.HOST + config.URI_API_PROJECT + '/swszt1';
 const ToolBar = Panel.ToolBar;
 const ButtonGroup = Button.Group;
 
 
-const lrb = React.createClass({
+const swszttj = React.createClass({
     //初始化state
     getInitialState(){
         return {
@@ -30,7 +27,7 @@ const lrb = React.createClass({
                 pageSizeOptions: ['5', '10', '20']
 
             },
-           
+            searchToggle: false,
             detailViewToggle: false,
             where: '',
             helper: false,
@@ -90,13 +87,11 @@ const lrb = React.createClass({
     },
 
     //点击某行
-    handleRowClick(record){
+  /*  handleRowClick(record){
         req({
             url: API_URL + '/' + record.id,
             type: 'json',
-            method: 'get',
-            headers:{'x-auth-token':auth.getToken()},
-            contentType: 'application/json'
+            method: 'get'
         }).then(resp=> {
             let entity = entityFormat(resp,entityModel);
             this.setState({entity: entity,detailHide:false});
@@ -114,18 +109,17 @@ const lrb = React.createClass({
     //明细表关闭
     handleDetailClose(){
         this.setState({detailHide: true})
-    },
+    },*/
 
     //通过API获取数据
-    fetchData(params = {page: 1, pageSize: this.state.pagination.pageSize}){
+    fetchData(params = {year:2016}){
         this.setState({loading: true});
         req({
             url: API_URL,
             type: 'json',
             method: 'get',
             data: params,
-             headers:{'x-auth-token':auth.getToken()},
-            contentType: 'application/json'          
+            contentType: 'application/json'
         }).then(resp=> {
             const p = this.state.pagination;
             p.total = resp.total > 1000 ? 1000 : resp.total;
@@ -153,40 +147,41 @@ const lrb = React.createClass({
     componentDidMount(){
         this.fetchData();
     },
+    //下拉框选择日期执行的方法
+    handleYearChange(value){
+             const params={
+            year:value
+           };
+           
+       this.fetchData(params) 
+    },
 
-    render(){
-        //定义工具栏内容
-        let toolbar = <ToolBar>
-            <Button onClick={this.handleSearchToggle}>
-                <Icon type="search"/>查询
-                { this.state.searchToggle ? <Icon className="toggle-tip" type="circle-o-up"/> :
-                    <Icon className="toggle-tip" type="circle-o-down"/>}
-            </Button>
+     render(){
+       //定义工具栏内容
+        let toolbar = <ToolBar><SelectorYear style={{width:'100px'}} onChange={this.handleYearChange}/>
 
-            <ButtonGroup>
-                <Button type="primary" onClick={this.handleHelper}><Icon type="question"/></Button>
-                <Button type="primary" onClick={this.handleRefresh}><Icon type="reload"/></Button>
-            </ButtonGroup>
         </ToolBar>;
+        
 
         //定义提示内容
         let helper = [];
-        helper.push(<p key="helper-0">点击查询结果查看利润表明细</p>);
-        helper.push(<p key="helper-1">检索功能只显示前1000条记录</p>);
+        helper.push(<p key="helper-0">点击数字,可以查看详细信息！总人数无链接！</p>);
+      //  helper.push(<p key="helper-1">检索功能只显示前1000条记录</p>);
 
-        return <div className="cwbb-lrb">
+        return <div className="xttjbb-swszttj">
             <div className="wrap">
-                {this.state.helper && <Alert message="利润表检索查询帮助"
+                {this.state.helper && <Alert message="操作提示"
                                              description={helper}
                                              type="info"
                                              closable
                                              onClose={this.handleHelperClose}/>}
 
-                <Panel title="利润表" toolbar={toolbar}>
+                <Panel title="税务师状态统计" toolbar={toolbar}>
                     {this.state.searchToggle && <SearchForm
                         onSubmit={this.handleSearchSubmit}/>}
                     <div className="h-scroll-table">
                         <Table columns={columns}
+                        //数据是从{column}中取，column通过import引入，column的定义在model中
                                dataSource={this.state.data}
                                pagination={this.state.pagination}
                                loading={this.state.loading}
@@ -204,4 +199,4 @@ const lrb = React.createClass({
     }
 });
 
-module.exports = lrb;
+module.exports =swszttj;

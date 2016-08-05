@@ -1,7 +1,7 @@
-/*年度经营收入统计*/
+/*系统统计报表b*/
 module.exports = {
-    path: 'xtywbb/ndjysrtj(/)',
-    breadcrumbName:'系统业务报表/年度经营收入统计',
+    path: 'xttjbb/swsqktj_b(/)',
+    breadcrumbName:'报表管理/系统统计报表/事务所情况统计表B',
     getComponent(location, cb) {
         require.ensure([], (require) => {
             cb(null, require('./component'))

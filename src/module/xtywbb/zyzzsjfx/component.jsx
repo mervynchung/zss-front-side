@@ -4,20 +4,24 @@ import CompPageHead from 'component/CompPageHead'
 import Panel from 'component/compPanel'
 import {columns,entityModel} from './model'
 import req from 'reqwest';
+<<<<<<< HEAD:src/module/xtywbb/zyzzsjfx/component.jsx
+
+=======
 import auth from 'common/auth'
 import SearchForm from './searchForm'
+>>>>>>> refs/remotes/origin/master:src/module/cwbb/wsbbb/component.jsx
 import config from 'common/configuration'
 import BaseTable from 'component/compBaseTable'
 import {entityFormat} from 'common/utils'
-import DetailBox from './detailbox.jsx'
 
 
-const API_URL = config.HOST + config.URI_API_PROJECT + '/cwbb/lrb';
+
+const API_URL = config.HOST + config.URI_API_PROJECT + '/zyzzsjfx';
 const ToolBar = Panel.ToolBar;
 const ButtonGroup = Button.Group;
 
 
-const lrb = React.createClass({
+const zyzzsjfx = React.createClass({
     //初始化state
     getInitialState(){
         return {
@@ -94,9 +98,7 @@ const lrb = React.createClass({
         req({
             url: API_URL + '/' + record.id,
             type: 'json',
-            method: 'get',
-            headers:{'x-auth-token':auth.getToken()},
-            contentType: 'application/json'
+            method: 'get'
         }).then(resp=> {
             let entity = entityFormat(resp,entityModel);
             this.setState({entity: entity,detailHide:false});
@@ -117,16 +119,22 @@ const lrb = React.createClass({
     },
 
     //通过API获取数据
-    fetchData(params = {page: 1, pageSize: this.state.pagination.pageSize}){
+    fetchData(params = {nd:2015}){
         this.setState({loading: true});
         req({
             url: API_URL,
             type: 'json',
             method: 'get',
             data: params,
-             headers:{'x-auth-token':auth.getToken()},
-            contentType: 'application/json'          
+<<<<<<< HEAD:src/module/xtywbb/zyzzsjfx/component.jsx
+            contentType: 'application/json'
         }).then(resp=> {
+=======
+            headers:{'x-auth-token':auth.getToken()},
+            contentType: 'application/json'
+        }).then(resp=> {
+            console.log("zhi",resp)
+>>>>>>> refs/remotes/origin/master:src/module/cwbb/wsbbb/component.jsx
             const p = this.state.pagination;
             p.total = resp.total > 1000 ? 1000 : resp.total;
             p.showTotal = total => {
@@ -204,4 +212,4 @@ const lrb = React.createClass({
     }
 });
 
-module.exports = lrb;
+module.exports = zyzzsjfx;
