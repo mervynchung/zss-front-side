@@ -20,18 +20,19 @@ const wspcx = React.createClass({
                                   <tr>
                                       <td ><b>申请单位名称：</b></td>
                                       <td>{this.state.dl.dwmc}</td>
-                                      </tr>
-                                      <tr>
+                                  </tr>
+                                  <tr>
                                       <td><b>申请时间：</b></td>
                                       <td >{this.state.dl.tjsj}</td>
                                    </tr>
                                    <tr >
-                                    <td ><b>注销原因说明：</b></td>
-                                    <td>{this.state.entity.zxsm}</td> </tr>
+                                      <td ><b>注销原因说明：</b></td>
+                                      <td>{this.state.entity.zxsm}</td> 
+                                    </tr>
                                     <tr >
-                                    <td><b>注销类别：</b></td>
-                                    <td >{this.state.entity.zxyy}</td>
-                                 </tr>
+                                      <td><b>注销类别：</b></td>
+                                      <td >{this.state.entity.zxyy}</td>
+                                    </tr>
                                    </tbody>
                  </table> </div>
         return <div className="wspxm-spsh">

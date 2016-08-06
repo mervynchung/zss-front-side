@@ -14,38 +14,39 @@ const wspcx = React.createClass({
     render(){
         //定义工具栏内容
        const obj = this.state.entity;
-      const mxbg=<div ><h3 style={{'padding':'5px'}}>预警信息：<span style={{'color':'red'}}>{this.state.dl.yjxx}</span></h3>
-                    <table >
-                            <tbody >
-                                  <tr>
-                                      <td ><b>申请单位名称：</b></td>
-                                      <td>{this.state.dl.dwmc}</td>
-                                      </tr>
-                                      <tr>
-                                      <td><b>申请时间：</b></td>
-                                      <td >{this.state.dl.tjsj}</td>
-                                   </tr>
-                                   <tr >
-                                      <td ><b>申请合并事务所双方名称：</b></td>
-                                      <td>{obj.SFMC}</td> </tr>
-                                      <tr >
-                                      <td><b>新事务所单位名称：</b></td>
-                                      <td >{obj.XSWSMC}</td>
-                                   </tr>
-                                      <tr >
-                                      <td><b>工商名称预核编号：</b></td>
-                                      <td >{obj.GSMCYHBH}</td>
-                                   </tr>
-                                      <tr >
-                                      <td><b>合并时间：</b></td>
-                                      <td >{obj.HBSJ}</td>
-                                   </tr>
-                                      <tr >
-                                      <td><b>申请人：</b></td>
-                                      <td >{obj.SQR}</td>
-                                   </tr>
-                                   </tbody>
-                 </table> </div>
+       const mxbg=<div ><h3 style={{'padding':'5px'}}>预警信息：<span style={{'color':'red'}}>{this.state.dl.yjxx}</span></h3>
+                 <table >
+                    <tbody >
+                            <tr>
+                                <td ><b>申请单位名称：</b></td>
+                                <td>{this.state.dl.dwmc}</td>
+                            </tr>
+                            <tr>
+                                <td ><b>申请时间：</b></td>
+                                <td>{this.state.dl.tjsj}</td>
+                            </tr>
+                            <tr>
+                                <td ><b>申请合并事务所双方名称：</b></td>
+                                <td>{obj.SFMC}</td>
+                            </tr>
+                            <tr>
+                                <td ><b>新事务所单位名称：</b></td>
+                                <td>{obj.XSWSMC}</td>
+                            </tr>
+                            <tr>
+                                <td ><b>工商名称预核编号：</b></td>
+                                <td>{obj.GSMCYHBH}</td>
+                            </tr>
+                            <tr>
+                                <td ><b>合并时间：</b></td>
+                                <td>{obj.HBSJ}</td>
+                            </tr>
+                            <tr>
+                                <td ><b>申请人：</b></td>
+                                <td>{obj.SQR}</td>
+                            </tr>
+                            </tbody>
+                      </table> </div>
         return <div className="wspxm-spsh">
             <div className="wrap">
           <SPXX wspcxurl='/spapi/wspcx/jg/3' spmxurl='/spapi/spmxxx/jghbsp' mxbg={mxbg} getbg={this.makebg}

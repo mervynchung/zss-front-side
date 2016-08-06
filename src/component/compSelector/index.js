@@ -14,8 +14,12 @@ var selector = {
     SelectorJCLB: require('./jclb'), //检查类别
     SelectorJGXZ: require('./jgxz'), //机构性质
     SelectorMZ: require('./mz'),//民族
+    SelectorZW: require('./zw'),//民族
+    SelectorZZMM: require('./zzmm'), //政治面貌
     SelectorNJJL: require('./njjl'), //年检结论
     SelectorRYZT: require('./ryzt'), //人员状态
+    SelectorRYSPZT: require('./ryspzt'), //人员审批状态
+    SelectorZYSWSZXYY: require('./zyswszxyy'), //执业税务师注销原因
     SelectorRYLB: require('./rylb'), //人员类别
     SelectorXL: require('./xl'), //学历
     SelectorXB: require('./xb'), //性别
@@ -25,7 +29,8 @@ var selector = {
     SelectorZTDM: require('./ztdm'), //年检状态
     SelectorTGZT: require('./tgzt'), //通过状态
     SelectorXZ: require('./xz'), //性质
-    SelectorZT: require('./zt'), //年检有关状态
+    SelectorZT: require('./zt'), //状态
+    SelectorIS: require('./is'), //是否
     SelectorRoles: require('./roles'), //角色
     SelectorISWS:require('./isws'), //业务报备是否省外
     SelectorSB:require('./sb') //国税或地税

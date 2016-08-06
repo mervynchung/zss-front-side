@@ -15,36 +15,38 @@ const wspcx = React.createClass({
       },
 
     render(){
-        //定义工具栏内容
-       const obj = this.state.entity;
-       const bgxmOptions = obj.map(bgxm => 
-                <tr key={bgxm.MC}>
-                    <td ><b>变更前{bgxm.MC}：</b></td>
-                    <td>{bgxm.JZHI}</td> 
-                    <td><b>变更后{bgxm.MC}：</b></td>
-                    <td >{bgxm.XZHI}</td>
-                 </tr>);
-       const mxbg=<table >
+        const mxbg=<table >
                     <tbody >
                             <tr>
-                                <td ><b>姓 名：</b></td>
+                                <td ><b>申请人员姓名：</b></td>
                                 <td>{this.state.dl.xming}</td>
+                            </tr>
+                            <tr>
                                 <td ><b>所属事务所：</b></td>
                                 <td>{this.state.dl.dwmc}</td>
                             </tr>
                             <tr>
-                                <td ><b>性 别：</b></td>
-                                <td>{this.state.dl.xb}</td>
-                                <td><b>身份证号：</b></td>
-                                <td >{this.state.dl.sfzh}</td>
+                                <td ><b>申请时间：</b></td>
+                                <td>{this.state.dl.tjsj}</td>
                             </tr>
-                            {bgxmOptions}
+                            <tr>
+                                <td ><b>注销原因：</b></td>
+                                <td>{this.state.entity.zxlx}</td>
+                            </tr>
+                            <tr>
+                                <td ><b>注销日期：</b></td>
+                                <td>{this.state.entity.ZXRQ}</td>
+                            </tr>
+                            <tr>
+                                <td ><b>事务所意见：</b></td>
+                                <td>{this.state.entity.SWSYJ}</td>
+                            </tr>
                             </tbody>
                       </table> 
     return <div className="wspxm-spsh">
             <div className="wrap">
-                <SPXX wspcxurl='/spapi/wspcx/ry/10' spmxurl='/spapi/spmxxx/zybgsp' mxbg={mxbg} getbg={this.makebg} isJG={false}
-                          columns={C_JG.zy} titleTop="待审执业税务师变更申请" titleSecond="执业税务师变更申请明细"/>
+                <SPXX wspcxurl='/spapi/wspcx/ry/10' spmxurl='/spapi/spmxxx/zyzxsp' mxbg={mxbg} getbg={this.makebg} isJG={false}
+                          columns={C_JG.zy} titleTop="待审执业税务师注销申请" titleSecond="执业税务师注销申请明细"/>
             </div>
         </div>
     }

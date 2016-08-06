@@ -153,7 +153,7 @@ getInitialState(){
                                                     <tr >
                                                             <td ></td>
                                                             <td ><p style={{'color':'red'}}>*请确定合并双方无诉讼争议事项和未完成事项</p>
-                                                                    <Button style={{float:'right'}} type="primary" disabled={this.state.checked} oading={this.state.sqLoading} htmlType="submit" >提交</Button>
+                                                                    <Button style={{float:'right'}} type="primary" disabled={this.state.checked} loading={this.state.sqLoading} htmlType="submit" >提交</Button>
                                                             </td>
                                                     </tr>
                                             </tbody>

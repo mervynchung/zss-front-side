@@ -8,18 +8,22 @@ import req from 'reqwest'
 import Model from './model.js' 
 import auth from 'common/auth'
 import SearchForm from './searchForm'
-import { Router, Route, Link } from 'react-router'
-import {  DatePicker,Modal,Form, Input, Select,Table, Icon,Tabs,Button,Row,Col,message,Dropdown,Menu }from 'antd'
+import { Link } from 'react-router'
+import {  DatePicker,Modal,Form, Input, Select,Table, Icon,Tabs,Button,Row,Col,message,Dropdown,Menu,Spin }from 'antd'
 // 标签定义
 const TabPane = Tabs.TabPane;
-const API_URL = config.HOST+config.URI_API_PROJECT + '/swsrycx/zyry';
 const ToolBar = Panel.ToolBar;
 const ButtonGroup = Button.Group;
-
+const API_URL = config.HOST+config.URI_API_PROJECT + '/swsrycx/zyry';
+const API_URL_BG = config.HOST+config.URI_API_PROJECT + '/spapi/spsq/zyswsbgsq';
+const API_URL_ZFZY= config.HOST+config.URI_API_PROJECT + '/spapi/spsq/zyzfzysq';
+const API_URL_ZX = config.HOST+config.URI_API_PROJECT + '/spapi/spsq/zyzxsq';
+const API_URL_ZJ = config.HOST+config.URI_API_PROJECT + '/spapi/spsq/zyzjsq';
+const API_URL_C = config.HOST + config.URI_API_PROJECT + '/commont/checksping/zysp/';
+ 
 const rycx = React.createClass({
   getInitialState() { //初始化State状态，使用传入参数
       return {
-        //这些都是dataset
             dataxx: {values: {}},//用于详细信息autoform数据格式
             datalist:[],//用于其他详细table数据格式
             data: [],//用于主查询
@@ -28,7 +32,9 @@ const rycx = React.createClass({
             searchToggle: false,
             where:{},
             spzt:"",
-              activeKey:"",
+            activeKey:"",
+            czAll:0,
+            zyswsid:"",
       };
     },
 
@@ -62,16 +68,18 @@ const rycx = React.createClass({
   },
 
     fetch_kzxx(tabkey) {//详细信息（tab）数据处理方法，不能使用switch，否则会发生未知错误
-      // let tabkey =this.state.tabkey //获取当前tab标签的key
+       this.setState({sloading: true, })
       if (tabkey==1) {
         req({
         url: this.state.urls.herf_xxzl,//从主查询获取的后台dataProvider路径
         method: 'get',
         type: 'json',
+        headers:{'x-auth-token':auth.getToken()},
         success: (result) => {
           this.setState({
             dataxx: result.data,
             datalist: result.data.ryjl,//简历的data
+            sloading: false,
           });
         },error:  (err) =>{alert('api错误');}
       });
@@ -83,11 +91,12 @@ const rycx = React.createClass({
     },
     gettabdata(urls){
       req({url: urls,method: 'get',type: 'json',
+        headers:{'x-auth-token':auth.getToken()},
           success: (result) => {
             if (result.data.length!=0) {
-            this.setState({datalist: result.data})
+            this.setState({datalist: result.data,sloading: false})
             }else{
-               this.setState({datalist:[],})
+               this.setState({datalist:[],sloading: false})
              }
           },error: (err) =>{alert('api错误');}
         });
@@ -109,16 +118,22 @@ const rycx = React.createClass({
 
     onSelect(record){//主查询记录被选中方法
        this.state.urls=record._links;
-       const dm = record.rysfdm;
-     this.setState({activeKey:1});
-       this.callback(1);
+       this.setState({activeKey:1,zyswsid:record.zyswsid});
+       req({
+            url: API_URL_C+record.zyswsid,
+            type: 'json',
+            method: 'get'
+        }).then(resp=> {
+                 this.setState({onSubmitZT:!resp});
+                 this.callback(1);
+            })
     },
 
-    handleSearchToggle(){//点击查询按钮，显示查询form
+     handleSearchToggle(){//点击查询按钮，显示查询form
         this.setState({searchToggle: !this.state.searchToggle});
     }, 
 
-    handleOk(value) {//点击搜索按钮触发事件
+     handleOk(value) {//点击搜索按钮触发事件
       this.setState({where:value});
       const paper = this.state.pagination;     //把当前页重置为1
         paper.current = 1;
@@ -129,55 +144,123 @@ const rycx = React.createClass({
       })
   },
 
-  callback(key) {//tab标签变化返回值与方法
+    callback(key) {//tab标签变化返回值与方法
     this.setState({activeKey:key});
       this.fetch_kzxx(key);
 },
-
-
-  componentDidMount() { //REACT提供懒加载方法，懒加载时使用，且方法名必须为componentDidMount
-      this.fetch_rycx(); //异步调用后台服务器方法fetch_rycx
-    },
-
-    render() {
-        const menu = (
+    handleReturn(){//返回按钮
+    this.setState({czAll:0});
+    this.callback(1);
+},
+    handleCZ(lx,e){
+    e.preventDefault();
+    //  e.stopPropagation();//阻止onRowClick事件冒泡
+    // e.nativeEvent.stopImmediatePropagation();
+    this.setState({czAll:lx});
+    
+},
+    handleBGSubmit(value){
+        this.setState({bgLoading:true});
+            var ls = value;
+            ls.zyswsid=this.state.zyswsid;
+            let squrls="";
+            switch(this.state.czAll){
+                case 1: squrls=API_URL_BG;break;
+                case 2: squrls=API_URL_ZFZY;break;
+                case 3: squrls=API_URL_ZX;break;
+                case 4: squrls=API_URL_ZJ;break;
+            }
+             req({
+                url: squrls,
+                type: 'json',
+                method: 'post',
+                data: JSON.stringify(ls),
+                contentType: 'application/json',
+                headers:{'x-auth-token':auth.getToken()},
+            }).then(resp=> {
+                var that=this;
+                Modal.success({
+                    title: '提交成功',
+                    content: (
+                        <div>
+                            <p>提交成功</p>
+                        </div>  ),
+                    onOk() {
+                              window.location.reload();
+                            },
+                });
+                 this.setState({bgLoading:false});
+            }).fail(err=> {
+                Modal.error({
+                    title: '数据获取错误',
+                    content: (
+                        <div>
+                            <p>无法从服务器返回数据，需检查应用服务工作情况</p>
+                            <p>Status: {err.status}</p>
+                        </div>  )
+                });
+            })
+        },
+    columRender(text, row, index) {
+    var that = this;
+  if (row.ryztdm==3) {
+        return <span>
+                  <a >重新申请备案</a>
+                </span>
+    };
+    const menu = (
               <Menu >
                 <Menu.Item key="0">
-                  <Link to="client/swsrygl/zyrygl/sub">转籍出省</Link>
+                  <a onClick={that.handleCZ.bind(this,4)}>转籍出省</a>
                 </Menu.Item>
                 <Menu.Item key="1">
-                  <a >转入分所</a>
+                  <a onClick={that.handleCZ.bind(this,5)}>转入分所</a>
                 </Menu.Item>
                 <Menu.Divider />
                 <Menu.Item key="2">
-                  <a >转所</a>
+                  <a onClick={that.handleCZ.bind(this,6)}>转所</a>
                 </Menu.Item>
                 <Menu.Item key="3">
-                  <a >转出</a>
+                  <a onClick={that.handleCZ.bind(this,7)}>转出</a>
                 </Menu.Item>
               </Menu>
             );
-      const columns = [{ //设定列
-                  title: '序号', //设定该列名称
-                  dataIndex: 'xh', //设定该列对应后台字段名
-                  key: 'xh', //列key，必须设置，建议与字段名相同
-                  render(text, row, index) {
+    return  <span>
+                  <a onClick={that.handleCZ.bind(this,1)}>信息变更</a>
+                  <span className="ant-divider" ></span>
+                  <a onClick={that.handleCZ.bind(this,2)}>转非执业</a>
+                  <span className="ant-divider"></span>
+                  <a onClick={that.handleCZ.bind(this,3)}>注销备案</a>
+                  <span className="ant-divider"></span>
+                  <Dropdown overlay={menu} trigger={['click']}>
+                  <a  className="ant-dropdown-link">
+                    税务师调动 <Icon type="down" />
+                  </a></Dropdown>
+                </span>
+  },
+    ztRender(text, row, index) {
                     if (row.ryztdm!=1) {
                         return <span style={{'color':'red'}}>{text}</span>;
                     };
                     return <p>{text}</p>;
-                  }
+  },
+    componentDidMount() { //REACT提供懒加载方法，懒加载时使用，且方法名必须为componentDidMount
+      this.fetch_rycx(); //异步调用后台服务器方法fetch_rycx
+    },
+
+    render() {
+       
+      const columns = [{ //设定列
+                  title: '序号', //设定该列名称
+                  dataIndex: 'xh', //设定该列对应后台字段名
+                  key: 'xh', //列key，必须设置，建议与字段名相同
+                  render:this.ztRender,
                 }, {
                   title: '人员名称',
                   dataIndex: 'xm',
                   key: 'xm',
                   sorter: true, //是否可以排序，需后台写排序方法
-                  render(text, row, index) {
-                    if (row.ryztdm!=1) {
-                        return <span style={{'color':'red'}}>{text}</span>;
-                    };
-                    return <p>{text}</p>;
-                  }
+                  render:this.ztRender,
                 }, {
                   title: '性别',
                   dataIndex: 'xb',
@@ -190,7 +273,6 @@ const rycx = React.createClass({
                   title: '执业注册（备案）编号',
                   dataIndex: 'zyzsbh',
                   key: 'zyzsbh',
-                  
                 }, {
                   title: '城市',
                   dataIndex: 'cs',
@@ -213,25 +295,7 @@ const rycx = React.createClass({
                 },  {
               title: '操作',
               key: 'operation',
-              render(text, row, index) {
-                  if (row.ryztdm==3) {
-                        return <span>
-                                  <a >重新申请备案</a>
-                                </span>
-                    };
-                    return  <span>
-                                  <a >信息变更</a>
-                                  <span className="ant-divider"></span>
-                                  <a >转非执业</a>
-                                  <span className="ant-divider"></span>
-                                  <a >注销备案</a>
-                                  <span className="ant-divider"></span>
-                                  <Dropdown overlay={menu}>
-                                  <a  className="ant-dropdown-link">
-                                    税务师调动 <Icon type="down" />
-                                  </a></Dropdown>
-                                </span>
-              },
+             render:this.columRender,
             }];
         let toolbar = <ToolBar>
             <Button onClick={this.handleSearchToggle}>
@@ -240,34 +304,61 @@ const rycx = React.createClass({
                   <Icon className="toggle-tip" type="arrow-down"/>}
             </Button>
         </ToolBar>;
+        let toolbar2 = <ToolBar>
+                <Button type="ghost" onClick={this.handleReturn}>返回</Button>
+        </ToolBar>;
       return <div className="rycx">
-<div className="wrap">
-   <div className="dataGird">
-     <Panel   toolbar={toolbar}>
+                    <div className="wrap">
+                       <div className="dataGird">
+                         <Panel  title="执业税务师人员管理" toolbar={toolbar}>
+                              {this.state.searchToggle && <SearchForm onSubmit={this.handleOk}/>}
+                                  <Table columns={columns} 
+                                  dataSource={this.state.data} 
+                                  pagination={this.state.pagination}
+                                  onChange={this.handleTableChange} 
+                                  onRowClick={this.onSelect}
+                                  loading={this.state.loading}  bordered   />
+                            </Panel>
+                        </div>
 
-          {this.state.searchToggle && <SearchForm onSubmit={this.handleOk}/>}
-
-              <Table columns={columns} 
-              dataSource={this.state.data} 
-              pagination={this.state.pagination}
-              onChange={this.handleTableChange} 
-              onRowClick={this.onSelect}
-              loading={this.state.loading}  bordered   />
-        </Panel>
-    </div>
-
-      <Panel >
-           <Tabs type="line" activeKey={this.state.activeKey} onChange={this.callback} key="A">
-                <TabPane tab="详细信息" key="1"><CompBaseTable data = {this.state.dataxx}  model ={Model.autoform} bordered striped /><p className="nbjgsz">人员简历：</p><Table columns={Model.ryjl} dataSource={this.state.datalist} bordered  size="small" pagination={false} /></TabPane>
-                <TabPane tab="变更记录" key="2"><Table columns={Model.columnsZyrybgjl} dataSource={this.state.datalist} bordered  size="small" /></TabPane>
-                <TabPane tab="年检记录" key="7"><Table columns={Model.columnsZyrynjjl} dataSource={this.state.datalist} bordered  size="small" /></TabPane>
-          </Tabs>
-                </Panel>
-                <Panel >
-                <CompInputBaseTable data = {this.state.dataxx}  model ={Model.autoform} bordered striped /></Panel>
-
-          </div>  
-      </div>
+              {this.state.czAll==0 &&<Spin spinning={this.state.sloading}><Panel >
+                   <Tabs type="line" activeKey={this.state.activeKey} onChange={this.callback} key="A">
+                        <TabPane tab="详细信息" key="1"><CompBaseTable data = {this.state.dataxx}  model={Model.autoform} bordered striped /><p className="nbjgsz">人员简历：</p><Table columns={Model.ryjl} dataSource={this.state.datalist} bordered  size="small" pagination={false} /></TabPane>
+                        <TabPane tab="变更记录" key="2"><Table columns={Model.columnsZyrybgjl} dataSource={this.state.datalist} bordered  size="small" /></TabPane>
+                        <TabPane tab="年检记录" key="7"><Table columns={Model.columnsZyrynjjl} dataSource={this.state.datalist} bordered  size="small" /></TabPane>
+                  </Tabs>
+                        </Panel></Spin>}
+                        {this.state.czAll==1 &&<Panel title="信息变更" toolbar={toolbar2}>
+                        <Spin spinning={this.state.sloading}>
+                        <CompInputBaseTable data={this.state.dataxx}  model={Model.autoform1} bordered striped showConfirm bglx 
+                         onSubmit={this.handleBGSubmit} bgmc={Model.bgmc} disabled={this.state.onSubmitZT} 
+                          submitLoading={this.state.bgLoading} title='您是否确认要提交以上变更信息？' 
+                          content='变更项目提交后将提交中心管理端审批，在变更审批完成前，将不能再进行变更操作' />
+                         </Spin></Panel>}
+                        {this.state.czAll==2 &&<Panel title="转非执业" toolbar={toolbar2}>
+                        <Spin spinning={this.state.sloading}><p className="nbjgsz"><b style={{'padding':'10px'}}>{this.state.dataxx.xm} 注销备案申请</b></p>
+                        <CompInputBaseTable data={this.state.dataxx}  model={Model.autoform2} bordered striped reset showConfirm
+                        onSubmit={this.handleBGSubmit} bgmc={Model.bgmc} disabled={this.state.onSubmitZT} 
+                        submitLoading={this.state.bgLoading} title='您是否确认提交以上信息？'  
+                        content='申请提交后将提交中心管理端审批，在审批完成前，将不能再进行操作'  />
+                        </Spin></Panel>}
+                        {this.state.czAll==3 &&<Panel title="注销备案" toolbar={toolbar2}>
+                        <Spin spinning={this.state.sloading}><p className="nbjgsz"><b style={{'padding':'10px'}}>{this.state.dataxx.xm} 注销备案申请</b></p>
+                        <CompInputBaseTable data={this.state.dataxx}  model={Model.autoform3} bordered striped reset showConfirm
+                        onSubmit={this.handleBGSubmit} bgmc={Model.bgmc} disabled={this.state.onSubmitZT} 
+                        submitLoading={this.state.bgLoading} title='您是否确认提交以上信息？'  
+                        content='申请提交后将提交中心管理端审批，审批通过后，该人员将注销'  />
+                        </Spin></Panel>}
+                        {this.state.czAll==4 &&<Panel title="转籍出省" toolbar={toolbar2}>
+                        <Spin spinning={this.state.sloading}><p className="nbjgsz"><b style={{'padding':'10px'}}>{this.state.dataxx.xm} 转籍申请</b></p>
+                        <CompInputBaseTable data={this.state.dataxx}  model={Model.autoform4} bordered striped reset showConfirm
+                        onSubmit={this.handleBGSubmit} bgmc={Model.bgmc} disabled={this.state.onSubmitZT} 
+                        submitLoading={this.state.bgLoading} title='您是否确认提交以上信息？'  
+                        content='申请提交后将提交中心管理端审批，在审批完成前，将不能再进行操作'  />
+                        </Spin></Panel>}
+                       
+                  </div>  
+              </div>
         
     }
 })
