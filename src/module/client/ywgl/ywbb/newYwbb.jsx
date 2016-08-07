@@ -42,18 +42,20 @@ const fetchData = async function () {
 const newYwbb = React.createClass({
     getInitialState(){
         return {
-            loading:true,
+            loading: true,
             stage: 0,
             dataXY: {},
             dataYW: {},
-            dataJG: {}
+            dataJG: {},
+            jgxx: {},
+            zysws: []
         }
     },
     handleStageChange(value){
         this.setState({stage: value})
     },
     handleStage0Submit(param){
-        this.setState({stage: param.stage, dataXY: param.dataXY})
+        this.setState({stage: param.stage, dataXY: param.values})
 
     },
     handleStage1Submit(param){
@@ -66,10 +68,8 @@ const newYwbb = React.createClass({
     },
     componentDidMount(){
         fetchData().then(resp=>{
-            console.log("success")
             this.setState({jgxx:resp.jgxx,zysws:resp.zysws,loading:false})
         }).catch(e=>{
-            console.log("fail")
             let c = <div className="ywbb-new-loadfail"> 数据读取失败</div>;
             this.setState({loading:false,loaded:c})
         })
@@ -78,10 +78,11 @@ const newYwbb = React.createClass({
     render(){
         let {stage,dataXY,dataYW,dataJG} = this.state;
         let stageContent = {
-            '0': this.state.loaded || <Stage0 data={dataXY}
+            '1': this.state.loaded || <Stage0 data={dataXY}
                          onSubmit={this.handleStage0Submit}/>,
-            '1': <Stage1 onStageChange={this.handleStageChange}
-                         data={dataYW}/>
+            '0': <Stage1 onStageChange={this.handleStageChange}
+                         data={dataYW} zysws={this.state.zysws}
+                         onSubmit={this.handleStage1Submit}/>
         };
 
         return <Spin spinning={this.state.loading}>
