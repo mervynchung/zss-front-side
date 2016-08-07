@@ -1,8 +1,8 @@
 import React from 'react'
-import {Select} from 'antd'
+import {Table} from 'antd'
 
 const Option = Select.Option;
-const zysws = React.createClass({
+const customer = React.createClass({
     render(){
         const list = this.props.data;
         let options = list.map(item=>{
@@ -20,4 +20,4 @@ const zysws = React.createClass({
     }
 });
 
-module.exports = zysws;
+module.exports = customer;

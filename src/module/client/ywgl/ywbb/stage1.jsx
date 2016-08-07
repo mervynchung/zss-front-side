@@ -80,7 +80,7 @@ let stage = React.createClass({
         const { getFieldProps } = this.props.form;
         const qmswsProps = getFieldProps('QMSWS', {
             rules: [
-                {required: true, type: 'array', message: '只能选择两位签名税务师'},
+                //{required: true, type: 'array',message},
                 {validator: this.checkQmsws}
             ]
         });
@@ -215,7 +215,7 @@ let stage = React.createClass({
                     <Col span="24">
                         <FormItem
                           labelCol={{span: 4}} wrapperCol={{span: 6}}
-                          label="签名注册税务师">
+                          label="签名注册税务师" required>
                             <SelectZysws  data={this.props.zysws} {...qmswsProps}/>
                         </FormItem>
                     </Col>

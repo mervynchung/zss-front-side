@@ -6,6 +6,7 @@ import config from 'common/configuration.js'
 import req from 'reqwest'
 import Stage0 from './stage0.jsx'
 import Stage1 from './stage1.jsx'
+import Stage2 from './stage2.jsx'
 
 const Step = Steps.Step;
 
@@ -47,7 +48,6 @@ const newYwbb = React.createClass({
             dataXY: {},
             dataYW: {},
             dataJG: {},
-            jgxx: {},
             zysws: []
         }
     },
@@ -68,7 +68,7 @@ const newYwbb = React.createClass({
     },
     componentDidMount(){
         fetchData().then(resp=>{
-            this.setState({jgxx:resp.jgxx,zysws:resp.zysws,loading:false})
+            this.setState({dataJG:resp.jgxx,zysws:resp.zysws,loading:false})
         }).catch(e=>{
             let c = <div className="ywbb-new-loadfail"> 数据读取失败</div>;
             this.setState({loading:false,loaded:c})
@@ -78,11 +78,14 @@ const newYwbb = React.createClass({
     render(){
         let {stage,dataXY,dataYW,dataJG} = this.state;
         let stageContent = {
-            '1': this.state.loaded || <Stage0 data={dataXY}
+            '2': this.state.loaded || <Stage0 data={dataXY}
                          onSubmit={this.handleStage0Submit}/>,
-            '0': <Stage1 onStageChange={this.handleStageChange}
+            '1': <Stage1 onStageChange={this.handleStageChange}
                          data={dataYW} zysws={this.state.zysws}
-                         onSubmit={this.handleStage1Submit}/>
+                         onSubmit={this.handleStage1Submit}/>,
+            '0': <Stage2 onStageChange={this.handleStageChange}
+                         data={dataJG}
+                         onSubmit={this.handleStage2Submit}/>
         };
 
         return <Spin spinning={this.state.loading}>
