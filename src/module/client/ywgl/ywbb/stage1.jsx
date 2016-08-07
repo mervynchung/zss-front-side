@@ -148,21 +148,22 @@ let stage =  React.createClass({
                     <Row>
                         <Col span="24">
                             <FormItem
-                              labelCol={{span: 3}} wrapperCol={{span: 6}}
-                              label="委托项目类型">
-                                <SelectorYWLX  />
+                                labelCol={{span: 4}} wrapperCol={{span: 8}}
+                                label="委托企业营业收入">
+                                <InputNumber style={{width:'75%'}} />元
                             </FormItem>
                         </Col>
                     </Row>
                     <Row>
                         <Col span="24">
                             <FormItem
-                                labelCol={{span: 3}} wrapperCol={{span: 5}}
-                                label="协议收费金额">
-                                <InputNumber style={{width:'100%'}} />
+                              labelCol={{span: 4}} wrapperCol={{span: 8}}
+                              label="具体项目">
+                                <Input style={{width:'100%'}} />
                             </FormItem>
                         </Col>
                     </Row>
+
                     <Row>
                         <Col span="4" offset="10">
                             <Button

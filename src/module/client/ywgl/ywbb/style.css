@@ -30,3 +30,8 @@
 .client-ywbb .stage{
     margin-top:16px
 }
+.client-ywbb .ywbb-new-loadfail {
+    padding: 150px;
+    text-align: center;
+    font-size: 14px;
+}

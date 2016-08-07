@@ -1,9 +1,12 @@
 import React from 'react'
-import {Form,Row,Col,Input,Button,InputNumber} from 'antd'
+import {Form,Row,Col,Input,Button,InputNumber,DatePicker} from 'antd'
+import numeral from 'numeral'
 import Panel from 'component/compPanel'
 import utils from 'common/utils'
 import {SelectorYWLX} from 'component/compSelector'
 
+
+const RangePicker = DatePicker.RangePicker;
 const FormItem = Form.Item;
 const createForm = Form.create;
 
@@ -16,6 +19,13 @@ let stage = React.createClass({
             values = utils.transEmpty2Null(values);
             this.props.onSubmit({stage: 1, values: values});
         })
+    },
+    checkSssq(rule, value, callback){
+        if( value &&(!(value[0] instanceof Date) &&  !(value[1] instanceof Date))){
+            callback("请输入所属时期起止")
+        }else{
+            callback()
+        }
     },
     render(){
         const { getFieldProps } = this.props.form;
@@ -39,6 +49,13 @@ let stage = React.createClass({
                 {required: true,type:'number',  message: '输入正确的协议收费金额'}
             ]
         });
+        const sssqProps = getFieldProps('SSSQ', {
+            rules: [
+                {required: true, type:'array',  message: '输入所属时期'},
+                { validator: this.checkSssq }
+            ]
+        });
+
         return <Panel title="填写协议信息" className="stage">
 
             <Form horizontal form={this.props.form}>
@@ -115,12 +132,22 @@ let stage = React.createClass({
                 <Row>
                     <Col span="24">
                         <FormItem
-                          labelCol={{span: 3}} wrapperCol={{span: 5}}
+                          labelCol={{span: 3}} wrapperCol={{span: 8}}
                           label="协议收费金额">
-                            <InputNumber style={{width:'100%'}} {...xyjeProps}/>
+                            <InputNumber  style={{width:'75%'}} {...xyjeProps}/>元
                         </FormItem>
                     </Col>
                 </Row>
+                <Row>
+                    <Col span="24">
+                        <FormItem
+                          labelCol={{span: 3}} wrapperCol={{span: 5}}
+                          label="项目所属时期">
+                            <RangePicker format="yyyy/MM/dd " {...sssqProps}/>
+                        </FormItem>
+                    </Col>
+                </Row>
+
                 <Row>
                     <Col span="4" offset="10">
 
