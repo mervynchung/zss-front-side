@@ -46,6 +46,7 @@ const SelectZysws = React.createClass({
         });
         return <Select
           {...this.props}
+          placeholder="点击选择"
           multiple
           style={{ width: '100%' }}>
             {options}
@@ -85,9 +86,40 @@ let stage = React.createClass({
         });
         const dqProps = getFieldProps('DQ', {
             rules: [
-                {required: true, type: 'array', message: '必须选择地区'},
+                {required: true, type: 'array', message: '必须选择地区'}
             ]
         });
+        const bgwhProps = getFieldProps('BGWH', {
+            rules: [
+                {required: true, whitespace:true, message: '必填项'}
+            ]
+        });
+        const bgrqProps = getFieldProps('BGRQ', {
+            rules: [
+                {required: true, type: 'date',  message: '选择报告日期'}
+            ]
+        });
+        const yjfhProps = getFieldProps('YJFH', {
+            rules: [
+                {required: true, whitespace:true,  message: '必填项'}
+            ]
+        });
+        const rjfhProps = getFieldProps('RJFH', {
+            rules: [
+                {required: true, whitespace:true,  message: '必填项'}
+            ]
+        });
+        const sjfhProps = getFieldProps('SJFH', {
+            rules: [
+                {required: true, whitespace:true,  message: '必填项'}
+            ]
+        });
+        const sfjeProps = getFieldProps('SFJE', {
+            rules: [
+                {required: true, type:'number',  message: '必填项'}
+            ]
+        });
+
 
         return <Panel title="填写业务详细资料" className="stage">
 
@@ -111,7 +143,7 @@ let stage = React.createClass({
                         </FormItem>
                     </Col>
                     <Col span="4">
-                        <FormItem required style={{width:'90%'}}>
+                        <FormItem  style={{width:'90%'}}>
                             <Input placeholder="主管税务机关名称"  {...getFieldProps('ZGSWJG')}/>
                         </FormItem>
                     </Col>
@@ -138,17 +170,15 @@ let stage = React.createClass({
                     <Col span="12">
                         <FormItem
                           labelCol={{span: 8}} wrapperCol={{span: 12}}
-                          label="报告文号"
-                          required>
-                            <Input  {...getFieldProps('BGWH')}/>
+                          label="报告文号">
+                            <Input  {...bgwhProps}/>
                         </FormItem>
                     </Col>
                     <Col span="12">
                         <FormItem
                           labelCol={{span: 8}} wrapperCol={{span: 12}}
-                          label="报告日期"
-                          required>
-                            <DatePicker  {...getFieldProps('BGRQ')}/>
+                          label="报告日期">
+                            <DatePicker  {...bgrqProps}/>
                         </FormItem>
                     </Col>
                 </Row>
@@ -156,9 +186,8 @@ let stage = React.createClass({
                     <Col span="24">
                         <FormItem
                           labelCol={{span: 4}} wrapperCol={{span: 10}}
-                          label="一级复核"
-                          required>
-                            <Input style={{width:'60%'}} {...getFieldProps('YJFH')}/> 项目负责人的复核
+                          label="一级复核" required={true}>
+                            <Input style={{width:'60%'}} {...yjfhProps}/> 项目负责人的复核
                         </FormItem>
                     </Col>
                 </Row>
@@ -168,7 +197,7 @@ let stage = React.createClass({
                           labelCol={{span: 4}} wrapperCol={{span: 10}}
                           label="二级复核"
                           required>
-                            <Input style={{width:'60%'}} {...getFieldProps('RJFH')}/> 部门负责人的复核
+                            <Input style={{width:'60%'}} {...rjfhProps}/> 部门负责人的复核
                         </FormItem>
                     </Col>
                 </Row>
@@ -178,7 +207,7 @@ let stage = React.createClass({
                           labelCol={{span: 4}} wrapperCol={{span: 10}}
                           label="三级复核"
                           required>
-                            <Input  style={{width:'60%'}} {...getFieldProps('SJFH')}/> 机构负责人的复核
+                            <Input  style={{width:'60%'}} {...sjfhProps}/> 机构负责人的复核
                         </FormItem>
                     </Col>
                 </Row>
@@ -187,7 +216,7 @@ let stage = React.createClass({
                         <FormItem
                           labelCol={{span: 4}} wrapperCol={{span: 6}}
                           label="签名注册税务师">
-                            <SelectZysws data={this.props.zysws} {...qmswsProps}/>
+                            <SelectZysws  data={this.props.zysws} {...qmswsProps}/>
                         </FormItem>
                     </Col>
                 </Row>
@@ -196,7 +225,7 @@ let stage = React.createClass({
                         <FormItem
                           labelCol={{span: 4}} wrapperCol={{span: 8}}
                           label="委托企业营业收入">
-                            <InputNumber style={{width:'75%'}} {...getFieldProps('SFJE')}/>元
+                            <InputNumber style={{width:'75%'}} {...sfjeProps}/>元
                         </FormItem>
                     </Col>
                 </Row>
