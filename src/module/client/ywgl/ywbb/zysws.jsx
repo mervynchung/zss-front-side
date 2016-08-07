@@ -1,5 +1,5 @@
 import React from 'react'
-import {Table} from 'antd'
+import {Table,Modal} from 'antd'
 
 const Option = Select.Option;
 const customer = React.createClass({
