@@ -126,14 +126,21 @@ const Index = React.createClass({
                 require('../module/spsh/module/44'),
                 require('../module/spsh/module/46'),
 
-                //系统业务报表(原报表管理-系统业务报表）
-                require('../module/xtywbb/ndjysrtj'),
+                //数据统计分析 - 年检数据分析
 
-                //系统数据分析
-                require('../module/xtsjfx/swsqktjA'),
-                require('../module/xtsjfx/hyryqktj'),
-                require('../module/njsjfx/rynjsjfx'),//年检数据分析
-                require('../module/xtsjfx/jgnjsjfxb'),//年检数据分析
+                require('../module/xtsjfx/njsjfx/rynjsjfx'),//人员年检数据分析
+                require('../module/xtsjfx/njsjfx/jgnjsjfxb'),//机构年检数据分析
+
+                //数据统计分析 - 注税行业年报表
+
+                //数据统计分析 - 系统统计报表
+                require('../module/xtsjfx/xttjbb/swsqktjA'), //事务所情况统计A
+                require('../module/xtsjfx/xttjbb/hyryqktj'), //行业人员情况统计
+
+                //数据统计分析 - 系统业务报表
+                require('../module/xtywbb/ndjysrtj'), //年度经营收入统计
+
+
 
 
                 //会员会费缴纳
