@@ -1,16 +1,20 @@
 import React from 'react'
 import {Form,Row,Col,Input,Button,InputNumber,DatePicker} from 'antd'
-import numeral from 'numeral'
 import Panel from 'component/compPanel'
 import utils from 'common/utils'
 import {SelectorYWLX} from 'component/compSelector'
-
+import Customer from './customer.jsx'
 
 const RangePicker = DatePicker.RangePicker;
 const FormItem = Form.Item;
 const createForm = Form.create;
 
 let stage = React.createClass({
+    getInitialState(){
+      return {
+          customerModal:false
+      }
+    },
     next(){
         this.props.form.validateFields((errors, values) => {
             if (!!errors) {
@@ -28,7 +32,23 @@ let stage = React.createClass({
         }
     },
     getCustomers(){
-
+        this.setState({customerModal:true})
+    },
+    closeCustomer(){
+        this.setState({customerModal:false})
+    },
+    handleOk(entity){
+        this.setState({
+            customerModal:false,
+        });
+        this.props.form.setFieldsValue({
+            DWMC:entity.DWMC,
+            NSRSBH:entity.NSRSBH,
+            NSRSBHDF: entity.NSRSBHDF,
+            LXR: entity.LXR,
+            LXDH: entity.LXDH,
+            DWDZ:entity.DWDZ
+        })
     },
     render(){
         const { getFieldProps } = this.props.form;
@@ -60,6 +80,11 @@ let stage = React.createClass({
         });
 
         return <Panel title="填写协议信息" className="stage">
+            <Customer visible={this.state.customerModal}
+                      closable
+                      style={{top:'200px'}}
+                      onOk={this.handleOk}
+                      onCancel={this.closeCustomer} />
 
             <Form horizontal form={this.props.form}>
                 <Row>
@@ -104,7 +129,7 @@ let stage = React.createClass({
                         <FormItem
                           labelCol={{span: 8}} wrapperCol={{span: 12}}
                           label="联系人">
-                            <Input disabled {...getFieldProps('DWDZ')}/>
+                            <Input disabled {...getFieldProps('LXR')}/>
                         </FormItem>
                     </Col>
                     <Col span="12" pull="4">
