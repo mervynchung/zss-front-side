@@ -126,6 +126,20 @@ const Index = React.createClass({
                 require('../module/spsh/module/44'),
                 require('../module/spsh/module/46'),
 
+                //系统业务报表(原报表管理-系统业务报表）
+                require('../module/xtywbb/ndjysrtj'),
+
+                //系统数据分析
+                require('../module/xtsjfx/swsqktjA'),
+                require('../module/xtsjfx/hyryqktj'),
+                require('../module/njsjfx/rynjsjfx'),//年检数据分析
+                require('../module/xtsjfx/jgnjsjfxb'),//年检数据分析
+
+
+                //会员会费缴纳
+                require('../module/hyhf_new/hyhfjnqk'),
+                require('../module/hyhf_new/fpdy'),
+
 
               
                 //客户端
@@ -133,6 +147,8 @@ const Index = React.createClass({
                 require('../module/client/jggl/swsbg'),
                 require('../module/client/jggl/swszx'),
                 require('../module/client/jggl/swshb'),
+
+                //人员管理
                 require('../module/client/swsrygl/zyrygl'),
 
                 //财务报表上传
@@ -148,7 +164,6 @@ const Index = React.createClass({
                 require('../module/client/sdsb/jzywqktjb'),
                 require('../module/client/sdsb/hyryqktjb'),
                 require('../module/client/sdsb/jysrqkb'),
-                require('../module/client/ywgl/test'),
 
                 //系统业务报表
                 require('../module/xtywbb/ndjysrtj'),
@@ -165,10 +180,6 @@ const Index = React.createClass({
                 //数据系统分析
                 require('../module/jgsjfx/hynlsjfx'),
                 require('../module/jgsjfx/ryztsjfx'),
-                
-                //会员会费缴纳
-                require('../module/hyhf_new/hyhfjnqk'),
-                require('../module/hyhf_new/fpdy'),
 
                 //业务管理
                 require('../module/client/ywgl/khxxgl') //客户信息管理
