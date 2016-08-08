@@ -60,7 +60,7 @@ const Index = React.createClass({
 
                 //业务管理
                 require('../module/ywgl/ywbbgl'),
-               /* require('../module/ywgl/ywzlgl/sfjeyjgl'),
+                require('../module/ywgl/ywzlgl/sfjeyjgl'),
                 require('../module/ywgl/ywzlgl/ndbtyjgl'),
                 require('../module/ywgl/ywzlgl/ywwtyjgl'),
                 require('../module/ywgl/ywzlgl/cxbgyjgl'),
@@ -140,7 +140,6 @@ const Index = React.createClass({
                 require('../module/hyhf_new/hyhfjnqk'),
                 require('../module/hyhf_new/fpdy'),
 
-
               
                 //客户端
                 //机构管理
@@ -165,8 +164,6 @@ const Index = React.createClass({
                  require('../module/client/sdsb/hyryqktjb'),
                  require('../module/client/sdsb/jysrqkb'),
 
-                //系统数据分析
-                require('../module/xtsjfx/jgnjsjfxb'),*/
 
                 //业务管理
                 require('../module/client/ywgl/khxxgl'), //客户信息管理
