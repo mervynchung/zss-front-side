@@ -1,5 +1,5 @@
 import React from 'react'
-import {Steps,Col,Row,Spin  } from 'antd'
+import {Steps,Col,Row,Spin,notification  } from 'antd'
 import Panel from 'component/compPanel'
 import auth from 'common/auth.js'
 import config from 'common/configuration.js'
@@ -12,19 +12,21 @@ const Step = Steps.Step;
 
 const jid = auth.getJgid();
 const token = auth.getToken();
-const LIST_URL = config.HOST + config.URI_API_PROJECT + '/jg/'+jid+'/yw' ;
 const YWBBMISC_URL = config.HOST + config.URI_API_PROJECT + '/ywbbmisc/'+jid ;
+const YWBB_URL = config.HOST + config.URI_API_PROJECT + '/ywbb' ;
 
-//获取委托客户列表
-const fetchCustomers = function (param = {page: 1, pageSize: 10, jid: jid}) {
+//添加新报备
+const addYwbb = function(param){
     return req({
-        url: CUSTOMER_URL,
-        method: 'get',
+        url: YWBB_URL,
+        method: 'post',
         type: 'json',
-        data: param,
+        contentType:'application/json',
+        data: JSON.stringify(param),
         headers: {'x-auth-token': token}
     })
 };
+
 //获取本机构下属执业税务师列表
 const fetchYwbbMisc = function () {
     return req({
@@ -59,12 +61,62 @@ const newYwbb = React.createClass({
 
     },
     handleStage1Submit(param){
-        this.setState({stage: param.stage, dataYW: param.dataYW})
+        this.setState({stage: param.stage, dataYW: param.values})
 
     },
     handleStage2Submit(param){
-        this.setState({stage: param.stage, dataJG: param.dataJG})
+        this.setState({stage: param.stage, dataJG: param.values})
 
+    },
+    //保存业务报备
+    handleSave(){
+        let values = {
+            dataXY:this.state.dataXY,
+            dataYW:this.state.dataYW,
+            dataJG:this.state.dataJG,
+            type:'save'
+        };
+        this.setState({loading:true});
+        addYwbb(values).then(resp=>{
+            this.setState({loading:false});
+            notification.success({
+                duration: 2,
+                message: '操作成功',
+                description: '报备信息已保存'
+            })
+        }).fail(e=>{
+            this.setState({loading:false});
+            notification.error({
+                duration: 2,
+                message: '操作失败',
+                description: '可能网络访问原因，请稍后尝试'
+            });
+        })
+    },
+    //提交业务报备
+    handleCommit(){
+        let values = {
+            dataXY:this.state.dataXY,
+            dataYW:this.state.dataYW,
+            dataJG:this.state.dataJG,
+            type:'commit'
+        };
+        this.setState({loading:true});
+        addYwbb(values).then(resp=>{
+            this.setState({loading:false});
+            notification.success({
+                duration: 2,
+                message: '操作成功',
+                description: '报备信息已提交'
+            })
+        }).fail(e=>{
+            this.setState({loading:false});
+            notification.error({
+                duration: 2,
+                message: '操作失败',
+                description: '可能网络访问原因，请稍后尝试'
+            });
+        })
     },
     componentDidMount(){
         fetchData().then(resp=>{
@@ -85,22 +137,25 @@ const newYwbb = React.createClass({
                          onSubmit={this.handleStage1Submit}/>,
             '2': <Stage2 onStageChange={this.handleStageChange}
                          data={dataJG}
-                         onSubmit={this.handleStage2Submit}/>
+                         onSubmit={this.handleStage2Submit}
+                         onSave ={this.handleSave}
+                         onCommit ={this.handleCommit}/>
         };
 
-        return <Spin spinning={this.state.loading}>
-            <Panel>
+        return <Panel>
                 <Steps current={stage} className="steps">
                     <Step title="填写协议"/>
                     <Step title="填写业务详细信息"/>
                     <Step title="确认事务所基本信息"/>
                 </Steps>
+                <Spin spinning={this.state.loading}>
                 <div>
                     {stageContent[stage]}
                 </div>
+                </Spin>
 
             </Panel>
-        </Spin>
+
     }
 });
 
