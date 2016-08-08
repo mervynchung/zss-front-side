@@ -59,7 +59,7 @@ const Index = React.createClass({
                 require('../module/xtgnsz/yhgl'),
 
                 //业务管理
-           /*     require('../module/ywgl/ywbbgl'),
+                require('../module/ywgl/ywbbgl'),
                 require('../module/ywgl/ywzlgl/sfjeyjgl'),
                 require('../module/ywgl/ywzlgl/ndbtyjgl'),
                 require('../module/ywgl/ywzlgl/ywwtyjgl'),
@@ -102,7 +102,7 @@ const Index = React.createClass({
 
                 //监督检查
                 require('../module/jdjc/zyswsnjb'),
-                require('../module/jdjc/swsnj'),*/
+                require('../module/jdjc/swsnj'),
 
                 //逐级审核
                 require('../module/spsh'),
@@ -136,18 +136,18 @@ const Index = React.createClass({
                 require('../module/client/swsrygl/zyrygl'),
 
                 //财务报表上传
-                // require('../module/client/cwbb/lrb'),
-                // require('../module/client/cwbb/lrfpb'),
-                // require('../module/client/cwbb/xjllb'),
-                // require('../module/client/cwbb/zcfzb'),
-                // require('../module/client/cwbb/zcmxb'),
+                require('../module/client/cwbb/lrb'),
+                require('../module/client/cwbb/lrfpb'),
+                require('../module/client/cwbb/xjllb'),
+                require('../module/client/cwbb/zcfzb'),
+                require('../module/client/cwbb/zcmxb'),
 
                 //手动上报报表
-                // require('../module/client/sdsb/swsqkb'),
-                // require('../module/client/sdsb/jygmtjb'),
-                // require('../module/client/sdsb/jzywqktjb'),
-                // require('../module/client/sdsb/hyryqktjb'),
-                // require('../module/client/sdsb/jysrqkb'),
+                require('../module/client/sdsb/swsqkb'),
+                require('../module/client/sdsb/jygmtjb'),
+                require('../module/client/sdsb/jzywqktjb'),
+                require('../module/client/sdsb/hyryqktjb'),
+                require('../module/client/sdsb/jysrqkb'),
                 require('../module/client/ywgl/test'),
 
                 //系统业务报表
