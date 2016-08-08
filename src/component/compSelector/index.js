@@ -31,7 +31,9 @@ var selector = {
     SelectorXZ: require('./xz'), //性质
     SelectorZT: require('./zt'), //状态
     SelectorIS: require('./is'), //是否
-    SelectorRoles: require('./roles') //角色
+    SelectorRoles: require('./roles'), //角色
+    SelectorISWS:require('./isws'), //业务报备是否省外
+    SelectorSB:require('./sb') //国税或地税
 
 };
 
