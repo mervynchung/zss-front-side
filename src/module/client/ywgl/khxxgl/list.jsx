@@ -12,6 +12,7 @@ import {jsonCopy} from 'common/utils.js'
 
 const PanelBar = Panel.ToolBar;
 const ButtonGroup = Button.Group;
+
 const CUSTOMER_URL = config.HOST + config.URI_API_PROJECT + '/customers';
 const jid = auth.getJgid();
 const token = auth.getToken();

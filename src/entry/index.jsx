@@ -140,7 +140,6 @@ const Index = React.createClass({
                 require('../module/hyhf_new/hyhfjnqk'),
                 require('../module/hyhf_new/fpdy'),
 
-
               
                 //客户端
                 //机构管理
@@ -167,7 +166,8 @@ const Index = React.createClass({
 
 
                 //业务管理
-                require('../module/client/ywgl/khxxgl') //客户信息管理
+                require('../module/client/ywgl/khxxgl'), //客户信息管理
+                require('../module/client/ywgl/ywbb') //事务所业务报备
 
             ]
         }, {
