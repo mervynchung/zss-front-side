@@ -116,7 +116,7 @@ const zyzzsjfx = React.createClass({
     },
 
     //通过API获取数据
-    fetchData(params = {nd:2014}){
+    fetchData(params = {page: 1, pageSize: this.state.pagination.pageSize}){
         this.setState({loading: true});
         req({
             url: API_URL,
@@ -167,20 +167,12 @@ const zyzzsjfx = React.createClass({
             </ButtonGroup>
         </ToolBar>;
 
-        //定义提示内容
-        let helper = [];
-        helper.push(<p key="helper-0">点击查询结果查看利润表明细</p>);
-        helper.push(<p key="helper-1">检索功能只显示前1000条记录</p>);
+        
 
-        return <div className="cwbb-lrb">
+        return <div className="sjfx-zyzzsjfx">
             <div className="wrap">
-                {this.state.helper && <Alert message="利润表检索查询帮助"
-                                             description={helper}
-                                             type="info"
-                                             closable
-                                             onClose={this.handleHelperClose}/>}
 
-                <Panel title="利润表" toolbar={toolbar}>
+                <Panel title="执业资质数据分析" toolbar={toolbar}>
                     {this.state.searchToggle && <SearchForm
                         onSubmit={this.handleSearchSubmit}/>}
                     <div className="h-scroll-table">
@@ -192,11 +184,7 @@ const zyzzsjfx = React.createClass({
                                />
                     </div>
                 </Panel>
-                {this.state.detailHide ? null : <Panel title="利润表明细"
-                                                       onClose={this.handleDetailClose}
-                                                       closable>
-                    <DetailBox data={this.state.entity}/>
-                </Panel>}
+                
             </div>
         </div>
     }
