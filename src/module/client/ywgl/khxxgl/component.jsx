@@ -1,4 +1,3 @@
-import './style.css'
 import React from 'react'
 import KhxxList from './list'
 import QueueAnim from 'rc-queue-anim'
@@ -16,7 +15,7 @@ const khxxgl = React.createClass({
         }
     },
     handleEditSave(boolean){
-        this.setState({isSaved: true})
+        this.setState({isSaved: true,type:'add'})
     },
     handleEdit(record){
         this.setState({entity: record, type: 'update'})
