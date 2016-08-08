@@ -158,19 +158,34 @@ const Index = React.createClass({
                 require('../module/client/swsrygl/zyrygl'),
 
                 //财务报表上传
-                 require('../module/client/cwbb/lrb'),
-                 require('../module/client/cwbb/lrfpb'),
-                 require('../module/client/cwbb/xjllb'),
-                 require('../module/client/cwbb/zcfzb'),
-                 require('../module/client/cwbb/zcmxb'),
+                require('../module/client/cwbb/lrb'),
+                require('../module/client/cwbb/lrfpb'),
+                require('../module/client/cwbb/xjllb'),
+                require('../module/client/cwbb/zcfzb'),
+                require('../module/client/cwbb/zcmxb'),
 
                 //手动上报报表
-                 require('../module/client/sdsb/swsqkb'),
-                 require('../module/client/sdsb/jygmtjb'),
-                 require('../module/client/sdsb/jzywqktjb'),
-                 require('../module/client/sdsb/hyryqktjb'),
-                 require('../module/client/sdsb/jysrqkb'),
+                require('../module/client/sdsb/swsqkb'),
+                require('../module/client/sdsb/jygmtjb'),
+                require('../module/client/sdsb/jzywqktjb'),
+                require('../module/client/sdsb/hyryqktjb'),
+                require('../module/client/sdsb/jysrqkb'),
 
+                //系统业务报表
+                require('../module/xtywbb/ndjysrtj'),
+                require('../module/xtywbb/hyjygmqktj'),
+                
+                //人员年检数据分析
+                require('../module/njsjfx/rynjsjfx'),
+
+                //系统数据分析
+                require('../module/xtsjfx/jgnjsjfxb'),
+                require('../module/xtsjfx/swsqktjA'),
+                require('../module/xtsjfx/hyryqktj'),
+
+                //数据系统分析
+                require('../module/jgsjfx/hynlsjfx'),
+                require('../module/jgsjfx/ryztsjfx'),
 
                 //业务管理
                 require('../module/client/ywgl/khxxgl'), //客户信息管理
