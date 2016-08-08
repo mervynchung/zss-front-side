@@ -64,7 +64,7 @@ const Index = React.createClass({
                 require('../module/ywgl/ywzlgl/sfjeyjgl'),
                 require('../module/ywgl/ywzlgl/ndbtyjgl'),
                 require('../module/ywgl/ywzlgl/ywwtyjgl'),
-                require('../module/ywgl/ywzlgl/cxbgyjgl'),*/
+                require('../module/ywgl/ywzlgl/cxbgyjgl'),
 
                //会员会费管理
                 require('../module/hyhfgl/hfjlqk'),
@@ -132,25 +132,24 @@ const Index = React.createClass({
                 require('../module/xtsjfx/njsjfx/jgnjsjfxb'),//机构年检数据分析
 
                 //数据统计分析 - 注税行业年报表
+                require('../module/xtsjfx/zshynbb/hyjygmqktj'),//行业经营规模情况统计
 
                 //数据统计分析 - 系统统计报表
                 require('../module/xtsjfx/xttjbb/swsqktjA'), //事务所情况统计A
                 require('../module/xtsjfx/xttjbb/hyryqktj'), //行业人员情况统计
-                require('../module/xttjbb/swsqktj_b'),
-                require('../module/xttjbb/swszttj'),
+                require('../module/xtsjfx/xttjbb/swsqktj_b'),//事务所情况统计B
+                require('../module/xtsjfx/xttjbb/swszttj'),//税务师
 
                 //数据统计分析 - 系统业务报表
-                require('../module/xtywbb/ndjysrtj'), //年度经营收入统计
-                require('../module/xtywbb/ndjysrtj'),
-                require('../module/xtywbb/hyjygmqktj'),
-                require('../module/xtywbb/ndjzqktj'),
+                require('../module/xtsjfx/xtywbb/ndjysrtj'), //年度经营收入统计 
+                require('../module/xtsjfx/xtywbb/ndjzqktj'), //年度鉴证情况统计
 
                 //数据统计分析 - 数据分析
-                require('../module/jgsjfx/zyzzsjfx'),
-                require('../module/jgsjfx/hyxlsjfx'),
-                require('../module/jgsjfx/zjgmsjfx'),
-                require('../module/jgsjfx/hynlsjfx'),
-                require('../module/jgsjfx/ryztsjfx'),
+                require('../module/xtsjfx/sjfx/zyzzsjfx'),//执业资质数据分析
+                require('../module/xtsjfx/sjfx/hyxlsjfx'),//行业学历数据分析
+                require('../module/xtsjfx/sjfx/zjgmsjfx'),//资金规模数据分析
+                require('../module/xtsjfx/sjfx/hynlsjfx'),//行业年龄数据分析
+                require('../module/xtsjfx/sjfx/ryztsjfx'),
 
                 //会员会费缴纳
                 require('../module/hyhf_new/hyhfjnqk'),
