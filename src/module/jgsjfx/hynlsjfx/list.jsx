@@ -3,8 +3,7 @@ import {Table,Col,Row,Tree,Tabs,Modal,Button,Spin,notification,Icon} from 'antd'
 import {Link} from 'react-router'
 import Panel from 'component/compPanel'
 import config from 'common/configuration'
-import {SelectorDQ,SelectorCS} from 'component/compSelector'
-import SearchForm from './searchForm.jsx'
+import {SelectorDQ,SelectorCS,SelectorYear} from 'component/compSelector'
 import model from './model.jsx'
 import req from 'reqwest'
 import auth from 'common/auth.js'
@@ -12,13 +11,11 @@ import {jsonCopy} from 'common/utils.js'
 
 const PanelBar = Panel.ToolBar;
 const ButtonGroup = Button.Group;
-
-const CUSTOMER_URL = config.HOST + config.URI_API_PROJECT + '/customers';
-const jid = auth.getJgid();
+const CUSTOMER_URL = config.HOST + config.URI_API_PROJECT + '/jgsjfx/hynlsjfx';
 const token = auth.getToken();
 
 //获取客户信息列表
-const fetchCustomers = function (param = {page: 1, pageSize: 10,jid:jid}) {
+const fetchCustomers = function (param = {page: 1, pageSize: 10}) {
     return req({
         url: CUSTOMER_URL,
         method: 'get',
@@ -54,16 +51,44 @@ const khxxList = React.createClass({
                 pageSizeOptions: ['5', '10', '20']
 
             }
+            
         }
     },
 
     componentDidMount(){
+        
+        fetchCustomers().then(resp=> {
+            const p = this.state.pagination;
+            p.total = resp.total > 1000 ? 1000 : resp.total;
+            p.showTotal = total => {
+                return `共 ${resp.total} 条，显示前 ${total} 条`
+            };
+            
+            this.setState({
+                pageLoading: false,
+                data: resp.data,
+                pagination: p
+            }).fail(err=>{
+                this.setState({loading: false});
+                Modal.error({
+                    title: '数据获取错误',
+                    content: (
+                    <div>
+                        <p>无法从服务器返回数据，需检查应用服务工作情况</p>
+                        <p>Status: {err.status}</p>
+                    </div>  )
+                });
+            }) 
+        })
+        
+        /*
         fetchData().then(resp=> {
             const p = this.state.pagination;
             p.total = resp.customers.total > 1000 ? 1000 : resp.customers.total;
             p.showTotal = total => {
                 return `共 ${resp.customers.total} 条，显示前 ${total} 条`
             };
+            
             this.setState({
                 pageLoading: false,
                 customers: resp.customers.data,
@@ -80,6 +105,7 @@ const khxxList = React.createClass({
                     </div>  )
             });
         })
+        */
     },
 
     //数据表换页
@@ -87,7 +113,6 @@ const khxxList = React.createClass({
         fetchCustomers({
             page: pager.current,
             pageSize: pager.pageSize,
-            jid:jid,
             where: encodeURIComponent(JSON.stringify(this.state.where))
         }).then(resp=> {
             pager.total = resp.total > 1000 ? 1000 : resp.total;
@@ -133,7 +158,6 @@ const khxxList = React.createClass({
         const param = {
             page:1,
             pageSize:pager.pageSize,
-            jid:jid,
             where: encodeURIComponent(JSON.stringify(values))
         };
         fetchCustomers(param).then(resp=>{
@@ -145,6 +169,26 @@ const khxxList = React.createClass({
             this.setState({customers:resp.data,where:values, pagination: pager,pageLoading:false})
         })
     },
+    
+    //测试.....
+    yearChange(year){
+        this.setState({pageLoading:true});
+        const pager = this.state.pagination;
+        const param = {
+            page:1,
+            pageSize:pager.pageSize,
+            where: encodeURIComponent(JSON.stringify({"year":year}))
+        }
+        fetchCustomers(param).then(resp=>{
+            pager.total = resp.total > 1000 ? 1000 : resp.total;
+            pager.showTotal = total => {
+                return `共 ${resp.total} 条，显示前 ${total} 条`
+            };
+            pager.current = 1;
+            this.setState({customers:resp.data,where:year, pagination: pager,pageLoading:false})
+        })
+    },
+    
     //增加客户信息
     pageJump(){
        this.props.onPageJump('new')
@@ -174,11 +218,7 @@ const khxxList = React.createClass({
     },
 
     render(){
-        //配置修改动作对应的方法
-        model.setEdit(this.props.onEdit);
-        //配置删除动作对应的方法
-        model.setDel(this.handleDel);
-
+        /*
         const panelBar = <PanelBar>
             <Button onClick={this.handleSearchToggle}>
                 <Icon type="search"/>查询
@@ -192,21 +232,40 @@ const khxxList = React.createClass({
             </ButtonGroup>
 
         </PanelBar>;
-
-
-        return   <Spin spinning={this.state.pageLoading}>
-                    <Panel title="已有客户列表" toolbar={panelBar}>
-                        {this.state.searchToggle && <SearchForm
+        
+        return <Spin spinning={this.state.pageLoading}>
+                   <Panel title="已有客户列表"  toolbar={panelBar}>
+                   {this.state.searchToggle && <SearchForm
                             onSubmit={this.handleSearchSubmit}/>}
                         <Table className="outer-border"
                                columns={model.columns}
                                dataSource={this.state.customers}
                                pagination={this.state.pagination}
                                onChange={this.handlePageChange}
-                               rowKey={record => record.ID}
+                               
                                onRowClick={this.handleRowClick}
                         />
+                   </Panel>
+                </Spin>
+                */
+                /*
+                return <Spin spinning={this.state.pageLoading}>
+                    <Panel title="已有客户列表">
+                        <Detail data={this.state.customers}/>
                     </Panel>
+                   </Spin>
+                */
+                return <Spin spinning={this.state.pageLoading}>
+                   <Panel title="已有客户列表" >
+                        <Table className="outer-border"
+                               columns={model.columns}
+                               //dataSource={this.state.customers}
+                               dataSource={this.state.data}
+                               pagination={this.state.pagination}
+                               //onChange={this.handlePageChange}
+                               //onRowClick={this.handleRowClick}
+                        />
+                   </Panel>
                 </Spin>
     }
 });

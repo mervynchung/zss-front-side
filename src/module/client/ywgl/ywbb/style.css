@@ -1,0 +1,37 @@
+.khxxgl .new-form .ant-form-item > label {
+    text-align: left;
+}
+
+.client-ywbb > .wrap > .ant-tabs-card > .ant-tabs-content {
+    background: #fff;
+    padding: 16px;
+    margin-top: -16px;
+}
+
+.client-ywbb > .wrap > .ant-tabs-card > .ant-tabs-bar .ant-tabs-tab {
+    border-color: transparent;
+}
+
+.client-ywbb > .wrap > .ant-tabs-card > .ant-tabs-bar .ant-tabs-tab-active {
+    border-color: #fff;
+}
+.client-ywbb .panel {
+    margin-bottom: 0;
+}
+.client-ywbb .panel > .panel-body {
+    padding:16px 0 0 0
+}
+.client-ywbb .panel >.panel-title {
+    padding:14px 0
+}
+.client-ywbb .steps{
+    padding:24px
+}
+.client-ywbb .stage{
+    margin-top:16px
+}
+.client-ywbb .ywbb-new-loadfail {
+    padding: 150px;
+    text-align: center;
+    font-size: 14px;
+}

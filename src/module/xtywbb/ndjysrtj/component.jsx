@@ -1,4 +1,3 @@
-
 /*
 年度经营收入统计
 */
@@ -97,5 +96,3 @@ const ndjysrtj = React.createClass({
 });
 
 module.exports =ndjysrtj;
-
-

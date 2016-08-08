@@ -1,10 +1,10 @@
-/*模块设置功能*/
+/*业务报备填报功能*/
 module.exports = {
-    path: 'cwbb/lrfpb(/)',
-    breadcrumbName:'利润分配表',
+    path: '/ywgl/client/ywbb',
+    breadcrumbName:'业务报备',
     getComponent(location, cb) {
         require.ensure([], (require) => {
             cb(null, require('./component'))
         })
     }
-}
+};
