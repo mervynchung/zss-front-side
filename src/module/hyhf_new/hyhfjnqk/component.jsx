@@ -2,18 +2,22 @@ import React from 'react'
 import Panel from 'component/compPanel'
 import config from 'common/configuration'
 import req from 'reqwest'
+import auth from 'common/auth'
 import {Link} from 'react-router'
 import SearchForm from './searchForm'
-import {  Input, Table, Icon, Tabs, Button, Row, Col, message }from 'antd'
+import { Upload, Input, Table, Icon, Tabs, Button, Row, Col, message,Modal,Spin }from 'antd'
 // 标签定义
 const API_URL = config.HOST + config.URI_API_PROJECT + '/hyhfjyqk';
+const API_URL_TJ = config.HOST + config.URI_API_PROJECT + '/fytj';
 const ToolBar = Panel.ToolBar;
+const ButtonGroup = Button.Group;
 const jgcx = React.createClass({
 
   getInitialState() { //初始化State状态，使用传入参数
     return {
       //这些都是dataset
       data: [],//用于主查询
+      tjData: {},//用于主查询
       pagination:  { //分页设置
           page: true, //是否分页
           pageSize: 5, //初始化显示记录条数
@@ -25,6 +29,7 @@ const jgcx = React.createClass({
         },
       visible: false,//条件查询框默认状态
       where: {},
+      sloading: false,
     };
   },
 
@@ -69,10 +74,19 @@ const jgcx = React.createClass({
     });
   },
 
-
-  onSelect(record) {//主查询记录被选中方法
-   console.log(record);
-
+  fetch_fytj(params) {
+    req({
+      url: API_URL_TJ,
+      method: 'get',
+      type: 'json',
+      data: params,
+      success: (result) => {
+          this.setState({
+            tjData: result,
+          });
+      },
+      error: (err) => { alert('服务器错误'); }
+    });
   },
 
 
@@ -81,13 +95,18 @@ const jgcx = React.createClass({
   },
 
   handleOk(value) {//点击搜索按钮触发事件
-    this.setState({ where: value });
+    const valuewhere = this.state.where;
+    valuewhere.nd = value.nd;
+    valuewhere.dwmc = value.dwmc;
     const paper = this.state.pagination;     //把当前页重置为1
     paper.current = 1;
     this.fetch_jgcx({//调用主查询
       pagenum: 1,
       pagesize: this.state.pagination.pageSize,
-      where: encodeURIComponent(JSON.stringify(value)),
+      where: encodeURIComponent(JSON.stringify(valuewhere)),
+    })
+    this.fetch_fytj({
+      where: encodeURIComponent(JSON.stringify(valuewhere)),
     })
   },
 
@@ -99,6 +118,7 @@ ztRender(text, row, index) {
   },
   componentDidMount() { //REACT提供懒加载方法，懒加载时使用，且方法名必须为componentDidMount
     this.fetch_jgcx(); //异步调用后台服务器方法fetch_jgcx
+    this.fetch_fytj(); //异步调用后台服务器方法fetch_jgcx
   },
 
   render() {
@@ -114,11 +134,13 @@ ztRender(text, row, index) {
                   title: '单位名称',
                   dataIndex: 'dwmc',
                   key: 'dwmc',
+                  sorter: true,
                   render:this.ztRender
                 }, {
                   title: '营业收入',
                   dataIndex: 'jyzsr',
                   key: 'jyzsr',
+                  sorter: true,
                 },{
                   title: '应缴总费用',
                   dataIndex: 'yjz',
@@ -135,6 +157,7 @@ ztRender(text, row, index) {
                   title: '欠交团体会费',
                   dataIndex: 'qjtt',
                   key: 'qjtt',
+                  sorter: true,
                 }, {
                   title: '应缴个人会费',
                   dataIndex: 'yjgr',
@@ -147,29 +170,90 @@ ztRender(text, row, index) {
                   title: '欠交个人会费',
                   dataIndex: 'qjgr',
                   key: 'qjgr',
+                  sorter: true,
                 },  
             ];
+            var that=this;
+             const props = {
+              showUploadList:false,
+              name: 'file',
+              action: '/api/zs/hyhfjn/jfsc',
+              headers:{'x-auth-token':auth.getToken()},
+              onChange(info) {
+                if (info.file.status == 'uploading') {
+                  that.setState({sloading: true});
+                }
+                if (info.file.status == 'done') {
+                  that.setState({sloading: false});
+                  let ff = false;
+                  if (info.file.response.fls.length>0) {
+                   const fls= info.file.response.fls.map((fl,index) =>
+                      <li key={index}>{fl}</li>
+                      );
+                    ff = <div style={{'height':'200px','overflowY':'auto'}}><ol>{fls}</ol></div>;
+                  };
+                  Modal.success({
+                      title: '上传完成',
+                      width:'50%',
+                      content:(<div>
+                      <p><b>其中成功：</b>{info.file.response.success}条</p>
+                      <p><b>其中失败：</b><span style={{'color':'red'}}>{info.file.response.fail}条</span></p>
+                      {!!ff&&<p><b>其中失败记录及原因：</b></p>}
+                      {ff}
+                    </div>),
+                      onOk(){
+                      that.componentDidMount();
+                      }
+                    });
+                } else if (info.file.status == 'error') {
+                  that.setState({sloading: false});
+                  Modal.error({
+                      title: '上传失败',
+                      content: (<p>{info.file.name}上传失败</p>)
+                    });
+                }
+              },
+              beforeUpload(file) {
+                  if (!(file.type =='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'||file.type =='application/vnd.ms-excel')) {
+                    message.error('只能上传 XLS或XLSX 类型文件');
+                    return false;
+                  }
+                  return true;
+                },
+            };
     let toolbar = <ToolBar><div>
       <Button type="ghost" onClick={this.handleSearchToggle}>
         <Icon type="search"/>查询
         { this.state.searchToggle ? <Icon className="toggle-tip" type="arrow-up"/> :
           <Icon className="toggle-tip" type="arrow-down"/>}
       </Button><span className="ant-divider"></span>
-      <Button type="ghost"  >上传数据</Button><span className="ant-divider"></span>
+      <Button type="ghost"  ><Upload {...props}><Icon type="upload" />上传数据</Upload></Button>
+      <span className="ant-divider"></span>
+      <Button type="ghost"  ><Link to="hyhf/fpdy">上传管理</Link></Button>
+      <span className="ant-divider"></span>
       <Button type="ghost"  ><Link to="hyhf/fpdy">发票打印</Link></Button>
     </div>
     </ToolBar>;
+    
     return <div className="hyhfjnqk">
       <div className="wrap">
-          <Panel title="会员会费缴纳情况" toolbar={toolbar}>
+          <Spin spinning={this.state.sloading}><Panel title="会员会费缴纳情况" toolbar={toolbar}>
             {this.state.searchToggle && <SearchForm
               onSubmit={this.handleOk}/>}
+              <div className="fix-table table-bordered table-striped">
+              <table><tbody><tr>
+                          <td style={{'width':'200px'}}><b>缴纳情况统计：</b></td>
+                          <td><b>所属年份：</b><span style={{'color':'blue'}}>{this.state.tjData.nd}</span></td>
+                          <td><b>营业总收入：</b><span style={{'color':'blue'}}>{this.state.tjData.yyz}</span></td>
+                          <td><b>已交总金额：</b><span style={{'color':'blue'}}>{this.state.tjData.yfz}</span></td>
+                          <td><b>欠交总金额：</b><span style={{'color':'blue'}}>{this.state.tjData.qjz}</span></td>
+                </tr></tbody></table></div>
             <Table columns={columns}
               dataSource={this.state.data}
               pagination={this.state.pagination}
               onChange={this.handleTableChange}
               loading={this.state.loading}  bordered   />
-          </Panel>
+          </Panel></Spin>
         </div>
 
     </div>

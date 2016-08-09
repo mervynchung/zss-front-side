@@ -32,6 +32,7 @@ let searchForm = React.createClass({
         yy.push(nowy.getFullYear()-i);
       };
       const yearOptions = yy.map(year => <Option key={year}>{year}</Option>);
+      const curryear=new Date(this.props.year).getFullYear();
         return <div className="search-form">
                 <Form horizontal onSubmit={this.handleSubmit} form={this.props.form}>
                                 <Row>
@@ -42,7 +43,7 @@ let searchForm = React.createClass({
                     </Col>
                       <Col span="10">
                         <FormItem label="所属年份：" {...formItemLayout}>
-                          <Select  { ...getFieldProps('nd', { initialValue: yy[0]})} >
+                          <Select  { ...getFieldProps('nd', { initialValue: curryear})} >
                             {yearOptions}
                         </Select>
                         </FormItem> 
