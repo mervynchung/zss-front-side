@@ -24,7 +24,7 @@ const ndjzqktj = React.createClass({
             pagination: {
                 current: 1,
                 showSizeChanger: true,
-                pageSize: 20,
+                pageSize: 5,
                 showQuickJumper: true,
                 pageSizeOptions: ['5', '10', '20']
 
@@ -53,7 +53,7 @@ const ndjzqktj = React.createClass({
     },
 
     //通过API获取数据
-    fetchData(params = {nd:2014}){
+    fetchData(params = {page: 1, pageSize: this.state.pagination.pageSize}){
         this.setState({loading: true});
         req({
             url: API_URL,
