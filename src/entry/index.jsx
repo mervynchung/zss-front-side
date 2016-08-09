@@ -59,13 +59,14 @@ const Index = React.createClass({
                 require('../module/xtgnsz/yhgl'),
 
                 //业务管理
-           /*     require('../module/ywgl/ywbbgl'),
+
+                require('../module/ywgl/ywbbgl'),
                 require('../module/ywgl/ywzlgl/sfjeyjgl'),
                 require('../module/ywgl/ywzlgl/ndbtyjgl'),
                 require('../module/ywgl/ywzlgl/ywwtyjgl'),
                 require('../module/ywgl/ywzlgl/cxbgyjgl'),
 
-                //会员会费管理
+               //会员会费管理
                 require('../module/hyhfgl/hfjlqk'),
                 require('../module/hyhfgl/grhyhfgl'),
                 require('../module/hyhfgl/fzyhyhfgl'),
@@ -102,7 +103,7 @@ const Index = React.createClass({
 
                 //监督检查
                 require('../module/jdjc/zyswsnjb'),
-                require('../module/jdjc/swsnj'),*/
+                require('../module/jdjc/swsnj'),
 
                 //逐级审核
                 require('../module/spsh'),
@@ -126,48 +127,61 @@ const Index = React.createClass({
                 require('../module/spsh/module/44'),
                 require('../module/spsh/module/46'),
 
+                //数据统计分析 - 年检数据分析
+                require('../module/xtsjfx/njsjfx/rynjsjfx'),//人员年检数据分析
+                require('../module/xtsjfx/njsjfx/jgnjsjfxb'),//机构年检数据分析
 
-              
-                //客户端
-                //机构管理
-                require('../module/client/jggl/swsbg'),
-                require('../module/client/jggl/swszx'),
-                require('../module/client/jggl/swshb'),
-                require('../module/client/swsrygl/zyrygl'),
+                //数据统计分析 - 注税行业年报表
+                require('../module/xtsjfx/zshynbb/hyjygmqktj'),//行业经营规模情况统计
 
-                //财务报表上传
-                // require('../module/client/cwbb/lrb'),
-                // require('../module/client/cwbb/lrfpb'),
-                // require('../module/client/cwbb/xjllb'),
-                // require('../module/client/cwbb/zcfzb'),
-                // require('../module/client/cwbb/zcmxb'),
+                //数据统计分析 - 系统统计报表
+                require('../module/xtsjfx/xttjbb/swsqktjA'), //事务所情况统计A
+                require('../module/xtsjfx/xttjbb/hyryqktj'), //行业人员情况统计
+                require('../module/xtsjfx/xttjbb/swsqktj_b'),//事务所情况统计B
+                require('../module/xtsjfx/xttjbb/swszttj'),//税务师
 
-                //手动上报报表
-                // require('../module/client/sdsb/swsqkb'),
-                // require('../module/client/sdsb/jygmtjb'),
-                // require('../module/client/sdsb/jzywqktjb'),
-                // require('../module/client/sdsb/hyryqktjb'),
-                // require('../module/client/sdsb/jysrqkb'),
+                //数据统计分析 - 系统业务报表
+                require('../module/xtsjfx/xtywbb/ndjysrtj'), //年度经营收入统计 
+                require('../module/xtsjfx/xtywbb/ndjzqktj'), //年度鉴证情况统计
 
-                //系统业务报表
-                require('../module/xtywbb/ndjysrtj'),
-                
-                //人员年检数据分析
-                require('../module/njsjfx/rynjsjfx'),
-
-                //系统数据分析
-                require('../module/xtsjfx/jgnjsjfxb'),
-                require('../module/xtsjfx/swsqktjA'),
-                require('../module/xtsjfx/hyryqktj'),
-
+                //数据统计分析 - 数据分析
+                require('../module/xtsjfx/sjfx/zyzzsjfx'),//执业资质数据分析
+                require('../module/xtsjfx/sjfx/hyxlsjfx'),//行业学历数据分析
+                require('../module/xtsjfx/sjfx/zjgmsjfx'),//资金规模数据分析
+                require('../module/xtsjfx/sjfx/hynlsjfx'),//行业年龄数据分析
+                require('../module/xtsjfx/sjfx/ryztsjfx'),
 
                 //会员会费缴纳
                 require('../module/hyhf_new/hyhfjnqk'),
                 require('../module/hyhf_new/fpdy'),
 
-                //业务管理
-                require('../module/client/ywgl/khxxgl') //客户信息管理
 
+                //客户端
+                //机构管理
+                require('../module/client/jggl/swsbg'),
+                require('../module/client/jggl/swszx'),
+                require('../module/client/jggl/swshb'),
+
+                //人员管理
+                require('../module/client/swsrygl/zyrygl'),
+
+                //财务报表上传
+                require('../module/client/cwbb/lrb'),
+                require('../module/client/cwbb/lrfpb'),
+                require('../module/client/cwbb/xjllb'),
+                require('../module/client/cwbb/zcfzb'),
+                require('../module/client/cwbb/zcmxb'),
+
+                //手动上报报表
+                require('../module/client/sdsb/swsqkb'),
+                require('../module/client/sdsb/jygmtjb'),
+                require('../module/client/sdsb/jzywqktjb'),
+                require('../module/client/sdsb/hyryqktjb'),
+                require('../module/client/sdsb/jysrqkb'),
+           
+                //业务管理
+                require('../module/client/ywgl/khxxgl'), //客户信息管理
+                require('../module/client/ywgl/ywbb') //事务所业务报备
             ]
         }, {
             path: '/signin',

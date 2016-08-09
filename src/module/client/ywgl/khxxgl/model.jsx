@@ -23,20 +23,6 @@ module.exports = {
         {title: '纳税人识别号', dataIndex: 'NSRSBH', key: 'NSRSBH'},
         {title: '地税纳税人识别号', dataIndex: 'NSRSBHDF', key: 'NSRSBHDF'},
         {
-            title: '纳税人性质',
-            dataIndex: 'NSRXZ',
-            key: 'NSRXZ',
-            render(text){
-                if (text == 0) {
-                    return '一般纳税人'
-                } else if (text == 1) {
-                    return '小规模纳税人'
-                } else {
-                    return ''
-                }
-            }
-        },
-        {
             title: '操作',
             key: 'action',
             render: (text, record) => {

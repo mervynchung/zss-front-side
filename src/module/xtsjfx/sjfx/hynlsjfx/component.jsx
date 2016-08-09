@@ -1,7 +1,7 @@
 import React from 'react'
 import QueueAnim from 'rc-queue-anim'
 import KhxxList from './list'
-import './style.css'
+
 
 //测试信息
 const test = React.createClass({
