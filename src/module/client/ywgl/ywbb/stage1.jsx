@@ -61,8 +61,7 @@ let stage = React.createClass({
                 return;
             }
             values = utils.transEmpty2Null(values);
-            console.log(values);
-            //this.props.onSubmit({stage: 2, values: values});
+            this.props.onSubmit({stage: 2, values: values});
         })
     },
     back(){
@@ -216,7 +215,7 @@ let stage = React.createClass({
                         <FormItem
                           labelCol={{span: 4}} wrapperCol={{span: 6}}
                           label="签名注册税务师" required>
-                            <SelectZysws  data={this.props.zysws} {...qmswsProps}/>
+                            <SelectZysws labelInValue  data={this.props.zysws} {...qmswsProps}/>
                         </FormItem>
                     </Col>
                 </Row>

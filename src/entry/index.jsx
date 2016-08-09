@@ -66,7 +66,7 @@ const Index = React.createClass({
                 require('../module/ywgl/ywzlgl/cxbgyjgl'),
 
                 //会员会费管理
-               /* require('../module/hyhfgl/hfjlqk'),
+                /*require('../module/hyhfgl/hfjlqk'),
                 require('../module/hyhfgl/grhyhfgl'),
                 require('../module/hyhfgl/fzyhyhfgl'),
 
