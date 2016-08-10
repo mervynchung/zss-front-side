@@ -101,6 +101,7 @@ const ndjzqktj = React.createClass({
                     <div className="h-scroll-table">
                         <Table columns={columns}
                                dataSource={this.state.data}
+                               rowKey={resp=>resp.xmlx}
                                pagination={this.state.pagination}
                                loading={this.state.loading}
                                onChange={this.handleChange}
