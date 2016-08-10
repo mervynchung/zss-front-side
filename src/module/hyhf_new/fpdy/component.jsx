@@ -2,13 +2,16 @@ import React from 'react'
 import Panel from 'component/compPanel'
 import config from 'common/configuration'
 import req from 'reqwest'
+import auth from 'common/auth'
 import {Link} from 'react-router'
 import SearchForm from './searchForm'
-import {  Input, Table, Icon, Tabs, Button, Row, Col, message }from 'antd'
+import {  InputNumber, Table, Icon, Tabs, Button, Row, Col, message,Form,Modal }from 'antd'
 // 标签定义
 const API_URL = config.HOST + config.URI_API_PROJECT + '/fpdy';
+const API_URL_XG = config.HOST + config.URI_API_PROJECT + '/fpdy/ttgrfyfp/';
 const ToolBar = Panel.ToolBar;
-const jgcx = React.createClass({
+const createForm = Form.create;
+let jgcx = React.createClass({
 
   getInitialState() { //初始化State状态，使用传入参数
     return {
@@ -25,6 +28,8 @@ const jgcx = React.createClass({
         },
       visible: false,//条件查询框默认状态
       where: {},
+      rowIndex:'a',
+      year:'',
     };
   },
 
@@ -35,6 +40,7 @@ const jgcx = React.createClass({
     const paper = this.state.pagination;     //把this.state.pagination指向paper，与setState异曲同工，目的是更改单一属性数据
     paper.pageSize = pagination.pageSize;
     paper.current = pagination.current;
+    this.setState({rowIndex:'a',xgZT:false});
     this.fetch_jgcx({//调用主查询
       pagenum: pagination.current,
       pagesize: pagination.pageSize,
@@ -43,38 +49,118 @@ const jgcx = React.createClass({
   },
 
   fetch_jgcx(params = { pagenum: this.state.pagination.current, pagesize: this.state.pagination.pageSize }) {
-    this.setState({ loading: true, });//主查询加载状态
-    req({
-      url: API_URL,//默认数据查询后台返回JSON
-      method: 'get',
-      type: 'json',
-      data: params,
-      success: (result) => {
-        if (result.data.length != 0) {
-          const pagination = this.state.pagination;
-          pagination.total = result.page.pageTotal;//要求后台返回json写法有属性page，该属性包含pageTotal（总条数值）
-          function showTotal() { return "共" + pagination.total + "条"; }
-          pagination.showTotal = showTotal;//调用总条数返回方法
-          this.setState({
-            data: result.data,//传入后台获取数据，table组件要求每条查询记录必须拥有字段'key'
-            loading: false,//关闭加载状态
-          });
-        } else {//空数据处理
-          const pagination = this.state.pagination;
-          pagination.total = 0;
-          this.setState({ data: [],  loading: false, });
-        };
-      },
-      error: (err) => { alert('api错误'); }
-    });
+        this.setState({ loading: true, });//主查询加载状态
+        req({
+          url: API_URL,//默认数据查询后台返回JSON
+          method: 'get',
+          type: 'json',
+          data: params,
+          success: (result) => {
+            if (result.data.length != 0) {
+              const pagination = this.state.pagination;
+              pagination.total = result.page.pageTotal;//要求后台返回json写法有属性page，该属性包含pageTotal（总条数值）
+              function showTotal() { return "共" + pagination.total + "条"; }
+              pagination.showTotal = showTotal;//调用总条数返回方法
+              this.setState({
+                data: result.data,//传入后台获取数据，table组件要求每条查询记录必须拥有字段'key'
+                loading: false,//关闭加载状态
+                year:result.data[0].ND,
+              });
+            } else {//空数据处理
+              const pagination = this.state.pagination;
+              pagination.total = 0;
+              this.setState({ data: [],  loading: false, });
+            };
+          },
+          error: (err) => { alert('api错误'); }
+        });
   },
 
-
-  onSelect(record) {//主查询记录被选中方法
-   console.log(record);
-
+tthf(zje) {//团体会费校验规则方法
+     const form = this.props.form;
+    if ((!!form.getFieldValue('YJGRHF'))||(!!form.getFieldValue('YJTTHF'))) {
+          if (form.getFieldValue('YJGRHF')+form.getFieldValue('YJTTHF')!=zje) {
+          form.setFieldsValue({YJGRHF:zje-form.getFieldValue('YJTTHF')});
+          };
+  };
   },
-
+ grhf(zje) {//个人会费校验规则方法
+     const form = this.props.form;
+    if ((!!form.getFieldValue('YJGRHF'))||(!!form.getFieldValue('YJTTHF'))) {
+          if (form.getFieldValue('YJGRHF')+form.getFieldValue('YJTTHF')!=zje) {
+          form.setFieldsValue({YJTTHF:zje-form.getFieldValue('YJGRHF')});
+          };
+  };
+  },
+  rowSelect(index){
+      this.setState({rowIndex:index,xgZT:true});
+  },
+  rowConcel(){
+      this.setState({rowIndex:'a',xgZT:false});
+  },
+  rowOK(row){
+      let value = this.props.form.getFieldsValue();
+      this.setState({ loading: true, });
+      const fptj=value;
+      const nowy = new Date(row.ND)
+      fptj.jgid=row.jgid;
+      fptj.nd=nowy.getFullYear();
+      fptj.scid=row.scid;
+      fptj.jfje=row.JFZE;
+      req({
+                url: API_URL_XG+row.jlid,
+                type: 'json',
+                method: 'put',
+                data: JSON.stringify(fptj),
+                contentType: 'application/json',
+                headers:{'x-auth-token':auth.getToken()}
+            }).then(resp=> {
+                  if (resp) {
+                      this.fetch_jgcx({//调用主查询
+                        pagenum: this.state.pagination.current,
+                        pagesize: this.state.pagination.pageSize,
+                        where: encodeURIComponent(JSON.stringify(this.state.where)),
+                      })
+                  }else{
+                        Modal.error({
+                        title: '请检查金额分配情况',
+                        content: (
+                            <div>
+                                <p><b>金额分配必须满足：</b></p>
+                                <p>总金额=团体金额+个人金额</p>
+                            </div>  )
+                            });
+                  };
+                    this.setState({loading:false,rowIndex:'a',xgZT:false});
+            }).fail(err=> {
+              this.setState({loading:false});
+                Modal.error({
+                    title: '数据获取错误',
+                    content: (
+                        <div>
+                            <p>无法从服务器返回数据，需检查应用服务工作情况</p>
+                            <p>Status: {err.status}</p>
+                        </div>  )
+                });
+            })
+  },
+ztRender(text, row, index) {
+    var that=this;
+    if (!!this.state.xgZT&&index==this.state.rowIndex) {
+          return (
+                                <span>
+                                  <a onClick={that.rowOK.bind(this,row)}>确定</a><span className="ant-divider" ></span>
+                                  <a onClick={that.rowConcel}>取消</a>
+                                </span>
+                              );
+    };
+     return (
+                    <span>
+                      <a onClick={that.rowSelect.bind(this,index)}>修改</a><span className="ant-divider" ></span>
+                      <a >打印</a>
+                    </span>
+                  );
+  },
 
   handleSearchToggle() {//点击查询按钮，显示查询form
     this.setState({ searchToggle: !this.state.searchToggle });
@@ -91,18 +177,15 @@ const jgcx = React.createClass({
     })
   },
 
-ztRender(text, row, index) {
-                    if (!row.jyzsr) {
-                        return <span style={{'color':'red'}}>{text}（未上报报表）</span>;
-                    };
-                    return <p>{text}</p>;
-  },
   componentDidMount() { //REACT提供懒加载方法，懒加载时使用，且方法名必须为componentDidMount
     this.fetch_jgcx(); //异步调用后台服务器方法fetch_jgcx
   },
 
   render() {
-    const columns = [{ //设定列
+    var that=this;
+    let rowI = this.state.rowIndex;
+    const { getFieldProps } = this.props.form
+    let columns = [{ //设定列
                   title: '序号', //设定该列名称
                   dataIndex: 'key', //设定该列对应后台字段名
                   key: 'key', //列key，必须设置，建议与字段名相同
@@ -111,7 +194,7 @@ ztRender(text, row, index) {
                   dataIndex: 'ND',
                   key: 'ND',
                   render(text) {
-                    const nowy = new Date(text);
+                    const nowy = new Date(text);//年份格式化
                     return (
                       <span>
                         {nowy.getFullYear()}
@@ -130,18 +213,26 @@ ztRender(text, row, index) {
                   title: '团体金额',
                   dataIndex: 'YJTTHF',
                   key: 'YJTTHF',
+                  render(text, row, index) {
+                    if (index==rowI) {
+                    return <InputNumber {...getFieldProps('YJTTHF',{ initialValue: text,rules:[{type:'number'},{validator:()=>that.tthf(row.JFZE)}]})}  min={0} max={row.JFZE} />;
+                    };
+                    return text;
+                  }
                 },  {
                   title: '个人金额',
                   dataIndex: 'YJGRHF',
                   key: 'YJGRHF',
+                  render(text, row, index) {
+                    if (index==rowI) {
+                    return <InputNumber {...getFieldProps('YJGRHF',{ initialValue: text,rules:[{type:'number'},{validator:()=>that.grhf(row.JFZE)}]})} min={0} max={row.JFZE} />;
+                    }
+                    return text;
+                  }
                 }, {
                   title: '交费日期',
                   dataIndex: 'JFRQ',
                   key: 'JFRQ',
-                }, {
-                  title: '上半年/全年',
-                  dataIndex: 'SX',
-                  key: 'SX',
                 }, {
                   title: '打印次数',
                   dataIndex: 'DYCS',
@@ -150,13 +241,7 @@ ztRender(text, row, index) {
                   title: '操作',
                   dataIndex: 'dy',
                   key: 'dy',
-                  render(text) {
-                    return (
-                      <span>
-                        <a >打印</a>
-                      </span>
-                    );
-                  }
+                  render:this.ztRender
                 },
             ];
     let toolbar = <ToolBar><div>
@@ -172,12 +257,11 @@ ztRender(text, row, index) {
       <div className="wrap">
           <Panel title="发票打印" toolbar={toolbar}>
             {this.state.searchToggle && <SearchForm
-              onSubmit={this.handleOk}/>}
+              onSubmit={this.handleOk} year={this.state.year}/> }
             <Table columns={columns}
               dataSource={this.state.data}
               pagination={this.state.pagination}
               onChange={this.handleTableChange}
-              onRowClick={this.onSelect}
               loading={this.state.loading}  bordered   />
           </Panel>
         </div>
@@ -185,7 +269,8 @@ ztRender(text, row, index) {
     </div>
 
   }
-})
+});
+jgcx = createForm()(jgcx);
 module.exports = jgcx;
 
 
