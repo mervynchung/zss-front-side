@@ -15,6 +15,13 @@ const token = auth.getToken();
 const YWBBMISC_URL = config.HOST + config.URI_API_PROJECT + '/ywbbmisc/'+jid ;
 const YWBB_URL = config.HOST + config.URI_API_PROJECT + '/ywbb' ;
 
+//转换日期至字符串
+function date2string (date){
+    let year = date.getFullYear();
+    let month = date.getMonth() + 1;
+    let day = date.getDate();
+    return year+'-'+month+'-'+day
+}
 //添加新报备
 const addYwbb = function(param){
     return req({
@@ -57,7 +64,7 @@ const newYwbb = React.createClass({
         this.setState({stage: value})
     },
     handleStage0Submit(param){
-        this.setState({stage: param.stage, dataXY: param.values})
+        this.setState({stage: param.stage, dataXY: param.values,customer:param.customer})
 
     },
     handleStage1Submit(param){
@@ -74,8 +81,12 @@ const newYwbb = React.createClass({
             dataXY:this.state.dataXY,
             dataYW:this.state.dataYW,
             dataJG:this.state.dataJG,
+            customer:this.state.customer,
             type:'save'
         };
+        values.dataXY.SSSQ[0] = date2string(values.dataXY.SSSQ[0]);
+        values.dataXY.SSSQ[1] = date2string(values.dataXY.SSSQ[1]);
+        values.dataYW.BGRQ = date2string(values.dataYW.BGRQ);
         this.setState({loading:true});
         addYwbb(values).then(resp=>{
             this.setState({loading:false});
@@ -99,8 +110,12 @@ const newYwbb = React.createClass({
             dataXY:this.state.dataXY,
             dataYW:this.state.dataYW,
             dataJG:this.state.dataJG,
+            customer:this.state.customer,
             type:'commit'
         };
+        values.dataXY.SSSQ[0] = date2string(values.dataXY.SSSQ[0]);
+        values.dataXY.SSSQ[1] = date2string(values.dataXY.SSSQ[1]);
+        values.dataYW.BGRQ = date2string(values.dataYW.BGRQ);
         this.setState({loading:true});
         addYwbb(values).then(resp=>{
             this.setState({loading:false});

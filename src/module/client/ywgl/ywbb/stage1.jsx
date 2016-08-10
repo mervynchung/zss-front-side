@@ -8,7 +8,7 @@ const FormItem = Form.Item;
 const createForm = Form.create;
 const Option = Select.Option;
 
-//定义纳税人性质下拉
+//定义纳税方式人性质下拉
 const SelectNSRXZ = React.createClass({
     render(){
         return <Select {...this.props} >
@@ -18,7 +18,7 @@ const SelectNSRXZ = React.createClass({
         </Select>
     }
 });
-//定义征收方式
+//定义征收
 const SelectZSFS = React.createClass({
     render(){
         return <Select {...this.props} >
@@ -161,6 +161,22 @@ let stage = React.createClass({
                           labelCol={{span: 8}} wrapperCol={{span: 12}}
                           label="委托企业增值税纳税人类型">
                             <SelectNSRXZ  {...getFieldProps('NSRXZ', {initialValue: '0'})}/>
+                        </FormItem>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col span="12">
+                        <FormItem
+                            labelCol={{span: 8}} wrapperCol={{span: 12}}
+                            label="委托企业征收方式">
+                            <SelectZSFS  {...getFieldProps('HY_ID', {initialValue: '0'})}/>
+                        </FormItem>
+                    </Col>
+                    <Col span="12">
+                        <FormItem
+                            labelCol={{span: 8}} wrapperCol={{span: 12}}
+                            label="委托企业性质">
+                            <SelectWTDWXZ  {...getFieldProps('NSRXZ', {initialValue: '0'})}/>
                         </FormItem>
                     </Col>
 

@@ -148,7 +148,7 @@ const Index = React.createClass({
                 require('../module/client/jggl/swshb'),
 
                 //人员管理
-                require('../module/client/swsrygl/zyrygl'),
+                */require('../module/client/swsrygl/zyrygl'),/*
 
                 //财务报表上传
                  require('../module/client/cwbb/lrb'),

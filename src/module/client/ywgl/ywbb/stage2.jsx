@@ -10,7 +10,7 @@ let stage = React.createClass({
         this.props.onSave();
     },
     commit(){
-        this.props.onSave();
+        this.props.onCommit();
     },
     back(){
         this.props.onStageChange(1)
