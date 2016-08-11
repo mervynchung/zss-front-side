@@ -1,5 +1,5 @@
 /*年度经营收入统计*/
-const test =  {
+module.exports =  {
     path: '/xtywbb/ndjysrtj',
     breadcrumbName:'年度经营收入统计',
     getComponent(location, cb) {
@@ -9,4 +9,3 @@ const test =  {
     }
 };
 
-module.exports = test;
