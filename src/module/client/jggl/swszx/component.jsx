@@ -40,6 +40,7 @@ getInitialState(){
                         });
                       this.setState({sqLoading:false});
             }).fail(err=> {
+                this.setState({sqLoading:false});
                 Modal.error({
                     title: '数据获取错误',
                     content: (
