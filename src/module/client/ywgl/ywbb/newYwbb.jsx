@@ -84,9 +84,7 @@ const newYwbb = React.createClass({
             customer:this.state.customer,
             type:'save'
         };
-        values.dataXY.SSSQ[0] = date2string(values.dataXY.SSSQ[0]);
-        values.dataXY.SSSQ[1] = date2string(values.dataXY.SSSQ[1]);
-        values.dataYW.BGRQ = date2string(values.dataYW.BGRQ);
+        console.log(this.state.dataXY.SSSQ[0])
         this.setState({loading:true});
         addYwbb(values).then(resp=>{
             this.setState({loading:false});
@@ -113,9 +111,6 @@ const newYwbb = React.createClass({
             customer:this.state.customer,
             type:'commit'
         };
-        values.dataXY.SSSQ[0] = date2string(values.dataXY.SSSQ[0]);
-        values.dataXY.SSSQ[1] = date2string(values.dataXY.SSSQ[1]);
-        values.dataYW.BGRQ = date2string(values.dataYW.BGRQ);
         this.setState({loading:true});
         addYwbb(values).then(resp=>{
             this.setState({loading:false});
