@@ -51,7 +51,7 @@ const Index = React.createClass({
                 require('../module/jggl/swscx'),
 
                 //人员管理
-                require('../module/rygl/rycx'),
+              //  require('../module/rygl/rycx'),
 
                 //系统功能设置
                 require('../module/xtgnsz/mkgl'),
@@ -99,13 +99,13 @@ const Index = React.createClass({
                 require('../module/lsjlcx/zyswslsjl/snbdjl'),
                 require('../module/lsjlcx/fzyzjjl'),
                 require('../module/lsjlcx/fzyzxjl'),
-                require('../module/lsjlcx/fzyzzyjl'),
+                require('../module/lsjlcx/fzyzzyjl'),*/
 
                 //监督检查
                 require('../module/jdjc/zyswsnjb'),
                 require('../module/jdjc/swsnj'),
 
-                //逐级审核
+           /*     //逐级审核
                 require('../module/spsh'),
                 require('../module/spsh/module/1'),
                 require('../module/spsh/module/2'),
@@ -138,7 +138,7 @@ const Index = React.createClass({
                 require('../module/xtsjfx/xttjbb/swsqktjA'), //事务所情况统计A
                 require('../module/xtsjfx/xttjbb/hyryqktj'), //行业人员情况统计
                 require('../module/xtsjfx/xttjbb/swsqktj_b'),//事务所情况统计B
-                require('../module/xtsjfx/xttjbb/swszttj'),//税务师
+                require('../module/xtsjfx/xttjbb/swszttj'),//税务师状态统计
 
                 //数据统计分析 - 系统业务报表
                 require('../module/xtsjfx/xtywbb/ndjysrtj'), //年度经营收入统计 
@@ -149,7 +149,7 @@ const Index = React.createClass({
                 require('../module/xtsjfx/sjfx/hyxlsjfx'),//行业学历数据分析
                 require('../module/xtsjfx/sjfx/zjgmsjfx'),//资金规模数据分析
                 require('../module/xtsjfx/sjfx/hynlsjfx'),//行业年龄数据分析
-                require('../module/xtsjfx/sjfx/ryztsjfx'),
+                require('../module/xtsjfx/sjfx/ryztsjfx'),//人员状态数据分析
 
          /*       //会员会费缴纳
                 require('../module/hyhf_new/hyhfjnqk'),
