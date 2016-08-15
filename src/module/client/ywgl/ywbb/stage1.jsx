@@ -68,7 +68,7 @@ let stage = React.createClass({
         this.props.onStageChange(0)
     },
     checkQmsws(rule, value, callback){
-        if ( value && value.length != 2) {
+        if ( !value || value.length != 2) {
             callback("只能选择两位签名税务师")
         } else {
             callback()
@@ -241,7 +241,7 @@ let stage = React.createClass({
                         <FormItem
                             labelCol={{span: 8}} wrapperCol={{span: 12}}
                             label="委托企业性质">
-                            <SelectWTDWXZ  {...getFieldProps('NSRXZ', {initialValue: '0'})}/>
+                            <SelectWTDWXZ  {...getFieldProps('WTDWXZ_DM', {initialValue: '0'})}/>
                         </FormItem>
                     </Col>
 
