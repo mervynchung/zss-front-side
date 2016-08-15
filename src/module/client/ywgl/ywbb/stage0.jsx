@@ -12,7 +12,7 @@ const createForm = Form.create;
 let stage = React.createClass({
     getInitialState(){
       return {
-          customerModal:false,
+          customerModal:false
       }
     },
     next(){
@@ -21,8 +21,8 @@ let stage = React.createClass({
                 return;
             }
             values = utils.transEmpty2Null(values);
-            console.log(values)
-            this.props.onSubmit({stage: 1, values: values,customer:this.state.customer});
+            this.props.onSubmit({stage: 1, values: values,customer:this.state.customer||this.props.customer});
+            console.log(this.state.customer)
         })
     },
     checkSssq(rule, value, callback){
@@ -49,7 +49,7 @@ let stage = React.createClass({
             NSRSBHDF: entity.NSRSBHDF,
             LXR: entity.LXR,
             LXDH: entity.LXDH,
-            DWDZ:entity.DWDZ,
+            DWDZ:entity.DWDZ
         })
     },
     render(){
