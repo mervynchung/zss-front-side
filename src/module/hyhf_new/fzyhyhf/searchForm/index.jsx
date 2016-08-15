@@ -35,17 +35,22 @@ let searchForm = React.createClass({
         return <div className="search-form">
                 <Form horizontal onSubmit={this.handleSubmit} form={this.props.form}>
                     <Row>
-                            <Col span="10">
-                                    <FormItem label="事务所名称：" {...formItemLayout}>
-                                            <Input {...getFieldProps('dwmc')} placeholder="请输入搜索条件" />
-                                    </FormItem>
-                            </Col>
-                            <Col span="10">
+                            <Col span="6">
                                     <FormItem label="所属年份：" {...formItemLayout}>
                                             <Select  { ...getFieldProps('nd', { initialValue: yy[0]})} >
                                             {yearOptions}
                                             </Select>
                                     </FormItem> 
+                            </Col>
+                            <Col span="6">
+                                    <FormItem label="姓名：" {...formItemLayout}>
+                                            <Input {...getFieldProps('xming')} placeholder="请输入搜索条件" />
+                                    </FormItem>
+                            </Col>
+                            <Col span="8">
+                                    <FormItem label="身份证号：" {...formItemLayout}>
+                                            <Input {...getFieldProps('sfzh')} placeholder="身份证后六位" />
+                                    </FormItem>
                             </Col>
                             <Col style={{float:'right'}}>
                                     <Button type="primary" htmlType="submit">查询</Button>

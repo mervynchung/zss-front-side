@@ -1,7 +1,7 @@
+/*上传管理*/
 module.exports = {
-    path: '/hyhf/fpdy(/)',
-    ignoreScrollBehavior:true,
-    breadcrumbName:'会员会费缴纳情况  /  发票打印',
+    path: '/hyhf/scgl(/)',
+    breadcrumbName:'会员会费缴纳情况  / 上传管理',
     getComponent(location, cb) {
         require.ensure([], (require) => {
             cb(null, require('./component'))

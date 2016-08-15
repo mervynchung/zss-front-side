@@ -20,11 +20,11 @@ const jgcx = React.createClass({
       tjData: {},//用于主查询
       pagination:  { //分页设置
           page: true, //是否分页
-          pageSize: 5, //初始化显示记录条数
+          pageSize: 6, //初始化显示记录条数
           showSizeChanger: true, //是否可以改变每页记录条数
           showQuickJumper: true, //是否可以快速跳转至某页
           size: 'small', //分页样式，当为「small」时，是小尺寸分页
-          pageSizeOptions: ['5', '10', '20', '30', '40'], //指定每页可以显示多少条，与showSizeChanger配合使用
+          pageSizeOptions: ['5', '10', '20', '30', '40','显示全部'], //指定每页可以显示多少条，与showSizeChanger配合使用
           current:1,
         },
       visible: false,//条件查询框默认状态
@@ -38,16 +38,35 @@ const jgcx = React.createClass({
     tablewhere.sfield = sorter.field;
     tablewhere.sorder = sorter.order;
     const paper = this.state.pagination;     //把this.state.pagination指向paper，与setState异曲同工，目的是更改单一属性数据
-    paper.pageSize = pagination.pageSize;
+    if(paper.pageSize!=pagination.pageSize){
+        if (isNaN(pagination.pageSize)) {
+            paper.pageSize =pagination.total;
+        }else{
+                switch(pagination.pageSize){
+                  case 5:paper.pageSize =6;break;
+                  case 10:paper.pageSize =11;break;
+                  case 20:paper.pageSize =21;break;
+                  case 30:paper.pageSize =31;break;
+                  case 40:paper.pageSize =41;break;
+                };
+          };
+        if (paper.current>Math.round(paper.total/paper.pageSize)) {
+          paper.current=1;
+        }else{
+        paper.current= pagination.current;
+        };  
+    }else{
     paper.current = pagination.current;
+    };
     this.fetch_jgcx({//调用主查询
-      pagenum: pagination.current,
-      pagesize: pagination.pageSize,
+      pagenum: paper.current,
+      pagesize: paper.pageSize,
       where: encodeURIComponent(JSON.stringify(tablewhere)),
     })
   },
 
   fetch_jgcx(params = { pagenum: this.state.pagination.current, pagesize: this.state.pagination.pageSize }) {
+    params.pagesize=params.pagesize-1;
     this.setState({ loading: true, });//主查询加载状态
     req({
       url: API_URL,//默认数据查询后台返回JSON
@@ -57,8 +76,8 @@ const jgcx = React.createClass({
       success: (result) => {
         if (result.data.length != 0) {
           const pagination = this.state.pagination;
-          pagination.total = result.page.pageTotal;//要求后台返回json写法有属性page，该属性包含pageTotal（总条数值）
-          function showTotal() { return "共" + pagination.total + "条"; }
+          pagination.total = result.page.total;//要求后台返回json写法有属性page，该属性包含pageTotal（总条数值）
+          function showTotal() { return <span>共{result.page.pageTotal-1}条</span>; }
           pagination.showTotal = showTotal;//调用总条数返回方法
           this.setState({
             data: result.data,//传入后台获取数据，table组件要求每条查询记录必须拥有字段'key'
@@ -112,6 +131,9 @@ const jgcx = React.createClass({
 
 ztRender(text, row, index) {
                     if (!row.jyzsr) {
+                      if (text=='当前页统计：') {
+                        return text;
+                      };
                         return <span style={{'color':'red'}}>{text}（未上报报表）</span>;
                     };
                     return <p>{text}</p>;
@@ -242,11 +264,15 @@ ztRender(text, row, index) {
               onSubmit={this.handleOk}/>}
               <div className="fix-table table-bordered table-striped">
               <table><tbody><tr>
-                          <td style={{'width':'200px'}}><b>缴纳情况统计：</b></td>
-                          <td><b>所属年份：</b><span style={{'color':'blue'}}>{this.state.tjData.nd}</span></td>
-                          <td><b>营业总收入：</b><span style={{'color':'blue'}}>{this.state.tjData.yyz}</span></td>
-                          <td><b>已交总金额：</b><span style={{'color':'blue'}}>{this.state.tjData.yfz}</span></td>
-                          <td><b>欠交总金额：</b><span style={{'color':'blue'}}>{this.state.tjData.qjz}</span></td>
+                          <td style={{'width':'150px'}}><b>缴纳情况统计：</b></td>
+                          <td><b>所属年份：</b><p><span style={{'color':'blue'}}>{this.state.tjData.nd}</span></p></td>
+                          <td><b>总营业收入：</b><p><span style={{'color':'blue'}}>{this.state.tjData.yyz}</span></p></td>
+                          <td><b>总已交金额：</b><p><span style={{'color':'blue'}}>{this.state.tjData.yfz}</span></p></td>
+                          <td><b>其中已交团体：</b><p><span style={{'color':'blue'}}>{this.state.tjData.yft}</span></p></td>
+                          <td><b>其中已交个人：</b><p><span style={{'color':'blue'}}>{this.state.tjData.yfg}</span></p></td>
+                          <td><b>总欠交金额：</b><p><span style={{'color':'blue'}}>{this.state.tjData.qjz}</span></p></td>
+                          <td><b>其中欠交团体：</b><p><span style={{'color':'blue'}}>{this.state.tjData.qjt}</span></p></td>
+                          <td><b>其中欠交个人：</b><p><span style={{'color':'blue'}}>{this.state.tjData.qjg}</span></p></td>
                 </tr></tbody></table></div>
             <Table columns={columns}
               dataSource={this.state.data}
