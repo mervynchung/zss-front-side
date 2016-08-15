@@ -151,6 +151,7 @@ const Index = React.createClass({
                 require('../module/hyhf_new/hyhfjnqk'),
                 require('../module/hyhf_new/fpdy'),
                 require('../module/hyhf_new/fzyhyhf'),
+                require('../module/hyhf_new/scgl'),
 
 
                 //客户端
