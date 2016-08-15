@@ -5,6 +5,7 @@ import {Router, Route, IndexRoute,useRouterHistory} from 'react-router';
 import { createHistory } from 'history'
 import App from '../component/App';
 import Signin from 'module/signin';
+import Dy from 'module/hyhf_new/fpdy/dy.jsx';
 import {cenHome,clientHome } from '../module/home';
 import NotFound from 'module/404notfound'
 import auth from 'common/auth'
@@ -60,7 +61,7 @@ const Index = React.createClass({
 
                 //业务管理
 
-                require('../module/ywgl/ywbbgl'),
+              /*  require('../module/ywgl/ywbbgl'),
                 require('../module/ywgl/ywzlgl/sfjeyjgl'),
                 require('../module/ywgl/ywzlgl/ndbtyjgl'),
                 require('../module/ywgl/ywzlgl/ywwtyjgl'),
@@ -149,11 +150,12 @@ const Index = React.createClass({
                 require('../module/xtsjfx/sjfx/hyxlsjfx'),//行业学历数据分析
                 require('../module/xtsjfx/sjfx/zjgmsjfx'),//资金规模数据分析
                 require('../module/xtsjfx/sjfx/hynlsjfx'),//行业年龄数据分析
-                require('../module/xtsjfx/sjfx/ryztsjfx'),
+                require('../module/xtsjfx/sjfx/ryztsjfx'),*/
 
                 //会员会费缴纳
                 require('../module/hyhf_new/hyhfjnqk'),
                 require('../module/hyhf_new/fpdy'),
+                require('../module/hyhf_new/fzyhyhf'),
 
 
                 //客户端
@@ -186,6 +188,9 @@ const Index = React.createClass({
         }, {
             path: '/signin',
             component: Signin
+        },{
+            path: '/hyhf/fpdy/dy',
+            component: Dy
         }, {
             path: '*',
             component: NotFound
