@@ -47,6 +47,7 @@ const newYwbb = React.createClass({
             dataXY: {},
             dataYW: {},
             dataJG: {},
+            customer:{},
             zysws: []
         }
     },
@@ -54,6 +55,9 @@ const newYwbb = React.createClass({
         this.setState({stage: value})
     },
     handleStage0Submit(param){
+        if(!param.customer){
+            param.customer = this.state.customer
+        }
         this.setState({stage: param.stage, dataXY: param.values, customer: param.customer})
 
     },
@@ -134,10 +138,9 @@ const newYwbb = React.createClass({
     },
 
     render(){
-        let {stage,dataXY,dataYW,dataJG,customer} = this.state;
+        let {stage,dataXY,dataYW,dataJG} = this.state;
         let stageContent = {
             '0': this.state.loaded || <Stage0 data={dataXY}
-                                              customer={customer}
                                               onSubmit={this.handleStage0Submit}/>,
             '1': <Stage1 onStageChange={this.handleStageChange}
                          data={dataYW} zysws={this.state.zysws}

@@ -21,8 +21,7 @@ let stage = React.createClass({
                 return;
             }
             values = utils.transEmpty2Null(values);
-            this.props.onSubmit({stage: 1, values: values,customer:this.state.customer||this.props.customer});
-            console.log(this.state.customer)
+            this.props.onSubmit({stage: 1, values: values,customer:this.state.customer});
         })
     },
     checkSssq(rule, value, callback){
@@ -103,8 +102,8 @@ let stage = React.createClass({
                         <FormItem
                           labelCol={{span: 4}} wrapperCol={{span: 10}}
                           label="委托企业">
-                            <Input style={{width:'60%'}} {...dwmcProps}/>
-                            <Button type="ghost" onClick={this.getCustomers}>选择</Button>
+                            <Input style={{width:'60%'}} disabled {...dwmcProps}/> &nbsp;
+                            <Button type="ghost"  onClick={this.getCustomers}>选择</Button>
                         </FormItem>
                     </Col>
                 </Row>
