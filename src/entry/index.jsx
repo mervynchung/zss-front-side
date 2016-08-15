@@ -5,6 +5,7 @@ import {Router, Route, IndexRoute,useRouterHistory} from 'react-router';
 import { createHistory } from 'history'
 import App from '../component/App';
 import Signin from 'module/signin';
+import Dy from 'module/hyhf_new/fpdy/dy.jsx';
 import {cenHome,clientHome } from '../module/home';
 import NotFound from 'module/404notfound'
 import auth from 'common/auth'
@@ -66,12 +67,7 @@ const Index = React.createClass({
                 require('../module/ywgl/ywzlgl/ywwtyjgl'),
                 require('../module/ywgl/ywzlgl/cxbgyjgl'),
 
-               //会员会费管理
-                require('../module/hyhfgl/hfjlqk'),
-                require('../module/hyhfgl/grhyhfgl'),
-                require('../module/hyhfgl/fzyhyhfgl'),
-
-                //财务报表
+                 //财务报表
                 require('../module/cwbb/lrfpb'),
                 require('../module/cwbb/xjllb'),
                 require('../module/cwbb/zcmxb'),
@@ -154,6 +150,7 @@ const Index = React.createClass({
                 //会员会费缴纳
                 require('../module/hyhf_new/hyhfjnqk'),
                 require('../module/hyhf_new/fpdy'),
+                require('../module/hyhf_new/fzyhyhf'),
 
 
                 //客户端
@@ -186,6 +183,9 @@ const Index = React.createClass({
         }, {
             path: '/signin',
             component: Signin
+        },{
+            path: '/hyhf/fpdy/dy',
+            component: Dy
         }, {
             path: '*',
             component: NotFound

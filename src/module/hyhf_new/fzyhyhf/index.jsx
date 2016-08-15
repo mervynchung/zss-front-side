@@ -1,7 +1,7 @@
+/*上传管理*/
 module.exports = {
-    path: 'hyhfgl/fzyhyhfgl(/)',
-     ignoreScrollBehavior:true,
-    breadcrumbName:'非执业会员会费管理',
+    path: '/hyhf/fzyhyhf(/)',
+    breadcrumbName:'非执业会员会费缴纳',
     getComponent(location, cb) {
         require.ensure([], (require) => {
             cb(null, require('./component'))

@@ -1,24 +1,17 @@
 import React from 'react'
 import {Table,Modal,Row,Col,Button,Icon,Alert} from 'antd'
-import CompPageHead from 'component/CompPageHead'
 import Panel from 'component/compPanel'
-import {columns,entityModel} from './model'
 import req from 'reqwest';
-
-import auth from 'common/auth'
-//import SearchForm from './searchForm'
+import SearchForm from './searchForm'
 import config from 'common/configuration'
-import BaseTable from 'component/compBaseTable'
-import {entityFormat} from 'common/utils'
 
 
-
-const API_URL = config.HOST + config.URI_API_PROJECT + '/zjgmsjfx';
+const API_URL = config.HOST + config.URI_API_PROJECT + '/swslsjl/bglsjl1';
 const ToolBar = Panel.ToolBar;
 const ButtonGroup = Button.Group;
 
 
-const zjgmsjfx = React.createClass({
+const lrb = React.createClass({
     //初始化state
     getInitialState(){
         return {
@@ -28,11 +21,9 @@ const zjgmsjfx = React.createClass({
                 showSizeChanger: true,
                 pageSize: 5,
                 showQuickJumper: true,
-                pageSizeOptions: ['5', '10', '20']
-
-            },
-           
-            detailViewToggle: false,
+                pageSizeOptions: ['5', '10', '20','30','40']
+                 },
+            searchToggle: false,
             where: '',
             helper: false,
             entity: '',
@@ -46,10 +37,9 @@ const zjgmsjfx = React.createClass({
         pager.current = pagination.current;
         pager.pageSize = pagination.pageSize;
         this.setState({pagination: pager});
-
         this.fetchData({
-            page: pager.current,
-            pageSize: pager.pageSize,
+            pagenum: pager.current,
+            pagesize: pager.pageSize,
             where: encodeURIComponent(JSON.stringify(this.state.where))
         })
     },
@@ -81,54 +71,28 @@ const zjgmsjfx = React.createClass({
         const pager = this.state.pagination;
         pager.current = 1;
         const params = {
-            page: 1,
-            pageSize: pager.pageSize,
+            pagenum: 1,
+            pagesize: pager.pageSize,
             where: encodeURIComponent(JSON.stringify(value))
         };
         this.setState({pagination: pager, where: value});
-        this.fetchData(params);
-        this.setState({searchToggle: false})
+        this.fetchData(params)
     },
 
-    //点击某行
-    handleRowClick(record){
-        req({
-            url: API_URL + '/' + record.id,
-            type: 'json',
-            method: 'get'
-        }).then(resp=> {
-            let entity = entityFormat(resp,entityModel);
-            this.setState({entity: entity,detailHide:false});
-        }).fail(err=> {
-            Modal.error({
-                title: '数据获取错误',
-                content: (
-                    <div>
-                        <p>无法从服务器返回数据，需检查应用服务工作情况</p>
-                        <p>Status: {err.status}</p>
-                    </div>  )
-            });
-        })
-    },
-    //明细表关闭
-    handleDetailClose(){
-        this.setState({detailHide: true})
-    },
 
     //通过API获取数据
-    fetchData(params = {page: 1, pageSize: this.state.pagination.pageSize}){
+    fetchData(params = {pagenum: this.state.pagination.current, pagesize: this.state.pagination.pageSize}){
         this.setState({loading: true});
         req({
             url: API_URL,
             type: 'json',
             method: 'get',
-            data: params,
-            contentType: 'application/json'
+            data: params
         }).then(resp=> {
             const p = this.state.pagination;
-            p.total = resp.total > 1000 ? 1000 : resp.total;
+            p.total = resp.page.pageTotal > 1000 ? 1000 : resp.page.pageTotal;
             p.showTotal = total => {
-                return `共 ${resp.total} 条，显示前 ${total} 条`
+                return `共 ${resp.page.pageTotal} 条，显示前 ${total} 条`
             };
             this.setState({
                 data: resp.data,
@@ -153,22 +117,44 @@ const zjgmsjfx = React.createClass({
     },
 
     render(){
-        
+        //定义工具栏内容
+        let toolbar = <ToolBar>
+            <Button onClick={this.handleSearchToggle}>
+                <Icon type="search"/>查询
+                { this.state.searchToggle ? <Icon className="toggle-tip" type="circle-o-up"/> :
+                    <Icon className="toggle-tip" type="circle-o-down"/>}
+            </Button>
 
-        
-        return <div className="jgsjfx-zjgmsjfx">
+            <ButtonGroup>
+                <Button type="primary" onClick={this.handleHelper}><Icon type="question"/></Button>
+                <Button type="primary" onClick={this.handleRefresh}><Icon type="reload"/></Button>
+            </ButtonGroup>
+        </ToolBar>;
+
+        //定义提示内容
+        let helper = [];
+        helper.push(<p key="helper-0">本页显示已审核过的事务所变更申请记录</p>);
+        helper.push(<p key="helper-1">只显示前1000条记录</p>);
+
+
+        return <div className="hyhf-scgl">
             <div className="wrap">
-                
-                <Panel title="资金规模数据分析" >
-                  
+                {this.state.helper && <Alert message="事务所变更申请记录查询帮助"
+                                             description={helper}
+                                             type="info"
+                                             closable
+                                             onClose={this.handleHelperClose}/>}
+
+                <Panel title="事务所基本情况表" toolbar={toolbar}>
+                    {this.state.searchToggle && <SearchForm
+                        onSubmit={this.handleSearchSubmit}/>}
                     <div className="h-scroll-table">
                         <Table columns={columns}
                                dataSource={this.state.data}
                                pagination={this.state.pagination}
-                               rowKey={resp=>resp.ID}
                                loading={this.state.loading}
                                onChange={this.handleChange}
-                               />
+                               onRowClick={this.handleRowClick}/>
                     </div>
                 </Panel>
                 
@@ -177,4 +163,4 @@ const zjgmsjfx = React.createClass({
     }
 });
 
-module.exports = zjgmsjfx;
+module.exports = lrb;

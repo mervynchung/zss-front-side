@@ -1,0 +1,16 @@
+.dy_background{
+    position: relative;
+    width:720px;
+    height:400px;
+    background:rgba(0, 0, 0, 0) url("./background.jpg") 
+}
+
+@media print{
+
+.noprint{
+
+   display:none
+
+}
+
+}
