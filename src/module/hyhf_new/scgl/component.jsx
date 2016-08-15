@@ -2,11 +2,14 @@ import React from 'react'
 import {Table,Modal,Row,Col,Button,Icon,Alert} from 'antd'
 import Panel from 'component/compPanel'
 import req from 'reqwest';
+import auth from 'common/auth'
 import SearchForm from './searchForm'
 import config from 'common/configuration'
+import {Link} from 'react-router'
 
 
-const API_URL = config.HOST + config.URI_API_PROJECT + '/swslsjl/bglsjl1';
+const API_URL = config.HOST + config.URI_API_PROJECT + '/hyhf/scglcx';
+const API_URL_P = config.HOST + config.URI_API_PROJECT + '/hyhf/scglcx/put';
 const ToolBar = Panel.ToolBar;
 const ButtonGroup = Button.Group;
 
@@ -25,9 +28,6 @@ const lrb = React.createClass({
                  },
             searchToggle: false,
             where: '',
-            helper: false,
-            entity: '',
-            detailHide: true
         }
     },
 
@@ -49,22 +49,6 @@ const lrb = React.createClass({
         this.setState({searchToggle: !this.state.searchToggle});
     },
 
-    //刷新按钮
-    handleRefresh(){
-        const pager = this.state.pagination;
-        pager.current = 1;
-        this.setState({pagination: pager, where: ''});
-        this.fetchData();
-    },
-
-    //帮助按钮
-    handleHelper(){
-        this.setState({helper: !this.state.helper})
-    },
-    //手动关闭帮助提示
-    handleHelperClose(){
-        this.setState({helper: false})
-    },
 
     //提交条件查询
     handleSearchSubmit(value){
@@ -90,9 +74,9 @@ const lrb = React.createClass({
             data: params
         }).then(resp=> {
             const p = this.state.pagination;
-            p.total = resp.page.pageTotal > 1000 ? 1000 : resp.page.pageTotal;
+            p.total = resp.page.pageTotal;
             p.showTotal = total => {
-                return `共 ${resp.page.pageTotal} 条，显示前 ${total} 条`
+                return `共 ${resp.page.pageTotal} 条`
             };
             this.setState({
                 data: resp.data,
@@ -115,37 +99,135 @@ const lrb = React.createClass({
     componentDidMount(){
         this.fetchData();
     },
+    restRow(jlid,lx,bj){
+        const ms={};
+        ms.jlid=jlid;
+        ms.lx=lx;
+        ms.bj=bj;
+        req({
+                    url: API_URL_P,
+                    type: 'json',
+                    method: 'put',
+                    data: JSON.stringify(ms),
+                    contentType: 'application/json',
+                    headers:{'x-auth-token':auth.getToken()}
+                }).then(resp=> {
+                    this.fetchData();
+                }).fail(err=> {
+                    Modal.error({
+                        title: '数据提交错误',
+                        content: (
+                            <div>
+                                <p>无法向服务器提交数据，需检查应用服务工作情况</p>
+                                <p>Status: {err.status}</p>
+                            </div>  )
+                    });
+                })
+    },
 
+    ztRender(text, row, index) {
+    var that=this;
+    if (row.SUCESS==0) {
+        return (
+                    <span>
+                      无成功记录
+                    </span>
+                  );
+    };
+    if (row.YXBZ==0||row.YXBZ==2) {
+        return (
+                    <span>
+                      <a onClick={that.restRow.bind(this,row.ID,row.YXBZ+1,1)}>恢复记录</a>
+                    </span>
+                  );
+    };
+     return (
+                    <span>
+                      <a onClick={that.restRow.bind(this,row.ID,row.YXBZ-1,0)}>撤销记录</a>
+                    </span>
+                  );
+  },
     render(){
-        //定义工具栏内容
-        let toolbar = <ToolBar>
-            <Button onClick={this.handleSearchToggle}>
+        const re=this.props.location.search.substring(1,this.props.location.search.length);
+        const columns = [{ //设定列
+                  title: '序号', //设定该列名称
+                  dataIndex: 'key', //设定该列对应后台字段名
+                  key: 'key', //列key，必须设置，建议与字段名相同
+                },  {
+                  title: '上传类型',
+                  dataIndex: 'lx',
+                  key: 'lx',
+                  render(text, row, index){
+                    if (row.YXBZ==3||row.YXBZ==2) {
+                        return (
+                                    <span>
+                                      非执业缴费上传
+                                    </span>
+                                  );
+                    };
+                     return (
+                                    <span>
+                                      机构缴费上传
+                                    </span>
+                                  );
+                        }  
+                },{
+                  title: '上传日期',
+                  dataIndex: 'scrq',
+                  key: 'scrq',
+                }, {
+                  title: '成功数',
+                  dataIndex: 'SUCESS',
+                  key: 'SUCESS',
+                }, {
+                  title: '失败数',
+                  dataIndex: 'FAIL',
+                  key: 'FAIL',
+                },{
+                  title: '上传人',
+                  dataIndex: 'SCR',
+                  key: 'SCR',
+                },  {
+                  title: '状态',
+                  dataIndex: 'jlzt',
+                  key: 'jlzt',
+                  render(text, row, index){
+                    if (row.SUCESS==0) {
+                        return (
+                                    <span>
+                                      无效上传
+                                    </span>
+                                  );
+                    };
+                     return (
+                                    <span>
+                                      {text}
+                                    </span>
+                                  );
+                        }  
+                }, 
+                {
+                  title: '操作',
+                  dataIndex: 'dy',
+                  key: 'dy',
+                  render:this.ztRender
+                },
+            ];
+        let toolbar = <ToolBar><div>
+            <Button type="ghost" onClick={this.handleSearchToggle}>
                 <Icon type="search"/>查询
                 { this.state.searchToggle ? <Icon className="toggle-tip" type="circle-o-up"/> :
                     <Icon className="toggle-tip" type="circle-o-down"/>}
             </Button>
-
-            <ButtonGroup>
-                <Button type="primary" onClick={this.handleHelper}><Icon type="question"/></Button>
-                <Button type="primary" onClick={this.handleRefresh}><Icon type="reload"/></Button>
-            </ButtonGroup>
+            <span className="ant-divider"></span>
+            {re=="fzy"?<Button type="ghost"  ><Link to="hyhf/fzyhyhf">返回缴纳情况</Link></Button>:
+            <Button type="ghost"  ><Link to="hyhf/hyhfjnqk">返回缴纳情况</Link></Button>}
+            </div>
         </ToolBar>;
-
-        //定义提示内容
-        let helper = [];
-        helper.push(<p key="helper-0">本页显示已审核过的事务所变更申请记录</p>);
-        helper.push(<p key="helper-1">只显示前1000条记录</p>);
-
 
         return <div className="hyhf-scgl">
             <div className="wrap">
-                {this.state.helper && <Alert message="事务所变更申请记录查询帮助"
-                                             description={helper}
-                                             type="info"
-                                             closable
-                                             onClose={this.handleHelperClose}/>}
-
-                <Panel title="事务所基本情况表" toolbar={toolbar}>
+                <Panel title="缴费记录上传管理" toolbar={toolbar}>
                     {this.state.searchToggle && <SearchForm
                         onSubmit={this.handleSearchSubmit}/>}
                     <div className="h-scroll-table">
@@ -154,7 +236,7 @@ const lrb = React.createClass({
                                pagination={this.state.pagination}
                                loading={this.state.loading}
                                onChange={this.handleChange}
-                               onRowClick={this.handleRowClick}/>
+                               />
                     </div>
                 </Panel>
                 
