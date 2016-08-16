@@ -1,7 +1,19 @@
 import React from 'react'
-import {Icon} from 'antd'
+import {Icon,Popconfirm} from 'antd'
 
+let handleEdit = function (record) {
+    console.log('edit',record)
+};
+let handleDel = function (record) {
+    console.log('del',record)
+};
 module.exports = {
+    setEdit: function (func) {
+        handleEdit = func;
+    },
+    setDel: function (func) {
+        handleDel = func;
+    },
     columns: [
         {title: '用户名', dataIndex: 'username', key: 'username'},
         {title: '登录名', dataIndex: 'uname', key: 'uname'},
@@ -40,17 +52,6 @@ module.exports = {
                     return <Icon type="check-circle" style={{color:'#60BE29'}}/>
                 }
             }
-        }, {
-            title: '密码过期',
-            dataIndex: 'credentialsExpired',
-            key: 'credentialsExpired',
-            render(text){
-                if (text == 1) {
-                    return <Icon type="info-circle" style={{color:'#E01515'}}/>
-                } else {
-                    return <Icon type="check-circle" style={{color:'#60BE29'}}/>
-                }
-            }
         },
         {title: '账户描述', dataIndex: 'names', key: 'names'},
         {title: '创建时间', dataIndex: 'createTime', key: 'createTime'},
@@ -58,7 +59,12 @@ module.exports = {
             title: '操作',
             key: 'operation',
             render: (text, record) => {
-                return <span> <a>编辑</a></span>
+                return <span>
+                    <a onClick={()=>handleEdit(record)}>修改</a> &nbsp;&nbsp;
+                    <Popconfirm title="确定要删除吗？" placement="left" onConfirm={()=>handleDel(record)}>
+                        <a>删除</a>
+                    </Popconfirm>
+                </span>
             }
         }
     ]
