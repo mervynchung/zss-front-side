@@ -151,7 +151,7 @@ const yhgl = React.createClass({
     },
     //查询提交
     handleSearchSubmit(values){
-        this.setState({pageLoading:true})
+        this.setState({pageLoading:true});
         const pager = this.state.pagination;
         const param = {
             page:1,
@@ -167,6 +167,31 @@ const yhgl = React.createClass({
             this.setState({users:resp.data,where:values, pagination: pager,pageLoading:false})
         })
     },
+    //删除用户
+    handleDel(record){
+        let param = [record.id];
+        req({
+            url:USER_URL,
+            method:'delete',
+            type:'json',
+            contentType:'application/json',
+            data:JSON.stringify(param),
+            headers:{'x-auth-token':token}
+        }).then(resp=>{
+            notification.success({
+                duration: 4,
+                message: '操作成功',
+                description: resp.text+'客户信息已更新'
+            });
+            this.handleRefresh();
+        }).fail(e=>{
+            notification.error({
+                duration: 3,
+                message: '操作失败',
+                description: '可能网络访问原因，请稍后尝试'
+            });
+        })
+    },
 
 
     render(){
@@ -175,6 +200,7 @@ const yhgl = React.createClass({
             selectedRowKeys: this.state.selectedRowKeys,
             onChange: this.handleSelectedRowChange
         };
+        model.setDel(this.handleDel);
 
         const panelBar = <PanelBar>
             <Button onClick={this.handleSearchToggle}>
