@@ -193,6 +193,32 @@ const yhgl = React.createClass({
         })
     },
 
+    //批量删除用户
+    handleBatchDelete(){
+        let param = this.state.selectedRowKeys;
+        req({
+            url:USER_URL,
+            method:'delete',
+            type:'json',
+            contentType:'application/json',
+            data:JSON.stringify(param),
+            headers:{'x-auth-token':token}
+        }).then(resp=>{
+            notification.success({
+                duration: 4,
+                message: '操作成功',
+                description: resp.text+'客户信息已更新'
+            });
+            this.handleRefresh();
+        }).fail(e=>{
+            notification.error({
+                duration: 3,
+                message: '操作失败',
+                description: '可能网络访问原因，请稍后尝试'
+            });
+        })
+    },
+
 
     render(){
         const rowSelection = {
@@ -210,9 +236,15 @@ const yhgl = React.createClass({
             </Button>
 
             <ButtonGroup>
+                <Button type="primary" onClick={this.handleHelper}><Icon type="plus-circle-o" />添加用户</Button>
+                <Button type="primary" onClick={this.handleBatchDelete}><Icon type="cross-circle-o" />删除</Button>
+            </ButtonGroup>
+
+            <ButtonGroup>
                 <Button type="primary" onClick={this.handleHelper}><Icon type="question"/></Button>
                 <Button type="primary" onClick={this.handleRefresh}><Icon type="reload"/></Button>
             </ButtonGroup>
+
             <SelectorRoles
                 style={{width:'180px'}}
                 data={this.state.roles}
