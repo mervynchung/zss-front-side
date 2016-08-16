@@ -30,8 +30,13 @@ let searchForm = React.createClass({
                 <Form horizontal onSubmit={this.handleSubmit} form={this.props.form}>
                     <Row>
                             <Col span="10">
-                                    <FormItem label="所属年份：" {...formItemLayout}>
-                                            <DatePicker  { ...getFieldProps('nd')} >
+                                    <FormItem label="事务所名称：" {...formItemLayout}>
+                                            <Input {...getFieldProps('dwmc')} placeholder="请输入搜索条件" />
+                                    </FormItem>
+                            </Col>
+                            <Col span="10">
+                                    <FormItem label="申报时间起：" {...formItemLayout}>
+                                            <DatePicker  { ...getFieldProps('sbsj')} >
                                             </DatePicker>
                                     </FormItem> 
                             </Col>

@@ -434,8 +434,7 @@ let lrb = React.createClass({
                                onRowClick={this.handleRowClick}/>
                         <Modal ref="modal" confirmLoading={this.state.mloading} 
                           visible={this.state.modelvisible} maskClosable={false} closable={false} 
-                          title="非执业会员会费缴费" onOk={this.modelOk} onCancel={this.modelCancel} 
-                        >
+                          title="非执业会员会费缴费" onOk={this.modelOk} onCancel={this.modelCancel} >
                           <Row><Col span="4"><b>所属年份：</b></Col>
                              <Col span="12"> <SelectorYear style={{'width':'150px'}}  { ...getFieldProps('nd', { })} /></Col>
                          </Row>
