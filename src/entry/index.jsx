@@ -165,23 +165,24 @@ const Index = React.createClass({
              /*   //人员管理
                 require('../module/client/swsrygl/zyrygl'),*/
 
-                //财务报表上传
+               //财务报表上传
                 require('../module/client/cwbb/lrb'),
                 require('../module/client/cwbb/lrfpb'),
                 require('../module/client/cwbb/xjllb'),
                 require('../module/client/cwbb/zcfzb'),
                 require('../module/client/cwbb/zcmxb'),
 
-                //手动上报报表
+              /*  //手动上报报表
                 require('../module/client/sdsb/swsqkb'),
                 require('../module/client/sdsb/jygmtjb'),
                 require('../module/client/sdsb/jzywqktjb'),
                 require('../module/client/sdsb/hyryqktjb'),
-                require('../module/client/sdsb/jysrqkb'),
-           
-            /*    //业务管理
+                require('../module/client/sdsb/jysrqkb'),*/
+               //年度检查
+               require('../module/client/swsnj'),
+               //业务管理
                 require('../module/client/ywgl/khxxgl'), //客户信息管理
-                require('../module/client/ywgl/ywbb') //事务所业务报备*/
+                require('../module/client/ywgl/ywbb') //事务所业务报备
             ]
         }, {
             path: '/signin',

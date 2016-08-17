@@ -14,14 +14,14 @@ import {entityFormat} from 'common/utils'
 import DetailBox from './detailbox.jsx'
 
 
-const API_URL = config.HOST + config.URI_API_PROJECT + '/add/lrb';
-const URL = config.HOST + config.URI_API_PROJECT + '/addlrb';
+const API_URL = config.HOST + config.URI_API_PROJECT + '/add/swsnj';
+const URL = config.HOST + config.URI_API_PROJECT + '/addswsnj';
 
 const ToolBar = Panel.ToolBar;
 const ButtonGroup = Button.Group;
 
 
-const lrb = React.createClass({
+const swsnjb = React.createClass({
     //初始化state
     getInitialState() {
         return {
@@ -320,8 +320,8 @@ if(record.ZTBJ=="提交"){
     render() {
 const column1=[
         {title: '序号', dataIndex: 'key', key: 'key'},
-        {title: '年度', dataIndex: 'nd', key: 'nd'},
-        {title: '机构名称', dataIndex: 'DWMC', key: 'DWMC'},
+        {title: '年度', dataIndex: 'ND', key: 'ND'},
+        {title: '事务所名称', dataIndex: 'dwmc', key: 'dwmc'},
         {title: '自检时间', dataIndex: 'zjrq', key: 'zjrq'},
         {title: '状态', key: 'njzt', dataIndex: 'njzt'},
         {
@@ -356,17 +356,17 @@ const column1=[
         //定义提示内容
         let helper = [];
         helper.push(<p key="helper-0">点击查询结果查看利润表明细</p>);
-        helper.push(<p key="helper-1">也可以添加修改和提交利润表</p>);
+        helper.push(<p key="helper-1">也可以添加修改和提交机构年检表</p>);
         return <div className="cwbb-lrb">
             <div className="wrap">
-                {this.state.helper && <Alert message="利润表检索查询帮助"
+                {this.state.helper && <Alert message="机构年检表检索查询帮助"
                     description={helper}
                     type="info"
                     closable
                     onClose={this.handleHelperClose}/>}
 
 
-                <Panel title="利润表" toolbar={toolbar}>
+                <Panel title="机构年检表" toolbar={toolbar}>
                     {this.state.searchToggle && <SearchForm
                         onSubmit={this.handleSearchSubmit}/>}
                     { this.state.add &&  <div className="h-scroll-table">
@@ -384,7 +384,7 @@ const column1=[
                     <Update onSubmit={this.handleSubmit1} handleOk={this.handleOk1} data1={this.state.entity} />
                     </Panel>}
                 </Panel>
-                {this.state.detailHide ? null : <Panel title="利润表明细"
+                {this.state.detailHide ? null : <Panel title="机构年检表明细"
                     onClose={this.handleDetailClose}
                     closable>
                     <DetailBox data={this.state.entity}/>
@@ -394,4 +394,4 @@ const column1=[
     }
 });
 
-module.exports = lrb;
+module.exports = swsnjb;
