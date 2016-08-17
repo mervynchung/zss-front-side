@@ -9,6 +9,7 @@ import model from './model.jsx'
 import req from 'reqwest'
 import {jsonCopy} from 'common/utils.js'
 import auth from 'common/auth.js'
+import New from './new.jsx'
 
 const PanelBar = Panel.ToolBar;
 const ButtonGroup = Button.Group;
@@ -22,7 +23,7 @@ const fetchUsers = function (param = {page: 1, pageSize: 10}) {
         method: 'get',
         type: 'json',
         data: param,
-        headers:{'x-auth-token':token}
+        headers: {'x-auth-token': token}
     })
 };
 //获取角色列表
@@ -31,7 +32,7 @@ const fetchRoles = function () {
         url: ROLE_URL,
         method: 'get',
         type: 'json',
-        headers:{'x-auth-token':token}
+        headers: {'x-auth-token': token}
     })
 };
 
@@ -46,9 +47,10 @@ const fetchData = async function () {
 const yhgl = React.createClass({
     getInitialState(){
         return {
+            edit: false,
             pageLoading: true,
-            searchToggle:false,
-            helper:false,
+            searchToggle: false,
+            helper: false,
             roles: [],
             users: [],
             select: '',
@@ -141,7 +143,7 @@ const yhgl = React.createClass({
                 return `共 ${resp.total} 条，显示前 ${total} 条`
             };
             pager.current = 1;
-            this.setState({users: resp.data, where:'', pagination: pager});
+            this.setState({users: resp.data, where: '', pagination: pager});
         });
     },
 
@@ -151,40 +153,40 @@ const yhgl = React.createClass({
     },
     //查询提交
     handleSearchSubmit(values){
-        this.setState({pageLoading:true});
+        this.setState({pageLoading: true});
         const pager = this.state.pagination;
         const param = {
-            page:1,
-            pageSize:pager.pageSize,
+            page: 1,
+            pageSize: pager.pageSize,
             where: encodeURIComponent(JSON.stringify(values))
         };
-        fetchUsers(param).then(resp=>{
+        fetchUsers(param).then(resp=> {
             pager.total = resp.total > 1000 ? 1000 : resp.total;
             pager.showTotal = total => {
                 return `共 ${resp.total} 条，显示前 ${total} 条`
             };
             pager.current = 1;
-            this.setState({users:resp.data,where:values, pagination: pager,pageLoading:false})
+            this.setState({users: resp.data, where: values, pagination: pager, pageLoading: false})
         })
     },
     //删除用户
     handleDel(record){
         let param = [record.id];
         req({
-            url:USER_URL,
-            method:'delete',
-            type:'json',
-            contentType:'application/json',
-            data:JSON.stringify(param),
-            headers:{'x-auth-token':token}
-        }).then(resp=>{
+            url: USER_URL,
+            method: 'delete',
+            type: 'json',
+            contentType: 'application/json',
+            data: JSON.stringify(param),
+            headers: {'x-auth-token': token}
+        }).then(resp=> {
             notification.success({
                 duration: 4,
                 message: '操作成功',
-                description: resp.text+'客户信息已更新'
+                description: resp.text + '客户信息已更新'
             });
             this.handleRefresh();
-        }).fail(e=>{
+        }).fail(e=> {
             notification.error({
                 duration: 3,
                 message: '操作失败',
@@ -197,26 +199,34 @@ const yhgl = React.createClass({
     handleBatchDelete(){
         let param = this.state.selectedRowKeys;
         req({
-            url:USER_URL,
-            method:'delete',
-            type:'json',
-            contentType:'application/json',
-            data:JSON.stringify(param),
-            headers:{'x-auth-token':token}
-        }).then(resp=>{
+            url: USER_URL,
+            method: 'delete',
+            type: 'json',
+            contentType: 'application/json',
+            data: JSON.stringify(param),
+            headers: {'x-auth-token': token}
+        }).then(resp=> {
             notification.success({
                 duration: 4,
                 message: '操作成功',
-                description: resp.text+'客户信息已更新'
+                description: resp.text + '客户信息已更新'
             });
             this.handleRefresh();
-        }).fail(e=>{
+        }).fail(e=> {
             notification.error({
                 duration: 3,
                 message: '操作失败',
                 description: '可能网络访问原因，请稍后尝试'
             });
         })
+    },
+    //新增用户
+    handleNew(){
+        this.setState({edit: true})
+    },
+    //从用户信息编辑返回
+    back(){
+        this.setState({edit: false})
     },
 
 
@@ -236,8 +246,8 @@ const yhgl = React.createClass({
             </Button>
 
             <ButtonGroup>
-                <Button type="primary" onClick={this.handleHelper}><Icon type="plus-circle-o" />添加用户</Button>
-                <Button type="primary" onClick={this.handleBatchDelete}><Icon type="cross-circle-o" />删除</Button>
+                <Button type="primary" onClick={this.handleNew}><Icon type="plus-circle-o"/>添加用户</Button>
+                <Button type="primary" onClick={this.handleBatchDelete}><Icon type="cross-circle-o"/>删除</Button>
             </ButtonGroup>
 
             <ButtonGroup>
@@ -255,21 +265,25 @@ const yhgl = React.createClass({
 
         return <div className="yhgl">
             <div className="wrap">
-                <Spin spinning={this.state.pageLoading}>
-                    <Panel title="用户管理" toolbar={panelBar}>
-                        {this.state.searchToggle && <SearchForm
-                            onSubmit={this.handleSearchSubmit}/>}
-                        <Table className="outer-border"
-                               columns={model.columns}
-                               dataSource={this.state.users}
-                               pagination={this.state.pagination}
-                               onChange={this.handlePageChange}
-                               rowKey={record => record.id}
-                               rowSelection={rowSelection}
-                               onRowClick={this.handleRowClick}
-                        />
-                    </Panel>
-                </Spin>
+                {this.state.edit ? <New title="建立新用户"
+                                        onBack={this.back}
+                                        roles={this.state.roles}/> :
+                    <Spin spinning={this.state.pageLoading}>
+                        <Panel title="用户管理" toolbar={panelBar}>
+                            {this.state.searchToggle && <SearchForm
+                                onSubmit={this.handleSearchSubmit}/>}
+                            <Table className="outer-border"
+                                   columns={model.columns}
+                                   dataSource={this.state.users}
+                                   pagination={this.state.pagination}
+                                   onChange={this.handlePageChange}
+                                   rowKey={record => record.id}
+                                   rowSelection={rowSelection}
+                                   onRowClick={this.handleRowClick}
+                            />
+                        </Panel>
+                    </Spin>
+                }
             </div>
         </div>
     }
