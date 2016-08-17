@@ -14,7 +14,9 @@ const createForm = Form.create;
 let editForm = React.createClass({
     getInitialState(){
         return {
-            loading: false
+            loading: false,
+            jgDisplay:false,
+            jg:[]
         }
     },
     handleSubmit(e){
@@ -55,17 +57,25 @@ let editForm = React.createClass({
     checkPass(rule, value, callback) {
         const { validateFields } = this.props.form;
         if (value) {
-            validateFields(['password1'], { force: true });
+            validateFields(['password2'], { force: true });
         }
         callback();
     },
 
     checkPass2(rule, value, callback) {
         const { getFieldValue } = this.props.form;
-        if (value && value !== getFieldValue('password2')) {
+        if (value && value !== getFieldValue('password1')) {
             callback('两次输入密码不一致！');
         } else {
             callback();
+        }
+    },
+    //当角色代码为3/17/18/114时出现事务所分配框
+    handleRoleChange(value){
+        if(value==3||value==17||value==18||value==114){
+            this.setState({jgDisplay:true})
+        }else{
+            this.setState({jgDisplay:false})
         }
     },
     render(){
@@ -74,7 +84,7 @@ let editForm = React.createClass({
         const usernameProps = getFieldProps('username', {
             rules: [
                 {required: true, min: 5, whitespace: true, message: '用户名不能为空'},
-                {validator: this.checkUsername}
+                {validator: this.checkUserName}
             ]
         });
         const unameProps = getFieldProps('uname', {
@@ -95,6 +105,16 @@ let editForm = React.createClass({
                 {validator: this.checkPass2}
             ]
         });
+        const roleProps = getFieldProps('role', {
+            rules: [
+                {required: true, whitespace: true, message: '选择用户所属角色'}
+            ]
+        });
+        const phoneProps = getFieldProps('phone', {
+            rules: [
+                {required: true, whitespace: true, message: '输入联系电话'}
+            ]
+        });
         const panelBar = <PanelBar>
             <Button onClick={this.back}>
                 <Icon type="rollback"/>返回用户管理
@@ -109,7 +129,7 @@ let editForm = React.createClass({
                     <Row>
                         <Col span="24">
                             <FormItem
-                                labelCol={{span: 8}} wrapperCol={{span: 8}}
+                                labelCol={{span: 6}} wrapperCol={{span: 6}}
                                 label="用户名">
                                 <Input placeholder="可以是字母或汉字，长度5位以上" {...usernameProps}/>
                             </FormItem>
@@ -118,7 +138,7 @@ let editForm = React.createClass({
                     <Row>
                         <Col span="24">
                             <FormItem
-                                labelCol={{span: 8}} wrapperCol={{span: 8}}
+                                labelCol={{span: 6}} wrapperCol={{span: 6}}
                                 label="登录名">
                                 <Input placeholder="只能是字母或数字，长度5位以上" {...unameProps}/>
                             </FormItem>
@@ -127,7 +147,7 @@ let editForm = React.createClass({
                     <Row>
                         <Col span="24">
                             <FormItem
-                                labelCol={{span: 8}} wrapperCol={{span: 8}}
+                                labelCol={{span: 6}} wrapperCol={{span: 6}}
                                 label="密码" >
                                 <Input placeholder="8位以上"
                                        autoComplete="off"
@@ -138,7 +158,7 @@ let editForm = React.createClass({
                     <Row>
                         <Col span="24">
                             <FormItem
-                                labelCol={{span: 8}} wrapperCol={{span: 8}}
+                                labelCol={{span: 6}} wrapperCol={{span: 6}}
                                 label="确认密码">
                                 <Input placeholder="重复输入密码一遍"
                                        autoComplete="off"
@@ -149,7 +169,7 @@ let editForm = React.createClass({
                     <Row>
                         <Col span="24">
                             <FormItem
-                                labelCol={{span: 8}} wrapperCol={{span: 8}}
+                                labelCol={{span: 6}} wrapperCol={{span: 6}}
                                 label="身份证号">
                                 <Input placeholder="身份证号码" {...getFieldProps('idcard')}/>
                             </FormItem>
@@ -158,27 +178,42 @@ let editForm = React.createClass({
                     <Row>
                         <Col span="24">
                             <FormItem
-                                labelCol={{span: 8}} wrapperCol={{span: 8}}
+                                labelCol={{span: 6}} wrapperCol={{span: 6}}
                                 label="联系电话">
-                                <Input placeholder="移动电话/固定电话" {...getFieldProps('phone')}/>
+                                <Input placeholder="移动电话/固定电话" {...phoneProps}/>
                             </FormItem>
                         </Col>
                     </Row>
                     <Row>
-                        <Col span="24">
+                        <Col span="12">
                             <FormItem
-                                labelCol={{span: 8}} wrapperCol={{span: 8}}
+                                labelCol={{span: 12}} wrapperCol={{span: 12}}
                                 label="选择用户所属角色">
                                 <SelectorRoles
                                     style={{width:'100%'}}
                                     data={this.props.roles}
                                     optionFilterProp="children"
-                                    {...getFieldProps('role')}/>
+                                    onSelect={this.handleRoleChange}
+                                    {...roleProps}/>
                             </FormItem>
                         </Col>
+                        {this.state.jgDisplay&&<Col span="12">
+                            <FormItem
+                              labelCol={{span: 6}} wrapperCol={{span: 12}}
+                              label="选择所属事务所">
+                                <Select
+                                  showSearch
+                                  style={{width:'100%'}}
+                                  data={this.state.jg}
+                                  filterOption={false}
+                                  notFoundContent=""
+                                  />
+                            </FormItem>
+                        </Col>}
+
                     </Row>
                     <Row>
-                        <Col span="3" offset="8">
+                        <Col span="2" offset="8">
                             <Button
                                 type="primary"
                                 htmlType="submit"
