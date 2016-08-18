@@ -1,23 +1,16 @@
 import React from 'react'
-import {Table,Modal,Input,Button,Spin} from 'antd'
+import {Modal,Input,Button,Spin,Radio} from 'antd'
 import config from 'common/configuration.js'
 import req from 'reqwest'
 import auth from 'common/auth.js'
 
+const RadioGroup = Radio.Group;
 const InputGroup = Input.Group;
-const CUSTOMER_URL = config.HOST + config.URI_API_PROJECT + '/customers';
-const jid = auth.getJgid();
+
+const JG_URL = config.HOST + config.URI_API_PROJECT + '/jgs';
 const token = auth.getToken();
 
-const columns = [{
-    title: '单位名称',
-    dataIndex: 'DWMC',
-    key: 'DWMC',
-    width: 200
-}];
-
-
-const customer = React.createClass({
+const jg = React.createClass({
     getInitialState() {
         return {
             value: '',
@@ -38,10 +31,10 @@ const customer = React.createClass({
         this.setState({loading: true});
         let value = {dwmc: this.state.value};
         req({
-            url: CUSTOMER_URL,
+            url: JG_URL,
             method: 'get',
             type: 'json',
-            data: {where: encodeURIComponent(JSON.stringify(value)), jid: jid, page: 1, pageSize: 10},
+            data: {where: encodeURIComponent(JSON.stringify(value)), pagenum: 1, pagesize: 50},
             headers: {'x-auth-token': token}
         }).then(resp=>{
             this.setState({loading: false, data: resp.data})
@@ -50,16 +43,23 @@ const customer = React.createClass({
     handleOk(){
       this.props.onOk(this.state.entity);
     },
+    handleRadioChange(e){
+        let i = e.target.value;
+        let entity = this.state.data;
+        this.setState({entity:{jgId:entity[i].id,jgMc:entity[i].dwmc}})
+    },
     render(){
-        const rowSelection = {
-            type: 'radio',
-            onSelect: this.handleSelect
+        const radioStyle = {
+            display: 'block',
+            height: '30px',
+            lineHeight: '30px'
         };
-
-        return <Modal {...this.props} title="选择客户" width="300" onOk={this.handleOk}>
-            <div className="ant-search-input-wrapper" style={{ width: 350 }}>
+        let i = 0;
+        const radios = this.state.data.map(d => <Radio style={radioStyle} key={i++} value={i++}>{d.dwmc}</Radio>);
+        return <Modal {...this.props} title="查找需要的事务所" width="350" onOk={this.handleOk}>
+            <div className="ant-search-input-wrapper" style={{ width:'100%' }}>
                 <InputGroup className="ant-search-input">
-                    <Input placeholder="用单位名称查询"
+                    <Input placeholder="输入名称查询"
                            onChange={this.handleInputChange}
                            onPressEnter={this.handleSearch}/>
                     <div className="ant-input-group-wrap">
@@ -69,15 +69,12 @@ const customer = React.createClass({
             </div>
 
             <Spin spinning={this.state.loading}>
-                <Table pagination={false}
-                       dataSource={this.state.data}
-                       size="small"
-                       rowSelection={rowSelection}
-                       columns={columns}
-                       />
+                <RadioGroup onChange={this.handleRadioChange}>
+                    {radios}
+                </RadioGroup>
             </Spin>
         </Modal>
     }
 });
 
-module.exports = customer;
+module.exports = jg;

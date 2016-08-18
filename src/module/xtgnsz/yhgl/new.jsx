@@ -6,32 +6,17 @@ import config from 'common/configuration'
 import auth from 'common/auth'
 import req from 'reqwest'
 import utils from 'common/utils'
-//import Jg from './jg.jsx'
+import Jg from './jg.jsx'
 
 const PanelBar = Panel.ToolBar;
 const FormItem = Form.Item;
 const createForm = Form.create;
-
-const JG_URL = config.HOST + config.URI_API_FRAMEWORK + '/jgs';
-
-//查找事务所
-function fetchJg(param){
-    param.where = encodeURIComponent(JSON.stringify(param.where));
-    req({
-        url:JG_URL,
-        method:'get',
-        type:'json',
-        data:param,
-        headers: {'x-auth-token': token}
-    })
-}
 
 let editForm = React.createClass({
     getInitialState(){
         return {
             loading: false,
             jgDisplay:false,
-            jg:[],
             jgModal:false
         }
     },
@@ -41,9 +26,8 @@ let editForm = React.createClass({
             if (!!errors) {
                 return;
             }
-            let value = this.props.form.getFieldsValue();
-            value = utils.transEmpty2Null(value);
-            console.log(value)
+            values  = utils.transEmpty2Null(values);
+            console.log(values)
 
         })
     },
@@ -102,12 +86,11 @@ let editForm = React.createClass({
     },
     handleOk(entity){
         this.setState({
-            jgModal:false,
-            jg:entity
+            jgModal:false
         });
         this.props.form.setFieldsValue({
-            jgMc:entity.DWMC,
-            jgId:entity.id
+            jgMc:entity.jgMc,
+            jgId:entity.jgId
         })
     },
     render(){
@@ -156,6 +139,11 @@ let editForm = React.createClass({
 
 
         return <Panel title={title} toolbar={panelBar}>
+            <Jg visible={this.state.jgModal}
+                closable
+                style={{top:'200px',height:'400px'}}
+                onOk={this.handleOk}
+                onCancel={this.closeJg} />
 
             <div className="new-form">
                 <Form horizontal onSubmit={this.handleSubmit}>
@@ -230,15 +218,17 @@ let editForm = React.createClass({
                                     {...roleProps}/>
                             </FormItem>
                         </Col>
-                        {this.state.jgDisplay}&&<Col span="12">
+                        {this.state.jgDisplay&&<Col span="12">
                         <FormItem
-                            labelCol={{span: 6}} wrapperCol={{span: 12}}
-                            label="选择所属事务所">
-                            <Input style={{width:'60%'}} disabled {...getFieldProps('jgMc')}/> &nbsp;
-                            <Button type="ghost"  onClick={this.getJg}>选择</Button>
+                          labelCol={{span: 6}} wrapperCol={{span: 12}}
+                          label="选择所属事务所">
+                            <Input style={{width:'70%'}} disabled {...getFieldProps('jgMc')}/> &nbsp;
+                            <Button type="ghost"  onClick={this.getJg}>查询</Button>
                         </FormItem>
-
-                        </Col>}
+                            <FormItem style={{display:'none'}}>
+                                <Input  disabled {...getFieldProps('jgId')}/>
+                            </FormItem>
+                    </Col>}
 
                     </Row>
                     <Row>
