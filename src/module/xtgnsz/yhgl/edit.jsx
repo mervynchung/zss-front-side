@@ -1,6 +1,6 @@
 import React from 'react'
 import Panel from 'component/compPanel'
-import {Button,Icon,Form,Input,notification,Select,Row,Col} from 'antd';
+import {Button,Icon,Form,Input,notification,Select,Row,Col,Switch} from 'antd';
 import {SelectorRoles} from 'component/compSelector'
 import config from 'common/configuration'
 import auth from 'common/auth'
@@ -87,23 +87,7 @@ let editForm = React.createClass({
             callback()
         }
     },
-    //检查密码
-    checkPass(rule, value, callback) {
-        const { validateFields } = this.props.form;
-        if (value) {
-            validateFields(['password2'], {force: true});
-        }
-        callback();
-    },
 
-    checkPass2(rule, value, callback) {
-        const { getFieldValue } = this.props.form;
-        if (value && value !== getFieldValue('password1')) {
-            callback('两次输入密码不一致！');
-        } else {
-            callback();
-        }
-    },
     //当角色代码为3/17/18/114时出现事务所分配框
     handleRoleChange(value){
         if (value == 3 || value == 17 || value == 18 || value == 114) {
@@ -142,18 +126,7 @@ let editForm = React.createClass({
                 {validator: this.checkUname}
             ]
         });
-        const passwdProps = getFieldProps('password1', {
-            rules: [
-                {required: true, whitespace: true, min:6,message: '密码至少6位字符'},
-                {validator: this.checkPass}
-            ]
-        });
-        const rePasswdProps = getFieldProps('password2', {
-            rules: [
-                {required: true, whitespace: true, message: '请再次输入密码'},
-                {validator: this.checkPass2}
-            ]
-        });
+
         const roleProps = getFieldProps('roleId', {
             rules: [
                 {required: true, whitespace: true, message: '选择用户所属角色'}
@@ -208,31 +181,18 @@ let editForm = React.createClass({
                         <Col span="24">
                             <FormItem
                               labelCol={{span: 6}} wrapperCol={{span: 6}}
-                              label="密码">
-                                <Input placeholder="6位以上"
-                                       autoComplete="off"
-                                       type="password" {...passwdProps}/>
-                            </FormItem>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col span="24">
-                            <FormItem
-                              labelCol={{span: 6}} wrapperCol={{span: 6}}
-                              label="确认密码">
-                                <Input placeholder="重复输入密码一遍"
-                                       autoComplete="off"
-                                       type="password" {...rePasswdProps}/>
-                            </FormItem>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col span="24">
-                            <FormItem
-                              labelCol={{span: 6}} wrapperCol={{span: 6}}
                               label="用户描述信息">
                                 <Input placeholder="描述信息"
                                         {...namesProps}/>
+                            </FormItem>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col span="24">
+                            <FormItem
+                              labelCol={{span: 6}} wrapperCol={{span: 6}}
+                              label="Email">
+                                <Input placeholder="xxx@abc.com" {...getFieldProps('email')}/>
                             </FormItem>
                         </Col>
                     </Row>
@@ -251,6 +211,15 @@ let editForm = React.createClass({
                               labelCol={{span: 6}} wrapperCol={{span: 6}}
                               label="联系电话">
                                 <Input placeholder="移动电话/固定电话" {...phoneProps}/>
+                            </FormItem>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col span="24">
+                            <FormItem
+                              labelCol={{span: 6}} wrapperCol={{span: 6}}
+                              label="账户有效" >
+                                <Switch {...getFieldProps('account_enabled', { valuePropName: 'checked' })} />
                             </FormItem>
                         </Col>
                     </Row>

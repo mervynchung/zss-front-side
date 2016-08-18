@@ -1,6 +1,6 @@
 import './style.css'
 import React from 'react'
-import {Table,Col,Row,Tree,Tabs,Modal,Button,Spin,notification,Icon } from 'antd'
+import {Table,Col,Row,Tree,Tabs,Modal,Button,Spin,notification,Icon,Popconfirm} from 'antd'
 import Panel from 'component/compPanel'
 import config from 'common/configuration'
 import {SelectorRoles,SelectorCS} from 'component/compSelector'
@@ -10,6 +10,7 @@ import req from 'reqwest'
 import {jsonCopy} from 'common/utils.js'
 import auth from 'common/auth.js'
 import New from './new.jsx'
+import Edit from './edit.jsx'
 
 const PanelBar = Panel.ToolBar;
 const ButtonGroup = Button.Group;
@@ -85,10 +86,10 @@ const yhgl = React.createClass({
             Modal.error({
                 title: '数据获取错误',
                 content: (
-                    <div>
-                        <p>无法从服务器返回数据，需检查应用服务工作情况</p>
-                        <p>Status: {e.status}</p>
-                    </div>  )
+                  <div>
+                      <p>无法从服务器返回数据，需检查应用服务工作情况</p>
+                      <p>Status: {e.status}</p>
+                  </div>  )
             });
         })
     },
@@ -209,7 +210,7 @@ const yhgl = React.createClass({
             notification.success({
                 duration: 4,
                 message: '操作成功',
-                description: resp.text + '客户信息已更新'
+                description: resp.text + '批量删除成功'
             });
             this.handleRefresh();
         }).fail(e=> {
@@ -228,7 +229,10 @@ const yhgl = React.createClass({
     back(){
         this.setState({edit: false})
     },
-
+    //编辑用户
+    handleEdit(){
+       this.setState({edit:true})
+    },
 
     render(){
         const rowSelection = {
@@ -237,17 +241,20 @@ const yhgl = React.createClass({
             onChange: this.handleSelectedRowChange
         };
         model.setDel(this.handleDel);
+        model.setEdit(this.handleEdit);
 
         const panelBar = <PanelBar>
             <Button onClick={this.handleSearchToggle}>
                 <Icon type="search"/>查询
                 { this.state.searchToggle ? <Icon className="toggle-tip" type="circle-o-up"/> :
-                    <Icon className="toggle-tip" type="circle-o-down"/>}
+                  <Icon className="toggle-tip" type="circle-o-down"/>}
             </Button>
 
             <ButtonGroup>
                 <Button type="primary" onClick={this.handleNew}><Icon type="plus-circle-o"/>添加用户</Button>
-                <Button type="primary" onClick={this.handleBatchDelete}><Icon type="cross-circle-o"/>删除</Button>
+                <Popconfirm title="确定要删除吗？" placement="bottom" onConfirm={this.handleBatchDelete}>
+                    <Button type="primary"><Icon type="cross-circle-o"/>删除</Button>
+                </Popconfirm>
             </ButtonGroup>
 
             <ButtonGroup>
@@ -256,10 +263,10 @@ const yhgl = React.createClass({
             </ButtonGroup>
 
             <SelectorRoles
-                style={{width:'180px'}}
-                data={this.state.roles}
-                optionFilterProp="children"
-                onChange={this.handleRoleSelected}/>
+              style={{width:'180px'}}
+              data={this.state.roles}
+              optionFilterProp="children"
+              onChange={this.handleRoleSelected}/>
         </PanelBar>;
 
 
@@ -267,23 +274,24 @@ const yhgl = React.createClass({
             <div className="wrap">
                 {this.state.edit ? <New title="建立新用户"
                                         onBack={this.back}
-                                        roles={this.state.roles}/> :
-                    <Spin spinning={this.state.pageLoading}>
-                        <Panel title="用户管理" toolbar={panelBar}>
-                            {this.state.searchToggle && <SearchForm
-                                onSubmit={this.handleSearchSubmit}/>}
-                            <Table className="outer-border"
-                                   columns={model.columns}
-                                   dataSource={this.state.users}
-                                   pagination={this.state.pagination}
-                                   onChange={this.handlePageChange}
-                                   rowKey={record => record.id}
-                                   rowSelection={rowSelection}
-                                   onRowClick={this.handleRowClick}
-                                   scroll={{ x: 1100 }}
-                            />
-                        </Panel>
-                    </Spin>
+                                        roles={this.state.roles}
+                                        refreshData={this.handleRefresh}/> :
+                  <Spin spinning={this.state.pageLoading}>
+                      <Panel title="用户管理" toolbar={panelBar}>
+                          {this.state.searchToggle && <SearchForm
+                            onSubmit={this.handleSearchSubmit}/>}
+                          <Table className="outer-border"
+                                 columns={model.columns}
+                                 dataSource={this.state.users}
+                                 pagination={this.state.pagination}
+                                 onChange={this.handlePageChange}
+                                 rowKey={record => record.id}
+                                 rowSelection={rowSelection}
+                                 onRowClick={this.handleRowClick}
+                                 scroll={{ x: 1200 }}
+                          />
+                      </Panel>
+                  </Spin>
                 }
             </div>
         </div>

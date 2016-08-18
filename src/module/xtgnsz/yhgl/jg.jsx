@@ -54,8 +54,7 @@ const jg = React.createClass({
             height: '30px',
             lineHeight: '30px'
         };
-        let i = 0;
-        const radios = this.state.data.map(d => <Radio style={radioStyle} key={i++} value={i++}>{d.dwmc}</Radio>);
+        const radios = this.state.data.map((d,i) => <Radio style={radioStyle} key={i} value={i}>{d.dwmc}</Radio>);
         return <Modal {...this.props} title="查找需要的事务所" width="350" onOk={this.handleOk}>
             <div className="ant-search-input-wrapper" style={{ width:'100%' }}>
                 <InputGroup className="ant-search-input">
