@@ -6,17 +6,33 @@ import config from 'common/configuration'
 import auth from 'common/auth'
 import req from 'reqwest'
 import utils from 'common/utils'
+//import Jg from './jg.jsx'
 
 const PanelBar = Panel.ToolBar;
 const FormItem = Form.Item;
 const createForm = Form.create;
+
+const JG_URL = config.HOST + config.URI_API_FRAMEWORK + '/jgs';
+
+//查找事务所
+function fetchJg(param){
+    param.where = encodeURIComponent(JSON.stringify(param.where));
+    req({
+        url:JG_URL,
+        method:'get',
+        type:'json',
+        data:param,
+        headers: {'x-auth-token': token}
+    })
+}
 
 let editForm = React.createClass({
     getInitialState(){
         return {
             loading: false,
             jgDisplay:false,
-            jg:[]
+            jg:[],
+            jgModal:false
         }
     },
     handleSubmit(e){
@@ -78,6 +94,22 @@ let editForm = React.createClass({
             this.setState({jgDisplay:false})
         }
     },
+    getJg(){
+        this.setState({jgModal:true})
+    },
+    closeJg(){
+        this.setState({jgModal:false})
+    },
+    handleOk(entity){
+        this.setState({
+            jgModal:false,
+            jg:entity
+        });
+        this.props.form.setFieldsValue({
+            jgMc:entity.DWMC,
+            jgId:entity.id
+        })
+    },
     render(){
         let {title} = this.props;
         const { getFieldProps } = this.props.form;
@@ -124,8 +156,9 @@ let editForm = React.createClass({
 
 
         return <Panel title={title} toolbar={panelBar}>
+
             <div className="new-form">
-                <Form horizontal onSubmit={this.handleSubmit} form={this.props.form}>
+                <Form horizontal onSubmit={this.handleSubmit}>
                     <Row>
                         <Col span="24">
                             <FormItem
@@ -197,18 +230,14 @@ let editForm = React.createClass({
                                     {...roleProps}/>
                             </FormItem>
                         </Col>
-                        {this.state.jgDisplay&&<Col span="12">
-                            <FormItem
-                              labelCol={{span: 6}} wrapperCol={{span: 12}}
-                              label="选择所属事务所">
-                                <Select
-                                  showSearch
-                                  style={{width:'100%'}}
-                                  data={this.state.jg}
-                                  filterOption={false}
-                                  notFoundContent=""
-                                  />
-                            </FormItem>
+                        {this.state.jgDisplay}&&<Col span="12">
+                        <FormItem
+                            labelCol={{span: 6}} wrapperCol={{span: 12}}
+                            label="选择所属事务所">
+                            <Input style={{width:'60%'}} disabled {...getFieldProps('jgMc')}/> &nbsp;
+                            <Button type="ghost"  onClick={this.getJg}>选择</Button>
+                        </FormItem>
+
                         </Col>}
 
                     </Row>

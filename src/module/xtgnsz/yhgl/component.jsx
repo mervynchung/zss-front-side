@@ -280,6 +280,7 @@ const yhgl = React.createClass({
                                    rowKey={record => record.id}
                                    rowSelection={rowSelection}
                                    onRowClick={this.handleRowClick}
+                                   scroll={{ x: 1100 }}
                             />
                         </Panel>
                     </Spin>
