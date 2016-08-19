@@ -185,7 +185,7 @@ const Index = React.createClass({
             path: '/signin',
             component: Signin
         },{
-            path: '/hyhf/fpdy/dy',
+            path: '/print/hyhf/fpdy',
             component: Dy
         }, {
             path: '*',
