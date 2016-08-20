@@ -1,6 +1,6 @@
 import React from 'react'
 import Panel from 'component/compPanel'
-import {Button,Icon,Form,Input,notification,Select,Row,Col,Switch} from 'antd';
+import {Button,Icon,Form,Input,notification,Select,Row,Col,Switch,Spin} from 'antd';
 import {SelectorRoles} from 'component/compSelector'
 import config from 'common/configuration'
 import auth from 'common/auth'
@@ -18,10 +18,9 @@ const USER_URL = config.HOST + config.URI_API_FRAMEWORK + '/users';
 let editForm = React.createClass({
     getInitialState(){
         return {
-            loading: false,
-            jgDisplay: false,
+            loading: true,
             jgModal: false,
-            updating:false
+            updating: false
         }
     },
     handleSubmit(e){
@@ -31,37 +30,70 @@ let editForm = React.createClass({
                 return;
             }
             values = utils.transEmpty2Null(values);
-            this.setState({updating:true});
+            values.accountEnabled = values.accountEnabled?1:0;
+            values.accountExpired = values.accountExpired?1:0;
+            values.accountLocked = values.accountLocked?1:0;
+            this.setState({updating: true});
             req({
-                url: USER_URL,
-                method: 'post',
+                url: USER_URL+ '/' + this.props.userId,
+                method: 'put',
                 contentType: 'application/json',
                 data: JSON.stringify(values),
                 headers: {'x-auth-token': token}
-            }).then(resp=>{
-                this.setState({updating:false});
+            }).then(resp=> {
+                this.setState({updating: false});
                 notification.success({
                     duration: 4,
                     message: '操作成功',
                     description: resp.text + '客户信息已更新'
                 });
                 this.props.refreshData();
-            }).fail(e=>{
-                this.setState({updating:false});
+            }).fail(e=> {
+                this.setState({updating: false});
                 let r = JSON.parse(e.responseText);
-                if(e.status == 403){
+                if (e.status == 403) {
                     notification.error({
                         duration: 3,
                         message: '操作失败',
                         description: r.text
                     });
-                }else{
+                } else {
                     notification.error({
                         duration: 3,
                         message: '操作失败',
                         description: '可能网络访问原因，请稍后尝试'
                     });
                 }
+            });
+        })
+    },
+    componentDidMount(){
+        req({
+            url: USER_URL + '/' + this.props.userId,
+            method: 'get',
+            type: 'json',
+            headers: {'x-auth-token': token}
+        }).then(resp=> {
+            this.setState({loading:false});
+            this.props.form.setFieldsValue({
+                jgMc: resp.jgMc,
+                jgId: resp.jgId,
+                phone:resp.phone,
+                userName:resp.username,
+                uname:resp.uname,
+                names:resp.names,
+                idcard:resp.idcard,
+                accountEnabled:resp.accountEnabled,
+                accountExpired:resp.accountExpired,
+                accountLocked:resp.accountLocked,
+                roleId:resp.roleId
+            });
+        }).fail(e=>{
+            this.setState({loading:false});
+            notification.error({
+                duration: 3,
+                message: '操作失败',
+                description: '可能网络访问原因，请稍后尝试'
             });
         })
     },
@@ -88,14 +120,6 @@ let editForm = React.createClass({
         }
     },
 
-    //当角色代码为3/17/18/114时出现事务所分配框
-    handleRoleChange(value){
-        if (value == 3 || value == 17 || value == 18 || value == 114) {
-            this.setState({jgDisplay: true})
-        } else {
-            this.setState({jgDisplay: false})
-        }
-    },
     getJg(){
         this.setState({jgModal: true})
     },
@@ -151,116 +175,127 @@ let editForm = React.createClass({
 
 
         return <Panel title={title} toolbar={panelBar}>
-            <Jg visible={this.state.jgModal}
-                closable
-                style={{top:'200px',height:'400px'}}
-                onOk={this.handleOk}
-                onCancel={this.closeJg}/>
+            <Spin spinning={this.state.loading}>
+                <Jg visible={this.state.jgModal}
+                    closable
+                    style={{top:'200px',height:'400px'}}
+                    onOk={this.handleOk}
+                    onCancel={this.closeJg}/>
 
-            <div className="new-form">
-                <Form horizontal onSubmit={this.handleSubmit} form={this.props.form}>
-                    <Row>
-                        <Col span="24">
-                            <FormItem
-                              labelCol={{span: 6}} wrapperCol={{span: 6}}
-                              label="用户名">
-                                <Input placeholder="可以是字母或汉字，长度5位以上" {...usernameProps}/>
-                            </FormItem>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col span="24">
-                            <FormItem
-                              labelCol={{span: 6}} wrapperCol={{span: 6}}
-                              label="登录名">
-                                <Input placeholder="只能是字母或数字，长度5位以上" {...unameProps}/>
-                            </FormItem>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col span="24">
-                            <FormItem
-                              labelCol={{span: 6}} wrapperCol={{span: 6}}
-                              label="用户描述信息">
-                                <Input placeholder="描述信息"
-                                        {...namesProps}/>
-                            </FormItem>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col span="24">
-                            <FormItem
-                              labelCol={{span: 6}} wrapperCol={{span: 6}}
-                              label="Email">
-                                <Input placeholder="xxx@abc.com" {...getFieldProps('email')}/>
-                            </FormItem>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col span="24">
-                            <FormItem
-                              labelCol={{span: 6}} wrapperCol={{span: 6}}
-                              label="身份证号">
-                                <Input placeholder="身份证号码" {...getFieldProps('idcard')}/>
-                            </FormItem>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col span="24">
-                            <FormItem
-                              labelCol={{span: 6}} wrapperCol={{span: 6}}
-                              label="联系电话">
-                                <Input placeholder="移动电话/固定电话" {...phoneProps}/>
-                            </FormItem>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col span="24">
-                            <FormItem
-                              labelCol={{span: 6}} wrapperCol={{span: 6}}
-                              label="账户有效" >
-                                <Switch {...getFieldProps('account_enabled', { valuePropName: 'checked' })} />
-                            </FormItem>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col span="12">
-                            <FormItem
-                              labelCol={{span: 12}} wrapperCol={{span: 12}}
-                              label="选择用户所属角色">
-                                <SelectorRoles
+                <div className="new-form">
+                    <Form horizontal onSubmit={this.handleSubmit} form={this.props.form}>
+                        <Row>
+                            <Col span="24">
+                                <FormItem
+                                  labelCol={{span: 6}} wrapperCol={{span: 6}}
+                                  label="用户名">
+                                    <Input placeholder="可以是字母或汉字，长度5位以上" {...usernameProps}/>
+                                </FormItem>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col span="24">
+                                <FormItem
+                                  labelCol={{span: 6}} wrapperCol={{span: 6}}
+                                  label="登录名">
+                                    <Input placeholder="只能是字母或数字，长度5位以上" {...unameProps}/>
+                                </FormItem>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col span="24">
+                                <FormItem
+                                  labelCol={{span: 6}} wrapperCol={{span: 6}}
+                                  label="用户描述信息">
+                                    <Input placeholder="描述信息"
+                                      {...namesProps}/>
+                                </FormItem>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col span="24">
+                                <FormItem
+                                  labelCol={{span: 6}} wrapperCol={{span: 6}}
+                                  label="身份证号">
+                                    <Input placeholder="身份证号码" {...getFieldProps('idcard')}/>
+                                </FormItem>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col span="24">
+                                <FormItem
+                                  labelCol={{span: 6}} wrapperCol={{span: 6}}
+                                  label="联系电话">
+                                    <Input placeholder="移动电话/固定电话" {...phoneProps}/>
+                                </FormItem>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col span="24">
+                                <FormItem
+                                  labelCol={{span: 6}} wrapperCol={{span: 6}}
+                                  label="账户有效">
+                                    <Switch {...getFieldProps('accountEnabled', {valuePropName: 'checked'})} />
+                                </FormItem>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col span="24">
+                                <FormItem
+                                  labelCol={{span: 6}} wrapperCol={{span: 6}}
+                                  label="账户已过期">
+                                    <Switch {...getFieldProps('accountExpired', {valuePropName: 'checked'})} />
+                                </FormItem>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col span="24">
+                                <FormItem
+                                  labelCol={{span: 6}} wrapperCol={{span: 6}}
+                                  label="账户已锁定">
+                                    <Switch {...getFieldProps('accountLocked', {valuePropName: 'checked'})} />
+                                </FormItem>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col span="12">
+                                <FormItem
+                                  labelCol={{span: 12}} wrapperCol={{span: 12}}
+                                  label="选择用户所属角色">
+                                    <SelectorRoles
+                                      style={{width:'100%'}}
+                                      data={this.props.roles}
+                                      optionFilterProp="children"
+                                      onSelect={this.handleRoleChange}
+                                      {...roleProps}/>
+                                </FormItem>
+                            </Col>
+                             <Col span="12">
+                                <FormItem
+                                  labelCol={{span: 6}} wrapperCol={{span: 12}}
+                                  label="选择所属事务所">
+                                    <Input style={{width:'70%'}} disabled {...getFieldProps('jgMc')}/> &nbsp;
+                                    <Button type="ghost" onClick={this.getJg}>查询</Button>
+                                </FormItem>
+                                <FormItem style={{display:'none'}}>
+                                    <Input disabled {...getFieldProps('jgId')}/>
+                                </FormItem>
+                            </Col>
+
+                        </Row>
+                        <Row>
+                            <Col span="2" offset="8">
+                                <Button
+                                  type="primary"
+                                  htmlType="submit"
                                   style={{width:'100%'}}
-                                  data={this.props.roles}
-                                  optionFilterProp="children"
-                                  onSelect={this.handleRoleChange}
-                                  {...roleProps}/>
-                            </FormItem>
-                        </Col>
-                        {this.state.jgDisplay && <Col span="12">
-                            <FormItem
-                              labelCol={{span: 6}} wrapperCol={{span: 12}}
-                              label="选择所属事务所">
-                                <Input style={{width:'70%'}} disabled {...getFieldProps('jgMc')}/> &nbsp;
-                                <Button type="ghost" onClick={this.getJg}>查询</Button>
-                            </FormItem>
-                            <FormItem style={{display:'none'}}>
-                                <Input disabled {...getFieldProps('jgId')}/>
-                            </FormItem>
-                        </Col>}
-
-                    </Row>
-                    <Row>
-                        <Col span="2" offset="8">
-                            <Button
-                              type="primary"
-                              htmlType="submit"
-                              style={{width:'100%'}}
-                              size="large"
-                              loading={this.state.updating}>保存</Button>
-                        </Col>
-                    </Row>
-                </Form>
-            </div>
+                                  size="large"
+                                  loading={this.state.updating}>保存</Button>
+                            </Col>
+                        </Row>
+                    </Form>
+                </div>
+            </Spin>
         </Panel>
     }
 });

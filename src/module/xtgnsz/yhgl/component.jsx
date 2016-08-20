@@ -48,7 +48,8 @@ const fetchData = async function () {
 const yhgl = React.createClass({
     getInitialState(){
         return {
-            edit: false,
+            edit: '',
+            userId:{},
             pageLoading: true,
             searchToggle: false,
             helper: false,
@@ -223,15 +224,15 @@ const yhgl = React.createClass({
     },
     //新增用户
     handleNew(){
-        this.setState({edit: true})
+        this.setState({edit: 'new'})
     },
     //从用户信息编辑返回
     back(){
-        this.setState({edit: false})
+        this.setState({edit: ''})
     },
     //编辑用户
-    handleEdit(){
-       this.setState({edit:true})
+    handleEdit(record){
+        this.setState({edit: 'edit',userId:record.id})
     },
 
     render(){
@@ -272,10 +273,18 @@ const yhgl = React.createClass({
 
         return <div className="yhgl">
             <div className="wrap">
-                {this.state.edit ? <New title="建立新用户"
-                                        onBack={this.back}
-                                        roles={this.state.roles}
-                                        refreshData={this.handleRefresh}/> :
+                {this.state.edit ? (this.state.edit == 'new' ?
+                  <New title="建立新用户"
+                       onBack={this.back}
+                       roles={this.state.roles}
+                       refreshData={this.handleRefresh}/>
+                  :
+                  <Edit title="编辑用户信息"
+                        userId={this.state.userId}
+                        onBack={this.back}
+                        roles={this.state.roles}
+                        refreshData={this.handleRefresh}/>)
+                  :
                   <Spin spinning={this.state.pageLoading}>
                       <Panel title="用户管理" toolbar={panelBar}>
                           {this.state.searchToggle && <SearchForm
