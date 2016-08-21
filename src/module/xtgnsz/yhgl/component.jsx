@@ -234,6 +234,10 @@ const yhgl = React.createClass({
     handleEdit(record){
         this.setState({edit: 'edit',userId:record.id})
     },
+    //重置密码
+    resetPass(record){
+        
+    },
 
     render(){
         const rowSelection = {
@@ -243,6 +247,7 @@ const yhgl = React.createClass({
         };
         model.setDel(this.handleDel);
         model.setEdit(this.handleEdit);
+        model.setPass(this.resetPass);
 
         const panelBar = <PanelBar>
             <Button onClick={this.handleSearchToggle}>

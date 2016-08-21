@@ -7,12 +7,17 @@ let handleEdit = function (record) {
 let handleDel = function (record) {
     console.log('del',record)
 };
+let resetPass = function(){};
+
 module.exports = {
     setEdit: function (func) {
         handleEdit = func;
     },
     setDel: function (func) {
         handleDel = func;
+    },
+    setPass:function(func){
+        resetPass = func;
     },
     columns: [
         {title: '用户名', dataIndex: 'username', key: 'username',width: 240},
@@ -68,7 +73,8 @@ module.exports = {
                     <a onClick={()=>handleEdit(record)}>编辑</a> &nbsp;&nbsp;
                     <Popconfirm title="确定要删除吗？" placement="left" onConfirm={()=>handleDel(record)}>
                         <a>删除</a>
-                    </Popconfirm>
+                    </Popconfirm>&nbsp;&nbsp;
+                    <a onClick={()=>resetPass(record)}>重置密码</a>
                 </span>
             }
         }

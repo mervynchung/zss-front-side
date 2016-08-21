@@ -20,7 +20,9 @@ let editForm = React.createClass({
         return {
             loading: true,
             jgModal: false,
-            updating: false
+            updating: false,
+            jgDisplay:false,
+            uname:''
         }
     },
     handleSubmit(e){
@@ -29,13 +31,20 @@ let editForm = React.createClass({
             if (!!errors) {
                 return;
             }
+            if (this.state.uname != values.uname) {
+                values.unameChange=1
+            }
+            if (values.roleId != 3 && values.roleId != 17 && values.roleId != 18 && values.roleId != 114) {
+                values.jgId = null
+            }
+
             values = utils.transEmpty2Null(values);
-            values.accountEnabled = values.accountEnabled?1:0;
-            values.accountExpired = values.accountExpired?1:0;
-            values.accountLocked = values.accountLocked?1:0;
+            values.accountEnabled = values.accountEnabled ? 1 : 0;
+            values.accountExpired = values.accountExpired ? 1 : 0;
+            values.accountLocked = values.accountLocked ? 1 : 0;
             this.setState({updating: true});
             req({
-                url: USER_URL+ '/' + this.props.userId,
+                url: USER_URL + '/' + this.props.userId,
                 method: 'put',
                 contentType: 'application/json',
                 data: JSON.stringify(values),
@@ -74,22 +83,23 @@ let editForm = React.createClass({
             type: 'json',
             headers: {'x-auth-token': token}
         }).then(resp=> {
-            this.setState({loading:false});
+            let jgDisplay = resp.roleId  == 3 || resp.roleId  == 17 || resp.roleId  == 18 || resp.roleId  == 114;
+            this.setState({loading: false,jgDisplay:jgDisplay,uname:resp.uname});
             this.props.form.setFieldsValue({
                 jgMc: resp.jgMc,
                 jgId: resp.jgId,
-                phone:resp.phone,
-                userName:resp.username,
-                uname:resp.uname,
-                names:resp.names,
-                idcard:resp.idcard,
-                accountEnabled:resp.accountEnabled,
-                accountExpired:resp.accountExpired,
-                accountLocked:resp.accountLocked,
-                roleId:resp.roleId
+                phone: resp.phone,
+                userName: resp.username,
+                uname: resp.uname,
+                names: resp.names,
+                idcard: resp.idcard,
+                accountEnabled: resp.accountEnabled,
+                accountExpired: resp.accountExpired,
+                accountLocked: resp.accountLocked,
+                roleId: resp.roleId
             });
-        }).fail(e=>{
-            this.setState({loading:false});
+        }).fail(e=> {
+            this.setState({loading: false});
             notification.error({
                 duration: 3,
                 message: '操作失败',
@@ -111,14 +121,6 @@ let editForm = React.createClass({
             callback()
         }
     },
-    //检查用户名
-    checkUserName(rule, value, callback){
-        if (!value || value.trim().length < 5) {
-            callback("用户名长度至少5个字符")
-        } else {
-            callback()
-        }
-    },
 
     getJg(){
         this.setState({jgModal: true})
@@ -135,15 +137,17 @@ let editForm = React.createClass({
             jgId: entity.jgId
         })
     },
+    //当角色代码为3/17/18/114时出现事务所分配框
+    handleRoleChange(value){
+        if (value == 3 || value == 17 || value == 18 || value == 114) {
+            this.setState({jgDisplay: true})
+        } else {
+            this.setState({jgDisplay: false})
+        }
+    },
     render(){
         let {title} = this.props;
         const { getFieldProps } = this.props.form;
-        const usernameProps = getFieldProps('userName', {
-            rules: [
-                {required: true, min: 5, whitespace: true, message: '用户名不能为空'},
-                {validator: this.checkUserName}
-            ]
-        });
         const unameProps = getFieldProps('uname', {
             rules: [
                 {required: true, whitespace: true, message: '登录名不能为空'},
@@ -166,6 +170,11 @@ let editForm = React.createClass({
                 {required: true, whitespace: true, message: '输入账户的描述信息'}
             ]
         });
+
+        if(this.props){
+
+        }
+
         const panelBar = <PanelBar>
             <Button onClick={this.back}>
                 <Icon type="rollback"/>返回用户管理
@@ -184,15 +193,6 @@ let editForm = React.createClass({
 
                 <div className="new-form">
                     <Form horizontal onSubmit={this.handleSubmit} form={this.props.form}>
-                        <Row>
-                            <Col span="24">
-                                <FormItem
-                                  labelCol={{span: 6}} wrapperCol={{span: 6}}
-                                  label="用户名">
-                                    <Input placeholder="可以是字母或汉字，长度5位以上" {...usernameProps}/>
-                                </FormItem>
-                            </Col>
-                        </Row>
                         <Row>
                             <Col span="24">
                                 <FormItem
@@ -270,7 +270,7 @@ let editForm = React.createClass({
                                       {...roleProps}/>
                                 </FormItem>
                             </Col>
-                             <Col span="12">
+                            {this.state.jgDisplay && <Col span="12">
                                 <FormItem
                                   labelCol={{span: 6}} wrapperCol={{span: 12}}
                                   label="选择所属事务所">
@@ -280,7 +280,7 @@ let editForm = React.createClass({
                                 <FormItem style={{display:'none'}}>
                                     <Input disabled {...getFieldProps('jgId')}/>
                                 </FormItem>
-                            </Col>
+                            </Col>}
 
                         </Row>
                         <Row>
