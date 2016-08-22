@@ -340,11 +340,6 @@ let lrb = React.createClass({
                   dataIndex: 'ryzt',
                   key: 'ryzt',
                 }, {
-                  title: '操作',
-                  dataIndex: 'dy',
-                  key: 'dy',
-                  render:this.ztRender
-                }, {
                   title: '录入人',
                   dataIndex: 'LRR',
                   key: 'LRR',
@@ -356,7 +351,13 @@ let lrb = React.createClass({
                   title: '原金额',
                   dataIndex: 'YJE',
                   key: 'YJE',
-                },
+                },{
+                  title: '操作',
+                  dataIndex: 'dy',
+                  key: 'dy',
+                  fixed:'right',
+                  render:this.ztRender
+                }, 
             ];
          var that=this;
              const props = {
@@ -434,8 +435,7 @@ let lrb = React.createClass({
                                onRowClick={this.handleRowClick}/>
                         <Modal ref="modal" confirmLoading={this.state.mloading} 
                           visible={this.state.modelvisible} maskClosable={false} closable={false} 
-                          title="非执业会员会费缴费" onOk={this.modelOk} onCancel={this.modelCancel} 
-                        >
+                          title="非执业会员会费缴费" onOk={this.modelOk} onCancel={this.modelCancel} >
                           <Row><Col span="4"><b>所属年份：</b></Col>
                              <Col span="12"> <SelectorYear style={{'width':'150px'}}  { ...getFieldProps('nd', { })} /></Col>
                          </Row>

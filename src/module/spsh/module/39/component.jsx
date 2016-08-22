@@ -50,8 +50,8 @@ const wspcx = React.createClass({
                       </table> 
     return <div className="wspxm-spsh">
             <div className="wrap">
-                <SPXX wspcxurl='/spapi/wspcx/ry/7' spmxurl='/spapi/spmxxx/zyzfzy' mxbg={mxbg} getbg={this.makebg} isJG={false}
-                          columns={C_JG.zy} titleTop="待审执业税务师转非执业申请" titleSecond="执业税务师转非执业申请明细"/>
+                <SPXX wspcxurl='/spapi/wspcx/ry/39' spmxurl='/spapi/spmxxx/zyzfzy' mxbg={mxbg} getbg={this.makebg} isJG={false}
+                          columns={C_JG.zy} titleTop="待审执业税务师转入申请" titleSecond="执业税务师转入申请明细"/>
             </div>
         </div>
     }

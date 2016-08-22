@@ -351,11 +351,6 @@ ztRender(text, row, index) {
                   dataIndex: 'DYCS',
                   key: 'DYCS',
                 },{
-                  title: '操作',
-                  dataIndex: 'dy',
-                  key: 'dy',
-                  render:this.ztRender
-                },{
                   title: '分配人',
                   dataIndex: 'GGR',
                   key: 'GGR',
@@ -367,6 +362,12 @@ ztRender(text, row, index) {
                   title: '原金额',
                   dataIndex: 'YJE',
                   key: 'YJE',
+                },{
+                  title: '操作',
+                  dataIndex: 'dy',
+                  key: 'dy',
+                  fixed:'right',
+                  render:this.ztRender
                 },
             ];
     let toolbar = <ToolBar><div>
