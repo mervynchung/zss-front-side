@@ -102,8 +102,9 @@ const Index = React.createClass({
                 require('../module/jdjc/zyswsnjb'),
                 require('../module/jdjc/swsnj'),
 
-                //逐级审核
+                *///逐级审核
                 require('../module/spsh'),
+                require('../module/spshlsjl'),
                 require('../module/spsh/module/1'),
                 require('../module/spsh/module/2'),
                 require('../module/spsh/module/3'),
@@ -119,10 +120,13 @@ const Index = React.createClass({
                 require('../module/spsh/module/13'),
                 require('../module/spsh/module/14'),
                 require('../module/spsh/module/15'),
+                require('../module/spsh/module/18'),
                 require('../module/spsh/module/20'),
+                require('../module/spsh/module/38'),
+                require('../module/spsh/module/39'),
                 require('../module/spsh/module/43'),
                 require('../module/spsh/module/44'),
-                require('../module/spsh/module/46'),
+                require('../module/spsh/module/46'),/*
 
                 //数据统计分析 - 年检数据分析
                 require('../module/xtsjfx/njsjfx/rynjsjfx'),//人员年检数据分析
@@ -148,7 +152,7 @@ const Index = React.createClass({
                 require('../module/xtsjfx/sjfx/hynlsjfx'),//行业年龄数据分析
                 require('../module/xtsjfx/sjfx/ryztsjfx'),
 
-                //会员会费缴纳
+               */ //会员会费缴纳
                 require('../module/hyhf_new/hyhfjnqk'),
                 require('../module/hyhf_new/fpdy'),
                 require('../module/hyhf_new/fzyhyhf'),
@@ -162,7 +166,7 @@ const Index = React.createClass({
                 require('../module/client/jggl/swshb'),
 
                 //人员管理
-                require('../module/client/swsrygl/zyrygl'),
+               require('../module/client/swsrygl/zyrygl'),
 
                 //财务报表上传
                 require('../module/client/cwbb/lrb'),

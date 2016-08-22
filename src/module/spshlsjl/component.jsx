@@ -1,21 +1,18 @@
 import React from 'react'
-import {Table,Modal,Row,Col,Button,Icon,Alert,message} from 'antd'
+import {Table,Modal,Row,Col,Button,Icon,Alert} from 'antd'
 import Panel from 'component/compPanel'
 import {columns} from './model'
 import req from 'reqwest';
-import auth from 'common/auth'
 import SearchForm from './searchForm'
-import Login from './login'
 import config from 'common/configuration'
 
 
-const API_URL = config.HOST + config.URI_API_PROJECT + '/jgs/swsslspcx';
-const API_URL_TJ = config.HOST + config.URI_API_PROJECT + '/jggl/swsslsp';
+const API_URL = config.HOST + config.URI_API_PROJECT + '/spapi/lsspjlcx';
 const ToolBar = Panel.ToolBar;
 const ButtonGroup = Button.Group;
 
 
-const swsslsp = React.createClass({
+const lrb = React.createClass({
     //初始化state
     getInitialState(){
         return {
@@ -26,13 +23,12 @@ const swsslsp = React.createClass({
                 pageSize: 5,
                 showQuickJumper: true,
                 pageSizeOptions: ['5', '10', '20']
-
-            },
+                 },
             searchToggle: false,
-            where: {},
-            helper: true,
-            modelvisible: false,
-            re:true,
+            where: '',
+            helper: false,
+            entity: '',
+            detailHide: true
         }
     },
 
@@ -79,53 +75,9 @@ const swsslsp = React.createClass({
             pagenum: 1,
             pagesize: pager.pageSize,
             where: encodeURIComponent(JSON.stringify(value))
-        });
+        })
     },
-    showModal() {
-        this.setState({
-          modelvisible: true,
-        });
-      },
-      modelOk(value) {
-        this.setState({ mloading: true, });
-        req({
-                url: API_URL_TJ,
-                type: 'json',
-                method: 'post',
-                data: JSON.stringify(value),
-                contentType: 'application/json',
-                headers:{'x-auth-token':auth.getToken()}
-            }).then(resp=> {
-                      this.fetchData({//调用主查询
-                        pagenum: this.state.pagination.current,
-                        pagesize: this.state.pagination.pageSize,
-                        where: encodeURIComponent(JSON.stringify(this.state.where)),
-                      })
-                  message.destroy();
-                this.setState({mloading:false,modelvisible: false,re:!this.state.re});
-            }).fail(err=> {
-              this.setState({mloading:false});
-              let rop=JSON.parse(err.responseText);
-                Modal.error({
-                    title: '提交失败',
-                    content: (
-                        <div>
-                            <p>错误原因：</p>
-                            <p>{rop.text}</p>
-                        </div>  )
-                });
-            })
-      },
-      modelCancel(e) {
-        if (this.state.mloading) {
-            message.loading('正在执行...', 0);
-        }else{
-        this.setState({
-          modelvisible: false,
-          re:!this.state.re
-        });
-        };
-      },
+
 
     //通过API获取数据
     fetchData(params = {pagenum: this.state.pagination.current, pagesize: this.state.pagination.pageSize}){
@@ -134,13 +86,12 @@ const swsslsp = React.createClass({
             url: API_URL,
             type: 'json',
             method: 'get',
-            data: params,
-            headers:{'x-auth-token':auth.getToken()}
+            data: params
         }).then(resp=> {
             const p = this.state.pagination;
-            p.total = resp.page.pageTotal;
+            p.total = resp.page.pageTotal > 1000 ? 1000 : resp.page.pageTotal;
             p.showTotal = total => {
-                return `共 ${resp.page.pageTotal} 条`
+                return `共 ${resp.page.pageTotal} 条，显示前 ${total} 条`
             };
             this.setState({
                 data: resp.data,
@@ -166,8 +117,6 @@ const swsslsp = React.createClass({
     render(){
         //定义工具栏内容
         let toolbar = <ToolBar>
-        <Button  onClick={this.showModal}>添加机构</Button>
-
             <Button onClick={this.handleSearchToggle}>
                 <Icon type="search"/>查询
                 { this.state.searchToggle ? <Icon className="toggle-tip" type="circle-o-up"/> :
@@ -182,20 +131,18 @@ const swsslsp = React.createClass({
 
         //定义提示内容
         let helper = [];
-        helper.push(<p key="helper-0">1、省级注册税务师管理机构收到《申请报告》后，点击设立按钮进入提交设立资料前的登录权限设罝，亊务所格根据己设罝的权限</p>);
-        helper.push(<p key="helper-1">  登录，填报设立亊务所的相关资料，打印经省级管理机构审核的电子表格文档和上传的附件资料；</p>);
-        helper.push(<p key="helper-2">2、省级注册税务师管理机构根据下列表中的“当前状态”点击进入审核亊务所上报信息；</p>);
-        helper.push(<p key="helper-3">3、省级注册税务师営理机构根据上报的资料审核是否符合政策要求确定是否通过。</p>);
+        helper.push(<p key="helper-0">本页显示所有审批申请记录包括审批中和已审批两种状态</p>);
+        helper.push(<p key="helper-1">只显示前1000条记录</p>);
 
-        return <div className="jggl-swsslsp">
+        return <div className="spshlsjl">
             <div className="wrap">
-                {this.state.helper && <Alert message="机构设立审批帮助"
+                {this.state.helper && <Alert message="审批历史记录查询帮助"
                                              description={helper}
                                              type="info"
                                              closable
                                              onClose={this.handleHelperClose}/>}
 
-                <Panel title="机构设立审批列表" toolbar={toolbar}>
+                <Panel title="审批历史记录表" toolbar={toolbar}>
                     {this.state.searchToggle && <SearchForm
                         onSubmit={this.handleSearchSubmit}/>}
                     <div className="h-scroll-table">
@@ -203,17 +150,14 @@ const swsslsp = React.createClass({
                                dataSource={this.state.data}
                                pagination={this.state.pagination}
                                loading={this.state.loading}
-                               onChange={this.handleChange} />
-                        <Modal ref="modal"  visible={this.state.modelvisible} maskClosable={false}  
-                          title="新增机构"  onCancel={this.modelCancel} 
-                           footer={[
-                          ]} ><Login onSubmit={this.modelOk} loading={this.state.mloading} rest={this.state.re} />
-                        </Modal>
+                               onChange={this.handleChange}
+                               onRowClick={this.handleRowClick}/>
                     </div>
                 </Panel>
+                
             </div>
         </div>
     }
 });
 
-module.exports = swsslsp;
+module.exports = lrb;

@@ -210,7 +210,7 @@ const wspcx = React.createClass({
         //定义工具栏内容
 
         let toolbar = <ToolBar>
-            <Button onClick={this.handleSearchToggle} size="large" type="primary">
+            <Button onClick={this.handleSearchToggle} size="large" >
                 <Icon type="search"/>查询
                 { this.state.searchToggle ? <Icon className="toggle-tip" type="circle-o-up"/> :
                     <Icon className="toggle-tip" type="circle-o-down"/>}

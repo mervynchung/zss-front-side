@@ -340,11 +340,6 @@ let lrb = React.createClass({
                   dataIndex: 'ryzt',
                   key: 'ryzt',
                 }, {
-                  title: '操作',
-                  dataIndex: 'dy',
-                  key: 'dy',
-                  render:this.ztRender
-                }, {
                   title: '录入人',
                   dataIndex: 'LRR',
                   key: 'LRR',
@@ -356,7 +351,13 @@ let lrb = React.createClass({
                   title: '原金额',
                   dataIndex: 'YJE',
                   key: 'YJE',
-                },
+                },{
+                  title: '操作',
+                  dataIndex: 'dy',
+                  key: 'dy',
+                  fixed:'right',
+                  render:this.ztRender
+                }, 
             ];
          var that=this;
              const props = {
