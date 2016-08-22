@@ -3,83 +3,42 @@ import ReactDOM from 'react-dom'
 import 'antd/dist/antd.css';
 import './style.css'
 
-import { Form, Input, Button } from 'antd';
+import { Table } from 'antd';
 
-let uuid = 0;
-let Demo = React.createClass({
-    remove(k) {
-        const { form } = this.props;
-        // can use data-binding to get
-        let keys = form.getFieldValue('keys');
-        keys = keys.filter((key) => {
-            return key !== k;
-        });
-        // can use data-binding to set
-        form.setFieldsValue({
-            keys,
-        });
+const columns = [
+    { title: '姓名', width: 100, dataIndex: 'name', key: 'name', fixed: 'left' },
+    { title: '年龄', width: 100, dataIndex: 'age', key: 'age', fixed: 'left' },
+    { title: '列1', dataIndex: 'address', key: '1' },
+    { title: '列2', dataIndex: 'address', key: '2' },
+    { title: '列3', dataIndex: 'address', key: '3' },
+    { title: '列4', dataIndex: 'address', key: '4' },
+    { title: '列5', dataIndex: 'address', key: '5' },
+    { title: '列6', dataIndex: 'address', key: '6' },
+    { title: '列7', dataIndex: 'address', key: '7' },
+    { title: '列8', dataIndex: 'address', key: '8' },
+    {
+        title: '操作',
+        key: 'operation',
+        fixed: 'right',
+        width: 100,
+        render: () => <a href="#">操作</a>,
     },
-    add() {
-        uuid++;
-        const { form } = this.props;
-        // can use data-binding to get
-        let keys = form.getFieldValue('keys');
-        keys = keys.concat(uuid);
-        // can use data-binding to set
-        // important! notify form to detect changes
-        form.setFieldsValue({
-            keys,
-        });
-    },
-    submit(e) {
-        e.preventDefault();
-        this.props.form.validateFields((errors, values) => {
-            if (errors) {
-                console.log(errors);
-            }
-            console.log(values);
-        });
-    },
-    render() {
-        const { getFieldProps, getFieldValue } = this.props.form;
-        getFieldProps('keys', {
-            initialValue: [0],
-        });
+];
 
-        const formItemLayout = {
-            labelCol: {span: 6},
-            wrapperCol: {span: 18},
-        };
+const data = [{
+    key: '1',
+    name: '胡彦斌',
+    age: 32,
+    address: '西湖区湖底公园0号',
+}, {
+    key: '2',
+    name: '胡彦祖',
+    age: 40,
+    address: '西湖区湖底公园1号',
+}];
 
-        const formItems = getFieldValue('keys').map((k) => {
-            return (
-              <Form.Item {...formItemLayout} label={`备忘${k}：`} key={k}>
-                  <Input {...getFieldProps(`name${k}`, {
-                      rules: [{
-                          required: true,
-                          whitespace: true,
-                          message: '输入事件内容！',
-                      }],
-                  })} style={{ width: '80%', marginRight: 8 }}
-                  />
-                  <Button onClick={() => this.remove(k)}>删除</Button>
-              </Form.Item>
-            );
-        });
-        return (
-          <div className="wrapper">
-              <Form horizontal form={this.props.form}>
-                  {formItems}
-                  <Form.Item wrapperCol={{ span: 18, offset: 6 }}>
-                      <Button onClick={this.add} style={{ marginRight: 8 }}>新增备忘事件</Button>
-                      <Button type="primary" onClick={this.submit}>提交</Button>
-                  </Form.Item>
-              </Form>
-          </div>
-        );
-    },
-});
+function App() {
+    return <Table columns={columns} dataSource={data} scroll={{ x: 3000 }}/>;
+}
 
-Demo = Form.create()(Demo);
-
-ReactDOM.render(<Demo />, document.getElementById("react-content"));
+ReactDOM.render(<App />, document.getElementById("react-content"));
