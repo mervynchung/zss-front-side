@@ -210,12 +210,12 @@ const wspcx = React.createClass({
         //定义工具栏内容
 
         let toolbar = <ToolBar>
-            <Button onClick={this.handleSearchToggle} size="large" type="primary">
+            <Button onClick={this.handleSearchToggle} size="large" >
                 <Icon type="search"/>查询
                 { this.state.searchToggle ? <Icon className="toggle-tip" type="circle-o-up"/> :
                     <Icon className="toggle-tip" type="circle-o-down"/>}
             </Button>
-            <Button type="ghost" size="large"><Link to="spsh"><Icon type="circle-o-left" />返回</Link></Button>
+            <Link to="spsh"><Button type="ghost" size="large"><Icon type="circle-o-left" />返回</Button></Link>
         </ToolBar>;
         const bgxmOptions = this.props.mxbg;
         return <div className="wspxm-swszxsp">

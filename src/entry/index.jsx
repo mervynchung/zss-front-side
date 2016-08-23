@@ -2,7 +2,7 @@ import '../common/lib';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Router, Route, IndexRoute,useRouterHistory} from 'react-router';
-import { createHistory } from 'history'
+import { createHistory,createHashHistory } from 'history'
 import App from '../component/App';
 import Signin from 'module/signin';
 import Dy from 'module/hyhf_new/fpdy/dy.jsx';
@@ -11,7 +11,7 @@ import NotFound from 'module/404notfound'
 import auth from 'common/auth'
 
 //使用browserHistory需要预设basename
-const history = useRouterHistory(createHistory)({
+const history = useRouterHistory(createHashHistory)({
     basename: '/'
 });
 
@@ -51,6 +51,7 @@ const Index = React.createClass({
                 /* 中心端 */
                 //机构管理
                 require('../module/jggl/swscx'),
+                require('../module/jggl/swsslsp'),
 
                 //人员管理
                 require('../module/rygl/rycx'),
@@ -104,6 +105,7 @@ const Index = React.createClass({
 
                 //逐级审核
                 require('../module/spsh'),
+                require('../module/spshlsjl'),
                 require('../module/spsh/module/1'),
                 require('../module/spsh/module/2'),
                 require('../module/spsh/module/3'),
@@ -119,7 +121,10 @@ const Index = React.createClass({
                 require('../module/spsh/module/13'),
                 require('../module/spsh/module/14'),
                 require('../module/spsh/module/15'),
+                require('../module/spsh/module/18'),
                 require('../module/spsh/module/20'),
+                require('../module/spsh/module/38'),
+                require('../module/spsh/module/39'),
                 require('../module/spsh/module/43'),
                 require('../module/spsh/module/44'),
                 require('../module/spsh/module/46'),
@@ -131,11 +136,13 @@ const Index = React.createClass({
                 //数据统计分析 - 注税行业年报表
                 require('../module/xtsjfx/zshynbb/hyjygmqktj'),//行业经营规模情况统计
 
-                //数据统计分析 - 系统统计报表
+               //数据统计分析 - 系统统计报表
                 require('../module/xtsjfx/xttjbb/swsqktjA'), //事务所情况统计A
                 require('../module/xtsjfx/xttjbb/hyryqktj'), //行业人员情况统计
                 require('../module/xtsjfx/xttjbb/swsqktj_b'),//事务所情况统计B
-                require('../module/xtsjfx/xttjbb/swszttj'),//税务师
+                require('../module/xtsjfx/xttjbb/swszttj'),//税务师 
+                require('../module/xtsjfx/xttjbb/zyswszjtj'),//税务师转籍统计
+                require('../module/xtsjfx/xttjbb/zyswszctj'),//税务师转出统计
 
                 //数据统计分析 - 系统业务报表
                 require('../module/xtsjfx/xtywbb/ndjysrtj'), //年度经营收入统计 
@@ -149,9 +156,14 @@ const Index = React.createClass({
                 require('../module/xtsjfx/sjfx/ryztsjfx'),
 
                 //会员会费缴纳
+
                 require('../module/hyhf_new/hyhfjnqk'),
                 require('../module/hyhf_new/fpdy'),
                 require('../module/hyhf_new/fzyhyhf'),
+                require('../module/hyhf_new/scgl'),
+
+                //证照打印管理
+                require('../module/zzdygl/zyglscdy'),
 
 
                 //客户端
@@ -161,7 +173,7 @@ const Index = React.createClass({
                 require('../module/client/jggl/swshb'),
 
                 //人员管理
-                require('../module/client/swsrygl/zyrygl'),
+               require('../module/client/swsrygl/zyrygl'),
 
                 //财务报表上传
                 require('../module/client/cwbb/lrb'),
@@ -179,13 +191,18 @@ const Index = React.createClass({
            
                 //业务管理
                 require('../module/client/ywgl/khxxgl'), //客户信息管理
-                require('../module/client/ywgl/ywbb') //事务所业务报备
+                require('../module/client/ywgl/ywbb'), //事务所业务报备
+
+
+                //公用功能
+                //修改密码
+                require('../module/updatepass')
             ]
         }, {
             path: '/signin',
             component: Signin
         },{
-            path: '/hyhf/fpdy/dy',
+            path: '/print/hyhf/fpdy',
             component: Dy
         }, {
             path: '*',

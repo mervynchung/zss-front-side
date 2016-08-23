@@ -1,9 +1,9 @@
 import React from 'react'
-import {Row,Col,Form,Button,Input,Modal,DatePicker,Select} from 'antd'
+import {  DatePicker,Modal,Form, Input, Select,Table, Icon,Tabs,Button,Row,Col,message }from 'antd'
 
 const FormItem = Form.Item;
 const createForm = Form.create;
-
+const Option = Select.Option;
 let searchForm = React.createClass({
     getDefaultProps(){
         return {
@@ -15,49 +15,33 @@ let searchForm = React.createClass({
         this.props.form.resetFields();
         this.handleSubmit(e);
     },
- handleSubmit(e){
+    handleSubmit(e){
         e.preventDefault();
-        this.props.form.validateFields((errors, values) => {//条件校验处理
-      if (!!errors) {
-        alert('条件输入错误');
-        return;
-      }
         let value = this.props.form.getFieldsValue();
         this.props.onSubmit(value);
-    });
     },
     render(){
-        const { getFieldProps } = this.props.form;
-        const formItemLayout = {
-            labelCol: {span: 8},
-            wrapperCol: {span: 16}
-        };
+        const formItemLayout = {//表单样式
+      labelCol: { span: 6 },
+      wrapperCol: { span: 18 },
+    };  
+    const { getFieldProps } = this.props.form;//获取表单输入组件值的特定写法
         return <div className="search-form">
-            <Form horizontal onSubmit={this.handleSubmit} form={this.props.form}>
-                <Row>
-                    <Col span="8">
-                        <FormItem
-                          {...formItemLayout}
-                          label="事务所名称：">
-                            <Input placeholder="事务所名称" {...getFieldProps('dwmc')}/>
-                        </FormItem>
-                    </Col>
-                    <Col span="8">
-                        <FormItem
-                          {...formItemLayout}
-                          label="状态：">
-                            <Select { ...getFieldProps('spzt')} placeholder="选择状态"   >
-                            <Option key="1">审批中</Option>
-                            <Option key="3">不通过</Option>
-                            <Option key="8">已变更</Option>
-                        </Select>
-                        </FormItem>
-                    </Col>
+                <Form horizontal onSubmit={this.handleSubmit} form={this.props.form}>
+                    <Row>
+                            <Col span="10">
+                                    <FormItem label="所属年份：" {...formItemLayout}>
+                                            <DatePicker  { ...getFieldProps('nd')} >
+                                            </DatePicker>
+                                    </FormItem> 
+                            </Col>
+                            <Col style={{float:'right'}}>
+                                    <Button type="primary" htmlType="submit">查询</Button>
+                                    <span className="ant-divider"></span>
+                                    <Button type="ghost" onClick={this.handleReset}>重置</Button>
+                            </Col>
+
                     </Row>
-                <Row>
-                    <Col span="2" offset="20"><Button type="primary" htmlType="submit">查询</Button></Col>
-                    <Col span="2"><Button type="ghost" onClick={this.handleReset}>重置</Button></Col>
-                </Row>
             </Form>
         </div>
     }

@@ -232,7 +232,7 @@ tthf(zje) {//团体会费校验规则方法
 
   },
   print(row){
-    window.open("/hyhf/fpdy/dy?"+encodeURIComponent(JSON.stringify(row)));
+    window.open("#/print/hyhf/fpdy?"+encodeURIComponent(JSON.stringify(row)));
   },
 ztRender(text, row, index) {
     var that=this;
@@ -351,11 +351,6 @@ ztRender(text, row, index) {
                   dataIndex: 'DYCS',
                   key: 'DYCS',
                 },{
-                  title: '操作',
-                  dataIndex: 'dy',
-                  key: 'dy',
-                  render:this.ztRender
-                },{
                   title: '分配人',
                   dataIndex: 'GGR',
                   key: 'GGR',
@@ -367,6 +362,12 @@ ztRender(text, row, index) {
                   title: '原金额',
                   dataIndex: 'YJE',
                   key: 'YJE',
+                },{
+                  title: '操作',
+                  dataIndex: 'dy',
+                  key: 'dy',
+                  fixed:'right',
+                  render:this.ztRender
                 },
             ];
     let toolbar = <ToolBar><div>
@@ -375,7 +376,7 @@ ztRender(text, row, index) {
         { this.state.searchToggle ? <Icon className="toggle-tip" type="arrow-up"/> :
           <Icon className="toggle-tip" type="arrow-down"/>}
       </Button><span className="ant-divider"></span>
-      <Button type="ghost"  ><Link to="hyhf/hyhfjnqk">返回会费缴纳</Link></Button>
+      <Link to="hyhf/hyhfjnqk"><Button type="ghost"  >返回会费缴纳</Button></Link>
     </div>
     </ToolBar>;
     return <div className="fpdy">

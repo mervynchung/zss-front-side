@@ -7,7 +7,7 @@ import SearchForm from './searchForm'
 import config from 'common/configuration'
 
 
-const API_URL = config.HOST + config.URI_API_PROJECT + '/wsbbbcx1';
+const API_URL = config.HOST + config.URI_API_PROJECT + '/spapi/lsspjlcx';
 const ToolBar = Panel.ToolBar;
 const ButtonGroup = Button.Group;
 
@@ -24,12 +24,11 @@ const lrb = React.createClass({
                 showQuickJumper: true,
                 pageSizeOptions: ['5', '10', '20']
                  },
-            searchToggle: true,
+            searchToggle: false,
             where: '',
-            helper: true,
+            helper: false,
             entity: '',
-            detailHide: true,
-            tables:false,
+            detailHide: true
         }
     },
 
@@ -38,7 +37,6 @@ const lrb = React.createClass({
         const pager = this.state.pagination;
         pager.current = pagination.current;
         pager.pageSize = pagination.pageSize;
-        this.setState({pagination: pager});
         this.fetchData({
             pagenum: pager.current,
             pagesize: pager.pageSize,
@@ -46,6 +44,18 @@ const lrb = React.createClass({
         })
     },
 
+    //查询按钮
+    handleSearchToggle(){
+        this.setState({searchToggle: !this.state.searchToggle});
+    },
+
+    //刷新按钮
+    handleRefresh(){
+        const pager = this.state.pagination;
+        pager.current = 1;
+        this.setState({pagination: pager, where: ''});
+        this.fetchData();
+    },
 
     //帮助按钮
     handleHelper(){
@@ -60,18 +70,17 @@ const lrb = React.createClass({
     handleSearchSubmit(value){
         const pager = this.state.pagination;
         pager.current = 1;
-        const params = {
+        this.setState({pagination: pager, where: value});
+        this.fetchData({
             pagenum: 1,
             pagesize: pager.pageSize,
             where: encodeURIComponent(JSON.stringify(value))
-        };
-        this.setState({pagination: pager, where: value});
-        this.fetchData(params)
+        })
     },
 
 
     //通过API获取数据
-    fetchData(params = {pagenum: 1, pagesize: this.state.pagination.pageSize}){
+    fetchData(params = {pagenum: this.state.pagination.current, pagesize: this.state.pagination.pageSize}){
         this.setState({loading: true});
         req({
             url: API_URL,
@@ -86,9 +95,7 @@ const lrb = React.createClass({
             };
             this.setState({
                 data: resp.data,
-                pagination: p,
-                loading: false,
-                tables:true,
+                loading: false
             })
         }).fail(err=> {
             this.setState({loading: false});
@@ -103,44 +110,54 @@ const lrb = React.createClass({
         })
     },
 
+    componentDidMount(){
+        this.fetchData();
+    },
 
     render(){
         //定义工具栏内容
         let toolbar = <ToolBar>
+            <Button onClick={this.handleSearchToggle}>
+                <Icon type="search"/>查询
+                { this.state.searchToggle ? <Icon className="toggle-tip" type="circle-o-up"/> :
+                    <Icon className="toggle-tip" type="circle-o-down"/>}
+            </Button>
 
             <ButtonGroup>
                 <Button type="primary" onClick={this.handleHelper}><Icon type="question"/></Button>
+                <Button type="primary" onClick={this.handleRefresh}><Icon type="reload"/></Button>
             </ButtonGroup>
         </ToolBar>;
 
         //定义提示内容
         let helper = [];
-        helper.push(<p key="helper-0">选择报表类型和年度，<b>点击查询按钮</b>，查看该类报表当年度未上报报表事务所及其信息</p>);
-        helper.push(<p key="helper-1">系统默认选择当前时间应上报报表年度，默认类型为税务师事务所基本情况统计表（表1)</p>);
+        helper.push(<p key="helper-0">本页显示所有审批申请记录包括审批中和已审批两种状态</p>);
+        helper.push(<p key="helper-1">只显示前1000条记录</p>);
 
-        return <div className="wsbbbcx">
+        return <div className="spshlsjl">
             <div className="wrap">
-                {this.state.helper && <Alert message="未上报报表查询帮助"
+                {this.state.helper && <Alert message="审批历史记录查询帮助"
                                              description={helper}
                                              type="info"
                                              closable
                                              onClose={this.handleHelperClose}/>}
 
-                <Panel title="事务所基本情况表" toolbar={toolbar}>
+                <Panel title="审批历史记录表" toolbar={toolbar}>
                     {this.state.searchToggle && <SearchForm
                         onSubmit={this.handleSearchSubmit}/>}
                     <div className="h-scroll-table">
-                      {this.state.tables && <Table columns={columns}
+                        <Table columns={columns}
                                dataSource={this.state.data}
                                pagination={this.state.pagination}
                                loading={this.state.loading}
-                               onChange={this.handleChange} />}
+                               onChange={this.handleChange}
+                               onRowClick={this.handleRowClick}/>
                     </div>
                 </Panel>
+                
             </div>
         </div>
     }
 });
 
 module.exports = lrb;
-  

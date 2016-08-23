@@ -87,7 +87,7 @@ let stage = React.createClass({
                       onOk={this.handleOk}
                       onCancel={this.closeCustomer} />
 
-            <Form horizontal form={this.props.form}>
+            <Form horizontal >
                 <Row>
                     <Col span="24">
                         <FormItem

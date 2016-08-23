@@ -123,7 +123,7 @@ const autoform = {
  name: '是否发起人：', }, 
     {
  id:'rydazt',
- name: '人事档案状态：', }, 
+ name: '人事档案状态：',groupspan: 2 }, 
     
   ]
 }

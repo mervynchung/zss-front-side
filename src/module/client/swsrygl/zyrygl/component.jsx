@@ -336,7 +336,7 @@ const rycx = React.createClass({
                           content='变更项目提交后将提交中心管理端审批，在变更审批完成前，将不能再进行变更操作' />
                          </Spin></Panel>}
                         {this.state.czAll==2 &&<Panel title="转非执业" toolbar={toolbar2}>
-                        <Spin spinning={this.state.sloading}><p className="nbjgsz"><b style={{'padding':'10px'}}>{this.state.dataxx.xm} 注销备案申请</b></p>
+                        <Spin spinning={this.state.sloading}><p className="nbjgsz"><b style={{'padding':'10px'}}>{this.state.dataxx.xm} 转非执业申请</b></p>
                         <CompInputBaseTable data={this.state.dataxx}  model={Model.autoform2} bordered striped reset showConfirm
                         onSubmit={this.handleBGSubmit} bgmc={Model.bgmc} disabled={this.state.onSubmitZT} 
                         submitLoading={this.state.bgLoading} title='您是否确认提交以上信息？'  
