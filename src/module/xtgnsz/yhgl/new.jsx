@@ -269,7 +269,7 @@ let editForm = React.createClass({
                         </Col>
                         {this.state.jgDisplay && <Col span="12">
                             <FormItem
-                              labelCol={{span: 6}} wrapperCol={{span: 12}}
+                              labelCol={{span: 6}} wrapperCol={{span: 14}}
                               label="选择所属事务所">
                                 <Input style={{width:'70%'}} disabled {...getFieldProps('jgMc')}/> &nbsp;
                                 <Button type="ghost" onClick={this.getJg}>查询</Button>
