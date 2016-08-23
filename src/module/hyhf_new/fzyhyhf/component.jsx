@@ -417,7 +417,7 @@ let lrb = React.createClass({
               <span className="ant-divider"></span>
               <Button type="ghost"  ><Upload {...props}><Icon type="upload" />批量缴费</Upload></Button>
               <span className="ant-divider"></span>
-              <Button type="ghost"  ><Link to="hyhf/scgl?fzy">上传管理</Link></Button>
+              <Link to="hyhf/scgl?fzy"><Button type="ghost"  >上传管理</Button></Link>
             </div>
         </ToolBar>;
         const { getFieldProps } = this.props.form;

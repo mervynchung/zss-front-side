@@ -251,9 +251,9 @@ ztRender(text, row, index) {
       </Button><span className="ant-divider"></span>
       <Button type="ghost"  ><Upload {...props}><Icon type="upload" />上传数据</Upload></Button>
       <span className="ant-divider"></span>
-      <Button type="ghost"  ><Link to="hyhf/scgl?zy">上传管理</Link></Button>
+      <Link to="hyhf/scgl?zy"><Button type="ghost"  >上传管理</Button></Link>
       <span className="ant-divider"></span>
-      <Button type="ghost"  ><Link to="hyhf/fpdy">发票打印</Link></Button>
+      <Link to="hyhf/fpdy"><Button type="ghost"  >发票打印</Button></Link>
     </div>
     </ToolBar>;
     
