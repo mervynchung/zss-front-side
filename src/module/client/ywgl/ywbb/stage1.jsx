@@ -187,7 +187,7 @@ let stage = React.createClass({
 
         return <Panel title="填写业务详细资料" className="stage">
 
-            <Form horizontal form={this.props.form}>
+            <Form horizontal>
                 <Row>
                     <Col span="6">
                         <FormItem
@@ -321,7 +321,7 @@ let stage = React.createClass({
                 </Row>
 
                 <Row>
-                    <Col span="4" offset="10">
+                    <Col span="10" offset="10">
                         <Button
                           size="large"
                           style={{marginRight:'16px'}}

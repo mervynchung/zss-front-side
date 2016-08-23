@@ -192,7 +192,7 @@ let editForm = React.createClass({
                     onCancel={this.closeJg}/>
 
                 <div className="new-form">
-                    <Form horizontal onSubmit={this.handleSubmit} form={this.props.form}>
+                    <Form horizontal onSubmit={this.handleSubmit}>
                         <Row>
                             <Col span="24">
                                 <FormItem

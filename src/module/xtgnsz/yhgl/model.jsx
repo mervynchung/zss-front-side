@@ -67,7 +67,7 @@ module.exports = {
             title: '操作',
             key: 'operation',
             fixed: 'right',
-            width: 120,
+            width: 150,
             render: (text, record) => {
                 return <span>
                     <a onClick={()=>handleEdit(record)}>编辑</a> &nbsp;&nbsp;
