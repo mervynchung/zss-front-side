@@ -19,7 +19,7 @@ let stage = React.createClass({
         const { getFieldProps } = this.props.form;
         return <Panel title="确认事务所资料" className="stage">
 
-            <Form horizontal form={this.props.form}>
+            <Form horizontal>
                 <Row>
                     <Col span="12">
                         <FormItem

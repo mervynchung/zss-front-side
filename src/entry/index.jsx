@@ -1,7 +1,7 @@
 import '../common/lib';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Router, Route, IndexRoute,useRouterHistory} from 'react-router';
+import {Router, Route, IndexRoute,useRouterHistory,hashHistory} from 'react-router';
 import { createHistory } from 'history'
 import App from '../component/App';
 import Signin from 'module/signin';
@@ -62,7 +62,7 @@ const Index = React.createClass({
 
                 //业务管理
 
-              /*  require('../module/ywgl/ywbbgl'),
+                require('../module/ywgl/ywbbgl'),
                 require('../module/ywgl/ywzlgl/sfjeyjgl'),
                 require('../module/ywgl/ywzlgl/ndbtyjgl'),
                 require('../module/ywgl/ywzlgl/ywwtyjgl'),
@@ -102,7 +102,7 @@ const Index = React.createClass({
                 require('../module/jdjc/zyswsnjb'),
                 require('../module/jdjc/swsnj'),
 
-                *///逐级审核
+                //逐级审核
                 require('../module/spsh'),
                 require('../module/spshlsjl'),
                 require('../module/spsh/module/1'),
@@ -126,7 +126,7 @@ const Index = React.createClass({
                 require('../module/spsh/module/39'),
                 require('../module/spsh/module/43'),
                 require('../module/spsh/module/44'),
-                require('../module/spsh/module/46'),/*
+                require('../module/spsh/module/46'),
 
                 //数据统计分析 - 年检数据分析
                 require('../module/xtsjfx/njsjfx/rynjsjfx'),//人员年检数据分析
@@ -135,11 +135,13 @@ const Index = React.createClass({
                 //数据统计分析 - 注税行业年报表
                 require('../module/xtsjfx/zshynbb/hyjygmqktj'),//行业经营规模情况统计
 
-                //数据统计分析 - 系统统计报表
+               //数据统计分析 - 系统统计报表
                 require('../module/xtsjfx/xttjbb/swsqktjA'), //事务所情况统计A
                 require('../module/xtsjfx/xttjbb/hyryqktj'), //行业人员情况统计
                 require('../module/xtsjfx/xttjbb/swsqktj_b'),//事务所情况统计B
-                require('../module/xtsjfx/xttjbb/swszttj'),//税务师
+                require('../module/xtsjfx/xttjbb/swszttj'),//税务师 
+                require('../module/xtsjfx/xttjbb/zyswszjtj'),//税务师转籍统计
+                require('../module/xtsjfx/xttjbb/zyswszctj'),//税务师转出统计
 
                 //数据统计分析 - 系统业务报表
                 require('../module/xtsjfx/xtywbb/ndjysrtj'), //年度经营收入统计 
@@ -152,11 +154,15 @@ const Index = React.createClass({
                 require('../module/xtsjfx/sjfx/hynlsjfx'),//行业年龄数据分析
                 require('../module/xtsjfx/sjfx/ryztsjfx'),
 
-               */ //会员会费缴纳
+                //会员会费缴纳
+
                 require('../module/hyhf_new/hyhfjnqk'),
                 require('../module/hyhf_new/fpdy'),
                 require('../module/hyhf_new/fzyhyhf'),
                 require('../module/hyhf_new/scgl'),
+
+                //证照打印管理
+                require('../module/zzdygl/zyglscdy'),
 
 
                 //客户端
@@ -183,8 +189,13 @@ const Index = React.createClass({
                 require('../module/client/sdsb/jysrqkb'),
            
                 //业务管理
-                require('../module/client/ywgl/khxxgl'), //客户信息管理*/
-                require('../module/client/ywgl/ywbb') //事务所业务报备
+                require('../module/client/ywgl/khxxgl'), //客户信息管理
+                require('../module/client/ywgl/ywbb'), //事务所业务报备
+
+
+                //公用功能
+                //修改密码
+                require('../module/updatepass')
             ]
         }, {
             path: '/signin',
@@ -196,7 +207,7 @@ const Index = React.createClass({
             path: '*',
             component: NotFound
         }];
-        return <Router history={history} routes={routes}/>
+        return <Router history={hashHistory} routes={routes}/>
     }
 });
 ReactDOM.render(<Index/>, document.getElementById('app'));
