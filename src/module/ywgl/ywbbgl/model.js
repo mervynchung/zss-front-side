@@ -5,41 +5,44 @@
 const model = {
     columns: [{
         title: '年度',
-        dataIndex: 'ND',
-        key: 'ND',
-        width: '60px'
+        dataIndex: 'nd',
+        key: 'nd',
+        width: 60
     }, {
         title: '事务所名称',
-        dataIndex: 'SWSMC',
-        key: 'SWSMC',
+        dataIndex: 'swsmc',
+        key: 'swsmc',
+        width: 300
     }, {
         title: '业务发生地',
-        key: 'CS',
-        dataIndex: 'CS',
+        key: 'cs',
+        dataIndex: 'cs',
     }, {
         title: '业务类型',
-        key: 'YWLX',
-        dataIndex: 'YWLX',
-        width: '100px',
+        key: 'ywlx',
+        dataIndex: 'ywlx',
+        width: 150
     }, {
         title: '协议金额',
-        key: 'XYJE',
-        dataIndex: 'XYJE',
+        key: 'xyje',
+        dataIndex: 'xyje',
     }, {
         title: '报备号码',
-        key: 'BBHM',
-        dataIndex: 'BBHM',
+        key: 'bbhm',
+        dataIndex: 'bbhm',
     }, {
         title: '报备日期',
-        key: 'BBRQ',
-        dataIndex: 'BBRQ',
+        key: 'bbrq',
+        dataIndex: 'bbrq',
     }, {
-        title: '验证码',
-        key: 'YZM',
-        dataIndex: 'YZM',
+        title: '业务状态',
+        key: 'ywzt',
+        dataIndex: 'ywzt'
     },{
-        id: 'ACTION',
-        name: '操作',
+        title: '操作',
+        key:'action',
+        fix:'right',
+        width: 200,
         render(){
             return <span><a>退回</a></span>
         }

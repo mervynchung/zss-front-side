@@ -24,7 +24,7 @@ const list = React.createClass({
             pagination: {
                 current: 1,
                 showSizeChanger: true,
-                pageSize: 10,
+                pageSize: 5,
                 showQuickJumper: true,
                 pageSizeOptions: ['10', '20', '40'],
                 showTotal (total) {
@@ -34,7 +34,7 @@ const list = React.createClass({
         }
     },
     //通过API获取数据
-    fetchData(params = {page: 1, pagesize: 10}){
+    fetchData(params = {page: 1, pagesize: 5}){
         this.setState({loading:true});
         req({
             url: API_URL,
@@ -146,7 +146,7 @@ const list = React.createClass({
                        loading={this.state.loading}
                        onChange={this.handleChange}
                        rowKey={record => record.ID}
-                       onRowClick={this.handleRowClick}/>
+                       onRowClick={this.handleRowClick} scroll={{ x: 1000 }}/>
             </Panel>
         </div>
 
