@@ -191,9 +191,8 @@ const swsnjb = React.createClass({
 
     //点击某行
     fetchData2(record) {
-        
         req({
-            url: API_URL + '/' + record.id,
+            url: API_URL + '/' + record.ID,
             type: 'json',
             method: 'get',
             headers:{'x-auth-token':auth.getToken()},
@@ -286,7 +285,7 @@ function ddd() {
    
 }
 function look() {
-    
+     console.log(record);
      that.fetchData2(record)
      that.setState({update: true})
 }

@@ -74,11 +74,6 @@ let Addswsnj = React.createClass({
         <Form horizontal onSubmit={this.handleSubmit}>
             
             
-                
-                
-
-
-
 <Row>
 <Col span="12">
 <FormItem labelCol={{span: 9}} wrapperCol={{span:12}}
@@ -103,7 +98,7 @@ label="年度">
 </Col>
 <Col span="12">
 <FormItem labelCol={{span: 9}} wrapperCol={{span:12}} label="所长姓名：">
-<Input{...getFieldProps('dwmc')}/>
+<Input{...getFieldProps('sz')}/>
 </FormItem>
 
 </Col>
