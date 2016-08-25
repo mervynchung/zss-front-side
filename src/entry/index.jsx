@@ -204,6 +204,12 @@ const Index = React.createClass({
             path: '/print/hyhf/fpdy',
             component: Dyfp
         }, {
+            path: '/print/zzdygl/glscry',
+            component: Dyfp
+        }, {
+            path: '/print/hyhf/fpdy',
+            component: Dyfp
+        }, {
             path: '*',
             component: NotFound
         }];
