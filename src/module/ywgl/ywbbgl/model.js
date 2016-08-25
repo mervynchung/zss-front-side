@@ -21,7 +21,7 @@ const model = {
         title: '业务类型',
         key: 'ywlx',
         dataIndex: 'ywlx',
-        width: 150
+        width: 200
     }, {
         title: '协议金额',
         key: 'xyje',
@@ -41,8 +41,8 @@ const model = {
     },{
         title: '操作',
         key:'action',
-        fix:'right',
-        width: 200,
+        fixed:'right',
+        width: 100,
         render(){
             return <span><a>退回</a></span>
         }

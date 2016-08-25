@@ -1,10 +1,11 @@
 import React from 'react'
-import {Table, Row, Col, Button, Icon, notification} from 'antd'
+import {Table, Row, Col, Button, Icon, notification, Alert} from 'antd'
 import Panel from 'component/compPanel'
 import req from 'reqwest';
 import SearchForm from './searchForm'
 import config from 'common/configuration'
 import model from './model'
+import {isEmptyObject,jsonCopy} from 'common/utils'
 
 const API_URL = config.HOST + config.URI_API_PROJECT + '/ywbb';
 const ToolBar = Panel.ToolBar;
@@ -15,16 +16,16 @@ const list = React.createClass({
     //初始化state
     getInitialState(){
         return {
-            loading:false,
+            loading: false,
             data: [],
             entity: '',
-            where: '',
+            where: {},
             searchToggle: false,
             helper: false,
             pagination: {
                 current: 1,
                 showSizeChanger: true,
-                pageSize: 5,
+                pageSize: 2,
                 showQuickJumper: true,
                 pageSizeOptions: ['10', '20', '40'],
                 showTotal (total) {
@@ -34,8 +35,13 @@ const list = React.createClass({
         }
     },
     //通过API获取数据
-    fetchData(params = {page: 1, pagesize: 5}){
-        this.setState({loading:true});
+    fetchData(params = {page: 1, pagesize: 2}){
+        this.setState({loading: true});
+        let where = {};
+        if(!isEmptyObject(params.where)){
+            where = jsonCopy(params.where);
+            params.where = encodeURIComponent(JSON.stringify(params.where))
+        }
         req({
             url: API_URL,
             type: 'json',
@@ -43,8 +49,13 @@ const list = React.createClass({
             data: params
         }).then(resp=> {
             const p = this.state.pagination;
-            p.total = resp.total;
-            this.setState({data: resp.data, pagination: p, loading: false})
+            p.current = params.page;
+            p.pageSize = params.pagesize;
+            p.total = resp.total > 1000 ? 1000 : resp.total;
+            p.showTotal = total => {
+                return `共 ${resp.total} 条，显示前 ${total} 条`
+            };
+            this.setState({data: resp.data, pagination: p, loading: false,where:where})
         }).fail(e=> {
             this.setState({loading: false});
             notification.error({
@@ -59,15 +70,13 @@ const list = React.createClass({
     handleChange(pagination, filters, sorter){
         let param = {
             page: pagination.current,
-            pagesize: pagination.pageSize
+            pagesize: pagination.pageSize,
+            where:this.state.where
         };
-        if(this.state.where){
-            param.where = encodeURIComponent(JSON.stringify(this.state.where))
-        }
         this.fetchData(param)
     },
 
-    //查询按钮
+    //查询按钮开关
     handleSearchToggle(){
         this.setState({searchToggle: !this.state.searchToggle});
     },
@@ -76,19 +85,19 @@ const list = React.createClass({
         //首先处理搜索表单提交的信息，将字符串去首尾空格，将空值的搜索条件丢弃
         const values = {};
         for (let prop in commitValues) {
-            if (commitValues[prop]){
-                if(typeof commitValues[prop] == 'string' && !!commitValues[prop].trim()) {
+            if (commitValues[prop]) {
+                if (typeof commitValues[prop] == 'string' && !!commitValues[prop].trim()) {
                     values[prop] = commitValues[prop].trim()
-                }else {
+                } else {
                     values[prop] = commitValues[prop]
                 }
             }
         }
         const p = this.state.pagination;
         const param = {
-            page:1,
-            pageSize:p.pageSize,
-            where: encodeURIComponent(JSON.stringify(values))
+            page: 1,
+            pageSize: p.pageSize,
+            where: values
         };
         fetchData(param);
     },
@@ -96,12 +105,10 @@ const list = React.createClass({
     //刷新按钮
     handleRefresh(){
         const p = this.state.pagination;
-        p.current = 1;
-        this.setState({pagination: p, where: ''});
-        this.fetchData({page:1,pagesize:p.pageSize});
+        this.fetchData({page: 1, pagesize: p.pageSize});
     },
 
-    //帮助按钮
+    //帮助按钮开关
     helperToggle(){
         this.setState({helper: !this.state.helper})
     },
@@ -118,7 +125,7 @@ const list = React.createClass({
 
     },
     render(){
-        const {title} = this.props;
+        const {title, helperTitle, helperDesc, scrollx,keyCol} = this.props;
         let toolbar = <ToolBar>
             <Button onClick={this.handleSearchToggle}>
                 <Icon type="search"/>查询
@@ -127,16 +134,16 @@ const list = React.createClass({
             </Button>
 
             <ButtonGroup>
-                <Button type="primary" onClick={this.handleHelper}><Icon type="question"/></Button>
+                <Button type="primary" onClick={this.helperToggle}><Icon type="question"/></Button>
                 <Button type="primary" onClick={this.handleRefresh}><Icon type="reload"/></Button>
             </ButtonGroup>
         </ToolBar>;
         return <div>
-            {this.state.helper && <Alert message="业务报备使用帮助"
-                                         description={helper}
+            {this.state.helper && <Alert message={helperTitle}
+                                         description={helperDesc}
                                          type="info"
                                          closable
-                                         onClose={this.handleHelperClose}/>}
+                                         onClose={this.helperClose}/>}
             <Panel title={title} toolbar={toolbar}>
                 {this.state.searchToggle && <SearchForm
                     onSubmit={this.handleSearchSubmit}/>}
@@ -145,8 +152,8 @@ const list = React.createClass({
                        pagination={this.state.pagination}
                        loading={this.state.loading}
                        onChange={this.handleChange}
-                       rowKey={record => record.ID}
-                       onRowClick={this.handleRowClick} scroll={{ x: 1000 }}/>
+                       rowKey={record => record[keyCol]}
+                       onRowClick={this.handleRowClick} scroll={{x: scrollx}}/>
             </Panel>
         </div>
 
