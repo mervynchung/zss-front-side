@@ -51,136 +51,200 @@ const pageSetting = { //分页设置
   current:1,
 }
 
-const columnsSwsqkBgjl=[{
-  title:'变更名称',
-  dataIndex:'bgmc',
-  key:'bgmc',
-  width:'250'
-},{
-  title:'旧值',
-  dataIndex:'jzhi',
-  key:'jzhi',
-  width:'35%'
-},{
-  title:'新值',
-  dataIndex:'xzhi',
-  key:'xzhi'
-},{
-  title:'更新时间',
-  dataIndex:'gxsj',
-  key:'gxsj',
-  width:'100'
-}
-];
-
-const autoformXxzl={
-  colGroupNum: 2,
-  props:[
+const autoformXxzl = {
+   colGroupNum: 2,
+  props: [
     {
-      id:'dwmc',
-      name:'单位名称：'
-    },{
-      id:'cs',
-      name:'所在城市：'
-    },{
-      id:'fddbr',
-      name:'法定代表人：'
-    },{
-      id:'dz',
-      name:'地址：'
-    },{
-      id:'yzbm',
-      name:'邮政编码：'
-    },{
-      id:'dh',
-      name:'电话：'
-    },{
-      id:'cz',
-      name:'传真：'
-    },{
-      id:'jgxz',
-      name:'机构性质：'
-    },{
-      id:'zsbh',
-      name:'证书编号：'
-    },{
-      id:'zczj',
-      name:'注册资金（万元）：'
-    },{
-      id:'jyfw',
-      name:'经营范围：'
-    },{
-      id:'swdjhm',
-      name:'税务登记号码：'
-    },{
-      id:'jgdmzh',
-      name:'机构代码证号：'
-    },{
-      id:'zrs',
-      name:'总人数：'
-    },{
-      id:'dzyj',
-      name:'电子邮件：'
-    },{
-      id:'sqslsj',
-      name:'申请设立时间：'
-    },{
-      id:'sjsbwh',
-      name:'省局上报文号：'
-    },{
-      id:'sjsbzjsj',
-      name:'省局上报总局时间：'
-    },{
-      id:'zjpzwh',
-      name:'总局批准文号：'
-    },{
-      id:'zjpzsj',
-      name:'总局批准时间：'
-    },{
-      id:'sjzfwh',
-      name:'省局转发文号：'
-    },{
-      id:'sjzfsj',
-      name:'省局转发时间：'
-    },{
-      id:'zsclsj',
-      name:'正式成立时间：'
-    },{
-      id:'yyzzh',
-      name:'营业执照号：'
-    },{
-      id:'khh',
-      name:'开户行：'
-    },{
-      id:'khhzh',
-      name:'开户行账号：'
-    },{
-      id:'qkjj',
-      name:'情况简介：'
-    }
+ id:'xm',
+ name: '姓名：', }, 
+    {
+ id:'dwmc',
+ name: '所属机构：', }, 
+    {
+ id:'cs',
+ name: '所在城市：', }, 
+    {
+ id:'xb',
+ name:  '性别：', }, 
+    {
+ id:'mz',
+ name:  '民族：', }, 
+    {
+ id:'csny',
+ name:  '出生年月：', }, 
+    {
+ id:'xl',
+ name:  '学历：', }, 
+    {
+ id:'sfzh',
+ name:  '身份证号码：', }, 
+    {
+ id:'zzmm',
+ name:  '政治面貌：', }, 
+    {
+ id:'txdz',
+ name: '通讯地址：', }, 
+    {
+ id:'yddh',
+ name: '移动电话：', }, 
+    {
+ id:'yzbm',
+ name:  '邮政编码：', }, 
+    {
+ id:'zw',
+ name: '职务（职称）：', }, 
+    {
+ id:'dhhm',
+ name:  '电话号码：', }, 
+    {
+ id:'byyx',
+ name:  '毕业院校：', }, 
+    {
+ id:'zyzgzsbh',
+ name:  '执业资格证书编号：', }, 
+    {
+ id:'bysj',
+ name:  '毕业时间：', }, 
+    {
+ id:'qfrq',
+ name: '执业资格证书签发日期：', }, 
+    {
+ id:'ywkssj',
+ name:  '业务开始时间：', }, 
+    {
+ id:'zyzsbh',
+ name: '执业注册（备案）编号：', }, 
+    {
+ id:'zyzcrq',
+ name: '执业注册日期：', }, 
+    {
+ id:'grhybh',
+ name: '个人会员注册号：', }, 
+    {
+ id:'rhsj',
+ name: '入会时间：', }, 
+    {
+ id:'czr',
+ name: '是否出资人：', }, 
+    {
+ id:'cze',
+ name: '出资额（万元）：', }, 
+    {
+ id:'fqr',
+ name: '是否发起人：', }, 
+    {
+ id:'rydazt',
+ name: '人事档案状态：',groupspan: 2 }, 
+    
   ]
 };
 
-const columnsNbjg=[{
-  title:'机构名称',
-  dataIndex:'jgmc',
-  key:'jgmc'
+const columnsZyrybgjl = [{ //设定列
+  title: '变更名称', //设定该列名称
+  dataIndex: 'bgmc', //设定该列对应后台字段名
+  key: 'bgmc', //列key，必须设置，建议与字段名相同
+}, {
+  title: '旧值',
+  dataIndex: 'jzhi',
+  key: 'jzhi',
+ 
+}, {
+  title: '新值',
+  dataIndex: 'xzhi',
+  key: 'xzhi',
+
 },{
-  title:'基本职能',
-  dataIndex:'jbzn',
-  key:'jbzn'
+  title: '更新时间',
+  dataIndex: 'gxsj',
+  key: 'gxsj',
+
+},]
+const columnsZyryzsjl = [{ //设定列
+  title: '审批状态', //设定该列名称
+  dataIndex: 'spztmc', //设定该列对应后台字段名
+  key: 'spztmc', //列key，必须设置，建议与字段名相同
+}, {
+  title: '本人意见',
+  dataIndex: 'bryj',
+  key: 'bryj',
+ 
+}, {
+  title: '原单位意见',
+  dataIndex: 'ydwyj',
+  key: 'ydwyj',
+
 },{
-  title:'人数',
-  dataIndex:'rs',
-  key:'rs'
-}
-];
+  title: '填报时间',
+  dataIndex: 'tbrq',
+  key: 'tbrq',
+
+},];
+
+const columnsZyryzjjl = [{ //设定列
+  title: '审批状态', //设定该列名称
+  dataIndex: 'spztmc', //设定该列对应后台字段名
+  key: 'spztmc', //列key，必须设置，建议与字段名相同
+}, {
+  title: '转籍原因',
+  dataIndex: 'zjyj',
+  key: 'zjyj',
+ 
+}, {
+  title: '单位意见',
+  dataIndex: 'dwyj',
+  key: 'dwyj',
+
+},{
+  title: '填报日期',
+  dataIndex: 'tbrq',
+  key: 'tbrq',
+
+},];
+
+const columnsZyryzzjl = [{ //设定列
+  title: '转执申请', //设定该列名称
+  dataIndex: 'zzsq', //设定该列对应后台字段名
+  key: 'zzsq', //列key，必须设置，建议与字段名相同
+}, {
+  title: '单位意见',
+  dataIndex: 'dwyj',
+  key: 'dwyj',
+ 
+}, {
+  title: '填报日期',
+  dataIndex: 'tbrq',
+  key: 'tbrq',
+
+},{
+  title: '审批日期',
+  dataIndex: 'spsj',
+  key: 'spsj',
+},];
+
+const ryjl = [{ //设定列
+  title: '起止年月', //设定该列名称
+  dataIndex: 'qzny', //设定该列对应后台字段名
+  key: 'qzny', //列key，必须设置，建议与字段名相同
+}, {
+  title: '何时何地单位工作学习及职称（职务）',
+  dataIndex: 'xxxx',
+  key: 'xxxx',
+ 
+}, {
+  title: '证明人',
+  dataIndex: 'zmr',
+  key: 'zmr',
+
+}];
 
 const model = {
   columns:columns,
   pageSetting:pageSetting,
-  columnsSwsqkBgjl:columnsSwsqkBgjl,
   autoformXxzl:autoformXxzl,
-  columnsNbjg:columnsNbjg
+  columnsZyrybgjl:columnsZyrybgjl,
+  columnsZyryzsjl:columnsZyryzsjl,
+  columnsZyryzjjl:columnsZyryzjjl,
+  columnsZyryzzjl:columnsZyryzzjl,
+  ryjl:ryjl
 } 
 module.exports = model

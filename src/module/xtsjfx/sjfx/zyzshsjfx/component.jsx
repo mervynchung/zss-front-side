@@ -21,11 +21,12 @@ const zyzshsjfx = React.createClass({
             data: [],//用于主查询
             pagination: Model.pageSetting,//从model加载常量
             where:{},
+            urls:{},//详细信息URL
             activeKey:"",
       };
     },
     
-  fetch_swsqktjA(params = {pagenum: this.state.pagination.current, pagesize: this.state.pagination.pageSize}) {
+  fetch_zyzshsj(params = {pagenum: this.state.pagination.current, pagesize: this.state.pagination.pageSize}) {
      this.setState({loading:true,});//主查询加载状态
       req({
             url: API_URL,//默认数据查询后台返回JSON
@@ -62,7 +63,7 @@ const zyzshsjfx = React.createClass({
           success:(result)=>{
             this.setState({
               dataxx:result.data,
-              datalist:result.data.nbjg
+              datalist: result.data.ryjl,//简历的data
             })
           },
           error:(err)=>{
@@ -71,6 +72,12 @@ const zyzshsjfx = React.createClass({
         });
       }else if(tabkey==2){
         this.gettabdata(this.state.urls.herf_bgjl);
+      }else if (tabkey==3) {
+        this.gettabdata(this.state.urls.herf_zsjl);
+      }else if (tabkey==4) {
+        this.gettabdata(this.state.urls.herf_zjjl);
+      }else if (tabkey==5) {
+        this.gettabdata(this.state.urls.herf_zzjl);
       }
     },
 
@@ -99,7 +106,7 @@ const zyzshsjfx = React.createClass({
           const paper = this.state.pagination;     //把this.state.pagination指向paper，与setState异曲同工，目的是更改单一属性数据
           paper.pageSize = pagination.pageSize;
           paper.current = pagination.current;
-          this.fetch_swsqktjA({//调用主查询
+          this.fetch_zyzshsj({//调用主查询
                 pagenum: pagination.current,
                 pagesize: pagination.pageSize,
                 where:encodeURIComponent(JSON.stringify(tablewhere)),
@@ -107,7 +114,7 @@ const zyzshsjfx = React.createClass({
   },
 
     componentDidMount() { //REACT提供懒加载方法，懒加载时使用，且方法名必须为componentDidMount
-      this.fetch_swsqktjA(); //异步调用后台服务器方法fetch_rycx
+      this.fetch_zyzshsj(); //异步调用后台服务器方法fetch_rycx
     },
 
     callback(key) {//tab标签变化返回值与方法
@@ -129,7 +136,7 @@ const zyzshsjfx = React.createClass({
       this.setState({where:value});
       const paper = this.state.pagination;     //把当前页重置为1
         paper.current = 1;
-       this.fetch_swsqktjA({//调用主查询
+       this.fetch_zyzshsj({//调用主查询
         pagenum: 1,
         pagesize: this.state.pagination.pageSize,
         where:encodeURIComponent(JSON.stringify(value)),
@@ -157,15 +164,12 @@ const zyzshsjfx = React.createClass({
         </Panel>
     </div>
     <Panel>
-    <Tabs type='card' activeKey={this.state.activeKey} onChange={this.callback}>
-      <TabPane tab="详细资料" key="1">
-      <CompBaseTable data = {this.state.dataxx} model ={Model.autoformXxzl} bordered striped />
-      <p className="nbjgsz">内部机构设置：</p>
-      <Table columns={Model.columnsNbjg} dataSource={this.state.datalist} bordered  size="small" />
-      </TabPane>
-      <TabPane tab="变更记录" key="2">
-      <Table columns={Model.columnsSwsqkBgjl} dataSource={this.state.datalist} bordered  size="small"/>
-      </TabPane> 
+    <Tabs type="card" activeKey={this.state.activeKey} onChange={this.callback} key="A">
+                <TabPane tab="详细资料" key="1"><CompBaseTable data = {this.state.dataxx}  model ={Model.autoformXxzl} bordered striped /><p className="nbjgsz">人员简历：</p><Table columns={Model.ryjl} dataSource={this.state.datalist} bordered  size="small" pagination={false} /></TabPane>
+                <TabPane tab="变更记录" key="2"><Table columns={Model.columnsZyrybgjl} dataSource={this.state.datalist} bordered  size="small" /></TabPane>
+                <TabPane tab="转所记录" key="3"><Table columns={Model.columnsZyryzsjl} dataSource={this.state.datalist} bordered  size="small" /></TabPane>
+                <TabPane tab="转籍记录" key="4"><Table columns={Model.columnsZyryzjjl} dataSource={this.state.datalist} bordered  size="small" /></TabPane>
+                <TabPane tab="转执记录" key="5"><Table columns={Model.columnsZyryzzjl} dataSource={this.state.datalist} bordered  size="small" /></TabPane>              
     </Tabs>
     </Panel>
           </div>  
