@@ -51,6 +51,14 @@ let form = React.createClass({
         }
         callback();
     },
+    checkPass2(rule, value, callback) {
+        const { getFieldValue } = this.props.form;
+        if (value && value !== getFieldValue('password1')) {
+            callback('两次输入密码不一致！');
+        } else {
+            callback();
+        }
+    },
     render(){
         const {getFieldProps} = this.props.form;
         const passwdProps = getFieldProps('password1', {

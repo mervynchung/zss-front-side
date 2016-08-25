@@ -1,8 +1,8 @@
 import '../common/lib';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Router, Route, IndexRoute,useRouterHistory,hashHistory} from 'react-router';
-import { createHistory } from 'history'
+import {Router, Route, IndexRoute,useRouterHistory} from 'react-router';
+import { createHistory,createHashHistory } from 'history'
 import App from '../component/App';
 import Signin from 'module/signin';
 import Dyfp from 'module/useforprint/fpdy/dy.jsx';
@@ -11,7 +11,7 @@ import NotFound from 'module/404notfound'
 import auth from 'common/auth'
 
 //使用browserHistory需要预设basename
-const history = useRouterHistory(createHistory)({
+const history = useRouterHistory(createHashHistory)({
     basename: '/'
 });
 
@@ -207,7 +207,7 @@ const Index = React.createClass({
             path: '*',
             component: NotFound
         }];
-        return <Router history={hashHistory} routes={routes}/>
+        return <Router history={history} routes={routes}/>
     }
 });
 ReactDOM.render(<Index/>, document.getElementById('app'));

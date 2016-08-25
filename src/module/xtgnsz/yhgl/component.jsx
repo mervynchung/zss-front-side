@@ -11,11 +11,13 @@ import {jsonCopy} from 'common/utils.js'
 import auth from 'common/auth.js'
 import New from './new.jsx'
 import Edit from './edit.jsx'
+import ResetPass from './resetPass'
 
 const PanelBar = Panel.ToolBar;
 const ButtonGroup = Button.Group;
 const USER_URL = config.HOST + config.URI_API_FRAMEWORK + '/users';
 const ROLE_URL = config.HOST + config.URI_API_FRAMEWORK + '/roles';
+
 const token = auth.getToken();
 //获取用户列表
 const fetchUsers = function (param = {page: 1, pageSize: 10}) {
@@ -48,6 +50,7 @@ const fetchData = async function () {
 const yhgl = React.createClass({
     getInitialState(){
         return {
+            passModal:false,
             edit: '',
             userId:{},
             pageLoading: true,
@@ -235,8 +238,11 @@ const yhgl = React.createClass({
         this.setState({edit: 'edit',userId:record.id})
     },
     //重置密码
-    resetPass(record){
-        
+    resetPassOpen(record){
+        this.setState({passModal:true,userId:record.id})
+    },
+    resetPassClose(){
+        this.setState({passModal:false})
     },
 
     render(){
@@ -247,7 +253,7 @@ const yhgl = React.createClass({
         };
         model.setDel(this.handleDel);
         model.setEdit(this.handleEdit);
-        model.setPass(this.resetPass);
+        model.setPass(this.resetPassOpen);
 
         const panelBar = <PanelBar>
             <Button onClick={this.handleSearchToggle}>
@@ -278,6 +284,9 @@ const yhgl = React.createClass({
 
         return <div className="yhgl">
             <div className="wrap">
+                <ResetPass visible={this.state.passModal}
+                           onClose={this.resetPassClose}
+                           userId={this.state.userId}/>
                 {this.state.edit ? (this.state.edit == 'new' ?
                   <New title="建立新用户"
                        onBack={this.back}
