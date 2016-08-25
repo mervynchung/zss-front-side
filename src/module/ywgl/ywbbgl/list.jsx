@@ -98,7 +98,7 @@ const list = React.createClass({
             pageSize: p.pageSize,
             where: values
         };
-        fetchData(param);
+        this.fetchData(param);
     },
 
     //刷新按钮

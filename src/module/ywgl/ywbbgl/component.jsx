@@ -10,15 +10,17 @@ const c = React.createClass({
 
     componentDidMount(){
     },
+    /*计算column里定义的width总和，没有定义width的列宽按100(px)计算*/
     getColWidth(model){
-        let v = 0;
-        model.columns.map(item=>{
-            v=item.width?v+item.width:v+100;
+        let w = 0;
+        model.columns.map(item=> {
+            w = item.width ? w + item.width : w + 100;
         });
-        return v;
+        return w;
     },
+
     render(){
-        //重新复制一个model对象，令它可以在每次
+        //重新复制一个model对象，使修改不会影响原model对象，避免每次组件渲染时给原model对象累积赋值
         const m = jsonCopy(model);
         m.columns.push({
             title: '操作',

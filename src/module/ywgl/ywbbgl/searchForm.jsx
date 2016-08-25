@@ -1,7 +1,6 @@
 import React from 'react'
-import {Row,Col,Form,Button,Input,Modal,DatePicker} from 'antd'
-import {SelectorCS,SelectorDQ} from 'component/compSelector'
-
+import {Row,Col,Form,Button,Input,DatePicker} from 'antd'
+import {SelectorCS,SelectorYWLX,SelectorYear} from 'component/compSelector'
 import './style.css'
 
 const FormItem = Form.Item;
@@ -35,21 +34,44 @@ let searchForm = React.createClass({
                     <Col span="8">
                         <FormItem
                           {...formItemLayout}
-                          label="事务所名称：">
+                          label="事务所名称">
                             <Input placeholder="事务所名称" {...getFieldProps('swsmc')}/>
                         </FormItem>
                     </Col>
                     <Col span="8">
                         <FormItem
                           {...formItemLayout}
-                          label="业务发生地：">
-                            <SelectorCS { ...getFieldProps('cs')}/>
+                          label="委托单位名称">
+                            <Input placeholder="委托单位名称" {...getFieldProps('wtdw')}/>
                         </FormItem>
                     </Col>
                     <Col span="8">
                         <FormItem
                           {...formItemLayout}
-                          label="报备号码：">
+                          label="业务类型">
+                            <SelectorYWLX placeholder="业务类型" {...getFieldProps('ywlx_dm')}/>
+                        </FormItem>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col span="8">
+                        <FormItem
+                          {...formItemLayout}
+                          label="协议文号">
+                            <Input placeholder="协议文号" {...getFieldProps('xyh')}/>
+                        </FormItem>
+                    </Col>
+                    <Col span="8">
+                        <FormItem
+                          {...formItemLayout}
+                          label="报告文号">
+                            <Input placeholder="报告文号" {...getFieldProps('bgwh')}/>
+                        </FormItem>
+                    </Col>
+                    <Col span="8">
+                        <FormItem
+                          {...formItemLayout}
+                          label="报备号码">
                             <Input placeholder="报备号码" { ...getFieldProps('bbhm')}/>
                         </FormItem>
                     </Col>
@@ -59,9 +81,27 @@ let searchForm = React.createClass({
                         <FormItem
                           {...formItemLayout}
                           label="报备日期：">
-                            <RangePicker { ...getFieldProps('bbrq')}/>
+                            <RangePicker format="yyyy/MM/dd" { ...getFieldProps('bbrq')}/>
                         </FormItem>
                     </Col>
+                    <Col span="8">
+                        <FormItem
+                          {...formItemLayout}
+                          label="报告日期">
+                            <RangePicker format="yyyy/MM/dd" { ...getFieldProps('bgrq')}/>
+                        </FormItem>
+                    </Col>
+                    <Col span="8">
+                        <FormItem
+                          {...formItemLayout}
+                          label="业务发生地">
+                            <SelectorCS { ...getFieldProps('cs_dm')}/>
+                        </FormItem>
+                    </Col>
+
+                </Row>
+                <Row>
+
                     <Col span="8">
                         <FormItem
                           {...formItemLayout}
@@ -73,13 +113,15 @@ let searchForm = React.createClass({
                         <FormItem
                           {...formItemLayout}
                           label="年度：">
-                            <SelectorDQ { ...getFieldProps('nd')}/>
+                            <SelectorYear { ...getFieldProps('nd')}/>
                         </FormItem>
                     </Col>
                 </Row>
                 <Row>
-                    <Col span="2" offset="20"><Button type="primary" htmlType="submit">查询</Button></Col>
-                    <Col span="2"><Button type="ghost" onClick={this.handleReset}>重置</Button></Col>
+                    <Col span="4" offset="20">
+                        <Button type="primary" htmlType="submit" className="query">查询</Button>
+                        <Button type="ghost" onClick={this.handleReset}>重置</Button>
+                    </Col>
                 </Row>
             </Form>
         </div>
