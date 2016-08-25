@@ -5,7 +5,7 @@ import {Router, Route, IndexRoute,useRouterHistory,hashHistory} from 'react-rout
 import { createHistory } from 'history'
 import App from '../component/App';
 import Signin from 'module/signin';
-import Dy from 'module/hyhf_new/fpdy/dy.jsx';
+import Dyfp from 'module/useforprint/fpdy/dy.jsx';
 import {cenHome,clientHome } from '../module/home';
 import NotFound from 'module/404notfound'
 import auth from 'common/auth'
@@ -62,7 +62,7 @@ const Index = React.createClass({
 
                 //业务管理
 
-                require('../module/ywgl/ywbbgl'),
+              /*  require('../module/ywgl/ywbbgl'),
                 require('../module/ywgl/ywzlgl/sfjeyjgl'),
                 require('../module/ywgl/ywzlgl/ndbtyjgl'),
                 require('../module/ywgl/ywzlgl/ywwtyjgl'),
@@ -100,7 +100,7 @@ const Index = React.createClass({
 
                 //监督检查
                 require('../module/jdjc/zyswsnjb'),
-                require('../module/jdjc/swsnj'),
+                require('../module/jdjc/swsnj'),*/
 
                 //逐级审核
                 require('../module/spsh'),
@@ -129,7 +129,7 @@ const Index = React.createClass({
                 require('../module/spsh/module/46'),
 
                 //数据统计分析 - 年检数据分析
-                require('../module/xtsjfx/njsjfx/rynjsjfx'),//人员年检数据分析
+             /*   require('../module/xtsjfx/njsjfx/rynjsjfx'),//人员年检数据分析
                 require('../module/xtsjfx/njsjfx/jgnjsjfxb'),//机构年检数据分析
 
                 //数据统计分析 - 注税行业年报表
@@ -152,7 +152,7 @@ const Index = React.createClass({
                 require('../module/xtsjfx/sjfx/hyxlsjfx'),//行业学历数据分析
                 require('../module/xtsjfx/sjfx/zjgmsjfx'),//资金规模数据分析
                 require('../module/xtsjfx/sjfx/hynlsjfx'),//行业年龄数据分析
-                require('../module/xtsjfx/sjfx/ryztsjfx'),
+                require('../module/xtsjfx/sjfx/ryztsjfx'),*/
 
                 //会员会费缴纳
 
@@ -167,7 +167,7 @@ const Index = React.createClass({
 
                 //客户端
                 //机构管理
-                require('../module/client/jggl/swsbg'),
+            /*    require('../module/client/jggl/swsbg'),
                 require('../module/client/jggl/swszx'),
                 require('../module/client/jggl/swshb'),
 
@@ -190,7 +190,7 @@ const Index = React.createClass({
            
                 //业务管理
                 require('../module/client/ywgl/khxxgl'), //客户信息管理
-                require('../module/client/ywgl/ywbb'), //事务所业务报备
+                require('../module/client/ywgl/ywbb'), //事务所业务报备*/
 
 
                 //公用功能
@@ -202,7 +202,7 @@ const Index = React.createClass({
             component: Signin
         },{
             path: '/print/hyhf/fpdy',
-            component: Dy
+            component: Dyfp
         }, {
             path: '*',
             component: NotFound
