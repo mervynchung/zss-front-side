@@ -144,10 +144,10 @@ const rycx = React.createClass({
 
   print(row,dylx){
     window.open("#/print/hyhf/fpdy?"+encodeURIComponent(JSON.stringify(row)));
-    if (!dylx) {
-      console.log(dylx,"111111");
+    if (dylx) {
+      console.log(dylx,"222");
     }else{
-      console.log(dylx,"2222");
+      console.log(dylx,"1111");
     };
   },
 
@@ -233,7 +233,7 @@ const rycx = React.createClass({
       return <div className="zyglscdy">
 <div className="wrap">
    <div className="dataGird">
-     <Panel  title="执业税务师转出统计" toolbar={toolbar}>
+     <Panel  title="执业管理手册打印" toolbar={toolbar}>
 
           {this.state.searchToggle && <SearchForm onSubmit={this.handleOk}/>}
           <div className="h-scroll-table">

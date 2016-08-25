@@ -48,9 +48,9 @@ let dy = React.createClass({
 		var flt=(num-integer).toFixed(2);
 		var fltint=(flt.toString()).substring(2,4);
 		return <p>
-				<span style={{'letterSpacing':'9px'}}>{integer}</span>
+				<span style={{'letterSpacing':'11px'}}>{integer}</span>
 				<span>.</span>
-				<span style={{'letterSpacing':'5px'}}>{fltint}</span>
+				<span style={{'letterSpacing':'7px'}}>{fltint}</span>
 			</p>;
 	},
 	digitUppercase(num) {  
@@ -68,7 +68,6 @@ let dy = React.createClass({
 	render(){
 		const sd=decodeURIComponent(this.props.location.search);//603
 		var rs=JSON.parse(sd.substring(1,sd.length));
-		console.log(rs);
 		const nowy = new Date(rs.ND);
 		let tt="";
 		let gr="";
@@ -84,7 +83,7 @@ let dy = React.createClass({
 		const jfrq = new Date(rs.JFRQ);
 		return <div className="fpdya4">
 		<div className="dy_background" >
-		<table style={{'position':'absolute','top':'80px','left':'45'}}>
+		<table style={{'position':'absolute','top':'83px','left':'45'}}>
 			<tbody>
 				<tr>
 					<td style={{'width':'105','height':'24'}}></td>

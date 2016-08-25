@@ -3,8 +3,8 @@
     width:711px;
     height:384px;
     background:rgba(0, 0, 0, 0) url("./background.jpg"); 
-    font-size:18px;
-    font-family: "宋体";
+    font-size:14px;
+    font-family: SimSun;
 }
 
 @media print{
@@ -13,12 +13,13 @@
    display:none;
 }
 
-.fpdya4{
+/* .fpdya4{
    width:790px;
-}
+} */
 
 .dy_background{
-   float:right;
+   /* left:82px; */
+   left:61.5pt;
 }
 
 
