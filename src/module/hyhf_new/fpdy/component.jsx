@@ -32,6 +32,7 @@ let jgcx = React.createClass({
       rowIndex:'a',
       xgIndex:'a',
       year:'',
+      tjData:{},
     };
   },
 
@@ -57,6 +58,7 @@ let jgcx = React.createClass({
           method: 'get',
           type: 'json',
           data: params,
+          headers:{'x-auth-token':auth.getToken()},
           success: (result) => {
             if (result.data.length != 0) {
               const pagination = this.state.pagination;
@@ -67,6 +69,7 @@ let jgcx = React.createClass({
                 data: result.data,//传入后台获取数据，table组件要求每条查询记录必须拥有字段'key'
                 loading: false,//关闭加载状态
                 year:result.data[0].ND,
+                tjData:result.jftj,
               });
             } else {//空数据处理
               const pagination = this.state.pagination;
@@ -74,7 +77,7 @@ let jgcx = React.createClass({
               this.setState({ data: [],  loading: false, });
             };
           },
-          error: (err) => { alert('api错误'); }
+          error: (err) => { alert('api错误'); this.setState({ data: [],  loading: false, });}
         });
   },
 
@@ -163,7 +166,7 @@ tthf(zje) {//团体会费校验规则方法
                             </div>  )
                             });
                   };
-                    this.setState({loading:false,rowIndex:'a',fpZT:false});
+                    this.setState({rowIndex:'a',fpZT:false});
             }).fail(err=> {
               this.setState({loading:false});
                 Modal.error({
@@ -217,7 +220,7 @@ tthf(zje) {//团体会费校验规则方法
                             </div>  )
                             });
                   };
-                    this.setState({loading:false,xgIndex:'a',xgZT:false});
+                    this.setState({xgIndex:'a',xgZT:false});
             }).fail(err=> {
               this.setState({loading:false});
                 Modal.error({
@@ -314,7 +317,7 @@ ztRender(text, row, index) {
                   key: 'JFZE',
                   render(text, row, index) {
                     if (index==rowx) {
-                    return <InputNumber {...getFieldProps('JFZE',{ initialValue: text,rules:[{type:'number'},{validator:()=>that.xgzje(row.JFZE)}]})} min={1} max={text} />;
+                    return <InputNumber {...getFieldProps('JFZE',{ initialValue: text,rules:[{type:'number'},{validator:()=>that.xgzje(row.JFZE)}]})} min={1} max={text} step={0.01} />;
                     }
                     return text;
                   }
@@ -324,9 +327,9 @@ ztRender(text, row, index) {
                   key: 'YJTTHF',
                   render(text, row, index) {
                     if (index==rowx) {
-                    return <InputNumber {...getFieldProps('XGYJTTHF',{ rules:[{type:'number'},{validator:()=>that.xgtthf(row.JFZE)}]})}  min={0} max={row.JFZE} />;
+                    return <InputNumber {...getFieldProps('XGYJTTHF',{ rules:[{type:'number'},{validator:()=>that.xgtthf(row.JFZE)}]})}  min={0} max={row.JFZE} step={0.01} />;
                     }else if (index==rowI) {
-                    return <InputNumber {...getFieldProps('YJTTHF',{ initialValue: text,rules:[{type:'number'},{validator:()=>that.tthf(row.JFZE)}]})}  min={0} max={row.JFZE} />;
+                    return <InputNumber {...getFieldProps('YJTTHF',{ initialValue: text,rules:[{type:'number'},{validator:()=>that.tthf(row.JFZE)}]})}  min={0} max={row.JFZE} step={0.01} />;
                     };
                     return text;
                   }
@@ -336,9 +339,9 @@ ztRender(text, row, index) {
                   key: 'YJGRHF',
                   render(text, row, index) {
                    if (index==rowx) {
-                    return <InputNumber {...getFieldProps('XGYJGRHF',{ rules:[{type:'number'},{validator:()=>that.xggrhf(row.JFZE)}]})}  min={0} max={row.JFZE} />;
+                    return <InputNumber {...getFieldProps('XGYJGRHF',{ rules:[{type:'number'},{validator:()=>that.xggrhf(row.JFZE)}]})}  min={0} max={row.JFZE} step={0.01} />;
                     }else  if (index==rowI) {
-                    return <InputNumber {...getFieldProps('YJGRHF',{ initialValue: text,rules:[{type:'number'},{validator:()=>that.grhf(row.JFZE)}]})} min={0} max={row.JFZE} />;
+                    return <InputNumber {...getFieldProps('YJGRHF',{ initialValue: text,rules:[{type:'number'},{validator:()=>that.grhf(row.JFZE)}]})} min={0} max={row.JFZE} step={0.01} />;
                     }
                     return text;
                   }
@@ -384,6 +387,14 @@ ztRender(text, row, index) {
           <Panel title="发票打印" toolbar={toolbar}>
             {this.state.searchToggle && <SearchForm
               onSubmit={this.handleOk} year={this.state.year}/> }
+              <div className="fix-table table-bordered table-striped">
+              <table><tbody><tr>
+                          <td style={{'width':'150px'}}><b>打印统计：</b></td>
+                          <td><b>统计年份：</b><span style={{'color':'blue'}}>{this.state.tjData.dynd}</span></td>
+                          <td><b>缴费记录数：</b><span style={{'color':'blue'}}>{this.state.tjData.ts}</span></td>
+                          <td><b>打印次数：</b><span style={{'color':'blue'}}>{this.state.tjData.cs}</span></td>
+                          <td><b>打印发票总金额：</b><span style={{'color':'blue'}}>{this.state.tjData.dyze}</span></td>
+                </tr></tbody></table></div>
               <div className="h-scroll-table">
             <Table columns={columns}
               dataSource={this.state.data}

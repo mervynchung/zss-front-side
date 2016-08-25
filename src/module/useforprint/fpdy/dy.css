@@ -1,0 +1,25 @@
+.dy_background{
+    position: relative;
+    width:711px;
+    height:384px;
+    background:rgba(0, 0, 0, 0) url("./background.jpg"); 
+    font-size:18px;
+    font-family: "宋体";
+}
+
+@media print{
+
+.noprint{
+   display:none;
+}
+
+.fpdya4{
+   width:790px;
+}
+
+.dy_background{
+   float:right;
+}
+
+
+}

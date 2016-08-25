@@ -52,7 +52,10 @@ const rycx = React.createClass({
                          this.setState({data: [],dataxx: {values: {}},datalist:[],loading:false, });
                     };
             },
-            error: (err) =>{alert('api错误');}
+            error: (err) =>{
+                                  alert('api错误');
+                                  this.setState({data: [],dataxx: {values: {}},datalist:[],loading:false, });
+                                }
     });
   },
 
@@ -68,7 +71,7 @@ const rycx = React.createClass({
             dataxx: result.data,
             datalist: result.data.ryjl,//简历的data
           });
-        },error:  (err) =>{alert('api错误');}
+        },error:  (err) =>{alert('api错误');this.setState({datalist:[],dataxx: {values: {}}});}
       });
       }else if (tabkey==2||tabkey==9||tabkey==14) {
         this.gettabdata(this.state.urls.herf_bgjl);
@@ -82,7 +85,7 @@ const rycx = React.createClass({
          req({ url: this.state.urls.herf_spzt,method: 'get',type: 'json',
         success: (result) => {
             this.setState({ spzt: result.data})//状态是个字符串
-        },error: (err) =>{alert('api错误');}});
+        },error: (err) =>{alert('api错误');this.setState({spzt:'',});}});
       }else if (tabkey==7) {
         this.gettabdata(this.state.urls.herf_njjl);
       };
@@ -95,7 +98,7 @@ const rycx = React.createClass({
             }else{
                this.setState({datalist:[],})
              }
-          },error: (err) =>{alert('api错误');}
+          },error: (err) =>{alert('api错误');this.setState({datalist:[],});}
         });
     },
 
@@ -138,28 +141,22 @@ const rycx = React.createClass({
     this.setState({activeKey:key});
       this.fetch_kzxx(key);
 },
+
+  print(row,dylx){
+    window.open("#/print/hyhf/fpdy?"+encodeURIComponent(JSON.stringify(row)));
+    if (!dylx) {
+      console.log(dylx,"111111");
+    }else{
+      console.log(dylx,"2222");
+    };
+  },
+
   ztRender(text, row, index) {
     var that=this;
-    if (!row.JE) {
-        return (
-                    <span>
-                      <a onClick={that.showModal}>新增缴费</a>
-                    </span>
-                  );
-    };
-     if (!!this.state.xgZT&&index==this.state.rowIndex) {
-          return (
-                                <span>
-                                  <a onClick={that.xgOK.bind(this,row)}>确定</a><span className="ant-divider" ></span>
-                                  <a onClick={that.xgConcel}>取消</a>
-                                </span>
-                              );
-    };
      return (
                     <span>
-                      <a onClick={that.xgSelect.bind(this,index)}>修改</a><span className="ant-divider" ></span>
-                      <a onClick={that.rowDel.bind(this,row)}>删除</a><span className="ant-divider" ></span>
-                      <a >打印发票</a>
+                      <a onClick={that.print.bind(this,row,false)}>打印</a><span className="ant-divider" ></span>
+                      <a onClick={that.print.bind(this,row,true)}>打印执业机构</a>
                     </span>
                   );
   },
@@ -186,7 +183,7 @@ const rycx = React.createClass({
                 title: '联系电话',
                 dataIndex: 'DHHM',
                 key: 'DHHM',
-                sorter: true,
+                
               },  {
                 title: '身份证号',
                 dataIndex: 'SFZH',
@@ -195,6 +192,7 @@ const rycx = React.createClass({
                 title: '学历',
                 dataIndex: 'xl',
                 key: 'xl',
+                sorter: true,
               }, {
                 title: '资格证书编号',
                 dataIndex: 'ZYZGZSBH',

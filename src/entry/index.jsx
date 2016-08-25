@@ -5,7 +5,7 @@ import {Router, Route, IndexRoute,useRouterHistory} from 'react-router';
 import { createHistory,createHashHistory } from 'history'
 import App from '../component/App';
 import Signin from 'module/signin';
-import Dy from 'module/hyhf_new/fpdy/dy.jsx';
+import Dyfp from 'module/useforprint/fpdy/dy.jsx';
 import {cenHome,clientHome } from '../module/home';
 import NotFound from 'module/404notfound'
 import auth from 'common/auth'
@@ -203,7 +203,7 @@ const Index = React.createClass({
             component: Signin
         },{
             path: '/print/hyhf/fpdy',
-            component: Dy
+            component: Dyfp
         }, {
             path: '*',
             component: NotFound

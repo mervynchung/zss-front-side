@@ -1,5 +1,5 @@
 import React from 'react'
-import {Table,Modal,Row,Col,Button,Icon,Upload,Input,Select,InputNumber,Form,message,Spin} from 'antd'
+import {DatePicker,Table,Modal,Row,Col,Button,Icon,Upload,Input,Select,InputNumber,Form,message,Spin,Popconfirm} from 'antd'
 import Panel from 'component/compPanel'
 import req from 'reqwest';
 import SearchForm from './searchForm'
@@ -96,6 +96,7 @@ let lrb = React.createClass({
                         pagesize: this.state.pagination.pageSize,
                         where: encodeURIComponent(JSON.stringify(this.state.where)),
                       })
+                      message.success('添加成功');
                   }else{
                         Modal.error({
                         title: '添加失败',
@@ -195,7 +196,8 @@ let lrb = React.createClass({
                         pagesize: this.state.pagination.pageSize,
                         where: encodeURIComponent(JSON.stringify(this.state.where)),
                       })
-                    this.setState({loading:false,rowIndex:'a',xgZT:false});
+                    this.setState({rowIndex:'a',xgZT:false});
+                    message.success('修改成功');
             }).fail(err=> {
               this.setState({loading:false});
                 Modal.error({
@@ -210,39 +212,39 @@ let lrb = React.createClass({
 
   },
    rowDel(row) {
-            var that=this;
-              Modal.confirm({
-                title: '您是否确认要删除该缴费记录？',
-                content: '删除后记录将不存在',
-                onOk() {
-                    that.setState({ loading: true, });
-                  req({
-                url: API_URL_Del+row.jlid,
-                type: 'json',
-                method: 'delete',
-                contentType: 'application/json',
-                headers:{'x-auth-token':auth.getToken()}
-            }).then(resp=> {
-                      that.fetchData({//调用主查询
-                        pagenum: that.state.pagination.current,
-                        pagesize: that.state.pagination.pageSize,
-                        where: encodeURIComponent(JSON.stringify(that.state.where)),
-                      })
-                    that.setState({rowIndex:'a',xgZT:false});
-            }).fail(err=> {
-              that.setState({loading:false});
-                Modal.error({
-                    title: '数据获取错误',
-                    content: (
-                        <div>
-                            <p>无法从服务器返回数据，需检查应用服务工作情况</p>
-                            <p>Status: {err.status}</p>
-                        </div>  )
-                });
-            })
-                },
+        this.setState({ loading: true, });
+        req({
+              url: API_URL_Del+row.jlid,
+              type: 'json',
+              method: 'delete',
+              contentType: 'application/json',
+              headers:{'x-auth-token':auth.getToken()}
+          }).then(resp=> {
+                    this.fetchData({//调用主查询
+                      pagenum: this.state.pagination.current,
+                      pagesize: this.state.pagination.pageSize,
+                      where: encodeURIComponent(JSON.stringify(this.state.where)),
+                    })
+                  this.setState({rowIndex:'a',xgZT:false});
+                  message.success('删除成功');
+          }).fail(err=> {
+            this.setState({loading:false});
+              Modal.error({
+                  title: '数据获取错误',
+                  content: (
+                      <div>
+                          <p>无法从服务器返回数据，需检查应用服务工作情况</p>
+                          <p>Status: {err.status}</p>
+                      </div>  )
               });
+          })
+              
             },
+
+    print(row){
+    window.open("#/print/hyhf/fpdy?"+encodeURIComponent(JSON.stringify(row)));
+  },
+
     ztRender(text, row, index) {
     var that=this;
     if (!row.JE) {
@@ -263,8 +265,8 @@ let lrb = React.createClass({
      return (
                     <span>
                       <a onClick={that.xgSelect.bind(this,index)}>修改</a><span className="ant-divider" ></span>
-                      <a onClick={that.rowDel.bind(this,row)}>删除</a><span className="ant-divider" ></span>
-                      <a >打印发票</a>
+                      <Popconfirm title="是否确认删除该缴费记录？" onConfirm={that.rowDel.bind(this,row)} ><a >删除</a></Popconfirm><span className="ant-divider" ></span>
+                      <a onClick={that.print.bind(this,row)}>打印发票</a>
                     </span>
                   );
   },
@@ -321,10 +323,14 @@ let lrb = React.createClass({
                   sorter: true,
                   render(text, row, index) {
                     if (index==rowx) {
-                    return <InputNumber {...getFieldProps('JE',{ initialValue: text})} min={1}  />;
+                    return <InputNumber {...getFieldProps('JE',{ initialValue: text})} min={1} step={0.01} />;
                     }
                     return text;
                   }
+                }, {
+                  title: '缴费日期',
+                  dataIndex: 'JFRQ',
+                  key: 'JFRQ',
                 }, {
                   title: '备注',
                   dataIndex: 'BZ',
@@ -443,7 +449,10 @@ let lrb = React.createClass({
                              <Col span="12"> <Input  { ...getFieldProps('sfzh', { })} /></Col>
                          </Row>
                          <Row><Col span="4"><b>金额：</b></Col>
-                              <Col span="12"><InputNumber  { ...getFieldProps('je', { })} /></Col>
+                              <Col span="12"><InputNumber  { ...getFieldProps('je', { })} min={0} step={0.01} /></Col>
+                         </Row>
+                         <Row><Col span="4"><b>缴费日期：</b></Col>
+                              <Col span="12"><DatePicker  { ...getFieldProps('jfrq', { })} /></Col>
                          </Row>
                          <Row><Col span="4"><b>备注：</b></Col>
                               <Col span="12"><Input  type="textarea" row='3' { ...getFieldProps('bz', { })} /></Col>
