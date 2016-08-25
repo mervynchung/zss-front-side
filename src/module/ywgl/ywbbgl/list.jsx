@@ -3,11 +3,9 @@ import {Table, Row, Col, Button, Icon, notification, Alert} from 'antd'
 import Panel from 'component/compPanel'
 import req from 'reqwest';
 import SearchForm from './searchForm'
-import config from 'common/configuration'
-import model from './model'
 import {isEmptyObject,jsonCopy} from 'common/utils'
 
-const API_URL = config.HOST + config.URI_API_PROJECT + '/ywbb';
+
 const ToolBar = Panel.ToolBar;
 const ButtonGroup = Button.Group;
 
@@ -25,7 +23,7 @@ const list = React.createClass({
             pagination: {
                 current: 1,
                 showSizeChanger: true,
-                pageSize: 2,
+                pageSize: this.props.pageSize,
                 showQuickJumper: true,
                 pageSizeOptions: ['10', '20', '40'],
                 showTotal (total) {
@@ -35,15 +33,16 @@ const list = React.createClass({
         }
     },
     //通过API获取数据
-    fetchData(params = {page: 1, pagesize: 2}){
+    fetchData(params = {page: 1, pagesize: this.props.pageSize}){
         this.setState({loading: true});
+        const {apiUrl} = this.props;
         let where = {};
         if(!isEmptyObject(params.where)){
             where = jsonCopy(params.where);
             params.where = encodeURIComponent(JSON.stringify(params.where))
         }
         req({
-            url: API_URL,
+            url: apiUrl,
             type: 'json',
             method: 'get',
             data: params
@@ -122,10 +121,10 @@ const list = React.createClass({
     },
     //行点击处理
     handleRowClick(record){
-
+        console.log(record.id)
     },
     render(){
-        const {title, helperTitle, helperDesc, scrollx,keyCol} = this.props;
+        const {title, helperTitle, helperDesc, scrollx,keyCol,columns} = this.props;
         let toolbar = <ToolBar>
             <Button onClick={this.handleSearchToggle}>
                 <Icon type="search"/>查询
@@ -147,7 +146,7 @@ const list = React.createClass({
             <Panel title={title} toolbar={toolbar}>
                 {this.state.searchToggle && <SearchForm
                     onSubmit={this.handleSearchSubmit}/>}
-                <Table columns={model.columns}
+                <Table columns={columns}
                        dataSource={this.state.data}
                        pagination={this.state.pagination}
                        loading={this.state.loading}

@@ -1,7 +1,7 @@
 /**
  * Created by ming on 2016/4/11.
  */
-    import React from 'react'
+
 const model = {
     columns: [{
         title: '年度',
@@ -17,6 +17,7 @@ const model = {
         title: '业务发生地',
         key: 'cs',
         dataIndex: 'cs',
+        width:100
     }, {
         title: '业务类型',
         key: 'ywlx',
@@ -26,26 +27,22 @@ const model = {
         title: '协议金额',
         key: 'xyje',
         dataIndex: 'xyje',
+        width:150
     }, {
         title: '报备号码',
         key: 'bbhm',
         dataIndex: 'bbhm',
+        width:150
     }, {
         title: '报备日期',
         key: 'bbrq',
         dataIndex: 'bbrq',
+        width:100
     }, {
         title: '业务状态',
         key: 'ywzt',
-        dataIndex: 'ywzt'
-    },{
-        title: '操作',
-        key:'action',
-        fixed:'right',
-        width: 100,
-        render(){
-            return <span><a>退回</a></span>
-        }
+        dataIndex: 'ywzt',
+        width:100
     }]
 };
 
