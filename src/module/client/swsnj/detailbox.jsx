@@ -11,14 +11,14 @@ const detailBox = React.createClass({
             <table>
                 <tbody>
                 <tr>
-                    <td style={{width:300}}>事务所名称：{obj.dwmc}</td>                   
+                    <td style={{width:300}} colSpan="2">事务所名称：{obj.dwmc}</td>                   
                     <td>机构性质:{obj.jgxz}</td>
                     <td>邮政编码：{obj.yzbm}</td>
-                    <td></td>
+                 
                 </tr>
                 <tr style={{textAlign:'LEFT'}}>
-                    <td colSpan="2">自检：</td>
-                    <td colSpan="2">{obj.ZJ}</td>
+                    <td >自检：</td>
+                    <td colSpan="3" style={{width:500,textAlign:'LEFT'}}>{obj.ZJ}</td>
                 
                 </tr>
                 

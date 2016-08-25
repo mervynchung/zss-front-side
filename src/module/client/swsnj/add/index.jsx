@@ -107,11 +107,11 @@ label="年度">
 <Row>
 <Col span="12">
 <FormItem labelCol={{span: 9}} wrapperCol={{span:12}} label="注册资金：">
-<Input{...getFieldProps('nd')}/>
+<Input{...getFieldProps('zczj')}/>
 </FormItem>
 </Col>
 <Col span="12">
-<FormItem labelCol={{span: 9}} wrapperCol={{span:12}} label="俩系电话：">
+<FormItem labelCol={{span: 9}} wrapperCol={{span:12}} label="联系电话：">
 <Input{...getFieldProps('dwmc')}/>
 </FormItem>
 
@@ -149,12 +149,12 @@ label="年度">
 <Row>
 <Col span="12">
 <FormItem labelCol={{span: 9}} wrapperCol={{span:12}} label="总人数：">
-<Input{...getFieldProps('nd')}/>
+<Input{...getFieldProps('zrs')}/>
 </FormItem>
 </Col>
 <Col span="12">
 <FormItem labelCol={{span: 9}} wrapperCol={{span:12}} label="执业注册税务师人数：">
-<Input{...getFieldProps('dwmc')}/>
+<Input{...getFieldProps('zyrs')}/>
 </FormItem>
 </Col>
 </Row>
@@ -164,13 +164,13 @@ label="年度">
 <FormItem labelCol={{span: 6}} label="参加后续教育"></FormItem>
 </Col>
 <Col span="5">
-<FormItem wrapperCol={{span:6}} > <Input{...getFieldProps('dwmc')}/><span>人应参加</span></FormItem>
+<FormItem wrapperCol={{span:6}} > <Input{...getFieldProps('yjyrs')}/><span>人应参加</span></FormItem>
 </Col>
 <Col span="5">
-<FormItem wrapperCol={{span:6}} > <Input{...getFieldProps('dwmc')}/><span>人实参加</span></FormItem>
+<FormItem wrapperCol={{span:6}} > <Input{...getFieldProps('sjjyrs')}/><span>人实参加</span></FormItem>
 </Col>
 <Col span="5">
-<FormItem wrapperCol={{span:6}} > <Input{...getFieldProps('dwmc')}/><span>未参加</span></FormItem>
+<FormItem wrapperCol={{span:6}} > <Input{...getFieldProps('wjyrs')}/><span>未参加</span></FormItem>
 </Col>
 </Row>
 
@@ -178,13 +178,13 @@ label="年度">
 <Row>
 <Col span="12">
 <FormItem labelCol={{span: 9}} wrapperCol={{span:12}} label="注册税务师变动情况：">
-<span>增加</span><Input{...getFieldProps('nd')}/>
-<span>减少</span><Input{...getFieldProps('nd')}/>
+<span>增加</span><Input{...getFieldProps('ZCSWSBZJ')}/>
+<span>减少</span><Input{...getFieldProps('ZCSWSBJS')}/>
 </FormItem>
 </Col>
 <Col span="12">
 <FormItem labelCol={{span: 9}} wrapperCol={{span:12}} label="本年度报备份数：">
-<Input{...getFieldProps('dwmc')}/><span>份</span>
+<Input{...getFieldProps('BAFS')}/><span>份</span>
 </FormItem>
 </Col>
 </Row>
@@ -193,7 +193,7 @@ label="年度">
 <Row>
 <Col span="24">
 <FormItem labelCol={{span: 9}} wrapperCol={{span:12}} label="分所数：">
-<Input{...getFieldProps('nd')}/>
+<Input{...getFieldProps('FSS')}/>
 </FormItem>
 </Col>
 </Row>
@@ -791,7 +791,7 @@ label="年度">
 
 <Col span="20">
 <FormItem  >
-<Input type="textarea" autosize/>
+<Input {...getFieldProps('ZJ')} type="textarea" autosize/>
 </FormItem>
 </Col>
 
@@ -805,14 +805,14 @@ label="年度">
 
 <Col span="10">
 <FormItem  >
-<Input type="textarea" autosize/>
+<Input {...getFieldProps('NJZJ')} type="textarea" autosize/>
 </FormItem>
 </Col>
 
 <Col span="10">
-<FormItem   wrapperCol= {{span: 6}} ><span>时间</span><Input></Input>
+<FormItem   wrapperCol= {{span: 6}} >时间<Input {...getFieldProps('FSS')}></Input>
 </FormItem>
-<FormItem   wrapperCol= {{span: 6}} ><span>时间</span>负责人签名<Input></Input>
+<FormItem   wrapperCol= {{span: 6}} >负责人签名<Input {...getFieldProps('FZR')}></Input>
 </FormItem>
 </Col>
 
