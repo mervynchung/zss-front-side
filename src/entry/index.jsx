@@ -64,7 +64,7 @@ const Index = React.createClass({
 
                 //业务管理
 
-              /*  require('../module/ywgl/ywbbgl'),
+                require('../module/ywgl/ywbbgl'),
                 require('../module/ywgl/ywzlgl/sfjeyjgl'),
                 require('../module/ywgl/ywzlgl/ndbtyjgl'),
                 require('../module/ywgl/ywzlgl/ywwtyjgl'),
@@ -102,7 +102,7 @@ const Index = React.createClass({
 
                 //监督检查
                 require('../module/jdjc/zyswsnjb'),
-                require('../module/jdjc/swsnj'),*/
+                require('../module/jdjc/swsnj'),
 
                 //逐级审核
                 require('../module/spsh'),
@@ -131,7 +131,7 @@ const Index = React.createClass({
                 require('../module/spsh/module/46'),
 
                 //数据统计分析 - 年检数据分析
-          /*      require('../module/xtsjfx/njsjfx/rynjsjfx'),//人员年检数据分析
+                require('../module/xtsjfx/njsjfx/rynjsjfx'),//人员年检数据分析
                 require('../module/xtsjfx/njsjfx/jgnjsjfxb'),//机构年检数据分析
 
                 //数据统计分析 - 注税行业年报表
@@ -155,7 +155,7 @@ const Index = React.createClass({
                 require('../module/xtsjfx/sjfx/zjgmsjfx'),//资金规模数据分析
                 require('../module/xtsjfx/sjfx/hynlsjfx'),//行业年龄数据分析
                 require('../module/xtsjfx/sjfx/ryztsjfx'),
-                require('../module/xtsjfx/sjfx/zyzshsjfx'),*/
+                require('../module/xtsjfx/sjfx/zyzshsjfx'),
 
                 //会员会费缴纳
 
@@ -170,7 +170,7 @@ const Index = React.createClass({
 
                 //客户端
                 //机构管理
-             /*   require('../module/client/jggl/swsbg'),
+                require('../module/client/jggl/swsbg'),
                 require('../module/client/jggl/swszx'),
                 require('../module/client/jggl/swshb'),
 
@@ -189,7 +189,7 @@ const Index = React.createClass({
                 require('../module/client/sdsb/jygmtjb'),
                 require('../module/client/sdsb/jzywqktjb'),
                 require('../module/client/sdsb/hyryqktjb'),
-                require('../module/client/sdsb/jysrqkb'),*/
+                require('../module/client/sdsb/jysrqkb'),
            
                 //业务管理
                 require('../module/client/ywgl/khxxgl'), //客户信息管理
