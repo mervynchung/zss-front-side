@@ -1,6 +1,6 @@
 import React from 'react'
-import {Row,Col,Form,Button,Input,DatePicker} from 'antd'
-import {SelectorCS,SelectorYWLX,SelectorYear} from 'component/compSelector'
+import {Row, Col, Form, Button, Input, DatePicker, InputNumber} from 'antd'
+import {SelectorCS, SelectorYWLX, SelectorYear} from 'component/compSelector'
 import './style.css'
 
 const FormItem = Form.Item;
@@ -23,7 +23,7 @@ let searchForm = React.createClass({
         this.props.onSubmit(value);
     },
     render(){
-        const { getFieldProps } = this.props.form;
+        const {getFieldProps} = this.props.form;
         const formItemLayout = {
             labelCol: {span: 8},
             wrapperCol: {span: 16}
@@ -33,45 +33,70 @@ let searchForm = React.createClass({
                 <Row>
                     <Col span="8">
                         <FormItem
-                          {...formItemLayout}
-                          label="事务所名称">
+                            {...formItemLayout}
+                            label="事务所名称">
                             <Input placeholder="事务所名称" {...getFieldProps('swsmc')}/>
                         </FormItem>
                     </Col>
                     <Col span="8">
                         <FormItem
-                          {...formItemLayout}
-                          label="委托单位名称">
+                            {...formItemLayout}
+                            label="委托单位名称">
                             <Input placeholder="委托单位名称" {...getFieldProps('wtdw')}/>
                         </FormItem>
                     </Col>
                     <Col span="8">
                         <FormItem
-                          {...formItemLayout}
-                          label="业务类型">
-                            <SelectorYWLX placeholder="业务类型" {...getFieldProps('ywlx_dm')}/>
+                            {...formItemLayout}
+                            label="税务登记证号">
+                            <Input placeholder="税务登记证号" { ...getFieldProps('wtdwnsrsbh')}/>
                         </FormItem>
                     </Col>
                 </Row>
                 <Row>
                     <Col span="8">
                         <FormItem
-                          {...formItemLayout}
-                          label="协议文号">
+                            {...formItemLayout}
+                            label="业务类型">
+                            <SelectorYWLX placeholder="业务类型" {...getFieldProps('ywlx_dm')}/>
+                        </FormItem>
+                    </Col>
+                    <Col span="8">
+                        <FormItem
+                            labelCol={{span: 8}} wrapperCol={{span: 16}}
+                            label="协议收费金额">
+                            <InputNumber style={{width: '40%'}} { ...getFieldProps('xyje1')}/>&nbsp;- &nbsp;
+                            <InputNumber style={{width: '40%'}} { ...getFieldProps('xyje2')}/>
+                        </FormItem>
+                    </Col>
+                    <Col span="8">
+                        <FormItem
+                            {...formItemLayout}
+                            label="实际收费金额">
+                            <InputNumber style={{width: '40%'}}  { ...getFieldProps('sjsqje1')}/>&nbsp;- &nbsp;
+                            <InputNumber style={{width: '40%'}} { ...getFieldProps('sjsqje2')}/>
+                        </FormItem>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col span="8">
+                        <FormItem
+                            {...formItemLayout}
+                            label="协议文号">
                             <Input placeholder="协议文号" {...getFieldProps('xyh')}/>
                         </FormItem>
                     </Col>
                     <Col span="8">
                         <FormItem
-                          {...formItemLayout}
-                          label="报告文号">
+                            {...formItemLayout}
+                            label="报告文号">
                             <Input placeholder="报告文号" {...getFieldProps('bgwh')}/>
                         </FormItem>
                     </Col>
                     <Col span="8">
                         <FormItem
-                          {...formItemLayout}
-                          label="报备号码">
+                            {...formItemLayout}
+                            label="报备号码">
                             <Input placeholder="报备号码" { ...getFieldProps('bbhm')}/>
                         </FormItem>
                     </Col>
@@ -79,43 +104,26 @@ let searchForm = React.createClass({
                 <Row>
                     <Col span="8">
                         <FormItem
-                          {...formItemLayout}
-                          label="报备日期：">
+                            {...formItemLayout}
+                            label="报备日期：">
                             <RangePicker format="yyyy/MM/dd" { ...getFieldProps('bbrq')}/>
                         </FormItem>
                     </Col>
                     <Col span="8">
                         <FormItem
-                          {...formItemLayout}
-                          label="报告日期">
+                            {...formItemLayout}
+                            label="报告日期">
                             <RangePicker format="yyyy/MM/dd" { ...getFieldProps('bgrq')}/>
                         </FormItem>
                     </Col>
                     <Col span="8">
                         <FormItem
-                          {...formItemLayout}
-                          label="业务发生地">
+                            {...formItemLayout}
+                            label="业务发生地">
                             <SelectorCS { ...getFieldProps('cs_dm')}/>
                         </FormItem>
                     </Col>
 
-                </Row>
-                <Row>
-
-                    <Col span="8">
-                        <FormItem
-                          {...formItemLayout}
-                          label="报告文号：">
-                            <Input placeholder="报告文号" { ...getFieldProps('bgwh')}/>
-                        </FormItem>
-                    </Col>
-                    <Col span="8">
-                        <FormItem
-                          {...formItemLayout}
-                          label="年度：">
-                            <SelectorYear { ...getFieldProps('nd')}/>
-                        </FormItem>
-                    </Col>
                 </Row>
                 <Row>
                     <Col span="4" offset="20">
