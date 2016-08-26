@@ -1,10 +1,10 @@
-.dy_background{
+.dj_background{
     position: relative;
-    width:711px;
-    height:384px;
-    background:rgba(0, 0, 0, 0) url("./background.jpg"); 
-    font-size:18px;
-    font-family: "宋体";
+    width:18.8cm;
+    height:10.4cm;
+    background:rgba(0, 0, 0, 0) url("./background_dj.jpg"); 
+    font-size:10pt;
+    font-family: SimSun;
 }
 
 @media print{
@@ -13,12 +13,10 @@
    display:none;
 }
 
-.fpdya4{
-   width:790px;
-}
 
-.dy_background{
-   float:right;
+.dj_background{
+    position: absolute;
+    right:0cm;
 }
 
 

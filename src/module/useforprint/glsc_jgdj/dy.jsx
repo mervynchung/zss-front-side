@@ -66,7 +66,7 @@ let dy = React.createClass({
 	    return strOutput.replace(/零角零分$/, '整').replace(/零[仟佰拾]/g, '零').replace(/零{2,}/g, '零').replace(/零([亿|万])/g, '$1').replace(/零+元/, '元').replace(/亿零{0,3}万/, '亿').replace(/^元/, "零元");  
 	},
 	render(){
-		const sd=decodeURIComponent(this.props.location.search);//603
+		const sd=decodeURIComponent(this.props.location.search);
 		var rs=JSON.parse(sd.substring(1,sd.length));
 		console.log(rs);
 		const nowy = new Date(rs.ND);
@@ -83,15 +83,11 @@ let dy = React.createClass({
 		};
 		const jfrq = new Date(rs.JFRQ);
 		return <div className="fpdya4">
-		<div className="dy_background" >
+		<div className="dj_background" >
 		<table style={{'position':'absolute','top':'80px','left':'45'}}>
 			<tbody>
 				<tr>
-					<td style={{'width':'105','height':'24'}}></td>
-					<td style={{'width':'340','height':'24'}}>{rs.DWMC?rs.DWMC:rs.XMING}</td>
-					<td style={{'width':'75','height':'24'}}>{jfrq.getFullYear()}</td>
-					<td style={{'width':'55','height':'24'}}>{jfrq.getMonth()+1}</td>
-					<td style={{'width':'35','height':'24'}}>{jfrq.getDate()}</td>
+					<td style={{'width':'105','height':'24'}}>111111</td>
 				</tr>
 			</tbody>
 		</table>
@@ -99,48 +95,9 @@ let dy = React.createClass({
 			
 			<tbody>
 				<tr>
-					<td style={{'width':'160','height':'35'}}></td>
-					<td style={{'width':'90','height':'35'}}></td>
-					<td style={{'width':'70','height':'35'}}></td>
-					<td colSpan="2" style={{'width':'250','height':'35'}}></td>
+					<td style={{'width':'160','height':'35'}}>11111</td>
 				</tr>
-				<tr>
-					<td colSpan="2" style={{'width':'250','height':'30'}}></td>
-					<td style={{'width':'70','height':'30'}}></td>
-					<td style={{'width':'70','height':'30'}}></td>
-					<td  style={{'height':'30'}}></td>
-				</tr>
-				<tr>
-					<td colSpan="2" style={{'width':'250','height':'30'}}>{tt}</td>
-					<td style={{'width':'70','height':'30'}}></td>
-					<td style={{'width':'70','height':'30'}}></td>
-					<td  style={{'textAlign':'right','height':'30'}}>{rs.YJTTHF?this.changeNum(rs.YJTTHF):rs.JE?this.changeNum(rs.JE):null}</td>
-				</tr>
-				<tr>
-					<td colSpan="2" style={{'width':'250','height':'30'}}>{gr}</td>
-					<td style={{'width':'70','height':'30'}}></td>
-					<td style={{'width':'70','height':'30'}}></td>
-					<td  style={{'textAlign':'right','height':'30'}}>{rs.YJGRHF?this.changeNum(rs.YJGRHF):null}</td>
-				</tr>
-				<tr>
-					<td colSpan="2" style={{'width':'250','height':'30'}}></td>
-					<td style={{'width':'70','height':'30'}}></td>
-					<td style={{'width':'70','height':'30'}}></td>
-					<td  style={{'textAlign':'right','height':'30'}}></td>
-				</tr>
-				<tr>
-					<td style={{'width':'160','height':'30'}}></td>
-					<td colSpan="4" style={{'textAlign':'center','width':'435','height':'30'}}>{rs.JFZE?this.digitUppercase(rs.JFZE):rs.JE?this.digitUppercase(rs.JE):null}</td>
-				</tr>
-				<tr>
-					<td style={{'width':'160','height':'30'}}></td>
-					<td colSpan="4" style={{'textAlign':'center','width':'435','height':'30'}}>{rs.BZ}</td>
-				</tr>
-				<tr>
-					<td ></td>
-					<td ></td>
-					<td colSpan="3" >{rs.KPR}</td>
-				</tr>
+				
 			</tbody>
 		</table>
 		

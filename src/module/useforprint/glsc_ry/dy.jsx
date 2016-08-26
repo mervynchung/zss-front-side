@@ -43,107 +43,45 @@ let dy = React.createClass({
 		    onCancel() {},
 		  });
 	},
-	changeNum(num){
-		var integer=parseInt(num);
-		var flt=(num-integer).toFixed(2);
-		var fltint=(flt.toString()).substring(2,4);
-		return <p>
-				<span style={{'letterSpacing':'9px'}}>{integer}</span>
-				<span>.</span>
-				<span style={{'letterSpacing':'5px'}}>{fltint}</span>
-			</p>;
-	},
-	digitUppercase(num) {  
-	  var strOutput = "";  
-	  var strUnit = '仟佰拾亿仟佰拾万仟佰拾元角分';  
-	  num += "00";  
-	  var intPos = num.indexOf('.');  
-	  if (intPos >= 0)  
-	    num = num.substring(0, intPos) + num.substr(intPos + 1, 2);  
-	  strUnit = strUnit.substr(strUnit.length - num.length);  
-	  for (var i=0; i < num.length; i++)  
-	    strOutput += '零壹贰叁肆伍陆柒捌玖'.substr(num.substr(i,1),1) + strUnit.substr(i,1);  
-	    return strOutput.replace(/零角零分$/, '整').replace(/零[仟佰拾]/g, '零').replace(/零{2,}/g, '零').replace(/零([亿|万])/g, '$1').replace(/零+元/, '元').replace(/亿零{0,3}万/, '亿').replace(/^元/, "零元");  
-	},
 	render(){
 		const sd=decodeURIComponent(this.props.location.search);//603
 		var rs=JSON.parse(sd.substring(1,sd.length));
-		console.log(rs);
-		const nowy = new Date(rs.ND);
-		let tt="";
-		let gr="";
-		if (rs.YJTTHF) {
-			tt=nowy.getFullYear()+"年税务师机构团体会费"
-		};
-		if (rs.YJGRHF) {
-			gr=nowy.getFullYear()+"年执业税务师个人会费"
-		};
-		if (rs.nd) {
-			tt=new Date(rs.nd).getFullYear()+"年非执业税务师个人会费"
-		};
-		const jfrq = new Date(rs.JFRQ);
+		const nowy = new Date();
+		const nowd = nowy.getFullYear().toString()+"年"+(nowy.getMonth()+1).toString()+"月"+nowy.getDate().toString()+"日"
 		return <div className="fpdya4">
-		<div className="dy_background" >
-		<table style={{'position':'absolute','top':'80px','left':'45'}}>
+		<div className="ry_background" >
+		<table style={{'position':'absolute','top':'8.4cm','left':'3.65cm'}}>
 			<tbody>
 				<tr>
-					<td style={{'width':'105','height':'24'}}></td>
-					<td style={{'width':'340','height':'24'}}>{rs.DWMC?rs.DWMC:rs.XMING}</td>
-					<td style={{'width':'75','height':'24'}}>{jfrq.getFullYear()}</td>
-					<td style={{'width':'55','height':'24'}}>{jfrq.getMonth()+1}</td>
-					<td style={{'width':'35','height':'24'}}>{jfrq.getDate()}</td>
+					<td style={{'width':'4.34cm','height':'0.9cm','textAlign':'center'}}>{rs.ZYZGZSBH}</td>
+				</tr>
+				<tr>
+					<td style={{'width':'4.34cm','height':'0.9cm','textAlign':'center'}}>{rs.ZYZSBH}</td>
+				</tr>
+				<tr>
+					<td style={{'width':'4.34cm','height':'0.9cm','textAlign':'center'}}>{rs.GRHYBH}</td>
 				</tr>
 			</tbody>
 		</table>
-		<table style={{'position':'absolute','top':'110px','left':'63'}}>
+		<table style={{'position':'absolute','top':'1.3cm','left':'12.7cm'}}>
 			
 			<tbody>
 				<tr>
-					<td style={{'width':'160','height':'35'}}></td>
-					<td style={{'width':'90','height':'35'}}></td>
-					<td style={{'width':'70','height':'35'}}></td>
-					<td colSpan="2" style={{'width':'250','height':'35'}}></td>
+					<td style={{'width':'5.34cm','height':'0.85cm','textAlign':'center'}}>{rs.XMING}</td>
 				</tr>
 				<tr>
-					<td colSpan="2" style={{'width':'250','height':'30'}}></td>
-					<td style={{'width':'70','height':'30'}}></td>
-					<td style={{'width':'70','height':'30'}}></td>
-					<td  style={{'height':'30'}}></td>
+					<td style={{'width':'5.34cm','height':'0.85cm','textAlign':'center'}}>{rs.xb}</td>
 				</tr>
 				<tr>
-					<td colSpan="2" style={{'width':'250','height':'30'}}>{tt}</td>
-					<td style={{'width':'70','height':'30'}}></td>
-					<td style={{'width':'70','height':'30'}}></td>
-					<td  style={{'textAlign':'right','height':'30'}}>{rs.YJTTHF?this.changeNum(rs.YJTTHF):rs.JE?this.changeNum(rs.JE):null}</td>
+					<td style={{'width':'5.34cm','height':'0.85cm','textAlign':'center'}}>{rs.SRI}</td>
 				</tr>
 				<tr>
-					<td colSpan="2" style={{'width':'250','height':'30'}}>{gr}</td>
-					<td style={{'width':'70','height':'30'}}></td>
-					<td style={{'width':'70','height':'30'}}></td>
-					<td  style={{'textAlign':'right','height':'30'}}>{rs.YJGRHF?this.changeNum(rs.YJGRHF):null}</td>
+					<td style={{'width':'5.34cm','height':'0.85cm'}}>{rs.DWMC}</td>
 				</tr>
-				<tr>
-					<td colSpan="2" style={{'width':'250','height':'30'}}></td>
-					<td style={{'width':'70','height':'30'}}></td>
-					<td style={{'width':'70','height':'30'}}></td>
-					<td  style={{'textAlign':'right','height':'30'}}></td>
-				</tr>
-				<tr>
-					<td style={{'width':'160','height':'30'}}></td>
-					<td colSpan="4" style={{'textAlign':'center','width':'435','height':'30'}}>{rs.JFZE?this.digitUppercase(rs.JFZE):rs.JE?this.digitUppercase(rs.JE):null}</td>
-				</tr>
-				<tr>
-					<td style={{'width':'160','height':'30'}}></td>
-					<td colSpan="4" style={{'textAlign':'center','width':'435','height':'30'}}>{rs.BZ}</td>
-				</tr>
-				<tr>
-					<td ></td>
-					<td ></td>
-					<td colSpan="3" >{rs.KPR}</td>
-				</tr>
+				
 			</tbody>
 		</table>
-		
+		<p style={{'position':'absolute','top':'11.46cm','left':'12.59cm','width':'5.34cm','height':'0.85cm','textAlign':'center'}}>{nowd}</p>
 		</div><button className="noprint" type="button" onClick={rs.XMING?this.onClick.bind(this,false):this.onClick.bind(this,rs.jlid)} style={{'position':'relative','left':'330px','width':'60px'}}>打印</button>
 		</div>
 	}
