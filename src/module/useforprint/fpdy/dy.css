@@ -1,9 +1,9 @@
 .dy_background{
     position: relative;
-    width:711px;
-    height:384px;
+    width:18.8cm;
+    height:10.4cm;
     background:rgba(0, 0, 0, 0) url("./background.jpg"); 
-    font-size:14px;
+    font-size:10pt;
     font-family: SimSun;
 }
 
@@ -19,7 +19,9 @@
 
 .dy_background{
    /* left:82px; */
-   left:61.5pt;
+    position: absolute;
+    /*left:61.5pt;*/
+    right:0cm;
 }
 
 
