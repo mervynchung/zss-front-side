@@ -47,10 +47,14 @@ let dy = React.createClass({
 		var integer=parseInt(num);
 		var flt=(num-integer).toFixed(2);
 		var fltint=(flt.toString()).substring(2,4);
+		var ls = [];
+		ls.push(<span className="fprmb">¥</span>);
+		const len=integer.toString()+fltint.toString();
+		for (var i=0; i < len.length; i++){
+			ls.push(<span className="fprmb" key={i}>{len.substr(i,1)}</span>);
+		}
 		return <p>
-				<span style={{'letterSpacing':'11px'}}>{integer}</span>
-				<span>.</span>
-				<span style={{'letterSpacing':'7px'}}>{fltint}</span>
+				{ls}
 			</p>;
 	},
 	digitUppercase(num) {  
@@ -82,7 +86,7 @@ let dy = React.createClass({
 		};
 		const jfrq = new Date(rs.JFRQ);
 		return <div className="fpdya4">
-		<div className="dy_background" >
+		<div className="fp_background" >
 		<table style={{'position':'absolute','top':'83px','left':'45'}}>
 			<tbody>
 				<tr>
@@ -147,4 +151,4 @@ let dy = React.createClass({
 		</div>
 	}
 	});
-module.exports = dy;//'fontSize':'24px'
+module.exports = dy;

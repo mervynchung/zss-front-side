@@ -6,6 +6,8 @@ import { createHistory,createHashHistory } from 'history'
 import App from '../component/App';
 import Signin from 'module/signin';
 import Dyfp from 'module/useforprint/fpdy/dy.jsx';
+import Dydj from 'module/useforprint/glsc_jgdj/dy.jsx';
+import Dyry from 'module/useforprint/glsc_ry/dy.jsx';
 import {cenHome,clientHome } from '../module/home';
 import NotFound from 'module/404notfound'
 import auth from 'common/auth'
@@ -152,7 +154,8 @@ const Index = React.createClass({
                 require('../module/xtsjfx/sjfx/hyxlsjfx'),//行业学历数据分析
                 require('../module/xtsjfx/sjfx/zjgmsjfx'),//资金规模数据分析
                 require('../module/xtsjfx/sjfx/hynlsjfx'),//行业年龄数据分析
-                require('../module/xtsjfx/sjfx/ryztsjfx'),*/
+                require('../module/xtsjfx/sjfx/ryztsjfx'),
+                require('../module/xtsjfx/sjfx/zyzshsjfx'),*/
 
                 //会员会费缴纳
 
@@ -204,11 +207,11 @@ const Index = React.createClass({
             path: '/print/hyhf/fpdy',
             component: Dyfp
         }, {
-            path: '/print/zzdygl/glscry',
-            component: Dyfp
+            path: '/print/zzdygl/glscdj',
+            component: Dydj
         }, {
-            path: '/print/hyhf/fpdy',
-            component: Dyfp
+            path: '/print/zzdygl/glscry',
+            component: Dyry
         }, {
             path: '*',
             component: NotFound

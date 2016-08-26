@@ -1,10 +1,18 @@
-.dy_background{
+.fp_background{
     position: relative;
     width:18.8cm;
     height:10.4cm;
-    background:rgba(0, 0, 0, 0) url("./background.jpg"); 
+    background:rgba(0, 0, 0, 0) url("./background_fp.jpg"); 
     font-size:10pt;
     font-family: SimSun;
+}
+
+.fp_background .fprmb{
+	display:-moz-inline-box; 
+	display:inline-block; 
+	width:0.5cm; 
+	text-align: center;
+    
 }
 
 @media print{
@@ -13,15 +21,10 @@
    display:none;
 }
 
-/* .fpdya4{
-   width:790px;
-} */
-
-.dy_background{
-   /* left:82px; */
+.fp_background{
     position: absolute;
-    /*left:61.5pt;*/
-    right:0cm;
+    right:-0.3cm;
+    top:-0.4cm;
 }
 
 
