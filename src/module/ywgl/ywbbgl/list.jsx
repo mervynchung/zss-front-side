@@ -3,7 +3,7 @@ import {Table, Row, Col, Button, Icon, notification, Alert} from 'antd'
 import Panel from 'component/compPanel'
 import req from 'reqwest';
 import SearchForm from './searchForm'
-import {isEmptyObject,jsonCopy} from 'common/utils'
+import {isEmptyObject} from 'common/utils'
 
 
 const ToolBar = Panel.ToolBar;
@@ -80,18 +80,7 @@ const list = React.createClass({
         this.setState({searchToggle: !this.state.searchToggle});
     },
     //查询提交
-    handleSearchSubmit(commitValues){
-        //首先处理搜索表单提交的信息，将字符串去首尾空格，将空值的搜索条件丢弃
-        const values = {};
-        for (let prop in commitValues) {
-            if (commitValues[prop]) {
-                if (typeof commitValues[prop] == 'string' && !!commitValues[prop].trim()) {
-                    values[prop] = commitValues[prop].trim()
-                } else {
-                    values[prop] = commitValues[prop]
-                }
-            }
-        }
+    handleSearchSubmit(values){
         const p = this.state.pagination;
         const param = {
             page: 1,

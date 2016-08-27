@@ -1,6 +1,6 @@
 import React from 'react'
-import {Row, Col, Form, Button, Input, DatePicker, InputNumber} from 'antd'
-import {SelectorCS, SelectorYWLX, SelectorYear} from 'component/compSelector'
+import {Row, Col, Form, Button, Input, DatePicker, InputNumber,Checkbox} from 'antd'
+import {SelectorCS, SelectorYWLX, SelectorYear,SelectorYWZT,SelectorZSFS} from 'component/compSelector'
 import './style.css'
 
 const FormItem = Form.Item;
@@ -19,8 +19,21 @@ let searchForm = React.createClass({
     },
     handleSubmit(e){
         e.preventDefault();
-        let value = this.props.form.getFieldsValue();
-        this.props.onSubmit(value);
+        let commitValues = this.props.form.getFieldsValue();
+        //首先处理搜索表单提交的信息，将字符串去首尾空格，将空值的搜索条件丢弃
+        const values = {};
+        for (let prop in commitValues) {
+            if (commitValues[prop]) {
+                if (typeof commitValues[prop] == 'string' && !!commitValues[prop].trim()) {
+                    values[prop] = commitValues[prop].trim()
+                } else {
+                    values[prop] = commitValues[prop]
+                }
+            }
+        }
+        console.log(values)
+
+        // this.props.onSubmit(values);
     },
     render(){
         const {getFieldProps} = this.props.form;
@@ -123,8 +136,48 @@ let searchForm = React.createClass({
                             <SelectorCS { ...getFieldProps('cs_dm')}/>
                         </FormItem>
                     </Col>
-
                 </Row>
+                <Row>
+                    <Col span="8">
+                        <FormItem
+                            {...formItemLayout}
+                            label="业务状态：">
+                            <SelectorYWZT  { ...getFieldProps('zt')}/>
+                        </FormItem>
+                    </Col>
+                    <Col span="8">
+                        <FormItem
+                            {...formItemLayout}
+                            label="鉴证年度">
+                            <SelectorYear { ...getFieldProps('nd')}/>
+                        </FormItem>
+                    </Col>
+                    <Col span="8">
+                        <FormItem
+                            {...formItemLayout}
+                            label="征收方式">
+                            <SelectorZSFS { ...getFieldProps('zsfs_dm')}/>
+                        </FormItem>
+                    </Col>
+                </Row>
+
+                <Row>
+                    <Col span="8">
+                        <FormItem
+                            {...formItemLayout}
+                            label="异地报备">
+                            <Checkbox  {...getFieldProps('is_yd', {valuePropName: 'checked' })}/>
+                        </FormItem>
+                    </Col>
+                    <Col span="8">
+                        <FormItem
+                            {...formItemLayout}
+                            label="外省事务所">
+                            <Checkbox  {...getFieldProps('swbz', {valuePropName: 'checked' })}/>
+                        </FormItem>
+                    </Col>
+                </Row>
+
                 <Row>
                     <Col span="4" offset="20">
                         <Button type="primary" htmlType="submit" className="query">查询</Button>

@@ -4,7 +4,7 @@ import List from './list'
 import model from './model'
 import config from 'common/configuration'
 import {jsonCopy} from 'common/utils'
-
+import cloneDeep from 'lodash/cloneDeep';
 
 const c = React.createClass({
 
@@ -21,7 +21,7 @@ const c = React.createClass({
 
     render(){
         //重新复制一个model对象，使修改不会影响原model对象，避免每次组件渲染时给原model对象累积赋值
-        const m = jsonCopy(model);
+        const m = cloneDeep(model);
         m.columns.push({
             title: '操作',
             key: 'action',
