@@ -31,9 +31,10 @@ let searchForm = React.createClass({
                 }
             }
         }
-        console.log(values)
+        //加工各提交字段的值
 
-        // this.props.onSubmit(values);
+
+        this.props.onSubmit(values);
     },
     render(){
         const {getFieldProps} = this.props.form;
@@ -41,6 +42,7 @@ let searchForm = React.createClass({
             labelCol: {span: 8},
             wrapperCol: {span: 16}
         };
+
         return <div className="search-form">
             <Form horizontal onSubmit={this.handleSubmit}>
                 <Row>
