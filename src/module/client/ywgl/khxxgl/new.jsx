@@ -121,7 +121,7 @@ let EditForm = React.createClass({
         });
         return <Panel title={title}>
             <div className="new-form">
-                <Form horizontal onSubmit={this.handleSubmit} form={this.props.form}>
+                <Form horizontal onSubmit={this.handleSubmit}>
                     <Row>
                         <Col span="9">
                             <FormItem

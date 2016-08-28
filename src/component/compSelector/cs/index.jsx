@@ -14,6 +14,7 @@ const selectorCS = React.createClass({
                        placeholder="选择城市"
                        showSearch optionFilterProp="children"
                        notFoundContent="无法找到"
+                       allowClear
                        disabled={this.props.disabled}>
             {options}
         </Select>

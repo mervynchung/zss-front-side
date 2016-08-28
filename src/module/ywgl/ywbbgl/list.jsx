@@ -3,7 +3,7 @@ import {Table, Row, Col, Button, Icon, notification, Alert} from 'antd'
 import Panel from 'component/compPanel'
 import req from 'reqwest';
 import SearchForm from './searchForm'
-import {isEmptyObject} from 'common/utils'
+import {isEmptyObject,jsonCopy} from 'common/utils'
 
 
 const ToolBar = Panel.ToolBar;
@@ -84,7 +84,7 @@ const list = React.createClass({
         const p = this.state.pagination;
         const param = {
             page: 1,
-            pageSize: p.pageSize,
+            pagesize: p.pageSize,
             where: values
         };
         this.fetchData(param);
