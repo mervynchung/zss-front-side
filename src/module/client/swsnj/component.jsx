@@ -259,10 +259,9 @@ const swsnjb = React.createClass({
 testee(text,record,index){
 
     var that = this;
-function ddd() {
-   
+function ddd() { 
      req({
-            url: API_URL + '/' + record.id,
+            url: API_URL + '/' + record.ID,
             type: 'json',
             method: 'get',
             headers:{'x-auth-token':auth.getToken()},
@@ -285,7 +284,6 @@ function ddd() {
    
 }
 function look() {
-     console.log(record);
      that.fetchData2(record)
      that.setState({update: true})
 }
