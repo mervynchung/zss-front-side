@@ -198,7 +198,6 @@ const khxxList = React.createClass({
                                pagination={this.state.pagination}
                                onChange={this.handlePageChange}
                                rowKey={record => record.ID}
-                               onRowClick={this.handleRowClick}
                         />
                     </Panel>
                 </Spin>

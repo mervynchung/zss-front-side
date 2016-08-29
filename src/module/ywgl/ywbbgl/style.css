@@ -3,3 +3,11 @@
     background-color: #FFFFFF;
     padding:16px 32px
 }
+
+.ywbbgl .fix-table td {
+    text-align: center;
+}
+.ywbbgl .fix-table td:first-child {
+    text-align: left;
+}
+

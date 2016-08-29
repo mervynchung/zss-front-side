@@ -1,6 +1,6 @@
 import React from 'react'
-import {Row, Col, Form, Button, Input, DatePicker, InputNumber,Checkbox} from 'antd'
-import {SelectorCS, SelectorYWLX, SelectorYear,SelectorYWZT,SelectorZSFS} from 'component/compSelector'
+import {Row, Col, Form, Button, Input, DatePicker, InputNumber, Checkbox} from 'antd'
+import {SelectorCS, SelectorYWLX, SelectorYear, SelectorYWZT, SelectorZSFS} from 'component/compSelector'
 import './style.css'
 
 const FormItem = Form.Item;
@@ -32,26 +32,25 @@ let searchForm = React.createClass({
             }
         }
         //加工各提交字段的值
-        if(values.xyje1 || values.xyje2){
-            values.xyje = [values.xyje1||0,values.xyje2||0];
+        if (values.xyje1 || values.xyje2) {
+            values.xyje = [values.xyje1 || 0, values.xyje2 || 0];
         }
-        if(values.sjsqje1 || values.sjsqje2){
-            values.sjsqje = [values.sjsqje1||0,values.sjsqje2||0];
+        if (values.sjsqje1 || values.sjsqje2) {
+            values.sjsqje = [values.sjsqje1 || 0, values.sjsqje2 || 0];
         }
-        if (values.is_yd){
-            values.is_yd = values.is_yd?'Y':'N';
+        if (values.is_yd) {
+            values.is_yd = values.is_yd ? 'Y' : 'N';
         }
-        if (values.swbz){
-            values.swbz = values.swbz?1:0;
+        if (values.swbz) {
+            values.swbz = values.swbz ? 1 : 0;
         }
-        if (values.bbrq && !values.bbrq[0]){
+        if (values.bbrq && !values.bbrq[0]) {
             delete values.bbrq
         }
-        if (values.bgrq && !values.bgrq[0]){
+        if (values.bgrq && !values.bgrq[0]) {
             delete values.bgrq
         }
 
-        console.log(values)
         this.props.onSubmit(values);
     },
     render(){
@@ -98,16 +97,16 @@ let searchForm = React.createClass({
                         <FormItem
                             labelCol={{span: 8}} wrapperCol={{span: 16}}
                             label="协议收费金额">
-                            <InputNumber style={{width: '40%'}} { ...getFieldProps('xyje1')}/>&nbsp;- &nbsp;
-                            <InputNumber style={{width: '40%'}} { ...getFieldProps('xyje2')}/>
+                            <InputNumber style={{width: '40%'}} step={0.01} { ...getFieldProps('xyje1')}/>&nbsp;- &nbsp;
+                            <InputNumber style={{width: '40%'}} step={0.01} { ...getFieldProps('xyje2')}/>
                         </FormItem>
                     </Col>
                     <Col span="8">
                         <FormItem
                             {...formItemLayout}
                             label="实际收费金额">
-                            <InputNumber style={{width: '40%'}}  { ...getFieldProps('sjsqje1')}/>&nbsp;- &nbsp;
-                            <InputNumber style={{width: '40%'}} { ...getFieldProps('sjsqje2')}/>
+                            <InputNumber style={{width: '40%'}} step={0.01} { ...getFieldProps('sjsqje1')}/>&nbsp;- &nbsp;
+                            <InputNumber style={{width: '40%'}} step={0.01} { ...getFieldProps('sjsqje2')}/>
                         </FormItem>
                     </Col>
                 </Row>
@@ -140,7 +139,7 @@ let searchForm = React.createClass({
                             {...formItemLayout}
                             label="报备日期：">
                             <RangePicker format="yyyy/MM/dd" { ...getFieldProps('bbrq',
-                              {getValueFromEvent:(date, dateString)=> dateString })}/>
+                                {getValueFromEvent: (date, dateString)=> dateString})}/>
                         </FormItem>
                     </Col>
                     <Col span="8">
@@ -148,7 +147,7 @@ let searchForm = React.createClass({
                             {...formItemLayout}
                             label="报告日期">
                             <RangePicker format="yyyy/MM/dd" { ...getFieldProps('bgrq',
-                              {getValueFromEvent:(date, dateString)=> dateString })}/>
+                                {getValueFromEvent: (date, dateString)=> dateString})}/>
                         </FormItem>
                     </Col>
                     <Col span="8">
@@ -182,20 +181,19 @@ let searchForm = React.createClass({
                         </FormItem>
                     </Col>
                 </Row>
-
                 <Row>
                     <Col span="8">
                         <FormItem
                             {...formItemLayout}
                             label="异地报备">
-                            <Checkbox  {...getFieldProps('is_yd', {valuePropName: 'checked' })}/>
+                            <Checkbox  {...getFieldProps('is_yd', {valuePropName: 'checked'})}/>
                         </FormItem>
                     </Col>
                     <Col span="8">
                         <FormItem
                             {...formItemLayout}
                             label="外省事务所">
-                            <Checkbox  {...getFieldProps('swbz', {valuePropName: 'checked' })}/>
+                            <Checkbox  {...getFieldProps('swbz', {valuePropName: 'checked'})}/>
                         </FormItem>
                     </Col>
                 </Row>
