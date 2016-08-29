@@ -4,7 +4,8 @@
     height:13.39cm;
     background:rgba(0, 0, 0, 0) url("./background_ry.jpg"); 
     font-size:10.5pt;
-    font-family: KaiTi,SimSun,Sun;
+    font-family: KaiTi_GB2312,KaiTi;
+    font-weight: 600;
 }
 
 @media print{
@@ -17,7 +18,7 @@
 .ry_background{
     position: absolute;
     left:-0.3cm;
-    top:-0.4cm;
+    top:-0.1cm;
 }
 
 

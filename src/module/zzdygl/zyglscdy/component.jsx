@@ -145,7 +145,9 @@ const rycx = React.createClass({
   print(row,dylx){
     
     if (dylx) {
-      window.open("#/print/zzdygl/glscdj?"+encodeURIComponent(JSON.stringify(row)));
+       var mp={};
+      mp.DWMC=row.DWMC;
+      window.open("#/print/zzdygl/glscdj?"+encodeURIComponent(JSON.stringify(mp)));
     }else{
       var mp={};
       mp.ZYZGZSBH=row.ZYZGZSBH;
@@ -156,7 +158,7 @@ const rycx = React.createClass({
       mp.DWMC=row.DWMC;
       mp.SRI=row.SRI;
       mp.SRI=row.SRI;
-      window.open("#/print/zzdygl/glscry?"+encodeURIComponent(JSON.stringify(row)));
+      window.open("#/print/zzdygl/glscry?"+encodeURIComponent(JSON.stringify(mp)));
     };
   },
 

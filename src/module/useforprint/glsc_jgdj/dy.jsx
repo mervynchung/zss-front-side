@@ -1,14 +1,20 @@
 import React from 'react'
 import './dy.css' 
-import {Row,Col,Modal} from 'antd'
+import {Row,Col,Modal,Radio} from 'antd'
 import req from 'reqwest'
 import auth from 'common/auth'
 import config from 'common/configuration'
 
 const API_URL = config.HOST + config.URI_API_PROJECT + '/hyhf/fpdy/fpdylj';
 const confirm = Modal.confirm;
+const RadioGroup = Radio.Group;
 let dy = React.createClass({
-	onClick(jlid){
+	getInitialState() {
+	    return {
+	      value: 1,
+	    };
+	  },
+	onClick(){
 		window.print(); 
 		confirm({
 		    title: '打印信息',
@@ -16,93 +22,77 @@ let dy = React.createClass({
 		    okText:"是",
 		    cancelText:"否",
 		    onOk() {
-		    	if (!jlid) {
 		    		window.close();
-		    	}else{
-			      req({
-		                url: API_URL,
-		                type: 'json',
-		                method: 'put',
-		                data: JSON.stringify(jlid),
-		                contentType: 'application/json',
-		                headers:{'x-auth-token':auth.getToken()}
-		            }).then(resp=> {
-		            	window.close();
-	    		 }).fail(err=> {
-		                Modal.error({
-		                    title: '数据提交错误',
-		                    content: (
-		                        <div>
-		                            <p>无法向服务器提交数据，需检查应用服务工作情况</p>
-		                            <p>Status: {err.status}</p>
-		                        </div>  )
-		                });
-		            })
-    		 };
 		    },
 		    onCancel() {},
 		  });
 	},
-	changeNum(num){
-		var integer=parseInt(num);
-		var flt=(num-integer).toFixed(2);
-		var fltint=(flt.toString()).substring(2,4);
-		return <p>
-				<span style={{'letterSpacing':'9px'}}>{integer}</span>
-				<span>.</span>
-				<span style={{'letterSpacing':'5px'}}>{fltint}</span>
-			</p>;
-	},
-	digitUppercase(num) {  
-	  var strOutput = "";  
-	  var strUnit = '仟佰拾亿仟佰拾万仟佰拾元角分';  
-	  num += "00";  
-	  var intPos = num.indexOf('.');  
-	  if (intPos >= 0)  
-	    num = num.substring(0, intPos) + num.substr(intPos + 1, 2);  
-	  strUnit = strUnit.substr(strUnit.length - num.length);  
-	  for (var i=0; i < num.length; i++)  
-	    strOutput += '零壹贰叁肆伍陆柒捌玖'.substr(num.substr(i,1),1) + strUnit.substr(i,1);  
-	    return strOutput.replace(/零角零分$/, '整').replace(/零[仟佰拾]/g, '零').replace(/零{2,}/g, '零').replace(/零([亿|万])/g, '$1').replace(/零+元/, '元').replace(/亿零{0,3}万/, '亿').replace(/^元/, "零元");  
-	},
+	onChange(e) {
+		console.log(e)
+	    this.setState({
+	      value: e.target.value,
+	    });
+	  },
 	render(){
+		 const radioStyle = {
+		      display: 'block',
+		      height: '1.18cm',
+		    };
 		const sd=decodeURIComponent(this.props.location.search);
 		var rs=JSON.parse(sd.substring(1,sd.length));
-		console.log(rs);
-		const nowy = new Date(rs.ND);
-		let tt="";
-		let gr="";
-		if (rs.YJTTHF) {
-			tt=nowy.getFullYear()+"年税务师机构团体会费"
-		};
-		if (rs.YJGRHF) {
-			gr=nowy.getFullYear()+"年执业税务师个人会费"
-		};
-		if (rs.nd) {
-			tt=new Date(rs.nd).getFullYear()+"年非执业税务师个人会费"
-		};
-		const jfrq = new Date(rs.JFRQ);
+		const nowy = new Date();
+		const nowd = nowy.getFullYear().toString()+"."+(nowy.getMonth()+1).toString()+"."+nowy.getDate().toString()
 		return <div className="fpdya4">
 		<div className="dj_background" >
-		<table style={{'position':'absolute','top':'80px','left':'45'}}>
+		<table style={{'position':'absolute','top':'3.2cm','left':'10.42cm'}}>
 			<tbody>
 				<tr>
-					<td style={{'width':'105','height':'24'}}>111111</td>
+					<td style={{'width':'2.38cm','height':'1.1cm','textAlign':'center'}}>{this.state.value==1?nowd:null}</td>
+					<td style={{'width':'6cm','height':'1.1cm'}}>{this.state.value==1?rs.DWMC:null}</td>
+				</tr>
+				<tr>
+					<td style={{'width':'2.38cm','height':'1.1cm','textAlign':'center'}}>{this.state.value==2?nowd:null}</td>
+					<td style={{'width':'6cm','height':'1.1cm'}}>{this.state.value==2?rs.DWMC:null}</td>
+				</tr>
+				<tr>
+					<td style={{'width':'2.38cm','height':'1.1cm','textAlign':'center'}}>{this.state.value==3?nowd:null}</td>
+					<td style={{'width':'6cm','height':'1.1cm'}}>{this.state.value==3?rs.DWMC:null}</td>
+				</tr>
+				<tr>
+					<td style={{'width':'2.38cm','height':'1.1cm','textAlign':'center'}}>{this.state.value==4?nowd:null}</td>
+					<td style={{'width':'6cm','height':'1.1cm'}}>{this.state.value==4?rs.DWMC:null}</td>
+				</tr>
+				<tr>
+					<td style={{'width':'2.38cm','height':'1.1cm','textAlign':'center'}}>{this.state.value==5?nowd:null}</td>
+					<td style={{'width':'6cm','height':'1.1cm'}}>{this.state.value==5?rs.DWMC:null}</td>
+				</tr>
+				<tr>
+					<td style={{'width':'2.38cm','height':'1.1cm','textAlign':'center'}}>{this.state.value==6?nowd:null}</td>
+					<td style={{'width':'6cm','height':'1.1cm'}}>{this.state.value==6?rs.DWMC:null}</td>
+				</tr>
+				<tr>
+					<td style={{'width':'2.38cm','height':'1.1cm','textAlign':'center'}}>{this.state.value==7?nowd:null}</td>
+					<td style={{'width':'6cm','height':'1.1cm'}}>{this.state.value==7?rs.DWMC:null}</td>
+				</tr>
+				<tr>
+					<td style={{'width':'2.38cm','height':'1.1cm','textAlign':'center'}}>{this.state.value==8?nowd:null}</td>
+					<td style={{'width':'6cm','height':'1.1cm'}}>{this.state.value==8?rs.DWMC:null}</td>
 				</tr>
 			</tbody>
 		</table>
-		<table style={{'position':'absolute','top':'110px','left':'63'}}>
-			
-			<tbody>
-				<tr>
-					<td style={{'width':'160','height':'35'}}>11111</td>
-				</tr>
-				
-			</tbody>
-		</table>
-		
-		</div><button className="noprint" type="button" onClick={rs.XMING?this.onClick.bind(this,false):this.onClick.bind(this,rs.jlid)} style={{'position':'relative','left':'330px','width':'60px'}}>打印</button>
+		<RadioGroup onChange={this.onChange} value={this.state.value} size="large" 
+				style={{'position':'absolute','top':'3.5cm','left':'18.8cm'}} className="dj_radio">
+					<Radio  className="noprint" style={radioStyle} key="a" value={1} ></Radio>
+					<Radio  className="noprint" style={radioStyle} key="b" value={2} ></Radio>
+					<Radio  className="noprint" style={radioStyle} key="c" value={3} ></Radio>
+					<Radio  className="noprint" style={radioStyle} key="e" value={4} ></Radio>
+					<Radio  className="noprint" style={radioStyle} key="f" value={5} ></Radio>
+					<Radio  className="noprint" style={radioStyle} key="g" value={6} ></Radio>
+					<Radio  className="noprint" style={radioStyle} key="h" value={7} ></Radio>
+					<Radio  className="noprint" style={radioStyle} key="i" value={8} ></Radio>
+		</RadioGroup>
+		</div><button className="noprint" type="button" onClick={this.onClick} style={{'position':'relative','left':'330px','width':'60px'}}>打印</button>
 		</div>
 	}
 	});
-module.exports = dy;//'fontSize':'24px'
+module.exports = dy;
