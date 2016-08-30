@@ -59,11 +59,14 @@ const c = React.createClass({
             fixed: 'right',
             width: 100,
             render: (text, record)=> {
-                let actGroup = <a onClick={()=>{this.handleViewDetail(record)}}>明细</a>;
-                if(record.ywzt_dm == 1 || record.ywzt_dm ==3){
-                    actGroup.push()
-                }
-                return <span>actGroup</span>
+                let actGroup = <span>
+                    <a onClick={()=>{this.handleViewDetail(record)}}>明细</a>&nbsp;&nbsp;
+                    {record.ywzt_dm == 1 || record.ywzt_dm ==3?
+                    <a onClick={()=>{this.handleViewDetail(record)}}>退回</a>
+                    :null}
+                </span>;
+
+                return actGroup
             }
         });
 
