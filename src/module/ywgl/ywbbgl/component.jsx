@@ -2,6 +2,7 @@ import React from 'react'
 import {Table, Modal, Row, Col, Button, Icon, Alert} from 'antd'
 import List from './list'
 import Detail from './detail'
+import DiaSentBack from './dialogSentBack'
 import model from './model'
 import config from 'common/configuration'
 import {jsonCopy} from 'common/utils'
@@ -11,20 +12,32 @@ import './style.css'
 const c = React.createClass({
     getInitialState(){
         return {
-            view:'list',
-            listState:{},
-            entity:{}
+            view: 'list',
+            listState: {},
+            entity: {},
+            dialogSentBack: false
         }
     },
 
+    //打开明细信息视图
     handleViewDetail(record){
-        this.setState({view:'detail',entity:record})
+        this.setState({view: 'detail', entity: record})
     },
+    //返回list视图
     backToList(){
-        this.setState({view:'list'})
+        this.setState({view: 'list'})
     },
+    //抓取当前list分页状态
     grabListState(state){
-        this.setState({listState:state})
+        this.setState({listState: state})
+    },
+    //打开强制退回操作对话框
+    openSentBack(){
+        this.setState({dialogSentBack: true})
+    },
+    //关闭强制退回操作对话框
+    closeSentBack(){
+        this.setState({dialogSentBack: false})
     },
 
     /*计算column里定义的width总和，没有定义width的列宽按100(px)计算*/
@@ -45,12 +58,16 @@ const c = React.createClass({
             key: 'action',
             fixed: 'right',
             width: 100,
-            render:(text,record)=>{
-                return <span><a onClick={()=>{this.handleViewDetail(record)}}>明细</a></span>
+            render: (text, record)=> {
+                let actGroup = <a onClick={()=>{this.handleViewDetail(record)}}>明细</a>;
+                if(record.ywzt_dm == 1 || record.ywzt_dm ==3){
+                    actGroup.push()
+                }
+                return <span>actGroup</span>
             }
         });
 
-        /*设置列表组件的参数*/
+        /*设置列表组件的参数,一般不需要调整字段*/
         const listSetting = {
             //标题
             title: '业务报备管理',
@@ -67,31 +84,47 @@ const c = React.createClass({
             //列表需使用的columns定义
             columns: m.columns,
             //记录list组件被切换时状态值的方法
-            grabState:this.grabListState,
+            grabState: this.grabListState,
             //list组件重新挂载时恢复状态用的历史状态数据
-            stateShot:this.state.listState,
+            stateShot: this.state.listState,
             //数据来源api
             apiUrl: config.HOST + config.URI_API_PROJECT + '/ywbb'
         };
 
-        /*设置明细信息组件的参数*/
+        /*设置明细信息组件的参数,可根据需要调整实际属性*/
         const detailSetting = {
             //设置数据源
-            data:this.state.entity,
+            data: this.state.entity,
             //设置标题
-            title:'业务报备详细信息',
-            //设置返回调用的方法
-            onBack:this.backToList
+            title: '业务报备详细信息',
+            //设置返回主视图调用的方法
+            onBack: this.backToList,
+            sentBack: this.openSentBack,
+            printCover:null,
+            spCX:null,
+            spQY:null,
+            spTH:null
+        };
+
+        /*设置强制退回对话框的参数*/
+        const sentBackSetting = {
+            //业务id
+            id: this.state.entity.id,
+            visible:this.state.dialogSentBack,
+            onClose:this.closeSentBack,
+            apiUrl:config.HOST + config.URI_API_PROJECT + '/ywbb/'
         };
 
         /*通过控制state.view的值，实现页面上列表/详细信息等组件的切换*/
         const view = {
-            list : <List {...listSetting}/>,
+            list: <List {...listSetting}/>,
             detail: <Detail {...detailSetting}/>
         };
 
+
         return <div className="ywbbgl">
             <div className="wrap">
+                <DiaSentBack {...sentBackSetting}  />
                 {view[this.state.view]}
             </div>
         </div>

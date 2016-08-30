@@ -7,7 +7,19 @@
 .ywbbgl .fix-table td {
     text-align: center;
 }
-.ywbbgl .fix-table td:first-child {
+.ywbbgl .fix-table td:nth-child(odd) {
     text-align: right;
 }
-
+.ywbbgl .fix-table td:nth-child(even) {
+    text-align: left;
+}
+.ywbbgl .fix-table td.value {
+    text-align: left;
+}
+.ywbbgl .detail-bar{
+    margin-top: 16px;
+}
+.ywbbgl .detail-bar .ant-btn{
+    margin-right: 8px;
+    float: right;
+}
