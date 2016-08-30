@@ -1,0 +1,116 @@
+.zb_background{
+    position: relative;
+    width:38.71cm;
+    height:26.67cm;
+    background:rgba(0, 0, 0, 0) url("./background_zb.jpg"); 
+    font-size:15.65pt;
+    font-family: Sun,SimSun;
+    font-weight: 600;
+}
+.zb_background .dwmc{
+    position: absolute;
+    display:-moz-inline-box; 
+    display:inline-block; 
+    width:13.26cm; 
+    height: 1.85cm; 
+    left: 7.78cm;
+    top: 10.16cm;
+}
+.zb_background .zsbh{
+    position: absolute;
+    left:7.78cm;
+    top:12.12cm;
+}
+.zb_background .ZJPZWH{
+    position: absolute;
+    left:7.78cm;
+    top:13.97cm;
+}
+.zb_background .DZHI{
+    position: absolute;
+    display:-moz-inline-box; 
+    display:inline-block; 
+    width:12.89cm; 
+    height: 2.49cm; 
+    left: 7.78cm;
+    top: 15.8cm;
+}
+.zb_background .year{
+    position: absolute;
+    left:5.13cm;
+    top:12.06cm;
+}
+.zb_background .month{
+    position: absolute;
+    display:-moz-inline-box; 
+    display:inline-block; 
+    width:0.38cm; 
+    height: 0.34cm; 
+    text-align: center;
+    left:6.4cm;
+    top:12.06cm;
+}
+.zb_background .date{
+    position: absolute;
+    display:-moz-inline-box; 
+    display:inline-block; 
+    width:0.38cm; 
+    height: 0.34cm; 
+    left:7.15cm;
+    top:12.06cm;
+    text-align: center;
+}
+
+.zb_background .fddbr{
+    position: absolute;
+    display:-moz-inline-box; 
+    display:inline-block; 
+    width:3.92cm; 
+    height: 0.96cm; 
+    left: 13.86cm;
+    top: 4.26cm;
+}
+
+.zb_background .zczj{
+    position: absolute;
+    display:-moz-inline-box; 
+    display:inline-block; 
+    width:3.92cm; 
+    height: 0.96cm; 
+    left: 13.86cm;
+    top: 5.86cm;
+}
+.zb_background .YYZZHM{
+    position: absolute;
+    display:-moz-inline-box; 
+    display:inline-block; 
+    width:3.92cm; 
+    height: 0.96cm; 
+    left: 13.12cm;
+    top: 7.36cm;
+}
+.zb_background .JYFW{
+    position: absolute;
+    display:-moz-inline-box; 
+    display:inline-block; 
+    width:4.56cm; 
+    height: 3.85cm; 
+    left: 13.12cm;
+    top: 8.69cm;
+}
+
+@media print{
+
+.noprint{
+   display:none;
+}
+
+
+.zb_background{
+    position: absolute;
+    left:-0.3cm;
+    top:-0.1cm;
+}
+
+
+}

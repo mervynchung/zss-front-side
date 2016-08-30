@@ -8,6 +8,8 @@ import Signin from 'module/signin';
 import Dyfp from 'module/useforprint/fpdy/dy.jsx';
 import Dydj from 'module/useforprint/glsc_jgdj/dy.jsx';
 import Dyry from 'module/useforprint/glsc_ry/dy.jsx';
+import Dyzb from 'module/useforprint/glsc_zb/dy.jsx';
+import Dyfb from 'module/useforprint/glsc_fb/dy.jsx';
 import {cenHome,clientHome } from '../module/home';
 import NotFound from 'module/404notfound'
 import auth from 'common/auth'
@@ -212,6 +214,12 @@ const Index = React.createClass({
         }, {
             path: '/print/zzdygl/glscry',
             component: Dyry
+        },{
+            path: '/print/zzdygl/jgzyzzb',
+            component: Dyzb
+        },{
+            path: '/print/zzdygl/jgzyzfb',
+            component: Dyfb
         }, {
             path: '*',
             component: NotFound
