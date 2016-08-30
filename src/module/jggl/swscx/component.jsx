@@ -138,11 +138,98 @@ const jgcx = React.createClass({
     })
   },
 
+  print(row,dylx){
+    
+    if (dylx) {
+       var mp={};
+      mp.zsbh=row.zsbh;
+      mp.ZJPZWH=row.ZJPZWH;
+      mp.dwmc=row.dwmc;
+      mp.DZHI=row.DZHI;
+      mp.fddbr=row.fddbr;
+      mp.zczj=row.zczj;
+      mp.YYZZHM=row.YYZZHM;
+      mp.JYFW=row.JYFW;
+      window.open("#/print/zzdygl/jgzyzzb?"+encodeURIComponent(JSON.stringify(mp)));
+    }else{
+      var mp={};
+      mp.zsbh=row.zsbh;
+      mp.ZJPZWH=row.ZJPZWH;
+      mp.dwmc=row.dwmc;
+      mp.DZHI=row.DZHI;
+      mp.fddbr=row.fddbr;
+      mp.zczj=row.zczj;
+      mp.YYZZHM=row.YYZZHM;
+      mp.JYFW=row.JYFW;
+      window.open("#/print/zzdygl/jgzyzfb?"+encodeURIComponent(JSON.stringify(mp)));
+    };
+  },
+
+ ztRender(text, row, index) {
+    var that=this;
+     return (
+                    <span>
+                      <a onClick={that.print.bind(this,row,true)}>办证</a><span className="ant-divider" ></span>
+                      <a onClick={that.print.bind(this,row,false)}>副本</a>
+                    </span>
+                  );
+  },
+
   componentDidMount() { //REACT提供懒加载方法，懒加载时使用，且方法名必须为componentDidMount
     this.fetch_jgcx(); //异步调用后台服务器方法fetch_jgcx
   },
 
   render() {
+    const columns = [{ //设定列
+          title: '序号', //设定该列名称
+          dataIndex: 'xh', //设定该列对应后台字段名
+          key: 'xh', //列key，必须设置，建议与字段名相同
+        }, {
+          title: '机构名称',
+          dataIndex: 'dwmc',
+          key: 'dwmc',
+          sorter: true, //是否可以排序，需后台写排序方法
+        }, {
+          title: '注册资金（万元）',
+          dataIndex: 'zczj',
+          key: 'zczj',
+          sorter: true,
+        }, {
+          title: '法定代表人',
+          dataIndex: 'fddbr',
+          key: 'fddbr',
+          sorter: true,
+        }, {
+          title: '证书编号',
+          dataIndex: 'zsbh',
+          key: 'zsbh',
+        }, {
+          title: '事务所性质',
+          dataIndex: 'swsxz',
+          key: 'swsxz',
+        }, {
+          title: '城市',
+          dataIndex: 'cs',
+          key: 'cs',
+        }, {
+          title: '总人数',
+          dataIndex: 'zrs',
+          key: 'zrs',
+        }, {
+          title: '执业注税师人数',
+          dataIndex: 'zyrs',
+          key: 'zyrs',
+        }, {
+          title: '成立时间',
+          dataIndex: 'clsj',
+          key: 'clsj',
+          sorter: true,
+        }, {
+          title: '操作',
+          key: 'operation',
+          fixed:'right',
+          render:this.ztRender
+    }];
     let toolbar = <ToolBar>
       <Button onClick={this.handleSearchToggle}>
         <Icon type="search"/>查询
@@ -152,11 +239,11 @@ const jgcx = React.createClass({
     </ToolBar>;
     return <div className="jgcx">
       <div className="wrap">
-        <div className="dataGird">
+        <div className="h-scroll-table">
           <Panel toolbar={toolbar}>
             {this.state.searchToggle && <SearchForm
               onSubmit={this.handleOk}/>}
-            <Table columns={Model.columns}
+            <Table columns={columns}
               dataSource={this.state.data}
               pagination={this.state.pagination}
               onChange={this.handleTableChange}

@@ -157,7 +157,6 @@ const rycx = React.createClass({
       mp.xb=row.xb;
       mp.DWMC=row.DWMC;
       mp.SRI=row.SRI;
-      mp.SRI=row.SRI;
       window.open("#/print/zzdygl/glscry?"+encodeURIComponent(JSON.stringify(mp)));
     };
   },

@@ -1,11 +1,7 @@
 import React from 'react'
 import './dy.css' 
 import {Row,Col,Modal,Radio} from 'antd'
-import req from 'reqwest'
-import auth from 'common/auth'
-import config from 'common/configuration'
 
-const API_URL = config.HOST + config.URI_API_PROJECT + '/hyhf/fpdy/fpdylj';
 const confirm = Modal.confirm;
 const RadioGroup = Radio.Group;
 let dy = React.createClass({
@@ -28,7 +24,6 @@ let dy = React.createClass({
 		  });
 	},
 	onChange(e) {
-		console.log(e)
 	    this.setState({
 	      value: e.target.value,
 	    });
