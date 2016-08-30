@@ -16,13 +16,19 @@ let modal = React.createClass({
     },
     handleSubmit(){
         const token = auth.getToken();
+        const {data,apiUrl} = this.props;
+        const values = this.props.form.getFieldValue();
+        const obj = {
+            lx:2, //更新操作类型2为退回
+            data:values
+        };
         this.setState({loading: true});
         req({
-            url: this.props.apiUrl + this.props.id,
+            url: apiUrl + data.id,
             type: 'json',
             method: 'put',
             contentType: 'application/json',
-            data: JSON.stringify(values),
+            data: JSON.stringify(obj),
             headers: {'x-auth-token': token}
         }).then(resp=> {
             setFieldsValue({'thyy': null});
@@ -46,14 +52,40 @@ let modal = React.createClass({
     },
     render(){
         const {getFieldProps} = this.props.form;
-        const {visible} = this.props;
-        return <Form>
+        const {visible,data} = this.props;
+        return <Form horizontal >
             <Modal
               visible = {visible}
               style={{top: '100px'}}
               title="退回业务报备"
               confirmLoading={this.state.loading}
               okText="确认退回" onOk={this.handleSubmit} onCancel={this.handleClose}>
+                <div className="fix-table no-border">
+                    <table>
+                        <tbody>
+                        <tr>
+                            <td>报备号码 :</td>
+                            <td>{data.bbhm}</td>
+                        </tr>
+                        <tr>
+                            <td>委托企业 :</td>
+                            <td>{data.wtdw}</td>
+                        </tr>
+                        <tr>
+                            <td>事务所 :</td>
+                            <td>{data.swsmc}</td>
+                        </tr>
+                        <tr>
+                            <td>业务类型 :</td>
+                            <td>{data.ywlx}</td>
+                        </tr>
+                        <tr>
+                            <td>报备日期 :</td>
+                            <td>{data.bbrq}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
                 <Row>
                     <Col span="24">
                         <FormItem

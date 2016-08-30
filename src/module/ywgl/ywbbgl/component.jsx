@@ -32,8 +32,8 @@ const c = React.createClass({
         this.setState({listState: state})
     },
     //打开强制退回操作对话框
-    openSentBack(){
-        this.setState({dialogSentBack: true})
+    openSentBack(record){
+        this.setState({dialogSentBack: true,entity:record})
     },
     //关闭强制退回操作对话框
     closeSentBack(){
@@ -52,6 +52,7 @@ const c = React.createClass({
     render(){
         //重新复制一个model对象，使修改不会影响原model对象，避免每次组件渲染时给原model对象累积赋值
         const m = cloneDeep(model);
+
         //定义列表中的操作列具体方法
         m.columns.push({
             title: '操作',
@@ -59,13 +60,17 @@ const c = React.createClass({
             fixed: 'right',
             width: 100,
             render: (text, record)=> {
-                let actGroup = <span>
-                    <a onClick={()=>{this.handleViewDetail(record)}}>明细</a>&nbsp;&nbsp;
+                let actGroup = <span className="act-group">
+                    <a onClick={()=>{this.handleViewDetail(record)}}>明细</a>
                     {record.ywzt_dm == 1 || record.ywzt_dm ==3?
-                    <a onClick={()=>{this.handleViewDetail(record)}}>退回</a>
-                    :null}
+                    <a onClick={()=>{this.openSentBack(record)}}>退回</a>:null}
+                    {record.ywzt_dm == 5 ?
+                      <a onClick={()=>{this.handleViewDetail(record)}}>撤销审批</a>:null}
+                    {record.ywzt_dm == 8 ?
+                      <a onClick={()=>{this.handleViewDetail(record)}}>启用审批</a>:null}
+                    {record.ywzt_dm == 6 ?
+                      <a onClick={()=>{this.handleViewDetail(record)}}>退回审批</a>:null}
                 </span>;
-
                 return actGroup
             }
         });
@@ -112,7 +117,7 @@ const c = React.createClass({
         /*设置强制退回对话框的参数*/
         const sentBackSetting = {
             //业务id
-            id: this.state.entity.id,
+            data: this.state.entity,
             visible:this.state.dialogSentBack,
             onClose:this.closeSentBack,
             apiUrl:config.HOST + config.URI_API_PROJECT + '/ywbb/'
