@@ -66,7 +66,7 @@ const Index = React.createClass({
 
                 //业务管理
 
-            /*    require('../module/ywgl/ywbbgl'),
+                require('../module/ywgl/ywbbgl'),
                 require('../module/ywgl/ywzlgl/sfjeyjgl'),
                 require('../module/ywgl/ywzlgl/ndbtyjgl'),
                 require('../module/ywgl/ywzlgl/ywwtyjgl'),
@@ -104,7 +104,7 @@ const Index = React.createClass({
 
                 //监督检查
                 require('../module/jdjc/zyswsnjb'),
-                require('../module/jdjc/swsnj'),*/
+                require('../module/jdjc/swsnj'),
 
                 //逐级审核
                 require('../module/spsh'),
@@ -133,7 +133,7 @@ const Index = React.createClass({
                 require('../module/spsh/module/46'),
 
                 //数据统计分析 - 年检数据分析
-            /*    require('../module/xtsjfx/njsjfx/rynjsjfx'),//人员年检数据分析
+                require('../module/xtsjfx/njsjfx/rynjsjfx'),//人员年检数据分析
                 require('../module/xtsjfx/njsjfx/jgnjsjfxb'),//机构年检数据分析
 
                 //数据统计分析 - 注税行业年报表
@@ -167,7 +167,7 @@ const Index = React.createClass({
                 require('../module/hyhf_new/scgl'),
 
                 //证照打印管理
-            */    require('../module/zzdygl/zyglscdy'),/*
+                require('../module/zzdygl/zyglscdy'),
 
 
                 //客户端
@@ -196,7 +196,7 @@ const Index = React.createClass({
                 //业务管理
                 require('../module/client/ywgl/khxxgl'), //客户信息管理
                 require('../module/client/ywgl/ywbb'), //事务所业务报备
-*/
+
 
                 //公用功能
                 //修改密码
