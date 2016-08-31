@@ -100,10 +100,12 @@
 
 
 @page {
-    size: A3;
+    size: A3 landscape;
 }
 
+
 @media print{
+
 
 .noprint{
    display:none;
