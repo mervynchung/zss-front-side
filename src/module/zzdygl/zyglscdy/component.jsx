@@ -143,11 +143,21 @@ const rycx = React.createClass({
 },
 
   print(row,dylx){
-    window.open("#/print/hyhf/fpdy?"+encodeURIComponent(JSON.stringify(row)));
+    
     if (dylx) {
-      console.log(dylx,"222");
+       var mp={};
+      mp.DWMC=row.DWMC;
+      window.open("#/print/zzdygl/glscdj?"+encodeURIComponent(JSON.stringify(mp)));
     }else{
-      console.log(dylx,"1111");
+      var mp={};
+      mp.ZYZGZSBH=row.ZYZGZSBH;
+      mp.ZYZSBH=row.ZYZSBH;
+      mp.GRHYBH=row.GRHYBH;
+      mp.XMING=row.XMING;
+      mp.xb=row.xb;
+      mp.DWMC=row.DWMC;
+      mp.SRI=row.SRI;
+      window.open("#/print/zzdygl/glscry?"+encodeURIComponent(JSON.stringify(mp)));
     };
   },
 

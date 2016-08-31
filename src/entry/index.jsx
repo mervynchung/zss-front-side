@@ -6,6 +6,10 @@ import { createHistory,createHashHistory } from 'history'
 import App from '../component/App';
 import Signin from 'module/signin';
 import Dyfp from 'module/useforprint/fpdy/dy.jsx';
+import Dydj from 'module/useforprint/glsc_jgdj/dy.jsx';
+import Dyry from 'module/useforprint/glsc_ry/dy.jsx';
+import Dyzb from 'module/useforprint/glsc_zb/dy.jsx';
+import Dyfb from 'module/useforprint/glsc_fb/dy.jsx';
 import {cenHome,clientHome } from '../module/home';
 import NotFound from 'module/404notfound'
 import auth from 'common/auth'
@@ -167,7 +171,7 @@ const Index = React.createClass({
                 require('../module/hyhf_new/fzyhyhf'),
                 require('../module/hyhf_new/scgl'),
 
-                //证照打印管理
+               //  //证照打印管理
                 require('../module/zzdygl/zyglscdy'),
 
 
@@ -210,11 +214,17 @@ const Index = React.createClass({
             path: '/print/hyhf/fpdy',
             component: Dyfp
         }, {
-            path: '/print/zzdygl/glscry',
-            component: Dyfp
+            path: '/print/zzdygl/glscdj',
+            component: Dydj
         }, {
-            path: '/print/hyhf/fpdy',
-            component: Dyfp
+            path: '/print/zzdygl/glscry',
+            component: Dyry
+        },{
+            path: '/print/zzdygl/jgzyzzb',
+            component: Dyzb
+        },{
+            path: '/print/zzdygl/jgzyzfb',
+            component: Dyfb
         }, {
             path: '*',
             component: NotFound

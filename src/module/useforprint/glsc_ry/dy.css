@@ -1,10 +1,11 @@
-.dy_background{
+.ry_background{
     position: relative;
-    width:711px;
-    height:384px;
-    background:rgba(0, 0, 0, 0) url("./background.jpg"); 
-    font-size:18px;
-    font-family: "宋体";
+    width:19.53cm;
+    height:13.39cm;
+    background:rgba(0, 0, 0, 0) url("./background_ry.jpg"); 
+    font-size:10.5pt;
+    font-family: KaiTi_GB2312,KaiTi;
+    font-weight: 600;
 }
 
 @media print{
@@ -13,12 +14,11 @@
    display:none;
 }
 
-.fpdya4{
-   width:790px;
-}
 
-.dy_background{
-   float:right;
+.ry_background{
+    position: absolute;
+    left:-0.3cm;
+    top:-0.1cm;
 }
 
 
