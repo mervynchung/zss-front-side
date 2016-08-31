@@ -39,6 +39,18 @@ const c = React.createClass({
     closeSentBack(){
         this.setState({dialogSentBack: false})
     },
+    //打开申请撤销审批
+    openSpCX(record){
+
+    },
+    //打开申请启用审批
+    openSpQY(record){
+
+    },
+    //打开申请退回审批
+    openSpTH(record){
+
+    },
 
     /*计算column里定义的width总和，没有定义width的列宽按100(px)计算*/
     getColWidth(model){
@@ -58,18 +70,18 @@ const c = React.createClass({
             title: '操作',
             key: 'action',
             fixed: 'right',
-            width: 100,
+            width: 120,
             render: (text, record)=> {
                 let actGroup = <span className="act-group">
                     <a onClick={()=>{this.handleViewDetail(record)}}>明细</a>
                     {record.ywzt_dm == 1 || record.ywzt_dm ==3?
                     <a onClick={()=>{this.openSentBack(record)}}>退回</a>:null}
                     {record.ywzt_dm == 5 ?
-                      <a onClick={()=>{this.handleViewDetail(record)}}>撤销审批</a>:null}
+                      <a onClick={()=>{this.openSpCX(record)}}>撤销审批</a>:null}
                     {record.ywzt_dm == 8 ?
-                      <a onClick={()=>{this.handleViewDetail(record)}}>启用审批</a>:null}
+                      <a onClick={()=>{this.openSpQY(record)}}>启用审批</a>:null}
                     {record.ywzt_dm == 6 ?
-                      <a onClick={()=>{this.handleViewDetail(record)}}>退回审批</a>:null}
+                      <a onClick={()=>{this.openSpTH(record)}}>退回审批</a>:null}
                 </span>;
                 return actGroup
             }

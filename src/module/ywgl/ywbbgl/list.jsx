@@ -93,7 +93,12 @@ const list = React.createClass({
     //刷新按钮
     handleRefresh(){
         const p = this.state.pagination;
-        this.fetchData({page: 1, pagesize: p.pageSize});
+        this.fetchData({page:1, pagesize: p.pageSize});
+    },
+    //刷新当前页
+    refreshCurrent(){
+        const p = this.state.pagination;
+        this.fetchData({page: p.current, pagesize: p.pageSize});
     },
 
     //帮助按钮开关
