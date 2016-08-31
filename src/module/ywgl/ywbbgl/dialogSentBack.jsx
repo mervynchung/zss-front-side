@@ -17,7 +17,8 @@ let modal = React.createClass({
     handleSubmit(){
         const token = auth.getToken();
         const {data,apiUrl} = this.props;
-        const values = this.props.form.getFieldValue();
+        const {setFieldsValue,getFieldsValue} = this.props.form;
+        const values = getFieldsValue();
         const obj = {
             lx:2, //更新操作类型2为退回
             data:values
@@ -83,6 +84,11 @@ let modal = React.createClass({
                             <td>报备日期 :</td>
                             <td>{data.bbrq}</td>
                         </tr>
+                        <tr>
+                            <td>协议金额 :</td>
+                            <td>{data.xyje}</td>
+                        </tr>
+
                         </tbody>
                     </table>
                 </div>
