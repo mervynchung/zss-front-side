@@ -99,6 +99,10 @@
 }
 
 
+@page {
+    size: A3 landscape;
+}
+
 
 @media print{
 
