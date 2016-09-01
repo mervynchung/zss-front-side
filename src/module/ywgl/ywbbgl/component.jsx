@@ -31,13 +31,22 @@ const c = React.createClass({
     grabListState(state){
         this.setState({listState: state})
     },
+    refreshList(){
+        console.log(this.refs);
+        this.refs.list.refreshCurrent()
+    },
     //打开强制退回操作对话框
     openSentBack(record){
-        this.setState({dialogSentBack: true,entity:record})
+        if(record.id){
+            this.setState({dialogSentBack: true,entity:record})
+        }else{
+            this.setState({dialogSentBack: true})
+        }
     },
     //关闭强制退回操作对话框
     closeSentBack(){
-        this.setState({dialogSentBack: false})
+        this.setState({dialogSentBack: false});
+        this.refreshList();
     },
     //打开申请撤销审批
     openSpCX(record){
@@ -87,7 +96,7 @@ const c = React.createClass({
             }
         });
 
-        /*设置列表组件的参数,一般不需要调整字段*/
+        /*设置列表组件的参数*/
         const listSetting = {
             //标题
             title: '业务报备管理',
@@ -111,7 +120,7 @@ const c = React.createClass({
             apiUrl: config.HOST + config.URI_API_PROJECT + '/ywbb'
         };
 
-        /*设置明细信息组件的参数,可根据需要调整实际属性*/
+        /*设置明细信息组件的参数*/
         const detailSetting = {
             //设置数据源
             data: this.state.entity,
@@ -137,7 +146,7 @@ const c = React.createClass({
 
         /*通过控制state.view的值，实现页面上列表/详细信息等组件的切换*/
         const view = {
-            list: <List {...listSetting}/>,
+            list: <List {...listSetting} ref="list"/>,
             detail: <Detail {...detailSetting}/>
         };
 

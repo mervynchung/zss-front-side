@@ -123,7 +123,6 @@ const list = React.createClass({
     },
     //行点击处理
     handleRowClick(record){
-        console.log(record.id)
     },
     render(){
         const {title, helperTitle, helperDesc, scrollx,keyCol,columns} = this.props;
