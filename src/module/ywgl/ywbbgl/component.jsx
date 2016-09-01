@@ -32,7 +32,6 @@ const c = React.createClass({
         this.setState({listState: state})
     },
     refreshList(){
-        console.log(this.refs);
         this.refs.list.refreshCurrent()
     },
     //打开强制退回操作对话框
@@ -46,7 +45,6 @@ const c = React.createClass({
     //关闭强制退回操作对话框
     closeSentBack(){
         this.setState({dialogSentBack: false});
-        this.refreshList();
     },
     //打开申请撤销审批
     openSpCX(record){
@@ -140,13 +138,14 @@ const c = React.createClass({
             //业务id
             data: this.state.entity,
             visible:this.state.dialogSentBack,
+            refreshList:this.refreshList,
             onClose:this.closeSentBack,
             apiUrl:config.HOST + config.URI_API_PROJECT + '/ywbb/'
         };
 
         /*通过控制state.view的值，实现页面上列表/详细信息等组件的切换*/
         const view = {
-            list: <List {...listSetting} ref="list"/>,
+            list: <List {...listSetting} ref="list" />,
             detail: <Detail {...detailSetting}/>
         };
 

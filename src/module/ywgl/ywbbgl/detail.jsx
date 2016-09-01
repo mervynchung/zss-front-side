@@ -168,12 +168,10 @@ const detail = React.createClass({
             </div>
             <Row className="detail-bar">
                 <Col span="14" offset="10">
+                    <Button size="large" onClick={this.back}>
+                        <Icon type="rollback"/>返回
+                    </Button>
                     {data.ywzt_dm == 1 || data.ywzt_dm == 3 ? <Button size="large" onClick={printCover}>显示封面</Button>:null}
-                    {data.ywzt_dm == 6 ? <Button type="primary" size="large" onClick={spTH}>申请退回审批</Button> : null}
-                    {data.ywzt_dm == 8 ? <Button type="primary" size="large" onClick={spQY}>申请启用审批</Button> : null}
-                    {data.ywzt_dm == 5 ? <Button type="primary" size="large" onClick={spCX}>申请撤销审批</Button> : null}
-                    {data.ywzt_dm == 1 || data.ywzt_dm == 3 ?
-                      <Button type="primary" size="large" onClick={sentBack}>强制退回</Button> : null}
                 </Col>
             </Row>
         </Panel>

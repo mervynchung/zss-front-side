@@ -16,7 +16,7 @@ const list = React.createClass({
         return {
             loading: false,
             data: [],
-            entity: '',
+            entity: {},
             where: {},
             searchToggle: false,
             helper: false,
@@ -123,6 +123,8 @@ const list = React.createClass({
     },
     //行点击处理
     handleRowClick(record){
+        this.state.entity = record;
+        this.setState({entity:record})
     },
     render(){
         const {title, helperTitle, helperDesc, scrollx,keyCol,columns} = this.props;
@@ -153,6 +155,7 @@ const list = React.createClass({
                        loading={this.state.loading}
                        onChange={this.handleChange}
                        rowKey={record => record[keyCol]}
+                       rowClassName={(record)=>{return record.id==this.state.entity.id?'row-selected':''}}
                        onRowClick={this.handleRowClick} scroll={{x: scrollx}}/>
             </Panel>
         </div>

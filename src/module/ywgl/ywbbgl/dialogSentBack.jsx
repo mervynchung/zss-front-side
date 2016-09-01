@@ -16,7 +16,7 @@ let modal = React.createClass({
     },
     handleSubmit(){
         const token = auth.getToken();
-        const {data,apiUrl} = this.props;
+        const {data,apiUrl,refreshList} = this.props;
         const {setFieldsValue,getFieldsValue} = this.props.form;
         const values = getFieldsValue();
         const obj = {
@@ -33,6 +33,7 @@ let modal = React.createClass({
             headers: {'x-auth-token': token}
         }).then(resp=> {
             setFieldsValue({'thyy': null});
+            refreshList();
             this.setState({loading: false});
             this.props.onClose();
         }).fail(e=> {
