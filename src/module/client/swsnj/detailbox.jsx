@@ -31,6 +31,11 @@ const detailBox = React.createClass({
                     
                 </tr>
                 <tr>
+                <td>自检具体情况：</td>
+                <td colSpan="3">{obj.ZJWGDM}(说明：数字的意义对应于执行添加操作时，年检选项违规条款前的数字对应的选项)</td>
+
+                </tr>
+                <tr>
                     <td colSpan>所长</td>
                     <td>{obj.SZ}</td>
                     <td>自检日期</td>

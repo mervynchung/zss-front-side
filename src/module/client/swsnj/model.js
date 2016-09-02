@@ -41,8 +41,8 @@ var model = {
     ],
     entityModel: [
         {id: 'DWMC', name: '机构名称'},
-        {id: 'USER_ID', name: '编号'},
-        {id: 'KSSJ', name: '开始时间'},
+        {id: 'ZJ', name: '自检'},
+        {id: 'YZBM', name: '邮政编码'},
         {
             id: 'JSSJ',
             name: '结束时间',
