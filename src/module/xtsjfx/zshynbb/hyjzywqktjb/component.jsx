@@ -8,7 +8,7 @@ import Model from './model.js'
 import SearchForm from './searchForm' 
 import {  DatePicker,Modal,Form, Input, Select,Icon,Tabs,Button,Row,Col,message }from 'antd'
 
-const API_URL = config.HOST+config.URI_API_PROJECT + '/zshynbb/hyryqktjb';
+const API_URL = config.HOST+config.URI_API_PROJECT + '/zshynbb/hyjzywqktjb';
 const TabPane = Tabs.TabPane;
 const PanelBar = Panel.ToolBar;
 
@@ -69,14 +69,14 @@ const component = React.createClass({
             </Button>
         </PanelBar>;
 
-      return <div className="hyryqktjb">
+      return <div className="hyjzywqktjb">
 <div className="wrap">
     <div className="dataGird">
-     <Panel title="行业人员情况统计表2"   toolbar={panelBar}>
+     <Panel title="行业鉴证业务情况统计表"   toolbar={panelBar}>
       {this.state.searchToggle && <SearchForm onSubmit={this.handleSearchSubmit}/>}
-              <Table columns={Model.columns}
-              header={Model.header} 
-              dataSource={this.state.data}  
+              <Table columns={Model.columns} 
+              header={Model.header}
+              dataSource={this.state.data}
               loading={this.state.loading}  bordered   />
         </Panel>
     </div>
