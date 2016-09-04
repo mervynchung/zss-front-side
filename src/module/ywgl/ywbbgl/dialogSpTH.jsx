@@ -14,8 +14,8 @@ let modal = React.createClass({
         const token = auth.getToken();
         const {data,apiUrl,refreshList} = this.props;
         const obj = {
-            lx: 11, //操作类型11为同意启用
-            data: {}
+            lx: 2, //操作类型2为同意退回
+            data: {thyy:data.sqthyy}
         };
         this.setState({loading: true});
         req({
@@ -44,7 +44,7 @@ let modal = React.createClass({
         const token = auth.getToken();
         const {data,apiUrl,refreshList} = this.props;
         const obj = {
-            lx: 12, //操作类型12为拒绝启用
+            lx: 9, //操作类型9为拒绝退回
             data: {}
         };
         this.setState({loading: true});
@@ -83,7 +83,7 @@ let modal = React.createClass({
         return <Modal
           visible={visible}
           style={{top: '100px'}}
-          title="处理业务报备重新启用申请"
+          title="处理业务报备退回申请"
           footer={footer}
           confirmLoading={this.state.loading}
           onCancel = {this.handleClose}>
@@ -115,8 +115,8 @@ let modal = React.createClass({
                         <td>{data.xyje}</td>
                     </tr>
                     <tr>
-                        <td>申请启用理由 :</td>
-                        <td>{data.sqqyly}</td>
+                        <td>申请退回原因 :</td>
+                        <td>{data.sqthyy}</td>
                     </tr>
                     </tbody>
                 </table>
