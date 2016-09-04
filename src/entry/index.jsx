@@ -68,10 +68,11 @@ const Index = React.createClass({
                 //业务管理
 
                 require('../module/ywgl/ywbbgl'),
-                require('../module/ywgl/ywzlgl/sfjeyjgl'),
-                require('../module/ywgl/ywzlgl/ndbtyjgl'),
-                require('../module/ywgl/ywzlgl/ywwtyjgl'),
-                require('../module/ywgl/ywzlgl/cxbgyjgl'),
+                require('../module/ywgl/ywbbthsp'), //业务报备退回审批
+                require('../module/ywgl/ywbbcxsp'), //业务报备退回审批
+                require('../module/ywgl/ywbbqysp'), //业务报备退回审批
+                require('../module/ywgl/sfjeyjgl'), //收费金额预警管理
+
 
                  //财务报表
                 require('../module/cwbb/lrfpb'),

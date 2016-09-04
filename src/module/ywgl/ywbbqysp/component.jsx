@@ -124,11 +124,11 @@ const c = React.createClass({
         /*设置列表组件的参数 */
         const listSetting = {
             //标题
-            title: '业务报备管理',
+            title: '待审批业务启用申请',
             //帮助提示的标题
             helperTitle: '业务报备使用帮助',
             //帮助提示的具体内容
-            helperDesc: <div><p>本功能主要提供本年度业务备案查询</p></div>,
+            helperDesc: <div><p>本功能是将所有待审批的重新启用业务申请集中管理</p></div>,
             //列表可滚动区间的宽度，一般使用getcolwidth计算即可
             scrollx: this.getColWidth(model),
             //接收的json数据中用来充当key的字段名
@@ -144,7 +144,7 @@ const c = React.createClass({
             //数据来源api
             apiUrl: config.HOST + config.URI_API_PROJECT + '/ywbb',
             //初始搜索条件
-            defaultWhere:{}
+            defaultWhere:{zt:8}
         };
 
         /*设置明细信息组件的参数*/
