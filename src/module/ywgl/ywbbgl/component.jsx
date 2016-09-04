@@ -3,6 +3,7 @@ import {Table, Modal, Row, Col, Button, Icon, Alert} from 'antd'
 import List from './list'
 import Detail from './detail'
 import DiaSentBack from './dialogSentBack'
+import DiaSpQY from './dialogSpQY.jsx'
 import model from './model'
 import config from 'common/configuration'
 import {jsonCopy} from 'common/utils'
@@ -15,7 +16,8 @@ const c = React.createClass({
             view: 'list',
             listState: {},
             entity: {},
-            dialogSentBack: false
+            dialogSentBack: false,
+            dialogSpQY:false
         }
     },
 
@@ -36,11 +38,12 @@ const c = React.createClass({
     },
     //打开强制退回操作对话框
     openSentBack(record){
-        if(record.id){
+        /*if(record.id){
             this.setState({dialogSentBack: true,entity:record})
         }else{
             this.setState({dialogSentBack: true})
-        }
+        }*/
+        this.setState({dialogSentBack: true,entity:record})
     },
     //关闭强制退回操作对话框
     closeSentBack(){
@@ -52,7 +55,14 @@ const c = React.createClass({
     },
     //打开申请启用审批
     openSpQY(record){
-
+        if(record.id){
+            this.setState({dialogSpQY: true,entity:record})
+        }else{
+            this.setState({dialogSpQY: true})
+        }
+    },
+    closeSpQY(){
+        this.setState({dialogSpQY:false})
     },
     //打开申请退回审批
     openSpTH(record){
@@ -81,9 +91,9 @@ const c = React.createClass({
             render: (text, record)=> {
                 let actGroup = <span className="act-group">
                     <a onClick={()=>{this.handleViewDetail(record)}}>明细</a>
-                    {record.ywzt_dm == 1 || record.ywzt_dm ==3?
+                    {record.ywzt_dm == 1 ?
                     <a onClick={()=>{this.openSentBack(record)}}>退回</a>:null}
-                    {record.ywzt_dm == 5 ?
+                    {record.ywzt_dm == 7 ?
                       <a onClick={()=>{this.openSpCX(record)}}>撤销审批</a>:null}
                     {record.ywzt_dm == 8 ?
                       <a onClick={()=>{this.openSpQY(record)}}>启用审批</a>:null}
@@ -107,7 +117,7 @@ const c = React.createClass({
             //接收的json数据中用来充当key的字段名
             keyCol: 'id',
             //默认每页显示数量
-            pageSize: 2,
+            pageSize: 10,
             //列表需使用的columns定义
             columns: m.columns,
             //记录list组件被切换时状态值的方法
@@ -143,6 +153,16 @@ const c = React.createClass({
             apiUrl:config.HOST + config.URI_API_PROJECT + '/ywbb/'
         };
 
+        /*设置审批启用申请对话框的参数*/
+        const spQYSetting = {
+            //业务id
+            data: this.state.entity,
+            visible:this.state.dialogSpQY,
+            refreshList:this.refreshList,
+            onClose:this.closeSpQY,
+            apiUrl:config.HOST + config.URI_API_PROJECT + '/ywbb/'
+        };
+
         /*通过控制state.view的值，实现页面上列表/详细信息等组件的切换*/
         const view = {
             list: <List {...listSetting} ref="list" />,
@@ -153,6 +173,7 @@ const c = React.createClass({
         return <div className="ywbbgl">
             <div className="wrap">
                 <DiaSentBack {...sentBackSetting}  />
+                <DiaSpQY {...spQYSetting}  />
                 {view[this.state.view]}
             </div>
         </div>

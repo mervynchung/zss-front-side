@@ -98,13 +98,13 @@ const detail = React.createClass({
                     </tr>
                     <tr>
                         <td>报告文号</td>
-                        <td>{data.wtdwnsrsbh}</td>
+                        <td>{data.bgwh}</td>
                         <td>报告日期</td>
-                        <td>{data.wtdwnsrsbhdf}</td>
+                        <td>{data.bgrq}</td>
                     </tr>
                     <tr>
                         <td>报备号码</td>
-                        <td>{data.bgwh}</td>
+                        <td>{data.bbhm}</td>
                         <td>验证码</td>
                         <td>{data.yzm}</td>
                     </tr>
