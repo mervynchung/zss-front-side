@@ -36,7 +36,7 @@ const model = {
         title: '业务类型',
         key: 'ywlx',
         dataIndex: 'ywlx',
-        width: 200
+        width: 220
     }, {
         title: '协议金额',
         key: 'xyje',
