@@ -1,5 +1,5 @@
 import React from 'react'
-import {Row,Col,Checkbox,Affix,Button } from 'antd'
+import {Row,Col,Checkbox } from 'antd'
 import './style.css'
 // import Top from'./toTop.jsx'
 
