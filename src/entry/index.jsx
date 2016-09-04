@@ -71,6 +71,8 @@ const Index = React.createClass({
                 require('../module/ywgl/ywbbthsp'), //业务报备退回审批
                 require('../module/ywgl/ywbbcxsp'), //业务报备退回审批
                 require('../module/ywgl/ywbbqysp'), //业务报备退回审批
+                require('../module/ywgl/sfjeyjgl'), //收费金额预警管理
+
 
                  //财务报表
                 /*require('../module/cwbb/lrfpb'),
