@@ -10,34 +10,7 @@ import Stage2 from './stage2.jsx'
 
 const Step = Steps.Step;
 
-const jid = auth.getJgid();
-const token = auth.getToken();
-const YWBBMISC_URL = config.HOST + config.URI_API_PROJECT + '/ywbbmisc/' + jid;
 const YWBB_URL = config.HOST + config.URI_API_PROJECT + '/ywbb';
-
-//转换日期至字符串
-function date2string(date) {
-    let year = date.getFullYear();
-    let month = date.getMonth() + 1;
-    let day = date.getDate();
-    return year + '-' + month + '-' + day
-}
-
-
-//获取本机构下属执业税务师列表
-const fetchYwbbMisc = function () {
-    return req({
-        url: YWBBMISC_URL,
-        method: 'get',
-        type: 'json',
-        headers: {'x-auth-token': token}
-    })
-};
-//异步获取数据
-const fetchData = async function () {
-    let [ywbbMisc] = await Promise.all([fetchYwbbMisc()]);
-    return {jgxx: ywbbMisc.jgxx, zysws: ywbbMisc.zysws}
-};
 
 const newYwbb = React.createClass({
     getInitialState(){
@@ -71,6 +44,7 @@ const newYwbb = React.createClass({
     },
     //添加新报备信息
     addYwbb(param){
+        const token = auth.getToken();
         return req({
             url: YWBB_URL,
             method: 'post',
@@ -124,12 +98,24 @@ const newYwbb = React.createClass({
             customer: this.state.customer,
             type: 'commit'
         };
-        console.log(this.state.customer)
         this.setState({loading: true});
         this.addYwbb(values)
     },
+    //获取本机构下属执业税务师列表
+    fetchYwbbMisc () {
+        const jid = auth.getJgid();
+        const token = auth.getToken();
+        const YWBBMISC_URL = config.HOST + config.URI_API_PROJECT + '/ywbbmisc/' + jid;
+
+        return req({
+            url: YWBBMISC_URL,
+            method: 'get',
+            type: 'json',
+            headers: {'x-auth-token': token}
+        })
+    },
     componentDidMount(){
-        fetchData().then(resp=> {
+        this.fetchYwbbMisc().then(resp=> {
             this.setState({dataJG: resp.jgxx, zysws: resp.zysws, loading: false})
         }).catch(e=> {
             let c = <div className="ywbb-new-loadfail"> 数据读取失败</div>;

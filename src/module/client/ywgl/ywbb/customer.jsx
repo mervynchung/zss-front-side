@@ -6,8 +6,6 @@ import auth from 'common/auth.js'
 
 const InputGroup = Input.Group;
 const CUSTOMER_URL = config.HOST + config.URI_API_PROJECT + '/customers';
-const jid = auth.getJgid();
-const token = auth.getToken();
 
 const columns = [{
     title: '单位名称',
@@ -35,6 +33,9 @@ const customer = React.createClass({
         });
     },
     handleSearch(){
+        const jid = auth.getJgid();
+        const token = auth.getToken();
+
         this.setState({loading: true});
         let value = {dwmc: this.state.value};
         req({

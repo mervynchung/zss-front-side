@@ -7,7 +7,6 @@ import auth from 'common/auth'
 const FormItem = Form.Item;
 const createForm = Form.create;
 
-const token = auth.getToken();
 const URL = config.HOST + config.URI_API_FRAMEWORK + '/password/';
 
 let modal = React.createClass({
@@ -17,6 +16,7 @@ let modal = React.createClass({
         }
     },
     handleSubmit(){
+        const token = auth.getToken();
         const {validateFields,setFieldsValue} = this.props.form;
         validateFields((errors, values) => {
             if (!!errors) {
