@@ -52,7 +52,10 @@ const rycx = React.createClass({
                          this.setState({data: [],dataxx: {values: {}},datalist:[],loading:false, });
                     };
             },
-            error: (err) =>{alert('api错误');}
+            error: (err) =>{
+                                  alert('api错误');
+                                  this.setState({data: [],dataxx: {values: {}},datalist:[],loading:false, });
+                                }
     });
   },
 
@@ -68,7 +71,7 @@ const rycx = React.createClass({
             dataxx: result.data,
             datalist: result.data.ryjl,//简历的data
           });
-        },error:  (err) =>{alert('api错误');}
+        },error:  (err) =>{alert('api错误');this.setState({datalist:[],dataxx: {values: {}}});}
       });
       }else if (tabkey==2||tabkey==9||tabkey==14) {
         this.gettabdata(this.state.urls.herf_bgjl);
@@ -82,7 +85,7 @@ const rycx = React.createClass({
          req({ url: this.state.urls.herf_spzt,method: 'get',type: 'json',
         success: (result) => {
             this.setState({ spzt: result.data})//状态是个字符串
-        },error: (err) =>{alert('api错误');}});
+        },error: (err) =>{alert('api错误');this.setState({spzt:'',});}});
       }else if (tabkey==7) {
         this.gettabdata(this.state.urls.herf_njjl);
       };
@@ -95,7 +98,7 @@ const rycx = React.createClass({
             }else{
                this.setState({datalist:[],})
              }
-          },error: (err) =>{alert('api错误');}
+          },error: (err) =>{alert('api错误');this.setState({datalist:[],});}
         });
     },
 
@@ -138,28 +141,32 @@ const rycx = React.createClass({
     this.setState({activeKey:key});
       this.fetch_kzxx(key);
 },
+
+  print(row,dylx){
+    
+    if (dylx) {
+       var mp={};
+      mp.DWMC=row.DWMC;
+      window.open("#/print/zzdygl/glscdj?"+encodeURIComponent(JSON.stringify(mp)));
+    }else{
+      var mp={};
+      mp.ZYZGZSBH=row.ZYZGZSBH;
+      mp.ZYZSBH=row.ZYZSBH;
+      mp.GRHYBH=row.GRHYBH;
+      mp.XMING=row.XMING;
+      mp.xb=row.xb;
+      mp.DWMC=row.DWMC;
+      mp.SRI=row.SRI;
+      window.open("#/print/zzdygl/glscry?"+encodeURIComponent(JSON.stringify(mp)));
+    };
+  },
+
   ztRender(text, row, index) {
     var that=this;
-    if (!row.JE) {
-        return (
-                    <span>
-                      <a onClick={that.showModal}>新增缴费</a>
-                    </span>
-                  );
-    };
-     if (!!this.state.xgZT&&index==this.state.rowIndex) {
-          return (
-                                <span>
-                                  <a onClick={that.xgOK.bind(this,row)}>确定</a><span className="ant-divider" ></span>
-                                  <a onClick={that.xgConcel}>取消</a>
-                                </span>
-                              );
-    };
      return (
                     <span>
-                      <a onClick={that.xgSelect.bind(this,index)}>修改</a><span className="ant-divider" ></span>
-                      <a onClick={that.rowDel.bind(this,row)}>删除</a><span className="ant-divider" ></span>
-                      <a >打印发票</a>
+                      <a onClick={that.print.bind(this,row,false)}>打印</a><span className="ant-divider" ></span>
+                      <a onClick={that.print.bind(this,row,true)}>打印执业机构</a>
                     </span>
                   );
   },
@@ -186,7 +193,7 @@ const rycx = React.createClass({
                 title: '联系电话',
                 dataIndex: 'DHHM',
                 key: 'DHHM',
-                sorter: true,
+                
               },  {
                 title: '身份证号',
                 dataIndex: 'SFZH',
@@ -195,6 +202,7 @@ const rycx = React.createClass({
                 title: '学历',
                 dataIndex: 'xl',
                 key: 'xl',
+                sorter: true,
               }, {
                 title: '资格证书编号',
                 dataIndex: 'ZYZGZSBH',
@@ -235,7 +243,7 @@ const rycx = React.createClass({
       return <div className="zyglscdy">
 <div className="wrap">
    <div className="dataGird">
-     <Panel  title="执业税务师转出统计" toolbar={toolbar}>
+     <Panel  title="执业管理手册打印" toolbar={toolbar}>
 
           {this.state.searchToggle && <SearchForm onSubmit={this.handleOk}/>}
           <div className="h-scroll-table">

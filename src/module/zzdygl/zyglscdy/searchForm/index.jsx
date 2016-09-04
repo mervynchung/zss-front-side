@@ -73,8 +73,8 @@ let searchForm = React.createClass({
                     <Col span="8">
                         <FormItem
                           {...formItemLayout}
-                          label="原工作单位：">
-                            <Input placeholder="原工作单位" { ...getFieldProps('yjg')}/>
+                          label="所属机构：">
+                            <Input placeholder="所属机构" { ...getFieldProps('dwmc')}/>
                         </FormItem>
                     </Col>
                 </Row>

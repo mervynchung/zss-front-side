@@ -5,7 +5,11 @@ import {Router, Route, IndexRoute,useRouterHistory} from 'react-router';
 import { createHistory,createHashHistory } from 'history'
 import App from '../component/App';
 import Signin from 'module/signin';
-import Dy from 'module/hyhf_new/fpdy/dy.jsx';
+import Dyfp from 'module/useforprint/fpdy/dy.jsx';
+import Dydj from 'module/useforprint/glsc_jgdj/dy.jsx';
+import Dyry from 'module/useforprint/glsc_ry/dy.jsx';
+import Dyzb from 'module/useforprint/glsc_zb/dy.jsx';
+import Dyfb from 'module/useforprint/glsc_fb/dy.jsx';
 import {cenHome,clientHome } from '../module/home';
 import NotFound from 'module/404notfound'
 import auth from 'common/auth'
@@ -154,15 +158,15 @@ const Index = React.createClass({
                 require('../module/xtsjfx/sjfx/zjgmsjfx'),//资金规模数据分析
                 require('../module/xtsjfx/sjfx/hynlsjfx'),//行业年龄数据分析
                 require('../module/xtsjfx/sjfx/ryztsjfx'),
+                require('../module/xtsjfx/sjfx/zyzshsjfx'),
 
                 //会员会费缴纳
-
                 require('../module/hyhf_new/hyhfjnqk'),
                 require('../module/hyhf_new/fpdy'),
                 require('../module/hyhf_new/fzyhyhf'),
                 require('../module/hyhf_new/scgl'),
 
-                //证照打印管理
+               //证照打印管理
                 require('../module/zzdygl/zyglscdy'),
 
 
@@ -203,7 +207,19 @@ const Index = React.createClass({
             component: Signin
         },{
             path: '/print/hyhf/fpdy',
-            component: Dy
+            component: Dyfp
+        }, {
+            path: '/print/zzdygl/glscdj',
+            component: Dydj
+        }, {
+            path: '/print/zzdygl/glscry',
+            component: Dyry
+        },{
+            path: '/print/zzdygl/jgzyzzb',
+            component: Dyzb
+        },{
+            path: '/print/zzdygl/jgzyzfb',
+            component: Dyfb
         }, {
             path: '*',
             component: NotFound

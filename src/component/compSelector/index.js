@@ -36,7 +36,8 @@ var selector = {
     SelectorISWS:require('./isws'), //业务报备是否省外
     SelectorSB:require('./sb'), //国税或地税
     SelectorYWZT:require('./ywzt'), //业务报备状态
-    SelectorZSFS:require('./zsfs') //业务报备征收方式
+    SelectorZSFS:require('./zsfs'), //业务报备征收方式
+    SelectorJg:require('./jg') //机构
 
 };
 
