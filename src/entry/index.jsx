@@ -66,7 +66,7 @@ const Index = React.createClass({
 
                 //业务管理
 
-/*                require('../module/ywgl/ywbbgl'),
+                require('../module/ywgl/ywbbgl'),
                 require('../module/ywgl/ywzlgl/sfjeyjgl'),
                 require('../module/ywgl/ywzlgl/ndbtyjgl'),
                 require('../module/ywgl/ywzlgl/ywwtyjgl'),
@@ -103,10 +103,10 @@ const Index = React.createClass({
                 require('../module/lsjlcx/fzyzzyjl'),
 
                 //监督检查
-                require('../module/jdjc/zyswsnjb'),
+                  require('../module/jdjc/zyswsnjb'),
                 require('../module/jdjc/swsnj'),
 
-        */        //逐级审核
+              //逐级审核
                 require('../module/spsh'),
                 require('../module/spshlsjl'),
                 require('../module/spsh/module/1'),
@@ -197,7 +197,7 @@ const Index = React.createClass({
                 require('../module/client/ywgl/khxxgl'), //客户信息管理
                 require('../module/client/ywgl/ywbb'), //事务所业务报备
 
-*/
+
                 //公用功能
                 //修改密码
                 require('../module/updatepass')

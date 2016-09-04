@@ -237,7 +237,7 @@ const wspcx = React.createClass({
                 </tr>
                  <tr>   
                     <td rowSpan="2"><b>事务所负责人意见：</b></td>
-                    <td  colSpan="4" >{obj.NJZJ}</td>
+                    <td className="jgnjnjzj" colSpan="4" ><Input type="textarea"  value={obj.NJZJ} disabled autosize /></td>
                 </tr>
                 <tr>
                 <td colSpan="4"><Col span="12"><b>签名时间：</b>{obj.qzrq} </Col> <Col offspan="6"><b>负责人签名：</b>{obj.FZR}</Col></td>
