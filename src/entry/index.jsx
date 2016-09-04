@@ -68,13 +68,12 @@ const Index = React.createClass({
                 //业务管理
 
                 require('../module/ywgl/ywbbgl'),
-                require('../module/ywgl/ywzlgl/sfjeyjgl'),
-                require('../module/ywgl/ywzlgl/ndbtyjgl'),
-                require('../module/ywgl/ywzlgl/ywwtyjgl'),
-                require('../module/ywgl/ywzlgl/cxbgyjgl'),
+                require('../module/ywgl/ywbbthsp'), //业务报备退回审批
+                require('../module/ywgl/ywbbcxsp'), //业务报备退回审批
+                require('../module/ywgl/ywbbqysp'), //业务报备退回审批
 
                  //财务报表
-                require('../module/cwbb/lrfpb'),
+                /*require('../module/cwbb/lrfpb'),
                 require('../module/cwbb/xjllb'),
                 require('../module/cwbb/zcmxb'),
                 require('../module/cwbb/lrb'),
@@ -191,7 +190,7 @@ const Index = React.createClass({
                 require('../module/client/sdsb/jygmtjb'),
                 require('../module/client/sdsb/jzywqktjb'),
                 require('../module/client/sdsb/hyryqktjb'),
-                require('../module/client/sdsb/jysrqkb'),
+                require('../module/client/sdsb/jysrqkb'),*/
            
                 //业务管理
                 require('../module/client/ywgl/khxxgl'), //客户信息管理

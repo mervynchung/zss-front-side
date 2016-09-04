@@ -41,7 +41,7 @@ const list = React.createClass({
         if(!isEmptyObject(where)){
             params.where = encodeURIComponent(JSON.stringify(where))
         }
-        req({
+         req({
             url: apiUrl,
             type: 'json',
             method: 'get',
