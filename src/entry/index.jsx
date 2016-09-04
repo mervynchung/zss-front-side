@@ -39,6 +39,7 @@ const Index = React.createClass({
 
     render(){
         /*路由配置*/
+        console.log(auth.isClient())
         const routes = [{
             path: '/',
             component: App,
@@ -160,13 +161,12 @@ const Index = React.createClass({
                 require('../module/xtsjfx/sjfx/zyzshsjfx'),
 
                 //会员会费缴纳
-
                 require('../module/hyhf_new/hyhfjnqk'),
                 require('../module/hyhf_new/fpdy'),
                 require('../module/hyhf_new/fzyhyhf'),
                 require('../module/hyhf_new/scgl'),
 
-               //  //证照打印管理
+               //证照打印管理
                 require('../module/zzdygl/zyglscdy'),
 
 

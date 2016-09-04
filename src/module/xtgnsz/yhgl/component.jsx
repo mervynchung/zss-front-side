@@ -216,6 +216,7 @@ const yhgl = React.createClass({
                 message: '操作成功',
                 description: resp.text + '批量删除成功'
             });
+            this.setState({selectedRowKeys:[]});
             this.handleRefresh();
         }).fail(e=> {
             notification.error({
