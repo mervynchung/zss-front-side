@@ -451,16 +451,12 @@ let Updatejgnjb = React.createClass({
 
 
                             <tr>
-                                <td colSpan="3">原年检总结：</td>
-                                <td colSpan="2">年检总结修改：</td>
+                                <td >年检总结修改：</td>
+                                <td colSpan="4"><Input {...getFieldProps('ZJ') } row={100} type="textarea"/></td>
                             </tr>
+                            
                             <tr>
-
-                                <td colSpan="2">{data.ZJ}</td>
-                                <td colSpan="3" style={{ width: 900 }}><Input {...getFieldProps('ZJ') } placeholder="可根据实际情况对输入框进行调整（将鼠标放置到输入框右下角即可拉伸）" type="textarea"/></td>
-                            </tr>
-                            <tr>
-                                <td colSpan="2">原事务所负责人意见：</td>
+                                
                                 <td colSpan="2">事务所负责人意见修改：</td>
                                 <td>负责人签名：</td>
                             </tr>

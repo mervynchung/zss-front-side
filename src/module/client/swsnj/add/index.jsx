@@ -140,810 +140,414 @@ let Addswsnj = React.createClass({
 
 
                 <Row>
-                    <Col span="5">
+                    <Col span="8">
                         <FormItem labelCol={{ span: 9 }} wrapperCol={{ span: 13 }}
                             label="年度">
                             <Input  {...getFieldProps('nd') }/>
                         </FormItem>
                     </Col>
-                    <Col span="5">
+                    <Col span="8">
                         <FormItem labelCol={{ span: 9 }} wrapperCol={{ span: 13 }} label="事务所名称">
                             <Input {...getFieldProps('dwmc') }/>
                         </FormItem>
                     </Col>
+                    <Col span="8">
+                        <FormItem labelCol={{ span: 9 }} wrapperCol={{ span: 13 }} label="机构注册号码：">
+                            <Input {...getFieldProps('nd') }/>
+                        </FormItem>
+                    </Col>
+
+
+
                 </Row>
 
 
 
                 <Row>
-                    <Col span="5">
-                        <FormItem labelCol={{ span: 9 }} wrapperCol={{ span: 13 }} label="机构注册号码：">
-                            <Input {...getFieldProps('nd') }/>
-                        </FormItem>
-                    </Col>
-                    <Col span="5">
+
+                    <Col span="8">
                         <FormItem labelCol={{ span: 9 }} wrapperCol={{ span: 13 }} label="所长姓名：">
                             <Input {...getFieldProps('sz') }/>
                         </FormItem>
 
                     </Col>
-                </Row>
-
-                <Row>
-                    <Col span="5">
+                    <Col span="8">
                         <FormItem labelCol={{ span: 9 }} wrapperCol={{ span: 13 }} label="注册资金：">
                             <Input {...getFieldProps('zczj') }/>
                         </FormItem>
                     </Col>
-                    <Col span="5">
+                    <Col span="8">
                         <FormItem labelCol={{ span: 9 }} wrapperCol={{ span: 13 }} label="联系电话：">
                             <Input {...getFieldProps('dwmc') }/>
                         </FormItem>
 
                     </Col>
+
                 </Row>
 
                 <Row>
-                    <Col span="5">
+                    <Col span="8">
                         <FormItem labelCol={{ span: 9 }} wrapperCol={{ span: 13 }} label="办公地点">
                             <Input {...getFieldProps('nd') }/>
                         </FormItem>
                     </Col>
-                    <Col span="5">
+                    <Col span="8">
                         <FormItem labelCol={{ span: 9 }} wrapperCol={{ span: 13 }} label="邮编">
                             <Input {...getFieldProps('dwmc') }/>
                         </FormItem>
 
                     </Col>
-                </Row>
-
-                <Row>
-                    <Col span="5">
+                    <Col span="8">
                         <FormItem labelCol={{ span: 9 }} wrapperCol={{ span: 13 }} label="组织形式：">
                             <Input {...getFieldProps('nd') }/>
                         </FormItem>
                     </Col>
-                    <Col span="5">
+                </Row>
+
+                <Row>
+
+                    <Col span="8">
                         <FormItem labelCol={{ span: 9 }} wrapperCol={{ span: 13 }} label="机构正式成立时间：">
                             <Input {...getFieldProps('dwmc') }/>
                         </FormItem>
 
                     </Col>
-                </Row>
-
-                <Row>
-                    <Col span="5">
+                    <Col span="8">
                         <FormItem labelCol={{ span: 9 }} wrapperCol={{ span: 13 }} label="总人数：">
                             <Input {...getFieldProps('zrs') }/>
                         </FormItem>
                     </Col>
-                    <Col span="5">
+                    <Col span="8">
                         <FormItem labelCol={{ span: 9 }} wrapperCol={{ span: 13 }} label="执业注册税务师人数：">
                             <Input {...getFieldProps('zyrs') }/>
                         </FormItem>
                     </Col>
                 </Row>
+                <Row>
+                    <Col span="8">
+                        <FormItem  labelCol={{ span: 9 }} wrapperCol={{ span: 13 }} label="本年度报备份数：" ><Input {...getFieldProps('BAFS') }/></FormItem>
+                    </Col>
+                    <Col span="8">
+                        <FormItem labelCol={{ span: 9 }} wrapperCol={{ span: 13 }} label="分所数："><Input {...getFieldProps('FSS') }/></FormItem>
+                    </Col>
+                
+                </Row>
+
 
                 <Row >
-                    <Col span="5">
-                        <FormItem labelCol={{ span: 9 }} label="参加后续教育"></FormItem>
-                    </Col>
                     <Col span="3">
+                        <FormItem  labelCol={{ span: 22 }} label="参加后续教育:"></FormItem>
+                    </Col>
+                    <Col span="2">
                         <FormItem  > <Input {...yjyrsProps}/></FormItem>
                     </Col>
-                    <Col span="3">
+                    <Col span="2">
                         <FormItem  ><span>人应参加</span></FormItem>
                     </Col>
                     <Col span="2">
                         <FormItem  > <Input {...sjjyrsProps}/></FormItem>
                     </Col>
-                    <Col span="3">
+                    <Col span="2">
                         <FormItem  ><span>人实参加</span></FormItem>
                     </Col>
                     <Col span="2">
-                        <FormItem  > <Input {...wjyrsProps}/></FormItem>
+                        <FormItem  ><Input {...wjyrsProps}/></FormItem>
                     </Col>
-                    <Col span="1">
+                    <Col span="2">
                         <FormItem  ><span>未参加</span></FormItem>
                     </Col>
                 </Row>
 
-
                 <Row>
-                    <Col span="5">
-                        <FormItem labelCol={{ span: 9 }}label="注册税务师变动情况："></FormItem>
-                    </Col>
-                    <Col span="3" offset="1">
-                        <FormItem><span>增加: </span></FormItem>
-                    </Col>
                     <Col span="3">
-                        <FormItem><Input {...getFieldProps('ZCSWSBZJ') }/></FormItem>
+                        <FormItem labelCol={{ span: 22 }}label="注册税务师变动情况："></FormItem>
                     </Col>
-                    <Col span="3" offset="1">
-                        <FormItem><span>减少: </span></FormItem>
+
+                  <Col span="2">
+                        <FormItem  > <Input {...getFieldProps('ZCSWSBZJ') }/></FormItem>
                     </Col>
-                    <Col span="3">
-                        <FormItem><Input {...getFieldProps('ZCSWSBJS') }/></FormItem>
+                    <Col span="2">
+                        <FormItem  ><span>增加</span></FormItem>
+                        </Col>
+
+                 <Col span="2">
+                        <FormItem  > <Input {...getFieldProps('ZCSWSBJS') }/></FormItem>
                     </Col>
+                    <Col span="2">
+                        <FormItem  ><span>减少</span></FormItem>
+                    
+                  </Col>
+
                 </Row>
 
-                <Row>
-                    <Col span="5">
-                        <FormItem  labelCol={{ span: 9 }}label="本年度报备份数："></FormItem>
-                    </Col>
-                    <Col span="3">
-                        <FormItem><Input {...getFieldProps('BAFS') }/></FormItem>
-                    </Col>
-                    <Col span="1" >
-                        <FormItem><span>份</span></FormItem>
-                    </Col>
-                </Row>
-
-
-                <Row>
-                    <Col span="5">
-                        <FormItem labelCol={{ span: 9 }} wrapperCol={{ span: 13 }} label="分所数："></FormItem>
-                    </Col>
-                    <Col span="3">
-                        <FormItem>
-                            <Input {...getFieldProps('FSS') }/>
-                        </FormItem>
-                    </Col>
-                </Row>
-
-                <div className="njys">
-                    <Row >
-                        <Col span="5">
-                            <FormItem labelCol={{ span: 9 }}  label="年检选项：">
-                            </FormItem>
-                        </Col>
-                        <Col span="8">
-                            <FormItem labelCol={{ span: 16 }}  label="违规条款"><span>(违规请打勾) </span>
-                            </FormItem>
-                        </Col>
-                        <Col span="3">
-                            <FormItem labelCol={{ span: 9 }}  label="所自检"><Checkbox></Checkbox>
-                            </FormItem>
-                        </Col>
-                    </Row>
-                </div>
-                < div className="njys">
-                    <Row>
-                        <Col span="5">
-                            <FormItem labelCol={{ span: 9 }}  label="执业资格">
-                            </FormItem>
-                        </Col>
-
-                        <Col span="16">
-                            <FormItem labelCol={{ span: 16 }}  label="1.本所存在注册税务师人数未达到规定的标准">
-                            </FormItem>
-                        </Col>
-
-                        <Col span="3">
-                            <FormItem labelCol={{ span: 9 }}  label=""> <Checkbox {...getFieldProps('wg1') }></Checkbox>
-                            </FormItem>
-                        </Col>
-                    </Row>
-                </div>
-                < div className="njys">
-                    <Row>
-                        <Col span="5">
-                            <FormItem labelCol={{ span: 9 }}  label="">
-                            </FormItem>
-                        </Col>
-
-                        <Col span="16">
-                            <FormItem labelCol={{ span: 16 }}  label="2.本所有发起人或合伙人以及出资人不按规定出资">
-                            </FormItem>
-                        </Col>
-
-                        <Col span="3">
-                            <FormItem labelCol={{ span: 9 }}  label=""> <Checkbox {...getFieldProps('wg2') }></Checkbox>
-                            </FormItem>
-                        </Col>
-                    </Row>
-
-                </div>
-                < div className="njys">
-                    <Row>
-                        <Col span="5">
-                            <FormItem labelCol={{ span: 9 }}  label="">
-                            </FormItem>
-                        </Col>
-
-                        <Col span="16">
-                            <FormItem labelCol={{ span: 16 }}  label="3.本所注册资本或经营资金不到位，出资人（股东）的出资不符合规定">
-                            </FormItem>
-                        </Col>
-
-                        <Col span="3">
-                            <FormItem labelCol={{ span: 9 }}  label=""> <Checkbox {...getFieldProps('wg3') }></Checkbox>
-                            </FormItem>
-                        </Col>
-                    </Row>
-                </div>
-                < div className="njys">
-                    <Row>
-                        <Col span="5">
-                            <FormItem labelCol={{ span: 9 }}  label="">
-                            </FormItem>
-                        </Col>
-
-                        <Col span="16">
-                            <FormItem labelCol={{ span: 16 }}  label="4.本所事项变更存在未按归定和程序办理相关的手续">
-                            </FormItem>
-                        </Col>
-
-                        <Col span="3">
-                            <FormItem labelCol={{ span: 9 }}  label=""> <Checkbox {...getFieldProps('wg4') }></Checkbox>
-                            </FormItem>
-                        </Col>
-                    </Row>
-                </div>
-                < div className="njys">
-
-                    <Row>
-                        <Col span="5">
-                            <FormItem labelCol={{ span: 9 }}  label="">
-                            </FormItem>
-                        </Col>
-
-                        <Col span="16">
-                            <FormItem labelCol={{ span: 16 }}  label="5.本所办公地点和税务机关在一起">
-                            </FormItem>
-                        </Col>
-
-                        <Col span="3">
-                            <FormItem labelCol={{ span: 9 }}  label=""> <Checkbox {...getFieldProps('wg5') }></Checkbox>
-                            </FormItem>
-                        </Col>
-                    </Row>
-                </div>
-                < div className="njys">
-                    <Row>
-                        <Col span="5">
-                            <FormItem labelCol={{ span: 9 }}  label="">
-                            </FormItem>
-                        </Col>
-
-                        <Col span="16">
-                            <FormItem labelCol={{ span: 16 }}  label="6.本所存在拒绝在规定的时间参加年检">
-                            </FormItem>
-                        </Col>
-
-                        <Col span="3">
-                            <FormItem labelCol={{ span: 9 }}  label=""> <Checkbox {...getFieldProps('wg6') }></Checkbox>
-                            </FormItem>
-                        </Col>
-                    </Row>
-                </div>
-                < div className="njys">
-                    <Row>
-                        <Col span="5">
-                            <FormItem labelCol={{ span: 9 }}  label="执业质量">
-                            </FormItem>
-                        </Col>
-
-                        <Col span="16">
-                            <FormItem labelCol={{ span: 16 }}  label="7.本所存在采取强迫、欺诈等不正当的手段招揽业务">
-                            </FormItem>
-                        </Col>
-
-                        <Col span="3">
-                            <FormItem labelCol={{ span: 9 }}  label=""> <Checkbox {...getFieldProps('wg7') }></Checkbox>
-                            </FormItem>
-                        </Col>
-                    </Row>
-                </div>
-                < div className="njys">
-                    <Row>
-                        <Col span="5">
-                            <FormItem labelCol={{ span: 9 }}  label="">
-                            </FormItem>
-                        </Col>
-
-                        <Col span="16">
-                            <FormItem labelCol={{ span: 16 }}  label="8.本所没有与委托人签订协议书或协议书有不规范的行为">
-                            </FormItem>
-                        </Col>
-
-                        <Col span="3">
-                            <FormItem labelCol={{ span: 9 }}  label=""> <Checkbox {...getFieldProps('wg8') }></Checkbox>
-                            </FormItem>
-                        </Col>
-                    </Row>
-                </div>
-                < div className="njys">
-                    <Row>
-                        <Col span="5">
-                            <FormItem labelCol={{ span: 9 }}  label="">
-                            </FormItem>
-                        </Col>
-
-                        <Col span="16" >
-                            <FormItem labelCol={{ span: 16 }}  label="9.本所收到《注册税务师管理暂行办法》第四十三、四十四条所列行政处罚">
-                            </FormItem>
-                        </Col>
-
-                        <Col span="3">
-                            <FormItem labelCol={{ span: 9 }}  label=""> <Checkbox {...getFieldProps('wg9') }></Checkbox>
-                            </FormItem>
-                        </Col>
-                    </Row>
-                </div>
-                < div className="njys">
-                    <Row>
-                        <Col span="5">
-                            <FormItem labelCol={{ span: 9 }}  label="">
-                            </FormItem>
-                        </Col>
-
-                        <Col span="16">
-                            <FormItem labelCol={{ span: 16 }}  label="10.本所存在未按照《注册税务师管理暂行办法》归定承办相关业务">
-                            </FormItem>
-                        </Col>
-
-                        <Col span="3">
-                            <FormItem labelCol={{ span: 9 }}  label=""> <Checkbox {...getFieldProps('wg10') }></Checkbox>
-                            </FormItem>
-                        </Col>
-                    </Row>
-                </div>
-                < div className="njys">
-
-
-                    <Row>
-                        <Col span="5">
-                            <FormItem labelCol={{ span: 9 }}  label="">
-                            </FormItem>
-                        </Col>
-
-                        <Col span="16">
-                            <FormItem labelCol={{ span: 16 }}  label="11.本所存在未按协议规定履行义务">
-                            </FormItem>
-                        </Col>
-
-                        <Col span="3">
-                            <FormItem labelCol={{ span: 9 }}  label=""> <Checkbox {...getFieldProps('wg11') }></Checkbox>
-                            </FormItem>
-                        </Col>
-                    </Row>
-                </div>
-                < div className="njys">
-                    <Row>
-                        <Col span="5">
-                            <FormItem labelCol={{ span: 9 }}  label="">
-                            </FormItem>
-                        </Col>
-
-                        <Col span="16">
-                            <FormItem labelCol={{ span: 16 }}  label="12.本所未按照财务会计制度核算，内部管理较不好">
-                            </FormItem>
-                        </Col>
-
-                        <Col span="3">
-                            <FormItem labelCol={{ span: 9 }}  label=""> <Checkbox {...getFieldProps('wg12') }></Checkbox>
-                            </FormItem>
-                        </Col>
-                    </Row>
-                </div>
-                < div className="njys">
-                    <Row>
-                        <Col span="5">
-                            <FormItem labelCol={{ span: 9 }}  label="">
-                            </FormItem>
-                        </Col>
-
-                        <Col span="16">
-                            <FormItem labelCol={{ span: 16 }}  label="13.本所利用职务之便，牟取不正当利益">
-                            </FormItem>
-                        </Col>
-
-                        <Col span="3">
-                            <FormItem labelCol={{ span: 9 }}  label=""> <Checkbox {...getFieldProps('wg13') }></Checkbox>
-                            </FormItem>
-                        </Col>
-                    </Row>
-                </div>
-                < div className="njys">
-                    <Row>
-                        <Col span="5">
-                            <FormItem labelCol={{ span: 9 }}  label="">
-                            </FormItem>
-                        </Col>
-
-                        <Col span="16">
-                            <FormItem labelCol={{ span: 16 }}  label="14.本所有采取夸大宣传、诋毁同行、以低于成本价收费等不正当方式承接业务">
-                            </FormItem>
-                        </Col>
-
-                        <Col span="3">
-                            <FormItem labelCol={{ span: 9 }}  label=""> <Checkbox {...getFieldProps('wg14') }></Checkbox>
-                            </FormItem>
-                        </Col>
-                    </Row>
-                </div>
-                < div className="njys">
-
-                    <Row>
-                        <Col span="5">
-                            <FormItem labelCol={{ span: 9 }}  label="">
-                            </FormItem>
-                        </Col>
-
-                        <Col span="16">
-                            <FormItem labelCol={{ span: 16 }}  label="15.本所有允许以本所名义承接相关业务">
-                            </FormItem>
-                        </Col>
-
-                        <Col span="3">
-                            <FormItem labelCol={{ span: 9 }}  label=""> <Checkbox {...getFieldProps('wg15') }></Checkbox>
-                            </FormItem>
-                        </Col>
-                    </Row>
-                </div>
-                < div className="njys">
-
-                    <Row>
-                        <Col span="5">
-                            <FormItem labelCol={{ span: 9 }}  label="">
-                            </FormItem>
-                        </Col>
-
-                        <Col span="16">
-                            <FormItem labelCol={{ span: 16 }}  label="16.本所有出具虚假涉税文书，造成委托人未缴或少缴税款">
-                            </FormItem>
-                        </Col>
-
-                        <Col span="3">
-                            <FormItem labelCol={{ span: 9 }}  label=""> <Checkbox {...getFieldProps('wg16') }></Checkbox>
-                            </FormItem>
-                        </Col>
-                    </Row>
-                </div>
-                < div className="njys">
-                    <Row>
-                        <Col span="5">
-                            <FormItem labelCol={{ span: 9 }}  label="">
-                            </FormItem>
-                        </Col>
-
-                        <Col span="16">
-                            <FormItem labelCol={{ span: 16 }}  label="17.本所有违反税收法律，行政法规，造成委托人未缴或少缴税款">
-                            </FormItem>
-                        </Col>
-
-                        <Col span="3">
-                            <FormItem labelCol={{ span: 9 }}  label=""> <Checkbox {...getFieldProps('wg17') }></Checkbox>
-                            </FormItem>
-                        </Col>
-                    </Row>
-                </div>
-                < div className="njys">
-                    <Row>
-                        <Col span="5">
-                            <FormItem labelCol={{ span: 9 }}  label="">
-                            </FormItem>
-                        </Col>
-
-                        <Col span="16">
-                            <FormItem labelCol={{ span: 16 }}  label="28.连续两年以上未开展任何业务的">
-                            </FormItem>
-                        </Col>
-
-                        <Col span="3">
-                            <FormItem labelCol={{ span: 9 }}  label=""> <Checkbox {...getFieldProps('wg28') }></Checkbox>
-                            </FormItem>
-                        </Col>
-                    </Row>
-                </div>
-                < div className="njys">
-
-                    <Row>
-                        <Col span="5">
-                            <FormItem labelCol={{ span: 9 }}  label="">
-                            </FormItem>
-                        </Col>
-
-                        <Col span="16">
-                            <FormItem labelCol={{ span: 16 }}  label="29.未执行全省统一涉税鉴证收费标准的">
-                            </FormItem>
-                        </Col>
-
-                        <Col span="3">
-                            <FormItem labelCol={{ span: 9 }}  label=""> <Checkbox {...getFieldProps('wg29') }></Checkbox>
-                            </FormItem>
-                        </Col>
-                    </Row>
-                </div>
-                < div className="njys">
-                    <Row>
-                        <Col span="5">
-                            <FormItem labelCol={{ span: 9 }}  label="收费管理">
-                            </FormItem>
-                        </Col>
-
-                        <Col span="16">
-                            <FormItem labelCol={{ span: 16 }}  label="18.本所财务会计制度不健全，会计核算不符合规定要求">
-                            </FormItem>
-                        </Col>
-
-                        <Col span="3">
-                            <FormItem labelCol={{ span: 9 }}  label=""> <Checkbox {...getFieldProps('wg18') }></Checkbox>
-                            </FormItem>
-                        </Col>
-                    </Row>
-                </div>
-                < div className="njys">
-                    <Row>
-                        <Col span="5">
-                            <FormItem labelCol={{ span: 9 }}  label="">
-                            </FormItem>
-                        </Col>
-
-                        <Col span="16">
-                            <FormItem labelCol={{ span: 16 }}  label="19.本所有隐藏，转移业务收入，虚报经营亏损">
-                            </FormItem>
-                        </Col>
-
-                        <Col span="3">
-                            <FormItem labelCol={{ span: 9 }}  label=""> <Checkbox {...getFieldProps('wg19') }></Checkbox>
-                            </FormItem>
-                        </Col>
-                    </Row>
-                </div>
-                < div className="njys">
-                    <Row>
-                        <Col span="5">
-                            <FormItem labelCol={{ span: 9 }}  label="">
-                            </FormItem>
-                        </Col>
-
-                        <Col span="16">
-                            <FormItem labelCol={{ span: 16 }}  label="20.本所有弄虚作假高额支付租赁房屋，设备等费用">
-                            </FormItem>
-                        </Col>
-
-                        <Col span="3">
-                            <FormItem labelCol={{ span: 9 }}  label=""> <Checkbox {...getFieldProps('wg20') }></Checkbox>
-                            </FormItem>
-                        </Col>
-                    </Row>
-                </div>
-                < div className="njys">
-                    <Row>
-                        <Col span="5">
-                            <FormItem labelCol={{ span: 9 }}  label="">
-                            </FormItem>
-                        </Col>
-
-                        <Col span="16">
-                            <FormItem labelCol={{ span: 16 }}  label="21.本所未按规定进行纳税申报以及缴纳税款">
-                            </FormItem>
-                        </Col>
-
-                        <Col span="3">
-                            <FormItem labelCol={{ span: 9 }}  label=""> <Checkbox {...getFieldProps('wg21') }></Checkbox>
-                            </FormItem>
-                        </Col>
-                    </Row>
-                </div>
-                < div className="njys">
-                    <Row>
-                        <Col span="5">
-                            <FormItem labelCol={{ span: 9 }}  label="">
-                            </FormItem>
-                        </Col>
-
-                        <Col span="16">
-                            <FormItem labelCol={{ span: 16 }}  label="22.本所有偷税行为">
-                            </FormItem>
-                        </Col>
-
-                        <Col span="3">
-                            <FormItem labelCol={{ span: 9 }}  label=""> <Checkbox {...getFieldProps('wg22') }></Checkbox>
-                            </FormItem>
-                        </Col>
-                    </Row>
-                </div>
-                < div className="njys">
-
-                    <Row>
-                        <Col span="5">
-                            <FormItem labelCol={{ span: 9 }}  label="其他方面">
-                            </FormItem>
-                        </Col>
-
-                        <Col span="16">
-                            <FormItem labelCol={{ span: 16 }}  label="23.本所有未经批准自行设立分支机构">
-                            </FormItem>
-                        </Col>
-
-                        <Col span="3">
-                            <FormItem labelCol={{ span: 9 }}  label=""> <Checkbox {...getFieldProps('wg23') }></Checkbox>
-                            </FormItem>
-                        </Col>
-                    </Row>
-                </div>
-                < div className="njys">
-                    <Row>
-                        <Col span="5">
-                            <FormItem labelCol={{ span: 9 }}  label="">
-                            </FormItem>
-                        </Col>
-
-                        <Col span="16">
-                            <FormItem labelCol={{ span: 16 }}  label="24.本所有未经批准自行挂靠或者接受挂靠">
-                            </FormItem>
-                        </Col>
-
-                        <Col span="3">
-                            <FormItem labelCol={{ span: 9 }}  label=""> <Checkbox {...getFieldProps('wg24') }></Checkbox>
-                            </FormItem>
-                        </Col>
-                    </Row>
-                </div>
-                < div className="njys">
-                    <Row>
-                        <Col span="5">
-                            <FormItem labelCol={{ span: 9 }}  label="">
-                            </FormItem>
-                        </Col>
-
-                        <Col span="16">
-                            <FormItem labelCol={{ span: 16 }}  label="25.本所有对分支机构只收管理费">
-                            </FormItem>
-                        </Col>
-
-                        <Col span="3">
-                            <FormItem labelCol={{ span: 9 }}  label=""> <Checkbox {...getFieldProps('wg25') }></Checkbox>
-                            </FormItem>
-                        </Col>
-                    </Row>
-                </div>
-                < div className="njys">
-                    <Row>
-                        <Col span="5">
-                            <FormItem labelCol={{ span: 9 }}  label="">
-                            </FormItem>
-                        </Col>
-
-                        <Col span="16">
-                            <FormItem labelCol={{ span: 16 }}  label="26.本所分支机构执业资质不符合要求">
-                            </FormItem>
-                        </Col>
-
-                        <Col span="3">
-                            <FormItem labelCol={{ span: 9 }}  label=""> <Checkbox {...getFieldProps('wg26') }></Checkbox>
-                            </FormItem>
-                        </Col>
-                    </Row>
-                </div>
-                < div className="njys">
-                    <Row>
-                        <Col span="5">
-                            <FormItem labelCol={{ span: 9 }}  label="">
-                            </FormItem>
-                        </Col>
-
-                        <Col span="16">
-                            <FormItem labelCol={{ span: 16 }}  label="27.本所分支机构一年内有两次以上执业质量问题">
-                            </FormItem>
-                        </Col>
-
-                        <Col span="3">
-                            <FormItem labelCol={{ span: 9 }}  label=""> <Checkbox {...getFieldProps('wg27') }></Checkbox>
-                            </FormItem>
-                        </Col>
-                    </Row>
-                </div>
-                < div className="njys">
-                    <Row>
-                        <Col span="5">
-                            <FormItem labelCol={{ span: 9 }}  label="">
-                            </FormItem>
-                        </Col>
-
-                        <Col span="16">
-                            <FormItem labelCol={{ span: 16 }}  label="30.未按照规定缴纳团体会费">
-                            </FormItem>
-                        </Col>
-
-                        <Col span="3">
-                            <FormItem labelCol={{ span: 9 }}  label=""> <Checkbox {...getFieldProps('wg30') }></Checkbox>
-                            </FormItem>
-                        </Col>
-                    </Row>
-                </div>
-                < div className="njys">
-                    <Row>
-                        <Col span="5">
-                            <FormItem labelCol={{ span: 9 }}  label="">
-                            </FormItem>
-                        </Col>
-
-                        <Col span="16">
-                            <FormItem labelCol={{ span: 16 }}  label="31.未按照规定办理团体会员登记、变更手续">
-                            </FormItem>
-                        </Col>
-
-                        <Col span="3">
-                            <FormItem labelCol={{ span: 9 }}  label=""> <Checkbox {...getFieldProps('wg31') }></Checkbox>
-                            </FormItem>
-                        </Col>
-                    </Row>
-
-
-
-                    <Row>
-                        <Col span="5">
-                            <FormItem labelCol={{ span: 9 }}  label="评级选项">
-                            </FormItem>
-                        </Col>
-
-                        <Col span="16">
-                            <FormItem labelCol={{ span: 16 }}  label="年检及格A级单位">
-                            </FormItem>
-                        </Col>
-
-                        <Col span="3">
-                            <FormItem labelCol={{ span: 9 }}  label="自评级"> <Checkbox></Checkbox>
-                            </FormItem>
-                        </Col>
-                    </Row>
-
-                    <Row>
-                        <Col span="5">
-                            <FormItem labelCol={{ span: 9 }}  label="年检总结">
-                            </FormItem>
-                        </Col>
-
-                        <Col span="18">
-                            <FormItem  >
-                                <Input {...textareaProps}  type="textarea"/>
-                            </FormItem>
-                        </Col>
-
-                    </Row>
-
-
-                    <Row>
-                        <Col span="5">
-                            <FormItem labelCol={{ span: 13 }}  label="事务所负责人意见">
-                            </FormItem>
-                        </Col>
-
-                        <Col span="5">
-                            <FormItem  >
-                                <Input {...getFieldProps('NJZJ') } type="textarea"/>
-                            </FormItem>
-                        </Col>
-
-                        <Col span="2" offset="1">
-                            <FormItem  ><span>时间</span></FormItem>
-                        </Col>
-                        <Col span="3">
-                            <FormItem>
-                                <Input {...getFieldProps('FSS') }></Input>
-                            </FormItem>
-                        </Col>
-                        <Col span="2" offset="1">
-                            <FormItem>
-                                <span>负责人签名</span>
-                            </FormItem>
-                        </Col>
-                        <Col span="3">
-                            <FormItem>
-                                <Input {...getFieldProps('FZR') }></Input>
-                            </FormItem>
-                        </Col>
-
-
-                    </Row>
-                </div>
+     <div className="fix-table table-bordered table-striped">         
+<table>
+<tbody>
+<tr>
+<th>年检选项：</th>
+<th>违规条款（违规请打勾）</th>
+<th>所自检<Checkbox></Checkbox></th>
+</tr>
+<tr>
+<td><h3>执业资格</h3></td>
+<td>1.本所存在注册税务师人数未达到规定的标准</td>
+<td><Checkbox {...getFieldProps('wg1') }></Checkbox></td>
+</tr>
+<tr>
+<td></td>
+<td>2.本所有发起人或合伙人以及出资人不按规定出资</td>
+<td><Checkbox {...getFieldProps('wg2') }></Checkbox></td>
+</tr>
+
+<tr>
+<td></td>
+<td>3.本所注册资本或经营资金不到位，出资人（股东）的出资不符合规定</td>
+<td><Checkbox {...getFieldProps('wg3') }></Checkbox></td>
+</tr>
+
+<tr>
+<td></td>
+<td>4.本所事项变更存在未按归定和程序办理相关的手续</td>
+<td><Checkbox {...getFieldProps('wg4') }></Checkbox></td>
+</tr>
+
+   <tr>
+<td></td>
+<td>5.本所办公地点和税务机关在一起</td>
+<td><Checkbox {...getFieldProps('wg5') }></Checkbox></td>
+</tr>               
+
+<tr>
+<td></td>
+<td>6.本所存在拒绝在规定的时间参加年检</td>
+<td><Checkbox {...getFieldProps('wg6') }></Checkbox></td>
+</tr>
+
+<tr>
+<td><h3>执业质量</h3></td>
+<td>7.本所存在采取强迫、欺诈等不正当的手段招揽业务</td>
+<td> <Checkbox {...getFieldProps('wg7') }></Checkbox></td>
+</tr>
+
+<tr>
+<td></td>
+<td>8.本所没有与委托人签订协议书或协议书有不规范的行为</td>
+<td><Checkbox {...getFieldProps('wg8') }></Checkbox></td>
+</tr>
+
+
+<tr>
+<td></td>
+<td>9.本所收到《注册税务师管理暂行办法》第四十三、四十四条所列行政处罚</td>
+<td><Checkbox {...getFieldProps('wg9') }></Checkbox></td>
+</tr>
+                
+
+<tr>
+<td></td>
+<td>10.本所存在未按照《注册税务师管理暂行办法》归定承办相关业务</td>
+<td> <Checkbox {...getFieldProps('wg10') }></Checkbox></td>
+</tr>
+                
+
+<tr>
+<td></td>
+<td>11.本所存在未按协议规定履行义务</td>
+<td><Checkbox {...getFieldProps('wg11') }></Checkbox></td>
+</tr>
+                
+<tr>
+<td></td>
+<td>12.本所未按照财务会计制度核算，内部管理较不好</td>
+<td><Checkbox {...getFieldProps('wg12') }></Checkbox></td>
+</tr>
+                
+<tr>
+<td></td>
+<td>13.本所利用职务之便，牟取不正当利益</td>
+<td><Checkbox {...getFieldProps('wg13') }></Checkbox></td>
+</tr>
+
+<tr>
+<td></td>
+<td>14.本所有采取夸大宣传、诋毁同行、以低于成本价收费等不正当方式承接业务</td>
+<td><Checkbox {...getFieldProps('wg14') }></Checkbox></td>
+</tr>
+
+<tr>
+<td></td>
+<td>15.本所有允许以本所名义承接相关业务</td>
+<td><Checkbox {...getFieldProps('wg15') }></Checkbox></td>
+</tr>
+<tr>
+<td></td>
+<td>16.本所有出具虚假涉税文书，造成委托人未缴或少缴税款</td>
+<td><Checkbox {...getFieldProps('wg16') }></Checkbox></td>
+</tr>
+
+<tr>
+<td></td>
+<td>17.本所有违反税收法律，行政法规，造成委托人未缴或少缴税款</td>
+<td> <Checkbox {...getFieldProps('wg17') }></Checkbox></td>
+</tr>
+<tr>
+<td></td>
+<td>28.连续两年以上未开展任何业务的</td>
+<td> <Checkbox {...getFieldProps('wg28') }></Checkbox></td>
+</tr>
+<tr>
+<td></td>
+<td>29.未执行全省统一涉税鉴证收费标准的</td>
+<td><Checkbox {...getFieldProps('wg29') }></Checkbox></td>
+</tr>
+<tr>
+<td><h3>收费管理</h3></td>
+<td>18.本所财务会计制度不健全，会计核算不符合规定要求</td>
+<td><Checkbox {...getFieldProps('wg18') }></Checkbox></td>
+</tr>
+<tr>
+<td></td>
+<td>19.本所有隐藏，转移业务收入，虚报经营亏损</td>
+<td><Checkbox {...getFieldProps('wg19') }></Checkbox></td>
+</tr>
+               
+
+<tr>
+<td></td>
+<td>20.本所有弄虚作假高额支付租赁房屋，设备等费用</td>
+<td><Checkbox {...getFieldProps('wg20') }></Checkbox></td>
+</tr>
+              
+<tr>
+<td></td>
+<td>21.本所未按规定进行纳税申报以及缴纳税款</td>
+<td><Checkbox {...getFieldProps('wg21') }></Checkbox></td>
+</tr>
+<tr>
+<td></td>
+<td>22.本所有偷税行为</td>
+<td><Checkbox {...getFieldProps('wg22') }></Checkbox></td>
+</tr>
+<tr>
+<td><h3>其他方面</h3></td>
+<td>23.本所有未经批准自行设立分支机构</td>
+<td><Checkbox {...getFieldProps('wg23') }></Checkbox></td>
+</tr>
+<tr>
+<td></td>
+<td>24.本所有未经批准自行挂靠或者接受挂靠</td>
+<td><Checkbox {...getFieldProps('wg24') }></Checkbox></td>
+</tr>
+<tr>
+<td></td>
+<td>25.本所有对分支机构只收管理费</td>
+<td><Checkbox {...getFieldProps('wg25') }></Checkbox></td>
+</tr>
+
+<tr>
+<td></td>
+<td>26.本所分支机构执业资质不符合要求</td>
+<td><Checkbox {...getFieldProps('wg26') }></Checkbox></td>
+</tr>
+<tr>
+<td></td>
+<td>27.本所分支机构一年内有两次以上执业质量问题</td>
+<td> <Checkbox {...getFieldProps('wg27') }></Checkbox></td>
+</tr>
+<tr>
+<td></td>
+<td>30.未按照规定缴纳团体会费</td>
+<td><Checkbox {...getFieldProps('wg30') }></Checkbox></td>
+</tr>
+<tr>
+<td></td>
+<td>31.未按照规定办理团体会员登记、变更手续</td>
+<td> <Checkbox {...getFieldProps('wg31') }></Checkbox></td>
+</tr>
+
+
+<tr>
+<td>评级选项</td>
+<td>年检及格A级单位</td>
+<td> 自评级<Checkbox></Checkbox></td>
+</tr>
+ </tbody>
+
+
+
+
+
+</table>
+
+                
+
+
+              
+
+
+
+
+                
+
+
+
+
+
+               
+
+              
+
+
+                
+
+            
+
+
+
+
+              
+
+            
 
                 <Row>
                     <Col span="8">
+                        <FormItem labelCol={{ span: 9 }}wrapperCol={{ span: 13 }} label="年检总结">  <Input {...textareaProps}  type="textarea"/>
+                        </FormItem>
+                    </Col>
+
+
+
+                </Row>
+
+
+                <Row>
+                    <Col span="8">
+
+                        <FormItem labelCol={{ span: 9 }} wrapperCol={{ span: 13 }} label="事务所负责人意见:" ><Input {...getFieldProps('NJZJ') } type="textarea"/></FormItem>
+
+
+
+                    </Col>
+
+
+
+                    <Col span="8" >
+                        <FormItem labelCol={{ span: 9 }} wrapperCol={{ span: 13 }} label="时间:" ><Input {...getFieldProps('NJZJ') } type="textarea"/></FormItem>
+
+                    </Col>
+                    <Col span="8">
+                        <FormItem labelCol={{ span: 9 }} wrapperCol={{ span: 13 }} label="负责人签名:" >
+                            <Input {...getFieldProps('FZR') }></Input>
+                        </FormItem>
+                    </Col>
+
+
+
+                </Row>
+
+
+                <Row>
+                    <Col span="4">
                         <Button type="primary" onClick={this.handleSubmit}> <Icon
 
                             type="check"/>保存</Button>
@@ -951,7 +555,7 @@ let Addswsnj = React.createClass({
 
                     </Col>
 
-                    <Col span="8">
+                    <Col span="4">
                         <Button type="primary" onClick={this.showModal}> <Icon
 
                             type="arrow-up"/>提交</Button>
@@ -967,7 +571,7 @@ let Addswsnj = React.createClass({
                         </Modal>
                     </Col>
 
-                    <Col span="8">
+                    <Col span="4">
                         <Button type="primary" onClick={this.handleReset}><Icon
 
                             type="cross"/>重置</Button>
@@ -977,6 +581,8 @@ let Addswsnj = React.createClass({
                     </Col>
 
                 </Row>
+               
+</div>
             </Form>
 
 
