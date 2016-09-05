@@ -21,6 +21,7 @@ let searchForm = React.createClass({
         this.props.onSubmit(value);
     },
     render(){
+        const year = new Date().getFullYear();
         const { getFieldProps } = this.props.form;
         const formItemLayout = {
             labelCol: {span: 8},
@@ -32,11 +33,20 @@ let searchForm = React.createClass({
                     <Col span="12">
                         <FormItem
                             {...formItemLayout}
-                            label="机构名称">
-                            <Input placeholder="机构名称" {...getFieldProps('dwmc')}/>
+                            label="年度">
+                            <SelectorYear {...getFieldProps('ND',{ initialValue: year})}/>
                         </FormItem>
                     </Col>
-                    <Col span="10" offset="2">
+                    <Col span="12">
+                        <FormItem
+                            {...formItemLayout}
+                            label="机构所在地">
+                            <SelectorCS {...getFieldProps('CS_DM')} />
+                        </FormItem>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col span="4" offset="20">
                         <Button type="primary" htmlType="submit" className="query">查询</Button>
                         <Button type="ghost" onClick={this.handleReset}>重置</Button>
                     </Col>
