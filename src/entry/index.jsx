@@ -39,6 +39,7 @@ const Index = React.createClass({
 
     render(){
         /*路由配置*/
+        console.log(auth.isClient())
         const routes = [{
             path: '/',
             component: App,
@@ -67,10 +68,11 @@ const Index = React.createClass({
                 //业务管理
 
                 require('../module/ywgl/ywbbgl'),
-                require('../module/ywgl/ywzlgl/sfjeyjgl'),
-                require('../module/ywgl/ywzlgl/ndbtyjgl'),
-                require('../module/ywgl/ywzlgl/ywwtyjgl'),
-                require('../module/ywgl/ywzlgl/cxbgyjgl'),
+                require('../module/ywgl/ywbbthsp'), //业务报备退回审批
+                require('../module/ywgl/ywbbcxsp'), //业务报备退回审批
+                require('../module/ywgl/ywbbqysp'), //业务报备退回审批
+                require('../module/ywgl/sfjeyjgl'), //收费金额预警管理
+
 
                  //财务报表
                 require('../module/cwbb/lrfpb'),
@@ -103,10 +105,10 @@ const Index = React.createClass({
                 require('../module/lsjlcx/fzyzzyjl'),
 
                 //监督检查
-                require('../module/jdjc/zyswsnjb'),
+                  require('../module/jdjc/zyswsnjb'),
                 require('../module/jdjc/swsnj'),
 
-                //逐级审核
+              //逐级审核
                 require('../module/spsh'),
                 require('../module/spshlsjl'),
                 require('../module/spsh/module/1'),
@@ -168,13 +170,12 @@ const Index = React.createClass({
                 
 
                 //会员会费缴纳
-
                 require('../module/hyhf_new/hyhfjnqk'),
                 require('../module/hyhf_new/fpdy'),
                 require('../module/hyhf_new/fzyhyhf'),
                 require('../module/hyhf_new/scgl'),
 
-               //  //证照打印管理
+               //证照打印管理
                 require('../module/zzdygl/zyglscdy'),
 
 

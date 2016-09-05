@@ -237,7 +237,7 @@ const wspcx = React.createClass({
                        </h3>
                </div>
                <Panel title="事项审核">
-                    <SPTJ onSubmit={this.handleSubmit} loading={this.state.submitLoading} lcbzmx={this.state.lcbzmx}/>
+                    <SPTJ onSubmit={this.handleSubmit} loading={this.state.submitLoading} lcbzmx={this.state.lcbzmx} jgnj={this.props.jgnj} zynj={this.props.zynj}/>
                </Panel>
                    </div>
                </div></Spin>

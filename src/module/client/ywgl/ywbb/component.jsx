@@ -11,20 +11,6 @@ import model from './model.jsx'
 
 const TabPane = Tabs.TabPane;
 
-const jid = auth.getJgid();
-const token = auth.getToken();
-const LIST_URL = config.HOST + config.URI_API_PROJECT + '/jg/'+jid+'/yw' ;
-
-const fetchYwbb =function (param = {page: 1, pageSize: 20,jid:jid}) {
-    return req({
-        url: LIST_URL,
-        method: 'get',
-        type: 'json',
-        data: param,
-        headers:{'x-auth-token':token}
-    })
-};
-
 const ywbb = React.createClass({
     getInitialState(){
         return {
@@ -39,6 +25,18 @@ const ywbb = React.createClass({
             }
         }
     },
+    fetchYwbb(param = {page: 1, pageSize: 20}){
+        const jid = auth.getJgid();
+        const token = auth.getToken();
+        const LIST_URL = config.HOST + config.URI_API_PROJECT + '/jg/'+jid+'/yw' ;
+        return req({
+            url: LIST_URL,
+            method: 'get',
+            type: 'json',
+            data: param,
+            headers:{'x-auth-token':token}
+        })
+    },
     //列表页面改变
     handlePageChange(){
 
@@ -52,7 +50,7 @@ const ywbb = React.createClass({
 
     },
     componentDidMount(){
-        fetchYwbb().then(resp=> {
+        this.fetchYwbb().then(resp=> {
             this.setState({
                 pageLoading: false,
                 data: resp.data
@@ -69,7 +67,6 @@ const ywbb = React.createClass({
             });
         })
     },
-
     render(){
         return <div className="client-ywbb">
             <div className="wrap">
