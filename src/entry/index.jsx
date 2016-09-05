@@ -140,6 +140,12 @@ const Index = React.createClass({
 
                 //数据统计分析 - 注税行业年报表
                 require('../module/xtsjfx/zshynbb/hyjygmqktj'),//行业经营规模情况统计
+                require('../module/xtsjfx/zshynbb/swsjbqktjb'),//事务所基本情况统计表1
+                require('../module/xtsjfx/zshynbb/hyryqktjb'),//行业人员情况统计表2
+                require('../module/xtsjfx/zshynbb/swsjgqktjb'),//事务所机构情况统计表3
+                require('../module/xtsjfx/zshynbb/hyjysrqkhzb'),//行业经营收入情况汇总表4
+                require('../module/xtsjfx/zshynbb/hyjygmqktjb'),//行业经营规模情况统计表5
+                require('../module/xtsjfx/zshynbb/hyjzywqktjb'),//行业鉴证业务情况统计表6
 
                //数据统计分析 - 系统统计报表
                 require('../module/xtsjfx/xttjbb/swsqktjA'), //事务所情况统计A
@@ -160,6 +166,8 @@ const Index = React.createClass({
                 require('../module/xtsjfx/sjfx/hynlsjfx'),//行业年龄数据分析
                 require('../module/xtsjfx/sjfx/ryztsjfx'),
                 require('../module/xtsjfx/sjfx/zyzshsjfx'),
+
+                
 
                 //会员会费缴纳
                 require('../module/hyhf_new/hyhfjnqk'),
