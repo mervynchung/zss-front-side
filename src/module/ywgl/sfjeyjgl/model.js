@@ -9,6 +9,20 @@ const model = {
         key: 'nd',
         width: 60
     }, {
+        title: '实际收费金额',
+        key: 'sjsqje',
+        dataIndex: 'sjsqje',
+        width:150,
+        render(text,record){
+            if(!text){
+                return '未填写'
+            }else if (text > 1000000){
+                return '>100万'
+            }else if (text <500) {
+                return '<500'
+            }
+        }
+    }, {
         title: '事务所名称',
         dataIndex: 'swsmc',
         key: 'swsmc',
@@ -28,7 +42,7 @@ const model = {
         key: 'xyje',
         dataIndex: 'xyje',
         width:150
-    }, {
+    },{
         title: '报备号码',
         key: 'bbhm',
         dataIndex: 'bbhm',
