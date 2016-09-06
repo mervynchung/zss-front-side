@@ -190,19 +190,6 @@ let Addswsnj = React.createClass({
 
             <Form horizontal onSubmit={this.handleSubmit} form={this.props.form}>
 
-<table>
-
-<tbody>
-<tr><td>本年度报备份数：{obj.BAFS}</td></tr>
-
-</tbody>
-
-
-
-</table>
-
-
-
 
                 <Row>
                     <Col span="8">

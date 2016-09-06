@@ -121,14 +121,14 @@ let Updatejgnjb = React.createClass({
                             </tr>
 
                             <tr>
-                                <td style={{ width: 120 }}>所长姓名</td>
+                                <td>所长姓名</td>
                                 <td>{data.SZ}</td>
                                 <td>注册资金</td>
                                 <td>{data.ZCZJ}</td>
                                 <td>邮政编码：{data.yzbm}</td>
                             </tr>
                             <tr>
-                                <td style={{ width: 150 }}>办公地点</td>
+                                <td>办公地点</td>
                                 <td>{data.bgdz}</td>
                                 <td>联系电话</td>
                                 <td>{data.dhhm}</td>
@@ -149,9 +149,11 @@ let Updatejgnjb = React.createClass({
 
                             <tr>
                                 <td>参加后续教育：</td>
-                                <td><Input {...getFieldProps('yjyrs') }/>人应参加</td>
-                                <td><Input {...getFieldProps('sjjyrs') }/>人实参加</td>
-                                <td><Input {...getFieldProps('wjyrs') }/>未参加</td>
+                                
+                                <td ><FormItem labelcol={{span:2}} wrapperCol={{span:22}} label="人应参加：" ><Input {...getFieldProps('yjyrs') }/></FormItem></td>
+                                <td ><FormItem labelcol={{span:2}} wrapperCol={{span:22}} label="人实参加：" ><Input {...getFieldProps('sjjyrs') }/></FormItem></td>
+                                 <td><FormItem labelcol={{span:2}} wrapperCol={{span:22}} label="未参加：" ><Input {...getFieldProps('sjjyrs') }/></FormItem></td>
+                        
                                 <td></td>
 
 
@@ -159,17 +161,16 @@ let Updatejgnjb = React.createClass({
                             <tr>
 
                                 <td>注册税务师变动情况：</td>
-                                <td>增加：<Input{...getFieldProps('ZCSWSBZJ') }/></td>
-                                <td>减少：<Input{...getFieldProps('ZCSWSBJS') }/></td>
-                                <td></td>
-                                <td></td>
+                                <td colSpan="2" ><FormItem labelcol={{span:2}} wrapperCol={{span:22}} label="增加：" ><Input {...getFieldProps('ZCSWSBZJ') }/></FormItem></td>
+                                <td colSpan="2" ><FormItem labelcol={{span:2}} wrapperCol={{span:22}} label="减少：" ><Input {...getFieldProps('ZCSWSBJS') }/></FormItem></td>
+                            
                             </tr>
                             <tr >
 
                                 <td>股东变动情况：</td>
-                                <td colSpan="4" >增加：<Input{...getFieldProps('GDBDQKZJ') }/>
-                                    减少：<Input{...getFieldProps('GDBDQKJS') }/>
-                                </td>
+                                <td colSpan="2" ><FormItem labelcol={{span:2}} wrapperCol={{span:22}} label="增加：" ><Input {...getFieldProps('GDBDQKZJ') }/></FormItem></td>
+                                <td colSpan="2" ><FormItem labelcol={{span:2}} wrapperCol={{span:22}} label="减少：" ><Input {...getFieldProps('GDBDQKJS') }/></FormItem></td>
+                            
                             </tr>
                             <tr>
                                 <td> 分所数: </td>
@@ -459,12 +460,14 @@ let Updatejgnjb = React.createClass({
                                 
                                 <td colSpan="2">事务所负责人意见修改：</td>
                                 <td>负责人签名：</td>
+                                <td colSpan="2"></td>
                             </tr>
                             <tr>
 
-                                <td colSpan="2">{data.NJZJ}</td>
-                                <td colSpan="2" style={{ width: 900 }}><Input {...getFieldProps('NJZJ') } placeholder="可根据实际情况对输入框进行调整（将鼠标放置到输入框右下角即可拉伸）" type="textarea"/></td>
-                   <td><Input {...getFieldProps('FZR') }/></td>         
+                            
+                                <td colSpan="2"><Input {...getFieldProps('NJZJ') } placeholder="可根据实际情况对输入框进行调整（将鼠标放置到输入框右下角即可拉伸）" type="textarea"/></td>
+                             <td><Input {...getFieldProps('FZR') }/></td>
+                             <td colSpan="2"></td>         
                             </tr>
 
 

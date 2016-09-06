@@ -41,20 +41,7 @@ let searchForm = React.createClass({
                             <SelectorYear { ...getFieldProps('nd')}/>
                         </FormItem>
                     </Col>
-                     <Col span="8">
-                        <FormItem
-                          {...formItemLayout}
-                          label="状态：">
-                            <SelectorZT { ...getFieldProps('ZTBJ')}/>
-                        </FormItem>
-                    </Col>
-                    <Col span="8">
-                        <FormItem
-                          {...formItemLayout}
-                          label="性质：">
-                            <SelectorXZ { ...getFieldProps('TIMEVALUE')}/>
-                        </FormItem>
-                    </Col>
+                    
                 </Row>
                 <Row>
                     <Col span="2" offset="20"><Button type="primary" htmlType="submit">查询</Button></Col>
