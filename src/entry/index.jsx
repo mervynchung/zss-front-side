@@ -2,15 +2,20 @@ import '../common/lib';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Router, Route, IndexRoute,useRouterHistory} from 'react-router';
-import { createHistory } from 'history'
+import { createHistory,createHashHistory } from 'history'
 import App from '../component/App';
 import Signin from 'module/signin';
+import Dyfp from 'module/useforprint/fpdy/dy.jsx';
+import Dydj from 'module/useforprint/glsc_jgdj/dy.jsx';
+import Dyry from 'module/useforprint/glsc_ry/dy.jsx';
+import Dyzb from 'module/useforprint/glsc_zb/dy.jsx';
+import Dyfb from 'module/useforprint/glsc_fb/dy.jsx';
 import {cenHome,clientHome } from '../module/home';
 import NotFound from 'module/404notfound'
 import auth from 'common/auth'
 
 //使用browserHistory需要预设basename
-const history = useRouterHistory(createHistory)({
+const history = useRouterHistory(createHashHistory)({
     basename: '/'
 });
 
@@ -34,6 +39,7 @@ const Index = React.createClass({
 
     render(){
         /*路由配置*/
+        console.log(auth.isClient())
         const routes = [{
             path: '/',
             component: App,
@@ -49,6 +55,7 @@ const Index = React.createClass({
                 /* 中心端 */
                 //机构管理
                 require('../module/jggl/swscx'),
+                require('../module/jggl/swsslsp'),
 
                 //人员管理
               //  require('../module/rygl/rycx'),
@@ -58,20 +65,17 @@ const Index = React.createClass({
                 require('../module/xtgnsz/qxgl'),
                 require('../module/xtgnsz/yhgl'),
 
-             /*   //业务管理
+             /* //业务管理
 
                 require('../module/ywgl/ywbbgl'),
-                require('../module/ywgl/ywzlgl/sfjeyjgl'),
-                require('../module/ywgl/ywzlgl/ndbtyjgl'),
-                require('../module/ywgl/ywzlgl/ywwtyjgl'),
-                require('../module/ywgl/ywzlgl/cxbgyjgl'),
+                require('../module/ywgl/ywbbthsp'), //业务报备退回审批
+                require('../module/ywgl/ywbbcxsp'), //业务报备退回审批
+                require('../module/ywgl/ywbbqysp'), //业务报备退回审批
+                require('../module/ywgl/sfjeyjgl'), //收费金额预警管理
 
-               //会员会费管理
-                require('../module/hyhfgl/hfjlqk'),
-                require('../module/hyhfgl/grhyhfgl'),
-                require('../module/hyhfgl/fzyhyhfgl'),
 
-                //财务报表
+
+                 //财务报表
                 require('../module/cwbb/lrfpb'),
                 require('../module/cwbb/xjllb'),
                 require('../module/cwbb/zcmxb'),
@@ -102,11 +106,13 @@ const Index = React.createClass({
                 require('../module/lsjlcx/fzyzzyjl'),*/
 
                 //监督检查
-                require('../module/jdjc/zyswsnjb'),
+                  require('../module/jdjc/zyswsnjb'),
                 require('../module/jdjc/swsnj'),
 
-           /*     //逐级审核
+
+              //逐级审核
                 require('../module/spsh'),
+                require('../module/spshlsjl'),
                 require('../module/spsh/module/1'),
                 require('../module/spsh/module/2'),
                 require('../module/spsh/module/3'),
@@ -122,7 +128,10 @@ const Index = React.createClass({
                 require('../module/spsh/module/13'),
                 require('../module/spsh/module/14'),
                 require('../module/spsh/module/15'),
+                require('../module/spsh/module/18'),
                 require('../module/spsh/module/20'),
+                require('../module/spsh/module/38'),
+                require('../module/spsh/module/39'),
                 require('../module/spsh/module/43'),
                 require('../module/spsh/module/44'),
                 require('../module/spsh/module/46'),
@@ -133,12 +142,20 @@ const Index = React.createClass({
 
                 //数据统计分析 - 注税行业年报表
                 require('../module/xtsjfx/zshynbb/hyjygmqktj'),//行业经营规模情况统计
+                require('../module/xtsjfx/zshynbb/swsjbqktjb'),//事务所基本情况统计表1
+                require('../module/xtsjfx/zshynbb/hyryqktjb'),//行业人员情况统计表2
+                require('../module/xtsjfx/zshynbb/swsjgqktjb'),//事务所机构情况统计表3
+                require('../module/xtsjfx/zshynbb/hyjysrqkhzb'),//行业经营收入情况汇总表4
+                require('../module/xtsjfx/zshynbb/hyjygmqktjb'),//行业经营规模情况统计表5
+                require('../module/xtsjfx/zshynbb/hyjzywqktjb'),//行业鉴证业务情况统计表6
 
-                //数据统计分析 - 系统统计报表
+               //数据统计分析 - 系统统计报表
                 require('../module/xtsjfx/xttjbb/swsqktjA'), //事务所情况统计A
                 require('../module/xtsjfx/xttjbb/hyryqktj'), //行业人员情况统计
                 require('../module/xtsjfx/xttjbb/swsqktj_b'),//事务所情况统计B
-                require('../module/xtsjfx/xttjbb/swszttj'),//税务师状态统计
+                require('../module/xtsjfx/xttjbb/swszttj'),//税务师状态统计 
+                require('../module/xtsjfx/xttjbb/zyswszjtj'),//税务师转籍统计
+                require('../module/xtsjfx/xttjbb/zyswszctj'),//税务师转出统计
 
                 //数据统计分析 - 系统业务报表
                 require('../module/xtsjfx/xtywbb/ndjysrtj'), //年度经营收入统计 
@@ -150,11 +167,16 @@ const Index = React.createClass({
                 require('../module/xtsjfx/sjfx/zjgmsjfx'),//资金规模数据分析
                 require('../module/xtsjfx/sjfx/hynlsjfx'),//行业年龄数据分析
                 require('../module/xtsjfx/sjfx/ryztsjfx'),//人员状态数据分析
+                require('../module/xtsjfx/sjfx/zyzshsjfx'),
 
          /*       //会员会费缴纳
                 require('../module/hyhf_new/hyhfjnqk'),
-                require('../module/hyhf_new/fpdy'),*/
+                require('../module/hyhf_new/fpdy'),
+                require('../module/hyhf_new/fzyhyhf'),
+                require('../module/hyhf_new/scgl'),
 
+               //证照打印管理
+                require('../module/zzdygl/zyglscdy'),
 
                 //客户端
                 //机构管理
@@ -162,8 +184,8 @@ const Index = React.createClass({
                 require('../module/client/jggl/swszx'),
                 require('../module/client/jggl/swshb'),
 
-             /*   //人员管理
-                require('../module/client/swsrygl/zyrygl'),*/
+                //人员管理
+               require('../module/client/swsrygl/zyrygl'),
 
                //财务报表上传
                 require('../module/client/cwbb/lrb'),
@@ -178,16 +200,37 @@ const Index = React.createClass({
                 require('../module/client/sdsb/jzywqktjb'),
                 require('../module/client/sdsb/hyryqktjb'),
                 require('../module/client/sdsb/jysrqkb'),*/
+
                //年度检查
                require('../module/client/swsnj'),//事务所年检
                require('../module/client/zyswsnj'),//执业税务师年检
                //业务管理
                 require('../module/client/ywgl/khxxgl'), //客户信息管理
-                require('../module/client/ywgl/ywbb') //事务所业务报备
+                require('../module/client/ywgl/ywbb'), //事务所业务报备
+
+
+                //公用功能
+                //修改密码
+                require('../module/updatepass')
             ]
         }, {
             path: '/signin',
             component: Signin
+        },{
+            path: '/print/hyhf/fpdy',
+            component: Dyfp
+        }, {
+            path: '/print/zzdygl/glscdj',
+            component: Dydj
+        }, {
+            path: '/print/zzdygl/glscry',
+            component: Dyry
+        },{
+            path: '/print/zzdygl/jgzyzzb',
+            component: Dyzb
+        },{
+            path: '/print/zzdygl/jgzyzfb',
+            component: Dyfb
         }, {
             path: '*',
             component: NotFound

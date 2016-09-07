@@ -25,6 +25,7 @@ var selector = {
     SelectorXB: require('./xb'), //性别
     SelectorRYSF: require('./rysf'), //人员身份
     SelectorYWLX: require('./ywlx'), //业务类型
+    SelectorSPLX: require('./splx'), //审批类型
     SelectorZTBJ: require('./ztbj'), //通过状态
     SelectorZTDM: require('./ztdm'), //年检状态
     SelectorTGZT: require('./tgzt'), //通过状态
@@ -33,7 +34,10 @@ var selector = {
     SelectorIS: require('./is'), //是否
     SelectorRoles: require('./roles'), //角色
     SelectorISWS:require('./isws'), //业务报备是否省外
-    SelectorSB:require('./sb') //国税或地税
+    SelectorSB:require('./sb'), //国税或地税
+    SelectorYWZT:require('./ywzt'), //业务报备状态
+    SelectorZSFS:require('./zsfs'), //业务报备征收方式
+    SelectorJg:require('./jg') //机构
 
 };
 

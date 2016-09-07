@@ -1,5 +1,5 @@
 import React from 'react'
-import {Row,Col,Checkbox,Affix,Button } from 'antd'
+import {Row,Col,Checkbox } from 'antd'
 import './style.css'
 // import Top from'./toTop.jsx'
 
@@ -7,13 +7,17 @@ const detailBox = React.createClass({
     render(){
         const obj = this.props.data;
         var arr1 =[];
-        arr1 = obj.ZJWGDM.split(',');
+        if (obj.ZJWGDM && obj.ZJWGDM != 'null'){
+            arr1 = obj.ZJWGDM.split(',');
+        }
         var obj2={};
         for (var i=0;i<arr1.length;i++){
             obj2[arr1[i]]=true;
         } 
         var arr2 =[];
-        arr2 = obj.NJWGDM.split(',');
+        if (obj.NJWGDM && obj.NJWGDM != 'null'){
+            arr2 = obj.NJWGDM.split(',');
+        }
         var obj3={};
         for (var i=0;i<arr2.length;i++){
             obj3[arr2[i]]=true;

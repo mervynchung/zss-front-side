@@ -34,22 +34,26 @@ let searchForm = React.createClass({
       const yearOptions = yy.map(year => <Option key={year}>{year}</Option>);
         return <div className="search-form">
                 <Form horizontal onSubmit={this.handleSubmit} form={this.props.form}>
-                                <Row>
-                                        <Col span="10">
-                        <FormItem label="单位名称：" {...formItemLayout}>
-                          <Input {...getFieldProps('dwmc')} placeholder="请输入搜索条件" />
-                        </FormItem>
-                    </Col>
-                      <Col span="10">
-                        <FormItem label="所属年份：" {...formItemLayout}>
-                          <Select  { ...getFieldProps('nd', { initialValue: yy[0]})} >
-                            {yearOptions}
-                        </Select>
-                        </FormItem> 
-                    </Col>
-                    <Col style={{float:'right'}}><Button type="primary" htmlType="submit">查询</Button><span className="ant-divider"></span><Button type="ghost" onClick={this.handleReset}>重置</Button></Col>
-                    
-                </Row>
+                    <Row>
+                            <Col span="10">
+                                    <FormItem label="事务所名称：" {...formItemLayout}>
+                                            <Input {...getFieldProps('dwmc')} placeholder="请输入搜索条件" />
+                                    </FormItem>
+                            </Col>
+                            <Col span="10">
+                                    <FormItem label="所属年份：" {...formItemLayout}>
+                                            <Select  { ...getFieldProps('nd', { initialValue: yy[0]})} >
+                                            {yearOptions}
+                                            </Select>
+                                    </FormItem> 
+                            </Col>
+                            <Col style={{float:'right'}}>
+                                    <Button type="primary" htmlType="submit">查询</Button>
+                                    <span className="ant-divider"></span>
+                                    <Button type="ghost" onClick={this.handleReset}>重置</Button>
+                            </Col>
+
+                    </Row>
             </Form>
         </div>
     }
