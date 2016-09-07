@@ -109,7 +109,7 @@ const c = React.createClass({
                 let actGroup = <span className="act-group">
                     <a onClick={()=>{this.handleViewDetail(record)}}>明细</a>
                     {record.ywzt_dm == 1 ?
-                    <a onClick={()=>{this.openSentBack(record)}}>退回</a>:null}
+                    <a onClick={()=>{this.openSentBack(record)}}>强制退回</a>:null}
                     {record.ywzt_dm == 7 ?
                       <a onClick={()=>{this.openSpCX(record)}}>撤销审批</a>:null}
                     {record.ywzt_dm == 8 ?
@@ -124,11 +124,11 @@ const c = React.createClass({
         /*设置列表组件的参数 */
         const listSetting = {
             //标题
-            title: '业务报备管理',
+            title: '年度不同预警管理',
             //帮助提示的标题
-            helperTitle: '业务报备使用帮助',
+            helperTitle: '使用帮助',
             //帮助提示的具体内容
-            helperDesc: <div><p>本功能主要提供本年度业务备案查询</p></div>,
+            helperDesc: <div><p>显示同一委托企业，同一类型，不同年度由不同的事务所出报告的数据。</p></div>,
             //列表可滚动区间的宽度，一般使用getcolwidth计算即可
             scrollx: this.getColWidth(model),
             //接收的json数据中用来充当key的字段名
@@ -142,7 +142,7 @@ const c = React.createClass({
             //list组件重新挂载时恢复状态用的历史状态数据
             stateShot: this.state.listState,
             //数据来源api
-            apiUrl: config.HOST + config.URI_API_PROJECT + '/ywbb',
+            apiUrl: config.HOST + config.URI_API_PROJECT + '/ywbbndbtyj',
             //初始搜索条件
             defaultWhere:{}
         };
