@@ -180,11 +180,14 @@ let Addswsnj = React.createClass({
 
 
 
-        let obj = [{}];
-        if (this.props.data.length != 0) {
-            obj = this.props.data;
+       const obj1=this.props.data;
 
-        };
+
+        // let obj = {};
+        // if (this.props.data.length != 0) {
+        //     obj = this.props.data[0];
+
+        // };
 
         return <div className="fix-table table-bordered table-striped">
 
@@ -195,17 +198,18 @@ let Addswsnj = React.createClass({
                     <Col span="8">
                         <FormItem labelCol={{ span: 9 }} wrapperCol={{ span: 13 }}
                             label="年度">
+                    
                             <Input  {...getFieldProps('nd') }/>
                         </FormItem>
                     </Col>
                     <Col span="8">
                         <FormItem labelCol={{ span: 9 }} wrapperCol={{ span: 13 }} label="事务所名称">
-                            <Input {...getFieldProps('dwmc') }/>
+                            <Input {...getFieldProps('dwmc',{ initialValue: obj1.dwmc}) }disabled/>
                         </FormItem>
                     </Col>
                     <Col span="8">
                         <FormItem labelCol={{ span: 9 }} wrapperCol={{ span: 13 }} label="机构注册号码：">
-                            <Input {...getFieldProps('nd') }/>
+                            <Input {...getFieldProps('jgzchm',{ initialValue: obj1.jgzchm}) }disabled/>
                         </FormItem>
                     </Col>
 
@@ -219,18 +223,18 @@ let Addswsnj = React.createClass({
 
                     <Col span="8">
                         <FormItem labelCol={{ span: 9 }} wrapperCol={{ span: 13 }} label="所长姓名：">
-                            <Input {...getFieldProps('sz') }/>
+                            <Input {...getFieldProps('sz',{ initialValue: obj1.sz}) }disabled/>
                         </FormItem>
 
                     </Col>
                     <Col span="8">
                         <FormItem labelCol={{ span: 9 }} wrapperCol={{ span: 13 }} label="注册资金：">
-                            <Input {...getFieldProps('zczj') }/>
+                            <Input {...getFieldProps('zczj') }disabled/>
                         </FormItem>
                     </Col>
                     <Col span="8">
                         <FormItem labelCol={{ span: 9 }} wrapperCol={{ span: 13 }} label="联系电话：">
-                            <Input {...getFieldProps('dwmc') }/>
+                            <Input {...getFieldProps('dwmc') }disabled/>
                         </FormItem>
 
                     </Col>
@@ -240,18 +244,18 @@ let Addswsnj = React.createClass({
                 <Row>
                     <Col span="8">
                         <FormItem labelCol={{ span: 9 }} wrapperCol={{ span: 13 }} label="办公地点">
-                            <Input {...getFieldProps('nd') }/>
+                            <Input {...getFieldProps('nd') }disabled/>
                         </FormItem>
                     </Col>
                     <Col span="8">
                         <FormItem labelCol={{ span: 9 }} wrapperCol={{ span: 13 }} label="邮编">
-                            <Input {...getFieldProps('dwmc') }/>
+                            <Input {...getFieldProps('dwmc') }disabled/>
                         </FormItem>
 
                     </Col>
                     <Col span="8">
                         <FormItem labelCol={{ span: 9 }} wrapperCol={{ span: 13 }} label="组织形式：">
-                            <Input {...getFieldProps('nd') }/>
+                            <Input {...getFieldProps('nd') }disabled/>
                         </FormItem>
                     </Col>
                 </Row>
@@ -260,14 +264,13 @@ let Addswsnj = React.createClass({
 
                     <Col span="8">
                         <FormItem labelCol={{ span: 9 }} wrapperCol={{ span: 13 }} label="机构正式成立时间：">
-                            <Input {...getFieldProps('dwmc') }/>
+                            <Input {...getFieldProps('dwmc') }disabled/>
                         </FormItem>
 
                     </Col>
                     <Col span="8">
-                        <FormItem labelCol={{ span: 9 }} wrapperCol={{ span: 13 }} label="总人数：">
-                            <Input {...getFieldProps('zrs') }/>
-                        </FormItem>
+                     <FormItem  labelCol={{ span: 9 }} wrapperCol={{ span: 13 }} label="本年度报备份数：" ><Input {...getFieldProps('BAFS') }disabled/></FormItem>
+                        
                     </Col>
                     <Col span="8">
                         <FormItem labelCol={{ span: 9 }} wrapperCol={{ span: 13 }} label="执业注册税务师人数：">
@@ -277,7 +280,8 @@ let Addswsnj = React.createClass({
                 </Row>
                 <Row>
                     <Col span="8">
-                        <FormItem  labelCol={{ span: 9 }} wrapperCol={{ span: 13 }} label="本年度报备份数：" ><Input {...getFieldProps('BAFS') }/></FormItem>
+                       <FormItem labelCol={{ span: 9 }} wrapperCol={{ span: 13 }} label="总人数：">  <Input {...getFieldProps('zrs') }/>
+                        </FormItem>
                     </Col>
                     <Col span="8">
                         <FormItem labelCol={{ span: 9 }} wrapperCol={{ span: 13 }} label="分所数："><Input {...fssProps }/></FormItem>

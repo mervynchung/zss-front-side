@@ -99,7 +99,7 @@ const swsnjb = React.createClass({
     //点击提交
     handleOk(e) {
         let vv = e;
-        vv.ztbj = '1'
+        vv.ztbj = '2'
         this.fetchHandle(vv);
         this.handleAdd();
     },
@@ -314,6 +314,7 @@ const swsnjb = React.createClass({
 
 
     render() {
+        const dataTest={dwmc:'测试',jgzchm:'12344',sz:'测试'};
         const column1 = [
             { title: '序号', dataIndex: 'key', key: 'key' },
             { title: '年度', dataIndex: 'ND', key: 'ND' },
@@ -374,7 +375,7 @@ const swsnjb = React.createClass({
                             onChange={this.handleChange}
                             onRowClick={this.handleRowClick}/>
                     </div>}
-                    {!this.state.add && <Add onSubmit={this.handleSubmit} handleOk={this.handleOk} data={this.state.data} />}
+                    {!this.state.add && <Add onSubmit={this.handleSubmit} handleOk={this.handleOk} data={dataTest} />}
                     {!this.state.update && <Panel title="修改"  onClose={this.handleDetailClose}
                         closable>
                         <Update onSubmit={this.handleSubmit1} handleOk={this.handleOk1} data={this.state.entity} />
