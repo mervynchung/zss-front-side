@@ -10,7 +10,7 @@ import model from './model'
 import config from 'common/configuration'
 import {jsonCopy} from 'common/utils'
 import cloneDeep from 'lodash/cloneDeep';
-import './style.css'
+import '../style.css'
 
 const c = React.createClass({
     getInitialState(){
@@ -206,7 +206,7 @@ const c = React.createClass({
         };
 
 
-        return <div className="ywbbgl">
+        return <div className="ndbtyjgl ywbbgl ">
             <div className="wrap">
                 <DiaSentBack {...sentBackSetting}  />
                 <DiaSpQY {...spQYSetting}  />

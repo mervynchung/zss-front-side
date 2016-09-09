@@ -10,7 +10,7 @@ import model from './model'
 import config from 'common/configuration'
 import {jsonCopy} from 'common/utils'
 import cloneDeep from 'lodash/cloneDeep';
-import './style.css'
+import '../style.css'
 
 const c = React.createClass({
     getInitialState(){
@@ -109,7 +109,7 @@ const c = React.createClass({
                 let actGroup = <span className="act-group">
                     <a onClick={()=>{this.handleViewDetail(record)}}>明细</a>
                     {record.ywzt_dm == 1 ?
-                    <a onClick={()=>{this.openSentBack(record)}}>退回</a>:null}
+                    <a onClick={()=>{this.openSentBack(record)}}>强制退回</a>:null}
                     {record.ywzt_dm == 7 ?
                       <a onClick={()=>{this.openSpCX(record)}}>撤销审批</a>:null}
                     {record.ywzt_dm == 8 ?
@@ -206,7 +206,7 @@ const c = React.createClass({
         };
 
 
-        return <div className="ywbbgl">
+        return <div className="ywbbgl ywbbqysp">
             <div className="wrap">
                 <DiaSentBack {...sentBackSetting}  />
                 <DiaSpQY {...spQYSetting}  />
