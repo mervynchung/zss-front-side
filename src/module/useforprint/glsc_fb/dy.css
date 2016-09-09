@@ -114,8 +114,10 @@
 
 .fb_background{
     position: absolute;
-    left:-0.3cm;
-    top:-0.1cm;
+    width: 28cm;
+    height: 20cm;
+    left:-0.9cm;
+    bottom:1.6cm;
     font-size:13.5pt;
     font-weight: 600;
 }
