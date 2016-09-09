@@ -12,6 +12,8 @@ const detailBox = React.createClass({
             obj2[arr1[i]]=true;
         } 
         var arr2 =[];
+        
+       
         arr2 = obj.NJWGDM.split(',');
         var obj3={};
         for (var i=0;i<arr2.length;i++){
