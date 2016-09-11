@@ -1,128 +1,79 @@
 import React from 'react'
-import {Modal,  Col, Row, Button, Input,notification} from 'antd'
+import { Popover, Button, InputNumber,notification,Form,Row,Icon} from 'antd'
 import req from 'reqwest'
 import config from 'common/configuration'
 import auth from 'common/auth'
 
-let modal = React.createClass({
+const FormItem = Form.Item;
+
+let pop = React.createClass({
     getInitialState(){
         return {
-            loading: false
+            visible: false
         }
     },
-    handlePass(){
+    hide() {
+        this.props.form.resetFields();
+        this.setState({
+            visible: false
+        });
+    },
+    handleVisibleChange(visible) {
+        this.setState({visible});
+    },
+    handleOk(){
         const token = auth.getToken();
-        const {data,apiUrl,refreshList} = this.props;
-        const obj = {
-            lx: 2, //操作类型2为同意退回
-            data: {thyy:data.sqthyy}
-        };
-        this.setState({loading: true});
-        req({
-            url: apiUrl + data.id,
-            type: 'json',
-            method: 'put',
-            contentType: 'application/json',
-            data: JSON.stringify(obj),
-            headers: {'x-auth-token': token}
-        }).then(resp=> {
-            refreshList();
-            this.setState({loading: false});
-            this.props.onClose();
-        }).fail(e=> {
-            this.setState({loading: false});
-            notification.error({
-                duration: 3,
-                message: '操作失败',
-                description: '可能网络访问原因，请稍后尝试'
-            });
-            this.props.onClose();
-        })
+        const {id,apiUrl,refreshList} = this.props;
+        let value  = this.props.form.getFieldsValue();
+        if(value.value >=0 ){
+            req({
+                url: apiUrl + id,
+                type: 'json',
+                method: 'put',
+                contentType: 'application/json',
+                data: JSON.stringify(value),
+                headers: {'x-auth-token': token}
+            }).then(resp=> {
+                refreshList();
+                this.hide();
+            }).fail(e=> {
+                this.hide();
+                notification.error({
+                    duration: 3,
+                    message: '操作失败',
+                    description: '可能网络访问原因，请稍后尝试'
+                });
+            })
+        }else{
+            this.hide();
+        }
+    },
 
-    },
-    handleReject(){
-        const token = auth.getToken();
-        const {data,apiUrl,refreshList} = this.props;
-        const obj = {
-            lx: 9, //操作类型9为拒绝退回
-            data: {}
-        };
-        this.setState({loading: true});
-        req({
-            url: apiUrl + data.id,
-            type: 'json',
-            method: 'put',
-            contentType: 'application/json',
-            data: JSON.stringify(obj),
-            headers: {'x-auth-token': token}
-        }).then(resp=> {
-            refreshList();
-            this.setState({loading: false});
-            this.props.onClose();
-        }).fail(e=> {
-            this.setState({loading: false});
-            notification.error({
-                duration: 3,
-                message: '操作失败',
-                description: '可能网络访问原因，请稍后尝试'
-            });
-            this.props.onClose();
-        })
-    },
-    handleClose(){
-        this.props.onClose();
+    handleCancel(){
+        this.hide();
     },
     render(){
-        const {visible,data} = this.props;
-        const footer = [
-            <Button key="cancel" type="ghost" size="large" onClick={this.handleClose}>取消</Button>,
-            <Button key="reject" size="large" onClick={this.handleReject}>拒绝申请</Button>,
-            <Button key="pass" type="primary" size="large" onClick={this.handlePass}>同意申请</Button>
-        ];
+        const {getFieldProps,setFieldsValue} = this.props.form;
+          const content = <Form>
+              <Row>
+                  <FormItem>
+                      <InputNumber style={{width:'100%'}} {...getFieldProps('value')}/>
+                  </FormItem>
+              </Row>
+              <Row style={{textAlign:'right'}}>
+                  <Button type="ghost" size="small" onClick={this.handleCancel}>取消</Button>&nbsp;&nbsp;&nbsp;
+                  <Button type="primary" size="small" onClick={this.handleOk}>确认</Button>
+              </Row>
+        </Form>;
 
-        return <Modal
-          visible={visible}
-          style={{top: '100px'}}
-          title="处理业务报备退回申请"
-          footer={footer}
-          confirmLoading={this.state.loading}
-          onCancel = {this.handleClose}>
-            <div className="fix-table no-border">
-                <table>
-                    <tbody>
-                    <tr>
-                        <td>报备号码 :</td>
-                        <td>{data.bbhm}</td>
-                    </tr>
-                    <tr>
-                        <td>委托企业 :</td>
-                        <td>{data.wtdw}</td>
-                    </tr>
-                    <tr>
-                        <td>事务所 :</td>
-                        <td>{data.swsmc}</td>
-                    </tr>
-                    <tr>
-                        <td>业务类型 :</td>
-                        <td>{data.ywlx}</td>
-                    </tr>
-                    <tr>
-                        <td>报备日期 :</td>
-                        <td>{data.bbrq}</td>
-                    </tr>
-                    <tr>
-                        <td>协议金额 :</td>
-                        <td>{data.xyje}</td>
-                    </tr>
-                    <tr>
-                        <td>申请退回原因 :</td>
-                        <td>{data.sqthyy}</td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-        </Modal>
+        return <Popover trigger="click"
+                        content={content}
+                        visible={this.state.visible}
+                        onVisibleChange={this.handleVisibleChange}>
+            <a><Icon type="edit" /></a>
+        </Popover>
     }
 });
+pop = Form.create()(pop);
 
-module.exports = modal;
+module.exports = pop;

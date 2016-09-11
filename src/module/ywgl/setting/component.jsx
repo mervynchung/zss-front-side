@@ -13,7 +13,6 @@ const c = React.createClass({
         return {
             view: 'list',
             listState: {},
-            entity: {},
             diaEdit:false
         }
     },
@@ -55,18 +54,15 @@ const c = React.createClass({
         const m = cloneDeep(model);
 
         //定义列表中的操作列具体方法
-        m.columns.push({
-            title: '操作',
-            key: 'action',
-            fixed: 'right',
-            width: 120,
-            render: (text, record)=> {
-                let actGroup = <span className="act-group">
-                    <a onClick={()=>{this.openEdit(record)}}>修改</a>
-                </span>;
-                return actGroup
-            }
-        });
+        m.columns[1].render =(text, record)=>{
+            return <span>{text}&nbsp;&nbsp;<DiaEdit {...editSetting} id={record.id}/></span>
+        };
+
+        /*设置启用申请审批对话框的参数*/
+        const editSetting = {
+            refreshList:this.refreshList,
+            apiUrl:config.HOST + config.URI_API_PROJECT + '/settings/'
+        };
 
         /*设置列表组件的参数 */
         const listSetting = {
@@ -75,7 +71,7 @@ const c = React.createClass({
             //帮助提示的标题
             helperTitle: '使用帮助',
             //帮助提示的具体内容
-            helperDesc: <div><p>显示业务报备系统中的一般设定参数，点击"修改"可进行修改，点击”保存“存储修改值</p></div>,
+            helperDesc: <div><p>显示业务报备系统中的一般设定参数，点击"编辑"图标进行修改</p></div>,
             //列表可滚动区间的宽度，一般使用getcolwidth计算即可
             scrollx: this.getColWidth(model),
             //接收的json数据中用来充当key的字段名
@@ -89,29 +85,20 @@ const c = React.createClass({
             //list组件重新挂载时恢复状态用的历史状态数据
             stateShot: this.state.listState,
             //数据来源api
-            apiUrl: config.HOST + config.URI_API_PROJECT + '/ywbbsetting',
+            apiUrl: config.HOST + config.URI_API_PROJECT + '/ywsettings',
             //初始搜索条件
             defaultWhere:{}
         };
 
-        /*设置启用申请审批对话框的参数*/
-        const editSetting = {
-            data: this.state.entity,
-            visible:this.state.dialogSpQY,
-            refreshList:this.refreshList,
-            onClose:this.closeSpQY,
-            apiUrl:config.HOST + config.URI_API_PROJECT + '/ywbb/'
-        };
+
 
         /*通过控制state.view的值，实现页面上列表/详细信息等组件的切换*/
         const view = {
-            list: <List {...listSetting} ref="list" />,
+            list: <List {...listSetting} ref="list" />
          };
 
-
-        return <div className="ywbbgl">
+        return <div className="ywbbgl setting">
             <div className="wrap">
-                <DiaEdit {...editSetting}  />
                 {view[this.state.view]}
             </div>
         </div>

@@ -7,12 +7,7 @@ const model = {
         title: '参数含义',
         dataIndex: 'detail',
         key: 'detail',
-        width: 500
-    }, {
-        title: '默认值',
-        dataIndex: 'defaultValue',
-        key: 'defaultValue',
-        width: 100
+        width: 400
     }, {
         title: '设定值',
         key: 'value',

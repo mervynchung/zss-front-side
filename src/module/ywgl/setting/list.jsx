@@ -2,7 +2,6 @@ import React from 'react'
 import {Table, Row, Col, Button, Icon, notification, Alert} from 'antd'
 import Panel from 'component/compPanel'
 import req from 'reqwest';
-import SearchForm from './searchForm'
 import merge from 'lodash/merge';
 import {isEmptyObject,jsonCopy} from 'common/utils'
 
@@ -20,7 +19,7 @@ const list = React.createClass({
             entity: {},
             where: this.props.defaultWhere,
             searchToggle: false,
-            helper: false,
+            helper: true,
             pagination: {
                 current: 1,
                 showSizeChanger: true,
@@ -65,30 +64,6 @@ const list = React.createClass({
         })
     },
 
-    //改变页码
-    handleChange(pagination, filters, sorter){
-        let param = {
-            page: pagination.current,
-            pagesize: pagination.pageSize,
-            where:this.state.where
-        };
-        this.fetchData(param)
-    },
-
-    //查询按钮开关
-    handleSearchToggle(){
-        this.setState({searchToggle: !this.state.searchToggle});
-    },
-    //查询提交
-    handleSearchSubmit(values){
-        const p = this.state.pagination;
-        const param = {
-            page: 1,
-            pagesize: p.pageSize,
-            where: values
-        };
-        this.fetchData(param);
-    },
 
     //刷新按钮
     handleRefresh(){
@@ -129,15 +104,8 @@ const list = React.createClass({
     render(){
         const {title, helperTitle, helperDesc, scrollx,keyCol,columns} = this.props;
         let toolbar = <ToolBar>
-            <Button onClick={this.handleSearchToggle}>
-                <Icon type="search"/>查询
-                { this.state.searchToggle ? <Icon className="toggle-tip" type="circle-o-up"/> :
-                    <Icon className="toggle-tip" type="circle-o-down"/>}
-            </Button>
-
             <ButtonGroup>
                 <Button type="primary" onClick={this.helperToggle}><Icon type="question"/></Button>
-                <Button type="primary" onClick={this.handleRefresh}><Icon type="reload"/></Button>
             </ButtonGroup>
         </ToolBar>;
         return <div>
@@ -147,8 +115,6 @@ const list = React.createClass({
                                          closable
                                          onClose={this.helperClose}/>}
             <Panel title={title} toolbar={toolbar}>
-                {this.state.searchToggle && <SearchForm
-                    onSubmit={this.handleSearchSubmit}/>}
                 <Table columns={columns}
                        dataSource={this.state.data}
                        pagination={false}
