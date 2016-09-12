@@ -124,11 +124,11 @@ const c = React.createClass({
         /*设置列表组件的参数 */
         const listSetting = {
             //标题
-            title: '待审批业务启用申请',
+            title: '年度不同预警管理',
             //帮助提示的标题
-            helperTitle: '业务报备使用帮助',
+            helperTitle: '使用帮助',
             //帮助提示的具体内容
-            helperDesc: <div><p>本功能是将所有待审批的重新启用业务申请集中管理</p></div>,
+            helperDesc: <div><p>显示同一委托企业，同一类型，不同年度由不同的事务所出报告的数据。</p></div>,
             //列表可滚动区间的宽度，一般使用getcolwidth计算即可
             scrollx: this.getColWidth(model),
             //接收的json数据中用来充当key的字段名
@@ -142,9 +142,9 @@ const c = React.createClass({
             //list组件重新挂载时恢复状态用的历史状态数据
             stateShot: this.state.listState,
             //数据来源api
-            apiUrl: config.HOST + config.URI_API_PROJECT + '/ywbb',
+            apiUrl: config.HOST + config.URI_API_PROJECT + '/ywbbndbtyj',
             //初始搜索条件
-            defaultWhere:{zt:8}
+            defaultWhere:{}
         };
 
         /*设置明细信息组件的参数*/
@@ -206,7 +206,7 @@ const c = React.createClass({
         };
 
 
-        return <div className="ywbbgl ywbbqysp">
+        return <div className="ndbtyjgl ywbbgl ">
             <div className="wrap">
                 <DiaSentBack {...sentBackSetting}  />
                 <DiaSpQY {...spQYSetting}  />

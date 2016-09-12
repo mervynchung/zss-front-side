@@ -1,6 +1,7 @@
 import React from 'react'
 import {Modal, Form, Col, Row, Button, Input,notification} from 'antd'
 import req from 'reqwest'
+import config from 'common/configuration'
 import auth from 'common/auth'
 
 const FormItem = Form.Item;
