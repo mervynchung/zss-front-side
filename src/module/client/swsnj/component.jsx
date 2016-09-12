@@ -314,7 +314,7 @@ const swsnjb = React.createClass({
 
 
     render() {
-        const dataTest={dwmc:'测试',jgzchm:'12344',sz:'测试'};
+        const dataTest={dwmc:'测试',jgzchm:'12345',sz:'测试'};
         const column1 = [
             { title: '序号', dataIndex: 'key', key: 'key' },
             { title: '年度', dataIndex: 'ND', key: 'ND' },
