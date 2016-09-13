@@ -1,6 +1,6 @@
 import React from 'react'
 import {Col, Input, Row, Button, Icon, Form, Modal, Checkbox } from 'antd'
-import {SelectorYear, SelectorXZ} from 'component/compSelector'
+import {SelectorYear, SelectorXZ,SelectorXm} from 'component/compSelector'
 import './style.css'
 
 const ButtonGroup = Button.Group;
@@ -99,8 +99,8 @@ let Addswsnj = React.createClass({
                             <tbody>
 <tr>
 <td>姓名：</td>
-<td>选择</td>
-<td>性别：</td>
+<td><SelectorXm/></td>
+<td>性别:</td>
 <td>年度：</td>
 <td rowSpan="6">照片</td>
 </tr>

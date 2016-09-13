@@ -1,38 +1,63 @@
 /**
  * 执业税务师姓名下拉选择器
- * by:sun 2016.9.9
  */
 import React from 'react'
 import {Select} from 'antd'
+import config from 'common/configuration'
+import req from 'reqwest'
 
 const Option = Select.Option;
+const API_URL = config.HOST+config.URI_API_PROJECT + '/add/zyswsnj';
 
+const selectorXm = React.createClass({
+    getInitialState() { //初始化State状态，使用传入参数
+    return {
+            data: [],//用于主查询
+            where:{},
+            pagination: {
+                pageSize: 5,
+                
+            },
+      };
+    },
+    
+    fetch_xm(params ={page: 1, pageSize: this.state.pagination.pageSize}) {
+      req({
+            url: API_URL,//默认数据查询后台返回JSON
+            method: 'get',
+            type: 'json',
+            data: params,
+            headers:{'x-auth-token':auth.getToken()},
+           contentType:'application/json',
+            success: (result) => {
+                      if (result.data.length!=0) {
+                              this.setState({
+                                      data: result.data,//传入后台获取数据，table组件要求每条查询记录必须拥有字段'key'
+                               });
+                    }else{//空数据处理
+                         this.setState({data: []});
+                    };
+            },
+            error: (err) =>{alert('api错误');}
+          });
+        },
 
+    componentDidMount() { //REACT提供懒加载方法，懒加载时使用，且方法名必须为componentDidMount
+      this.fetch_xm(); //异步调用后台服务器方法fetch_rycx
+    },
 
-const genOptions = (data) =>{
-    return data.map(item=><Option key={item.id}>{item.description}</Option>)
-};
-
-const selectorNames = React.createClass({
+    getJgOptions(){
+        const data = this.state.data; 
+        const options = data.map(item=><Option key={item.id} value={item.id}>{item.XMING}</Option>);
+        return options;
+    },
 
     render(){
-        const defaultOptions = [
-            <Option key="3">广东事务所正常用户</Option>,
-            <Option key="4">广东事务所设立用户</Option>,
-            <Option key="11">广东省级咨询科</Option>,
-            <Option key="12">广东省注册管理科</Option>,
-            <Option key="13">广东省综合管理科</Option>,
-            <Option key="14">广东省执业检查科</Option>,
-            <Option key="15">广东省考试培训科</Option>,
-            <Option key="17">事务所分所用户</Option>,
-            <Option key="18">事务所外省分所用户</Option>
-        ];
-
-        const options = this.props.data?genOptions(this.props.data):defaultOptions;
-        return <Select {...this.props} placeholder="选择姓名" allowClear showSearch>
+        const options=this.getJgOptions();
+        return <Select {...this.props} showSearch placeholder={this.props.placeholder} optionFilterProp="children" notFoundContent="无法找到" allowClear>
             {options}
         </Select>
     }
 });
 
-module.exports = selectorNames;
+module.exports = selectorXm;

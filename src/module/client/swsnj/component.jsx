@@ -15,6 +15,7 @@ import DetailBox from './detailbox.jsx'
 
 const API_URL = config.HOST + config.URI_API_PROJECT + '/add/swsnj';
 const URL = config.HOST + config.URI_API_PROJECT + '/addswsnjb';
+const API_URL1 = config.HOST + config.URI_API_PROJECT + '/add/swsnjb1';
 
 const ToolBar = Panel.ToolBar;
 const ButtonGroup = Button.Group;
@@ -25,6 +26,7 @@ const swsnjb = React.createClass({
     getInitialState() {
         return {
             data: [],
+            data1: [],
             pagination: {
                 current: 1,
                 showSizeChanger: true,
@@ -99,10 +101,14 @@ const swsnjb = React.createClass({
     //点击提交
     handleOk(e) {
         let vv = e;
-        vv.ztbj = '2'
+        vv.ztbj = '2';
+        this.fetchData3();
         this.fetchHandle(vv);
         this.handleAdd();
     },
+
+
+
     fetchHandle(value) {
         req({
             url: URL,
@@ -210,6 +216,34 @@ const swsnjb = React.createClass({
             });
         })
     },
+//  显示添加表某些不可编辑字段
+    /* fetchData3() {
+        req({
+            url: API_URL1,
+            type: 'json',
+            method: 'get',
+            headers: { 'x-auth': auth.getToken() },
+            contentType: 'application/json'
+
+
+        }).then(resp => { this.setState({ data1: resp.data1 }) }).fail(err => {
+            this.setState({ loading: false });
+            Modal.error({
+                title: '数据获取错误',
+                content: (
+                    <div>
+                        <p>无法从服务器返回数据，需检查应用服务工作情况</p>
+                        <p>Status: {err.status}</p>
+                    </div>)
+            });
+        })
+
+
+
+    },
+
+*/ 
+
     //明细表关闭
     handleDetailClose() {
         this.setState({ detailHide: true })
@@ -314,7 +348,7 @@ const swsnjb = React.createClass({
 
 
     render() {
-        const dataTest={dwmc:'测试',jgzchm:'12345',sz:'测试'};
+        const dataTest = { dwmc: '测试', jgzchm: '12345', sz: '测试' };
         const column1 = [
             { title: '序号', dataIndex: 'key', key: 'key' },
             { title: '年度', dataIndex: 'ND', key: 'ND' },
@@ -375,7 +409,7 @@ const swsnjb = React.createClass({
                             onChange={this.handleChange}
                             onRowClick={this.handleRowClick}/>
                     </div>}
-                    {!this.state.add && <Add onSubmit={this.handleSubmit} handleOk={this.handleOk} data={dataTest} />}
+                    {!this.state.add && <Add onSubmit={this.handleSubmit} handleOk={this.handleOk} data={this.state.data} />}
                     {!this.state.update && <Panel title="修改"  onClose={this.handleDetailClose}
                         closable>
                         <Update onSubmit={this.handleSubmit1} handleOk={this.handleOk1} data={this.state.entity} />
