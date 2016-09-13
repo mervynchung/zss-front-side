@@ -140,13 +140,7 @@ const list = React.createClass({
                 <Button type="primary" onClick={this.handleRefresh}><Icon type="reload"/></Button>
             </ButtonGroup>
         </ToolBar>;
-        return <div>
-            {this.state.helper && <Alert message={helperTitle}
-                                         description={helperDesc}
-                                         type="info"
-                                         closable
-                                         onClose={this.helperClose}/>}
-            <Panel title={title} toolbar={toolbar}>
+        return <Panel title={title} toolbar={toolbar}>
                 {this.state.searchToggle && <SearchForm
                     onSubmit={this.handleSearchSubmit}/>}
                 <Table columns={columns}
@@ -158,7 +152,6 @@ const list = React.createClass({
                        rowClassName={(record)=>{return record.id==this.state.entity.id?'row-selected':''}}
                        onRowClick={this.handleRowClick} scroll={{x: scrollx}}/>
             </Panel>
-        </div>
 
     }
 });

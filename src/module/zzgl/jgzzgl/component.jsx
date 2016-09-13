@@ -107,7 +107,7 @@ const c = React.createClass({
             width: actColWidth,
             render: (text, record)=> {
                 let actGroup = <span className="act-group">
-                    <Switch defaultChecked={!record.yxbz} checkedChildren="开" unCheckedChildren="锁"/>
+                    <Switch defaultChecked={record.yxbz} checkedChildren="锁" unCheckedChildren="解"/>
                 </span>;
                 return actGroup
             }
@@ -115,10 +115,6 @@ const c = React.createClass({
 
         /*设置列表组件的参数 */
         const listSetting = {
-            //帮助提示的标题
-            helperTitle: '业务报备使用帮助',
-            //帮助提示的具体内容
-            helperDesc: <div><p>本功能主要提供本年度业务备案查询</p></div>,
             //列表可滚动区间的宽度，一般使用getcolwidth计算即可
             scrollx: this.getColWidth(model)-actColWidth,
             //接收的json数据中用来充当key的字段名
@@ -161,6 +157,12 @@ const c = React.createClass({
 
         return <div className="zzgl jgzzgl">
             <div className="wrap">
+
+                <Alert message="资质管理使用帮助"
+                       description={<div><p>本功能主要提供本年度业务备案查询</p></div>}
+                       type="info"
+                       closable
+                       onClose={this.helperClose}/>
                 <Panel>
                     <Tabs >
                         <TabPane key="1" tab="当前有效锁定记录"> {view[this.state.view]}</TabPane>

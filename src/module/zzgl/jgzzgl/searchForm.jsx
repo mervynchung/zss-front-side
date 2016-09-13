@@ -72,131 +72,36 @@ let searchForm = React.createClass({
                     <Col span="8">
                         <FormItem
                             {...formItemLayout}
-                            label="委托单位名称">
-                            <Input placeholder="委托单位名称" {...getFieldProps('wtdw')}/>
+                            label="锁定原因">
+                            <Input placeholder="锁定原因" {...getFieldProps('sdyy')}/>
                         </FormItem>
                     </Col>
                     <Col span="8">
                         <FormItem
                             {...formItemLayout}
-                            label="税务登记证号">
-                            <Input placeholder="税务登记证号" { ...getFieldProps('wtdwnsrsbh')}/>
-                        </FormItem>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col span="8">
-                        <FormItem
-                            {...formItemLayout}
-                            label="业务类型">
-                            <SelectorYWLX placeholder="业务类型" {...getFieldProps('ywlx_dm')}/>
-                        </FormItem>
-                    </Col>
-                    <Col span="8">
-                        <FormItem
-                            labelCol={{span: 8}} wrapperCol={{span: 16}}
-                            label="协议收费金额">
-                            <InputNumber style={{width: '40%'}} step={0.01} { ...getFieldProps('xyje1')}/>&nbsp;- &nbsp;
-                            <InputNumber style={{width: '40%'}} step={0.01} { ...getFieldProps('xyje2')}/>
-                        </FormItem>
-                    </Col>
-                    <Col span="8">
-                        <FormItem
-                            {...formItemLayout}
-                            label="实际收费金额">
-                            <InputNumber style={{width: '40%'}} step={0.01} { ...getFieldProps('sjsqje1')}/>&nbsp;- &nbsp;
-                            <InputNumber style={{width: '40%'}} step={0.01} { ...getFieldProps('sjsqje2')}/>
-                        </FormItem>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col span="8">
-                        <FormItem
-                            {...formItemLayout}
-                            label="协议文号">
-                            <Input placeholder="协议文号" {...getFieldProps('xyh')}/>
-                        </FormItem>
-                    </Col>
-                    <Col span="8">
-                        <FormItem
-                            {...formItemLayout}
-                            label="报告文号">
-                            <Input placeholder="报告文号" {...getFieldProps('bgwh')}/>
-                        </FormItem>
-                    </Col>
-                    <Col span="8">
-                        <FormItem
-                            {...formItemLayout}
-                            label="报备号码">
-                            <Input placeholder="报备号码" { ...getFieldProps('bbhm')}/>
-                        </FormItem>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col span="8">
-                        <FormItem
-                            {...formItemLayout}
-                            label="报备日期：">
-                            <RangePicker format="yyyy/MM/dd" { ...getFieldProps('bbrq',
+                            label="锁定操作时间：">
+                            <RangePicker format="yyyy/MM/dd" { ...getFieldProps('sdtime',
                                 {getValueFromEvent: (date, dateString)=> dateString})}/>
                         </FormItem>
                     </Col>
-                    <Col span="8">
-                        <FormItem
-                            {...formItemLayout}
-                            label="报告日期">
-                            <RangePicker format="yyyy/MM/dd" { ...getFieldProps('bgrq',
-                                {getValueFromEvent: (date, dateString)=> dateString})}/>
-                        </FormItem>
-                    </Col>
-                    <Col span="8">
-                        <FormItem
-                            {...formItemLayout}
-                            label="业务发生地">
-                            <SelectorCS { ...getFieldProps('cs_dm')}/>
-                        </FormItem>
-                    </Col>
                 </Row>
                 <Row>
                     <Col span="8">
                         <FormItem
                             {...formItemLayout}
-                            label="业务状态：">
-                            <SelectorYWZT  { ...getFieldProps('zt')}/>
+                            label="锁定人名称">
+                            <Input placeholder="锁定人名称" {...getFieldProps('sdr')}/>
                         </FormItem>
                     </Col>
                     <Col span="8">
                         <FormItem
                             {...formItemLayout}
-                            label="鉴证年度">
-                            <SelectorYear { ...getFieldProps('nd')}/>
+                            label="锁定人角色组">
+                            <Input placeholder="锁定人角色组" {...getFieldProps('sdr_role')}/>
                         </FormItem>
                     </Col>
-                    <Col span="8">
-                        <FormItem
-                            {...formItemLayout}
-                            label="征收方式">
-                            <SelectorZSFS { ...getFieldProps('zsfs_dm')}/>
-                        </FormItem>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col span="8">
-                        <FormItem
-                            {...formItemLayout}
-                            label="异地报备">
-                            <Checkbox  {...getFieldProps('is_yd', {valuePropName: 'checked'})}/>
-                        </FormItem>
-                    </Col>
-                    <Col span="8">
-                        <FormItem
-                            {...formItemLayout}
-                            label="外省事务所">
-                            <Checkbox  {...getFieldProps('swbz', {valuePropName: 'checked'})}/>
-                        </FormItem>
-                    </Col>
-                </Row>
 
+                </Row>
                 <Row>
                     <Col span="4" offset="20">
                         <Button type="primary" htmlType="submit" className="query">查询</Button>
