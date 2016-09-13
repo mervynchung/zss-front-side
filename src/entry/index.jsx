@@ -108,7 +108,7 @@ const Index = React.createClass({
                 require('../module/lsjlcx/fzyzzyjl'),
 
                 //监督检查
-                  require('../module/jdjc/zyswsnjb'),
+                require('../module/jdjc/zyswsnjb'),
                 require('../module/jdjc/swsnj'),
 
               //逐级审核
@@ -190,6 +190,7 @@ const Index = React.createClass({
 
                 //人员管理
                require('../module/client/swsrygl/zyrygl'),
+               require('../module/client/swsrygl/rydr'),
 
                 //财务报表上传
                 require('../module/client/cwbb/lrb'),
