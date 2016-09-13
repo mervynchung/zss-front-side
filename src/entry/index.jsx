@@ -67,7 +67,7 @@ const Index = React.createClass({
 
                 //业务管理
 
-               /* require('../module/ywgl/ywbbgl'),
+                require('../module/ywgl/ywbbgl'),
                 require('../module/ywgl/ywbbthsp'), //业务报备退回审批
                 require('../module/ywgl/ywbbcxsp'), //业务报备退回审批
                 require('../module/ywgl/ywbbqysp'), //业务报备退回审批
@@ -105,7 +105,7 @@ const Index = React.createClass({
                 require('../module/lsjlcx/fzyzzyjl'),
 
                 //监督检查
-           */       require('../module/jdjc/zyswsnjb'),
+                require('../module/jdjc/zyswsnjb'),
                 require('../module/jdjc/swsnj'),
 
               //逐级审核
@@ -132,7 +132,7 @@ const Index = React.createClass({
                 require('../module/spsh/module/39'),
                 require('../module/spsh/module/43'),
                 require('../module/spsh/module/44'),
-                require('../module/spsh/module/46'),/*
+                require('../module/spsh/module/46'),
 
                 //数据统计分析 - 年检数据分析
                 require('../module/xtsjfx/njsjfx/rynjsjfx'),//人员年检数据分析
@@ -176,7 +176,7 @@ const Index = React.createClass({
                 require('../module/hyhf_new/scgl'),
 
                //证照打印管理
-                require('../module/zzdygl/zyglscdy'),*/
+                require('../module/zzdygl/zyglscdy'),
 
 
                 //客户端

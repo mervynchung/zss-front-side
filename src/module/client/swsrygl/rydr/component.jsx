@@ -10,6 +10,7 @@ const API_URL_CYDR = config.HOST+config.URI_API_PROJECT + '/spapi/fspsq/cydrsq';
 const API_URL_ZYRFS = config.HOST+config.URI_API_PROJECT + '/spapi/fspsq/zydrzssq';
 const API_URL_CYRFS = config.HOST+config.URI_API_PROJECT + '/spapi/fspsq/cydrzssq';
 const API_URL_ZYDR = config.HOST+config.URI_API_PROJECT + '/spapi/spsq/zydrsq';
+const API_URL_FZYZZY = config.HOST+config.URI_API_PROJECT + '/spapi/spsq/fzyzzysq';
 const createForm = Form.create;
 const TabPane = Tabs.TabPane;
 
@@ -67,7 +68,7 @@ handleSubmit(ry){
                                     case 2: squrls=API_URL_CYDR;break;
                                     case 3: squrls=API_URL_ZYRFS;break;
                                     case 4: squrls=API_URL_CYRFS;break;
-                                    case 5: squrls=API_URL_CYRFS;break;
+                                    case 5: squrls=API_URL_FZYZZY;ls.ydw=resp[0].ZZDW;med="post";break;
                                 }
                                   req({
                                         url: squrls,
