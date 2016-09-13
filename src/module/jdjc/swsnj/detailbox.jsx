@@ -18,6 +18,7 @@ const detailBox = React.createClass({
         for (var i=0;i<arr2.length;i++){
             obj3[arr2[i]]=true;
         }
+        var arr3 =(!obj.spcl?[]:obj.spcl.split(','));
         return <div className="fix-table table-bordered table-striped">
          
             <table >
@@ -232,12 +233,12 @@ const detailBox = React.createClass({
                 </tr>
                  <tr>   
                     <td ><b>广东省注册管理科意见：</b></td>
-                    <td  colSpan="4">{obj.预留}</td>
+                    <td  colSpan="4">{arr3[1]}</td>
                 </tr>
                 <tr>   
-                    <td ><b>审批状态：</b>{obj.预留}</td>
-                    <td  colSpan="2"><b>审批人：</b>{obj.预留}</td>
-                    <td  colSpan="2"><b>审批时间：</b>{obj.预留}</td>
+                    <td ><b>审批状态：</b><span style={{color:'blue'}}>{!obj.spcl?"未提交年检":!arr3[0]?"未审批":"已审批"}</span></td>
+                    <td  colSpan="2"><b>审批人：</b>{arr3[2]}</td>
+                    <td  colSpan="2"><b>审批时间：</b>{arr3[0]}</td>
                 </tr>
                 </tbody>
             </table>
@@ -248,4 +249,3 @@ const detailBox = React.createClass({
 });
 
 module.exports = detailBox;
-

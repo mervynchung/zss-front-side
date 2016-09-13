@@ -252,7 +252,45 @@ props: [
         rows:3
     }, 
 ]};
-
+const autoform6 = {
+   colGroupNum: 1,
+props: [
+    {   id:'XJG_ID',
+        name:  '新事务所名称：',
+        required:true,
+    },
+    {   id:'ZYSWSYJ',
+        name:  '执业税务师意见：',
+        inputType: 'textarea',
+        rows:3,
+        span:10,
+        required:true,
+    },{   id:'ZYSWSTXRQ',
+        name:  '执业税务师意见填写日期：',
+        inputType:'date',
+        required:true,
+        type: 'date' 
+    },{  id:'YSWSYJ',
+        name: '事务所意见：',
+        required:true,
+        inputType: 'textarea',
+        span:10,
+        rows:3
+    },{   id:'YSWSYJRQ',
+        name:  '事务所意见日期：',
+        inputType:'date',
+        required:true,
+        type: 'date' 
+    },{  id:'SZQM',
+        name: '所长签名：',
+        required:true,
+    },{   id:'QMSJ',
+        name:  '所长签名日期：',
+        inputType:'date',
+        required:true,
+        type: 'date' 
+    }, 
+]};
 const pageSetting = { //分页设置
   page: true, //是否分页
   pageSize: 5, //初始化显示记录条数
@@ -532,6 +570,7 @@ const model = {
   autoform2:autoform2,
   autoform3:autoform3,
   autoform4:autoform4,
+  autoform6:autoform6,
   pageSetting:pageSetting,
   columnsZyrybgjl:columnsZyrybgjl,
   columnsZyrynjjl:columnsZyrynjjl,
