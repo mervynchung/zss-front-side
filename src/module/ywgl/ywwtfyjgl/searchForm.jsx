@@ -113,29 +113,6 @@ let searchForm = React.createClass({
                     <Col span="8">
                         <FormItem
                             {...formItemLayout}
-                            label="协议文号">
-                            <Input placeholder="协议文号" {...getFieldProps('xyh')}/>
-                        </FormItem>
-                    </Col>
-                    <Col span="8">
-                        <FormItem
-                            {...formItemLayout}
-                            label="报告文号">
-                            <Input placeholder="报告文号" {...getFieldProps('bgwh')}/>
-                        </FormItem>
-                    </Col>
-                    <Col span="8">
-                        <FormItem
-                            {...formItemLayout}
-                            label="报备号码">
-                            <Input placeholder="报备号码" { ...getFieldProps('bbhm')}/>
-                        </FormItem>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col span="8">
-                        <FormItem
-                            {...formItemLayout}
                             label="报备日期：">
                             <RangePicker format="yyyy/MM/dd" { ...getFieldProps('bbrq',
                                 {getValueFromEvent: (date, dateString)=> dateString})}/>
@@ -144,9 +121,8 @@ let searchForm = React.createClass({
                     <Col span="8">
                         <FormItem
                             {...formItemLayout}
-                            label="报告日期">
-                            <RangePicker format="yyyy/MM/dd" { ...getFieldProps('bgrq',
-                                {getValueFromEvent: (date, dateString)=> dateString})}/>
+                            label="报备号码">
+                            <Input placeholder="报备号码" { ...getFieldProps('bbhm')}/>
                         </FormItem>
                     </Col>
                     <Col span="8">
@@ -165,22 +141,6 @@ let searchForm = React.createClass({
                             <SelectorYWZT  { ...getFieldProps('zt')}/>
                         </FormItem>
                     </Col>
-                    <Col span="8">
-                        <FormItem
-                            {...formItemLayout}
-                            label="鉴证年度">
-                            <SelectorYear { ...getFieldProps('nd')}/>
-                        </FormItem>
-                    </Col>
-                    <Col span="8">
-                        <FormItem
-                            {...formItemLayout}
-                            label="征收方式">
-                            <SelectorZSFS { ...getFieldProps('zsfs_dm')}/>
-                        </FormItem>
-                    </Col>
-                </Row>
-                <Row>
                     <Col span="8">
                         <FormItem
                             {...formItemLayout}
