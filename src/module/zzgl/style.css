@@ -3,7 +3,12 @@
     background-color: #FFFFFF;
     padding:16px 32px
 }
-
+.zzgl .panel-body .panel-body{
+    padding: 0
+}
+.zzgl .panel-body .panel-title{
+    border:none;
+}
 .zzgl .fix-table td {
     text-align: center;
 }

@@ -1,5 +1,5 @@
 import React from 'react'
-import {Table, Modal, Row, Col, Button, Icon, Alert,Tabs} from 'antd'
+import {Table, Modal, Row, Col, Button, Icon, Alert,Tabs,Switch} from 'antd'
 import List from './list'
 import Panel from 'component/compPanel';
 import model from './model'
@@ -96,24 +96,18 @@ const c = React.createClass({
     render(){
         //重新复制一个model对象，使修改不会影响原model对象，避免每次组件渲染时给原model对象累积赋值
         const m = cloneDeep(model);
+        const actColWidth = 100;
 
         //定义列表中的操作列具体方法
         m.columns.push({
-            title: '操作',
-            key: 'action',
-            fixed: 'right',
-            width: 120,
+            title: '解锁操作',
+            dataIndex:'yxbz',
+            key: 'yxbz',
+            fixed: 'right', //设定了右侧列固定后，需要去掉columns最后一列的width定义，让其自由拉伸
+            width: actColWidth,
             render: (text, record)=> {
                 let actGroup = <span className="act-group">
-                    <a onClick={()=>{this.handleViewDetail(record)}}>明细</a>
-                    {record.ywzt_dm == 1 ?
-                    <a onClick={()=>{this.openSentBack(record)}}>强制退回</a>:null}
-                    {record.ywzt_dm == 7 ?
-                      <a onClick={()=>{this.openSpCX(record)}}>撤销审批</a>:null}
-                    {record.ywzt_dm == 8 ?
-                      <a onClick={()=>{this.openSpQY(record)}}>启用审批</a>:null}
-                    {record.ywzt_dm == 6 ?
-                      <a onClick={()=>{this.openSpTH(record)}}>退回审批</a>:null}
+                    <Switch defaultChecked={!record.yxbz} checkedChildren="开" unCheckedChildren="锁"/>
                 </span>;
                 return actGroup
             }
@@ -121,14 +115,12 @@ const c = React.createClass({
 
         /*设置列表组件的参数 */
         const listSetting = {
-            //标题
-            title: '业务报备管理',
             //帮助提示的标题
             helperTitle: '业务报备使用帮助',
             //帮助提示的具体内容
             helperDesc: <div><p>本功能主要提供本年度业务备案查询</p></div>,
             //列表可滚动区间的宽度，一般使用getcolwidth计算即可
-            scrollx: this.getColWidth(model),
+            scrollx: this.getColWidth(model)-actColWidth,
             //接收的json数据中用来充当key的字段名
             keyCol: 'id',
             //默认每页显示数量
@@ -140,7 +132,7 @@ const c = React.createClass({
             //list组件重新挂载时恢复状态用的历史状态数据
             stateShot: this.state.listState,
             //数据来源api
-            apiUrl: config.HOST + config.URI_API_PROJECT + '/ywbb',
+            apiUrl: config.HOST + config.URI_API_PROJECT + '/jgzzsd',
             //初始搜索条件
             defaultWhere:{}
         };

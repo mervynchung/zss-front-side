@@ -4,10 +4,15 @@
 
 const model = {
     columns: [{
+        title:'序号',
+        dataIndex: 'rownum',
+        key: 'rownum',
+        width:50
+    },{
         title: '锁定时间',
-        dataIndex: 'nd',
-        key: 'nd',
-        width: 60
+        dataIndex: 'sdtime',
+        key: 'sdtime',
+        width: 100
     }, {
         title: '事务所名称',
         dataIndex: 'swsmc',
@@ -15,34 +20,18 @@ const model = {
         width: 300
     }, {
         title: '锁定人',
-        key: 'cs',
-        dataIndex: 'cs',
+        key: 'sdr',
+        dataIndex: 'sdr',
         width:100
     }, {
         title: '锁定人角色',
-        key: 'ywlx',
-        dataIndex: 'ywlx',
-        width: 220
+        key: 'sdr_role',
+        dataIndex: 'sdr_role',
+        width: 100
     }, {
         title: '锁定原因',
-        key: 'xyje',
-        dataIndex: 'xyje',
-        width:150
-    }, {
-        title: '报备号码',
-        key: 'bbhm',
-        dataIndex: 'bbhm',
-        width:150
-    }, {
-        title: '报备日期',
-        key: 'bbrq',
-        dataIndex: 'bbrq',
-        width:100
-    }, {
-        title: '业务状态',
-        key: 'ywzt',
-        dataIndex: 'ywzt',
-        width:120
+        key: 'sdyy',
+        dataIndex: 'sdyy'
     }]
 };
 
