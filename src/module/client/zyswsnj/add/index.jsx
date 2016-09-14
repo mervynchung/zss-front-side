@@ -1,8 +1,12 @@
 import React from 'react'
+import req from 'reqwest'
+import config from 'common/configuration'
+import auth from 'common/auth'
 import {Col, Input, Row, Button, Icon, Form, Modal, Checkbox } from 'antd'
-import {SelectorYear, SelectorXZ,SelectorXm} from 'component/compSelector'
+import {SelectorYear, SelectorXZ, SelectorXm} from 'component/compSelector'
 import './style.css'
 
+const API_URL = config.HOST + config.URI_API_PROJECT + '/add/zyswsnj';
 const ButtonGroup = Button.Group;
 const createForm = Form.create;
 const FormItem = Form.Item;
@@ -31,13 +35,15 @@ let Addswsnj = React.createClass({
     },
     //Modal
     getInitialState() {
-        return { visible: false };
+        return { visible: false,
+            swsdata:{}
+        };
     },
     showModal(e) {
         e.preventDefault();
         var mp = {};
         let value = this.props.form.getFieldsValue()
-        let arr=[]
+        let arr = []
         for (var key in value) {
             if (!value[key]) {
                 value[key] = null;
@@ -67,7 +73,7 @@ let Addswsnj = React.createClass({
 
 
 
-    
+
     handleOk(e) {
         // console.log('点击了确定',this.state.okValue);
         this.props.handleOk(this.state.okValue)
@@ -81,6 +87,31 @@ let Addswsnj = React.createClass({
             visible: false
         });
     },
+    //处理姓名下拉框改变事件
+    handleXmChange(value) {
+     //   alert(value);//此value即id
+       req({
+            url: API_URL + '/' + value,
+            type: 'json',
+            method: 'get',
+            headers: { 'x-auth-token': auth.getToken() },
+            contentType: 'application/json'
+        }).then(resp => {
+            this.setState({swsdata:resp });
+        }).fail(err => {
+            Modal.error({
+                title: '数据获取错误',
+                content: (
+                    <div>
+                        <p>无法从服务器返回数据，需检查应用服务工作情况</p>
+                        <p>Status: {err.status}</p>
+                    </div>)
+            });
+        })
+    
+        
+    },
+   
 
     render() {
 
@@ -89,52 +120,53 @@ let Addswsnj = React.createClass({
         if (this.props.data.length != 0) {
             obj = this.props.data;
         };
-
-        return  <div>
-        <div className="fix-table table-bordered table-striped" >
-            <Form horizontal onSubmit={this.handleSubmit}>
+        const obj1=this.state.swsdata;
+        console.log(obj1);
+        return <div>
+            <div className="fix-table table-bordered table-striped" >
+                <Form horizontal onSubmit={this.handleSubmit}>
                     <div className="fix-table table-bordered table-striped">
-
+                        
                         <table>
                             <tbody>
-<tr>
-<td>姓名：</td>
-<td><SelectorXm/></td>
-<td>性别:</td>
-<td>年度：</td>
-<td rowSpan="6">照片</td>
-</tr>
-<tr>
-<td>出生年月：</td>
-<td></td>
-<td>文化程度：</td>
-<td></td>
-</tr>
-<tr>
-<td>身份证号：</td>
-<td></td>
-<td>所在单位：</td>
-<td></td>
+                                <tr>
+                                    <td>姓名：</td>
+                                    <td><SelectorXm style={{ width: '100px' }} onChange={this.handleXmChange}/></td>
+                                    <td>性别:{obj1.xb}</td>
+                                    <td>年度： <Input {...getFieldProps('ND')}/></td>
+                                    <td rowSpan="6">照片</td>
+                                </tr>
+                                <tr>
+                                    <td>出生年月：</td>
+                                    <td>{obj1.SRI}</td>
+                                    <td>文化程度：</td>
+                                    <td>{obj1.xl}</td>
+                                </tr>
+                                <tr>
+                                    <td>身份证号：</td>
+                                    <td>{obj1.SFZH}</td>
+                                    <td>所在单位：</td>
+                                    <td>{obj1.dwmc}</td>
 
-</tr>
-<tr>
-<td>联系电话：</td>
-<td></td>
-<td>执业注册（备案）编号：</td>
-<td></td>
-</tr>
-<tr>
-<td>执业注册日期：</td>
-<td></td>
-<td>出资比率：%</td>
-<td></td>
-</tr>
-<tr>
-<td>资格证书编号：</td>
-<td></td>
-<td>本年度报备份数：</td>
-<td>年度：</td>
-</tr>
+                                </tr>
+                                <tr>
+                                    <td>联系电话：</td>
+                                    <td>{obj1.DHHM}</td>
+                                    <td>执业注册（备案）编号：</td>
+                                    <td>{obj1.ZYZSBH}</td>
+                                </tr>
+                                <tr>
+                                    <td>执业注册日期：</td>
+                                    <td></td>
+                                    <td>出资比率：</td>
+                                    <td>{obj1.CZBL}%</td>
+                                </tr>
+                                <tr>
+                                    <td>资格证书编号：</td>
+                                    <td>{obj1.ZYZGZSBH}</td>
+                                    <td>本年度报备份数：</td>
+                                    <td>{obj1.BAFS}</td>
+                                </tr>
 
 
 
@@ -292,27 +324,27 @@ let Addswsnj = React.createClass({
                                     <td><Checkbox {...getFieldProps('wg25') }></Checkbox></td>
                                 </tr>
 
-<tr>
-<td>年检总结:</td>
-<td colSpan="4"><Input {...getFieldProps('ZJ')} type="textarea"  autosize /></td>
-</tr>
+                                <tr>
+                                    <td>年检总结: </td>
+                                    <td colSpan="4"><Input {...getFieldProps('ZJ') } type="textarea"  autosize /></td>
+                                </tr>
 
-<tr>
-<td rowSpan="2">事务所负责人意见</td>
-<td colSpan="2"><Input {...getFieldProps('SWSFZRYJ')} type="textarea"  autosize /></td>
-<td colSpan="2">时间：<Input {...getFieldProps('SWSFZRSJ')}/>
-负责人签名：<Input {...getFieldProps('SWSFZR')}/> </td>
+                                <tr>
+                                    <td rowSpan="2">事务所负责人意见</td>
+                                    <td colSpan="2"><Input {...getFieldProps('SWSFZRYJ') } type="textarea"  autosize /></td>
+                                    <td colSpan="2">时间：<Input {...getFieldProps('SWSFZRSJ') }/>
+                                        负责人签名：<Input {...getFieldProps('SWSFZR') }/> </td>
 
-</tr>
+                                </tr>
 
 
 
-                                
+
 
                             </tbody>
                         </table >
                     </div>
-                   
+
                     <Row>
                         <Col span="4">
                             <Button type="primary" onClick={this.handleSubmit}> <Icon type="check"/>保存</Button>

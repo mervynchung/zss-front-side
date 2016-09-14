@@ -102,7 +102,6 @@ const swsnjb = React.createClass({
     handleOk(e) {
         let vv = e;
         vv.ztbj = '2';
-        this.fetchData3();
         this.fetchHandle(vv);
         this.handleAdd();
     },
@@ -216,33 +215,6 @@ const swsnjb = React.createClass({
             });
         })
     },
-//  显示添加表某些不可编辑字段
-    /* fetchData3() {
-        req({
-            url: API_URL1,
-            type: 'json',
-            method: 'get',
-            headers: { 'x-auth': auth.getToken() },
-            contentType: 'application/json'
-
-
-        }).then(resp => { this.setState({ data1: resp.data1 }) }).fail(err => {
-            this.setState({ loading: false });
-            Modal.error({
-                title: '数据获取错误',
-                content: (
-                    <div>
-                        <p>无法从服务器返回数据，需检查应用服务工作情况</p>
-                        <p>Status: {err.status}</p>
-                    </div>)
-            });
-        })
-
-
-
-    },
-
-*/ 
 
     //明细表关闭
     handleDetailClose() {
