@@ -1,6 +1,6 @@
 import React from 'react'
 import {Table, Modal, Row, Col, Button, Icon, Alert,Tabs,Switch} from 'antd'
-import List from './list'
+import List1 from './list'
 import Panel from 'component/compPanel';
 import model from './model'
 import config from 'common/configuration'
@@ -13,76 +13,15 @@ const TabPane = Tabs.TabPane;
 const c = React.createClass({
     getInitialState(){
         return {
-            view: 'list',
             listState: {},
-            entity: {},
-            dialogSentBack: false,
-            dialogSpQY:false,
-            dialogSpCX:false,
-            dialogSpTH:false
+            entity: {}
         }
     },
 
-    //打开明细信息视图
-    handleViewDetail(record){
-        this.setState({view: 'detail', entity: record})
-    },
-    //返回list视图
-    backToList(){
-        this.setState({view: 'list'})
-    },
-    //抓取当前list分页状态
-    grabListState(state){
-        this.setState({listState: state})
-    },
     refreshList(){
         this.refs.list.refreshCurrent()
     },
-    //打开强制退回操作对话框
-    openSentBack(record){
-        if(record.id){
-            this.setState({dialogSentBack: true,entity:record})
-        }else{
-            this.setState({dialogSentBack: true})
-        }
-    },
-    //关闭强制退回操作对话框
-    closeSentBack(){
-        this.setState({dialogSentBack: false});
-    },
-    //打开申请撤销审批
-    openSpCX(record){
-        if(record.id){
-            this.setState({dialogSpCX: true,entity:record})
-        }else{
-            this.setState({dialogSpCX: true})
-        }
-    },
-    closeSpCX(){
-        this.setState({dialogSpCX:false})
-    },
-    //打开申请启用审批
-    openSpQY(record){
-        if(record.id){
-            this.setState({dialogSpQY: true,entity:record})
-        }else{
-            this.setState({dialogSpQY: true})
-        }
-    },
-    closeSpQY(){
-        this.setState({dialogSpQY:false})
-    },
-    //打开申请退回审批
-    openSpTH(record){
-        if(record.id){
-            this.setState({dialogSpTH: true,entity:record})
-        }else{
-            this.setState({dialogSpTH: true})
-        }
-    },
-    closeSpTH(){
-        this.setState({dialogSpTH:false})
-    },
+
 
     /*计算column里定义的width总和，没有定义width的列宽按100(px)计算*/
     getColWidth(model){
@@ -100,16 +39,12 @@ const c = React.createClass({
 
         //定义列表中的操作列具体方法
         m.columns.push({
-            title: '解锁操作',
+            title:'锁定状态',
+            key:'yxbz',
             dataIndex:'yxbz',
-            key: 'yxbz',
-            fixed: 'right', //设定了右侧列固定后，需要去掉columns最后一列的width定义，让其自由拉伸
-            width: actColWidth,
-            render: (text, record)=> {
-                let actGroup = <span className="act-group">
-                    <Switch defaultChecked={record.yxbz} checkedChildren="锁" unCheckedChildren="解"/>
-                </span>;
-                return actGroup
+            width:100,
+            render(text,record){
+                return <span style={{fontSize:'16px',color:'#2db7f5'}}><Icon type="lock" /></span>
             }
         });
 
@@ -133,28 +68,6 @@ const c = React.createClass({
             defaultWhere:{}
         };
 
-        /*设置明细信息组件的参数*/
-        const detailSetting = {
-            //设置数据源
-            data: this.state.entity,
-            //设置标题
-            title: '业务报备详细信息',
-            //设置返回主视图调用的方法
-            onBack: this.backToList,
-            sentBack: this.openSentBack,
-            printCover:null,
-            spCX:null,
-            spQY:null,
-            spTH:null
-        };
-
-
-        /*通过控制state.view的值，实现页面上列表/详细信息等组件的切换*/
-        const view = {
-            list: <List {...listSetting} ref="list" />
-        };
-
-
         return <div className="zzgl jgzzgl">
             <div className="wrap">
 
@@ -165,7 +78,7 @@ const c = React.createClass({
                        onClose={this.helperClose}/>
                 <Panel>
                     <Tabs >
-                        <TabPane key="1" tab="当前有效锁定记录"> {view[this.state.view]}</TabPane>
+                        <TabPane key="1" tab="当前有效锁定记录"> <List1 {...listSetting} ref="list" /></TabPane>
                         <TabPane key="2" tab="已解锁记录">解锁记录</TabPane>
                     </Tabs>
 

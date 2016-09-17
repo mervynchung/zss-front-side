@@ -31,7 +31,8 @@ const model = {
     }, {
         title: '锁定原因',
         key: 'sdyy',
-        dataIndex: 'sdyy'
+        dataIndex: 'sdyy',
+        width:200
     }]
 };
 

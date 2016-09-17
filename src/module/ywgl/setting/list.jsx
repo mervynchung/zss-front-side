@@ -4,6 +4,7 @@ import Panel from 'component/compPanel'
 import req from 'reqwest';
 import merge from 'lodash/merge';
 import {isEmptyObject,jsonCopy} from 'common/utils'
+import auth from 'common/auth'
 
 
 const ToolBar = Panel.ToolBar;
@@ -35,6 +36,7 @@ const list = React.createClass({
     //通过API获取数据
     fetchData(params = {page: 1, pagesize: this.props.pageSize}){
         this.setState({loading: true});
+        const token = auth.getToken();
         const {apiUrl,defaultWhere} = this.props;
         let where = merge(jsonCopy(defaultWhere),params.where);
         if(!isEmptyObject(where)){
@@ -44,7 +46,8 @@ const list = React.createClass({
             url: apiUrl,
             type: 'json',
             method: 'get',
-            data: params
+            data: params,
+            eaders: {'x-auth-token': token}
         }).then(resp=> {
             const p = this.state.pagination;
             p.current = params.page;

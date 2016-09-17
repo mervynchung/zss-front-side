@@ -31,23 +31,8 @@ let searchForm = React.createClass({
             }
         }
         //加工各提交字段的值
-        if (values.xyje1 || values.xyje2) {
-            values.xyje = [values.xyje1 || 0, values.xyje2 || 0];
-        }
-        if (values.sjsqje1 || values.sjsqje2) {
-            values.sjsqje = [values.sjsqje1 || 0, values.sjsqje2 || 0];
-        }
-        if (values.is_yd) {
-            values.is_yd = values.is_yd ? 'Y' : 'N';
-        }
-        if (values.swbz) {
-            values.swbz = values.swbz ? 1 : 0;
-        }
-        if (values.bbrq && !values.bbrq[0]) {
-            delete values.bbrq
-        }
-        if (values.bgrq && !values.bgrq[0]) {
-            delete values.bgrq
+        if (values.sdtime && !values.sdtime[0]) {
+            delete values.sdtime
         }
 
         this.props.onSubmit(values);
