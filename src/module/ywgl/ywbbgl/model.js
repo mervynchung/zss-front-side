@@ -41,7 +41,7 @@ const model = {
     }, {
         title: '业务状态',
         key: 'ywzt',
-        dataIndex: 'ywzt'
+        dataIndex: 'ywzt',
     }]
 };
 
