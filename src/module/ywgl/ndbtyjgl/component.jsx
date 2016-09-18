@@ -121,6 +121,8 @@ const c = React.createClass({
             }
         });
 
+        const fixColWidth = 120;
+
         /*设置列表组件的参数 */
         const listSetting = {
             //标题
@@ -130,7 +132,7 @@ const c = React.createClass({
             //帮助提示的具体内容
             helperDesc: <div><p>显示同一委托企业，同一类型，不同年度由不同的事务所出报告的数据。</p></div>,
             //列表可滚动区间的宽度，一般使用getcolwidth计算即可
-            scrollx: this.getColWidth(model),
+            scrollx: this.getColWidth(model)+fixColWidth,
             //接收的json数据中用来充当key的字段名
             keyCol: 'id',
             //默认每页显示数量

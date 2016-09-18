@@ -82,7 +82,6 @@ const wsbbb = React.createClass({
             headers:{'x-auth-token':auth.getToken()},
             contentType: 'application/json'
         }).then(resp=> {
-            console.log("zhi",resp)
             const p = this.state.pagination;
             p.total = resp.total > 1000 ? 1000 : resp.total;
             p.showTotal = total => {
