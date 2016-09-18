@@ -39,7 +39,6 @@ const Index = React.createClass({
 
     render(){
         /*路由配置*/
-        console.log(auth.isClient())
         const routes = [{
             path: '/',
             component: App,
