@@ -120,6 +120,7 @@ const c = React.createClass({
                 return actGroup
             }
         });
+        const fixColWidth = 120;
 
         /*设置列表组件的参数 */
         const listSetting = {
@@ -130,7 +131,7 @@ const c = React.createClass({
             //帮助提示的具体内容
             helperDesc: <div><p>本功能显示实际收费金额大于100万，或者小于500元，或者实际收费未填写的业务报备记录</p></div>,
             //列表可滚动区间的宽度，一般使用getcolwidth计算即可
-            scrollx: this.getColWidth(model),
+            scrollx: this.getColWidth(model)+fixColWidth,
             //接收的json数据中用来充当key的字段名
             keyCol: 'id',
             //默认每页显示数量

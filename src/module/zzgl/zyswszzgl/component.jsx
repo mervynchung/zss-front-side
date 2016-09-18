@@ -24,11 +24,6 @@ const c = React.createClass({
         this.refs.list.refreshCurrent()
     },
 
-    //抓取当前list分页状态
-    grabListState(state){
-        this.setState({listState: state})
-    },
-
 
     /*计算column里定义的width总和，没有定义width的列宽按100(px)计算*/
     getColWidth(model){
