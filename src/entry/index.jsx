@@ -192,7 +192,7 @@ const Index = React.createClass({
                require('../module/client/swsrygl/zyrygl'),
                require('../module/client/swsrygl/rydr'),
 
-                //财务报表上传
+                // //财务报表上传
                 require('../module/client/cwbb/lrb'),
                 require('../module/client/cwbb/lrfpb'),
                 require('../module/client/cwbb/xjllb'),
