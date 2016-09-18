@@ -4,12 +4,14 @@ import Panel from 'component/compPanel'
 import config from 'common/configuration'
 import './style.css'
 import req from 'reqwest'
+import auth from 'common/auth'
 import Model from './model.js'
 import SearchForm from './searchForm'
-import {  Input, Table, Icon, Tabs, Button, Row, Col, message }from 'antd'
+import {  Input, Table, Icon, Tabs, Button, Row, Col, message,Modal }from 'antd'
 // 标签定义
 const TabPane = Tabs.TabPane;
 const API_URL = config.HOST + config.URI_API_PROJECT + '/jgs';
+const API_URL_SD = config.HOST + config.URI_API_PROJECT + '/jgzzsd';
 const ToolBar = Panel.ToolBar;
 const jgcx = React.createClass({
 
@@ -155,12 +157,67 @@ const jgcx = React.createClass({
     };
   },
 
+ showConfirm(dwmc,id) {
+            var that=this;
+              Modal.confirm({
+                title: "是否锁定 "+dwmc+" ？",
+                content: that.state.sdyy,
+                onOk() {
+                    that.locked(id);
+                    that.setState({ loading: true, });
+                },
+                okText:"锁定",
+              });
+  },
+
+  locked(id){
+            const rKeys=[id];
+            const sdyy=this.refs.myTextInput.refs.input.value;
+            var that=this;
+            req({
+                    url: API_URL_SD,
+                    type: 'json',
+                    method: 'post',
+                    data: JSON.stringify({sdyy:sdyy,jgId:rKeys,lx:1}),
+                    contentType: 'application/json',
+                    headers:{'x-auth-token':auth.getToken()},
+                }).then(resp=> {
+                        Modal.success({
+                                content: (
+                                    <div>
+                                        <p>锁定成功</p>
+                                    </div>  ),
+                                onOk() {
+                                    that.fetch_jgcx();
+                                        },
+                        });
+                }).fail(err=> {
+                        Modal.error({
+                            title: '数据提交错误',
+                            content: (
+                                <div>
+                                    <p>提交失败</p>
+                                    <p>Status: {err.status}</p>
+                                </div>  )
+                        });
+                })
+  },
+
  ztRender(text, row, index) {
     var that=this;
-     return (
+    if (!!row.issd) {
+       return (
                     <span>
                       <a onClick={that.print.bind(this,row,true)}>办证</a><span className="ant-divider" ></span>
                       <a onClick={that.print.bind(this,row,false)}>副本</a>
+                    </span>
+                  );
+    };
+     return (
+                    <span>
+                      <a onClick={that.print.bind(this,row,true)}>办证</a><span className="ant-divider" ></span>
+                      <a onClick={that.print.bind(this,row,false)}>副本</a><span className="ant-divider" ></span>
+                      <a onClick={that.showConfirm.bind(this,row.dwmc,row.id)}>锁定</a>
                     </span>
                   );
   },
@@ -220,6 +277,7 @@ const jgcx = React.createClass({
           fixed:'right',
           render:this.ztRender
     }];
+    this.state.sdyy=<p>锁定原因：<Input type="text" style={{width:"50%"}} ref="myTextInput"  /></p>;
     let toolbar = <ToolBar>
       <Button onClick={this.handleSearchToggle}>
         <Icon type="search"/>查询
