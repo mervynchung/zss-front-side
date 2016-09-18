@@ -105,14 +105,6 @@ const list = React.createClass({
         this.fetchData({page: p.current, pagesize: p.pageSize});
     },
 
-    //帮助按钮开关
-    helperToggle(){
-        this.setState({helper: !this.state.helper})
-    },
-    //手动关闭帮助提示
-    helperClose(){
-        this.setState({helper: false})
-    },
     //组件加载时读取数据
     componentDidMount(){
         if(isEmptyObject(this.props.stateShot)){
@@ -135,10 +127,10 @@ const list = React.createClass({
         this.setState({selectedRowKeys: selectedRowKeys})
     },
     //解锁
-    unlock(){
+    lock(){
         const token = auth.getToken();
         const {apiUrl} = this.props;
-        let params =JSON.stringify({id:this.state.selectedRowKeys}) ;
+        let params =JSON.stringify({id:this.state.selectedRowKeys,lx:'lock'}) ;
         req({
             url: apiUrl,
             type: 'json',
@@ -174,7 +166,7 @@ const list = React.createClass({
 
             <ButtonGroup>
                 <Button type="primary" onClick={this.handleRefresh}><Icon type="reload"/></Button>
-                <Button type="primary" onClick={this.unlock}><Icon type="lock" />恢复锁定</Button>
+                <Button type="primary" onClick={this.lock}><Icon type="lock" />恢复锁定</Button>
             </ButtonGroup>
         </ToolBar>;
         return <Panel title={title} toolbar={toolbar}>
