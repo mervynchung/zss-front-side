@@ -15,37 +15,40 @@ let modal = React.createClass({
     },
     handleSubmit(){
         const token = auth.getToken();
-        const {data,apiUrl,refreshList} = this.props;
-        const {setFieldsValue,getFieldsValue} = this.props.form;
-        const values = getFieldsValue();
-        const obj = {
-            lx:2, //更新操作类型2为退回
-            data:values
-        };
-        this.setState({loading: true});
-        req({
-            url: apiUrl + data.id,
-            type: 'json',
-            method: 'put',
-            contentType: 'application/json',
-            data: JSON.stringify(obj),
-            headers: {'x-auth-token': token}
-        }).then(resp=> {
-            setFieldsValue({'thyy': null});
-            refreshList();
-            this.setState({loading: false});
-            this.props.onClose();
-        }).fail(e=> {
-            setFieldsValue({'thyy': null});
-            this.setState({loading: false});
-            notification.error({
-                duration: 3,
-                message: '操作失败',
-                description: '网络访问故障，请稍后尝试'
-            });
-            this.props.onClose();
+        const {data,apiUrl,refreshList,keys} = this.props;
+        const {setFieldsValue,validateFields} = this.props.form;
+        validateFields((errors, values)=>{
+            if (!!errors) {
+                return;
+            }
+            const obj = {
+                sdyy: values.sdyy,
+                swsId: keys
+            };
+            this.setState({loading: true});
+            req({
+                url: apiUrl,
+                type: 'json',
+                method: 'post',
+                contentType: 'application/json',
+                data: JSON.stringify(obj),
+                headers: {'x-auth-token': token}
+            }).then(resp=> {
+                setFieldsValue({'sdyy': null});
+                refreshList();
+                this.setState({loading: false});
+                this.props.onClose();
+            }).fail(e=> {
+                setFieldsValue({'sdyy': null});
+                this.setState({loading: false});
+                notification.error({
+                    duration: 3,
+                    message: '操作失败',
+                    description: '网络访问故障，请稍后尝试'
+                });
+                this.props.onClose();
+            })
         })
-
     },
     handleClose(){
         this.props.form.setFieldsValue({'sdyy': null});
@@ -54,9 +57,14 @@ let modal = React.createClass({
     render(){
         const {getFieldProps} = this.props.form;
         const {visible,data} = this.props;
-        return <Form horizontal >
+        const sdyyProps = getFieldProps('sdyy', {
+            rules: [
+                {required: true, whitespace: true, message: '填写锁定原因'}
+            ]
+        });
+        return <Form horizontal>
             <Modal
-              visible = {visible}
+              visible={visible}
               style={{top: '100px'}}
               title="锁定税务师资质"
               confirmLoading={this.state.loading}
@@ -65,13 +73,15 @@ let modal = React.createClass({
                     <table>
                         <tbody>
                         <tr>
-                            <td>姓名 :</td>
-                            <td>{data.xming}</td>
+                            <th>姓名</th>
+                            <th>所属事务所</th>
                         </tr>
-                        <tr>
-                            <td>所属事务所 :</td>
-                            <td>{data.swsmc}</td>
-                        </tr>
+                        {data.map(item=> {
+                            return <tr key={item.id}>
+                                <td>{item.xming}</td>
+                                <td>{item.swsmc}</td>
+                            </tr>
+                        })}
                         </tbody>
                     </table>
                 </div>
@@ -82,7 +92,7 @@ let modal = React.createClass({
                             <Input placeholder="请注明该税务师资质被锁定原因"
                                    autoComplete="off"
                                    type="textarea"
-                                   rows={5} {...getFieldProps('sdyy')}/>
+                                   rows={5} {...sdyyProps}/>
                         </FormItem>
                     </Col>
                 </Row>

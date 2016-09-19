@@ -17,7 +17,7 @@ const c = React.createClass({
     getInitialState(){
         return {
             listState: {},
-            entity: {},
+            entities: [],
             dialogLock:false
         }
     },
@@ -35,14 +35,14 @@ const c = React.createClass({
         });
         return w;
     },
-    //打开强制退回操作对话框
+    //打开锁定操作对话框
     openLock(selectedRowKeys,selectedRows){
-        if(selectedRowKeys)
-            this.setState({dialogLock: true})
+        if(selectedRowKeys.length>0)
+            this.setState({dialogLock: true,entities:selectedRows,keys:selectedRowKeys})
     },
-    //关闭强制退回操作对话框
+    //关闭锁定操作对话框
     closeLock(){
-        this.setState({dialogSentBack: false});
+        this.setState({dialogLock: false,keys:[],entities:[]});
     },
 
     render(){
@@ -52,11 +52,12 @@ const c = React.createClass({
 
         /*设置资质锁定对话框的参数*/
         const dialogLockSetting = {
-            data: this.state.entity,
-            visible:this.state.dialogSentBack,
+            keys:this.state.keys,
+            data: this.state.entities,
+            visible:this.state.dialogLock,
             refreshList:this.refreshList,
-            onClose:this.closeSentBack,
-            apiUrl:config.HOST + config.URI_API_PROJECT + '/swszzzt/'
+            onClose:this.closeLock,
+            apiUrl:config.HOST + config.URI_API_PROJECT + '/swszzzt'
         };
         /*设置列表组件的参数 */
         const swsListSetting = {
@@ -75,7 +76,8 @@ const c = React.createClass({
             //数据来源api
             apiUrl: config.HOST + config.URI_API_PROJECT + '/swszzzt',
             //初始搜索条件
-            defaultWhere: {}
+            defaultWhere: {},
+            openLock:this.openLock
         };
         const jslistSetting = {
             //列表可滚动区间的宽度，一般使用getcolwidth计算即可
@@ -104,8 +106,7 @@ const c = React.createClass({
                            <p>在税务师列表里可以搜索相应的税务师进行锁定操作，已被锁定的人员不能重复锁定。</p>
                        <p>在被锁定名单里可以进行解锁操作。</p></div>}
                        type="info"
-                       closable
-                       onClose={this.helperClose}/>
+                       closable />
                 <DialogLock {...dialogLockSetting} />
                 <Panel>
                     <Tabs >

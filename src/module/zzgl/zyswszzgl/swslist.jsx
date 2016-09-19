@@ -128,27 +128,6 @@ const list = React.createClass({
     //资质锁定对话框
     lock(){
         this.props.openLock(this.state.selectedRowKeys,this.state.selectedRows);
-        let params =JSON.stringify({id:this.state.selectedRowKeys});
-        console.log(params);
-
-        req({
-            url: apiUrl,
-            type: 'json',
-            method: 'put',
-            data: params,
-            contentType:'application/json',
-            headers: {'x-auth-token': token}
-        }).then(resp=>{
-            this.refreshCurrent();
-            this.setState({selectedRowKeys:[]})
-        }).fail(e=> {
-            this.setState({loading: false});
-            notification.error({
-                duration: 2,
-                message: '操作失败',
-                description: '目前网络无法访问，请稍后尝试'
-            });
-        })
     },
     render(){
         const rowSelection = {
