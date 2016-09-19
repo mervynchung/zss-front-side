@@ -39,7 +39,6 @@ const Index = React.createClass({
 
     render(){
         /*路由配置*/
-        console.log(auth.isClient())
         const routes = [{
             path: '/',
             component: App,
@@ -65,8 +64,11 @@ const Index = React.createClass({
                 require('../module/xtgnsz/qxgl'),
                 require('../module/xtgnsz/yhgl'),
 
-                //业务管理
+                //资质管理
+                require('../module/zzgl/jgzzgl'), //事务所资质管理
+                require('../module/zzgl/zyswszzgl'), //执业注师资质管理
 
+                //业务管理
                 require('../module/ywgl/ywbbgl'),
                 require('../module/ywgl/ywbbthsp'), //业务报备退回审批
                 require('../module/ywgl/ywbbcxsp'), //业务报备退回审批
@@ -109,7 +111,7 @@ const Index = React.createClass({
                 require('../module/lsjlcx/fzyzzyjl'),
 
                 //监督检查
-                  require('../module/jdjc/zyswsnjb'),
+                require('../module/jdjc/zyswsnjb'),
                 require('../module/jdjc/swsnj'),
 
               //逐级审核
@@ -191,8 +193,9 @@ const Index = React.createClass({
 
                 //人员管理
                require('../module/client/swsrygl/zyrygl'),
+               require('../module/client/swsrygl/rydr'),
 
-                //财务报表上传
+                // //财务报表上传
                 require('../module/client/cwbb/lrb'),
                 require('../module/client/cwbb/lrfpb'),
                 require('../module/client/cwbb/xjllb'),

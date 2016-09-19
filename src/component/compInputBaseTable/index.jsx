@@ -3,7 +3,6 @@ import {Row,Col,Form,Checkbox,Button,Input,DatePicker,Modal,InputNumber  } from 
 import {SelectorCS,SelectorMZ,SelectorXL,SelectorZZMM,SelectorXB,SelectorZW,SelectorIS,SelectorZYSWSZXYY} from 'component/compSelector'
 import './untils.js'
 
-const FormItem = Form.Item;
 const createForm = Form.create;
 const TrWrapper = React.createClass({
     render(){
