@@ -15,7 +15,7 @@ import DetailBox from './detailbox.jsx'
 
 
 const API_URL = config.HOST + config.URI_API_PROJECT + '/add/zyswsnj';
-const URL = config.HOST + config.URI_API_PROJECT + '/addzyswsnj';
+const URL = config.HOST + config.URI_API_PROJECT + '/addzyswsnjb';
 
 const ToolBar = Panel.ToolBar;
 const ButtonGroup = Button.Group;

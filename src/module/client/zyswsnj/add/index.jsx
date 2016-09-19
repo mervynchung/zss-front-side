@@ -20,10 +20,25 @@ let Addswsnj = React.createClass({
         e.preventDefault();
         var mp = {};
         let value = this.props.form.getFieldsValue()
+        let arr=[]
         for (var key in value) {
             if (!value[key]) {
                 value[key] = null;
             }
+            if (key.indexOf('wg') != -1) {
+                if (value[key]) {
+                    let length = key.length - 2;
+                    let str = key.substr(2, length);
+                    arr.push(str);
+
+                }
+            }
+        }
+        let wg = arr.join(',');
+        if (wg == '') {
+            value['wg'] = null;
+        } else {
+            value['wg'] = wg;
         }
         // console.log('收到表单值：', value);
         this.props.onSubmit(value);
@@ -63,6 +78,8 @@ let Addswsnj = React.createClass({
         } else {
             value['wg'] = wg;
         }
+        console.log(wg);
+        console.log(value);
         this.setState({
             visible: true,
             okValue: value,
@@ -90,6 +107,7 @@ let Addswsnj = React.createClass({
     //处理姓名下拉框改变事件
     handleXmChange(value) {
      //   alert(value);//此value即id
+     this.props.form.setFieldsValue({sws_id:value});
        req({
             url: API_URL + '/' + value,
             type: 'json',
@@ -120,8 +138,7 @@ let Addswsnj = React.createClass({
         if (this.props.data.length != 0) {
             obj = this.props.data;
         };
-        const obj1=this.state.swsdata;
-        console.log(obj1);
+        const obj1=this.state.swsdata; 
         return <div>
             <div className="fix-table table-bordered table-striped" >
                 <Form horizontal onSubmit={this.handleSubmit}>
@@ -131,7 +148,7 @@ let Addswsnj = React.createClass({
                             <tbody>
                                 <tr>
                                     <td>姓名：</td>
-                                    <td><SelectorXm style={{ width: '100px' }} onChange={this.handleXmChange}/></td>
+                                    <td><SelectorXm {...getFieldProps('sws_id')} style={{ width: '100px' }} onChange={this.handleXmChange}/></td>
                                     <td>性别:{obj1.xb}</td>
                                     <td>年度： <Input {...getFieldProps('ND')}/></td>
                                     <td rowSpan="6">照片</td>
@@ -336,11 +353,6 @@ let Addswsnj = React.createClass({
                                         负责人签名：<Input {...getFieldProps('SWSFZR') }/> </td>
 
                                 </tr>
-
-
-
-
-
                             </tbody>
                         </table >
                     </div>
