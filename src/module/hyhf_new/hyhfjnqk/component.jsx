@@ -317,8 +317,9 @@ const jgcx = React.createClass({
             <span className="ant-divider"></span>
             <Link to="hyhf/fpdy"><Button type="ghost"  >发票打印</Button></Link>
             <span className="ant-divider"></span>
-            <Button type="ghost" onClick={this.showConfirm.bind(this,sdyy)}  >批量锁定</Button>
-            <Button type="ghost" onClick={this.allClean}  >重置选择</Button>
+            <Button type="ghost" onClick={this.showConfirm.bind(this,sdyy)} disabled={this.state.selectedRowKeys.length>0?false:true}>批量锁定</Button>
+            <span className="ant-divider"></span>
+            <Button type="ghost" onClick={this.allClean} disabled={this.state.selectedRowKeys.length>0?false:true} >撤销选择</Button>
           </div>
           </ToolBar>;
           const rowSelection = {
