@@ -2,15 +2,13 @@ import React from 'react'
 import {Table, Row, Col, Button, Icon, notification, Alert} from 'antd'
 import Panel from 'component/compPanel'
 import req from 'reqwest';
-import SearchForm from './sdsearchForm'
+import SearchForm from './swsSearchFrom'
 import merge from 'lodash/merge';
 import {isEmptyObject,jsonCopy} from 'common/utils'
 import auth from 'common/auth'
 
-
 const ToolBar = Panel.ToolBar;
 const ButtonGroup = Button.Group;
-
 
 const list = React.createClass({
     //初始化state
@@ -23,6 +21,7 @@ const list = React.createClass({
             searchToggle: false,
             helper: false,
             selectedRowKeys:[],
+            selectedRows:[],
             pagination: {
                 current: 1,
                 showSizeChanger: true,
@@ -120,13 +119,18 @@ const list = React.createClass({
     },
     //表格中的复选框勾选
     handleSelectedRowChange(selectedRowKeys, selectedRows){
-        this.setState({selectedRowKeys: selectedRowKeys})
+        this.setState({selectedRowKeys: selectedRowKeys,selectedRows:selectedRows})
     },
-    //解锁
-    unlock(){
-        const token = auth.getToken();
-        const {apiUrl} = this.props;
-        let params =JSON.stringify({id:this.state.selectedRowKeys,lx:'unlock'}) ;
+    //重置选择
+    resetSelect(){
+        this.setState({selectedRowKeys:[]})
+    },
+    //资质锁定对话框
+    lock(){
+        this.props.openLock(this.state.selectedRowKeys,this.state.selectedRows);
+        let params =JSON.stringify({id:this.state.selectedRowKeys});
+        console.log(params);
+
         req({
             url: apiUrl,
             type: 'json',
@@ -150,7 +154,11 @@ const list = React.createClass({
         const rowSelection = {
             type: 'checkbox',
             selectedRowKeys: this.state.selectedRowKeys,
-            onChange: this.handleSelectedRowChange
+            onChange: this.handleSelectedRowChange,
+            getCheckboxProps: record => ({
+                disabled: record.islock === 1    // 配置无法勾选的列
+            }),
+
         };
         const {title, scrollx,keyCol,columns} = this.props;
         let toolbar = <ToolBar>
@@ -161,11 +169,15 @@ const list = React.createClass({
             </Button>
 
             <ButtonGroup>
-                <Button type="primary" onClick={this.handleRefresh}><Icon type="reload"/></Button>
-                <Button type="primary" onClick={this.unlock}><Icon type="unlock" />解锁</Button>
+                <Button type="default" onClick={this.handleRefresh}><Icon type="reload"/></Button>
+                <Button type="default" onClick={this.resetSelect}><Icon type="retweet" />重置选择</Button>
+                <Button type="primary" onClick={this.lock}><Icon type="unlock" />资质锁定</Button>
             </ButtonGroup>
         </ToolBar>;
+
+
         return <Panel title={title} toolbar={toolbar}>
+
                 {this.state.searchToggle && <SearchForm
                     onSubmit={this.handleSearchSubmit}/>}
                 <Table columns={columns}

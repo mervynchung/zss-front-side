@@ -1,10 +1,9 @@
 import React from 'react'
-import {Row, Col, Form, Button, Input, DatePicker, InputNumber, Checkbox} from 'antd'
+import {Row, Col, Form, Button, Input} from 'antd'
 import {SelectorCS, SelectorYWLX, SelectorYear, SelectorYWZT, SelectorZSFS} from 'component/compSelector'
 
 const FormItem = Form.Item;
 const createForm = Form.create;
-const RangePicker = DatePicker.RangePicker;
 
 let searchForm = React.createClass({
     getDefaultProps(){
@@ -31,9 +30,6 @@ let searchForm = React.createClass({
             }
         }
         //加工各提交字段的值
-        if (values.sdtime && !values.sdtime[0]) {
-            delete values.sdtime
-        }
 
         this.props.onSubmit(values);
     },
@@ -50,42 +46,17 @@ let searchForm = React.createClass({
                     <Col span="8">
                         <FormItem
                             {...formItemLayout}
-                            label="事务所名称">
-                            <Input placeholder="事务所名称" {...getFieldProps('swsmc')}/>
+                            label="税务师姓名">
+                            <Input placeholder="税务师姓名" {...getFieldProps('xming')}/>
                         </FormItem>
                     </Col>
                     <Col span="8">
                         <FormItem
                             {...formItemLayout}
-                            label="锁定原因">
-                            <Input placeholder="锁定原因" {...getFieldProps('sdyy')}/>
+                            label="所属事务所">
+                            <Input placeholder="所属事务所" {...getFieldProps('swsmc')}/>
                         </FormItem>
                     </Col>
-                    <Col span="8">
-                        <FormItem
-                            {...formItemLayout}
-                            label="锁定操作时间：">
-                            <RangePicker format="yyyy/MM/dd" { ...getFieldProps('sdtime',
-                                {getValueFromEvent: (date, dateString)=> dateString})}/>
-                        </FormItem>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col span="8">
-                        <FormItem
-                            {...formItemLayout}
-                            label="锁定人名称">
-                            <Input placeholder="锁定人名称" {...getFieldProps('sdr')}/>
-                        </FormItem>
-                    </Col>
-                    <Col span="8">
-                        <FormItem
-                            {...formItemLayout}
-                            label="锁定人角色组">
-                            <Input placeholder="锁定人角色组" {...getFieldProps('sdr_role')}/>
-                        </FormItem>
-                    </Col>
-
                 </Row>
                 <Row>
                     <Col span="4" offset="20">

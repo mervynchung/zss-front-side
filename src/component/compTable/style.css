@@ -1,7 +1,7 @@
-.ant-table-thead > tr > th{
+.comp-table.ant-table-thead > tr > th{
     text-align: center
 }
 
-.ant-table-bordered .ant-table-thead > tr > th:last-child, .ant-table-bordered .ant-table-tbody > tr > td:last-child {
+.comp-table.ant-table-bordered .ant-table-thead > tr > th:last-child, .ant-table-bordered .ant-table-tbody > tr > td:last-child {
     border-right: 1px solid #e9e9e9
 }
