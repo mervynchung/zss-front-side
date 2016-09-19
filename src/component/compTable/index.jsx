@@ -21,6 +21,7 @@ const compTable = React.createClass({
     getEmptyText() {
     const data = this.props.dataSource;
     return !data.length ? (
+      <div className={`compTable-empty`}>
         <span><Icon type="frown" />暂无数据</span>
       </div>
     ) : null;
@@ -109,6 +110,7 @@ const compTable = React.createClass({
             td.push(<td key="empty"  colSpan={colCount} style={{height:"100px"}}>
             {this.getEmptyText()}
             </td>);
+            tr.push(<tr key="empty" className="ant-table-row  ant-table-row-level-0" >{td}</tr>);
             td=[];
         }else{
             for(let i=0;i<datalist.length;i++){
