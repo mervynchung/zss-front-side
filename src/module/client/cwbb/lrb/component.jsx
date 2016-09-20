@@ -144,7 +144,6 @@ const lrb = React.createClass({
       
     },
     fetchHandle1(value) {
-       console.log("value",value)
         req({
             url: URL + '/' + value.id,
             type: 'json',

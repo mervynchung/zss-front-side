@@ -9,17 +9,26 @@ import Model from './model.js'
 import auth from 'common/auth'
 import SearchForm from './searchForm'
 import { Link } from 'react-router'
-import {  DatePicker,Modal,Form, Input, Select,Table, Icon,Tabs,Button,Row,Col,message,Dropdown,Menu,Spin }from 'antd'
+import {  DatePicker,Modal,Form, Input, Select,Table, Icon,Tabs,Button,Row,Col,message,Dropdown,Menu,Spin,Radio }from 'antd'
 // 标签定义
 const TabPane = Tabs.TabPane;
 const ToolBar = Panel.ToolBar;
 const ButtonGroup = Button.Group;
+const RadioGroup = Radio.Group;
 const API_URL = config.HOST+config.URI_API_PROJECT + '/swsrycx/zyry';
 const API_URL_BG = config.HOST+config.URI_API_PROJECT + '/spapi/spsq/zyswsbgsq';
 const API_URL_ZFZY= config.HOST+config.URI_API_PROJECT + '/spapi/spsq/zyzfzysq';
 const API_URL_ZX = config.HOST+config.URI_API_PROJECT + '/spapi/spsq/zyzxsq';
 const API_URL_ZJ = config.HOST+config.URI_API_PROJECT + '/spapi/spsq/zyzjsq';
+const API_URL_FS = config.HOST+config.URI_API_PROJECT + '/spapi/fspsq/zyzrfs';
+const API_URL_ZC = config.HOST+config.URI_API_PROJECT + '/spapi/spsq/zyzcsq';
+const API_URL_ZS = config.HOST+config.URI_API_PROJECT + '/spapi/spsq/zyzssq';
 const API_URL_C = config.HOST + config.URI_API_PROJECT + '/commont/checksping/zysp/';
+const radioStyle = {
+      display: 'block',
+      height: '30px',
+      lineHeight: '30px',
+    };
  
 const rycx = React.createClass({
   getInitialState() { //初始化State状态，使用传入参数
@@ -35,6 +44,8 @@ const rycx = React.createClass({
             activeKey:"",
             czAll:0,
             zyswsid:"",
+            valueFS: '',
+            fsRad:null,
       };
     },
 
@@ -63,7 +74,7 @@ const rycx = React.createClass({
                          this.setState({data: [],dataxx: {values: {}},datalist:[],loading:false, });
                     };
             },
-            error: (err) =>{alert('api错误');}
+            error: (err) =>{alert('api错误');this.setState({data: [],dataxx: {values: {}},datalist:[],loading:false, });}
     });
   },
 
@@ -81,7 +92,7 @@ const rycx = React.createClass({
             datalist: result.data.ryjl,//简历的data
             sloading: false,
           });
-        },error:  (err) =>{alert('api错误');}
+        },error:  (err) =>{alert('api错误');this.setState({dataxx: {values: {}},datalist:[],sloading: false})}
       });
       }else if (tabkey==2) {
         this.gettabdata(this.state.urls.herf_bgjl);
@@ -98,7 +109,7 @@ const rycx = React.createClass({
             }else{
                this.setState({datalist:[],sloading: false})
              }
-          },error: (err) =>{alert('api错误');}
+          },error: (err) =>{alert('api错误');this.setState({datalist:[],sloading: false});}
         });
     },
 
@@ -141,24 +152,33 @@ const rycx = React.createClass({
         pagenum: 1,
         pagesize: this.state.pagination.pageSize,
         where:encodeURIComponent(JSON.stringify(value)),
-      })
+      });
+       this.handleReturn();
   },
 
     callback(key) {//tab标签变化返回值与方法
     this.setState({activeKey:key});
       this.fetch_kzxx(key);
 },
+
     handleReturn(){//返回按钮
-    this.setState({czAll:0});
+    this.setState({czAll:0,valueFS: ''});
     this.callback(1);
 },
-    handleCZ(lx,e){
+
+    handleCZ(lx,e){//操作入口
     e.preventDefault();
     //  e.stopPropagation();//阻止onRowClick事件冒泡
     // e.nativeEvent.stopImmediatePropagation();
     this.setState({czAll:lx});
     
 },
+onChangeFS(e) {
+      this.setState({
+        valueFS: e.target.value,
+      });
+    },
+
     handleBGSubmit(value){
         this.setState({bgLoading:true});
             var ls = value;
@@ -169,6 +189,7 @@ const rycx = React.createClass({
                 case 2: squrls=API_URL_ZFZY;break;
                 case 3: squrls=API_URL_ZX;break;
                 case 4: squrls=API_URL_ZJ;break;
+                case 6: squrls=API_URL_ZS;break;
             }
              req({
                 url: squrls,
@@ -195,57 +216,135 @@ const rycx = React.createClass({
                     title: '数据获取错误',
                     content: (
                         <div>
-                            <p>无法从服务器返回数据，需检查应用服务工作情况</p>
+                        {this.state.czAll==6?<p>请检查事务所名称和网络情况</p>:
+                          <p>无法从服务器返回数据，需检查应用服务工作情况</p>}
                             <p>Status: {err.status}</p>
                         </div>  )
                 });
+                this.setState({bgLoading:false});
             })
         },
+    handleReset(){
+      this.setState({valueFS: ''});
+    },
+    showConfirm(e) {
+            e.preventDefault();
+            var that=this;
+            let squrls="";
+            let ls = {};
+             ls.zyswsid=this.state.zyswsid;
+            let con ="申请提交后将提交中心管理端审批，在审批完成前，将不能再进行操作";
+            let med="post";
+            if(this.state.czAll==5){
+                squrls=API_URL_FS;
+                ls.pid=this.state.valueFS;
+                con="提交后该执业税务师将调入到所选择分所中，由分所管理，并从本事物所人员系统中除去";
+                med='put';
+            }else{
+              squrls=API_URL_ZC;
+            }
+              Modal.confirm({
+                title: '您是否确认提交以上信息？'  ,
+                content: con,
+                onOk() {
+                  that.setState({bgLoading:true});
+                  req({
+                        url: squrls,
+                        type: 'json',
+                        method: med,
+                        data: JSON.stringify(ls),
+                        contentType: 'application/json',
+                        headers:{'x-auth-token':auth.getToken()},
+                    }).then(resp=> {
+                        Modal.success({
+                            title: '提交成功',
+                            content: (
+                                <div>
+                                    <p>提交成功</p>
+                                </div>  ),
+                            onOk() {
+                                      window.location.reload();
+                                    },
+                        });
+                         that.setState({bgLoading:false});
+                    }).fail(err=> {
+                        Modal.error({
+                            title: '数据获取错误',
+                            content: (
+                                <div>
+                                    <p>无法从服务器返回数据，需检查应用服务工作情况</p>
+                                    <p>Status: {err.status}</p>
+                                </div>  )
+                        });
+                        that.setState({bgLoading:false});
+                    })
+                },
+              });
+            },
+
     columRender(text, row, index) {
-    var that = this;
-  if (row.ryztdm==3) {
-        return <span>
-                  <a >重新申请备案</a>
-                </span>
-    };
-    const menu = (
-              <Menu >
-                <Menu.Item key="0">
-                  <a onClick={that.handleCZ.bind(this,4)}>转籍出省</a>
-                </Menu.Item>
-                <Menu.Item key="1">
-                  <a onClick={that.handleCZ.bind(this,5)}>转入分所</a>
-                </Menu.Item>
-                <Menu.Divider />
-                <Menu.Item key="2">
-                  <a onClick={that.handleCZ.bind(this,6)}>转所</a>
-                </Menu.Item>
-                <Menu.Item key="3">
-                  <a onClick={that.handleCZ.bind(this,7)}>转出</a>
-                </Menu.Item>
-              </Menu>
-            );
-    return  <span>
-                  <a onClick={that.handleCZ.bind(this,1)}>信息变更</a>
-                  <span className="ant-divider" ></span>
-                  <a onClick={that.handleCZ.bind(this,2)}>转非执业</a>
-                  <span className="ant-divider"></span>
-                  <a onClick={that.handleCZ.bind(this,3)}>注销备案</a>
-                  <span className="ant-divider"></span>
-                  <Dropdown overlay={menu} trigger={['click']}>
-                  <a  className="ant-dropdown-link">
-                    税务师调动 <Icon type="down" />
-                  </a></Dropdown>
-                </span>
+          var that = this;
+          if (row.ryztdm==3) {
+                return <span>
+                          <a >重新申请备案</a>
+                        </span>
+            };
+          const menu = (
+                    <Menu >
+                      <Menu.Item key="0">
+                        <a onClick={that.handleCZ.bind(this,4)}>转籍出省</a>
+                      </Menu.Item>
+                      <Menu.Item key="1">
+                        <a onClick={that.handleCZ.bind(this,5)}>转入分所</a>
+                      </Menu.Item>
+                      <Menu.Divider />
+                      <Menu.Item key="2">
+                        <a onClick={that.handleCZ.bind(this,6)}>转所</a>
+                      </Menu.Item>
+                      <Menu.Item key="3">
+                        <a onClick={that.handleCZ.bind(this,7)}>转出</a>
+                      </Menu.Item>
+                    </Menu>
+                  );
+          return  <span>
+                        <a onClick={that.handleCZ.bind(this,1)}>信息变更</a>
+                        <span className="ant-divider" ></span>
+                        <a onClick={that.handleCZ.bind(this,2)}>转非执业</a>
+                        <span className="ant-divider"></span>
+                        <a onClick={that.handleCZ.bind(this,3)}>注销备案</a>
+                        <span className="ant-divider"></span>
+                        <Dropdown overlay={menu} trigger={['click']}>
+                        <a  className="ant-dropdown-link">
+                          税务师调动 <Icon type="down" />
+                        </a></Dropdown>
+                      </span>
   },
+
     ztRender(text, row, index) {
                     if (row.ryztdm!=1) {
                         return <span style={{'color':'red'}}>{text}</span>;
                     };
                     return <p>{text}</p>;
   },
+
     componentDidMount() { //REACT提供懒加载方法，懒加载时使用，且方法名必须为componentDidMount
       this.fetch_rycx(); //异步调用后台服务器方法fetch_rycx
+      req({
+            url: config.HOST+config.URI_API_PROJECT + '/jg/jgchild',//默认数据查询后台返回JSON
+            method: 'get',
+            type: 'json',
+            contentType: 'application/json',
+            headers:{'x-auth-token':auth.getToken()},
+        }).then(resp=> {
+          if (resp.length>0) {
+          const fsmap=resp.map((fs,index)=>
+            <Radio  style={radioStyle} key={index} value={fs.ID} >{fs.DWMC}</Radio>
+            )
+          this.setState({fsRad:fsmap});
+          }else{
+            this.setState({fsRad:false});
+          };
+        })
     },
 
     render() {
@@ -323,7 +422,8 @@ const rycx = React.createClass({
 
               {this.state.czAll==0 &&<Spin spinning={this.state.sloading}><Panel >
                    <Tabs type="line" activeKey={this.state.activeKey} onChange={this.callback} key="A">
-                        <TabPane tab="详细信息" key="1"><CompBaseTable data = {this.state.dataxx}  model={Model.autoform} bordered striped /><p className="nbjgsz">人员简历：</p><Table columns={Model.ryjl} dataSource={this.state.datalist} bordered  size="small" pagination={false} /></TabPane>
+                        <TabPane tab="详细信息" key="1"><CompBaseTable data = {this.state.dataxx}  model={Model.autoform} bordered striped /><p className="nbjgsz">人员简历：</p>
+                        <Table columns={Model.ryjl} dataSource={this.state.datalist} bordered  size="small" pagination={false} /></TabPane>
                         <TabPane tab="变更记录" key="2"><Table columns={Model.columnsZyrybgjl} dataSource={this.state.datalist} bordered  size="small" /></TabPane>
                         <TabPane tab="年检记录" key="7"><Table columns={Model.columnsZyrynjjl} dataSource={this.state.datalist} bordered  size="small" /></TabPane>
                   </Tabs>
@@ -338,23 +438,47 @@ const rycx = React.createClass({
                         {this.state.czAll==2 &&<Panel title="转非执业" toolbar={toolbar2}>
                         <Spin spinning={this.state.sloading}><p className="nbjgsz"><b style={{'padding':'10px'}}>{this.state.dataxx.xm} 转非执业申请</b></p>
                         <CompInputBaseTable data={this.state.dataxx}  model={Model.autoform2} bordered striped reset showConfirm
-                        onSubmit={this.handleBGSubmit} bgmc={Model.bgmc} disabled={this.state.onSubmitZT} 
+                        onSubmit={this.handleBGSubmit}  disabled={this.state.onSubmitZT} 
                         submitLoading={this.state.bgLoading} title='您是否确认提交以上信息？'  
                         content='申请提交后将提交中心管理端审批，在审批完成前，将不能再进行操作'  />
                         </Spin></Panel>}
                         {this.state.czAll==3 &&<Panel title="注销备案" toolbar={toolbar2}>
                         <Spin spinning={this.state.sloading}><p className="nbjgsz"><b style={{'padding':'10px'}}>{this.state.dataxx.xm} 注销备案申请</b></p>
                         <CompInputBaseTable data={this.state.dataxx}  model={Model.autoform3} bordered striped reset showConfirm
-                        onSubmit={this.handleBGSubmit} bgmc={Model.bgmc} disabled={this.state.onSubmitZT} 
+                        onSubmit={this.handleBGSubmit}  disabled={this.state.onSubmitZT} 
                         submitLoading={this.state.bgLoading} title='您是否确认提交以上信息？'  
                         content='申请提交后将提交中心管理端审批，审批通过后，该人员将注销'  />
                         </Spin></Panel>}
                         {this.state.czAll==4 &&<Panel title="转籍出省" toolbar={toolbar2}>
                         <Spin spinning={this.state.sloading}><p className="nbjgsz"><b style={{'padding':'10px'}}>{this.state.dataxx.xm} 转籍申请</b></p>
                         <CompInputBaseTable data={this.state.dataxx}  model={Model.autoform4} bordered striped reset showConfirm
-                        onSubmit={this.handleBGSubmit} bgmc={Model.bgmc} disabled={this.state.onSubmitZT} 
+                        onSubmit={this.handleBGSubmit}  disabled={this.state.onSubmitZT} 
                         submitLoading={this.state.bgLoading} title='您是否确认提交以上信息？'  
                         content='申请提交后将提交中心管理端审批，在审批完成前，将不能再进行操作'  />
+                        </Spin></Panel>}
+                        {this.state.czAll==5 &&<Panel title="转入分所" toolbar={toolbar2}>
+                        {!this.state.fsRad?<div style={{'textAlign':'center'}}><p style={{'color':'red'}}><b>该事务所无分所</b></p></div>:
+                        <Spin spinning={this.state.sloading}><p className="nbjgsz">
+                        <b style={{'padding':'10px'}}>{this.state.dataxx.xm} 转入分所申请</b></p>
+                          <div style={{'textAlign':'center'}}><div><p><b>选择转入分所：</b></p>
+                          <RadioGroup onChange={this.onChangeFS} value={this.state.valueFS} size="large" >
+                              {this.state.fsRad}
+                            </RadioGroup></div></div>
+                            <p style={{'textAlign':'center'}}><Button type="primary" disabled={this.state.onSubmitZT} onClick={this.showConfirm} loading={this.state.bgLoading}>提交</Button>
+                            <span className="ant-divider"></span><Button type="ghost"  htmlType="submit" onClick={this.handleReset} >重置</Button></p>
+                          </Spin>}</Panel>}
+                        {this.state.czAll==6 &&<Panel title="执业税务师转所" toolbar={toolbar2}>
+                        <Spin spinning={this.state.sloading}><p className="nbjgsz"><b style={{'padding':'10px'}}>{this.state.dataxx.xm} 转所申请</b></p>
+                        <CompInputBaseTable data={this.state.dataxx}  model={Model.autoform6} bordered striped reset showConfirm
+                        onSubmit={this.handleBGSubmit} disabled={this.state.onSubmitZT} 
+                        submitLoading={this.state.bgLoading} title='您是否确认提交以上信息？'  
+                        content='申请提交后将提交中心管理端审批，在审批完成前，将不能再进行操作'  />
+                        </Spin></Panel>}
+                        {this.state.czAll==7 &&<Panel title="执业税务师转出" toolbar={toolbar2}>
+                        <Spin spinning={this.state.sloading}><p className="nbjgsz"><b style={{'padding':'10px'}}>{this.state.dataxx.xm} 转出申请</b></p>
+                        <div style={{'textAlign':'center',padding:'20px'}}><div><p><b>若注册税务师不在本事务所执业，可进行此操作，操作后该注册税务师将进入储备库中，并从本事务所人员系统中除去。</b></p></div></div>
+                            <p style={{'textAlign':'center'}}><Button type="primary" disabled={this.state.onSubmitZT} onClick={this.showConfirm} loading={this.state.bgLoading}>提交</Button>
+                            <span className="ant-divider"></span><Button type="ghost"  htmlType="submit" onClick={this.handleReturn} >取消</Button></p>
                         </Spin></Panel>}
                        
                   </div>  

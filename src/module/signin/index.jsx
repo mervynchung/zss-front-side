@@ -66,7 +66,7 @@ const signin = withRouter(React.createClass({
                 <div className="logo">
                     <h1>
                         <Icon type="area-chart"/>
-                        广东省注册税务师行业信息化管理系统
+                        广东省税务师行业管理信息化系统
                     </h1>
                 </div>
             </div>

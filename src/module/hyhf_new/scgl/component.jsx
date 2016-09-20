@@ -220,8 +220,8 @@ const lrb = React.createClass({
                     <Icon className="toggle-tip" type="circle-o-down"/>}
             </Button>
             <span className="ant-divider"></span>
-            {re=="fzy"?<Button type="ghost"  ><Link to="hyhf/fzyhyhf">返回缴纳情况</Link></Button>:
-            <Button type="ghost"  ><Link to="hyhf/hyhfjnqk">返回缴纳情况</Link></Button>}
+            {re=="fzy"?<Link to="hyhf/fzyhyhf"><Button type="ghost"  >返回缴纳情况</Button></Link>:
+            <Link to="hyhf/hyhfjnqk"><Button type="ghost"  >返回缴纳情况</Button></Link>}
             </div>
         </ToolBar>;
 

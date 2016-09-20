@@ -21,7 +21,6 @@ let Addlrb = React.createClass({
             value[key]=null;
         }
     }
-   // console.log('收到表单值：', value);
     this.props.onSubmit(value);
   },
 
@@ -48,7 +47,6 @@ let Addlrb = React.createClass({
     });
   },
   handleOk(e) {
-    // console.log('点击了确定',this.state.okValue);
     this.props.handleOk(this.state.okValue)
     this.setState({
       visible: false
