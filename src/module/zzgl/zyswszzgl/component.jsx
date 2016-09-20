@@ -1,11 +1,11 @@
 import React from 'react'
 import {Table, Modal, Row, Col, Button, Icon, Alert,Tabs,Switch} from 'antd'
 import Swslist from './swslist'
-import Jslist from './jslist'
+import Sdjllist from './sdjllist'
 import DialogLock from './dialogLock'
 import Panel from 'component/compPanel';
 import swsmodel from './swsmodel'
-import jsmodel from './jsmodel'
+import sdjlmodel from './sdjlmodel'
 import config from 'common/configuration'
 import {jsonCopy} from 'common/utils'
 import cloneDeep from 'lodash/cloneDeep';
@@ -17,13 +17,14 @@ const c = React.createClass({
     getInitialState(){
         return {
             listState: {},
-            entities: [],
+            keys: [],
             dialogLock:false
         }
     },
 
     refreshList(){
-        this.refs.list1.refreshCurrent()
+        this.refs.list1.refreshCurrent();
+        this.refs.list2.refreshCurrent();
     },
 
 
@@ -36,24 +37,24 @@ const c = React.createClass({
         return w;
     },
     //打开锁定操作对话框
-    openLock(selectedRowKeys,selectedRows){
+    openLock(selectedRowKeys){
         if(selectedRowKeys.length>0)
-            this.setState({dialogLock: true,entities:selectedRows,keys:selectedRowKeys})
+            this.setState({dialogLock: true,keys:selectedRowKeys})
     },
     //关闭锁定操作对话框
     closeLock(){
-        this.setState({dialogLock: false,keys:[],entities:[]});
+        this.refs.list1.resetSelect();
+        this.setState({dialogLock: false,keys:[]});
     },
 
     render(){
         //重新复制一个model对象，使修改不会影响原model对象，避免每次组件渲染时给原model对象累积赋值
         const swsm = cloneDeep(swsmodel);
-        const jsm = cloneDeep(jsmodel);
+        const sdm = cloneDeep(sdjlmodel);
 
         /*设置资质锁定对话框的参数*/
         const dialogLockSetting = {
             keys:this.state.keys,
-            data: this.state.entities,
             visible:this.state.dialogLock,
             refreshList:this.refreshList,
             onClose:this.closeLock,
@@ -79,26 +80,28 @@ const c = React.createClass({
             defaultWhere: {},
             openLock:this.openLock
         };
-        const jslistSetting = {
+        const sdjlListSetting = {
             //列表可滚动区间的宽度，一般使用getcolwidth计算即可
-            scrollx: this.getColWidth(jsm),
+            scrollx: this.getColWidth(sdm),
             //接收的json数据中用来充当key的字段名
             keyCol: 'id',
             //默认每页显示数量
             pageSize: 10,
             //列表需使用的columns定义
-            columns: jsm.columns,
+            columns: sdm.columns,
             //记录list组件被切换时状态值的方法
             grabState: this.grabListState,
             //list组件重新挂载时恢复状态用的历史状态数据
             stateShot: this.state.listState,
             //数据来源api
-            apiUrl: config.HOST + config.URI_API_PROJECT + '/jgzzsdwx',
+            apiUrl: config.HOST + config.URI_API_PROJECT + '/swszzsdjl',
             //初始搜索条件
-            defaultWhere: {}
+            defaultWhere: {},
+            refreshList:this.refreshList,
         };
+        console.log('compkeys',this.state.keys);
 
-        return <div className="zzgl jgzzgl">
+        return <div className="zzgl zyswszzgl">
             <div className="wrap">
 
                 <Alert message="执业税务师资质管理使用帮助"
@@ -111,7 +114,7 @@ const c = React.createClass({
                 <Panel>
                     <Tabs >
                         <TabPane key="1" tab="执业税务师列表"> <Swslist {...swsListSetting} ref="list1"/></TabPane>
-                        <TabPane key="2" tab="税务师资质锁定名单"><Jslist {...jslistSetting} ref="list2"/></TabPane>
+                        <TabPane key="2" tab="税务师资质锁定名单"><Sdjllist {...sdjlListSetting} ref="list2"/></TabPane>
                     </Tabs>
 
                 </Panel>

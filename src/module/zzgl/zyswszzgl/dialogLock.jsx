@@ -15,7 +15,7 @@ let modal = React.createClass({
     },
     handleSubmit(){
         const token = auth.getToken();
-        const {data,apiUrl,refreshList,keys} = this.props;
+        const {apiUrl,refreshList,keys} = this.props;
         const {setFieldsValue,validateFields} = this.props.form;
         validateFields((errors, values)=>{
             if (!!errors) {
@@ -56,34 +56,21 @@ let modal = React.createClass({
     },
     render(){
         const {getFieldProps} = this.props.form;
-        const {visible,data} = this.props;
+        const {visible,keys} = this.props;
         const sdyyProps = getFieldProps('sdyy', {
             rules: [
                 {required: true, whitespace: true, message: '填写锁定原因'}
             ]
         });
         return <Form horizontal>
-            <Modal
+            <Modal className="zyswszzgl lock"
               visible={visible}
               style={{top: '100px'}}
               title="锁定税务师资质"
               confirmLoading={this.state.loading}
               okText="确认锁定" onOk={this.handleSubmit} onCancel={this.handleClose}>
-                <div className="fix-table no-border">
-                    <table>
-                        <tbody>
-                        <tr>
-                            <th>姓名</th>
-                            <th>所属事务所</th>
-                        </tr>
-                        {data.map(item=> {
-                            return <tr key={item.id}>
-                                <td>{item.xming}</td>
-                                <td>{item.swsmc}</td>
-                            </tr>
-                        })}
-                        </tbody>
-                    </table>
+                <div>
+                    <p>已选择<em>{keys.length}</em>人</p>
                 </div>
                 <Row>
                     <Col span="24">

@@ -2,7 +2,7 @@ import React from 'react'
 import {Table, Row, Col, Button, Icon, notification, Alert} from 'antd'
 import Panel from 'component/compPanel'
 import req from 'reqwest';
-import SearchForm from './swsSearchFrom'
+import SearchForm from './swsSearchForm'
 import merge from 'lodash/merge';
 import {isEmptyObject,jsonCopy} from 'common/utils'
 import auth from 'common/auth'
@@ -21,7 +21,6 @@ const list = React.createClass({
             searchToggle: false,
             helper: false,
             selectedRowKeys:[],
-            selectedRows:[],
             pagination: {
                 current: 1,
                 showSizeChanger: true,
@@ -118,8 +117,8 @@ const list = React.createClass({
         this.setState({entity:record})
     },
     //表格中的复选框勾选
-    handleSelectedRowChange(selectedRowKeys, selectedRows){
-        this.setState({selectedRowKeys: selectedRowKeys,selectedRows:selectedRows})
+    handleSelectedRowChange(selectedRowKeys){
+        this.setState({selectedRowKeys: selectedRowKeys})
     },
     //重置选择
     resetSelect(){
@@ -127,7 +126,7 @@ const list = React.createClass({
     },
     //资质锁定对话框
     lock(){
-        this.props.openLock(this.state.selectedRowKeys,this.state.selectedRows);
+        this.props.openLock(this.state.selectedRowKeys);
     },
     render(){
         const rowSelection = {
@@ -150,11 +149,11 @@ const list = React.createClass({
             <ButtonGroup>
                 <Button type="default" onClick={this.handleRefresh}><Icon type="reload"/></Button>
                 <Button type="default" onClick={this.resetSelect}><Icon type="retweet" />重置选择</Button>
-                <Button type="primary" onClick={this.lock}><Icon type="unlock" />资质锁定</Button>
+                <Button type="primary" onClick={this.lock}><Icon type="lock" />资质锁定</Button>
             </ButtonGroup>
         </ToolBar>;
 
-
+        console.log('listkeys',this.state.keys);
         return <Panel title={title} toolbar={toolbar}>
 
                 {this.state.searchToggle && <SearchForm
