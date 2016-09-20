@@ -1,8 +1,8 @@
 import '../common/lib';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Router, Route, IndexRoute,useRouterHistory} from 'react-router';
-import { createHistory,createHashHistory } from 'history'
+import {Router, Route, IndexRoute, useRouterHistory} from 'react-router';
+import {createHistory, createHashHistory} from 'history'
 import App from '../component/App';
 import Signin from 'module/signin';
 import Dyfp from 'module/useforprint/fpdy/dy.jsx';
@@ -10,7 +10,7 @@ import Dydj from 'module/useforprint/glsc_jgdj/dy.jsx';
 import Dyry from 'module/useforprint/glsc_ry/dy.jsx';
 import Dyzb from 'module/useforprint/glsc_zb/dy.jsx';
 import Dyfb from 'module/useforprint/glsc_fb/dy.jsx';
-import {cenHome,clientHome } from '../module/home';
+import {cenHome, clientHome} from '../module/home';
 import NotFound from 'module/404notfound'
 import auth from 'common/auth'
 
@@ -79,8 +79,7 @@ const Index = React.createClass({
                 require('../module/ywgl/setting'), //业务参数设置
                 require('../module/ywgl/ywbbsjfx'),//业务报备数据分析
 
-
-                 //财务报表
+                //财务报表
                 require('../module/cwbb/lrfpb'),
                 require('../module/cwbb/xjllb'),
                 require('../module/cwbb/zcmxb'),
@@ -114,7 +113,7 @@ const Index = React.createClass({
                 require('../module/jdjc/zyswsnjb'),
                 require('../module/jdjc/swsnj'),
 
-              //逐级审核
+                //逐级审核
                 require('../module/spsh'),
                 require('../module/spshlsjl'),
                 require('../module/spsh/module/1'),
@@ -153,11 +152,11 @@ const Index = React.createClass({
                 require('../module/xtsjfx/zshynbb/hyjygmqktjb'),//行业经营规模情况统计表5
                 require('../module/xtsjfx/zshynbb/hyjzywqktjb'),//行业鉴证业务情况统计表6
 
-               //数据统计分析 - 系统统计报表
+                //数据统计分析 - 系统统计报表
                 require('../module/xtsjfx/xttjbb/swsqktjA'), //事务所情况统计A
                 require('../module/xtsjfx/xttjbb/hyryqktj'), //行业人员情况统计
                 require('../module/xtsjfx/xttjbb/swsqktj_b'),//事务所情况统计B
-                require('../module/xtsjfx/xttjbb/swszttj'),//税务师 
+                require('../module/xtsjfx/xttjbb/swszttj'),  //税务师状况统计
                 require('../module/xtsjfx/xttjbb/zyswszjtj'),//税务师转籍统计
                 require('../module/xtsjfx/xttjbb/zyswszctj'),//税务师转出统计
 
@@ -173,15 +172,13 @@ const Index = React.createClass({
                 require('../module/xtsjfx/sjfx/ryztsjfx'),
                 require('../module/xtsjfx/sjfx/zyzshsjfx'),
 
-                
-
                 //会员会费缴纳
                 require('../module/hyhf_new/hyhfjnqk'),
                 require('../module/hyhf_new/fpdy'),
                 require('../module/hyhf_new/fzyhyhf'),
                 require('../module/hyhf_new/scgl'),
 
-               //证照打印管理
+                //证照打印管理
                 require('../module/zzdygl/zyglscdy'),
 
 
@@ -192,10 +189,10 @@ const Index = React.createClass({
                 require('../module/client/jggl/swshb'),
 
                 //人员管理
-               require('../module/client/swsrygl/zyrygl'),
-               require('../module/client/swsrygl/rydr'),
+                require('../module/client/swsrygl/zyrygl'),
+                require('../module/client/swsrygl/rydr'),
 
-                // //财务报表上传
+                //财务报表上传
                 require('../module/client/cwbb/lrb'),
                 require('../module/client/cwbb/lrfpb'),
                 require('../module/client/cwbb/xjllb'),
@@ -208,7 +205,7 @@ const Index = React.createClass({
                 require('../module/client/sdsb/jzywqktjb'),
                 require('../module/client/sdsb/hyryqktjb'),
                 require('../module/client/sdsb/jysrqkb'),
-           
+
                 //业务管理
                 require('../module/client/ywgl/khxxgl'), //客户信息管理
                 require('../module/client/ywgl/ywbb'), //事务所业务报备
@@ -221,7 +218,7 @@ const Index = React.createClass({
         }, {
             path: '/signin',
             component: Signin
-        },{
+        }, {
             path: '/print/hyhf/fpdy',
             component: Dyfp
         }, {
@@ -230,10 +227,10 @@ const Index = React.createClass({
         }, {
             path: '/print/zzdygl/glscry',
             component: Dyry
-        },{
+        }, {
             path: '/print/zzdygl/jgzyzzb',
             component: Dyzb
-        },{
+        }, {
             path: '/print/zzdygl/jgzyzfb',
             component: Dyfb
         }, {

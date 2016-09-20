@@ -21,7 +21,8 @@ const c = React.createClass({
     },
 
     refreshList(){
-        this.refs.list.refreshCurrent()
+        this.refs.list1.refreshCurrent();
+        this.refs.list2.refreshCurrent()
     },
 
     //抓取当前list分页状态
@@ -83,7 +84,8 @@ const c = React.createClass({
             //数据来源api
             apiUrl: config.HOST + config.URI_API_PROJECT + '/jgzzsd',
             //初始搜索条件
-            defaultWhere: {}
+            defaultWhere: {},
+            refreshList:this.refreshList
         };
         const jslistSetting = {
             //列表可滚动区间的宽度，一般使用getcolwidth计算即可
@@ -101,7 +103,8 @@ const c = React.createClass({
             //数据来源api
             apiUrl: config.HOST + config.URI_API_PROJECT + '/jgzzsdwx',
             //初始搜索条件
-            defaultWhere: {}
+            defaultWhere: {},
+            refreshList:this.refreshList
         };
 
         return <div className="zzgl jgzzgl">
@@ -115,8 +118,8 @@ const c = React.createClass({
                        onClose={this.helperClose}/>
                 <Panel>
                     <Tabs >
-                        <TabPane key="1" tab="当前有效锁定记录"> <Sdlist {...sdlistSetting} ref="list"/></TabPane>
-                        <TabPane key="2" tab="已解锁记录"><Jslist {...jslistSetting} ref="list"/></TabPane>
+                        <TabPane key="1" tab="当前有效锁定记录"> <Sdlist {...sdlistSetting} ref="list1"/></TabPane>
+                        <TabPane key="2" tab="已解锁记录"><Jslist {...jslistSetting} ref="list2"/></TabPane>
                     </Tabs>
 
                 </Panel>

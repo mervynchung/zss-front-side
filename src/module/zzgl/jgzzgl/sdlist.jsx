@@ -129,26 +129,28 @@ const list = React.createClass({
     //解锁
     unlock(){
         const token = auth.getToken();
-        const {apiUrl} = this.props;
-        let params =JSON.stringify({id:this.state.selectedRowKeys,lx:'unlock'}) ;
-        req({
-            url: apiUrl,
-            type: 'json',
-            method: 'put',
-            data: params,
-            contentType:'application/json',
-            headers: {'x-auth-token': token}
-        }).then(resp=>{
-            this.refreshCurrent();
-            this.setState({selectedRowKeys:[]})
-        }).fail(e=> {
-            this.setState({loading: false});
-            notification.error({
-                duration: 2,
-                message: '操作失败',
-                description: '目前网络无法访问，请稍后尝试'
-            });
-        })
+        const {apiUrl,refreshList} = this.props;
+        if (this.state.selectedRowKeys.length>0){
+            let params =JSON.stringify({id:this.state.selectedRowKeys,lx:'unlock'}) ;
+            req({
+                url: apiUrl,
+                type: 'json',
+                method: 'put',
+                data: params,
+                contentType:'application/json',
+                headers: {'x-auth-token': token}
+            }).then(resp=>{
+                refreshList();
+                this.setState({selectedRowKeys:[]})
+            }).fail(e=> {
+                this.setState({loading: false});
+                notification.error({
+                    duration: 2,
+                    message: '操作失败',
+                    description: '目前网络无法访问，请稍后尝试'
+                });
+            })
+        }
     },
     render(){
         const rowSelection = {
