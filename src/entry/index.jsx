@@ -10,7 +10,7 @@ import Dydj from 'module/useforprint/glsc_jgdj/dy.jsx';
 import Dyry from 'module/useforprint/glsc_ry/dy.jsx';
 import Dyzb from 'module/useforprint/glsc_zb/dy.jsx';
 import Dyfb from 'module/useforprint/glsc_fb/dy.jsx';
-import {cenHome, clientHome} from '../module/home';
+import {home} from '../module/home';
 import NotFound from 'module/404notfound'
 import auth from 'common/auth'
 
@@ -42,7 +42,7 @@ const Index = React.createClass({
         const routes = [{
             path: '/',
             component: App,
-            indexRoute: {component: auth.isClient() ? clientHome : cenHome},
+            indexRoute: {component: home},
             ignoreScrollBehavior: true,
             breadcrumbName: '首页',
             onEnter: this.requireAuth,
@@ -53,6 +53,7 @@ const Index = React.createClass({
 
                 /* 中心端 */
                 //机构管理
+
                 require('../module/jggl/swscx'),
                 require('../module/jggl/swsslsp'),
 
@@ -63,7 +64,7 @@ const Index = React.createClass({
                 require('../module/xtgnsz/mkgl'),
                 require('../module/xtgnsz/qxgl'),
                 require('../module/xtgnsz/yhgl'),
-
+/*
                 //资质管理
                 require('../module/zzgl/jgzzgl'), //事务所资质管理
                 require('../module/zzgl/zyswszzgl'), //执业注师资质管理
@@ -161,7 +162,7 @@ const Index = React.createClass({
                 require('../module/xtsjfx/xttjbb/zyswszctj'),//税务师转出统计
 
                 //数据统计分析 - 系统业务报表
-                require('../module/xtsjfx/xtywbb/ndjysrtj'), //年度经营收入统计 
+                require('../module/xtsjfx/xtywbb/ndjysrtj'), //年度经营收入统计
                 require('../module/xtsjfx/xtywbb/ndjzqktj'), //年度鉴证情况统计
 
                 //数据统计分析 - 数据分析
@@ -181,6 +182,7 @@ const Index = React.createClass({
                 //证照打印管理
                 require('../module/zzdygl/zyglscdy'),
 
+*/
 
                 //客户端
                 //机构管理
