@@ -153,7 +153,6 @@ const list = React.createClass({
             </ButtonGroup>
         </ToolBar>;
 
-        console.log('listkeys',this.state.keys);
         return <Panel title={title} toolbar={toolbar}>
 
                 {this.state.searchToggle && <SearchForm

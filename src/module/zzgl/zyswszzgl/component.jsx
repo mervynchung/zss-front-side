@@ -1,5 +1,5 @@
 import React from 'react'
-import {Table, Modal, Row, Col, Button, Icon, Alert,Tabs,Switch} from 'antd'
+import {Table, Modal, Row, Col, Button, Icon, Alert, Tabs, Switch} from 'antd'
 import Swslist from './swslist'
 import Sdjllist from './sdjllist'
 import DialogLock from './dialogLock'
@@ -18,13 +18,16 @@ const c = React.createClass({
         return {
             listState: {},
             keys: [],
-            dialogLock:false
+            dialogLock: false,
+            sdjlMount: false
         }
     },
 
     refreshList(){
         this.refs.list1.refreshCurrent();
-        this.refs.list2.refreshCurrent();
+        if (this.state.sdjlMount) {
+            this.refs.list2.refreshCurrent();
+        }
     },
 
 
@@ -38,13 +41,16 @@ const c = React.createClass({
     },
     //打开锁定操作对话框
     openLock(selectedRowKeys){
-        if(selectedRowKeys.length>0)
-            this.setState({dialogLock: true,keys:selectedRowKeys})
+        if (selectedRowKeys.length > 0)
+            this.setState({dialogLock: true, keys: selectedRowKeys})
     },
     //关闭锁定操作对话框
     closeLock(){
         this.refs.list1.resetSelect();
-        this.setState({dialogLock: false,keys:[]});
+        this.setState({dialogLock: false, keys: []});
+    },
+    handleSdjlListMount(){
+        this.setState({sdjlMount: true})
     },
 
     render(){
@@ -54,11 +60,11 @@ const c = React.createClass({
 
         /*设置资质锁定对话框的参数*/
         const dialogLockSetting = {
-            keys:this.state.keys,
-            visible:this.state.dialogLock,
-            refreshList:this.refreshList,
-            onClose:this.closeLock,
-            apiUrl:config.HOST + config.URI_API_PROJECT + '/swszzzt'
+            keys: this.state.keys,
+            visible: this.state.dialogLock,
+            refreshList: this.refreshList,
+            onClose: this.closeLock,
+            apiUrl: config.HOST + config.URI_API_PROJECT + '/swszzzt'
         };
         /*设置列表组件的参数 */
         const swsListSetting = {
@@ -78,7 +84,7 @@ const c = React.createClass({
             apiUrl: config.HOST + config.URI_API_PROJECT + '/swszzzt',
             //初始搜索条件
             defaultWhere: {},
-            openLock:this.openLock
+            openLock: this.openLock
         };
         const sdjlListSetting = {
             //列表可滚动区间的宽度，一般使用getcolwidth计算即可
@@ -97,9 +103,9 @@ const c = React.createClass({
             apiUrl: config.HOST + config.URI_API_PROJECT + '/swszzsdjl',
             //初始搜索条件
             defaultWhere: {},
-            refreshList:this.refreshList,
+            refreshList: this.refreshList,
+            onMount: this.handleSdjlListMount
         };
-        console.log('compkeys',this.state.keys);
 
         return <div className="zzgl zyswszzgl">
             <div className="wrap">
@@ -107,9 +113,9 @@ const c = React.createClass({
                 <Alert message="执业税务师资质管理使用帮助"
                        description={<div><p>本功能分为执业税务师列表和被锁定税务师名单两部分。</p>
                            <p>在税务师列表里可以搜索相应的税务师进行锁定操作，已被锁定的人员不能重复锁定。</p>
-                       <p>在被锁定名单里可以进行解锁操作。</p></div>}
+                           <p>在被锁定名单里可以进行解锁操作。</p></div>}
                        type="info"
-                       closable />
+                       closable/>
                 <DialogLock {...dialogLockSetting} />
                 <Panel>
                     <Tabs >
