@@ -421,7 +421,7 @@ let lrb = React.createClass({
               </Button><span className="ant-divider"></span>
               <Button type="ghost" onClick={this.showModal} >新增缴费</Button>
               <span className="ant-divider"></span>
-              <Button type="ghost"  ><Upload {...props}><Icon type="upload" />批量缴费</Upload></Button>
+              <Upload {...props}><Button type="ghost"  ><Icon type="upload" />批量缴费</Button></Upload>
               <span className="ant-divider"></span>
               <Link to="hyhf/scgl?fzy"><Button type="ghost"  >上传管理</Button></Link>
             </div>

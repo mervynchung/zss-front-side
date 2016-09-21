@@ -69,7 +69,7 @@ const Index = React.createClass({
                 require('../module/zzgl/zyswszzgl'), //执业注师资质管理
 
                 //业务管理
-                require('../module/ywgl/ywbbgl'),
+/*                require('../module/ywgl/ywbbgl'),
                 require('../module/ywgl/ywbbthsp'), //业务报备退回审批
                 require('../module/ywgl/ywbbcxsp'), //业务报备退回审批
                 require('../module/ywgl/ywbbqysp'), //业务报备退回审批
@@ -85,7 +85,7 @@ const Index = React.createClass({
                 require('../module/cwbb/zcmxb'),
                 require('../module/cwbb/lrb'),
                 require('../module/cwbb/zcfzb'),
-                require('../module/cwbb/wsbbb'),
+                */require('../module/cwbb/wsbbb'),/*
 
                 //手动上报报表
                 require('../module/sdsbbb/jzywtjb'),
@@ -93,7 +93,7 @@ const Index = React.createClass({
                 require('../module/sdsbbb/swsjbqkb'),
                 require('../module/sdsbbb/hyryqktj'),
                 require('../module/sdsbbb/jysrqktj'),
-                require('../module/sdsbbb/wsbbbcx'),
+               */ require('../module/sdsbbb/wsbbbcx'),/*
 
                 //历史记录查询
                 require('../module/lsjlcx/swslsjl/bglsjl'),
@@ -172,11 +172,11 @@ const Index = React.createClass({
                 require('../module/xtsjfx/sjfx/ryztsjfx'),
                 require('../module/xtsjfx/sjfx/zyzshsjfx'),
 
-                //会员会费缴纳
+               */ //会员会费缴纳
                 require('../module/hyhf_new/hyhfjnqk'),
                 require('../module/hyhf_new/fpdy'),
                 require('../module/hyhf_new/fzyhyhf'),
-                require('../module/hyhf_new/scgl'),
+                require('../module/hyhf_new/scgl'),/*
 
                 //证照打印管理
                 require('../module/zzdygl/zyglscdy'),
@@ -208,7 +208,7 @@ const Index = React.createClass({
 
                 //业务管理
                 require('../module/client/ywgl/khxxgl'), //客户信息管理
-                require('../module/client/ywgl/ywbb'), //事务所业务报备
+                require('../module/client/ywgl/ywbb'), //事务所业务报备*/
 
 
                 //公用功能

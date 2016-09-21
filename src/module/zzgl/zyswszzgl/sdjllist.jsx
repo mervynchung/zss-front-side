@@ -105,11 +105,15 @@ const list = React.createClass({
 
     //组件加载时读取数据
     componentDidMount(){
+        this.props.onMount();
         if(isEmptyObject(this.props.stateShot)){
             this.fetchData();
         }else{
             this.setState({...this.props.stateShot})
         }
+    },
+    componentWillUnmount(){
+
     },
     //行点击处理
     handleRowClick(record){

@@ -311,7 +311,7 @@ const jgcx = React.createClass({
               { this.state.searchToggle ? <Icon className="toggle-tip" type="arrow-up"/> :
                 <Icon className="toggle-tip" type="arrow-down"/>}
             </Button><span className="ant-divider"></span>
-            <Button type="ghost"  ><Upload {...props}><Icon type="upload" />上传数据</Upload></Button>
+            <Upload {...props}><Button type="ghost"  ><Icon type="upload" />上传数据</Button></Upload>
             <span className="ant-divider"></span>
             <Link to="hyhf/scgl?zy"><Button type="ghost"  >上传管理</Button></Link>
             <span className="ant-divider"></span>
