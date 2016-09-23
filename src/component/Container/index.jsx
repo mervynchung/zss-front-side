@@ -8,7 +8,8 @@ import './style.css'
 const c = React.createClass({
 
     render(){
-        return <div className="comp-container">
+        let className = this.props.className + " comp-container";
+        return <div className={className}>
             {this.props.children}
         </div>
     }

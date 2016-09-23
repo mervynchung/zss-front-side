@@ -1,14 +1,16 @@
 import React from 'react'
 import {Row,Col} from 'antd'
 import auth from 'common/auth'
+import Client from './client'
+import Center from './center'
 
 const c  =  React.createClass({
     render(){
         let out ;
         if(auth.isClient()){
-            out = '客户端主页'
+            out = <Client/>
         }else{
-            out = '中心端主页'
+            out = <Center/>
         }
         return <div>{out}</div>;
     }

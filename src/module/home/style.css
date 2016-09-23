@@ -1,0 +1,6 @@
+.client-home .tabs-for-title .ant-tabs-ink-bar{
+    height:0;
+}
+.client-home .tabs-for-title .ant-tabs-nav .ant-tabs-tab-active .ant-tabs-tab-inner{
+    color:#666;
+}
