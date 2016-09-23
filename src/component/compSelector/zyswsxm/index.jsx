@@ -8,7 +8,7 @@ import req from 'reqwest'
 import auth from 'common/auth'
 
 const Option = Select.Option;
-const API_URL = config.HOST + config.URI_API_PROJECT + '/add/zyswsnj';
+const API_URL = config.HOST + config.URI_API_PROJECT + '/add/zyswsxm';
 
 const selectorXm = React.createClass({
     getInitialState() { //初始化State状态，使用传入参数
@@ -22,7 +22,7 @@ const selectorXm = React.createClass({
         };
     },
 
-    fetch_xm(params = { page: 1, pageSize: this.state.pagination.pageSize }) {
+    fetch_xm(params = { page: 1, pageSize: 1000 }) {
         req({
             url: API_URL,//默认数据查询后台返回JSON
             method: 'get',
@@ -49,14 +49,14 @@ const selectorXm = React.createClass({
 
     getJgOptions() {
         const data = this.state.data;
-        console.log(data);
-        const options = data.map(item => <Option key={item.id} value={item.id}>{item.XMING}</Option>);
-        
+        const options = data.map(item => <Option key={item.SWS_ID} value={item.SWS_ID}>{item.XMING}</Option>);
         return options;
     },
 
     handleChange(value){
         this.props.onChange(value);//此value即getJgOptions()里面的value（即item.id）
+        
+        alert(value);
     },
 
     render() {

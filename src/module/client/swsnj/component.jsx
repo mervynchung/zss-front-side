@@ -134,7 +134,7 @@ const swsnjb = React.createClass({
     //点击保存
     handleSubmit(value) {
         let vv = value;
-        vv.ztbj = '0'
+        vv.ztbj = '1'
         this.fetchHandle(vv);
         this.handleAdd();
     },
@@ -142,7 +142,7 @@ const swsnjb = React.createClass({
     //点击编辑提交
     handleOk1(e) {
         let vv = e;
-        vv.ztbj = '1'
+        vv.ztbj = '2'
         this.fetchHandle1(vv);
         this.handleUpdate();
 

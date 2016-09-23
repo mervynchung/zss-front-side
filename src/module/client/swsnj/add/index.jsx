@@ -98,6 +98,12 @@ let Addswsnj = React.createClass({
             visible: false
         });
     },
+handleNdChange(value){
+
+console.log(value);
+
+},
+
 
     render() {
 
@@ -111,11 +117,11 @@ let Addswsnj = React.createClass({
         //应教育人数校验
         const yjyrsProps = getFieldProps('yjyrs', {
             rules: [
-                { required: true,  message: '应教育人数不能为空' },
+                { required: true, message: '应教育人数不能为空' },
             ],
         });
         //实际教育人数校验
-        const sjjyrsProps  = getFieldProps('sjjyrs', {
+        const sjjyrsProps = getFieldProps('sjjyrs', {
             rules: [
                 { required: true, message: '实际教育人数不能为空' },
             ],
@@ -150,13 +156,6 @@ let Addswsnj = React.createClass({
                 { required: true, whitespace: true, message: '未教育人数不能为空' },
             ],
         });
-       //分所数校验
-        const fssProps = getFieldProps('FSS', {
-            rules: [
-                { required: true, whitespace: true, message: '分所数不能为空' },
-            ],
-        });
-
 
         //事务所负责人意见修改校验
         const fzryjProps = getFieldProps('NJZJ', {
@@ -164,8 +163,8 @@ let Addswsnj = React.createClass({
                 { required: true, whitespace: true, message: '负责人意见不能为空' },
             ],
         });
-        
-         //签证时间校验
+
+        //签证时间校验
         const sjProps = getFieldProps('qzrq', {
             rules: [
                 { required: true, whitespace: true, message: '处理时间不能为空' },
@@ -180,7 +179,7 @@ let Addswsnj = React.createClass({
 
 
 
-       const obj=this.props.data[0];
+        const obj = this.props.data[0];
 
 
         // let obj = {};
@@ -198,18 +197,18 @@ let Addswsnj = React.createClass({
                     <Col span="8">
                         <FormItem labelCol={{ span: 9 }} wrapperCol={{ span: 13 }}
                             label="年度">
-                    
-                            <Input  {...getFieldProps('nd') }/>
+
+                            <SelectorYear {...getFieldProps('nd',{initialValue:obj.nd}) }onChange={this.handleNdChange}/>
                         </FormItem>
                     </Col>
                     <Col span="8">
                         <FormItem labelCol={{ span: 9 }} wrapperCol={{ span: 13 }} label="事务所名称">
-                            <Input {...getFieldProps('dwmc',{ initialValue: obj.dwmc }) }disabled/>
+                            <Input {...getFieldProps('dwmc', { initialValue: obj.dwmc }) }disabled/>
                         </FormItem>
                     </Col>
                     <Col span="8">
                         <FormItem labelCol={{ span: 9 }} wrapperCol={{ span: 13 }} label="机构注册号码：">
-                            <Input {...getFieldProps('jgzchm',{initialValue:obj.zsbh}) }disabled/>
+                            <Input {...getFieldProps('jgzchm', { initialValue: obj.zsbh }) }disabled/>
                         </FormItem>
                     </Col>
 
@@ -223,18 +222,18 @@ let Addswsnj = React.createClass({
 
                     <Col span="8">
                         <FormItem labelCol={{ span: 9 }} wrapperCol={{ span: 13 }} label="所长姓名：">
-                            <Input {...getFieldProps('sz',{initialValue:obj.SZ}) }disabled/>
+                            <Input {...getFieldProps('sz', { initialValue: obj.SZ }) }disabled/>
                         </FormItem>
 
                     </Col>
                     <Col span="8">
                         <FormItem labelCol={{ span: 9 }} wrapperCol={{ span: 13 }} label="注册资金：">
-                            <Input {...getFieldProps('zczj',{initialValue:obj.ZCZJ}) }disabled/>
+                            <Input {...getFieldProps('zczj', { initialValue: obj.ZCZJ }) }disabled/>
                         </FormItem>
                     </Col>
                     <Col span="8">
                         <FormItem labelCol={{ span: 9 }} wrapperCol={{ span: 13 }} label="联系电话：">
-                            <Input {...getFieldProps('dhhm',{initialValue:obj.dhhm}) }disabled/>
+                            <Input {...getFieldProps('dhhm', { initialValue: obj.dhhm }) }disabled/>
                         </FormItem>
 
                     </Col>
@@ -244,18 +243,18 @@ let Addswsnj = React.createClass({
                 <Row>
                     <Col span="8">
                         <FormItem labelCol={{ span: 9 }} wrapperCol={{ span: 13 }} label="办公地点">
-                            <Input {...getFieldProps('bgdz',{initialValue:obj.bgdz}) }disabled/>
+                            <Input {...getFieldProps('bgdz', { initialValue: obj.bgdz }) }disabled/>
                         </FormItem>
                     </Col>
                     <Col span="8">
                         <FormItem labelCol={{ span: 9 }} wrapperCol={{ span: 13 }} label="邮编">
-                            <Input {...getFieldProps('yzbm',{initialValue:obj.yzbm}) }disabled/>
+                            <Input {...getFieldProps('yzbm', { initialValue: obj.yzbm }) }disabled/>
                         </FormItem>
 
                     </Col>
                     <Col span="8">
                         <FormItem labelCol={{ span: 9 }} wrapperCol={{ span: 13 }} label="组织形式：">
-                            <Input {...getFieldProps('jgxz',{initialValue:obj.jgxz}) }disabled/>
+                            <Input {...getFieldProps('jgxz', { initialValue: obj.jgxz }) }disabled/>
                         </FormItem>
                     </Col>
                 </Row>
@@ -264,27 +263,27 @@ let Addswsnj = React.createClass({
 
                     <Col span="8">
                         <FormItem labelCol={{ span: 9 }} wrapperCol={{ span: 13 }} label="机构正式成立时间：">
-                            <Input {...getFieldProps('clsj',{initialValue:obj.clsj}) }disabled/>
+                            <Input {...getFieldProps('clsj', { initialValue: obj.clsj }) }disabled/>
                         </FormItem>
 
                     </Col>
                     <Col span="8">
-                     <FormItem  labelCol={{ span: 9 }} wrapperCol={{ span: 13 }} label="本年度报备份数：" ><Input {...getFieldProps('BAFS',{initialValue:obj.BAFS}) }disabled/></FormItem>
-                        
+                        <FormItem  labelCol={{ span: 9 }} wrapperCol={{ span: 13 }} label="本年度报备份数：" ><Input {...getFieldProps('BAFS', { initialValue: obj.BAFS }) }disabled/></FormItem>
+
                     </Col>
                     <Col span="8">
                         <FormItem labelCol={{ span: 9 }} wrapperCol={{ span: 13 }} label="执业注册税务师人数：">
-                            <Input {...getFieldProps('zyrs') }/>
+                            <Input {...getFieldProps('zyrs', { initialValue: obj.dqzyrs }) } disabled/>
                         </FormItem>
                     </Col>
                 </Row>
                 <Row>
                     <Col span="8">
-                       <FormItem labelCol={{ span: 9 }} wrapperCol={{ span: 13 }} label="总人数：">  <Input {...getFieldProps('zrs') }/>
+                        <FormItem labelCol={{ span: 9 }} wrapperCol={{ span: 13 }} label="总人数：">  <Input {...getFieldProps('zrs',{initialValue:obj.dqzrs}) } disabled/>
                         </FormItem>
                     </Col>
                     <Col span="8">
-                        <FormItem labelCol={{ span: 9 }} wrapperCol={{ span: 13 }} label="分所数："><Input {...fssProps }/></FormItem>
+                        <FormItem labelCol={{ span: 9 }} wrapperCol={{ span: 13 }} label="分所数："><Input {...getFieldProps('FSS', {initialValue:obj.dqfss})} disabled/></FormItem>
                     </Col>
 
                 </Row>
@@ -552,8 +551,8 @@ let Addswsnj = React.createClass({
 
 
                     <Row>
-                        <Col> 
-                        <FormItem></FormItem>
+                        <Col>
+                            <FormItem></FormItem>
                         </Col>
                     </Row>
 
@@ -572,7 +571,7 @@ let Addswsnj = React.createClass({
                     <Row>
                         <Col span="16">
 
-                            <FormItem labelCol={{ span: 4}} wrapperCol={{ span: 20}} label="事务所负责人意见:" ><Input {...fzryjProps } type="textarea"/></FormItem>
+                            <FormItem labelCol={{ span: 4 }} wrapperCol={{ span: 20 }} label="事务所负责人意见:" ><Input {...fzryjProps } type="textarea"/></FormItem>
 
 
 
@@ -585,7 +584,7 @@ let Addswsnj = React.createClass({
 
                         </Col>
                         <Col span="5">
-                            <FormItem labelCol={{ span: 8 }} wrapperCol={{ span: 16 }} label="负责人签名:" >
+                            <FormItem labelCol={{ span: 10 }} wrapperCol={{ span: 14 }} label="负责人签名:" >
                                 <Input {...qmProps }></Input>
                             </FormItem>
                         </Col>

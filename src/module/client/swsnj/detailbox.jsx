@@ -5,21 +5,25 @@ const detailBox = React.createClass({
 
     render(){
         const obj = this.props.data;
-        var arr1 =[];
-        arr1 = obj.ZJWGDM.split(',');
         var obj2={};
+        var obj3={};
+        var arr1 =[];
+        var arr2 =[];
+
+        if(obj.ZJWGDM){
+        arr1 = obj.ZJWGDM.split(',');
         for (var i=0;i<arr1.length;i++){
             obj2[arr1[i]]=true;
         } 
-        var arr2 =[];
+        }
         
-       
+        if(obj.NJWGDM){
         arr2 = obj.NJWGDM.split(',');
-        var obj3={};
         for (var i=0;i<arr2.length;i++){
             obj3[arr2[i]]=true;
         }
-
+        }
+        
         return <div className="fix-table table-bordered table-striped">
 
 

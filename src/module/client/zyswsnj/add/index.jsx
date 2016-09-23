@@ -6,21 +6,22 @@ import {Col, Input, Row, Button, Icon, Form, Modal, Checkbox } from 'antd'
 import {SelectorYear, SelectorXZ, SelectorXm} from 'component/compSelector'
 import './style.css'
 
-const API_URL = config.HOST + config.URI_API_PROJECT + '/add/zyswsnj';
+const API_URL1 = config.HOST + config.URI_API_PROJECT + '/add/zyswsnj1';
+const API_URL2 = config.HOST + config.URI_API_PROJECT + '/add/zyswsnj2';
 const ButtonGroup = Button.Group;
 const createForm = Form.create;
 const FormItem = Form.Item;
 let Addswsnj = React.createClass({
     getDefaultProps() {
         return {
-            onSubmit: {}
+            onSubmit: {},
         }
     },
     handleSubmit(e) {
         e.preventDefault();
         var mp = {};
         let value = this.props.form.getFieldsValue()
-        let arr=[]
+        let arr = []
         for (var key in value) {
             if (!value[key]) {
                 value[key] = null;
@@ -39,8 +40,7 @@ let Addswsnj = React.createClass({
             value['wg'] = null;
         } else {
             value['wg'] = wg;
-        }
-        // console.log('收到表单值：', value);
+        } 
         this.props.onSubmit(value);
     },
 
@@ -50,8 +50,10 @@ let Addswsnj = React.createClass({
     },
     //Modal
     getInitialState() {
-        return { visible: false,
-            swsdata:{}
+        return {
+            visible: false,
+            swsdata: {},
+            bndbafs:0
         };
     },
     showModal(e) {
@@ -77,9 +79,7 @@ let Addswsnj = React.createClass({
             value['wg'] = null;
         } else {
             value['wg'] = wg;
-        }
-        console.log(wg);
-        console.log(value);
+        } 
         this.setState({
             visible: true,
             okValue: value,
@@ -91,8 +91,7 @@ let Addswsnj = React.createClass({
 
 
 
-    handleOk(e) {
-        // console.log('点击了确定',this.state.okValue);
+    handleOk(e) { 
         this.props.handleOk(this.state.okValue)
         this.setState({
             visible: false
@@ -106,16 +105,16 @@ let Addswsnj = React.createClass({
     },
     //处理姓名下拉框改变事件
     handleXmChange(value) {
-     //   alert(value);//此value即id
-     this.props.form.setFieldsValue({sws_id:value});
-       req({
-            url: API_URL + '/' + value,
+        this.props.form.setFieldsValue({ sws_id: value });
+        let nd=this.props.form.getFieldValue("ND");
+        req({
+            url: API_URL1 + '/' + value,
             type: 'json',
             method: 'get',
             headers: { 'x-auth-token': auth.getToken() },
             contentType: 'application/json'
         }).then(resp => {
-            this.setState({swsdata:resp });
+            this.setState({ swsdata: resp });
         }).fail(err => {
             Modal.error({
                 title: '数据获取错误',
@@ -126,10 +125,46 @@ let Addswsnj = React.createClass({
                     </div>)
             });
         })
-    
-        
+
+        this.fetchdata3({nd:nd,sws_id:value});
+
     },
-   
+//年度下拉框数据显示
+    handleNdChange(value){
+    this.props.form.setFieldsValue({ ND: value });
+    let sws_id=this.props.form.getFieldValue("sws_id"); 
+    this.fetchdata3({nd:value,sws_id:sws_id});
+    },
+
+
+    fetchdata3(params){
+      req({
+            url: API_URL2,
+            type: 'json',
+            method: 'get',
+            data: params,
+            headers: { 'x-auth-token': auth.getToken() },
+            contentType: 'application/json',
+        }).then(resp => {  
+            this.setState({
+                bndbafs: resp.bndbafs
+            })
+        }).fail(err => {
+            this.setState({ loading: false });
+            Modal.error({
+                title: '数据获取错误',
+                content: (
+                    <div>
+                        <p>无法从服务器返回数据，需检查应用服务工作情况</p>
+                        <p>Status: {err.status}</p>
+                    </div>)
+            });
+        })
+    
+
+
+    },
+
 
     render() {
 
@@ -138,20 +173,21 @@ let Addswsnj = React.createClass({
         if (this.props.data.length != 0) {
             obj = this.props.data;
         };
-        const obj1=this.state.swsdata; 
+        const obj1 = this.state.swsdata;
         return <div>
             <div className="fix-table table-bordered table-striped" >
                 <Form horizontal onSubmit={this.handleSubmit}>
                     <div className="fix-table table-bordered table-striped">
-                        
+
                         <table>
                             <tbody>
                                 <tr>
                                     <td>姓名：</td>
-                                    <td><SelectorXm {...getFieldProps('sws_id')} style={{ width: '100px' }} onChange={this.handleXmChange}/></td>
-                                    <td>性别:{obj1.xb}</td>
-                                    <td>年度： <Input {...getFieldProps('ND')}/></td>
-                                    <td rowSpan="6">照片</td>
+                                    <td><SelectorXm {...getFieldProps('sws_id') } style={{ width: '100px' }} onChange={this.handleXmChange}/></td>
+                                    <td>性别: {obj1.xb}</td>
+                                    <td>年度： <SelectorYear {...getFieldProps('ND') } style={{ width: "30%" }} onChange={this.handleNdChange}/>
+                                    </td>
+                                    <td rowSpan="6"><img src={obj1.XPIAN}/></td>
                                 </tr>
                                 <tr>
                                     <td>出生年月：</td>
@@ -163,7 +199,7 @@ let Addswsnj = React.createClass({
                                     <td>身份证号：</td>
                                     <td>{obj1.SFZH}</td>
                                     <td>所在单位：</td>
-                                    <td>{obj1.dwmc}</td>
+                                    <td>{obj1.DWMC}</td>
 
                                 </tr>
                                 <tr>
@@ -174,15 +210,15 @@ let Addswsnj = React.createClass({
                                 </tr>
                                 <tr>
                                     <td>执业注册日期：</td>
-                                    <td></td>
+                                    <td>{obj1.ZYZCRQ}</td>
                                     <td>出资比率：</td>
-                                    <td>{obj1.CZBL}%</td>
+                                    <td><label {...getFieldProps('czbl',{initialValue:obj1.czbl}) }>{obj1.czbl}%</label></td>
                                 </tr>
                                 <tr>
                                     <td>资格证书编号：</td>
                                     <td>{obj1.ZYZGZSBH}</td>
                                     <td>本年度报备份数：</td>
-                                    <td>{obj1.BAFS}</td>
+                                    <td><label {...getFieldProps('bndbafs',{initialValue:this.state.bndbafs}) }>{this.state.bndbafs}</label></td>
                                 </tr>
 
 

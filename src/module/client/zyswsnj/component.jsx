@@ -129,6 +129,7 @@ const zyswsnj = React.createClass({
 
     //点击保存
     handleSubmit(value) {
+        console.log(value);
         let vv = value;
         vv.ztbj = '0'
         this.fetchHandle(vv);
