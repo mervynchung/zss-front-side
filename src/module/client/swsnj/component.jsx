@@ -1,5 +1,5 @@
 import React from 'react'
-import {Table, Modal, Row, Col, Button, Icon, Alert} from 'antd'
+import {Table, Modal, Row, Col, Button, Icon, Alert,message} from 'antd'
 import Panel from 'component/compPanel'
 import {handleRowButton, columns, entityModel} from './model'
 import req from 'reqwest';
@@ -292,10 +292,9 @@ const swsnjb = React.createClass({
             that.fetchData2(record)
             that.setState({ update: true })
         }
-        if (record.ZTBJ == "提交") {
+        if (record.ZTDM == "0"||record.ZTDM == "1") {
             return (<span>
-                <Button disabled size="small" onClick={ddd} >
-
+                <Button size="small" onClick={ddd} >
                     <Icon type="edit" />编辑
                 </Button>
                 <Button size="small" onClick={look} >
@@ -305,8 +304,7 @@ const swsnjb = React.createClass({
             )
         } else {
             return (<span>
-                <Button   size="small" onClick={ddd} >
-
+                <Button disabled size="small" onClick={ddd} >
                     <Icon type="edit" />编辑
                 </Button>
                 <Button size="small" onClick={look} >

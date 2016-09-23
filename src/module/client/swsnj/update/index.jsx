@@ -50,7 +50,7 @@ let Updatejgnjb = React.createClass({
     },
     //Modal
     getInitialState() {
-        return { visible: false };
+        return { visible: false,entity:this.props.data,bndbafs:this.props.data.BAFS};
     },
     showModal(e) {
         e.preventDefault();
@@ -89,7 +89,7 @@ let Updatejgnjb = React.createClass({
     render() {
 
         const { getFieldProps } = this.props.form;
-        const data = this.props.data;
+        const data = this.state.entity;
         return <div className="add">
             <div className="fix-table table-bordered table-striped" >
                 <Form horizontal onSubmit={this.handleSubmit}>
@@ -132,7 +132,7 @@ let Updatejgnjb = React.createClass({
                                 <td>{data.bgdz}</td>
                                 <td>联系电话</td>
                                 <td>{data.dhhm}</td>
-                                <td>本年度报备份数：{data.BAFS}份</td>
+                                <td>本年度报备份数：<label {...getFieldProps('BAFS',{initialValue:this.state.bndbafs}) }>{this.state.bndbafs}</label>份</td>
 
                             </tr>
                             <tr>

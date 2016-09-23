@@ -1,10 +1,14 @@
 import React from 'react'
-import {Col, Input, Row, Button, Icon, Form, Modal, Checkbox } from 'antd'
-import {SelectorYear, SelectorXZ} from 'component/compSelector'
+import req from 'reqwest'
+import config from 'common/configuration'
+import auth from 'common/auth'
+import {Col, Input, Row, Button, Icon, Form, Modal, Checkbox ,DatePicker,InputNumber} from 'antd'
+import {SelectorYear, SelectorXZ, SelectorXm} from 'component/compSelector'
 import './style.css'
 
 
-
+const API_URL3 = config.HOST + config.URI_API_PROJECT + '/add/swsnj2';
+const CheckNd_URL = config.HOST + config.URI_API_PROJECT + '/add/swsnj3';
 const ButtonGroup = Button.Group;
 const createForm = Form.create;
 const FormItem = Form.Item;
@@ -18,13 +22,11 @@ let Addswsnj = React.createClass({
         e.preventDefault();
         var mp = {};
         let value = this.props.form.getFieldsValue()
-        let arr = [];
-
+        let arr = []; 
+        var date = new Date(value['qzrq']);
+        value['qzrq']=date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate(); 
+        console.log(value);
         for (var key in value) {
-
-            if (!value[key]) {
-                value[key] = null;
-            }
             if (key.indexOf('wg') != -1) {
                 if (value[key]) {
                     let length = key.length - 2;
@@ -42,8 +44,15 @@ let Addswsnj = React.createClass({
             value['wg'] = wg;
         }
         console.log(value);
-        // console.log('收到表单值：', value);
-        this.props.onSubmit(value);
+        //验证表单，若通过就保存
+        this.props.form.validateFields((errors, values) => {
+      if (!!errors) {  
+        return;
+      }else{
+          this.props.onSubmit(value);
+      }
+    });
+        
     },
 
     handleReset(e) {
@@ -52,17 +61,16 @@ let Addswsnj = React.createClass({
     },
     //Modal
     getInitialState() {
-        return { visible: false };
+        return { visible: false, nd1: new Date().getFullYear() };
     },
     showModal(e) {
         e.preventDefault();
         var mp = {};
-        let value = this.props.form.getFieldsValue()
+        let value = this.props.form.getFieldsValue();
+        var date = new Date(value['qzrq']);
+        value['qzrq']=date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate();
         let arr = [];
         for (var key in value) {
-            if (!value[key]) {
-                value[key] = null;
-            }
             if (key.indexOf('wg') != -1) {
                 if (value[key]) {
                     let length = key.length - 2;
@@ -80,10 +88,20 @@ let Addswsnj = React.createClass({
         } else {
             value['wg'] = wg;
         }
-        this.setState({
+
+      //验证表单，若通过就打开确定提交对话框
+        this.props.form.validateFields((errors, values) => {
+      if (!!errors) {  
+        return;
+      }else{
+          this.setState({
             visible: true,
             okValue: value,
         });
+      }
+    });
+
+       
     },
     handleOk(e) {
         // console.log('点击了确定',this.state.okValue);
@@ -98,11 +116,109 @@ let Addswsnj = React.createClass({
             visible: false
         });
     },
-handleNdChange(value){
+    //年检年度是否重复校验方法
+    checkNdIfExit(rule, value, callback) {
+        const rs=true;
+        const params = { where: encodeURIComponent(JSON.stringify({ nd: value })), }
+        req({
+            url: CheckNd_URL,
+            type: 'json',
+            method: 'get',
+            data: params,
+            headers: { 'x-auth-token': auth.getToken() },
+            contentType: 'application/json',
+        }).then(resp => {
+            if(value==resp.data){
+                callback('同一年度不能做两次年检，请选择其他年度');
+            }else{
+                callback();
+            }
+        }).fail(err => {
+            this.setState({ loading: false });
+            Modal.error({
+                title: '数据获取错误',
+                content: (
+                    <div>
+                        <p>无法从服务器返回数据，需检查应用服务工作情况</p>
+                        <p>Status: {err.status}</p>
+                    </div>)
+            });
+        })
+    },
+    //时间范围校验
+    checkBirthday(rule, value, callback) {
+       
 
-console.log(value);
+    if (value && value.getTime() >= Date.now()) {
+      callback(new Error('请不要选择一个未来的时间！'));
+    } else {
+      callback();
+    }
+  },
 
-},
+
+
+
+    //年度下拉框数据显示
+    handleNdChange(value) {
+        alert(value);
+        this.props.form.setFieldsValue({ nd: value });
+        this.props.form.validateFields(['nd'], { force: true });
+        const params = { where: encodeURIComponent(JSON.stringify({ nd: value })), }
+        req({
+            url: API_URL3,
+            type: 'json',
+            method: 'get',
+            data: params,
+            headers: { 'x-auth-token': auth.getToken() },
+            contentType: 'application/json',
+        }).then(resp => {
+            this.setState({
+                bndbafs: resp.data
+            })
+        }).fail(err => {
+            this.setState({ loading: false });
+            Modal.error({
+                title: '数据获取错误',
+                content: (
+                    <div>
+                        <p>无法从服务器返回数据，需检查应用服务工作情况</p>
+                        <p>Status: {err.status}</p>
+                    </div>)
+            });
+        })
+
+
+
+    },
+    componentDidMount() {
+        const nd = new Date().getFullYear() - 1;
+        const params = { where: encodeURIComponent(JSON.stringify({ nd: nd })), }
+        req({
+            url: API_URL3,
+            type: 'json',
+            method: 'get',
+            data: params,
+            headers: { 'x-auth-token': auth.getToken() },
+            contentType: 'application/json',
+        }).then(resp => {
+            this.setState({
+                bndbafs: resp.data
+            })
+        }).fail(err => {
+            this.setState({ loading: false });
+            Modal.error({
+                title: '数据获取错误',
+                content: (
+                    <div>
+                        <p>无法从服务器返回数据，需检查应用服务工作情况</p>
+                        <p>Status: {err.status}</p>
+                    </div>)
+            });
+        })
+    },
+
+
 
 
     render() {
@@ -111,82 +227,77 @@ console.log(value);
         //年检总结意见校验
         const textareaProps = getFieldProps('ZJ', {
             rules: [
-                { required: true, message: '年检总结不能为空' },
+                { required: true,type:'string', message: '请填写年检总结' },
             ],
         });
         //应教育人数校验
-        const yjyrsProps = getFieldProps('yjyrs', {
+        const yjyrsProps = getFieldProps('yjyrs', {initialValue: 0,
             rules: [
-                { required: true, message: '应教育人数不能为空' },
+                { required: true,type:'integer', message: '请填写应教育人数' },
             ],
         });
         //实际教育人数校验
-        const sjjyrsProps = getFieldProps('sjjyrs', {
+        const sjjyrsProps = getFieldProps('sjjyrs', {initialValue:0,
             rules: [
-                { required: true, message: '实际教育人数不能为空' },
+                { required: true,type:'integer', message: '请填写实际教育人数' },
             ],
         });
         //未教育人数校验
-        const wjyrsProps = getFieldProps('wjyrs', {
+        const wjyrsProps = getFieldProps('wjyrs', {initialValue:0,
             rules: [
-                { required: true, message: '未教育人数不能为空' },
+                { required: true,type:'integer', message: '请填写未教育人数' },
             ],
         });
         //注册税务师变动情况增加校验
-        const zcswsbzjProps = getFieldProps('ZCSWSBZJ', {
+        const zcswsbzjProps = getFieldProps('ZCSWSBZJ', {initialValue:0,
             rules: [
-                { required: true, whitespace: true, message: '增加情况不能为空' },
+                { required: true, type:'integer', message: '请填写注册增加人数' },
             ],
         });
         //注册税务师变动情况减少校验
-        const zcswsbjsProps = getFieldProps('ZCSWSBJS', {
+        const zcswsbjsProps = getFieldProps('ZCSWSBJS', {initialValue:0,
             rules: [
-                { required: true, whitespace: true, message: '减少情况不能为空' },
+                { required: true,type:'integer', whitespace: true, message: '请填写注册税务师减少人数' },
             ],
         });
         //股东变动情况增加校验
-        const gdbdqkzjProps = getFieldProps('GDBDQKZJ', {
+        const gdbdqkzjProps = getFieldProps('GDBDQKZJ', {initialValue:0,
             rules: [
-                { required: true, whitespace: true, message: '未教育人数不能为空' },
+                { required: true, type:'integer',whitespace: true, message: '请填写股东增加人数' },
             ],
         });
         //股东变动情况减少校验
-        const gdbdqkjsProps = getFieldProps('GDBDQKJS', {
+        const gdbdqkjsProps = getFieldProps('GDBDQKJS', {initialValue:0,
             rules: [
-                { required: true, whitespace: true, message: '未教育人数不能为空' },
+                { required: true,type:'integer', whitespace: true, message: '请填写股东减少人数' },
             ],
         });
 
         //事务所负责人意见修改校验
         const fzryjProps = getFieldProps('NJZJ', {
             rules: [
-                { required: true, whitespace: true, message: '负责人意见不能为空' },
+                { required: true,type:'string', whitespace: true, message: '请填写负责人意见' },
             ],
         });
 
         //签证时间校验
         const sjProps = getFieldProps('qzrq', {
             rules: [
-                { required: true, whitespace: true, message: '处理时间不能为空' },
+                { required: true, type: 'date',whitespace: true,message: '请选择一个时间'},
+                {validator: this.checkBirthday},
             ],
         });
         //负责人签名验证
         const qmProps = getFieldProps('FZR', {
             rules: [
-                { required: true, whitespace: true, message: '负责人签名不能为空' },
+                { required: true,type:'string', whitespace: true, message: '负责人签名不能为空' },
             ],
         });
 
+const obj = this.props.data[0];
 
 
-        const obj = this.props.data[0];
-
-
-        // let obj = {};
-        // if (this.props.data.length != 0) {
-        //     obj = this.props.data[0];
-
-        // };
+        let nd = new Date().getFullYear() - 1;
 
         return <div className="fix-table table-bordered table-striped">
 
@@ -198,7 +309,15 @@ console.log(value);
                         <FormItem labelCol={{ span: 9 }} wrapperCol={{ span: 13 }}
                             label="年度">
 
-                            <SelectorYear {...getFieldProps('nd',{initialValue:obj.nd}) }onChange={this.handleNdChange}/>
+                            <SelectorYear {...getFieldProps('nd', {
+                                initialValue: nd,
+                                rules: [{
+                                    require: true,
+                                    message: '选择一个年度做自检',
+                                }, {  validator: this.checkNdIfExit,
+                                    }]
+                            }) }
+                                onChange={this.handleNdChange}/>
                         </FormItem>
                     </Col>
                     <Col span="8">
@@ -268,7 +387,7 @@ console.log(value);
 
                     </Col>
                     <Col span="8">
-                        <FormItem  labelCol={{ span: 9 }} wrapperCol={{ span: 13 }} label="本年度报备份数：" ><Input {...getFieldProps('BAFS', { initialValue: obj.BAFS }) }disabled/></FormItem>
+                        <FormItem  labelCol={{ span: 9 }} wrapperCol={{ span: 13 }} label="本年度报备份数：" ><Input {...getFieldProps('bndbafs', { initialValue: this.state.bndbafs }) }disabled/></FormItem>
 
                     </Col>
                     <Col span="8">
@@ -279,11 +398,11 @@ console.log(value);
                 </Row>
                 <Row>
                     <Col span="8">
-                        <FormItem labelCol={{ span: 9 }} wrapperCol={{ span: 13 }} label="总人数：">  <Input {...getFieldProps('zrs',{initialValue:obj.dqzrs}) } disabled/>
+                        <FormItem labelCol={{ span: 9 }} wrapperCol={{ span: 13 }} label="总人数：">  <Input {...getFieldProps('zrs', { initialValue: obj.dqzrs }) } disabled/>
                         </FormItem>
                     </Col>
                     <Col span="8">
-                        <FormItem labelCol={{ span: 9 }} wrapperCol={{ span: 13 }} label="分所数："><Input {...getFieldProps('FSS', {initialValue:obj.dqfss})} disabled/></FormItem>
+                        <FormItem labelCol={{ span: 9 }} wrapperCol={{ span: 13 }} label="分所数："><Input {...getFieldProps('FSS', { initialValue: obj.dqfss }) } disabled/></FormItem>
                     </Col>
 
                 </Row>
@@ -294,19 +413,19 @@ console.log(value);
                         <FormItem  labelCol={{ span: 22 }} label="参加后续教育:"></FormItem>
                     </Col>
                     <Col span="2">
-                        <FormItem  > <Input {...yjyrsProps}/></FormItem>
+                        <FormItem  > <InputNumber {...yjyrsProps} min={0}/></FormItem>
                     </Col>
                     <Col span="2">
                         <FormItem  ><span>人应参加</span></FormItem>
                     </Col>
                     <Col span="2">
-                        <FormItem  > <Input {...sjjyrsProps }/></FormItem>
+                        <FormItem  > <InputNumber {...sjjyrsProps } min={0}/></FormItem>
                     </Col>
                     <Col span="2">
                         <FormItem  ><span>人实参加</span></FormItem>
                     </Col>
                     <Col span="2">
-                        <FormItem  ><Input {...wjyrsProps}/></FormItem>
+                        <FormItem  ><InputNumber {...wjyrsProps} min={0}/></FormItem>
                     </Col>
                     <Col span="2">
                         <FormItem  ><span>未参加</span></FormItem>
@@ -319,14 +438,14 @@ console.log(value);
                     </Col>
 
                     <Col span="2">
-                        <FormItem  > <Input {...zcswsbzjProps }/></FormItem>
+                        <FormItem  > <InputNumber {...zcswsbzjProps } min={0}/></FormItem>
                     </Col>
                     <Col span="2">
                         <FormItem  ><span>增加</span></FormItem>
                     </Col>
 
                     <Col span="2">
-                        <FormItem  > <Input {...zcswsbjsProps}/></FormItem>
+                        <FormItem  > <InputNumber {...zcswsbjsProps} min={0}/></FormItem>
                     </Col>
                     <Col span="2">
                         <FormItem  ><span>减少</span></FormItem>
@@ -340,14 +459,14 @@ console.log(value);
                     </Col>
 
                     <Col span="2">
-                        <FormItem  > <Input {...gdbdqkzjProps}/></FormItem>
+                        <FormItem  > <InputNumber {...gdbdqkzjProps}min={0}/></FormItem>
                     </Col>
                     <Col span="2">
                         <FormItem  ><span>增加</span></FormItem>
                     </Col>
 
                     <Col span="2">
-                        <FormItem  > <Input {...gdbdqkjsProps }/></FormItem>
+                        <FormItem  > <InputNumber {...gdbdqkjsProps }min={0}/></FormItem>
                     </Col>
                     <Col span="2">
                         <FormItem  ><span>减少</span></FormItem>
@@ -580,7 +699,7 @@ console.log(value);
 
 
                         <Col span="3" >
-                            <FormItem labelCol={{ span: 8 }} wrapperCol={{ span: 16 }} label="时间:" ><Input {...sjProps }/></FormItem>
+                            <FormItem labelCol={{ span: 8 }} wrapperCol={{ span: 16 }} label="时间:" > <DatePicker {...sjProps} /></FormItem>
 
                         </Col>
                         <Col span="5">
