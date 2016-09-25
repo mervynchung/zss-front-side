@@ -34,6 +34,9 @@ let searchForm = React.createClass({
         if (values.sdtime && !values.sdtime[0]) {
             delete values.sdtime
         }
+        if (values.jstime && !values.jstime[0]) {
+            delete values.jstime
+        }
 
         this.props.onSubmit(values);
     },
@@ -50,8 +53,8 @@ let searchForm = React.createClass({
                     <Col span="8">
                         <FormItem
                             {...formItemLayout}
-                            label="事务所名称">
-                            <Input placeholder="事务所名称" {...getFieldProps('swsmc')}/>
+                            label="税务师姓名">
+                            <Input placeholder="事务所名称" {...getFieldProps('xming')}/>
                         </FormItem>
                     </Col>
                     <Col span="8">
@@ -83,6 +86,31 @@ let searchForm = React.createClass({
                             {...formItemLayout}
                             label="锁定人角色组">
                             <Input placeholder="锁定人角色组" {...getFieldProps('sdr_role')}/>
+                        </FormItem>
+                    </Col>
+
+                </Row>
+                <Row>
+                    <Col span="8">
+                        <FormItem
+                          {...formItemLayout}
+                          label="解锁人名称">
+                            <Input placeholder="锁定人名称" {...getFieldProps('jsr')}/>
+                        </FormItem>
+                    </Col>
+                    <Col span="8">
+                        <FormItem
+                          {...formItemLayout}
+                          label="解锁人角色组">
+                            <Input placeholder="锁定人角色组" {...getFieldProps('jsr_role')}/>
+                        </FormItem>
+                    </Col>
+                    <Col span="8">
+                        <FormItem
+                          {...formItemLayout}
+                          label="解锁操作时间：">
+                            <RangePicker format="yyyy/MM/dd" { ...getFieldProps('jstime',
+                              {getValueFromEvent: (date, dateString)=> dateString})}/>
                         </FormItem>
                     </Col>
 

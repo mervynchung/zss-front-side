@@ -34,3 +34,8 @@
 .zzgl .row-selected {
     background-color:#eaf8fe ;
 }
+.zyswszzgl.lock  em {
+    margin:auto 4px;
+    font-size: 18px;
+    font-weight: 600;
+}
