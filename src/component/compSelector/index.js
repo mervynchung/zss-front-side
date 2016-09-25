@@ -6,6 +6,7 @@
 var selector = {
     SelectorDQ: require('./dq'), //地区
     SelectorCS: require('./cs'), //城市
+    SelectorCSNum: require('./csVlaueNum'), //城市
     SelectorYear: require('./year'), //年度
     SelectorDF: require('./df'), //省份
     SelectorFG: require('./fg'), //法规代码

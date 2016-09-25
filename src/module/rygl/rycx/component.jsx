@@ -4,6 +4,7 @@ import config from 'common/configuration'
 import Panel from 'component/compPanel'
 import './style.css'
 import req from 'reqwest'
+import auth from 'common/auth'
 import Model from './model.js' 
 import SearchForm from './searchForm'
 import {  DatePicker,Modal,Form, Input, Select,Table, Icon,Tabs,Button,Row,Col,message }from 'antd'
@@ -39,6 +40,7 @@ const rycx = React.createClass({
             method: 'get',
             type: 'json',
             data: params,
+            headers:{'x-auth-token':auth.getToken()},
             success: (result) => {
                       if (result.data.length!=0) {
                           const pagination = this.state.pagination;
@@ -66,6 +68,7 @@ const rycx = React.createClass({
         url: this.state.urls.herf_xxzl,//从主查询获取的后台dataProvider路径
         method: 'get',
         type: 'json',
+        headers:{'x-auth-token':auth.getToken()},
         success: (result) => {
           this.setState({
             dataxx: result.data,
@@ -92,6 +95,7 @@ const rycx = React.createClass({
     },
     gettabdata(urls){
       req({url: urls,method: 'get',type: 'json',
+          headers:{'x-auth-token':auth.getToken()},
           success: (result) => {
             if (result.data.length!=0) {
             this.setState({datalist: result.data})
