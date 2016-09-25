@@ -67,7 +67,7 @@ const Index = React.createClass({
                 require('../module/xtgnsz/yhgl'),
 
                 //资质管理
-         /*       require('../module/zzgl/jgzzgl'), //事务所资质管理
+                require('../module/zzgl/jgzzgl'), //事务所资质管理
                 require('../module/zzgl/zyswszzgl'), //执业注师资质管理
 
                 //业务管理
@@ -116,7 +116,7 @@ const Index = React.createClass({
                 require('../module/jdjc/swsnj'),
 
               //逐级审核
-         */       require('../module/spsh'),
+                require('../module/spsh'),
                 require('../module/spshlsjl'),
                 require('../module/spsh/module/1'),
                 require('../module/spsh/module/2'),
@@ -139,7 +139,7 @@ const Index = React.createClass({
                 require('../module/spsh/module/39'),
                 require('../module/spsh/module/43'),
                 require('../module/spsh/module/44'),
-                require('../module/spsh/module/46'),/*
+                require('../module/spsh/module/46'),
 
                 //数据统计分析 - 年检数据分析
                 require('../module/xtsjfx/njsjfx/rynjsjfx'),//人员年检数据分析
@@ -183,7 +183,7 @@ const Index = React.createClass({
                 require('../module/hyhf_new/scgl'),
 
                //证照打印管理
-                require('../module/zzdygl/zyglscdy'),*/
+                require('../module/zzdygl/zyglscdy'),
 
 
                 //客户端
@@ -202,22 +202,22 @@ const Index = React.createClass({
                require('../module/client/swsrygl/rydr'),
 
                 // //财务报表上传
-                // require('../module/client/cwbb/lrb'),
-                // require('../module/client/cwbb/lrfpb'),
-                // require('../module/client/cwbb/xjllb'),
-                // require('../module/client/cwbb/zcfzb'),
-                // require('../module/client/cwbb/zcmxb'),
+                require('../module/client/cwbb/lrb'),
+                require('../module/client/cwbb/lrfpb'),
+                require('../module/client/cwbb/xjllb'),
+                require('../module/client/cwbb/zcfzb'),
+                require('../module/client/cwbb/zcmxb'),
 
-                // //手动上报报表
-                // require('../module/client/sdsb/swsqkb'),
-                // require('../module/client/sdsb/jygmtjb'),
-                // require('../module/client/sdsb/jzywqktjb'),
-                // require('../module/client/sdsb/hyryqktjb'),
-                // require('../module/client/sdsb/jysrqkb'),
+                //手动上报报表
+                require('../module/client/sdsb/swsqkb'),
+                require('../module/client/sdsb/jygmtjb'),
+                require('../module/client/sdsb/jzywqktjb'),
+                require('../module/client/sdsb/hyryqktjb'),
+                require('../module/client/sdsb/jysrqkb'),
            
-                // //业务管理
-                // require('../module/client/ywgl/khxxgl'), //客户信息管理
-                // require('../module/client/ywgl/ywbb'), //事务所业务报备
+                //业务管理
+                require('../module/client/ywgl/khxxgl'), //客户信息管理
+                require('../module/client/ywgl/ywbb'), //事务所业务报备
 
 
                 //公用功能
