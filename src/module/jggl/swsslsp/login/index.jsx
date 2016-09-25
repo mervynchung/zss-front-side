@@ -167,7 +167,7 @@ let searchForm = React.createClass({
         <FormItem
           {...formItemLayout}
           label="所在城市">
-          <SelectorCS {...getFieldProps('cs',{rules: [{'required': true,type:'number',message: '请选择城市'}]})}  />
+          <SelectorCS {...getFieldProps('cs',{rules: [{'required': true,message: '请选择城市'}]})}  />
         <p><Checkbox {...checkbox1} disabled={this.state.checked1} >是否外省主所在本省设立分所</Checkbox></p>
         <p><Checkbox {...checkbox2} disabled={this.state.checked2} >是否外省事务所在本省办理业务用户</Checkbox></p>
         </FormItem>
