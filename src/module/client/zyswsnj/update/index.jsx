@@ -153,12 +153,15 @@ let Updateswsnjb = React.createClass({
 
     render() {
 
+
+
+
         const { getFieldProps } = this.props.form;
         const data = this.props.data1;
         const obj1 = this.state.swsdata;
-        
         console.log(data);
         console.log(obj1);
+        
 
         return <div className="add">
             <div className="fix-table table-bordered table-striped" >

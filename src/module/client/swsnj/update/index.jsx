@@ -169,6 +169,7 @@ let Updatejgnjb = React.createClass({
     render() {
         const { getFieldProps } = this.props.form;
         const data = this.props.data;
+        console.log(data);
         return <div className="add">
             <div className="fix-table table-bordered table-striped" >
                 <Form horizontal onSubmit={this.handleSubmit}>
