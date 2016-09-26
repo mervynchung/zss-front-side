@@ -44,7 +44,7 @@ const Index = React.createClass({
         const routes = [{
             path: '/',
             component: App,
-            indexRoute: {component: home,role:'12'},
+            indexRoute: {component: home},
             ignoreScrollBehavior: true,
             breadcrumbName: '首页',
             onEnter: this.requireAuth,

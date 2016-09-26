@@ -18,6 +18,9 @@ class App extends React.Component {
             accountInfo: {}
         };
     }
+    getChildContext() {
+        return {accountInfo: this.state.accountInfo};
+    }
 
     componentDidMount() {
         let acInfo = auth.getAuthorization();
@@ -25,16 +28,15 @@ class App extends React.Component {
             this.setState({
                 accountInfo: {names: acInfo.names, role: acInfo.role},
                 menu: acInfo.menu,
-                loading:false
+                loading: false
             });
         } else {
             auth.getAccount()
               .then(resp=> {
-                  auth.setAccount({names:resp.names,role:resp.role,menu:resp.menu});
                   this.setState({
-                      accountInfo: {names: resp.names, newMsg: resp.newMsg},
+                      accountInfo: {names: resp.names, newMsg: resp.newMsg,role:resp.lo},
                       menu: resp.menu,
-                      loading:false
+                      loading: false
                   });
               }).fail(err=> {
             })
@@ -62,5 +64,8 @@ class App extends React.Component {
         </div>
     }
 }
+App.childContextTypes = {
+    accountInfo: React.PropTypes.object
+};
 
 module.exports = App;
