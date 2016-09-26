@@ -1,7 +1,7 @@
-/*注销备案申请*/
+/*分所设立*/
 module.exports = {
-    path: 'client/jggl/swshb',
-    breadcrumbName:'机构管理 / 合并备案申请',
+    path: 'client/jggl/swsfssl',
+    breadcrumbName:'机构管理 / 分所设立',
     getComponent(location, cb) {
         require.ensure([], (require) => {
             cb(null, require('./component'))

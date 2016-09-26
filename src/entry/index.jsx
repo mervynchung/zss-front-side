@@ -11,6 +11,8 @@ import Dyry from 'module/useforprint/glsc_ry/dy.jsx';
 import Dyzb from 'module/useforprint/glsc_zb/dy.jsx';
 import Dyfb from 'module/useforprint/glsc_fb/dy.jsx';
 import {home} from '../module/home';
+import Zyjbxx from 'module/rygl/rycx/zyryjbxx.jsx';
+import Cyjbxx from 'module/rygl/rycx/cyryjbxx.jsx';
 import NotFound from 'module/404notfound'
 import auth from 'common/auth'
 
@@ -193,6 +195,11 @@ const Index = React.createClass({
                 require('../module/client/jggl/swsbg'),
                 require('../module/client/jggl/swszx'),
                 require('../module/client/jggl/swshb'),
+                require('../module/client/jggl/swsfssl'),
+                require('../module/client/jggl/swsslzltb'),
+
+                //事务所内部审批
+                require('../module/client/swswspcx'),
 
                 //人员管理
                 require('../module/client/swsrygl/zyrygl'),
@@ -240,6 +247,12 @@ const Index = React.createClass({
         }, {
             path: '/print/zzdygl/jgzyzfb',
             component: Dyfb
+        }, {
+            path: '/new_blank/sws/zyjbxx',
+            component: Zyjbxx
+        },{
+            path: '/new_blank/sws/cyjbxx',
+            component: Cyjbxx
         }, {
             path: '*',
             component: NotFound
