@@ -59,7 +59,6 @@ module.exports = {
 
     setAuthorization(param){
         store.session.set('jid', param.jgId);
-        store.session.set('permission', param.permission)
     },
 
     isClient(){

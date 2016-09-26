@@ -3,23 +3,32 @@ import {Row, Col,Tabs,Table,Badge,Icon,Button} from 'antd'
 import Container from 'component/container'
 import Panel from 'component/compPanel'
 import auth from 'common/auth'
+import req from 'common/request'
+import config from 'common/configuration'
 import './style.css'
 
 const TabPane = Tabs.TabPane;
 const c = React.createClass({
     fetchSummary(jgid){
-
+        let url = config.HOST + config.URI_API_PROJECT + '/summary/'+jgid;
+        req({url:url,method:'get'})
     },
     fetchZysws(jgid){
-
+        let url = config.HOST + config.URI_API_PROJECT + '/sumZysws/'+jgid;
+        req({url:url,method:'get'})
     },
     fetchCyry(jgid){
-
+        let url = config.HOST + config.URI_API_PROJECT + '/sumCyry/'+jgid;
+        req({url:url,method:'get'})
     },
     //获取汇总信息，执业人员和从业人员名单
     async fetchData(){
-        let [summary, zysws,cyry] = await Promise.all([this.fetchSummary('A'), this.fetchZysws('B'), this.fetchCyry()]);
-        return {center: center, client: client, roles: roles}
+        const jgid = auth.getJgid();
+        let [summary, zysws,cyry] = await Promise.all([this.fetchSummary(jgid), this.fetchZysws(jgid), this.fetchCyry(jgid)]);
+        return {summary: summary, zysws: zysws, cyry: cyry}
+    },
+    componentDidMount(){
+        fetchData();
     },
     render(){
         const unreadedBadge = <Badge count={109} style={{ backgroundColor: '#87d068' }} />;

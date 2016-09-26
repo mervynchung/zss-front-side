@@ -16,6 +16,7 @@ const func = function (param = {method: 'get',type:'json'}) {
         contentType:'application/json',
         method:method,
         type:'json',
+        data:data,
         headers: {'x-auth-token': auth.getToken()}
     })
 };

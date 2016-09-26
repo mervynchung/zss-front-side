@@ -21,6 +21,10 @@ const history = useRouterHistory(createHashHistory)({
 
 const Index = React.createClass({
 
+    getAccoutState(){
+      console.log('account state')
+    },
+
     /*登录校验*/
     requireAuth(nextState, replace){
         /*if (!auth.verifyPermission(nextState.location.pathname)) {
@@ -219,7 +223,8 @@ const Index = React.createClass({
             ]
         }, {
             path: '/signin',
-            component: Signin
+            component: Signin,
+            onSuccess:this.getAccoutState
         }, {
             path: '/print/hyhf/fpdy',
             component: Dyfp
