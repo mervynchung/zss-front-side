@@ -294,7 +294,7 @@ let Addswsnj = React.createClass({
             ],
         });
 
-const obj = this.props.data[0];
+    const obj = this.props.data[0];
 
 
         let nd = new Date().getFullYear() - 1;

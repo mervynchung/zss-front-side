@@ -1,5 +1,5 @@
 import React from 'react'
-import {Table, Modal, Row, Col, Button, Icon, Alert} from 'antd'
+import {Table, Modal, Row, Col, Button, Icon, Alert,message} from 'antd'
 import CompPageHead from 'component/CompPageHead'
 import Panel from 'component/compPanel'
 import {handleRowButton, columns, entityModel} from './model'
@@ -100,7 +100,7 @@ const zyswsnj = React.createClass({
     //点击提交
     handleOk(e) {
         let vv = e;
-        vv.ztbj = '1'
+        vv.ztbj = '2'
         this.fetchHandle(vv);
         this.handleAdd();
     },
@@ -131,7 +131,7 @@ const zyswsnj = React.createClass({
     handleSubmit(value) {
         console.log(value);
         let vv = value;
-        vv.ztbj = '0'
+        vv.ztbj = '1'
         this.fetchHandle(vv);
         this.handleAdd();
     },
@@ -139,7 +139,7 @@ const zyswsnj = React.createClass({
     //点击编辑提交
     handleOk1(e) {
         let vv = e;
-        vv.ztbj = '1'
+        vv.ztbj = '2'
         this.fetchHandle1(vv);
         this.handleUpdate();
 
@@ -171,7 +171,7 @@ const zyswsnj = React.createClass({
     //点击编辑保存
     handleSubmit1(value) {
         let vv = value;
-        vv.ztbj = '0'
+        vv.ztbj = '1'
         this.fetchHandle1(vv);
         this.handleUpdate();
     },
@@ -291,10 +291,9 @@ const zyswsnj = React.createClass({
             that.fetchData2(record)
             that.setState({ update: true })
         }
-        if (record.ZTBJ == "提交") {
+        if (record.ZTDM == "保存") {
             return (<span>
-                <Button disabled size="small" onClick={ddd} >
-
+                <Button size="small" onClick={ddd} >
                     <Icon type="edit" />编辑
                 </Button>
                 <Button size="small" onClick={look} >
@@ -304,8 +303,7 @@ const zyswsnj = React.createClass({
             )
         } else {
             return (<span>
-                <Button   size="small" onClick={ddd} >
-
+                <Button disabled size="small" onClick={ddd} >
                     <Icon type="edit" />编辑
                 </Button>
                 <Button size="small" onClick={look} >

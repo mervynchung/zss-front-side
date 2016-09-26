@@ -2,11 +2,11 @@ import React from 'react'
 import req from 'reqwest'
 import config from 'common/configuration'
 import auth from 'common/auth'
-import {Col, Input, Row, Button, Icon, Form, Modal, Select, Checkbox } from 'antd'
+import {Col, Input, Row, Button, Icon, Form, Modal, Select, Checkbox ,DatePicker} from 'antd'
 import {SelectorYear, SelectorXZ, SelectorNames, SelectorXm} from 'component/compSelector'
 import './style.css'
 
-const API_URL = config.HOST + config.URI_API_PROJECT + '/add/zyswsnj';
+const API_URL = config.HOST + config.URI_API_PROJECT + '/add/zyswsnj1';
 const ButtonGroup = Button.Group;
 const createForm = Form.create;
 const FormItem = Form.Item;
@@ -43,7 +43,7 @@ let Updateswsnjb = React.createClass({
         } else {
             value['wg'] = wg;
         }
-        value.id = obj.ID;
+        value['id'] = obj.ID;
 
         this.props.onSubmit(value);
     },
@@ -54,7 +54,20 @@ let Updateswsnjb = React.createClass({
     },
     //Modal
     getInitialState() {
-        return { visible: false, swsdata: {} };
+        return { visible: false, swsdata: {
+            sws_id:this.props.data1.sws_id,
+            xb:this.props.data1.xb,
+            xl:this.props.data1.xl,
+            SRI:this.props.data1.SRI,
+            SFZH:this.props.data1.SFZH,
+            DWMC:this.props.data1.dwmc,
+           ZYZSBH:this.props.data1.ZYZSBH,
+           DHHM:this.props.data1.DHHM,
+           ZYZGZSBH:this.props.data1.ZYZGZSBH,
+
+
+
+        } };
     },
     showModal(e) {
         e.preventDefault();
@@ -138,6 +151,9 @@ let Updateswsnjb = React.createClass({
         const { getFieldProps } = this.props.form;
         const data = this.props.data1;
         const obj1 = this.state.swsdata;
+        
+        console.log(data);
+        console.log(obj1);
 
         return <div className="add">
             <div className="fix-table table-bordered table-striped" >
@@ -147,9 +163,9 @@ let Updateswsnjb = React.createClass({
                         <tbody>
                             <tr>
                                 <td>姓名：</td>
-                                <td><SelectorXm  {...getFieldProps('sws_id') } onChange={this.handleXmChange}/></td>
+                                <td><SelectorXm {...getFieldProps('sws_id' ,{initialValue:data.sws_id})} onChange={this.handleXmChange}></SelectorXm></td>
                                 <td>性别：{obj1.xb}</td>
-                                <td><FormItem labelcol="2" wrappercol="20" label="年度"><Input {...getFieldProps('nd') }/></FormItem></td>
+                                <td>年度：<label {...getFieldProps('nd', { initialValue: data.nd }) }>{data.nd}</label></td>
                                 <td rowSpan="6">照片</td>
                             </tr>
                             <tr>
@@ -162,7 +178,7 @@ let Updateswsnjb = React.createClass({
                                 <td>身份证号：</td>
                                 <td>{obj1.SFZH}</td>
                                 <td>所在单位：</td>
-                                <td>{obj1.dwmc}</td>
+                                <td>{obj1.DWMC}</td>
 
                             </tr>
                             <tr>
@@ -348,8 +364,8 @@ let Updateswsnjb = React.createClass({
                             <tr>
                                 <td rowSpan="2">事务所负责人意见</td>
                                 <td colSpan="2"><Input {...getFieldProps('SWSFZRYJ') } type="textarea"  autosize /></td>
-                                <td colSpan="2">时间：<Input {...getFieldProps('SWSFZRSJ') }/>
-                                    负责人签名：<Input {...getFieldProps('SWSFZR') }/> </td>
+                                <td colSpan="2">时间：<DatePicker {...getFieldProps('SWSFZRSJ') }/>
+                                    负责人签名：<Input {...getFieldProps('SWSFZR') }style={{ width: "30%" }}/> </td>
 
                             </tr>
 

@@ -2,7 +2,7 @@ import React from 'react'
 import req from 'reqwest'
 import config from 'common/configuration'
 import auth from 'common/auth'
-import {Col, Input, Row, Button, Icon, Form, Modal, Checkbox } from 'antd'
+import {Col, Input, Row, Button, Icon, Form, Modal, Checkbox, DatePicker} from 'antd'
 import {SelectorYear, SelectorXZ, SelectorXm} from 'component/compSelector'
 import './style.css'
 
@@ -21,6 +21,9 @@ let Addswsnj = React.createClass({
         e.preventDefault();
         var mp = {};
         let value = this.props.form.getFieldsValue()
+       
+        var date = new Date(value['SWSFZRSJ']);
+        value['SWSFZRSJ']=date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate();
         let arr = []
         for (var key in value) {
             if (!value[key]) {
@@ -40,8 +43,17 @@ let Addswsnj = React.createClass({
             value['wg'] = null;
         } else {
             value['wg'] = wg;
-        } 
-        this.props.onSubmit(value);
+        }
+        console.log(value);
+        //验证表单，若通过就保存
+        this.props.form.validateFields((errors, values) => {
+            if (!!errors) {
+                return;
+            } else {
+                this.props.onSubmit(value);
+            }
+        });
+
     },
 
     handleReset(e) {
@@ -53,13 +65,15 @@ let Addswsnj = React.createClass({
         return {
             visible: false,
             swsdata: {},
-            bndbafs:0
+            bndbafs: 0
         };
     },
     showModal(e) {
         e.preventDefault();
         var mp = {};
         let value = this.props.form.getFieldsValue()
+        var date = new Date(value['SWSFZRSJ']);
+        value['SWSFZRSJ']=date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate();
         let arr = []
         for (var key in value) {
             if (!value[key]) {
@@ -79,19 +93,28 @@ let Addswsnj = React.createClass({
             value['wg'] = null;
         } else {
             value['wg'] = wg;
-        } 
-        this.setState({
-            visible: true,
-            okValue: value,
+        }
+
+        //验证表单，若通过就打开确定提交对话框
+        this.props.form.validateFields((errors, values) => {
+            if (!!errors) {
+                return;
+            } else {
+                this.setState({
+                    visible: true,
+                    okValue: value,
+                });
+            }
         });
+
+
     },
 
 
 
 
 
-
-    handleOk(e) { 
+    handleOk(e) {
         this.props.handleOk(this.state.okValue)
         this.setState({
             visible: false
@@ -106,7 +129,7 @@ let Addswsnj = React.createClass({
     //处理姓名下拉框改变事件
     handleXmChange(value) {
         this.props.form.setFieldsValue({ sws_id: value });
-        let nd=this.props.form.getFieldValue("ND");
+        let nd = this.props.form.getFieldValue("ND");
         req({
             url: API_URL1 + '/' + value,
             type: 'json',
@@ -126,26 +149,35 @@ let Addswsnj = React.createClass({
             });
         })
 
-        this.fetchdata3({nd:nd,sws_id:value});
+        this.fetchdata3({ nd: nd, sws_id: value });
 
     },
-//年度下拉框数据显示
-    handleNdChange(value){
-    this.props.form.setFieldsValue({ ND: value });
-    let sws_id=this.props.form.getFieldValue("sws_id"); 
-    this.fetchdata3({nd:value,sws_id:sws_id});
+    //年度下拉框数据显示
+    handleNdChange(value) {
+        this.props.form.setFieldsValue({ ND: value });
+        let sws_id = this.props.form.getFieldValue("sws_id");
+        this.fetchdata3({ nd: value, sws_id: sws_id });
     },
 
+    //时间范围校验
+    checkBirthday(rule, value, callback) {
 
-    fetchdata3(params){
-      req({
+
+        if (value && value.getTime() >= Date.now()) {
+            callback(new Error('请不要选择一个未来的时间！'));
+        } else {
+            callback();
+        }
+    },
+    fetchdata3(params) {
+        req({
             url: API_URL2,
             type: 'json',
             method: 'get',
             data: params,
             headers: { 'x-auth-token': auth.getToken() },
             contentType: 'application/json',
-        }).then(resp => {  
+        }).then(resp => {
             this.setState({
                 bndbafs: resp.bndbafs
             })
@@ -160,7 +192,7 @@ let Addswsnj = React.createClass({
                     </div>)
             });
         })
-    
+
 
 
     },
@@ -169,6 +201,48 @@ let Addswsnj = React.createClass({
     render() {
 
         const { getFieldProps } = this.props.form;
+        //签证时间校验
+        const sjProps = getFieldProps('SWSFZRSJ', {
+            rules: [
+                { required: true, type: 'date', whitespace: true, message: '请选择一个时间' },
+                { validator: this.checkBirthday },
+            ],
+        });
+        //年检总结校验
+        const njzjProps = getFieldProps('ZJ', {
+            rules: [
+                { required: true, type: 'string', whitespace: true, message: '请填写年检总结' },
+            ],
+        });
+        //事务所负责人意见校验
+        const swsfzryjProps = getFieldProps('SWSFZRYJ', {
+            rules: [
+                { required: true, type: 'string', whitespace: true, message: '请填写负责人意见' },
+            ],
+        });
+
+        //事务所负责人签名校验
+        const swsfzrqmProps = getFieldProps('SWSFZR', {
+            rules: [
+                { required: true, type: 'string', whitespace: true, message: '请负责人签名' },
+            ],
+        });
+
+        //姓名校验
+        const xmProps = getFieldProps('sws_id', {
+            rules: [
+                { required: true, type: 'integer', whitespace: true, message: '请选择一个人进行年检' },
+            ],
+        });
+        
+        //年度校验
+        const ndProps = getFieldProps('ND', {
+            rules: [
+                { required: true, type: 'string', whitespace: true, message: '请选择一个年检年度' },
+            ],
+        });
+
+
         let obj = [{}];
         if (this.props.data.length != 0) {
             obj = this.props.data;
@@ -183,9 +257,9 @@ let Addswsnj = React.createClass({
                             <tbody>
                                 <tr>
                                     <td>姓名：</td>
-                                    <td><SelectorXm {...getFieldProps('sws_id') } style={{ width: '100px' }} onChange={this.handleXmChange}/></td>
+                                    <td><FormItem><SelectorXm {...xmProps } style={{ width: '100px' }} onChange={this.handleXmChange}/></FormItem></td>
                                     <td>性别: {obj1.xb}</td>
-                                    <td>年度： <SelectorYear {...getFieldProps('ND') } style={{ width: "30%" }} onChange={this.handleNdChange}/>
+                                    <td><FormItem>年度： <SelectorYear {...ndProps } style={{ width: "30%" }} onChange={this.handleNdChange}/></FormItem>
                                     </td>
                                     <td rowSpan="6"><img src={obj1.XPIAN}/></td>
                                 </tr>
@@ -212,13 +286,13 @@ let Addswsnj = React.createClass({
                                     <td>执业注册日期：</td>
                                     <td>{obj1.ZYZCRQ}</td>
                                     <td>出资比率：</td>
-                                    <td><label {...getFieldProps('czbl',{initialValue:obj1.czbl}) }>{obj1.czbl}%</label></td>
+                                    <td><label {...getFieldProps('czbl', { initialValue: obj1.czbl }) }>{obj1.czbl}%</label></td>
                                 </tr>
                                 <tr>
                                     <td>资格证书编号：</td>
                                     <td>{obj1.ZYZGZSBH}</td>
                                     <td>本年度报备份数：</td>
-                                    <td><label {...getFieldProps('bndbafs',{initialValue:this.state.bndbafs}) }>{this.state.bndbafs}</label></td>
+                                    <td><label {...getFieldProps('bndbafs', { initialValue: this.state.bndbafs }) }>{this.state.bndbafs}</label></td>
                                 </tr>
 
 
@@ -379,14 +453,14 @@ let Addswsnj = React.createClass({
 
                                 <tr>
                                     <td>年检总结: </td>
-                                    <td colSpan="4"><Input {...getFieldProps('ZJ') } type="textarea"  autosize /></td>
+                                    <td colSpan="4"><FormItem><Input {...njzjProps} type="textarea"  autosize /></FormItem></td>
                                 </tr>
 
                                 <tr>
                                     <td rowSpan="2">事务所负责人意见</td>
-                                    <td colSpan="2"><Input {...getFieldProps('SWSFZRYJ') } type="textarea"  autosize /></td>
-                                    <td colSpan="2">时间：<Input {...getFieldProps('SWSFZRSJ') }/>
-                                        负责人签名：<Input {...getFieldProps('SWSFZR') }/> </td>
+                                    <td colSpan="2"><FormItem><Input {...swsfzryjProps } type="textarea"  autosize /></FormItem></td>
+                                    <td colSpan="2"><FormItem>时间：<DatePicker {...sjProps} style={{ width: "30%" }}/></FormItem>
+                                        <FormItem>负责人签名：<Input {...swsfzrqmProps} style={{ width: "30%" }}/> </FormItem></td>
 
                                 </tr>
                             </tbody>

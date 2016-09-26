@@ -1,8 +1,13 @@
 import React from 'react'
-import {Col, Input, Row, Button, Icon, Form, Modal, Select, Checkbox } from 'antd'
-import {SelectorYear, SelectorXZ} from 'component/compSelector'
+import req from 'reqwest'
+import config from 'common/configuration'
+import auth from 'common/auth'
+import {Col, Input, Row, Button, Icon, Form, Modal, Checkbox ,DatePicker,InputNumber,Select} from 'antd'
+import {SelectorYear, SelectorXZ, SelectorXm} from 'component/compSelector'
 import './style.css'
 
+const API_URL3 = config.HOST + config.URI_API_PROJECT + '/add/swsnj2';
+const CheckNd_URL = config.HOST + config.URI_API_PROJECT + '/add/swsnj3';
 const ButtonGroup = Button.Group;
 const createForm = Form.create;
 const FormItem = Form.Item;
@@ -19,6 +24,8 @@ let Updatejgnjb = React.createClass({
         e.preventDefault();
         var mp = {};
         let value = this.props.form.getFieldsValue()
+        var id = this.state.entity.ID;
+        value['id'] = id;
         let arr = [];
         for (var key in value) {
             if (!value[key]) {
@@ -39,7 +46,8 @@ let Updatejgnjb = React.createClass({
         } else {
             value['wg'] = wg;
         }
-        value.id = obj.ID;
+        console.log(value);
+        // value.id = obj.ID;
 
         this.props.onSubmit(value);
     },
@@ -50,12 +58,14 @@ let Updatejgnjb = React.createClass({
     },
     //Modal
     getInitialState() {
-        return { visible: false,entity:this.props.data,bndbafs:this.props.data.BAFS};
+        return { visible: false, entity: this.props.data, bndbafs: this.props.data.BAFS };
     },
     showModal(e) {
         e.preventDefault();
         var mp = {};
-        let value = this.props.form.getFieldsValue()
+        let value = this.props.form.getFieldsValue();
+        var id = this.state.entity.ID;
+        value['id'] = id;
         for (var key in value) {
             if (!value[key]) {
                 value[key] = null;
@@ -72,6 +82,39 @@ let Updatejgnjb = React.createClass({
         value.jg_id = obj.JG_ID;
 
     },
+
+    //年度下拉框数据显示
+    handleNdChange(value) {
+        alert(value);
+        this.props.form.setFieldsValue({ nd: value });
+        this.props.form.validateFields(['nd'], { force: true });
+        const params = { where: encodeURIComponent(JSON.stringify({ nd: value })), }
+        req({
+            url: API_URL3,
+            type: 'json',
+            method: 'get',
+            data: params,
+            headers: { 'x-auth-token': auth.getToken() },
+            contentType: 'application/json',
+        }).then(resp => {
+            this.setState({
+                bndbafs: resp.data
+            })
+        }).fail(err => {
+            this.setState({ loading: false });
+            Modal.error({
+                title: '数据获取错误',
+                content: (
+                    <div>
+                        <p>无法从服务器返回数据，需检查应用服务工作情况</p>
+                        <p>Status: {err.status}</p>
+                    </div>)
+            });
+        })
+
+
+
+    },
     handleOk(e) {
         // console.log('点击了确定',this.state.okValue);
         this.props.handleOk(this.state.okValue)
@@ -86,10 +129,41 @@ let Updatejgnjb = React.createClass({
         });
     },
 
-    render() {
+    //年检年度是否重复校验方法
+    checkNdIfExit(rule, value, callback) {
+        var id = this.state.entity.ID;
+        const params = { where: encodeURIComponent(JSON.stringify({ nd: value, njid: id })), }
+        req({
+            url: CheckNd_URL,
+            type: 'json',
+            method: 'get',
+            data: params,
+            headers: { 'x-auth-token': auth.getToken() },
+            contentType: 'application/json',
+        }).then(resp => {
+            console.log(resp);
+            if (value == resp.data) {
+                callback('同一年度不能做两次年检，请选择其他年度');
+            } else {
+                callback();
+            }
+        }).fail(err => {
+            this.setState({ loading: false });
+            Modal.error({
+                title: '数据获取错误',
+                content: (
+                    <div>
+                        <p>无法从服务器返回数据，需检查应用服务工作情况</p>
+                        <p>Status: {err.status}</p>
+                    </div>)
+            });
+        })
+    },
 
+    render() { 
         const { getFieldProps } = this.props.form;
-        const data = this.state.entity;
+        const data = this.props.data;
+     console.log(data);
         return <div className="add">
             <div className="fix-table table-bordered table-striped" >
                 <Form horizontal onSubmit={this.handleSubmit}>
@@ -114,7 +188,17 @@ let Updatejgnjb = React.createClass({
                                 <td> <Col
 
                                     label="年度：">
-                                    <SelectorYear  { ...getFieldProps('nd', { initialValue: data.ND }) }/>
+                                     <FormItem >
+                                    <SelectorYear  {...getFieldProps('nd', {
+                                        initialValue: data.ND,
+                                        rules: [{
+                                            require: true,
+                                            message: '选择一个年度做自检',
+                                        }, {
+                                            validator: this.checkNdIfExit
+                                            }]
+                                    })} onChange={this.handleNdChange} />
+                                       </FormItem>
                                 </Col>
                                 </td>
                                 <td>组织形式：{data.jgxz}</td>
@@ -132,14 +216,14 @@ let Updatejgnjb = React.createClass({
                                 <td>{data.bgdz}</td>
                                 <td>联系电话</td>
                                 <td>{data.dhhm}</td>
-                                <td>本年度报备份数：<label {...getFieldProps('BAFS',{initialValue:this.state.bndbafs}) }>{this.state.bndbafs}</label>份</td>
+                                <td>本年度报备份数：<label {...getFieldProps('BAFS', { initialValue: this.state.bndbafs }) }>{this.state.bndbafs}</label>份</td>
 
                             </tr>
                             <tr>
                                 <td>总人数：</td>
-                                <td><Input {...getFieldProps('ZRS') }/></td>
+                                <td><Input  {...getFieldProps('ZRS',{initialValue:data.dqzyrs} )} style={{ width: "30%" }}/></td>
                                 <td>执业注册税务师人数：</td>
-                                <td><Input {...getFieldProps('zyrs') }/></td>
+                                <td><Input {...getFieldProps('zyrs',{initialValue:data.ZYRS}) }  style={{ width: "30%" }}/></td>
                                 <td></td>
 
 
@@ -149,11 +233,11 @@ let Updatejgnjb = React.createClass({
 
                             <tr>
                                 <td>参加后续教育：</td>
-                                
-                                <td ><FormItem labelcol={{span:2}} wrapperCol={{span:22}} label="人应参加：" ><Input {...getFieldProps('yjyrs') }/></FormItem></td>
-                                <td ><FormItem labelcol={{span:2}} wrapperCol={{span:22}} label="人实参加：" ><Input {...getFieldProps('sjjyrs') }/></FormItem></td>
-                                 <td><FormItem labelcol={{span:2}} wrapperCol={{span:22}} label="未参加：" ><Input {...getFieldProps('sjjyrs') }/></FormItem></td>
-                        
+
+                                <td><FormItem labelCol={{ span: 6}} wrapperCol={{ span: 8 }} label="人应参加：" ><Input {...getFieldProps('yjyrs',{initialValue:data.YJYRS}) }  style={{ width: "40%" }}/></FormItem></td>
+                                <td ><FormItem labelCol={{ span: 7 }} wrapperCol={{ span: 8 }} label="人实参加：" ><Input {...getFieldProps('sjjyrs',{initialValue:data.SJJYRS}) }  style={{ width: "40%" }}/></FormItem></td>
+                                <td><FormItem labelCol={{ span: 6 }} wrapperCol={{ span: 12 }} label="未参加：" ><Input {...getFieldProps('wjyrs',{initialValue:data.WJYRS}) }  style={{ width: "40%" }}/></FormItem></td>
+
                                 <td></td>
 
 
@@ -161,20 +245,20 @@ let Updatejgnjb = React.createClass({
                             <tr>
 
                                 <td>注册税务师变动情况：</td>
-                                <td colSpan="2" ><FormItem labelcol={{span:2}} wrapperCol={{span:22}} label="增加：" ><Input {...getFieldProps('ZCSWSBZJ') }/></FormItem></td>
-                                <td colSpan="2" ><FormItem labelcol={{span:2}} wrapperCol={{span:22}} label="减少：" ><Input {...getFieldProps('ZCSWSBJS') }/></FormItem></td>
-                            
+                                <td colSpan="2" ><FormItem labelCol={{ span: 6 }} wrapperCol={{ span: 12 }} label="增加：" ><Input {...getFieldProps('ZCSWSBZJ') }/></FormItem></td>
+                                <td colSpan="2" ><FormItem labelCol={{ span: 6 }} wrapperCol={{ span: 12 }} label="减少：" ><Input {...getFieldProps('ZCSWSBJS') }  style={{ width: "30%" }}/></FormItem></td>
+
                             </tr>
                             <tr >
 
                                 <td>股东变动情况：</td>
-                                <td colSpan="2" ><FormItem labelcol={{span:2}} wrapperCol={{span:22}} label="增加：" ><Input {...getFieldProps('GDBDQKZJ') }/></FormItem></td>
-                                <td colSpan="2" ><FormItem labelcol={{span:2}} wrapperCol={{span:22}} label="减少：" ><Input {...getFieldProps('GDBDQKJS') }/></FormItem></td>
-                            
+                                <td colSpan="2" ><FormItem labelCol={{ span: 6 }} wrapperCol={{ span: 12 }} label="增加：" ><Input {...getFieldProps('GDBDQKZJ') }  style={{ width: "30%" }}/></FormItem></td>
+                                <td colSpan="2" ><FormItem labelCol={{ span: 6 }} wrapperCol={{ span: 12 }} label="减少：" ><Input {...getFieldProps('GDBDQKJS') }  style={{ width: "30%" }}/></FormItem></td>
+
                             </tr>
                             <tr>
                                 <td> 分所数: </td>
-                                <td colSpan="4"><Input{...getFieldProps('FSS') }/></td>
+                                <td colSpan="4"><Input{...getFieldProps('FSS') }  style={{ width: "30%" }}/></td>
                             </tr>
 
                             <tr>
@@ -455,19 +539,19 @@ let Updatejgnjb = React.createClass({
                                 <td >年检总结修改：</td>
                                 <td colSpan="4"><Input {...getFieldProps('ZJ') } row={100} type="textarea"/></td>
                             </tr>
-                            
+
                             <tr>
-                                
-                                <td colSpan="2">事务所负责人意见修改：</td>
+
+                                <td colSpan="4">事务所负责人意见修改：</td>
                                 <td>负责人签名：</td>
-                                <td colSpan="2"></td>
+                                
                             </tr>
                             <tr>
 
-                            
-                                <td colSpan="2"><Input {...getFieldProps('NJZJ') } placeholder="可根据实际情况对输入框进行调整（将鼠标放置到输入框右下角即可拉伸）" type="textarea"/></td>
-                             <td><Input {...getFieldProps('FZR') }/></td>
-                             <td colSpan="2"></td>         
+
+                                <td colSpan="4"><Input {...getFieldProps('NJZJ') } placeholder="可根据实际情况对输入框进行调整（将鼠标放置到输入框右下角即可拉伸）" type="textarea"/></td>
+                                <td><Input {...getFieldProps('FZR') }/></td>
+                               
                             </tr>
 
 

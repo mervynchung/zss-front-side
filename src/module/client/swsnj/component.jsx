@@ -15,6 +15,7 @@ import DetailBox from './detailbox.jsx'
 
 const API_URL = config.HOST + config.URI_API_PROJECT + '/add/swsnj';
 const URL = config.HOST + config.URI_API_PROJECT + '/addswsnjb';
+const edit_URL=config.HOST+config.URL_API_PROJECT+'/addswsnjb1'
 const API_URL1 = config.HOST + config.URI_API_PROJECT + '/add/swsnjb1';
 
 const ToolBar = Panel.ToolBar;
@@ -318,7 +319,7 @@ const swsnjb = React.createClass({
 
 
     render() {
-        const dataTest = { dwmc: '测试', jgzchm: '12345', sz: '测试' };
+       
         const column1 = [
             { title: '序号', dataIndex: 'key', key: 'key' },
             { title: '年度', dataIndex: 'ND', key: 'ND' },
@@ -382,6 +383,7 @@ const swsnjb = React.createClass({
                     {!this.state.add && <Add onSubmit={this.handleSubmit} handleOk={this.handleOk} data={this.state.data} />}
                     {!this.state.update && <Panel title="修改"  onClose={this.handleDetailClose}
                         closable>
+                        
                         <Update onSubmit={this.handleSubmit1} handleOk={this.handleOk1} data={this.state.entity} />
                     </Panel>}
                 </Panel>
