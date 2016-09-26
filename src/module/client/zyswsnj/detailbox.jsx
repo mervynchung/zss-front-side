@@ -1,8 +1,8 @@
- import React from 'react'
- import {Row,Col,Checkbox,Affix } from 'antd'
- import './style.css'
+import React from 'react'
+import {Row,Col,Checkbox,Affix } from 'antd'
+import './style.css'
 
-  const Zyswsnjbxx = React.createClass({
+const detailBox = React.createClass({
 getDefaultProps() {//初始化某些传入值
         return {
             data: {
@@ -12,26 +12,29 @@ getDefaultProps() {//初始化某些传入值
     },
     render() {
     
-          const data =this.props.data;
+     const data =this.props.data;
+     console.log(data);
         var arr1 =[];
         var obj2={};
         var arr2 =[];
         var obj3={};
-        if(!!data.ZJWGDM && data.ZJWGDM != 'null'){
+        if(!!data.ZJWGDM){
            arr1 = data.ZJWGDM.split(',');
            for (var i=0;i<arr1.length;i++){
             obj2[arr1[i]]=true;
         } 
         }
-
-        if(!!data.ZJWGDM && data.ZJWGDM != 'null' ){
+        if(!!data.NJWGDM){
            arr2 = data.NJWGDM.split(',');
            for (var i=0;i<arr2.length;i++){
             obj3[arr2[i]]=true;
         } 
-        }      
-    	
-        return <div className="fix-table table-bordered table-striped" >
+        } 
+        const obj = this.props.data;
+        
+
+        return <div className="fix-table table-bordered table-striped">
+            
        
             <table>
              <colgroup>
@@ -272,9 +275,6 @@ getDefaultProps() {//初始化某些传入值
 
         </div>
     }
-})
+});
 
-  module.exports =Zyswsnjbxx
-  
-  
-   
+module.exports = detailBox;

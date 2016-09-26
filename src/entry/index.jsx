@@ -59,16 +59,18 @@ const Index = React.createClass({
                 require('../module/jggl/swsslsp'),
 
                 //人员管理
-                require('../module/rygl/rycx'),
+              //  require('../module/rygl/rycx'),
 
                 //系统功能设置
                 require('../module/xtgnsz/mkgl'),
                 require('../module/xtgnsz/qxgl'),
                 require('../module/xtgnsz/yhgl'),
 
+
                 //资质管理
                 require('../module/zzgl/jgzzgl'), //事务所资质管理
                 require('../module/zzgl/zyswszzgl'), //执业注师资质管理
+
 
                 //业务管理
                 require('../module/ywgl/ywbbgl'),
@@ -81,7 +83,12 @@ const Index = React.createClass({
                 require('../module/ywgl/setting'), //业务参数设置
                 require('../module/ywgl/ywbbsjfx'),//业务报备数据分析
 
+
+
+
+                 
                 //财务报表
+
                 require('../module/cwbb/lrfpb'),
                 require('../module/cwbb/xjllb'),
                 require('../module/cwbb/zcmxb'),
@@ -115,7 +122,9 @@ const Index = React.createClass({
                 require('../module/jdjc/zyswsnjb'),
                 require('../module/jdjc/swsnj'),
 
+
                 //逐级审核
+
                 require('../module/spsh'),
                 require('../module/spshlsjl'),
                 require('../module/spsh/module/1'),
@@ -145,7 +154,7 @@ const Index = React.createClass({
                 require('../module/xtsjfx/njsjfx/rynjsjfx'),//人员年检数据分析
                 require('../module/xtsjfx/njsjfx/jgnjsjfxb'),//机构年检数据分析
 
-                //数据统计分析 - 注税行业年报表
+               //数据统计分析 - 注税行业年报表
                 require('../module/xtsjfx/zshynbb/hyjygmqktj'),//行业经营规模情况统计
                 require('../module/xtsjfx/zshynbb/swsjbqktjb'),//事务所基本情况统计表1
                 require('../module/xtsjfx/zshynbb/hyryqktjb'),//行业人员情况统计表2
@@ -154,11 +163,12 @@ const Index = React.createClass({
                 require('../module/xtsjfx/zshynbb/hyjygmqktjb'),//行业经营规模情况统计表5
                 require('../module/xtsjfx/zshynbb/hyjzywqktjb'),//行业鉴证业务情况统计表6
 
-                //数据统计分析 - 系统统计报表
+
+               //数据统计分析 - 系统统计报表
                 require('../module/xtsjfx/xttjbb/swsqktjA'), //事务所情况统计A
                 require('../module/xtsjfx/xttjbb/hyryqktj'), //行业人员情况统计
                 require('../module/xtsjfx/xttjbb/swsqktj_b'),//事务所情况统计B
-                require('../module/xtsjfx/xttjbb/swszttj'),  //税务师状况统计
+                require('../module/xtsjfx/xttjbb/swszttj'),//税务师状态统计 
                 require('../module/xtsjfx/xttjbb/zyswszjtj'),//税务师转籍统计
                 require('../module/xtsjfx/xttjbb/zyswszctj'),//税务师转出统计
 
@@ -171,8 +181,11 @@ const Index = React.createClass({
                 require('../module/xtsjfx/sjfx/hyxlsjfx'),//行业学历数据分析
                 require('../module/xtsjfx/sjfx/zjgmsjfx'),//资金规模数据分析
                 require('../module/xtsjfx/sjfx/hynlsjfx'),//行业年龄数据分析
-                require('../module/xtsjfx/sjfx/ryztsjfx'),
+                require('../module/xtsjfx/sjfx/ryztsjfx'),//人员状态数据分析
                 require('../module/xtsjfx/sjfx/zyzshsjfx'),
+
+        
+
 
                 //会员会费缴纳
                 require('../module/hyhf_new/hyhfjnqk'),
@@ -182,7 +195,6 @@ const Index = React.createClass({
 
                 //证照打印管理
                 require('../module/zzdygl/zyglscdy'),
-
 
                 //客户端
                 //机构管理
@@ -199,23 +211,29 @@ const Index = React.createClass({
                 require('../module/client/swsrygl/zyrygl'),
                 require('../module/client/swsrygl/rydr'),
 
-                //财务报表上传
+               //财务报表上传
                 require('../module/client/cwbb/lrb'),
                 require('../module/client/cwbb/lrfpb'),
                 require('../module/client/cwbb/xjllb'),
                 require('../module/client/cwbb/zcfzb'),
                 require('../module/client/cwbb/zcmxb'),
 
-                //手动上报报表
+               //手动上报报表
                 require('../module/client/sdsb/swsqkb'),
                 require('../module/client/sdsb/jygmtjb'),
                 require('../module/client/sdsb/jzywqktjb'),
                 require('../module/client/sdsb/hyryqktjb'),
                 require('../module/client/sdsb/jysrqkb'),
 
+               //年度检查
+               require('../module/client/swsnj'),//事务所年检
+               require('../module/client/zyswsnj'),//执业税务师年检
+               
+
                 //业务管理
                 require('../module/client/ywgl/khxxgl'), //客户信息管理
                 require('../module/client/ywgl/ywbb'), //事务所业务报备
+
 
 
                 //公用功能
