@@ -23,9 +23,6 @@ const history = useRouterHistory(createHashHistory)({
 
 const Index = React.createClass({
 
-    getAccoutState(){
-    },
-
     /*登录校验*/
     requireAuth(nextState, replace){
         /*if (!auth.verifyPermission(nextState.location.pathname)) {
@@ -47,7 +44,7 @@ const Index = React.createClass({
         const routes = [{
             path: '/',
             component: App,
-            indexRoute: {component: home},
+            indexRoute: {component: home,role:'12'},
             ignoreScrollBehavior: true,
             breadcrumbName: '首页',
             onEnter: this.requireAuth,
@@ -229,8 +226,7 @@ const Index = React.createClass({
             ]
         }, {
             path: '/signin',
-            component: Signin,
-            onSuccess:this.getAccoutState //路由传值用例
+            component: Signin
         }, {
             path: '/print/hyhf/fpdy',
             component: Dyfp

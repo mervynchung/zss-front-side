@@ -42,3 +42,8 @@
     padding:16px;
     background-color: #f1f1f1;
 }
+.app-full-loading{
+    font-size: 18px;
+    font-weight: 600;
+    color: #1D80D3;
+}

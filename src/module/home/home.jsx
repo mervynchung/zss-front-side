@@ -6,18 +6,15 @@ import Center from './center'
 
 const c = React.createClass({
     render(){
-        let out;
-        /*let lo = window.authResp.lo;
-        if (lo == 3) {
+        console.log(this.props.route.role)
+        let out = '';
+        let role = auth.getAuthorization().role;
+        if (role == 3) {
             out = <Client/>
-        } else {
+        } else if ((role <16 && role>10) || role == 101){
             out = <Center/>
-        }*/
-        if(auth.isClient()){
-         out = <Client/>
-         }else{
-         out = <Center/>
-         }
+        }
+
         return <div>{out}</div>;
     }
 });
