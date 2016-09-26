@@ -119,6 +119,7 @@ const wspcx = React.createClass({
                             },
                 });
             }).fail(err=> {
+                this.setState({submitLoading:false});
                 Modal.error({
                     title: '数据提交错误',
                     content: (

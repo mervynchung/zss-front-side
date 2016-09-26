@@ -10,7 +10,7 @@ import model from './model'
 import config from 'common/configuration'
 import {jsonCopy} from 'common/utils'
 import cloneDeep from 'lodash/cloneDeep';
-import './style.css'
+import '../style.css'
 
 const c = React.createClass({
     getInitialState(){
@@ -109,7 +109,7 @@ const c = React.createClass({
                 let actGroup = <span className="act-group">
                     <a onClick={()=>{this.handleViewDetail(record)}}>明细</a>
                     {record.ywzt_dm == 1 ?
-                    <a onClick={()=>{this.openSentBack(record)}}>退回</a>:null}
+                    <a onClick={()=>{this.openSentBack(record)}}>强制退回</a>:null}
                     {record.ywzt_dm == 7 ?
                       <a onClick={()=>{this.openSpCX(record)}}>撤销审批</a>:null}
                     {record.ywzt_dm == 8 ?
@@ -120,7 +120,7 @@ const c = React.createClass({
                 return actGroup
             }
         });
-
+        const fixColWidth = 120;
         /*设置列表组件的参数 */
         const listSetting = {
             //标题
@@ -130,7 +130,7 @@ const c = React.createClass({
             //帮助提示的具体内容
             helperDesc: <div><p>本功能是将所有待审批的重新启用业务申请集中管理</p></div>,
             //列表可滚动区间的宽度，一般使用getcolwidth计算即可
-            scrollx: this.getColWidth(model),
+            scrollx: this.getColWidth(model)+fixColWidth,
             //接收的json数据中用来充当key的字段名
             keyCol: 'id',
             //默认每页显示数量
@@ -206,7 +206,7 @@ const c = React.createClass({
         };
 
 
-        return <div className="ywbbgl">
+        return <div className="ywbbgl ywbbqysp">
             <div className="wrap">
                 <DiaSentBack {...sentBackSetting}  />
                 <DiaSpQY {...spQYSetting}  />

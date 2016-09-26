@@ -78,7 +78,7 @@ const lrb = React.createClass({
             pagesize: pager.pageSize,
             where: encodeURIComponent(JSON.stringify(value))
         };
-        this.setState({pagination: pager, where: value});
+        this.setState({pagination: pager, where: value,detailHide: true});
         this.fetchData(params)
     },
 

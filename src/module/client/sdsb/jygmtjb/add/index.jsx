@@ -44,7 +44,6 @@ let Addjygmtjb = React.createClass({
                 }
         
     }
-    console.log('收到表单值：', value);
     this.props.onSubmit(value);
   },
 

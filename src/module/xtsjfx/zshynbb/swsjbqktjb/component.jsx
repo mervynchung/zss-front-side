@@ -105,7 +105,8 @@ const swsjbqktjb = React.createClass({
               <Table columns={Model.columns} 
               dataSource={this.state.data} 
               pagination={this.state.pagination}
-              onChange={this.handleTableChange}  
+              onChange={this.handleTableChange} 
+              scroll={{x:8192,y:420}} 
               loading={this.state.loading}  bordered   />
         </Panel>
     </div>

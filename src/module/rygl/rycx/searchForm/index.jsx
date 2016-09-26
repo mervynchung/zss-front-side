@@ -1,6 +1,6 @@
 import React from 'react'
 import {Row,Col,Form,Button,Input,Modal,DatePicker} from 'antd'
-import {SelectorCS,SelectorXL,SelectorXB,SelectorRYSF} from 'component/compSelector'
+import {SelectorCS,SelectorXL,SelectorXB,SelectorRYSF,SelectorJg} from 'component/compSelector'
 
 
 const FormItem = Form.Item;
@@ -75,6 +75,30 @@ let searchForm = React.createClass({
                           {...formItemLayout}
                           label="学历：">
                             <SelectorXL { ...getFieldProps('xl')}/>
+                        </FormItem>
+                    </Col>
+                </Row>
+                <Row>
+                  
+                    <Col span="8">
+                        <FormItem
+                          {...formItemLayout}
+                          label="所属单位：">
+                             <SelectorJg { ...getFieldProps('dwmc')}/>
+                        </FormItem>
+                    </Col>
+                    <Col span="8">
+                        <FormItem
+                          {...formItemLayout}
+                          label="执业资格证书编号：">
+                            <SelectorCS { ...getFieldProps('zyzgzh')}/>
+                        </FormItem>
+                    </Col>
+                    <Col span="8">
+                        <FormItem
+                          {...formItemLayout}
+                          label="执业注册（备案）号：">
+                            <SelectorXL { ...getFieldProps('zsbh')}/>
                         </FormItem>
                     </Col>
                 </Row>
