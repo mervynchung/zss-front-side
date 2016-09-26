@@ -23,6 +23,8 @@ let Updateswsnjb = React.createClass({
         e.preventDefault();
         var mp = {};
         let value = this.props.form.getFieldsValue()
+        var date = new Date(value['SWSFZRSJ']);
+        value['SWSFZRSJ']=date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate();
         let arr=[]
         for (var key in value) {
             if (!value[key]) {
@@ -73,10 +75,13 @@ let Updateswsnjb = React.createClass({
         e.preventDefault();
         var mp = {};
         let value = this.props.form.getFieldsValue()
+        var date = new Date(value['SWSFZRSJ']);
+        value['SWSFZRSJ']=date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate();
         let arr=[]
         for (var key in value) {
             if (!value[key]) {
                 value[key] = null;
+                
 
             }
             if (key.indexOf('wg') != -1) {

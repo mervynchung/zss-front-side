@@ -5,6 +5,7 @@ const detailBox = React.createClass({
 
     render(){
         const obj = this.props.data;
+        console.log(obj);
         var obj2={};
         var obj3={};
         var arr1 =[];
@@ -12,6 +13,7 @@ const detailBox = React.createClass({
 
         if(obj.ZJWGDM){
         arr1 = obj.ZJWGDM.split(',');
+       
         for (var i=0;i<arr1.length;i++){
             obj2[arr1[i]]=true;
         } 
@@ -19,6 +21,7 @@ const detailBox = React.createClass({
         
         if(obj.NJWGDM){
         arr2 = obj.NJWGDM.split(',');
+        console.log(arr2);
         for (var i=0;i<arr2.length;i++){
             obj3[arr2[i]]=true;
         }

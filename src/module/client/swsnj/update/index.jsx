@@ -2,7 +2,7 @@ import React from 'react'
 import req from 'reqwest'
 import config from 'common/configuration'
 import auth from 'common/auth'
-import {Col, Input, Row, Button, Icon, Form, Modal, Checkbox ,DatePicker,InputNumber,Select} from 'antd'
+import {Col, Input, Row, Button, Icon, Form, Modal, Checkbox, DatePicker, InputNumber, Select} from 'antd'
 import {SelectorYear, SelectorXZ, SelectorXm} from 'component/compSelector'
 import './style.css'
 
@@ -28,15 +28,14 @@ let Updatejgnjb = React.createClass({
         value['id'] = id;
         let arr = [];
         for (var key in value) {
-            if (!value[key]) {
-                value[key] = null;
-            }
+            if(Object.prototype.toString.call(value[key])=="[object Undefined]"){
+                value[key]=null
+            };
             if (key.indexOf('wg') != -1) {
                 if (value[key]) {
                     let length = key.length - 2;
                     let str = key.substr(2, length);
                     arr.push(str);
-
                 }
             }
         }
@@ -46,7 +45,6 @@ let Updatejgnjb = React.createClass({
         } else {
             value['wg'] = wg;
         }
-        console.log(value);
         // value.id = obj.ID;
 
         this.props.onSubmit(value);
@@ -66,21 +64,31 @@ let Updatejgnjb = React.createClass({
         let value = this.props.form.getFieldsValue();
         var id = this.state.entity.ID;
         value['id'] = id;
+        let arr = [];
         for (var key in value) {
-            if (!value[key]) {
-                value[key] = null;
+            if(Object.prototype.toString.call(value[key])=="[object Undefined]"){
+                value[key]=null
+            };
+            if (key.indexOf('wg') != -1) {
+                if (value[key]) {
+                    let length = key.length - 2;
+                    let str = key.substr(2, length);
+                    arr.push(str);
 
+                }
             }
+        }
+        let wg = arr.join(',');
+        if (wg == '') {
+            value['wg'] = null;
+        } else {
+            value['wg'] = wg;
         }
         this.setState({
             visible: true,
             okValue: value,
 
         });
-        const obj = this.props.data1;
-        value.id = obj.ID;
-        value.jg_id = obj.JG_ID;
-
     },
 
     //年度下拉框数据显示
@@ -116,7 +124,6 @@ let Updatejgnjb = React.createClass({
 
     },
     handleOk(e) {
-        // console.log('点击了确定',this.state.okValue);
         this.props.handleOk(this.state.okValue)
         this.setState({
             visible: false
@@ -141,7 +148,6 @@ let Updatejgnjb = React.createClass({
             headers: { 'x-auth-token': auth.getToken() },
             contentType: 'application/json',
         }).then(resp => {
-            console.log(resp);
             if (value == resp.data) {
                 callback('同一年度不能做两次年检，请选择其他年度');
             } else {
@@ -160,10 +166,9 @@ let Updatejgnjb = React.createClass({
         })
     },
 
-    render() { 
+    render() {
         const { getFieldProps } = this.props.form;
         const data = this.props.data;
-     console.log(data);
         return <div className="add">
             <div className="fix-table table-bordered table-striped" >
                 <Form horizontal onSubmit={this.handleSubmit}>
@@ -188,17 +193,17 @@ let Updatejgnjb = React.createClass({
                                 <td> <Col
 
                                     label="年度：">
-                                     <FormItem >
-                                    <SelectorYear  {...getFieldProps('nd', {
-                                        initialValue: data.ND,
-                                        rules: [{
-                                            require: true,
-                                            message: '选择一个年度做自检',
-                                        }, {
-                                            validator: this.checkNdIfExit
-                                            }]
-                                    })} onChange={this.handleNdChange} />
-                                       </FormItem>
+                                    <FormItem >
+                                        <SelectorYear  {...getFieldProps('nd', {
+                                            initialValue: data.ND,
+                                            rules: [{
+                                                require: true,
+                                                message: '选择一个年度做自检',
+                                            }, {
+                                                    validator: this.checkNdIfExit
+                                                }]
+                                        }) } onChange={this.handleNdChange} />
+                                    </FormItem>
                                 </Col>
                                 </td>
                                 <td>组织形式：{data.jgxz}</td>
@@ -221,9 +226,9 @@ let Updatejgnjb = React.createClass({
                             </tr>
                             <tr>
                                 <td>总人数：</td>
-                                <td><Input  {...getFieldProps('ZRS',{initialValue:data.dqzyrs} )} style={{ width: "30%" }}/></td>
+                                <td><Input  {...getFieldProps('ZRS', { initialValue: data.dqzyrs }) } style={{ width: "30%" }}/></td>
                                 <td>执业注册税务师人数：</td>
-                                <td><Input {...getFieldProps('zyrs',{initialValue:data.ZYRS}) }  style={{ width: "30%" }}/></td>
+                                <td><Input {...getFieldProps('zyrs', { initialValue: data.ZYRS }) }  style={{ width: "30%" }}/></td>
                                 <td></td>
 
 
@@ -234,9 +239,9 @@ let Updatejgnjb = React.createClass({
                             <tr>
                                 <td>参加后续教育：</td>
 
-                                <td><FormItem labelCol={{ span: 6}} wrapperCol={{ span: 8 }} label="人应参加：" ><Input {...getFieldProps('yjyrs',{initialValue:data.YJYRS}) }  style={{ width: "40%" }}/></FormItem></td>
-                                <td ><FormItem labelCol={{ span: 7 }} wrapperCol={{ span: 8 }} label="人实参加：" ><Input {...getFieldProps('sjjyrs',{initialValue:data.SJJYRS}) }  style={{ width: "40%" }}/></FormItem></td>
-                                <td><FormItem labelCol={{ span: 6 }} wrapperCol={{ span: 12 }} label="未参加：" ><Input {...getFieldProps('wjyrs',{initialValue:data.WJYRS}) }  style={{ width: "40%" }}/></FormItem></td>
+                                <td><FormItem labelCol={{ span: 6 }} wrapperCol={{ span: 8 }} label="人应参加：" ><Input {...getFieldProps('yjyrs', { initialValue: data.YJYRS }) }  style={{ width: "40%" }}/></FormItem></td>
+                                <td ><FormItem labelCol={{ span: 7 }} wrapperCol={{ span: 8 }} label="人实参加：" ><Input {...getFieldProps('sjjyrs', { initialValue: data.SJJYRS }) }  style={{ width: "40%" }}/></FormItem></td>
+                                <td><FormItem labelCol={{ span: 6 }} wrapperCol={{ span: 12 }} label="未参加：" ><Input {...getFieldProps('wjyrs', { initialValue: data.WJYRS }) }  style={{ width: "40%" }}/></FormItem></td>
 
                                 <td></td>
 
@@ -544,14 +549,14 @@ let Updatejgnjb = React.createClass({
 
                                 <td colSpan="4">事务所负责人意见修改：</td>
                                 <td>负责人签名：</td>
-                                
+
                             </tr>
                             <tr>
 
 
                                 <td colSpan="4"><Input {...getFieldProps('NJZJ') } placeholder="可根据实际情况对输入框进行调整（将鼠标放置到输入框右下角即可拉伸）" type="textarea"/></td>
                                 <td><Input {...getFieldProps('FZR') }/></td>
-                               
+
                             </tr>
 
 

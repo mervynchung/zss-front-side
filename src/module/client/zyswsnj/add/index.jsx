@@ -26,9 +26,9 @@ let Addswsnj = React.createClass({
         value['SWSFZRSJ']=date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate();
         let arr = []
         for (var key in value) {
-            if (!value[key]) {
-                value[key] = null;
-            }
+            if(Object.prototype.toString.call(value[key])=="[object Undefined]"){
+                value[key]=null
+            };
             if (key.indexOf('wg') != -1) {
                 if (value[key]) {
                     let length = key.length - 2;
@@ -76,9 +76,9 @@ let Addswsnj = React.createClass({
         value['SWSFZRSJ']=date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate();
         let arr = []
         for (var key in value) {
-            if (!value[key]) {
-                value[key] = null;
-            }
+           if(Object.prototype.toString.call(value[key])=="[object Undefined]"){
+                value[key]=null
+            };
             if (key.indexOf('wg') != -1) {
                 if (value[key]) {
                     let length = key.length - 2;
