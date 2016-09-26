@@ -28,7 +28,8 @@ const c = React.createClass({
         return {summary: summary, zysws: zysws, cyry: cyry}
     },
     componentDidMount(){
-        fetchData();
+
+        //this.fetchData();
     },
     render(){
         const unreadedBadge = <Badge count={109} style={{ backgroundColor: '#87d068' }} />;

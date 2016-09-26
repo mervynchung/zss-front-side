@@ -24,7 +24,6 @@ const history = useRouterHistory(createHashHistory)({
 const Index = React.createClass({
 
     getAccoutState(){
-      console.log('account state')
     },
 
     /*登录校验*/
@@ -121,7 +120,7 @@ const Index = React.createClass({
                 require('../module/jdjc/swsnj'),
 
                 //逐级审核
-                require('../module/spsh'),
+                */require('../module/spsh'),
                 require('../module/spshlsjl'),
                 require('../module/spsh/module/1'),
                 require('../module/spsh/module/2'),
@@ -144,7 +143,7 @@ const Index = React.createClass({
                 require('../module/spsh/module/39'),
                 require('../module/spsh/module/43'),
                 require('../module/spsh/module/44'),
-                require('../module/spsh/module/46'),
+                require('../module/spsh/module/46'),/*
 
                 //数据统计分析 - 年检数据分析
                 require('../module/xtsjfx/njsjfx/rynjsjfx'),//人员年检数据分析
@@ -196,7 +195,7 @@ const Index = React.createClass({
                 require('../module/client/jggl/swszx'),
                 require('../module/client/jggl/swshb'),
                 require('../module/client/jggl/swsfssl'),
-                require('../module/client/jggl/swsslzltb'),
+                require('../module/client/jggl/swsslzltb'), //新所设立资料填报
 
                 //事务所内部审批
                 require('../module/client/swswspcx'),
@@ -231,7 +230,7 @@ const Index = React.createClass({
         }, {
             path: '/signin',
             component: Signin,
-            onSuccess:this.getAccoutState
+            onSuccess:this.getAccoutState //路由传值用例
         }, {
             path: '/print/hyhf/fpdy',
             component: Dyfp

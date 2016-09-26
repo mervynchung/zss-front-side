@@ -29,10 +29,13 @@ const signin = withRouter(React.createClass({
             contentType: 'application/json',
             data: JSON.stringify(value)
         }).then(resp=> {
-            store.set('uname', value.username);
             auth.setToken(resp.token, resp.tokenhash, value.isRemember);
-            auth.setAuthorization({jgId: resp.jgId});
-            this.props.route.onSuccess();
+            auth.setAuthorization({
+                jgId: resp.jgId,
+                menu: resp.menu,
+                role: resp.lo,
+                names:resp.names
+            });
             const { location } = this.props;
             if (location.state && location.state.nextPathname) {
                 this.props.router.replace(location.state.nextPathname)

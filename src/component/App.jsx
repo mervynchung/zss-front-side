@@ -3,11 +3,8 @@ import React from 'react';
 import AppHeader from './AppHeader';
 import AppSideNav from './AppSideNav';
 import AppFooter from './AppFooter';
-import {Breadcrumb,Alert,Modal} from 'antd'
+import {Breadcrumb, Alert, Modal} from 'antd'
 import QueueAnim from 'rc-queue-anim'
-import {withRouter} from 'react-router'
-import req from 'reqwest'
-import config from 'common/configuration'
 import auth from 'common/auth'
 
 
@@ -22,18 +19,21 @@ class App extends React.Component {
     }
 
     componentDidMount() {
-        auth.getAccount()
+        //let acInfo = auth.getAccountInfo();
+        let cc = auth.getcc();
+        this.setState({accountInfo: {names: cc.names, menu: cc.menu}});
+        /*auth.getAccount()
             .then(resp=> {
                 this.setState({
                     accountInfo: {names: resp.names, newMsg: resp.newMsg},
                     menu: resp.menu
                 });
-            }).fail(err=>{
+            }).fail(err=> {
             Modal.error({
                 title: '数据获取错误',
                 content: '无法获取所需数据，请稍后再尝试'
             });
-        })
+        })*/
     }
 
     render() {

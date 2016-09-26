@@ -59,6 +59,13 @@ module.exports = {
 
     setAuthorization(param){
         store.session.set('jid', param.jgId);
+        window.name = JSON.stringify(param)
+    },
+    getAccountInfo(){
+       return JSON.parse(window.acinfo);
+    },
+    getcc(){
+        return JSON.parse(window.name);
     },
 
     isClient(){
