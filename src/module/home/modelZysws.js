@@ -7,32 +7,32 @@ const model = {
         title: '姓名',
         dataIndex: 'xming',
         key: 'xming',
-        width: 60
+        width: 50
     }, {
         title: '性别',
         dataIndex: 'xb',
         key: 'xb',
-        width: 300
+        width: 20
     }, {
         title: '年龄',
         key: 'age',
         dataIndex: 'age',
-        width:300
+        width:20
     }, {
         title: '学历',
         key: 'xl',
         dataIndex: 'xl',
-        width: 220
+        width: 50
     }, {
         title: '出资额',
         key: 'cze',
         dataIndex: 'cze',
-        width:150
+        width:50
     }, {
         title: '出资比率',
         key: 'bl',
         dataIndex: 'bl',
-        width:100
+        width:50
     }]
 };
 

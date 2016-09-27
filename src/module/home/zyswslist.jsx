@@ -1,10 +1,14 @@
 import React from 'react'
 import {Table, Button, Icon, notification} from 'antd'
+import model from './modelZysws'
 
 const list = React.createClass({
     getDefaultProps(){
         return{
-            pageSize:5
+            pageSize:5,
+            keyCol:'id',
+            columns:model.columns,
+            data:[]
         }
     },
 
@@ -22,13 +26,20 @@ const list = React.createClass({
             }
         }
     },
+    getColWidth(model){
+        let w = 0;
+        model.columns.map(item=> {
+            w = item.width ? w + item.width : w + 100;
+        });
+        return w;
+    },
     //通过API获取数据
     fetchData(params){
         const {fetch} = this.props;
         this.setState({loading: true});
         fetch({
             method: 'get',
-            data: params,
+            data: params
         }).then(resp=> {
             const p = this.state.pagination;
             p.current = params.page;
@@ -58,14 +69,14 @@ const list = React.createClass({
     },
 
     render(){
-        const {scrollx,keyCol,columns} = this.props;
+        const {keyCol,columns,data} = this.props;
         return  <Table columns={columns}
-                       dataSource={this.state.data}
+                       dataSource={data || this.state.data}
                        pagination={this.state.pagination}
                        loading={this.state.loading}
                        onChange={this.handleChange}
                        rowKey={record => record[keyCol]}
-                       scroll={{x: scrollx}}
+                       scroll={{x: this.getColWidth(model)}}
                        size="middle"/>
     }
 });

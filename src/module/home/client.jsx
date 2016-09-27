@@ -1,7 +1,7 @@
 import React from 'react';
 import {Row, Col,Tabs,Table,Badge,Icon,Button} from 'antd'
 import Container from 'component/container'
-import ZyswsList from 'zyswsList'
+import ZyswsList from './zyswsList'
 import auth from 'common/auth'
 import req from 'common/request'
 import config from 'common/configuration'
@@ -9,17 +9,25 @@ import './style.css'
 
 const TabPane = Tabs.TabPane;
 const c = React.createClass({
+    //初始化state
+    getInitialState(){
+        return {
+            summary: {},
+            zysws: {},
+            cyry: {}
+        }
+    },
     fetchSummary(jgid){
-        let url = config.HOST + config.URI_API_PROJECT + '/summary/'+jgid;
-        return req({url:url,method:'get',type:'json'})
+        let url = config.HOST + config.URI_API_PROJECT + '/summary/' + jgid;
+        return req({url: url, method: 'get', type: 'json'})
     },
-    fetchZysws(jgid,page=1,pagesize=5){
-        let url = config.HOST + config.URI_API_PROJECT + '/sumZysws/'+jgid;
-        return req({url:url,method:'get',type:'json',data:{page:page,pagesize:pagesize}})
+    fetchZysws(jgid, page = 1, pagesize = 5){
+        let url = config.HOST + config.URI_API_PROJECT + '/sumZysws/' + jgid;
+        return req({url: url, method: 'get', type: 'json', data: {page: page, pagesize: pagesize}})
     },
-    fetchCyry(jgid,page=1,pagesize=5){
-        let url = config.HOST + config.URI_API_PROJECT + '/sumCyry/'+jgid;
-        return req({url:url,method:'get',type:'json',data:{page:page,pagesize:pagesize}})
+    fetchCyry(jgid, page = 1, pagesize = 5){
+        let url = config.HOST + config.URI_API_PROJECT + '/sumCyry/' + jgid;
+        return req({url: url, method: 'get', type: 'json', data: {page: page, pagesize: pagesize}})
     },
     //获取汇总信息，执业人员和从业人员名单
     async fetchData(){
@@ -28,19 +36,20 @@ const c = React.createClass({
         return {summary: summary, zysws: zysws, cyry: cyry}
     },
     componentDidMount(){
-
-        this.fetchData();
+        this.fetchData().then(resp=> {
+            this.setState({summary: resp.summary, zysws: resp.zysws, cyry: resp.cyry})
+        });
     },
     render(){
-        const unreadedBadge = <Badge count={109} style={{ backgroundColor: '#87d068' }} />;
-        const more = <a><Icon type="ellipsis" /> 展开</a>;
+        const unreadedBadge = <Badge count={109} style={{ backgroundColor: '#87d068' }}/>;
+        const more = <a><Icon type="ellipsis"/> 展开</a>;
         return <div className="client-home wrap">
             <Row gutter={16}>
                 <Col span="16">
                     <Container>
                         <Tabs size="small">
                             <TabPane key="1" tab="执业税务师">
-                                <ZyswsList fetch={this.fetchZysws}/>
+                                <ZyswsList fetch={this.fetchZysws} data={this.state.zysws.data}/>
                             </TabPane>
                             <TabPane key="2" tab="从业人员">2</TabPane>
                             <TabPane key="3" tab="所长信息">3</TabPane>
@@ -53,7 +62,7 @@ const c = React.createClass({
                 <Col span="8">
                     <Container className="tabs-for-title">
                         <Tabs size="small" tabBarExtraContent={unreadedBadge}>
-                            <TabPane key ="1" tab="未读消息">1</TabPane>
+                            <TabPane key="1" tab="未读消息">1</TabPane>
                         </Tabs>
                     </Container>
                 </Col>
@@ -62,7 +71,7 @@ const c = React.createClass({
                 <Col>
                     <Container className="tabs-for-title">
                         <Tabs size="small" tabBarExtraContent={more}>
-                            <TabPane key ="1" tab="事务所详细信息">1</TabPane>
+                            <TabPane key="1" tab="事务所详细信息">1</TabPane>
                         </Tabs>
                     </Container>
                 </Col>
