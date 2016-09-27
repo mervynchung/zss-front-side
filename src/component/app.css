@@ -43,7 +43,15 @@
     background-color: #f1f1f1;
 }
 .app-full-loading{
-    font-size: 18px;
+    font-size: 24px;
     font-weight: 600;
-    color:#80DEEA;
+    color:#2db7f5;
+}
+
+#app > .ant-spin-nested-loading > .ant-spin-container{
+    opacity: 0.1;
+}
+#app > .ant-spin-nested-loading {
+    height:100%;
+    background-color: #f8f8f8;
 }

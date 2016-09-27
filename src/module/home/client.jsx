@@ -1,7 +1,7 @@
 import React from 'react';
 import {Row, Col,Tabs,Table,Badge,Icon,Button} from 'antd'
 import Container from 'component/container'
-import Panel from 'component/compPanel'
+import ZyswsList from 'zyswsList'
 import auth from 'common/auth'
 import req from 'common/request'
 import config from 'common/configuration'
@@ -11,15 +11,15 @@ const TabPane = Tabs.TabPane;
 const c = React.createClass({
     fetchSummary(jgid){
         let url = config.HOST + config.URI_API_PROJECT + '/summary/'+jgid;
-        req({url:url,method:'get'})
+        return req({url:url,method:'get',type:'json'})
     },
-    fetchZysws(jgid){
+    fetchZysws(jgid,page=1,pagesize=5){
         let url = config.HOST + config.URI_API_PROJECT + '/sumZysws/'+jgid;
-        req({url:url,method:'get'})
+        return req({url:url,method:'get',type:'json',data:{page:page,pagesize:pagesize}})
     },
-    fetchCyry(jgid){
+    fetchCyry(jgid,page=1,pagesize=5){
         let url = config.HOST + config.URI_API_PROJECT + '/sumCyry/'+jgid;
-        req({url:url,method:'get'})
+        return req({url:url,method:'get',type:'json',data:{page:page,pagesize:pagesize}})
     },
     //获取汇总信息，执业人员和从业人员名单
     async fetchData(){
@@ -29,7 +29,7 @@ const c = React.createClass({
     },
     componentDidMount(){
 
-        //this.fetchData();
+        this.fetchData();
     },
     render(){
         const unreadedBadge = <Badge count={109} style={{ backgroundColor: '#87d068' }} />;
@@ -39,7 +39,9 @@ const c = React.createClass({
                 <Col span="16">
                     <Container>
                         <Tabs size="small">
-                            <TabPane key="1" tab="执业税务师">1</TabPane>
+                            <TabPane key="1" tab="执业税务师">
+                                <ZyswsList fetch={this.fetchZysws}/>
+                            </TabPane>
                             <TabPane key="2" tab="从业人员">2</TabPane>
                             <TabPane key="3" tab="所长信息">3</TabPane>
                             <TabPane key="4" tab="发起人信息">4</TabPane>

@@ -3,7 +3,7 @@ import React from 'react';
 import AppHeader from './AppHeader';
 import AppSideNav from './AppSideNav';
 import AppFooter from './AppFooter';
-import {Breadcrumb, Alert,Icon,Spin} from 'antd'
+import {Breadcrumb, Alert, Icon, Spin} from 'antd'
 import QueueAnim from 'rc-queue-anim'
 import auth from 'common/auth'
 
@@ -18,6 +18,7 @@ class App extends React.Component {
             accountInfo: {}
         };
     }
+
     getChildContext() {
         return {accountInfo: this.state.accountInfo};
     }
@@ -32,13 +33,13 @@ class App extends React.Component {
             });
         } else {
             auth.getAccount()
-              .then(resp=> {
-                  this.setState({
-                      accountInfo: {names: resp.names, newMsg: resp.newMsg,role:resp.lo},
-                      menu: resp.menu,
-                      loading: false
-                  });
-              }).fail(err=> {
+                .then(resp=> {
+                    this.setState({
+                        accountInfo: {names: resp.names, newMsg: resp.newMsg, role: resp.lo},
+                        menu: resp.menu,
+                        loading: false
+                    });
+                }).fail(err=> {
             })
         }
     }
@@ -46,10 +47,11 @@ class App extends React.Component {
     render() {
         const loadScr = <div className="app-full-loading">
             <p><Icon type="loading"/></p>
-            <p>正在加载页面，请稍候...</p>
+            <p style={{fontSize:'14px',color:'#989898'}}>正在加载页面，请稍候...</p>
         </div>;
-        return <div className="app-main">
-            <Spin tip={loadScr} spinning={this.state.loading} size="large">
+        return <Spin tip={loadScr} spinning={this.state.loading} size="large">
+            <div className="app-main">
+
                 <AppHeader data={this.state.accountInfo}/>
                 <AppSideNav data={this.state.menu}/>
                 <div className="app-breadcrumb"><Breadcrumb  {...this.props} /></div>
@@ -60,8 +62,9 @@ class App extends React.Component {
                     })}
                 </QueueAnim>
                 <AppFooter/>
-            </Spin>
-        </div>
+
+            </div>
+        </Spin>
     }
 }
 App.childContextTypes = {
