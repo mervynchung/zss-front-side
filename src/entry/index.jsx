@@ -59,18 +59,16 @@ const Index = React.createClass({
                 require('../module/jggl/swsslsp'),
 
                 //人员管理
-              //  require('../module/rygl/rycx'),
+                require('../module/rygl/rycx'),
 
                 //系统功能设置
                 require('../module/xtgnsz/mkgl'),
                 require('../module/xtgnsz/qxgl'),
                 require('../module/xtgnsz/yhgl'),
 
-
                 //资质管理
                 require('../module/zzgl/jgzzgl'), //事务所资质管理
                 require('../module/zzgl/zyswszzgl'), //执业注师资质管理
-
 
                 //业务管理
                 require('../module/ywgl/ywbbgl'),
@@ -83,12 +81,7 @@ const Index = React.createClass({
                 require('../module/ywgl/setting'), //业务参数设置
                 require('../module/ywgl/ywbbsjfx'),//业务报备数据分析
 
-
-
-
-                 
                 //财务报表
-
                 require('../module/cwbb/lrfpb'),
                 require('../module/cwbb/xjllb'),
                 require('../module/cwbb/zcmxb'),
@@ -122,9 +115,7 @@ const Index = React.createClass({
                 require('../module/jdjc/zyswsnjb'),
                 require('../module/jdjc/swsnj'),
 
-
                 //逐级审核
-
                 require('../module/spsh'),
                 require('../module/spshlsjl'),
                 require('../module/spsh/module/1'),
@@ -163,7 +154,6 @@ const Index = React.createClass({
                 require('../module/xtsjfx/zshynbb/hyjygmqktjb'),//行业经营规模情况统计表5
                 require('../module/xtsjfx/zshynbb/hyjzywqktjb'),//行业鉴证业务情况统计表6
 
-
                //数据统计分析 - 系统统计报表
                 require('../module/xtsjfx/xttjbb/swsqktjA'), //事务所情况统计A
                 require('../module/xtsjfx/xttjbb/hyryqktj'), //行业人员情况统计
@@ -183,9 +173,6 @@ const Index = React.createClass({
                 require('../module/xtsjfx/sjfx/hynlsjfx'),//行业年龄数据分析
                 require('../module/xtsjfx/sjfx/ryztsjfx'),//人员状态数据分析
                 require('../module/xtsjfx/sjfx/zyzshsjfx'),
-
-        
-
 
                 //会员会费缴纳
                 require('../module/hyhf_new/hyhfjnqk'),
@@ -228,13 +215,10 @@ const Index = React.createClass({
                //年度检查
                require('../module/client/swsnj'),//事务所年检
                require('../module/client/zyswsnj'),//执业税务师年检
-               
 
                 //业务管理
                 require('../module/client/ywgl/khxxgl'), //客户信息管理
                 require('../module/client/ywgl/ywbb'), //事务所业务报备
-
-
 
                 //公用功能
                 //修改密码
