@@ -6,6 +6,7 @@ import CyryList from './cyrylist'
 import Fqr from './fqrlist'
 import Czr from './czrlist'
 import Szxx from './szxx'
+import Swsxx from './swsxx'
 import auth from 'common/auth'
 import req from 'common/request'
 import config from 'common/configuration'
@@ -89,7 +90,9 @@ const c = React.createClass({
                 <Col>
                     <Container className="tabs-for-title">
                         <Tabs size="small" tabBarExtraContent={more}>
-                            <TabPane key="1" tab="事务所详细信息">1</TabPane>
+                            <TabPane key="1" tab="事务所详细信息">
+                                <Swsxx data = {this.state.summary.swsxx} />
+                            </TabPane>
                         </Tabs>
                     </Container>
                 </Col>
