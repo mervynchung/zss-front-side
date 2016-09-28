@@ -1,6 +1,6 @@
 import React from 'react'
 import {Table, Button, Icon} from 'antd'
-import model from './modelZysws'
+import model from './modelCyry'
 
 const list = React.createClass({
     getDefaultProps(){

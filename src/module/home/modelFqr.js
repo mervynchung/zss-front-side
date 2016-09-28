@@ -17,7 +17,7 @@ const model = {
         title: '资格证编号',
         key: 'zyzgzsbh',
         dataIndex: 'zyzgzsbh',
-        width:20
+        width:50
     }, {
         title: '执业注师编号',
         key: 'zyzsbh',
