@@ -157,6 +157,7 @@ const data = {
 
 const nbjgsz = {
 rowNum:5,
+startCol:3,
 rows:[{ //设定列
   title: '部门名称', //设定该列名称
   dataIndex: 'BMMC', //设定该列对应后台字段名

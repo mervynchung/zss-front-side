@@ -2,6 +2,7 @@ import React from 'react'
 import {Row,Col,Form,Checkbox,Button,Input,DatePicker,Modal,InputNumber  } from 'antd'
 import {SelectorCSNum,SelectorMZ,SelectorXL,SelectorZZMM,SelectorXB,SelectorZW,SelectorIS,SelectorZYSWSZXYY} from 'component/compSelector'
 import './untils.js'
+import Model from './model.js' 
 
 const createForm = Form.create;
 const InputGroup = Input.Group;
@@ -34,19 +35,35 @@ let baseTable = React.createClass({
             }
 
             let value = this.props.form.getFieldsValue();
+            let nbjgsz=[];
+            let nbjgszbg=[];
             if (!!this.props.nbjgsz) {
-                let nbjgsz=[];
                 for (let i = 0; i < this.props.nbjgsz.rowNum; i++) {
                     let nbzsRow=[];
+                    var target=[];
+                    if (this.props.nbsj.length>0) {
+                        let dat=this.props.nbsj[i];
+                         for (var key in dat) {
+                            target.push(dat[key]);
+                        };
+                    };
                     for (var j = 0;j < this.props.nbjgsz.rows.length; j++) {
                         let prop = this.props.nbjgsz.rows[j];
                         let values=value[prop.dataIndex+'_'+(i+1)+'_'+j];
                         nbzsRow.push(!values?null:values);
+                        if (!!target) {
+                            let sCol = (this.props.nbjgsz.startCol>0?this.props.nbjgsz.startCol:0);
+                            if (values!=target[j+sCol]) {
+                                    nbjgszbg.push(i+'_'+j);
+                            };  
+                        };
                         delete value[prop.dataIndex+'_'+(i+1)+'_'+j];
                     }
                     nbjgsz.push(nbzsRow);
                 }
-                value.nbjgsz=nbjgsz;
+                if (!this.props.bglx) {
+                    value.nbjgsz=nbjgsz;
+                }
             }
             if (this.props.bglx) {
             var ls = [];
@@ -61,14 +78,17 @@ let baseTable = React.createClass({
                     };
                     if (old[key]!=value[key]) {//是否变更数据
                                 if(Object.prototype.toString.call(value[key])=="[object Number]"){//变更项代码--名称转换
-                                ls.push({mc:this.props.bgmc.props[key],jzhi:this.props.bgmc.dzb[key][old[key]],xzhi:this.props.bgmc.dzb[key][value[key]]});
+                                ls.push({mc:Model.props[key],jzhi:Model.dzb[key][old[key]],xzhi:Model.dzb[key][value[key]]});
                             }else{
-                                ls.push({mc:this.props.bgmc.props[key],jzhi:old[key],xzhi:value[key]});
+                                ls.push({mc:Model.props[key],jzhi:old[key],xzhi:value[key]});
                             };
                     };
             };
-            if (ls.length!=0) {
+            if (ls.length!=0||nbjgszbg.length!=0) {
                 value.bgjl=ls;
+                if (!!this.props.nbjgsz) {
+                    value.nbjgsz=nbjgsz;
+                }
                 this.props.onSubmit(value);
             }else{
                 Modal.info({ title: '提示', content: (<div><p>没有数据更新，请检查后提交</p> </div>)});
@@ -235,7 +255,8 @@ let baseTable = React.createClass({
                     for (var j = 0;j < this.props.nbjgsz.rows.length; j++) {
                         let prop = this.props.nbjgsz.rows[j];
                         if (!!target) {
-                        nbzsCol.push(<td key={'td-nbjgsz-'+prop.dataIndex} className="prop-name"><Input { ...getFieldProps(prop.dataIndex+'_'+i+'_'+j,{ initialValue: target[j+3]})}/></td>);
+                        let sCol = (this.props.nbjgsz.startCol>0?this.props.nbjgsz.startCol:0);
+                        nbzsCol.push(<td key={'td-nbjgsz-'+prop.dataIndex} className="prop-name"><Input { ...getFieldProps(prop.dataIndex+'_'+i+'_'+j,{ initialValue: target[j+sCol]})}/></td>);
                         }else{
                         nbzsCol.push(<td key={'td-nbjgsz-'+prop.dataIndex} className="prop-name"><Input { ...getFieldProps(prop.dataIndex+'_'+i+'_'+j)}/></td>);
                         };

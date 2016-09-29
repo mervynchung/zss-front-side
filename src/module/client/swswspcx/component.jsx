@@ -60,7 +60,10 @@ const swswspcx = React.createClass({
         })
     },
     ztRender(text, row, index) {
-                    return <Link to={"spsh/module/"+row.lid}>[处理事项]</Link>;
+                    if (row.wss==0) {
+                        return <p>无审批事项</p>;
+                    };
+                    return <Link to={"spsh/module/"+row.lid+"?"+encodeURIComponent(row.jgid)}>[处理事项]</Link>;
   },
 
     componentDidMount(){
@@ -76,7 +79,7 @@ const swswspcx = React.createClass({
                   render(text, row, index){
                     return <p>{index+1}</p>;
                   },
-                },
+        },
         {title: '审批事项名称', dataIndex: 'wsxm', key: 'wsxm'},
         {title: '待审批数', dataIndex: 'wss', key: 'wss'},
         {
