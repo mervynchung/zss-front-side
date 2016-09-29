@@ -49,7 +49,7 @@
     font-weight: 600;
     color:#2db7f5;
 }
-.app-main.blur{
+.blur{
     -webkit-filter: blur(1px);
     filter: blur(1px);
     -webkit-filter: progid\:DXImageTransform\.Microsoft\.Blur(PixelRadius\=1, MakeShadow\=false);
@@ -63,6 +63,7 @@
     top:0;
     visibility: hidden;
     z-index: 9000;
+    opacity: 0.1;
     background-color: #08172F;
 }
 .spin-nested.enabled{

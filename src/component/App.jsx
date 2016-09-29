@@ -37,7 +37,7 @@ class App extends React.Component {
                     this.setState({
                         accountInfo: {names: resp.names, newMsg: resp.newMsg, role: resp.lo},
                         menu: resp.menu,
-                        loading: true
+                        loading: false
                     });
                 }).fail(err=> {
             })
@@ -49,16 +49,16 @@ class App extends React.Component {
             <p><Icon type="loading"/></p>
             <p style={{fontSize: '14px', color: '#FCFCFC'}}>正在加载页面，请稍候...</p>
         </div>;
-        let mainclass = this.state.loading ? 'app-main blur' : 'app-main';
         let spinClass = this.state.loading? 'spin-nested enabled':'spin-nested';
+        let blur = this.state.loading? 'blur':'';
         let spinHeight = document.body.clientHeight;
-        return <div className={mainclass}>
+        return <div className="app-main">
             <div className={spinClass} style={{height:spinHeight}}>
                 <Spin tip={loadScr}/>
             </div>
 
-            <AppHeader data={this.state.accountInfo}/>
-            <AppSideNav data={this.state.menu}/>
+            <AppHeader  data={this.state.accountInfo}/>
+            <AppSideNav  data={this.state.menu}/>
             <div className="app-breadcrumb"><Breadcrumb  {...this.props} /></div>
 
             <QueueAnim type={['bottom', 'top']} duration={450} className="app-content">
