@@ -29,7 +29,7 @@ class App extends React.Component {
             this.setState({
                 accountInfo: {names: acInfo.names, role: acInfo.role},
                 menu: acInfo.menu,
-                loading: false
+                loading: true
             });
         } else {
             auth.getAccount()
@@ -50,9 +50,10 @@ class App extends React.Component {
             <p style={{fontSize: '14px', color: '#FCFCFC'}}>正在加载页面，请稍候...</p>
         </div>;
         let mainclass = this.state.loading ? 'app-main blur' : 'app-main';
+        let spinClass = this.state.loading? 'spin-nested enabled':'spin-nested';
         let spinHeight = document.body.clientHeight;
         return <div className={mainclass}>
-            <div className="spin-nested enabled" style={{height:spinHeight}}>
+            <div className={spinClass} style={{height:spinHeight}}>
                 <Spin tip={loadScr}/>
             </div>
 
