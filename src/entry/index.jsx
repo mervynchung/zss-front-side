@@ -78,7 +78,7 @@ const Index = React.createClass({
                 //用户登录记录表
                 require('../module/yhdljlb'),
 
-                //业务管理
+               //业务管理
                 require('../module/ywgl/ywbbgl'),
                 require('../module/ywgl/ywbbthsp'), //业务报备退回审批
                 require('../module/ywgl/ywbbcxsp'), //业务报备退回审批
