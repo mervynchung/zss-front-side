@@ -122,7 +122,7 @@ const yhdljlb = React.createClass({
 
 
     //通过API获取数据
-    fetchData(params = {pagenum: 1, pageSize: this.state.pagination.pageSize }) {
+    fetchData(params = { pagenum: 1, pageSize: this.state.pagination.pageSize }) {
         this.setState({ loading: true });
         req({
             url: API_URL,
@@ -161,7 +161,7 @@ const yhdljlb = React.createClass({
 
     render() {
 
-        console.log(this.state.data);
+
         //定义工具栏内容
         let toolbar = <ToolBar>
             { this.state.add && <Button onClick={this.handleSearchToggle}>
