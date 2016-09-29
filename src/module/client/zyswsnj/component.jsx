@@ -1,5 +1,5 @@
 import React from 'react'
-import {Table, Modal, Row, Col, Button, Icon, Alert} from 'antd'
+import {Table, Modal, Row, Col, Button, Icon, Alert,message} from 'antd'
 import CompPageHead from 'component/CompPageHead'
 import Panel from 'component/compPanel'
 import {handleRowButton, columns, entityModel} from './model'
@@ -14,14 +14,14 @@ import {entityFormat} from 'common/utils'
 import DetailBox from './detailbox.jsx'
 
 
-const API_URL = config.HOST + config.URI_API_PROJECT + '/add/lrb';
-const URL = config.HOST + config.URI_API_PROJECT + '/addlrb';
+const API_URL = config.HOST + config.URI_API_PROJECT + '/add/zyswsnj';
+const URL = config.HOST + config.URI_API_PROJECT + '/addzyswsnjb';
 
 const ToolBar = Panel.ToolBar;
 const ButtonGroup = Button.Group;
 
 
-const lrb = React.createClass({
+const zyswsnj = React.createClass({
     //初始化state
     getInitialState() {
         return {
@@ -40,11 +40,11 @@ const lrb = React.createClass({
             where: '',
             helper: false,
             entity: '',
-           
+
             detailHide: true,
             add: true,
             update: true,
-            
+
         }
     },
 
@@ -64,7 +64,7 @@ const lrb = React.createClass({
 
     //查询按钮
     handleSearchToggle() {
-        this.setState({ searchToggle: !this.state.searchToggle, detailHide: true ,});
+        this.setState({ searchToggle: !this.state.searchToggle, detailHide: true, });
     },
 
 
@@ -72,7 +72,7 @@ const lrb = React.createClass({
     handleRefresh() {
         const pager = this.state.pagination;
         pager.current = 1;
-        this.setState({ pagination: pager, where: '', detailHide: true,update:true });
+        this.setState({ pagination: pager, where: '', detailHide: true, update: true });
         this.fetchData();
     },
 
@@ -82,15 +82,15 @@ const lrb = React.createClass({
     },
     //打开添加表
     handleAdd() {
-        this.setState({ add: !this.state.add, detailHide: true ,update: true})
-       
+        this.setState({ add: !this.state.add, detailHide: true, update: true })
+
     },
     //打开修改表
     handleUpdate() {
-        this.setState({update: !this.state.update,detailHide: true});
-        
+        this.setState({ update: !this.state.update, detailHide: true });
+
     },
-   
+
 
     //手动关闭帮助提示
     handleHelperClose() {
@@ -100,7 +100,7 @@ const lrb = React.createClass({
     //点击提交
     handleOk(e) {
         let vv = e;
-        vv.ztbj = '1'       
+        vv.ztbj = '2'
         this.fetchHandle(vv);
         this.handleAdd();
     },
@@ -110,9 +110,9 @@ const lrb = React.createClass({
             type: 'json',
             method: 'post',
             data: JSON.stringify(value),
-            headers:{'x-auth-token':auth.getToken()},
-            contentType:'application/json',
-           
+            headers: { 'x-auth-token': auth.getToken() },
+            contentType: 'application/json',
+
 
         }).then(resp => {
             Modal.success({
@@ -126,32 +126,34 @@ const lrb = React.createClass({
             message.error('Status Code:' + err.status + '  api错误 ')
         })
     },
- 
+
     //点击保存
     handleSubmit(value) {
+        console.log(value);
         let vv = value;
-        vv.ztbj = '0'
+        vv.ztbj = '1'
         this.fetchHandle(vv);
         this.handleAdd();
     },
-    
-     //点击编辑提交
+
+    //点击编辑提交
     handleOk1(e) {
-       let vv = e;
-       vv.ztbj = '1'
-       this.fetchHandle1(vv);
-       this.handleUpdate();
-      
+        let vv = e;
+        vv.ztbj = '2'
+        this.fetchHandle1(vv);
+        this.handleUpdate();
+
     },
     fetchHandle1(value) {
+        console.log("value", value)
         req({
             url: URL + '/' + value.id,
             type: 'json',
             method: 'put',
             data: JSON.stringify(value),
-            headers:{'x-auth-token':auth.getToken()},
-            contentType:'application/json',
-            
+            headers: { 'x-auth-token': auth.getToken() },
+            contentType: 'application/json',
+
 
         }).then(resp => {
             Modal.success({
@@ -165,11 +167,11 @@ const lrb = React.createClass({
             message.error('Status Code:' + err.status + '  api错误 ')
         })
     },
- 
+
     //点击编辑保存
     handleSubmit1(value) {
         let vv = value;
-        vv.ztbj = '0'       
+        vv.ztbj = '1'
         this.fetchHandle1(vv);
         this.handleUpdate();
     },
@@ -190,12 +192,12 @@ const lrb = React.createClass({
 
     //点击某行
     fetchData2(record) {
-        
+
         req({
             url: API_URL + '/' + record.id,
             type: 'json',
             method: 'get',
-            headers:{'x-auth-token':auth.getToken()},
+            headers: { 'x-auth-token': auth.getToken() },
             contentType: 'application/json'
         }).then(resp => {
             let entity = entityFormat(resp, entityModel);
@@ -210,7 +212,7 @@ const lrb = React.createClass({
                     </div>)
             });
         })
-    },  
+    },
     //明细表关闭
     handleDetailClose() {
         this.setState({ detailHide: true })
@@ -225,8 +227,8 @@ const lrb = React.createClass({
             type: 'json',
             method: 'get',
             data: params,
-            headers:{'x-auth-token':auth.getToken()},
-           contentType:'application/json',
+            headers: { 'x-auth-token': auth.getToken() },
+            contentType: 'application/json',
         }).then(resp => {
             const p = this.state.pagination;
             p.total = resp.total > 1000 ? 1000 : resp.total;
@@ -254,80 +256,78 @@ const lrb = React.createClass({
     componentDidMount() {
         this.fetchData();
     },
-    
-    
-testee(text,record,index){
 
-    var that = this;
-function ddd() {
-   
-     req({
-            url: API_URL + '/' + record.id,
-            type: 'json',
-            method: 'get',
-            headers:{'x-auth-token':auth.getToken()},
-            contentType: 'application/json'
-        }).then(resp => {
-          
-         
-            that.setState({update: !that.state.update,detailHide: true,entity:resp,});
-           
-        }).fail(err => {
-            Modal.error({
-                title: '数据获取错误',
-                content: (
-                    <div>
-                        <p>无法从服务器返回数据，需检查应用服务工作情况</p>
-                        <p>Status: {err.status}</p>
-                    </div>)
-            });
-        })
-   
-}
-function look() {
-    
-     that.fetchData2(record)
-     that.setState({update: true})
-}
-if(record.ZTBJ=="提交"){
-     return ( <span> 
-    <Button disabled size="small" onClick={ddd} >
-    
-    <Icon type="edit" />编辑
-  </Button>
-  <Button size="small" onClick={look} >
-    <Icon type="book" />查看
-  </Button>
-  </span>
-  )
-}else{
-     return ( <span> 
-    <Button   size="small" onClick={ddd} >
-    
-    <Icon type="edit" />编辑
-  </Button>
-  <Button size="small" onClick={look} >
-    <Icon type="book" />查看
-  </Button>
-  </span>
-  )
-}
-   
-},
+
+    testee(text, record, index) {
+
+        var that = this;
+        function ddd() {
+
+            req({
+                url: API_URL + '/' + record.id,
+                type: 'json',
+                method: 'get',
+                headers: { 'x-auth-token': auth.getToken() },
+                contentType: 'application/json'
+            }).then(resp => {
+
+
+                that.setState({ update: !that.state.update, detailHide: true, entity: resp, });
+
+            }).fail(err => {
+                Modal.error({
+                    title: '数据获取错误',
+                    content: (
+                        <div>
+                            <p>无法从服务器返回数据，需检查应用服务工作情况</p>
+                            <p>Status: {err.status}</p>
+                        </div>)
+                });
+            })
+
+        }
+        function look() {
+
+            that.fetchData2(record)
+            that.setState({ update: true })
+        }
+        if (record.ZTDM == "保存") {
+            return (<span>
+                <Button size="small" onClick={ddd} >
+                    <Icon type="edit" />编辑
+                </Button>
+                <Button size="small" onClick={look} >
+                    <Icon type="book" />查看
+                </Button>
+            </span>
+            )
+        } else {
+            return (<span>
+                <Button disabled size="small" onClick={ddd} >
+                    <Icon type="edit" />编辑
+                </Button>
+                <Button size="small" onClick={look} >
+                    <Icon type="book" />查看
+                </Button>
+            </span>
+            )
+        }
+
+    },
 
 
     render() {
-const column1=[
-        {title: '序号', dataIndex: 'key', key: 'key'},
-        {title: '年度', dataIndex: 'nd', key: 'nd'},
-        {title: '机构名称', dataIndex: 'DWMC', key: 'DWMC'},
-        {title: '自检时间', dataIndex: 'zjrq', key: 'zjrq'},
-        {title: '状态', key: 'njzt', dataIndex: 'njzt'},
-        {
-        title: '操作',
-    key: 'operation',
-     render:this.testee,
-} ];
+        const column1 = [
+            { title: '序号', dataIndex: 'key', key: 'key' },
+            { title: '年度', dataIndex: 'ND', key: 'ND' },
+            { title: '姓名', dataIndex: 'XMING', key: 'XMING' },
+            { title: '状态', key: 'ZTDM', dataIndex: 'ZTDM' },
+            { title: '处理结果', dataIndex: 'njcl', key: 'njcl' },
+            {
+                title: '操作',
+                key: 'operation',
+                render: this.testee,
+            }];
         //定义工具栏内容
         let toolbar = <ToolBar>
             { this.state.add && <Button onClick={this.handleSearchToggle}>
@@ -348,27 +348,26 @@ const column1=[
                 { this.state.add ? <Icon className="toggle-tip" type="plus-square"/> :
                     <Icon className="toggle-tip" type="arrow-left"/>}
             </Button>
-            
+
 
         </ToolBar>;
 
         //定义提示内容
         let helper = [];
-        helper.push(<p key="helper-0">点击查询结果查看利润表明细</p>);
-        helper.push(<p key="helper-1">也可以添加修改和提交利润表</p>);
+        helper.push(<p key="helper-0">点击选择按钮，选择需要年检的执业税务师</p>);
         return <div className="cwbb-lrb">
             <div className="wrap">
-                {this.state.helper && <Alert message="利润表检索查询帮助"
+                {this.state.helper && <Alert message="注册税务师年检表检索查询帮助"
                     description={helper}
                     type="info"
                     closable
                     onClose={this.handleHelperClose}/>}
 
 
-                <Panel title="利润表" toolbar={toolbar}>
+                <Panel title="注册税务师年检表" toolbar={toolbar}>
                     {this.state.searchToggle && <SearchForm
                         onSubmit={this.handleSearchSubmit}/>}
-                    { this.state.add &&  <div className="h-scroll-table">
+                    { this.state.add && <div className="h-scroll-table">
 
                         <Table columns={column1}
                             dataSource={this.state.data}
@@ -379,11 +378,11 @@ const column1=[
                     </div>}
                     {!this.state.add && <Add onSubmit={this.handleSubmit} handleOk={this.handleOk} data={this.state.data} />}
                     {!this.state.update && <Panel title="修改"  onClose={this.handleDetailClose}
-                    closable> 
-                    <Update onSubmit={this.handleSubmit1} handleOk={this.handleOk1} data1={this.state.entity} />
+                        closable>
+                        <Update onSubmit={this.handleSubmit1} handleOk={this.handleOk1} data1={this.state.entity} />
                     </Panel>}
                 </Panel>
-                {this.state.detailHide ? null : <Panel title="利润表明细"
+                {this.state.detailHide ? null : <Panel title="注册税务师年检表明细"
                     onClose={this.handleDetailClose}
                     closable>
                     <DetailBox data={this.state.entity}/>
@@ -393,4 +392,4 @@ const column1=[
     }
 });
 
-module.exports = lrb;
+module.exports = zyswsnj;

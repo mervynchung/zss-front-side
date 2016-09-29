@@ -12,7 +12,7 @@ import Dyzb from 'module/useforprint/glsc_zb/dy.jsx';
 import Dyfb from 'module/useforprint/glsc_fb/dy.jsx';
 import Zyjbxx from 'module/rygl/rycx/zyryjbxx.jsx';
 import Cyjbxx from 'module/rygl/rycx/cyryjbxx.jsx';
-import {cenHome,clientHome } from '../module/home';
+import {cenHome, clientHome } from '../module/home';
 import NotFound from 'module/404notfound'
 import auth from 'common/auth'
 
@@ -24,7 +24,7 @@ const history = useRouterHistory(createHashHistory)({
 const Index = React.createClass({
 
     /*登录校验*/
-    requireAuth(nextState, replace){
+    requireAuth(nextState, replace) {
         /*if (!auth.verifyPermission(nextState.location.pathname)) {
          replace({
          pathname: '/404',
@@ -34,17 +34,17 @@ const Index = React.createClass({
         if (!auth.verifyAuth()) {
             replace({
                 pathname: '/signin',
-                state: {nextPathname: nextState.location.pathname}
+                state: { nextPathname: nextState.location.pathname }
             })
         }
     },
 
-    render(){
+    render() {
         /*路由配置*/
         const routes = [{
             path: '/',
             component: App,
-            indexRoute: {component: auth.isClient() ? clientHome : cenHome},
+            indexRoute: { component: auth.isClient() ? clientHome : cenHome },
             ignoreScrollBehavior: true,
             breadcrumbName: '首页',
             onEnter: this.requireAuth,
@@ -59,7 +59,10 @@ const Index = React.createClass({
                 require('../module/jggl/swsslsp'),
 
                 //人员管理
-                require('../module/rygl/rycx'),
+
+                 require('../module/rygl/rycx'),
+
+
 
                 //系统功能设置
                 require('../module/xtgnsz/mkgl'),
@@ -70,7 +73,12 @@ const Index = React.createClass({
                 require('../module/zzgl/jgzzgl'), //事务所资质管理
                 require('../module/zzgl/zyswszzgl'), //执业注师资质管理
 
-                //业务管理
+
+
+                //用户登录记录表
+                require('../module/yhdljlb'),
+
+               //业务管理
                 require('../module/ywgl/ywbbgl'),
                 require('../module/ywgl/ywbbthsp'), //业务报备退回审批
                 require('../module/ywgl/ywbbcxsp'), //业务报备退回审批
@@ -145,7 +153,7 @@ const Index = React.createClass({
                 require('../module/xtsjfx/njsjfx/rynjsjfx'),//人员年检数据分析
                 require('../module/xtsjfx/njsjfx/jgnjsjfxb'),//机构年检数据分析
 
-                //数据统计分析 - 注税行业年报表
+               //数据统计分析 - 注税行业年报表
                 require('../module/xtsjfx/zshynbb/hyjygmqktj'),//行业经营规模情况统计
                 require('../module/xtsjfx/zshynbb/swsjbqktjb'),//事务所基本情况统计表1
                 require('../module/xtsjfx/zshynbb/hyryqktjb'),//行业人员情况统计表2
@@ -154,11 +162,11 @@ const Index = React.createClass({
                 require('../module/xtsjfx/zshynbb/hyjygmqktjb'),//行业经营规模情况统计表5
                 require('../module/xtsjfx/zshynbb/hyjzywqktjb'),//行业鉴证业务情况统计表6
 
-                //数据统计分析 - 系统统计报表
+               //数据统计分析 - 系统统计报表
                 require('../module/xtsjfx/xttjbb/swsqktjA'), //事务所情况统计A
                 require('../module/xtsjfx/xttjbb/hyryqktj'), //行业人员情况统计
                 require('../module/xtsjfx/xttjbb/swsqktj_b'),//事务所情况统计B
-                require('../module/xtsjfx/xttjbb/swszttj'),  //税务师状况统计
+                require('../module/xtsjfx/xttjbb/swszttj'),//税务师状态统计 
                 require('../module/xtsjfx/xttjbb/zyswszjtj'),//税务师转籍统计
                 require('../module/xtsjfx/xttjbb/zyswszctj'),//税务师转出统计
 
@@ -171,8 +179,9 @@ const Index = React.createClass({
                 require('../module/xtsjfx/sjfx/hyxlsjfx'),//行业学历数据分析
                 require('../module/xtsjfx/sjfx/zjgmsjfx'),//资金规模数据分析
                 require('../module/xtsjfx/sjfx/hynlsjfx'),//行业年龄数据分析
-                require('../module/xtsjfx/sjfx/ryztsjfx'),
+                require('../module/xtsjfx/sjfx/ryztsjfx'),//人员状态数据分析
                 require('../module/xtsjfx/sjfx/zyzshsjfx'),
+
 
                 //会员会费缴纳
                 require('../module/hyhf_new/hyhfjnqk'),
@@ -182,6 +191,7 @@ const Index = React.createClass({
 
                 //证照打印管理
                 require('../module/zzdygl/zyglscdy'),
+
 
 
                 //客户端
@@ -214,43 +224,49 @@ const Index = React.createClass({
                 require('../module/client/sdsb/hyryqktjb'),
                 require('../module/client/sdsb/jysrqkb'),
 
+
+                //年度检查
+                require('../module/client/swsnj'),//事务所年检
+                require('../module/client/zyswsnj'),//执业税务师年检
+
+
+
                 //业务管理
                 require('../module/client/ywgl/khxxgl'), //客户信息管理
                 require('../module/client/ywgl/ywbb'), //事务所业务报备
-
 
                 //公用功能
                 //修改密码
                 require('../module/updatepass')
             ]
         }, {
-            path: '/signin',
-            component: Signin
-        }, {
-            path: '/print/hyhf/fpdy',
-            component: Dyfp
-        }, {
-            path: '/print/zzdygl/glscdj',
-            component: Dydj
-        }, {
-            path: '/print/zzdygl/glscry',
-            component: Dyry
-        }, {
-            path: '/print/zzdygl/jgzyzzb',
-            component: Dyzb
-        }, {
-            path: '/print/zzdygl/jgzyzfb',
-            component: Dyfb
-        }, {
-            path: '/new_blank/sws/zyjbxx',
-            component: Zyjbxx
-        },{
-            path: '/new_blank/sws/cyjbxx',
-            component: Cyjbxx
-        }, {
-            path: '*',
-            component: NotFound
-        }];
+                path: '/signin',
+                component: Signin
+            }, {
+                path: '/print/hyhf/fpdy',
+                component: Dyfp
+            }, {
+                path: '/print/zzdygl/glscdj',
+                component: Dydj
+            }, {
+                path: '/print/zzdygl/glscry',
+                component: Dyry
+            }, {
+                path: '/print/zzdygl/jgzyzzb',
+                component: Dyzb
+            }, {
+                path: '/print/zzdygl/jgzyzfb',
+                component: Dyfb
+            }, {
+                path: '/new_blank/sws/zyjbxx',
+                component: Zyjbxx
+            }, {
+                path: '/new_blank/sws/cyjbxx',
+                component: Cyjbxx
+            }, {
+                path: '*',
+                component: NotFound
+            }];
         return <Router history={history} routes={routes}/>
     }
 });
