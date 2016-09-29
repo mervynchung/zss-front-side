@@ -37,7 +37,7 @@ class App extends React.Component {
                     this.setState({
                         accountInfo: {names: resp.names, newMsg: resp.newMsg, role: resp.lo},
                         menu: resp.menu,
-                        loading: false
+                        loading: true
                     });
                 }).fail(err=> {
             })
@@ -47,24 +47,26 @@ class App extends React.Component {
     render() {
         const loadScr = <div className="app-full-loading">
             <p><Icon type="loading"/></p>
-            <p style={{fontSize:'14px',color:'#989898'}}>正在加载页面，请稍候...</p>
+            <p style={{fontSize: '14px', color: '#FCFCFC'}}>正在加载页面，请稍候...</p>
         </div>;
-        return <Spin tip={loadScr} spinning={this.state.loading} size="large">
-            <div className="app-main">
-
-                <AppHeader data={this.state.accountInfo}/>
-                <AppSideNav data={this.state.menu}/>
-                <div className="app-breadcrumb"><Breadcrumb  {...this.props} /></div>
-
-                <QueueAnim type={['bottom', 'top']} duration={450} className="app-content">
-                    {React.cloneElement(this.props.children, {
-                        key: this.props.location.pathname
-                    })}
-                </QueueAnim>
-                <AppFooter/>
-
+        let mainclass = this.state.loading ? 'app-main blur' : 'app-main';
+        let spinHeight = document.body.clientHeight;
+        return <div className={mainclass}>
+            <div className="spin-nested enabled" style={{height:spinHeight}}>
+                <Spin tip={loadScr}/>
             </div>
-        </Spin>
+
+            <AppHeader data={this.state.accountInfo}/>
+            <AppSideNav data={this.state.menu}/>
+            <div className="app-breadcrumb"><Breadcrumb  {...this.props} /></div>
+
+            <QueueAnim type={['bottom', 'top']} duration={450} className="app-content">
+                {React.cloneElement(this.props.children, {
+                    key: this.props.location.pathname
+                })}
+            </QueueAnim>
+            <AppFooter/>
+        </div>
     }
 }
 App.childContextTypes = {

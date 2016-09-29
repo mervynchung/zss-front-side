@@ -4,6 +4,8 @@
     height: auto;
     min-height: 100%;
     padding-top:64px;
+    -webkit-transition: all 0.3s cubic-bezier(0.78, 0.14, 0.15, 0.86);
+    transition: all 0.3s cubic-bezier(0.78, 0.14, 0.15, 0.86);
 }
 .app-main:before {
     position: absolute;
@@ -47,11 +49,35 @@
     font-weight: 600;
     color:#2db7f5;
 }
+.app-main.blur{
+    -webkit-filter: blur(1px);
+    filter: blur(1px);
+    -webkit-filter: progid\:DXImageTransform\.Microsoft\.Blur(PixelRadius\=1, MakeShadow\=false);
+    filter: progid\:DXImageTransform\.Microsoft\.Blur(PixelRadius\=1, MakeShadow\=false);
+    /* IE6~IE9 */
+    position: relative;
+}
+.spin-nested{
+    width:100%;
+    position: absolute;
+    top:0;
+    visibility: hidden;
+    background-color: #08172F;
+}
+.spin-
+/*
+.app-main > .ant-spin-nested-loading {
+    position: absolute;
+    width:100%;
+    top:0;
+    bottom:0;
+    z-index: 9000;
+}
+.app-main > .ant-spin-nested-loading > .ant-spin-container {
+    opacity:0.1;
+    height:100%
+}
 
 #app > .ant-spin-nested-loading > .ant-spin-container{
     opacity: 0.1;
-}
-#app > .ant-spin-nested-loading {
-    height:100%;
-    background-color: #f8f8f8;
-}
+}*/
