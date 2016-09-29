@@ -78,6 +78,7 @@ const Index = React.createClass({
                 require('../module/ywgl/ywwtfyjgl'), //业务委托方预警管理
                 require('../module/ywgl/setting'), //业务参数设置
                 require('../module/ywgl/ywbbsjfx'),//业务报备数据分析
+                require('../module/ywgl/ywbbsjhz'),//业务报备数据汇总
 
 
                  //财务报表
