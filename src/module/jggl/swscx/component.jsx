@@ -277,6 +277,7 @@ const jgcx = React.createClass({
             }, {
               title: '操作',
               key: 'operation',
+              width:110,
               fixed:'right',
               render:this.ztRender
         }];
