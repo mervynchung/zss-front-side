@@ -1,5 +1,5 @@
 import React from 'react'
-import {Table, Row, Col, Button, Icon, notification, Alert} from 'antd'
+import {Table, Row, Col, Button, Icon, notification} from 'antd'
 import Panel from 'component/compPanel'
 import req from 'reqwest';
 import {SearchFormSws} from '../searchForm'
@@ -76,25 +76,39 @@ const component = React.createClass({
         this.fetchData(param);
     },
 
-    handleChange(pagination, filters, sorter){
-        const p=pagination;
-        const param={
-            page:p.current,
-            pagesize:p.pageSize,
-            where:this.state.where
+    handleChange(pagination, filters, sorter) {
+        const p = pagination;
+        const param = {
+            page: p.current,
+            pagesize: p.pageSize,
+            where: this.state.where
         };
         this.fetchData(param);
     },
 
-    back(){
-        this.setState({searchToggle: !this.state.searchToggle});
+    back() {
+        this.setState({ searchToggle: !this.state.searchToggle });
+    },
+
+    //根据value值获取业务类型名称
+    getYwlxMc(value) {
+        const ywlxs = Model.ywlx;
+        for (var i = 0; i < ywlxs.length; i++) {
+            if (value == ywlxs[i].id) {
+                return ywlxs[i].mc;
+            }
+        }
     },
 
     render() {
         const {title} = this.props;
-        const ywlx=Model.ywlx;
-        const titleRs=<div>
-        <span>业务类型：{ywlx[this.state.where.ywlx]}</span></div>;
+        const ywlx = Model.ywlx;
+        const scroll={};
+        if(this.props.scrollx){
+            scroll.x=this.props.scrollx;
+        }
+        const titleRs = <div>
+            <span>业务类型：{this.getYwlxMc(this.state.where.ywlx)}</span></div>;
         const toolbar = <PanelBar>
             <Button onClick={this.back}>
                 <Icon type="rollback"/>返回
@@ -108,11 +122,12 @@ const component = React.createClass({
             }
             { !this.state.searchToggle &&
                 <Panel title={titleRs} toolbar={toolbar}>
-                <Table columns={Model.columnsSws}
-                    dataSource={this.state.data}
-                    loading={this.state.loading}
-                    pagination={this.state.pagination}
-                    onChange={this.handleChange} />
+                    <Table columns={Model.columnsSws}
+                        dataSource={this.state.data}
+                        loading={this.state.loading}
+                        pagination={this.state.pagination}
+                        onChange={this.handleChange} 
+                        scroll={scroll}/>
                 </Panel>
             }
         </div>
