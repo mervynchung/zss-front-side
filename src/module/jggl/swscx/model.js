@@ -203,7 +203,13 @@ const pageSetting = { //分页设置
 const columnsZyry = [{ //设定列
   title: '姓名', //设定该列名称
   dataIndex: 'xming', //设定该列对应后台字段名
-  key: 'xming', //列key，必须设置，建议与字段名相同
+  key: 'xming', //
+  render(text, row, index){
+    return (
+      <span>
+        <a href={"#/new_blank/sws/zyjbxx?"+row.zyid} target="_blank">{text}</a>
+      </span>
+    );}
 }, {
   title: '是否出资人',
   dataIndex: 'czr',
@@ -236,6 +242,12 @@ const columnsCyry = [{ //设定列
   title: '姓名', //设定该列名称
   dataIndex: 'xming', //设定该列对应后台字段名
   key: 'xming', //列key，必须设置，建议与字段名相同
+  render(text, row, index){
+    return (
+      <span>
+        <a href={"#/new_blank/sws/cyjbxx?"+row.cyid} target="_blank">{text}</a>
+      </span>
+    );}
 }, {
   title: '学历',
   dataIndex: 'xl',

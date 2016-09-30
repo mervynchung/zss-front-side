@@ -6,6 +6,7 @@ import req from 'reqwest';
 import config from 'common/configuration'
 import DetailBox from './detailbox.jsx'
 import DetailBoxPT from './detailboxPT.jsx'
+import Model from './model.js' 
 
 
 const API_URL = config.HOST + config.URI_API_PROJECT + '/jgsxx/';
@@ -169,7 +170,7 @@ const swsbgsq = React.createClass({
                     <DetailBox data={this.state.entity} onSubmit={this.handleSPSubmit} submitLoading={this.state.sPLoading} check={!this.state.checked}/>
                 </Panel></Spin>
                 <Panel >
-                   <Spin spinning={this.state.sloading}> <DetailBoxPT data={this.state.entity} check={!this.state.checked} onSubmit={this.handlePTSubmit} submitLoading={this.state.sPLoading}/></Spin>
+                   <Spin spinning={this.state.sloading}> <DetailBoxPT data={this.state.entity} nbjgsz={Model.nbjgsz} nbTitle="内部机构设置：" nbsj={this.state.entity.nbjgsz} check={!this.state.checked} onSubmit={this.handlePTSubmit} submitLoading={this.state.sPLoading}/></Spin>
                 </Panel>
             </div>
         </div>

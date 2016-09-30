@@ -1,9 +1,11 @@
 import React from 'react'
 import {Row,Col,Form,Checkbox,Button,Input,DatePicker,Modal,InputNumber  } from 'antd'
-import {SelectorCS,SelectorMZ,SelectorXL,SelectorZZMM,SelectorXB,SelectorZW,SelectorIS,SelectorZYSWSZXYY} from 'component/compSelector'
+import {SelectorCSNum,SelectorMZ,SelectorXL,SelectorZZMM,SelectorXB,SelectorZW,SelectorIS,SelectorZYSWSZXYY} from 'component/compSelector'
 import './untils.js'
+import Model from './model.js' 
 
 const createForm = Form.create;
+const InputGroup = Input.Group;
 const TrWrapper = React.createClass({
     render(){
         return <tr>{this.props.children}</tr>
@@ -16,7 +18,11 @@ let baseTable = React.createClass({
     //         this.handleReset();
     //     };
     // },
-
+     getDefaultProps(){
+        return {
+            nbsj:[],
+        }
+    },
     handleReset(e) {
         this.props.form.resetFields();
     },
@@ -29,6 +35,36 @@ let baseTable = React.createClass({
             }
 
             let value = this.props.form.getFieldsValue();
+            let nbjgsz=[];
+            let nbjgszbg=[];
+            if (!!this.props.nbjgsz) {
+                for (let i = 0; i < this.props.nbjgsz.rowNum; i++) {
+                    let nbzsRow=[];
+                    var target=[];
+                    if (this.props.nbsj.length>0) {
+                        let dat=this.props.nbsj[i];
+                         for (var key in dat) {
+                            target.push(dat[key]);
+                        };
+                    };
+                    for (var j = 0;j < this.props.nbjgsz.rows.length; j++) {
+                        let prop = this.props.nbjgsz.rows[j];
+                        let values=value[prop.dataIndex+'_'+(i+1)+'_'+j];
+                        nbzsRow.push(!values?null:values);
+                        if (!!target) {
+                            let sCol = (this.props.nbjgsz.startCol>0?this.props.nbjgsz.startCol:0);
+                            if (values!=target[j+sCol]) {
+                                    nbjgszbg.push(i+'_'+j);
+                            };  
+                        };
+                        delete value[prop.dataIndex+'_'+(i+1)+'_'+j];
+                    }
+                    nbjgsz.push(nbzsRow);
+                }
+                if (!this.props.bglx) {
+                    value.nbjgsz=nbjgsz;
+                }
+            }
             if (this.props.bglx) {
             var ls = [];
             const old = this.props.data;
@@ -37,16 +73,22 @@ let baseTable = React.createClass({
                         var dd = value[key].Format("yyyy-MM-dd");
                         value[key]=dd;
                     };
+                    if(Object.prototype.toString.call(value[key])=="[object Undefined]"){
+                        value[key]=null;
+                    };
                     if (old[key]!=value[key]) {//是否变更数据
                                 if(Object.prototype.toString.call(value[key])=="[object Number]"){//变更项代码--名称转换
-                                ls.push({mc:this.props.bgmc.props[key],jzhi:this.props.bgmc.dzb[key][old[key]],xzhi:this.props.bgmc.dzb[key][value[key]]});
+                                ls.push({mc:Model.props[key],jzhi:Model.dzb[key][old[key]],xzhi:Model.dzb[key][value[key]]});
                             }else{
-                                ls.push({mc:this.props.bgmc.props[key],jzhi:old[key],xzhi:value[key]});
+                                ls.push({mc:Model.props[key],jzhi:old[key],xzhi:value[key]});
                             };
                     };
             };
-            if (ls.length!=0) {
+            if (ls.length!=0||nbjgszbg.length!=0) {
                 value.bgjl=ls;
+                if (!!this.props.nbjgsz) {
+                    value.nbjgsz=nbjgsz;
+                }
                 this.props.onSubmit(value);
             }else{
                 Modal.info({ title: '提示', content: (<div><p>没有数据更新，请检查后提交</p> </div>)});
@@ -58,6 +100,9 @@ let baseTable = React.createClass({
                             var dd = value[key].Format("yyyy-MM-dd");
                             value[key]=dd;
                         };
+                    if(Object.prototype.toString.call(value[key])=="[object Undefined]"){
+                        value[key]=null;
+                    };
                 };
                 this.props.onSubmit(value);
         };
@@ -104,8 +149,39 @@ let baseTable = React.createClass({
                     td = [];
                     colCount = 0;
                 }
-                td.push(<td style={{'width':'200px'}} key={'td-k-'+prop.id} className="prop-name">{prop.name}</td>);
-                td.push(<td key={'td-v-'+prop.id} colSpan={prop.groupspan*2-1}>{this.props.data[prop.id]}</td>);
+                 if (prop.required) {
+                td.push(<td key={'td-k-'+prop.id} style={{'width':'200px'}} className="prop-name"><span style={{'color':'red',fontSize:'large'}}>*</span>{prop.name}</td>);
+                }else{
+                td.push(<td key={'td-k-'+prop.id} style={{'width':'200px'}} className="prop-name">{prop.name}</td>);
+                };
+                if (!!prop.inputType) {
+                    switch(prop.inputType){
+                        case "date":
+                                 td.push(<td key={'td-v-'+prop.id} colSpan={prop.groupspan*2-1} ><DatePicker disabled={prop.disabled} { ...getFieldProps(prop.id, {rules: [{ type: prop.type,required: !!prop.required}]})}></DatePicker></td>);break;
+                        case "cs":
+                                 td.push(<td key={'td-v-'+prop.id} colSpan={prop.groupspan*2-1} ><SelectorCSNum labelInValue disabled={prop.disabled} style={{'width':prop.width?prop.width:'200px'}} { ...getFieldProps(prop.id, { rules: [{ type: prop.type,required: !!prop.required}]})}></SelectorCSNum></td>);break;
+                        case "mz":
+                                 td.push(<td key={'td-v-'+prop.id} colSpan={prop.groupspan*2-1} ><SelectorMZ disabled={prop.disabled} style={{'width':prop.width?prop.width:'200px'}} { ...getFieldProps(prop.id, { rules: [{ type: prop.type,required: !!prop.required}]})}></SelectorMZ></td>);break;
+                        case "xl":
+                                 td.push(<td key={'td-v-'+prop.id} colSpan={prop.groupspan*2-1} ><SelectorXL disabled={prop.disabled} style={{'width':prop.width?prop.width:'200px'}} { ...getFieldProps(prop.id, { rules: [{ type: prop.type,required: !!prop.required}]})}></SelectorXL></td>);break;
+                        case "xb":
+                                 td.push(<td key={'td-v-'+prop.id} colSpan={prop.groupspan*2-1} ><SelectorXB disabled={prop.disabled} style={{'width':prop.width?prop.width:'100px'}} { ...getFieldProps(prop.id, { rules: [{ type: prop.type,required: !!prop.required}]})}></SelectorXB></td>);break;
+                        case "zzmm":
+                                 td.push(<td key={'td-v-'+prop.id} colSpan={prop.groupspan*2-1} ><SelectorZZMM disabled={prop.disabled} style={{'width':prop.width?prop.width:'200px'}} { ...getFieldProps(prop.id, { rules: [{ type: prop.type,required: !!prop.required}]})}></SelectorZZMM></td>);break;
+                        case "zw":
+                                 td.push(<td key={'td-v-'+prop.id} colSpan={prop.groupspan*2-1} ><SelectorZW disabled={prop.disabled} style={{'width':prop.width?prop.width:'200px'}} { ...getFieldProps(prop.id, { rules: [{ type: prop.type,required: !!prop.required}]})}></SelectorZW></td>);break;
+                        case "is":
+                                 td.push(<td key={'td-v-'+prop.id} colSpan={prop.groupspan*2-1} ><SelectorIS disabled={prop.disabled} style={{'width':prop.width?prop.width:'100px'}} { ...getFieldProps(prop.id, { rules: [{ type: prop.type,required: !!prop.required}]})}></SelectorIS></td>);break;
+                        case "number":
+                                 td.push(<td key={'td-v-'+prop.id} colSpan={prop.groupspan*2-1} ><Input style={{'width':prop.width?prop.width:'200px'}} disabled={prop.disabled} { ...getFieldProps(prop.id, { rules: [{ required: !!prop.required}]})}></Input></td>);break;
+                        case "textarea":
+                                 td.push(<td key={'td-v-'+prop.id} colSpan={prop.groupspan*2-1}  ><Col span={prop.span?prop.span:20}><Input disabled={prop.disabled} type="textarea" rows={prop.rows} { ...getFieldProps(prop.id, { rules: [{ required: !!prop.required}]})}></Input></Col></td>);break;
+                        case "zyzxyy":
+                                 td.push(<td key={'td-v-'+prop.id} colSpan={prop.groupspan*2-1} ><SelectorZYSWSZXYY disabled={prop.disabled} style={{'width':prop.width?prop.width:'200px'}} { ...getFieldProps(prop.id, { rules: [{ type: prop.type,required: !!prop.required}]})}></SelectorZYSWSZXYY></td>);break;
+                    }
+                }else{
+                 td.push(<td key={'td-v-'+prop.id} colSpan={prop.groupspan*2-1} ><Input style={{'width':prop.width?prop.width:'200px'}} disabled={prop.disabled} { ...getFieldProps(prop.id, { rules: [{type: prop.type, required: !!prop.required}]})}></Input></td>);
+                };
                 colCount += prop.groupspan
                 //处理非跨列项目
             } else {
@@ -119,7 +195,7 @@ let baseTable = React.createClass({
                         case "date":
                                  td.push(<td key={'td-v-'+prop.id}><DatePicker disabled={prop.disabled} { ...getFieldProps(prop.id, {rules: [{ type: prop.type,required: !!prop.required}]})}></DatePicker></td>);break;
                         case "cs":
-                                 td.push(<td key={'td-v-'+prop.id}><SelectorCS disabled={prop.disabled} style={{'width':prop.width?prop.width:'200px'}} { ...getFieldProps(prop.id, { rules: [{ type: prop.type,required: !!prop.required}]})}></SelectorCS></td>);break;
+                                 td.push(<td key={'td-v-'+prop.id}><SelectorCSNum disabled={prop.disabled} style={{'width':prop.width?prop.width:'200px'}} { ...getFieldProps(prop.id, { rules: [{ type: prop.type,required: !!prop.required}]})}></SelectorCSNum></td>);break;
                         case "mz":
                                  td.push(<td key={'td-v-'+prop.id}><SelectorMZ disabled={prop.disabled} style={{'width':prop.width?prop.width:'200px'}} { ...getFieldProps(prop.id, { rules: [{ type: prop.type,required: !!prop.required}]})}></SelectorMZ></td>);break;
                         case "xl":
@@ -138,6 +214,8 @@ let baseTable = React.createClass({
                                  td.push(<td key={'td-v-'+prop.id} ><Col span={prop.span?prop.span:20}><Input disabled={prop.disabled} type="textarea" rows={prop.rows} { ...getFieldProps(prop.id, { rules: [{ required: !!prop.required}]})}></Input></Col></td>);break;
                         case "zyzxyy":
                                  td.push(<td key={'td-v-'+prop.id}><SelectorZYSWSZXYY disabled={prop.disabled} style={{'width':prop.width?prop.width:'200px'}} { ...getFieldProps(prop.id, { rules: [{ type: prop.type,required: !!prop.required}]})}></SelectorZYSWSZXYY></td>);break;
+                        case "password":
+                                 td.push(<td key={'td-v-'+prop.id}><Input style={{'width':prop.width?prop.width:'200px'}} disabled={prop.disabled} type="password" { ...getFieldProps(prop.id, { rules: [{type: prop.type, required: !!prop.required}]})}></Input></td>);break;
                     }
                 }else{
                  td.push(<td key={'td-v-'+prop.id}><Input style={{'width':prop.width?prop.width:'200px'}} disabled={prop.disabled} { ...getFieldProps(prop.id, { rules: [{type: prop.type, required: !!prop.required}]})}></Input></td>);
@@ -152,6 +230,41 @@ let baseTable = React.createClass({
                 tr.push(<TrWrapper key={'tr-'+tr.length+1}>{td}</TrWrapper>);
             }
         }
+        let nbzs=[];
+        if (!!this.props.nbjgsz) {
+            nbzs.push(<tr className="nbjgsz" key="0004"><td key="0004" colSpan='10' style={{textAlign:'left'}}>{!this.props.nbTitle?null:this.props.nbTitle}</td></tr>);
+            let nbzsRow=[];
+            for (let i = 0; i < this.props.nbjgsz.rowNum+1; i++) {
+                if (i==0) {
+                    let nbzsCol=[];
+                    for (var j = 0;j < this.props.nbjgsz.rows.length; j++) {
+                        let prop = this.props.nbjgsz.rows[j];
+                        nbzsCol.push(<td key={'td-title-'+prop.dataIndex} style={{'width':prop.width?prop.width:'auto',textAlign:'center'}} className="prop-name">{prop.title}</td>);
+                    };
+                    nbzsRow.push(<TrWrapper key={'tr-nbjgsz'+i}>{nbzsCol}</TrWrapper>);
+                    continue
+                };
+                var target=[];
+                if (this.props.nbsj.length>0) {
+                    let dat=this.props.nbsj[i-1];
+                     for (var key in dat) {
+                        target.push(dat[key]);
+                    };
+                };
+                let nbzsCol=[];
+                    for (var j = 0;j < this.props.nbjgsz.rows.length; j++) {
+                        let prop = this.props.nbjgsz.rows[j];
+                        if (!!target) {
+                        let sCol = (this.props.nbjgsz.startCol>0?this.props.nbjgsz.startCol:0);
+                        nbzsCol.push(<td key={'td-nbjgsz-'+prop.dataIndex} className="prop-name"><Input { ...getFieldProps(prop.dataIndex+'_'+i+'_'+j,{ initialValue: target[j+sCol]})}/></td>);
+                        }else{
+                        nbzsCol.push(<td key={'td-nbjgsz-'+prop.dataIndex} className="prop-name"><Input { ...getFieldProps(prop.dataIndex+'_'+i+'_'+j)}/></td>);
+                        };
+                    };
+                    nbzsRow.push(<TrWrapper key={'tr-nbjgsz'+i}>{nbzsCol}</TrWrapper>);
+            };
+            nbzs.push(<tr key="0009"><td key="0010" colSpan='10' ><div key="0005"><table key="0006"> <tbody key="0007">{nbzsRow}</tbody></table></div></td></tr>);
+        };
         return <div className={'base-table '+
              (this.props.bordered?'table-bordered ':' ')+
              (this.props.striped?'table-striped ':' ')}>
@@ -163,10 +276,13 @@ let baseTable = React.createClass({
                 {tr}
                 </tbody>
                 <tbody key="0002">
-                <tr key="0003"><td key="0004" colSpan='10'><div style={{float:'right'}}>
-                <Button type="primary"  htmlType="submit" onClick={this.props.showConfirm?this.showConfirm:this.handleSubmit} disabled={this.props.disabled} loading={this.props.submitLoading}>提交</Button>
-                {this.props.reset?<span ><span className="ant-divider"></span><Button type="ghost"  htmlType="submit" onClick={this.handleReset} >重置</Button></span>:null}
-                </div></td></tr>
+                    {nbzs}
+                </tbody>
+                <tbody key="0003">
+                    <tr key="0005"><td key="0005" colSpan='10'><div style={{float:'right'}}>
+                        <Button type="primary"  htmlType="submit" onClick={this.props.showConfirm?this.showConfirm:this.handleSubmit} disabled={this.props.disabled} loading={this.props.submitLoading}>提交</Button>
+                        {this.props.reset?<span ><span className="ant-divider"></span><Button type="ghost"  htmlType="submit" onClick={this.handleReset} >重置</Button></span>:null}
+                    </div></td></tr>
                 </tbody>
                 
             </table>

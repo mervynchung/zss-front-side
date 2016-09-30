@@ -141,14 +141,14 @@ const compTable = React.createClass({
         return <Spin spinning={this.props.loading}>
         <div>
         <div className={"ant-table "+ sizeClass+ " ant-table-scroll-position-left "+
-             (this.props.bordered?' ant-table-bordered  ':' ')}>
+             (this.props.bordered?' comp-table ant-table-bordered  ':' ')}>
         <div className={"ant-table-content"}>
         <div className={(this.props.scroll? " ant-table-scroll ":' ')}>
         <span>
         <div className={"ant-table-body"} style={bodyStyle}>
         <table style={tableStyle}>
         <colgroup>{colgroup}</colgroup>
-        <thead className={"ant-table-thead"}>{th}</thead>
+        <thead className={"ant-table-thead comp-table"}>{th}</thead>
         <tbody className={"ant-table-tbody"}>{tr}</tbody>
         </table>
         </div>

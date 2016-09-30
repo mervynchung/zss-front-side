@@ -2,15 +2,13 @@ import React from 'react'
 import {Table, Row, Col, Button, Icon, notification, Alert} from 'antd'
 import Panel from 'component/compPanel'
 import req from 'reqwest';
-import SearchForm from './jssearchForm'
+import SearchForm from './sdSearchForm'
 import merge from 'lodash/merge';
 import {isEmptyObject,jsonCopy} from 'common/utils'
 import auth from 'common/auth'
 
-
 const ToolBar = Panel.ToolBar;
 const ButtonGroup = Button.Group;
-
 
 const list = React.createClass({
     //初始化state
@@ -107,27 +105,34 @@ const list = React.createClass({
 
     //组件加载时读取数据
     componentDidMount(){
+        this.props.onMount();
         if(isEmptyObject(this.props.stateShot)){
             this.fetchData();
         }else{
             this.setState({...this.props.stateShot})
         }
     },
+    componentWillUnmount(){
 
+    },
     //行点击处理
     handleRowClick(record){
         this.state.entity = record;
         this.setState({entity:record})
     },
     //表格中的复选框勾选
-    handleSelectedRowChange(selectedRowKeys, selectedRows){
+    handleSelectedRowChange(selectedRowKeys){
         this.setState({selectedRowKeys: selectedRowKeys})
     },
-    //解锁
-    lock(){
+    //重置选择
+    resetSelect(){
+        this.setState({selectedRowKeys:[]})
+    },
+    //资质锁定对话框
+    unlock(){
         const token = auth.getToken();
-        const {apiUrl} = this.props;
-        let params =JSON.stringify({id:this.state.selectedRowKeys,lx:'lock'}) ;
+        const {apiUrl,refreshList} = this.props;
+        let params =JSON.stringify({id:this.state.selectedRowKeys}) ;
         req({
             url: apiUrl,
             type: 'json',
@@ -136,14 +141,14 @@ const list = React.createClass({
             contentType:'application/json',
             headers: {'x-auth-token': token}
         }).then(resp=>{
-            this.refreshCurrent();
+            refreshList();
             this.setState({selectedRowKeys:[]})
         }).fail(e=> {
             this.setState({loading: false});
             notification.error({
                 duration: 2,
                 message: '操作失败',
-                description: '目前网络无法访问，请稍后尝试'
+                description: '网络访问故障，请稍后尝试'
             });
         })
     },
@@ -151,7 +156,11 @@ const list = React.createClass({
         const rowSelection = {
             type: 'checkbox',
             selectedRowKeys: this.state.selectedRowKeys,
-            onChange: this.handleSelectedRowChange
+            onChange: this.handleSelectedRowChange,
+            getCheckboxProps: record => ({
+                disabled: record.yxbz === false    // 配置无法勾选的列
+            }),
+
         };
         const {title, scrollx,keyCol,columns} = this.props;
         let toolbar = <ToolBar>
@@ -162,11 +171,15 @@ const list = React.createClass({
             </Button>
 
             <ButtonGroup>
-                <Button type="primary" onClick={this.handleRefresh}><Icon type="reload"/></Button>
-                <Button type="primary" onClick={this.lock}><Icon type="lock" />恢复锁定</Button>
+                <Button type="default" onClick={this.handleRefresh}><Icon type="reload"/></Button>
+                <Button type="default" onClick={this.resetSelect}><Icon type="retweet" />重置选择</Button>
+                <Button type="primary" onClick={this.unlock}><Icon type="unlock" />解除锁定</Button>
             </ButtonGroup>
         </ToolBar>;
+
+
         return <Panel title={title} toolbar={toolbar}>
+
                 {this.state.searchToggle && <SearchForm
                     onSubmit={this.handleSearchSubmit}/>}
                 <Table columns={columns}

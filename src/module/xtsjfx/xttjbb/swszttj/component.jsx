@@ -183,7 +183,7 @@ const swszttj = React.createClass({
                         <Table columns={columns}
                         //数据是从{column}中取，column通过import引入，column的定义在model中
                                dataSource={this.state.data}
-                               pagination={this.state.pagination}
+                               pagination={!this.state.pagination}
                                loading={this.state.loading}
                                onChange={this.handleChange}
                                onRowClick={this.handleRowClick}/>

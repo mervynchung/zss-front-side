@@ -28,7 +28,7 @@ const component = React.createClass({
       };
     },
     
-  fetch_data(params = {where:encodeURIComponent(JSON.stringify(this.state.where)),}) {
+  fetch_data(params = {where:encodeURIComponent(JSON.stringify(this.state.where))}) {
       this.setState({loading:true,});//主查询加载状态
       req({
             url: API_URL,//默认数据查询后台返回JSON

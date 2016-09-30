@@ -1,23 +1,32 @@
 /**
  * Created by ming on 2016/4/11.
  */
+import React from 'react'
+import {Icon} from 'antd'
 
 const model = {
     columns: [{
-        title:'序号',
-        dataIndex: 'rownum',
-        key: 'rownum',
-        width:50
+        title:'锁定状态',
+        dataIndex:'yxbz',
+        key:'yxbz',
+        width:80,
+        render(text,record){
+            if (text == 1) {
+                return <span style={{fontSize:'14px',color:'#E01515'}}><Icon type="lock"/></span>
+            }else {
+                return <span style={{fontSize:'14px',color:'#CCCCCC'}} ><Icon type="unlock"/> </span>
+            }
+        }
+    },{
+        title: '税务师姓名',
+        dataIndex: 'xming',
+        key: 'xming',
+        width: 100
     },{
         title: '锁定时间',
         dataIndex: 'sdtime',
         key: 'sdtime',
         width: 100
-    }, {
-        title: '事务所名称',
-        dataIndex: 'swsmc',
-        key: 'swsmc',
-        width: 300
     }, {
         title: '锁定人',
         key: 'sdr',
@@ -47,7 +56,7 @@ const model = {
         title: '解锁时间',
         dataIndex: 'jstime',
         key: 'jstime',
-        width: 100
+        width:100
     }]
 };
 

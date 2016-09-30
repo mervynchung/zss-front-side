@@ -20,7 +20,7 @@ const wspcx = React.createClass({
       const mxbg=<div >
                     <CompBaseTable data = {obj}  model ={Model.data} bordered striped />
                     <p className="nbjgsz">内部机构设置：</p>
-                    <Table columns={Model.nbjgsz} dataSource={this.state.datalist} bordered  size="small" pagination={false} />
+                    <Table columns={Model.nbjgsz} dataSource={obj.nbjgsz} bordered  size="small" pagination={false} />
                     </div>
         return <div className="wspxm-spsh">
             <div className="wrap">

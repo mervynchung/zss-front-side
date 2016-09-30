@@ -9,7 +9,7 @@ import Model from './model.js'
 import auth from 'common/auth'
 import SearchForm from './searchForm'
 import { Link } from 'react-router'
-import {  DatePicker,Modal,Form, Input, Select,Table, Icon,Tabs,Button,Row,Col,message,Dropdown,Menu,Spin,Radio }from 'antd'
+import {  DatePicker,Modal,Form, Input, Select,Table, Icon,Tabs,Button,Row,Col,message,Dropdown,Menu,Spin,Radio,Upload }from 'antd'
 // 标签定义
 const TabPane = Tabs.TabPane;
 const ToolBar = Panel.ToolBar;
@@ -24,6 +24,7 @@ const API_URL_FS = config.HOST+config.URI_API_PROJECT + '/spapi/fspsq/zyzrfs';
 const API_URL_ZC = config.HOST+config.URI_API_PROJECT + '/spapi/spsq/zyzcsq';
 const API_URL_ZS = config.HOST+config.URI_API_PROJECT + '/spapi/spsq/zyzssq';
 const API_URL_C = config.HOST + config.URI_API_PROJECT + '/commont/checksping/zysp/';
+const API_URL_GX = config.HOST + config.URI_API_PROJECT + '/rygl/ryxpgx/';
 const radioStyle = {
       display: 'block',
       height: '30px',
@@ -44,6 +45,7 @@ const rycx = React.createClass({
             activeKey:"",
             czAll:0,
             zyswsid:"",
+            ryid:"",
             valueFS: '',
             fsRad:null,
       };
@@ -129,7 +131,7 @@ const rycx = React.createClass({
 
     onSelect(record){//主查询记录被选中方法
        this.state.urls=record._links;
-       this.setState({activeKey:1,zyswsid:record.zyswsid});
+       this.setState({activeKey:1,zyswsid:record.zyswsid,ryid:record.ryid});
        req({
             url: API_URL_C+record.zyswsid,
             type: 'json',
@@ -396,6 +398,55 @@ onChangeFS(e) {
               key: 'operation',
              render:this.columRender,
             }];
+        var that=this;
+        const props = {
+            showUploadList: false,
+            name: 'file',
+            action: '/api/upload',
+            headers: {'x-auth-token': auth.getToken()},
+            onChange(info) {
+                if (info.file.status == 'uploading') {
+                    that.setState({sloading: true});
+                }
+                if (info.file.status == 'done') {
+                    that.setState({sloading: false});
+                    req({url: API_URL_GX+that.state.ryid,
+                        method: 'put',
+                        type: 'json',
+                        data:info.file.response.text,
+                      headers:{'x-auth-token':auth.getToken()},
+                      error: (err) =>{
+                            Modal.error({
+                            title: '照片更新失败',
+                            });
+                        }
+                    });
+                    Modal.success({
+                        title: '上传成功',
+                        onOk(){
+                            that.fetch_kzxx(1);
+                        }
+                    });
+                } else if (info.file.status == 'error') {
+                    that.setState({sloading: false});
+                    Modal.error({
+                        title: '上传失败',
+                        content: (<p>{info.file.name}上传失败</p>)
+                    });
+                }
+            },
+            beforeUpload(file) {
+                if (file.type.indexOf('image')<0) {
+                    message.error('只能上传图片类型文件');
+                    return false;
+                }
+                if (file.size>1048576) {
+                    message.error('文件大小不能超过1M');
+                    return false;
+                }
+                return true;
+            }
+        };
         let toolbar = <ToolBar>
             <Button onClick={this.handleSearchToggle}>
                 <Icon type="search"/>查询
@@ -422,7 +473,10 @@ onChangeFS(e) {
 
               {this.state.czAll==0 &&<Spin spinning={this.state.sloading}><Panel >
                    <Tabs type="line" activeKey={this.state.activeKey} onChange={this.callback} key="A">
-                        <TabPane tab="详细信息" key="1"><CompBaseTable data = {this.state.dataxx}  model={Model.autoform} bordered striped /><p className="nbjgsz">人员简历：</p>
+                        <TabPane tab="详细信息" key="1">
+                        <div style={{float:"right",width:"143px",height:"175px",backgroundColor: "#fff",border: "1px solid #e9e9e9"}}>
+                        {!this.state.dataxx.xpian? <p>未上传相片</p> : <img src={this.state.dataxx.xpian} style={{padding:"5px"}}/>}</div>
+                        <CompBaseTable data = {this.state.dataxx}  model={Model.autoform} bordered striped /><p className="nbjgsz">人员简历：</p>
                         <Table columns={Model.ryjl} dataSource={this.state.datalist} bordered  size="small" pagination={false} /></TabPane>
                         <TabPane tab="变更记录" key="2"><Table columns={Model.columnsZyrybgjl} dataSource={this.state.datalist} bordered  size="small" /></TabPane>
                         <TabPane tab="年检记录" key="7"><Table columns={Model.columnsZyrynjjl} dataSource={this.state.datalist} bordered  size="small" /></TabPane>
@@ -430,6 +484,10 @@ onChangeFS(e) {
                         </Panel></Spin>}
                         {this.state.czAll==1 &&<Panel title="信息变更" toolbar={toolbar2}>
                         <Spin spinning={this.state.sloading}>
+                        <div style={{float:"right",}}>
+                        <div style={{width:"143px",height:"175px",backgroundColor: "#fff",border: "1px solid #e9e9e9"}}>
+                                {!this.state.dataxx.xpian? <p>未上传相片</p> : <img src={this.state.dataxx.xpian} style={{padding:"5px"}}/>}
+                          </div><Upload {...props}><Button >更改照片</Button></Upload><p>（文件大小不能超过1M）</p><p>（更新照片不需提交）</p></div>
                         <CompInputBaseTable data={this.state.dataxx}  model={Model.autoform1} bordered striped showConfirm bglx 
                          onSubmit={this.handleBGSubmit} bgmc={Model.bgmc} disabled={this.state.onSubmitZT} 
                           submitLoading={this.state.bgLoading} title='您是否确认要提交以上变更信息？' 
