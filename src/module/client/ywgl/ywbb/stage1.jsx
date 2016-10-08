@@ -155,7 +155,7 @@ let stage = React.createClass({
                 <FormItem
                   labelCol={{span: 4}} wrapperCol={{span: 8}}
                   label="所得税税前扣除项目鉴证金额" required>
-                    <InputNumber style={{width:'75%'}} {...getFieldProps('TZVALUE1')}/>元
+                    <InputNumber  min={0} max={9999999999.99} step={0.01} style={{width:'75%'}} {...getFieldProps('TZVALUE1')}/>元
                 </FormItem>
             </Col>
         </Row>;
@@ -164,14 +164,14 @@ let stage = React.createClass({
                 <FormItem
                   labelCol={{span: 8}} wrapperCol={{span: 12}}
                   label="纳税调整增加额" required>
-                    <InputNumber style={{width:'75%'}} {...getFieldProps('TZVALUE1')}/>元
+                    <InputNumber  min={0} max={9999999999.99} step={0.01} style={{width:'75%'}} {...getFieldProps('TZVALUE1')}/>元
                 </FormItem>
             </Col>
             <Col span="12">
                 <FormItem
                   labelCol={{span: 8}} wrapperCol={{span: 12}}
                   label="纳税调整减少额" required>
-                    <InputNumber style={{width:'75%'}} {...getFieldProps('TJVALUE2')}/>元
+                    <InputNumber  min={0} max={9999999999.99} step={0.01} style={{width:'75%'}} {...getFieldProps('TJVALUE2')}/>元
                 </FormItem>
             </Col>
         </Row>;
@@ -180,14 +180,14 @@ let stage = React.createClass({
                 <FormItem
                   labelCol={{span: 8}} wrapperCol={{span: 12}}
                   label="应补税额" required>
-                    <InputNumber style={{width:'75%'}} {...getFieldProps('TZVALUE1')}/>元
+                    <InputNumber min={0} max={9999999999.99} step={0.01} style={{width:'75%'}} {...getFieldProps('TZVALUE1')}/>元
                 </FormItem>
             </Col>
             <Col span="12">
                 <FormItem
                   labelCol={{span: 8}} wrapperCol={{span: 12}}
                   label="应退税额" required>
-                    <InputNumber style={{width:'75%'}} {...getFieldProps('TJVALUE2')}/>元
+                    <InputNumber min={0} max={9999999999.99} step={0.01} style={{width:'75%'}} {...getFieldProps('TJVALUE2')}/>元
                 </FormItem>
             </Col>
         </Row>;
@@ -200,14 +200,14 @@ let stage = React.createClass({
                 <FormItem
                   labelCol={{span: 8}} wrapperCol={{span: 12}}
                   label="调增应纳税额" required>
-                    <InputNumber style={{width:'75%'}} {...getFieldProps('TZVALUE1')}/>元
+                    <InputNumber min={0} max={9999999999.99} step={0.01} style={{width:'75%'}} {...getFieldProps('TZVALUE1')}/>元
                 </FormItem>
             </Col>
             <Col span="12">
                 <FormItem
                   labelCol={{span: 8}} wrapperCol={{span: 12}}
                   label="调减应纳税额" required>
-                    <InputNumber style={{width:'75%'}} {...getFieldProps('TJVALUE2')}/>元
+                    <InputNumber min={0} max={9999999999.99} step={0.01} style={{width:'75%'}} {...getFieldProps('TJVALUE2')}/>元
                 </FormItem>
             </Col>
         </Row>;
@@ -344,7 +344,7 @@ let stage = React.createClass({
                         <FormItem
                           labelCol={{span: 4}} wrapperCol={{span: 8}}
                           label="委托企业营业收入">
-                            <InputNumber style={{width:'75%'}} {...sfjeProps}/>元
+                            <InputNumber min={0} max={999999999999.99} step={0.01} style={{width:'75%'}} {...sfjeProps}/>元
                         </FormItem>
                     </Col>
                 </Row>

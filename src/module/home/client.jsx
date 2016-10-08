@@ -7,6 +7,7 @@ import Fqr from './fqrlist'
 import Czr from './czrlist'
 import Szxx from './szxx'
 import Swsxx from './swsxx'
+import InBox from './inBox'
 import auth from 'common/auth'
 import req from 'common/request'
 import config from 'common/configuration'
@@ -48,7 +49,7 @@ const c = React.createClass({
         });
     },
     render(){
-        const unreadedBadge = <Badge count={109} style={{ backgroundColor: '#87d068' }}/>;
+        const unreadedBadge = <Badge count={0} style={{ backgroundColor: '#87d068' }}/>;
         const more = <a><Icon type="ellipsis"/> 展开</a>;
         return <div className="client-home wrap">
             <Row gutter={16}>
@@ -81,7 +82,7 @@ const c = React.createClass({
                 <Col span="8">
                     <Container className="tabs-for-title">
                         <Tabs size="small" tabBarExtraContent={unreadedBadge}>
-                            <TabPane key="1" tab="未读消息">1</TabPane>
+                            <TabPane key="1" tab="未读消息"><InBox/></TabPane>
                         </Tabs>
                     </Container>
                 </Col>

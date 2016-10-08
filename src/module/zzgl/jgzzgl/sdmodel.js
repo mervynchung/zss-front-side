@@ -27,7 +27,7 @@ const model = {
         title: '锁定人角色',
         key: 'sdr_role',
         dataIndex: 'sdr_role',
-        width: 100
+        width: 150
     }, {
         title: '锁定原因',
         key: 'sdyy',

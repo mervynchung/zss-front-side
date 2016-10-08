@@ -164,7 +164,7 @@ let stage = React.createClass({
                         <FormItem
                           labelCol={{span: 4}} wrapperCol={{span: 10}}
                           label="协议收费金额">
-                            <InputNumber  style={{width:'60%'}} {...xyjeProps}/>元
+                            <InputNumber min={0} max={9999999999.99} step={0.01} style={{width:'60%'}} {...xyjeProps}/>元
                         </FormItem>
                     </Col>
                 </Row>

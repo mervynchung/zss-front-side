@@ -61,7 +61,7 @@ const ywbb = React.createClass({
                 title: '数据获取错误',
                 content: (
                     <div>
-                        <p>无法从服务器返回数据，需检查应用服务工作情况</p>
+                        <p>数据读取错误</p>
                         <p>Status: {e.status}</p>
                     </div>  )
             });
