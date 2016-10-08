@@ -4,8 +4,6 @@
     height: auto;
     min-height: 100%;
     padding-top:64px;
-    -webkit-transition: all 0.3s cubic-bezier(0.78, 0.14, 0.15, 0.86);
-    transition: all 0.3s cubic-bezier(0.78, 0.14, 0.15, 0.86);
 }
 .app-main:before {
     position: absolute;
@@ -44,10 +42,12 @@
     padding:16px;
     background-color: #f1f1f1;
 }
-.app-full-loading{
+.app-loading-text{
     font-size: 24px;
     font-weight: 600;
-    color:#2db7f5;
+    color:#6AC2F5;
+    position: absolute;
+    top:50%;
 }
 .blur{
     -webkit-filter: blur(1px);
@@ -57,31 +57,25 @@
     /* IE6~IE9 */
     position: relative;
 }
-.spin-nested{
+.app-loading{
     width:100%;
-    position: absolute;
+    height:100%;
+    position: fixed;
     top:0;
-    visibility: hidden;
-    z-index: 9000;
-    opacity: 0.1;
-    background-color: #08172F;
-}
-.spin-nested.enabled{
-    visibility: visible;
-}
-/*
-.app-main > .ant-spin-nested-loading {
-    position: absolute;
-    width:100%;
-    top:0;
-    bottom:0;
-    z-index: 9000;
-}
-.app-main > .ant-spin-nested-loading > .ant-spin-container {
-    opacity:0.1;
-    height:100%
+    z-index: 9999;
+    display: none;
+    text-align: center;
+    background-color:#08172F;/* IE6和部分IE7内核的浏览器(如QQ浏览器)下颜色被覆盖 */
+    background-color:rgba(8,23,47,0.9); /* IE6和部分IE7内核的浏览器(如QQ浏览器)会读懂，但解析为透明 */
+    -webkit-transition: all 0.3s cubic-bezier(0.78, 0.14, 0.15, 0.86);
+    transition: all 0.3s cubic-bezier(0.78, 0.14, 0.15, 0.86);
 }
 
-#app > .ant-spin-nested-loading > .ant-spin-container{
-    opacity: 0.1;
-}*/
+.app-loading.enabled{
+    display: block;
+}
+
+.app-main .content{
+    -webkit-transition: all 0.3s cubic-bezier(0.78, 0.14, 0.15, 0.86);
+    transition: all 0.3s cubic-bezier(0.78, 0.14, 0.15, 0.86);
+}

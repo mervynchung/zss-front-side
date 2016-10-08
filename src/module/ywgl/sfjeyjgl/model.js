@@ -12,7 +12,7 @@ const model = {
         title: '实际收费金额',
         key: 'sjsqje',
         dataIndex: 'sjsqje',
-        width:150,
+        width:100,
         render(text,record){
             if(!text){
                 return '未填写'
@@ -41,7 +41,7 @@ const model = {
         title: '协议金额',
         key: 'xyje',
         dataIndex: 'xyje',
-        width:150
+        width:100
     },{
         title: '报备号码',
         key: 'bbhm',

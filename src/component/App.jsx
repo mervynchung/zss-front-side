@@ -29,7 +29,7 @@ class App extends React.Component {
             this.setState({
                 accountInfo: {names: acInfo.names, role: acInfo.role},
                 menu: acInfo.menu,
-                loading: true
+                loading: false
             });
         } else {
             auth.getAccount()
@@ -45,19 +45,20 @@ class App extends React.Component {
     }
 
     render() {
-        const loadScr = <div className="app-full-loading">
+        const loadScr = <div className="app-loading-text">
             <p><Icon type="loading"/></p>
-            <p style={{fontSize: '14px', color: '#FCFCFC'}}>正在加载页面，请稍候...</p>
+            <p style={{fontSize: '16px'}}>页面加载中...</p>
         </div>;
-        let spinClass = this.state.loading? 'spin-nested enabled':'spin-nested';
-        let blur = this.state.loading? 'blur':'';
+        let spinClass = 'app-loading' + (this.state.loading?' enabled':'');
+        let contentClass = 'content' + (this.state.loading?' blur':'');
         let spinHeight = document.body.clientHeight;
         return <div className="app-main">
-            <div className={spinClass} style={{height:spinHeight}}>
+            <div className={spinClass}>
+                <div className="spin-bg"></div>
                 <Spin tip={loadScr}/>
             </div>
-
-            <AppHeader  data={this.state.accountInfo}/>
+            <div className={contentClass}>
+            <AppHeader data={this.state.accountInfo}/>
             <AppSideNav  data={this.state.menu}/>
             <div className="app-breadcrumb"><Breadcrumb  {...this.props} /></div>
 
@@ -67,6 +68,7 @@ class App extends React.Component {
                 })}
             </QueueAnim>
             <AppFooter/>
+                </div>
         </div>
     }
 }

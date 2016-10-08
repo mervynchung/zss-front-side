@@ -5,7 +5,7 @@ import AppLogo from '../AppLogo'
 import './style.css';
 const AppHeader = React.createClass({
     render() {
-        let className = 'app-header box-shadow ' +this.props.className;
+        let className = 'app-header box-shadow '+ (this.props.className ||'');
         return (
             <header className={className}>
                 <AppLogo/>

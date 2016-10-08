@@ -177,6 +177,15 @@ let stage = React.createClass({
                         </FormItem>
                     </Col>
                 </Row>
+                <Row>
+                    <Col span="24">
+                        <FormItem
+                          labelCol={{span: 4}} wrapperCol={{span: 16}}
+                          label="备注">
+                            <Input type="textarea" rows={2} {...getFieldProps('MEMO')}/>
+                        </FormItem>
+                    </Col>
+                </Row>
 
                 <Row>
                     <Col span="4" offset="10">
