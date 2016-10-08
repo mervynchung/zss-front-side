@@ -1,13 +1,12 @@
 import React from 'react'
 import {Tabs,Icon} from 'antd'
-import QueueAnim from 'rc-queue-anim'
-import './style.css'
 import config from 'common/configuration'
 import req from 'reqwest'
 import auth from 'common/auth.js'
 import List from './list'
 import NewYwbb from './newYwbb.jsx'
 import model from './model.jsx'
+import './style.css'
 
 const TabPane = Tabs.TabPane;
 
@@ -61,7 +60,7 @@ const ywbb = React.createClass({
                 title: '数据获取错误',
                 content: (
                     <div>
-                        <p>数据读取错误</p>
+                        <p>网络故障，数据读取错误</p>
                         <p>Status: {e.status}</p>
                     </div>  )
             });
