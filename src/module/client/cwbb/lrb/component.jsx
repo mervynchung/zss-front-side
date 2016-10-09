@@ -319,10 +319,10 @@ if(record.ZTBJ=="提交"){
     render() {
 const column1=[
         {title: '序号', dataIndex: 'key', key: 'key'},
-        {title: '事务所名称', dataIndex: 'DWMC', key: 'DWMC'},
         {title: '年度', dataIndex: 'nd', key: 'nd'},
-        {title: '状态', key: 'ZTBJ', dataIndex: 'ZTBJ'},
-        {title: '性质', key: 'TIMEVALUE', dataIndex: 'TIMEVALUE'},
+        {title: '机构名称', dataIndex: 'DWMC', key: 'DWMC'},
+        {title: '自检时间', dataIndex: 'zjrq', key: 'zjrq'},
+        {title: '状态', key: 'njzt', dataIndex: 'njzt'},
         {
         title: '操作',
     key: 'operation',

@@ -240,54 +240,56 @@ const jgcx = React.createClass({
 
     render() {
         const columns = [{ //设定列
-            title: '序号', //设定该列名称
-            dataIndex: 'xh', //设定该列对应后台字段名
-            key: 'xh', //列key，必须设置，建议与字段名相同
-        }, {
-            title: '机构名称',
-            dataIndex: 'dwmc',
-            key: 'dwmc',
-            sorter: true, //是否可以排序，需后台写排序方法
-        }, {
-            title: '注册资金（万元）',
-            dataIndex: 'zczj',
-            key: 'zczj',
-            sorter: true,
-        }, {
-            title: '法定代表人',
-            dataIndex: 'fddbr',
-            key: 'fddbr',
-            sorter: true,
-        }, {
-            title: '证书编号',
-            dataIndex: 'zsbh',
-            key: 'zsbh',
-        }, {
-            title: '事务所性质',
-            dataIndex: 'swsxz',
-            key: 'swsxz',
-        }, {
-            title: '城市',
-            dataIndex: 'cs',
-            key: 'cs',
-        }, {
-            title: '总人数',
-            dataIndex: 'zrs',
-            key: 'zrs',
-        }, {
-            title: '执业注税师人数',
-            dataIndex: 'zyrs',
-            key: 'zyrs',
-        }, {
-            title: '成立时间',
-            dataIndex: 'clsj',
-            key: 'clsj',
-            sorter: true,
-        }, {
-            title: '操作',
-            key: 'operation',
-            fixed: 'right',
-            render: this.ztRender
+
+              title: '序号', //设定该列名称
+              dataIndex: 'xh', //设定该列对应后台字段名
+              key: 'xh', //列key，必须设置，建议与字段名相同
+            }, {
+              title: '机构名称',
+              dataIndex: 'dwmc',
+              key: 'dwmc',
+              sorter: true, //是否可以排序，需后台写排序方法
+            }, {
+              title: '注册资金（万元）',
+              dataIndex: 'zczj',
+              key: 'zczj',
+              sorter: true,
+            }, {
+              title: '法定代表人',
+              dataIndex: 'fddbr',
+              key: 'fddbr',
+              sorter: true,
+            }, {
+              title: '证书编号',
+              dataIndex: 'zsbh',
+              key: 'zsbh',
+            }, {
+              title: '事务所性质',
+              dataIndex: 'swsxz',
+              key: 'swsxz',
+            }, {
+              title: '城市',
+              dataIndex: 'cs',
+              key: 'cs',
+            }, {
+              title: '总人数',
+              dataIndex: 'zrs',
+              key: 'zrs',
+            }, {
+              title: '执业注税师人数',
+              dataIndex: 'zyrs',
+              key: 'zyrs',
+            }, {
+              title: '成立时间',
+              dataIndex: 'clsj',
+              key: 'clsj',
+              sorter: true,
+            }, {
+              title: '操作',
+              key: 'operation',
+              width:110,
+              fixed:'right',
+              render:this.ztRender
         }];
         this.state.sdyy = <p>锁定原因：<Input type="text" style={{width: "50%"}} ref="myTextInput"/></p>;
         let toolbar = <ToolBar>

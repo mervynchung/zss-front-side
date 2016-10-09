@@ -23,6 +23,7 @@ getDefaultProps() {//初始化某些传入值
             obj2[arr1[i]]=true;
         } 
         }
+
         if(!!data.ZJWGDM && data.ZJWGDM != 'null' ){
            arr2 = data.NJWGDM.split(',');
            for (var i=0;i<arr2.length;i++){
