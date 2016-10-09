@@ -235,6 +235,8 @@ const Index = React.createClass({
                 //业务管理
                 require('../module/client/ywgl/khxxgl'), //客户信息管理
                 require('../module/client/ywgl/ywbb'), //事务所业务报备
+                require('../module/client/ywgl/grywtj'), //个人业务统计
+                require('../module/client/ywgl/swsywtj'), //事务所业务统计
 
                 //公用功能
                 //修改密码
