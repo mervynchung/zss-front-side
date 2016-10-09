@@ -12,7 +12,7 @@ const model = {
         title: '委托企业名称',
         dataIndex: 'wtdw',
         key: 'wtdw',
-        width: 300
+        width: 250
     }, {
         title: '业务发生地',
         key: 'city',
@@ -22,12 +22,12 @@ const model = {
         title: '业务类型',
         key: 'ywlx',
         dataIndex: 'ywlx',
-        width: 220
+        width: 200
     }, {
         title: '协议号',
         key: 'xyh',
         dataIndex: 'xyh',
-        width: 220
+        width: 130
     }, {
         title: '协议金额',
         key: 'xyje',
@@ -37,12 +37,12 @@ const model = {
         title: '发票金额',
         key: 'sjsqje',
         dataIndex: 'sjsqje',
-        width:150
+        width:100
     }, {
         title: '报备号码',
         key: 'bbhm',
         dataIndex: 'bbhm',
-        width:150
+        width:130
     },{
         title: '报备日期',
         key: 'bbrq',

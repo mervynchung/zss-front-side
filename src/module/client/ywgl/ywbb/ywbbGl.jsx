@@ -2,10 +2,9 @@ import React from 'react'
 import {Table, Modal, Row, Col, Button, Icon, Alert} from 'antd'
 import List from './list'
 import Detail from './detail'
-import DiaSentBack from './dialogSentBack'
-import DiaSpQY from './dialogSpQY'
-import DiaSpCX from './dialogSpCX'
-import DiaSpTH from './dialogSpTH'
+import DialogSF from './dialogSF'
+import DialogBB from './dialogBB'
+import DialogTH from './dialogTH'
 import model from './model'
 import config from 'common/configuration'
 import {jsonCopy} from 'common/utils'
@@ -19,10 +18,9 @@ const c = React.createClass({
             view: 'list',
             listState: {},
             entity: {},
-            dialogSentBack: false,
-            dialogSpQY:false,
-            dialogSpCX:false,
-            dialogSpTH:false
+            dialogSF: false,
+            dialogBB:false,
+            dialogTH:false
         }
     },
 
@@ -41,51 +39,41 @@ const c = React.createClass({
     refreshList(){
         this.refs.list.refreshCurrent()
     },
-    //打开强制退回操作对话框
-    openSentBack(record){
+    //打开收费操作对话框
+    openSF(record){
         if(record.id){
-            this.setState({dialogSentBack: true,entity:record})
+            this.setState({dialogSF: true,entity:record})
         }else{
-            this.setState({dialogSentBack: true})
+            this.setState({dialogSF: true})
         }
     },
-    //关闭强制退回操作对话框
-    closeSentBack(){
-        this.setState({dialogSentBack: false});
+    closeSF(){
+        this.setState({dialogSF: false});
     },
-    //打开申请撤销审批
-    openSpCX(record){
+    //打开退回操作对话框
+    openTH(record){
         if(record.id){
-            this.setState({dialogSpCX: true,entity:record})
+            this.setState({dialogTH: true,entity:record})
         }else{
-            this.setState({dialogSpCX: true})
+            this.setState({dialogTH: true})
         }
     },
-    closeSpCX(){
-        this.setState({dialogSpCX:false})
+    closeTH(){
+        this.setState({dialogTH: false});
     },
-    //打开申请启用审批
-    openSpQY(record){
+
+    //打开报备对话框
+    openDiaBB(record){
         if(record.id){
-            this.setState({dialogSpQY: true,entity:record})
+            this.setState({dialogBB:true,entity:record})
         }else{
-            this.setState({dialogSpQY: true})
+            this.setState({dialogBB: true})
         }
     },
-    closeSpQY(){
-        this.setState({dialogSpQY:false})
+    closeDiaBB(){
+        this.setState({dialogBB:false})
     },
-    //打开申请退回审批
-    openSpTH(record){
-        if(record.id){
-            this.setState({dialogSpTH: true,entity:record})
-        }else{
-            this.setState({dialogSpTH: true})
-        }
-    },
-    closeSpTH(){
-        this.setState({dialogSpTH:false})
-    },
+
 
     /*计算column里定义的width总和，没有定义width的列宽按100(px)计算*/
     getColWidth(model){
@@ -106,18 +94,22 @@ const c = React.createClass({
             title: '操作',
             key: 'action',
             fixed: 'right',
-            width: 120,
+            width: 150,
             render: (text, record)=> {
                 let actGroup = <span className="act-group">
                     <a onClick={()=>{this.handleViewDetail(record)}}>明细</a>
+                    {record.ywzt_dm == 0 ?
+                      <a onClick={()=>{this.openDiaBB(record)}}>修改</a>:null}
+                    {record.ywzt_dm == 0 ?
+                        <a onClick={()=>{this.openDiaBB(record)}}>报备</a>:null}
                     {record.ywzt_dm == 1 ?
-                      <a onClick={()=>{this.openSentBack(record)}}>强制退回</a>:null}
-                    {record.ywzt_dm == 7 ?
-                      <a onClick={()=>{this.openSpCX(record)}}>撤销审批</a>:null}
-                    {record.ywzt_dm == 8 ?
-                      <a onClick={()=>{this.openSpQY(record)}}>启用审批</a>:null}
-                    {record.ywzt_dm == 6 ?
-                      <a onClick={()=>{this.openSpTH(record)}}>退回审批</a>:null}
+                      <a onClick={()=>{this.openSF(record)}}>收费</a>:null}
+                    {record.ywzt_dm == 1 ?
+                      <a onClick={()=>{this.openTH(record)}}>退回</a>:null}
+                    {record.ywzt_dm == 1 ?
+                      <a onClick={()=>{this.openDiaBB(record)}}>撤销</a>:null}
+                    {record.ywzt_dm == 5 ?
+                        <a onClick={()=>{this.openDiaBB(record)}}>启用</a>:null}
                 </span>;
                 return actGroup
             }
@@ -152,49 +144,34 @@ const c = React.createClass({
             title: '业务报备详细信息',
             //设置返回主视图调用的方法
             onBack: this.backToList,
-            sentBack: this.openSentBack,
-            printCover:null,
-            spCX:null,
-            spQY:null,
-            spTH:null
+            printCover:null
         };
 
-        /*设置强制退回对话框的参数*/
-        const sentBackSetting = {
+        /*设置收费操作对话框的参数*/
+        const dialogSFSetting = {
             data: this.state.entity,
-            visible:this.state.dialogSentBack,
+            visible:this.state.dialogSF,
             refreshList:this.refreshList,
-            onClose:this.closeSentBack,
+            onClose:this.closeSF,
             apiUrl:config.HOST + config.URI_API_PROJECT + '/ywbb/'
         };
 
-        /*设置启用申请审批对话框的参数*/
-        const spQYSetting = {
+        /*设置提交报备对话框的参数*/
+        const diaBBSetting = {
             data: this.state.entity,
-            visible:this.state.dialogSpQY,
+            visible:this.state.dialogBB,
             refreshList:this.refreshList,
-            onClose:this.closeSpQY,
+            onClose:this.closeDiaBB,
             apiUrl:config.HOST + config.URI_API_PROJECT + '/ywbb/'
         };
-
-        /*设置撤销申请审批对话框的参数*/
-        const spCXSetting = {
+        /*设置退回申请对话框的参数*/
+        const diaTHSetting = {
             data: this.state.entity,
-            visible:this.state.dialogSpCX,
+            visible:this.state.dialogTH,
             refreshList:this.refreshList,
-            onClose:this.closeSpCX,
+            onClose:this.closeTH,
             apiUrl:config.HOST + config.URI_API_PROJECT + '/ywbb/'
         };
-
-        /*设置退回申请审批对话框的参数*/
-        const spTHSetting = {
-            data: this.state.entity,
-            visible:this.state.dialogSpTH,
-            refreshList:this.refreshList,
-            onClose:this.closeSpTH,
-            apiUrl:config.HOST + config.URI_API_PROJECT + '/ywbb/'
-        };
-
 
         /*通过控制state.view的值，实现页面上列表/详细信息等组件的切换*/
         const view = {
@@ -204,10 +181,9 @@ const c = React.createClass({
 
 
         return <div className="ywbbgl">
-                <DiaSentBack {...sentBackSetting}  />
-                <DiaSpQY {...spQYSetting}  />
-                <DiaSpCX {...spCXSetting}  />
-                <DiaSpTH {...spTHSetting}  />
+                <DialogSF {...dialogSFSetting}  />
+                <DialogBB {...diaBBSetting}  />
+                <DialogTH {...diaTHSetting}  />
                 {view[this.state.view]}
             </div>
     }
