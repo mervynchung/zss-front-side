@@ -1,5 +1,5 @@
 import React from 'react'
-import {Steps,Col,Row,Spin,notification,Modal,Icon } from 'antd'
+import {Steps,Col,Row,Spin,notification,Modal,Icon,Button } from 'antd'
 import Panel from 'component/compPanel'
 import auth from 'common/auth.js'
 import config from 'common/configuration.js'
@@ -7,7 +7,7 @@ import req from 'reqwest'
 import Stage0 from './stage0.jsx'
 import Stage1 from './stage1.jsx'
 import Stage2 from './stage2.jsx'
-import AddSuccess from './commitSuccessScr';
+import EditSuccess from './commitSuccessScr';
 
 const Step = Steps.Step;
 
@@ -27,8 +27,8 @@ const newYwbb = React.createClass({
             zysws: []
         }
     },
-    resetStep(){
-        this.setState({stage:0,dataXY:{},dataYW:{},customer:{},addSuccess:false,successResp:{}})
+    back(){
+        this.props.onBack();
     },
     handleStageChange(value){
         this.setState({stage: value})
@@ -125,6 +125,7 @@ const newYwbb = React.createClass({
     },
 
     render(){
+        const {id} = this.props;
         let {stage,dataXY,dataYW,dataJG,addSuccess,successResp} = this.state;
         let stageContent = {
             '0': this.state.loaded || <Stage0 data={dataXY}
@@ -133,7 +134,7 @@ const newYwbb = React.createClass({
                          data={dataYW} zysws={this.state.zysws}
                          ywlx={this.state.dataXY.YWLX_DM}
                          onSubmit={this.handleStage1Submit}/>,
-            '2': addSuccess ? <AddSuccess data={successResp} type="add"/>:<Stage2 onStageChange={this.handleStageChange}
+            '2': addSuccess ? <EditSuccess type="edit"/>:<Stage2 onStageChange={this.handleStageChange}
                          data={dataJG}
                          onSubmit={this.handleStage2Submit}
                          onSave={this.handleSave}
@@ -141,7 +142,7 @@ const newYwbb = React.createClass({
         };
 
         return <Panel className="new-ywbb">
-            <div style={{textAlign:'right'}}><a onClick={this.resetStep}> <Icon type="retweet" /> 重置</a></div>
+            <div style={{textAlign:'right'}}> <Button onClick={this.back}><Icon type="rollback"/>返回</Button></div>
             <Steps current={stage} className="steps">
                 <Step title="填写协议"/>
                 <Step title="填写业务详细信息"/>

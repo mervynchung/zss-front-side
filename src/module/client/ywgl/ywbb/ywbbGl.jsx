@@ -5,6 +5,9 @@ import Detail from './detail'
 import DialogSF from './dialogSF'
 import DialogBB from './dialogBB'
 import DialogTH from './dialogTH'
+import DialogCX from './dialogCX'
+import DialogQY from './dialogQY'
+import Edit from './editYwbb'
 import model from './model'
 import config from 'common/configuration'
 import {jsonCopy} from 'common/utils'
@@ -20,13 +23,19 @@ const c = React.createClass({
             entity: {},
             dialogSF: false,
             dialogBB:false,
-            dialogTH:false
+            dialogTH:false,
+            dialogCX:false,
+            dialogQY:false
         }
     },
 
     //打开明细信息视图
     handleViewDetail(record){
         this.setState({view: 'detail', entity: record})
+    },
+    //打开编辑视图
+    handleViewEdit(record){
+        this.setState({view: 'edit',entity: record})
     },
     //返回list视图
     backToList(){
@@ -61,6 +70,17 @@ const c = React.createClass({
     closeTH(){
         this.setState({dialogTH: false});
     },
+    //打开启用操作对话框
+    openQY(record){
+        if(record.id){
+            this.setState({dialogQY: true,entity:record})
+        }else{
+            this.setState({dialogQY: true})
+        }
+    },
+    closeQY(){
+        this.setState({dialogQY: false});
+    },
 
     //打开报备对话框
     openDiaBB(record){
@@ -72,6 +92,17 @@ const c = React.createClass({
     },
     closeDiaBB(){
         this.setState({dialogBB:false})
+    },
+    //打开撤销对话框
+    openCX(record){
+        if(record.id){
+            this.setState({dialogCX:true,entity:record})
+        }else{
+            this.setState({dialogCX: true})
+        }
+    },
+    closeCX(){
+        this.setState({dialogCX:false})
     },
 
 
@@ -99,7 +130,7 @@ const c = React.createClass({
                 let actGroup = <span className="act-group">
                     <a onClick={()=>{this.handleViewDetail(record)}}>明细</a>
                     {record.ywzt_dm == 0 ?
-                      <a onClick={()=>{this.openDiaBB(record)}}>修改</a>:null}
+                      <a onClick={()=>{this.handleViewEdit(record)}}>修改</a>:null}
                     {record.ywzt_dm == 0 ?
                         <a onClick={()=>{this.openDiaBB(record)}}>报备</a>:null}
                     {record.ywzt_dm == 1 ?
@@ -107,9 +138,9 @@ const c = React.createClass({
                     {record.ywzt_dm == 1 ?
                       <a onClick={()=>{this.openTH(record)}}>退回</a>:null}
                     {record.ywzt_dm == 1 ?
-                      <a onClick={()=>{this.openDiaBB(record)}}>撤销</a>:null}
+                      <a onClick={()=>{this.openCX(record)}}>撤销</a>:null}
                     {record.ywzt_dm == 5 ?
-                        <a onClick={()=>{this.openDiaBB(record)}}>启用</a>:null}
+                        <a onClick={()=>{this.openQY(record)}}>启用</a>:null}
                 </span>;
                 return actGroup
             }
@@ -146,6 +177,13 @@ const c = React.createClass({
             onBack: this.backToList,
             printCover:null
         };
+        /*设置编辑组件的参数*/
+        const editSetting = {
+            //设置返回主视图调用的方法
+            id:this.state.entity.id,
+            onBack: this.backToList,
+            refreshList:this.refreshList
+        };
 
         /*设置收费操作对话框的参数*/
         const dialogSFSetting = {
@@ -172,11 +210,28 @@ const c = React.createClass({
             onClose:this.closeTH,
             apiUrl:config.HOST + config.URI_API_PROJECT + '/ywbb/'
         };
+        /*设置撤销申请对话框的参数*/
+        const diaCXSetting = {
+            data: this.state.entity,
+            visible:this.state.dialogCX,
+            refreshList:this.refreshList,
+            onClose:this.closeCX,
+            apiUrl:config.HOST + config.URI_API_PROJECT + '/ywbb/'
+        };
+        /*设置启用申请对话框的参数*/
+        const diaQYSetting = {
+            data: this.state.entity,
+            visible:this.state.dialogQY,
+            refreshList:this.refreshList,
+            onClose:this.closeQY,
+            apiUrl:config.HOST + config.URI_API_PROJECT + '/ywbb/'
+        };
 
         /*通过控制state.view的值，实现页面上列表/详细信息等组件的切换*/
         const view = {
             list: <List {...listSetting} ref="list" />,
-            detail: <Detail {...detailSetting}/>
+            detail: <Detail {...detailSetting}/>,
+            edit:<Edit {...editSetting}/>
         };
 
 
@@ -184,6 +239,8 @@ const c = React.createClass({
                 <DialogSF {...dialogSFSetting}  />
                 <DialogBB {...diaBBSetting}  />
                 <DialogTH {...diaTHSetting}  />
+                <DialogCX {...diaCXSetting}  />
+                <DialogQY {...diaQYSetting}  />
                 {view[this.state.view]}
             </div>
     }

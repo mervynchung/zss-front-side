@@ -166,7 +166,6 @@ const detail = React.createClass({
                         <td>事务所地址</td>
                         <td colSpan="3">{data.txdz}</td>
                     </tr>
-
                     </tbody>
                 </table>
             </div>

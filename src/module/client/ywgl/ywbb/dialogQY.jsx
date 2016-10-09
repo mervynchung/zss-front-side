@@ -6,15 +6,11 @@ import utils from 'common/utils'
 
 const FormItem = Form.Item;
 const createForm = Form.create;
-const RadioButton = Radio.Button;
-const RadioGroup = Radio.Group;
-
 
 let modal = React.createClass({
     getInitialState(){
         return {
-            loading: false,
-            qtyy:true
+            loading: false
         }
     },
     handleSubmit(){
@@ -25,15 +21,10 @@ let modal = React.createClass({
             if (!!errors) {
                 return;
             }
-            let thyy = {
-                '1':'收费未达成一致',
-                '2':'调整事项未达成一致',
-                '3':values.qtyy
-            };
 
             const obj = {
-                lx:8, //类型4为申请退回操作
-                data:{sqthyy:thyy[values.thyy_dm]}
+                lx:10, //类型10为申请启用操作
+                data:values
             };
             this.setState({loading: true});
             req({
@@ -44,12 +35,12 @@ let modal = React.createClass({
                 data: JSON.stringify(obj),
                 headers: {'x-auth-token': token}
             }).then(resp=> {
-                setFieldsValue({thyy_dm:'1',qtyy:null});
+                setFieldsValue({sqqyly:null});
                 refreshList();
                 this.setState({loading: false});
                 this.props.onClose();
             }).fail(e=> {
-                setFieldsValue({thyy_dm:'1',qtyy:null});
+                setFieldsValue({sqqyly:null});
                 this.setState({loading: false});
                 notification.error({
                     duration: 3,
@@ -62,41 +53,32 @@ let modal = React.createClass({
 
 
     },
-    handleChange(e){
-        if(e.target.value == '3'){
-            this.setState({qtyy: false })
-        }else{
-            this.setState({qtyy: true })
-        }
-    },
+
     handleClose(){
-        this.props.form.setFieldsValue({thyy_dm:'1',qtyy:null});
+        this.props.form.setFieldsValue({sqqyly:null});
         this.props.onClose();
     },
-    checkQtyy(rule, value, callback){
-        let sqthyy = this.props.form.getFieldValue('thyy');
-        if (sqthyy == '3' && (!value || !value.trim())) {
-            callback("必填项");
-        } else {
-            callback()
-        }
-    },
+
     render(){
         const {getFieldProps} = this.props.form;
         const {visible,data} = this.props;
 
-        const qtyyProps = getFieldProps('qtyy', {
+        const sqqylyProps = getFieldProps('sqqyly', {
             rules: [
-                {validator: this.checkQtyy}
+                {required: true, whitespace: true, message: '必填项'}
             ]
         });
+        const layout = {
+            labelCol: { span: 4 },
+            wrapperCol: { span: 14 }
+        };
         return <Form horizontal >
             <Modal
                 visible = {visible}
                 style={{top: '100px'}}
-                title="业务退回申请"
+                title="业务启用申请"
                 confirmLoading={this.state.loading}
-                okText="提交退回申请" onOk={this.handleSubmit} onCancel={this.handleClose}>
+                okText="提交启用申请" onOk={this.handleSubmit} onCancel={this.handleClose}>
                 <div className="fix-table no-border">
                     <table>
                         <tbody>
@@ -133,22 +115,8 @@ let modal = React.createClass({
                 </div>
                 <Row style={{marginTop:'8px'}}>
                     <Col span="24">
-                        <FormItem label="申请退回原因">
-                        <RadioGroup  {...getFieldProps('thyy_dm', {
-                            initialValue: '1',
-                            onChange:this.handleChange
-                        })}>
-                            <RadioButton value="1">收费未达成一致</RadioButton>
-                            <RadioButton value="2">调整事项未达成一致</RadioButton>
-                            <RadioButton value="3">其他</RadioButton>
-                        </RadioGroup>
-                        </FormItem>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col span="24">
-                        <FormItem >
-                            <Input type="textarea" placeholder="填写其他原因" disabled={this.state.qtyy} {...qtyyProps}/>
+                        <FormItem {...layout} label="启用原因"  >
+                            <Input type="textarea" placeholder="填写申请理由"  {...sqqylyProps}/>
                         </FormItem>
                     </Col>
                 </Row>

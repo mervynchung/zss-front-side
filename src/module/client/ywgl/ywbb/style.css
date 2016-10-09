@@ -19,6 +19,9 @@
     margin-bottom: 0;
 }
 .client-ywbb .panel > .panel-body {
+    padding:16px 0 0 0
+}
+.client-ywbb .new-ywbb > .panel-body {
     padding:0
 }
 .client-ywbb .panel >.panel-title {

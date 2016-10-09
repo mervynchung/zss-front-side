@@ -82,7 +82,11 @@ const detail = React.createClass({
                         <td>所属时期</td>
                         <td>{data.sstarttime} 至 {data.sendtime}</td>
                         <td>业务所属地</td>
-                        <td>{data.cs} / {data.qx}</td>
+                        <td>{data.cs != '省外'? `${data.cs} / ${data.qx}`: `${data.city}` }</td>
+                    </tr>
+                    <tr>
+                        <td>业务所属税务机关</td>
+                        <td colSpan="3">{data.zgswjg}</td>
                     </tr>
                     <tr>
                         <td>委托企业行业类型</td>
@@ -162,7 +166,6 @@ const detail = React.createClass({
                         <td>事务所地址</td>
                         <td colSpan="3">{data.txdz}</td>
                     </tr>
-
                     </tbody>
                 </table>
             </div>
