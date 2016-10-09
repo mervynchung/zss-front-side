@@ -1,7 +1,7 @@
 import React from 'react';
 import {Button} from 'antd'
 
-const home = React.createClass({
+const c = React.createClass({
     render(){
         return <div className="wrap">
             管理端主页
@@ -9,4 +9,4 @@ const home = React.createClass({
     }
 });
 
-module.exports = home;
+module.exports = c;

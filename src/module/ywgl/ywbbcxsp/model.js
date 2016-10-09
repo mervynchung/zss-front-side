@@ -27,7 +27,7 @@ const model = {
         title: '协议金额',
         key: 'xyje',
         dataIndex: 'xyje',
-        width:150
+        width:100
     }, {
         title: '报备号码',
         key: 'bbhm',

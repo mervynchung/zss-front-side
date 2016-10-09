@@ -10,9 +10,9 @@ import Dydj from 'module/useforprint/glsc_jgdj/dy.jsx';
 import Dyry from 'module/useforprint/glsc_ry/dy.jsx';
 import Dyzb from 'module/useforprint/glsc_zb/dy.jsx';
 import Dyfb from 'module/useforprint/glsc_fb/dy.jsx';
+import {home} from '../module/home';
 import Zyjbxx from 'module/rygl/rycx/zyryjbxx.jsx';
 import Cyjbxx from 'module/rygl/rycx/cyryjbxx.jsx';
-import {cenHome, clientHome } from '../module/home';
 import NotFound from 'module/404notfound'
 import auth from 'common/auth'
 
@@ -44,7 +44,7 @@ const Index = React.createClass({
         const routes = [{
             path: '/',
             component: App,
-            indexRoute: { component: auth.isClient() ? clientHome : cenHome },
+            indexRoute: {component: home},
             ignoreScrollBehavior: true,
             breadcrumbName: '首页',
             onEnter: this.requireAuth,
@@ -59,10 +59,7 @@ const Index = React.createClass({
                 require('../module/jggl/swsslsp'),
 
                 //人员管理
-
-                 require('../module/rygl/rycx'),
-
-
+                require('../module/rygl/rycx'),
 
                 //系统功能设置
                 require('../module/xtgnsz/mkgl'),
@@ -73,12 +70,10 @@ const Index = React.createClass({
                 require('../module/zzgl/jgzzgl'), //事务所资质管理
                 require('../module/zzgl/zyswszzgl'), //执业注师资质管理
 
-
-
                 //用户登录记录表
                 require('../module/yhdljlb'),
 
-               //业务管理
+                //业务管理
                 require('../module/ywgl/ywbbgl'),
                 require('../module/ywgl/ywbbthsp'), //业务报备退回审批
                 require('../module/ywgl/ywbbcxsp'), //业务报备退回审批
@@ -172,7 +167,7 @@ const Index = React.createClass({
                 require('../module/xtsjfx/xttjbb/zyswszctj'),//税务师转出统计
 
                 //数据统计分析 - 系统业务报表
-                require('../module/xtsjfx/xtywbb/ndjysrtj'), //年度经营收入统计 
+                require('../module/xtsjfx/xtywbb/ndjysrtj'), //年度经营收入统计
                 require('../module/xtsjfx/xtywbb/ndjzqktj'), //年度鉴证情况统计
 
                 //数据统计分析 - 数据分析
@@ -194,14 +189,13 @@ const Index = React.createClass({
                 require('../module/zzdygl/zyglscdy'),
 
 
-
                 //客户端
                 //机构管理
                 require('../module/client/jggl/swsbg'),
                 require('../module/client/jggl/swszx'),
                 require('../module/client/jggl/swshb'),
                 require('../module/client/jggl/swsfssl'),
-                require('../module/client/jggl/swsslzltb'),
+                require('../module/client/jggl/swsslzltb'), //新所设立资料填报
 
                 //事务所内部审批
                 require('../module/client/swswspcx'),
@@ -225,12 +219,9 @@ const Index = React.createClass({
                 require('../module/client/sdsb/hyryqktjb'),
                 require('../module/client/sdsb/jysrqkb'),
 
-
                 //年度检查
                 require('../module/client/swsnj'),//事务所年检
                 require('../module/client/zyswsnj'),//执业税务师年检
-
-
 
                 //业务管理
                 require('../module/client/ywgl/khxxgl'), //客户信息管理
