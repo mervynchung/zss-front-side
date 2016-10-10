@@ -276,6 +276,7 @@ let lrb = React.createClass({
                   title: '序号', //设定该列名称
                   dataIndex: 'key', //设定该列对应后台字段名
                   key: 'key', //列key，必须设置，建议与字段名相同
+                  sorter: true,
                 }, {
                   title: '所属年度',
                   dataIndex: 'nd',
@@ -304,6 +305,7 @@ let lrb = React.createClass({
                   title: '非执业注册日期',
                   dataIndex: 'FZYZCRQ',
                   key: 'FZYZCRQ',
+                  sorter: true,
                 }, {
                   title: '执业资格证书编号',
                   dataIndex: 'ZYZGZSBH',
@@ -316,6 +318,7 @@ let lrb = React.createClass({
                   title: '所属单位',
                   dataIndex: 'ZZDW',
                   key: 'ZZDW',
+                  sorter: true,
                 }, {
                   title: '已交会费',
                   dataIndex: 'JE',
