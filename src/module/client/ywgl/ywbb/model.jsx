@@ -62,7 +62,7 @@ module.exports = {
                 return <span>
                     <a onClick={()=>handleEdit(record)}>修改</a> &nbsp;&nbsp;
                     <Popconfirm title="确定要删除吗？" placement="left" onConfirm={()=>handleDel(record)}>
-                        <a>收费</a>
+                        <a>删除</a>
                     </Popconfirm>
 
                 </span>

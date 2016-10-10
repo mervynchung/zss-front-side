@@ -90,8 +90,6 @@ const zyswsnj = React.createClass({
         this.setState({ update: !this.state.update, detailHide: true });
 
     },
-
-
     //手动关闭帮助提示
     handleHelperClose() {
         this.setState({ helper: false })
@@ -153,8 +151,6 @@ const zyswsnj = React.createClass({
             data: JSON.stringify(value),
             headers: { 'x-auth-token': auth.getToken() },
             contentType: 'application/json',
-
-
         }).then(resp => {
             Modal.success({
                 title: '操作成功',

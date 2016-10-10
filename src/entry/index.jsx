@@ -77,6 +77,7 @@ const Index = React.createClass({
 
                 //用户登录记录表
                 require('../module/yhdljlb'),
+/* * */
 
                //业务管理
                 require('../module/ywgl/ywbbgl'),
@@ -88,6 +89,7 @@ const Index = React.createClass({
                 require('../module/ywgl/ywwtfyjgl'), //业务委托方预警管理
                 require('../module/ywgl/setting'), //业务参数设置
                 require('../module/ywgl/ywbbsjfx'),//业务报备数据分析
+/*
 
                 //财务报表
                 require('../module/cwbb/lrfpb'),
@@ -190,7 +192,7 @@ const Index = React.createClass({
                 require('../module/hyhf_new/scgl'),
 
                 //证照打印管理
-                require('../module/zzdygl/zyglscdy'),
+                require('../module/zzdygl/zyglscdy'),*/
 
 
 
@@ -215,13 +217,13 @@ const Index = React.createClass({
                 require('../module/client/cwbb/xjllb'),
                 require('../module/client/cwbb/zcfzb'),
                 require('../module/client/cwbb/zcmxb'),
-
+/*
                 //手动上报报表
                 require('../module/client/sdsb/swsqkb'),
                 require('../module/client/sdsb/jygmtjb'),
                 require('../module/client/sdsb/jzywqktjb'),
                 require('../module/client/sdsb/hyryqktjb'),
-                require('../module/client/sdsb/jysrqkb'),
+                require('../module/client/sdsb/jysrqkb'),*/
 
 
                 //年度检查
