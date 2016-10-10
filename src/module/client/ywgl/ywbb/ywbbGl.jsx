@@ -104,6 +104,30 @@ const c = React.createClass({
     closeCX(){
         this.setState({dialogCX:false})
     },
+    printCover(record){
+        let query = JSON.stringify({
+            wtdw:record.wtdw,
+            ywlx:record.ywlx,
+            sstarttime:record.sstarttime,
+            sendtime:record.sendtime,
+            jtxm:record.jtxm,
+            bbhm:record.bbhm,
+            bgwh:record.bgwh,
+            wtdwnsrsbh:record.wtdwnsrsbh,
+            zgswjg:record.zgswjg,
+            swsmc:record.swsmc,
+            bgrq:record.bgrq,
+            bbrq:record.bbrq,
+            qzsws:record.qzsws,
+            swsdh:record.swsdh,
+            swsdzyj:record.swsdzyj,
+            swswz:record.swswz,
+            swscz:record.swscz,
+            txdz:record.txdz
+        });
+        query = encodeURIComponent(query);
+        window.open('#/print/ywbbcover?data='+query);
+    },
 
 
     /*计算column里定义的width总和，没有定义width的列宽按100(px)计算*/
@@ -125,7 +149,7 @@ const c = React.createClass({
             title: '操作',
             key: 'action',
             fixed: 'right',
-            width: 150,
+            width: 180,
             render: (text, record)=> {
                 let actGroup = <span className="act-group">
                     <a onClick={()=>{this.handleViewDetail(record)}}>明细</a>
@@ -135,6 +159,8 @@ const c = React.createClass({
                         <a onClick={()=>{this.openDiaBB(record)}}>报备</a>:null}
                     {record.ywzt_dm == 1 ?
                       <a onClick={()=>{this.openSF(record)}}>收费</a>:null}
+                    {record.ywzt_dm == 1 ?
+                        <a onClick={()=>{this.printCover(record)}}>打印</a>:null}
                     {record.ywzt_dm == 1 ?
                       <a onClick={()=>{this.openTH(record)}}>退回</a>:null}
                     {record.ywzt_dm == 1 ?
