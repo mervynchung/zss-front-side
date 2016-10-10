@@ -10,6 +10,7 @@ import Dydj from 'module/useforprint/glsc_jgdj/dy.jsx';
 import Dyry from 'module/useforprint/glsc_ry/dy.jsx';
 import Dyzb from 'module/useforprint/glsc_zb/dy.jsx';
 import Dyfb from 'module/useforprint/glsc_fb/dy.jsx';
+import YwbbCover from 'module/useforprint/ywbb_fm/dy.jsx';
 import {home} from '../module/home';
 import Zyjbxx from 'module/rygl/rycx/zyryjbxx.jsx';
 import Cyjbxx from 'module/rygl/rycx/cyryjbxx.jsx';
@@ -71,7 +72,7 @@ const Index = React.createClass({
                 require('../module/zzgl/jgzzgl'), //事务所资质管理
                 require('../module/zzgl/zyswszzgl'), //执业注师资质管理
 
-                                //业务管理
+                //业务管理
                 require('../module/ywgl/ywbbgl'),
                 require('../module/ywgl/ywbbthsp'), //业务报备退回审批
                 require('../module/ywgl/ywbbcxsp'), //业务报备退回审批
@@ -256,6 +257,9 @@ const Index = React.createClass({
             path: '/new_blank/sws/cyjbxx',
             component: Cyjbxx
         }, {
+            path: '/print/ywbbcover',
+            component: YwbbCover
+        },{
             path: '*',
             component: NotFound
         }];
