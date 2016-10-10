@@ -104,6 +104,11 @@ const c = React.createClass({
     closeCX(){
         this.setState({dialogCX:false})
     },
+    printCover(record){
+        let query = JSON.stringify(record);
+        query = encodeURIComponent(query);
+        window.open('#/print/ywbbcover?data='+query);
+    },
 
 
     /*计算column里定义的width总和，没有定义width的列宽按100(px)计算*/
@@ -125,7 +130,7 @@ const c = React.createClass({
             title: '操作',
             key: 'action',
             fixed: 'right',
-            width: 150,
+            width: 180,
             render: (text, record)=> {
                 let actGroup = <span className="act-group">
                     <a onClick={()=>{this.handleViewDetail(record)}}>明细</a>
@@ -135,6 +140,8 @@ const c = React.createClass({
                         <a onClick={()=>{this.openDiaBB(record)}}>报备</a>:null}
                     {record.ywzt_dm == 1 ?
                       <a onClick={()=>{this.openSF(record)}}>收费</a>:null}
+                    {record.ywzt_dm == 1 ?
+                        <a onClick={()=>{this.printCover(record)}}>打印</a>:null}
                     {record.ywzt_dm == 1 ?
                       <a onClick={()=>{this.openTH(record)}}>退回</a>:null}
                     {record.ywzt_dm == 1 ?
