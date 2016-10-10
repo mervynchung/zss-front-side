@@ -79,7 +79,7 @@ let stage = React.createClass({
                 </Row>
 
                 <Row>
-                    <Col span="6" offset="10">
+                    <Col span="10" offset="10">
                         <Button
                           size="large"
                           style={{marginRight:'16px'}}
