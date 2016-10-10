@@ -104,9 +104,12 @@ const zcmxb = React.createClass({
         let vv = e;
         vv.ztbj = '1';                  
         this.fetchHandle(vv);
-        this.handleAdd();
-       
-       
+    },
+        //点击保存
+    handleSubmit(value) {
+        let values = value;
+        values.ztbj = '0';
+        this.fetchHandle(values); 
     },
     fetchHandle(value) {
         req({
@@ -118,33 +121,32 @@ const zcmxb = React.createClass({
             contentType:'application/json',            
         }).then(resp => {
             Modal.success({
-                title: '操作成功',
+                title: '系统消息',
                 content: (
                     <div>
                         <p>操作成功！</p>
                     </div>),       
             });
+            this.setState({ add: true, detailHide: true ,update: true})
+            this.fetchData();
         }).fail(err => {
             message.error('Status Code:' + err.status + '  api错误 ')
         })
     },
  
-    //点击保存
-    handleSubmit(value) {
+
+        //点击编辑保存
+    handleSubmit1(value) {
         let values = value;
         values.ztbj = '0';
-        this.fetchHandle(values); 
-        this.handleAdd();
+        this.fetchHandleBB(values);
        
-        
     },
-    
      //点击编辑提交
     handleOk1(e) {
        let values = e;
         values.ztbj = '1'
         this.fetchHandleBB(values);
-        this.handleUpdate();
       
     },
     fetchHandleBB(value) {     
@@ -159,20 +161,14 @@ const zcmxb = React.createClass({
             Modal.success({
                 title: '操作成功',
             });
-            
+            this.fetchData();
+            this.setState({ add: true, detailHide: true ,update: true})
         }).fail(err => {
             message.error('Status Code:' + err.status + '  api错误 ')
         })
     },
  
-    //点击编辑保存
-    handleSubmit1(value) {
-        let values = value;
-        values.ztbj = '0';
-        this.fetchHandleBB(values);
-        this.handleUpdate();
-       
-    },
+
 
     //提交条件查询
     handleSearchSubmit(value) {
