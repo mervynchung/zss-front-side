@@ -143,7 +143,89 @@ const autoformCy2 = {
  name: '人事档案状态：',width:'50%',groupspan: 2 }, 
   ]
 }
-
+const autoform2 = {
+   colGroupNum: 1,
+props: [
+    {   id:'FZYSQ',
+        name:  '转执原因：',
+        inputType: 'textarea',
+        rows:2,
+        span:10,
+        required:true,
+    },{  id:'XDWYJ',
+        name: '现单位意见：',
+        required:true,
+        inputType: 'textarea',
+        rows:3
+    }, 
+]};
+const autoform3 = {
+   colGroupNum: 1,
+props: [
+    {   id:'ZXYY_DM',
+        name:  '注销原因：',
+        inputType: 'zyzxyy',
+        required:true,
+        type: 'number' 
+    },{   id:'ZXRQ',
+        name:  '注销日期：',
+        inputType:'date',
+        required:true,
+        type: 'date' 
+    },{  id:'SWSYJ',
+        name: '事务所意见：',
+        required:true,
+        inputType: 'textarea',
+        rows:3
+    }, 
+]};
+const autoform4 = {
+   colGroupNum: 1,
+props: [
+    {   id:'DZYY',
+        name:  '调出原因：',
+        required:true,
+    },{   id:'BDRQ',
+        name:  '调出日期：',
+        inputType:'date',
+        required:true,
+        type: 'date' 
+    },{  id:'SWSYJ',
+        name: '事务所意见：',
+        inputType: 'textarea',
+        rows:3
+    },{   id:'DRDW',
+        name:  '调入单位：',
+    }, 
+]};
+const autoform6 = {
+   colGroupNum: 1,
+props: [
+    {   id:'XJG_ID',
+        name:  '新事务所名称：',
+        required:true,
+    },
+   ,{  id:'YSWSYJ',
+        name: '事务所意见：',
+        required:true,
+        inputType: 'textarea',
+        span:10,
+        rows:3
+    },{   id:'YSWSYJRQ',
+        name:  '事务所意见日期：',
+        inputType:'date',
+        required:true,
+        type: 'date' 
+    },{  id:'SZQM',
+        name: '所长签名：',
+        required:true,
+    },{   id:'QMSJ',
+        name:  '所长签名日期：',
+        inputType:'date',
+        required:true,
+        type: 'date' 
+    }, 
+]};
 const pageSetting = { //分页设置
   page: true, //是否分页
   pageSize: 5, //初始化显示记录条数
@@ -199,6 +281,10 @@ rows:[{ //设定列
 const model = {
   autoformCy:autoformCy,
   autoformCy2:autoformCy2,
+    autoform2:autoform2,
+  autoform3:autoform3,
+  autoform4:autoform4,
+  autoform6:autoform6,
   pageSetting:pageSetting,
   columnsZyrybgjl:columnsZyrybgjl,
   ryjl:ryjl,

@@ -12,13 +12,14 @@ import { Link } from 'react-router'
 import {  DatePicker,Modal,Form, Input, Select,Table, Icon,Tabs,Button,Row,Col,message,Dropdown,Menu,Spin,Radio,Upload }from 'antd'
 // 标签定义
 const TabPane = Tabs.TabPane;
+const RadioGroup = Radio.Group;
 const API_URL = config.HOST+config.URI_API_PROJECT + '/swsrycx/cyry';
 const API_URL_BG = config.HOST+config.URI_API_PROJECT + '/spapi/fspsq/cyrybgsq';
 const API_URL_ZFZY= config.HOST+config.URI_API_PROJECT + '/spapi/fspsq/zyzfzysq';
-const API_URL_ZX = config.HOST+config.URI_API_PROJECT + '/spapi/fspsq/zyzxsq';
-const API_URL_ZJ = config.HOST+config.URI_API_PROJECT + '/spapi/fspsq/zyzjsq';
-const API_URL_FS = config.HOST+config.URI_API_PROJECT + '/spapi/fspsq/zyzrfs';
-const API_URL_ZC = config.HOST+config.URI_API_PROJECT + '/spapi/spsq/zyzcsq';
+const API_URL_ZX = config.HOST+config.URI_API_PROJECT + '/spapi/fspsq/cyzxsq';
+const API_URL_DC = config.HOST+config.URI_API_PROJECT + '/spapi/fspsq/cydcsq';
+const API_URL_FS = config.HOST+config.URI_API_PROJECT + '/spapi/fspsq/cyzrfssq';
+const API_URL_ZC = config.HOST+config.URI_API_PROJECT + '/spapi/fspsq/cyzcsq';
 const API_URL_ZS = config.HOST+config.URI_API_PROJECT + '/spapi/spsq/zyzssq';
 const API_URL_BA = config.HOST+config.URI_API_PROJECT + '/spapi/fspsq/cyrybasq';
 const API_URL_GX = config.HOST + config.URI_API_PROJECT + '/rygl/ryxpgx/';
@@ -42,6 +43,8 @@ const rycx = React.createClass({
             ryid:"",
             xpPath:"",
             letValues:[],
+            fsRad:null,
+            valueFS: '',
 
       };
     },
@@ -160,7 +163,7 @@ const rycx = React.createClass({
                 case 1: squrls=API_URL_BG;ls.xppath=(!this.state.xpPath?this.state.dataxx.xpian:this.state.xpPath);break;
                 case 2: squrls=API_URL_ZFZY;break;
                 case 3: squrls=API_URL_ZX;break;
-                case 4: squrls=API_URL_ZJ;break;
+                case 4: squrls=API_URL_DC;break;
                 case 6: squrls=API_URL_ZS;break;
                 case 8: squrls=API_URL_BA;
                             if (!this.state.xpPath) {
@@ -181,7 +184,6 @@ const rycx = React.createClass({
                               });
                             break;
             }
-            console.log("1111111111111111");
             ls.ryid=this.state.ryid;
              req({
                 url: squrls,
@@ -215,6 +217,71 @@ const rycx = React.createClass({
                 this.setState({bgLoading:false});
             })
         },
+      showConfirm(e) {
+            e.preventDefault();
+            var that=this;
+            let squrls="";
+            let ls = {};
+             ls.ryid=this.state.ryid;
+            let con ="提交后该人员将从本事务所人员系统中除去，转出至人才库";
+            let med="put";
+            if(this.state.czAll==5){
+                squrls=API_URL_FS;
+                ls.pid=this.state.valueFS;
+                con="提交后该人员将调入到所选择分所中，由分所管理，并从本事务所人员系统中除去";
+                med='put';
+            }else{
+              squrls=API_URL_ZC;
+            }
+              Modal.confirm({
+                title: '您是否确认提交以上信息？'  ,
+                content: con,
+                onOk() {
+                  that.setState({bgLoading:true});
+                  req({
+                        url: squrls,
+                        type: 'json',
+                        method: med,
+                        data: JSON.stringify(ls),
+                        contentType: 'application/json',
+                        headers:{'x-auth-token':auth.getToken()},
+                    }).then(resp=> {
+                        Modal.success({
+                            title: '提交成功',
+                            content: (
+                                <div>
+                                    <p>提交成功</p>
+                                </div>  ),
+                            onOk() {
+                                      window.location.reload();
+                                    },
+                        });
+                         that.setState({bgLoading:false});
+                    }).fail(err=> {
+                        Modal.error({
+                            title: '数据获取错误',
+                            content: (
+                                <div>
+                                    <p>无法从服务器返回数据，需检查应用服务工作情况</p>
+                                    <p>Status: {err.status}</p>
+                                </div>  )
+                        });
+                        that.setState({bgLoading:false});
+                    })
+                },
+              });
+            },
+
+    onChangeFS(e) {
+      this.setState({
+        valueFS: e.target.value,
+      });
+    },
+
+    handleReset(){
+      this.setState({valueFS: ''});
+    },
+
     columRender(text, row, index) {
           var that = this;
           if (row.ryztdm==3) {
@@ -225,15 +292,13 @@ const rycx = React.createClass({
           const menu = (
                     <Menu >
                       <Menu.Item key="0">
-                        <a onClick={that.handleCZ.bind(this,4)}>转籍出省</a>
+                        <a onClick={that.handleCZ.bind(this,4)}>调出</a>
                       </Menu.Item>
                       <Menu.Item key="1">
                         <a onClick={that.handleCZ.bind(this,5)}>转入分所</a>
                       </Menu.Item>
                       <Menu.Divider />
-                      <Menu.Item key="2">
-                        <a onClick={that.handleCZ.bind(this,6)}>转所</a>
-                      </Menu.Item>
+                      
                       <Menu.Item key="3">
                         <a onClick={that.handleCZ.bind(this,7)}>转出</a>
                       </Menu.Item>
@@ -241,8 +306,6 @@ const rycx = React.createClass({
                   );
           return  <span>
                         <a onClick={that.handleCZ.bind(this,1)}>信息变更</a>
-                        <span className="ant-divider" ></span>
-                        <a onClick={that.handleCZ.bind(this,2)}>转执业</a>
                         <span className="ant-divider"></span>
                         <a onClick={that.handleCZ.bind(this,3)}>注销备案</a>
                         <span className="ant-divider"></span>
@@ -267,6 +330,22 @@ const rycx = React.createClass({
             },
   componentDidMount() { //REACT提供懒加载方法，懒加载时使用，且方法名必须为componentDidMount
       this.fetch_rycx(); //异步调用后台服务器方法fetch_rycx
+      req({
+            url: config.HOST+config.URI_API_PROJECT + '/jg/jgchild',//默认数据查询后台返回JSON
+            method: 'get',
+            type: 'json',
+            contentType: 'application/json',
+            headers:{'x-auth-token':auth.getToken()},
+        }).then(resp=> {
+          if (resp.length>0) {
+          const fsmap=resp.map((fs,index)=>
+            <Radio  style={radioStyle} key={index} value={fs.ID} >{fs.DWMC}</Radio>
+            )
+          this.setState({fsRad:fsmap});
+          }else{
+            this.setState({fsRad:false});
+          };
+        })
     },
 
     render() {
@@ -332,7 +411,6 @@ const rycx = React.createClass({
         let toolbar2 = <ToolBar>
                 <Button type="ghost" onClick={this.handleReturn}>返回</Button>
         </ToolBar>; 
-        console.log(this.state.letValues);
       return <div className="rycx">
             <div className="wrap">
                <div className="dataGird">
@@ -372,7 +450,7 @@ const rycx = React.createClass({
                                              <img src={this.state.dataxx.xpian} style={{padding:"5px",width:"138px",height:"170px"}}/>:
                                              <img src={this.state.xpPath} style={{padding:"5px",width:"138px",height:"170px"}}/> }
                                       </div><Upload {...props}><Button >更改照片</Button></Upload><p>（文件大小不能超过1M）</p></div>
-                                    <CompInputBaseTable data={!this.state.letValues?this.state.dataxx:this.state.letValues}  model={Model.autoformCy2} bordered striped showConfirm bglx 
+                                    <CompInputBaseTable data={this.state.letValues.size>0?this.state.letValues:this.state.dataxx}  model={Model.autoformCy2} bordered striped showConfirm bglx 
                                      onSubmit={this.handleBGSubmit}  disabled={this.state.onSubmitZT} nbsj={this.state.datalist} ref="addValues"
                                       submitLoading={this.state.bgLoading} title='您是否确认要提交以上变更信息？'  nbjgsz={Model.ryjl} nbTitle="人员简历："
                                       content='变更后数据将更新' />
@@ -388,6 +466,51 @@ const rycx = React.createClass({
                                       submitLoading={this.state.bgLoading} title='您是否确认要提交以上人员信息？'  
                                       content='提交后该人员将在管理中心备案' />  
                                      </Spin></Panel>}
+                    {this.state.czAll==2 &&<Panel title="转执业" toolbar={toolbar2}>
+                        <Spin spinning={this.state.sloading}><p className="nbjgsz"><b style={{'padding':'10px'}}>{this.state.dataxx.xm} 转执业申请</b></p>
+                        <CompInputBaseTable data={this.state.dataxx}  model={Model.autoform2} bordered striped reset showConfirm
+                        onSubmit={this.handleBGSubmit}  disabled={this.state.onSubmitZT} 
+                        submitLoading={this.state.bgLoading} title='您是否确认提交以上信息？'  
+                        content='申请提交后将提交中心管理端审批，在审批完成前，将不能再进行操作'  />
+                        </Spin></Panel>}
+                        {this.state.czAll==3 &&<Panel title="注销备案" toolbar={toolbar2}>
+                        <Spin spinning={this.state.sloading}><p className="nbjgsz"><b style={{'padding':'10px'}}>{this.state.dataxx.xm} 注销备案申请</b></p>
+                        <CompInputBaseTable data={this.state.dataxx}  model={Model.autoform3} bordered striped reset showConfirm
+                        onSubmit={this.handleBGSubmit}  disabled={this.state.onSubmitZT} 
+                        submitLoading={this.state.bgLoading} title='您是否确认提交以上信息？'  
+                        content='提交后该人员将注销'  />
+                        </Spin></Panel>}
+                        {this.state.czAll==4 &&<Panel title="人员调出" toolbar={toolbar2}>
+                        <Spin spinning={this.state.sloading}><p className="nbjgsz"><b style={{'padding':'10px'}}>{this.state.dataxx.xm} 调出申请</b></p>
+                        <CompInputBaseTable data={this.state.dataxx}  model={Model.autoform4} bordered striped reset showConfirm
+                        onSubmit={this.handleBGSubmit}  disabled={this.state.onSubmitZT} 
+                        submitLoading={this.state.bgLoading} title='您是否确认提交以上信息？'  
+                        content='提交后该人员将不在系统备案'  />
+                        </Spin></Panel>}
+                        {this.state.czAll==5 &&<Panel title="转入分所" toolbar={toolbar2}>
+                        {!this.state.fsRad?<div style={{'textAlign':'center'}}><p style={{'color':'red'}}><b>该事务所无分所</b></p></div>:
+                        <Spin spinning={this.state.sloading}><p className="nbjgsz">
+                        <b style={{'padding':'10px'}}>{this.state.dataxx.xm} 转入分所申请</b></p>
+                          <div style={{'textAlign':'center'}}><div><p><b>选择转入分所：</b></p>
+                          <RadioGroup onChange={this.onChangeFS} value={this.state.valueFS} size="large" >
+                              {this.state.fsRad}
+                            </RadioGroup></div></div>
+                            <p style={{'textAlign':'center'}}><Button type="primary" disabled={this.state.onSubmitZT} onClick={this.showConfirm} loading={this.state.bgLoading}>提交</Button>
+                            <span className="ant-divider"></span><Button type="ghost"  htmlType="submit" onClick={this.handleReset} >重置</Button></p>
+                          </Spin>}</Panel>}
+                        {this.state.czAll==6 &&<Panel title="转所" toolbar={toolbar2}>
+                        <Spin spinning={this.state.sloading}><p className="nbjgsz"><b style={{'padding':'10px'}}>{this.state.dataxx.xm} 转所申请</b></p>
+                        <CompInputBaseTable data={this.state.dataxx}  model={Model.autoform6} bordered striped reset showConfirm
+                        onSubmit={this.handleBGSubmit} disabled={this.state.onSubmitZT} 
+                        submitLoading={this.state.bgLoading} title='您是否确认提交以上信息？'  
+                        content='提交后该人员将转入该所'  />
+                        </Spin></Panel>}
+                        {this.state.czAll==7 &&<Panel title="转出" toolbar={toolbar2}>
+                        <Spin spinning={this.state.sloading}><p className="nbjgsz"><b style={{'padding':'10px'}}>{this.state.dataxx.xm} 转出申请</b></p>
+                        <div style={{'textAlign':'center',padding:'20px'}}><div><p><b>若该人员不在本事务所工作，可进行此操作，操作后该人员将进入储备库中，并从本事务所人员系统中除去。</b></p></div></div>
+                            <p style={{'textAlign':'center'}}><Button type="primary" disabled={this.state.onSubmitZT} onClick={this.showConfirm} loading={this.state.bgLoading}>提交</Button>
+                            <span className="ant-divider"></span><Button type="ghost"  htmlType="submit" onClick={this.handleReturn} >取消</Button></p>
+                        </Spin></Panel>}
                                     
                             </Panel>
                       </div>  
