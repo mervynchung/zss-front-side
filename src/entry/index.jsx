@@ -67,7 +67,7 @@ const Index = React.createClass({
                 require('../module/xtgnsz/yhgl'),
 
                 //资质管理
-                require('../module/zzgl/jgzzgl'), //事务所资质管理
+          /*      require('../module/zzgl/jgzzgl'), //事务所资质管理
                 require('../module/zzgl/zyswszzgl'), //执业注师资质管理
 
                 //用户登录记录表
@@ -145,7 +145,7 @@ const Index = React.createClass({
                 require('../module/spsh/module/44'),
                 require('../module/spsh/module/46'),
 
-                数据统计分析 - 年检数据分析
+                // 数据统计分析 - 年检数据分析
                 require('../module/xtsjfx/njsjfx/rynjsjfx'),//人员年检数据分析
                 require('../module/xtsjfx/njsjfx/jgnjsjfxb'),//机构年检数据分析
 
@@ -185,7 +185,7 @@ const Index = React.createClass({
                 require('../module/hyhf_new/scgl'),
 
                 //证照打印管理
-                require('../module/zzdygl/zyglscdy'),
+                require('../module/zzdygl/zyglscdy'),*/
 
 
                 //客户端

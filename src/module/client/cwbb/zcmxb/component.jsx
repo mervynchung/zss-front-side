@@ -1,5 +1,5 @@
 import React from 'react'
-import {Table, Modal, Row, Col, Button, Icon, Alert} from 'antd'
+import {Table, Modal, Row, Col, Button, Icon, Alert,message} from 'antd'
 import CompPageHead from 'component/CompPageHead'
 import Panel from 'component/compPanel'
 import {handleRowButton, columns, entityModel} from './model'
@@ -131,9 +131,9 @@ const zcmxb = React.createClass({
  
     //点击保存
     handleSubmit(value) {
-        let vv = value;
-        vv.ztbj = '0';
-        this.fetchHandle(vv); 
+        let values = value;
+        values.ztbj = '0';
+        this.fetchHandle(values); 
         this.handleAdd();
        
         
@@ -141,13 +141,13 @@ const zcmxb = React.createClass({
     
      //点击编辑提交
     handleOk1(e) {
-       let vv = e;
-        vv.ztbj = '1'
-        this.fetchHandle1(vv);
+       let values = e;
+        values.ztbj = '1'
+        this.fetchHandleBB(values);
         this.handleUpdate();
       
     },
-    fetchHandle1(value) {     
+    fetchHandleBB(value) {     
         req({
             url: URL + '/' + value.id,
             type: 'json',
@@ -158,10 +158,6 @@ const zcmxb = React.createClass({
         }).then(resp => {
             Modal.success({
                 title: '操作成功',
-                content: (
-                    <div>
-                        <p>操作成功！</p>
-                    </div>)
             });
             
         }).fail(err => {
@@ -171,9 +167,9 @@ const zcmxb = React.createClass({
  
     //点击编辑保存
     handleSubmit1(value) {
-        let vv = value;
-        vv.ztbj = '0';
-        this.fetchHandle1(vv);
+        let values = value;
+        values.ztbj = '0';
+        this.fetchHandleBB(values);
         this.handleUpdate();
        
     },
