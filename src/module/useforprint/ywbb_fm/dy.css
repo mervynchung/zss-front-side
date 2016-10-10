@@ -1,134 +1,322 @@
-.ztit {
-    FONT-SIZE: 36px;
-    FONT-FAMILY: SimHei ;
-    FONT-WEIGHT: bold;
-    PADDING: 70px 0 50px 0;
-    LINE-HEIGHT: 60px;
-    text-align: center;
+.dy-ywcover {
+    box-sizing: content-box;
 }
-.dy-ywcover{
-    background-color: #f8f8f0;
-    color:#000
+.dy-ywcover ol {
+    margin: 0;
+    padding: 0
 }
 
-@page {
-    size: A4;
+.dy-ywcover table td,
+.dy-ywcover table th {
+    padding: 0
+}
+
+.dy-ywcover .c21 {
+    padding: 5pt 5pt 5pt 5pt;
+    vertical-align: top;
+    width: 287.2pt;
+    border: 0pt solid #000000;
+    border-bottom: 1pt dotted #b7b7b7;
+}
+
+.dy-ywcover .c23 {
+    padding: 5pt 5pt 5pt 5pt;
+    vertical-align: top;
+    width: 287.2pt;
+    border: 0pt solid #000000;
+}
+
+.dy-ywcover .c0 {
+    padding: 5pt 5pt 5pt 5pt;
+    vertical-align: top;
+    width: 510.2pt;
+    border: 0pt solid #000000;
+}
+
+.dy-ywcover .c7 {
+    padding: 5pt 5pt 5pt 5pt;
+    vertical-align: top;
+    width: 287.2pt;
+    border: 1pt dotted #b7b7b7;
+    border-right: 0pt solid #000000;
+    border-left: 0pt solid #000000;
+}
+
+.dy-ywcover .c9 {
+    padding: 5pt 5pt 5pt 5pt;
+    vertical-align: top;
+    width: 213.8pt;
+    border: 0pt solid #000000;
+}
+
+.dy-ywcover .c15 {
+    padding: 2.8pt 2.8pt 2.8pt 2.8pt;
+    vertical-align: top;
+    width: 113.2pt;
+    border: 0pt solid #000000;
+}
+
+.dy-ywcover .c16 {
+    padding: 2.8pt 2.8pt 2.8pt 2.8pt;
+    vertical-align: top;
+    width: 396.8pt;
+    border: 0pt solid #000000;
+}
+
+.dy-ywcover .c19 {
+    padding: 2.8pt 2.8pt 2.8pt 2.8pt;
+    vertical-align: top;
+    width: 510.2pt;
+    border: 0pt solid #000000;
+}
+
+.dy-ywcover .c20 {
+    vertical-align: top;
+    width: 510.2pt;
+    border: 0pt solid #000000;
+}
+
+.dy-ywcover .c25 {
+    color: #000000;
+    font-weight: 400;
+    text-decoration: none;
+    vertical-align: baseline;
+    font-size: 22pt;
+    font-family: "SimHei";
+    font-style: normal
+}
+
+.dy-ywcover .c17 {
+    color: #000000;
+    font-weight: 400;
+    text-decoration: none;
+    vertical-align: baseline;
+    font-size: 27pt;
+    font-family: "SimHei";
+    font-style: normal
+}
+
+.dy-ywcover .c1 {
+    color: #000000;
+    font-weight: 400;
+    text-decoration: none;
+    vertical-align: baseline;
+    font-size: 12pt;
+    font-family: "FangSong";
+    font-style: normal
+}
+
+.dy-ywcover .c2 {
+    color: #000000;
+    font-weight: 400;
+    text-decoration: none;
+    vertical-align: baseline;
+    font-size: 14pt;
+    font-family: "FangSong";
+    font-style: normal
+}
+
+.dy-ywcover .c10 {
+    color: #000000;
+    font-weight: 400;
+    text-decoration: none;
+    vertical-align: baseline;
+    font-size: 17pt;
+    font-family: "FangSong";
+    font-style: normal
+}
+
+.dy-ywcover .c14 {
+    color: #000000;
+    font-weight: 400;
+    text-decoration: none;
+    vertical-align: baseline;
+    font-family: "Arial";
+    font-style: normal
+}
+
+.dy-ywcover .c22 {
+    padding-top: 0pt;
+    padding-bottom: 0pt;
+    line-height: 1.0;
+    text-align: center
+}
+
+.dy-ywcover .c3 {
+    padding-top: 0pt;
+    padding-bottom: 0pt;
+    line-height: 1.0;
+    text-align: right
+}
+
+.dy-ywcover .c4 {
+    border-spacing: 0;
+    border-collapse: collapse;
+    margin-right: auto
+}
+
+.dy-ywcover .c6 {
+    padding-top: 0pt;
+    padding-bottom: 0pt;
+    line-height: 1.0;
+    text-align: left
+}
+
+.dy-ywcover.c26 {
+    background-color: #f8f8f0;
+    max-width: 510.2pt;
+    padding: 28.3pt 42.5pt 28.3pt 42.5pt
+}
+
+.dy-ywcover .c5 {
+    orphans: 2;
+    widows: 2;
+    height: 11pt
+}
+
+.dy-ywcover .c18 {
+    height: 20pt
+}
+
+.dy-ywcover .c12 {
+    color: #b7b7b7
+}
+
+.dy-ywcover .c11 {
+    font-size: 9pt
+}
+
+.dy-ywcover .c24 {
+    height: 26pt
+}
+
+.dy-ywcover .c8 {
+    height: 11pt
+}
+
+.dy-ywcover .c13 {
+    height: 0pt
+}
+
+.dy-ywcover .title {
+    padding-top: 0pt;
+    color: #000000;
+    font-size: 26pt;
+    padding-bottom: 3pt;
+    font-family: "Arial";
+    line-height: 1.15;
+    page-break-after: avoid;
+    orphans: 2;
+    widows: 2;
+    text-align: left
+}
+
+.dy-ywcover .subtitle {
+    padding-top: 0pt;
+    color: #666666;
+    font-size: 15pt;
+    padding-bottom: 16pt;
+    font-family: "Arial";
+    line-height: 1.15;
+    page-break-after: avoid;
+    orphans: 2;
+    widows: 2;
+    text-align: left
+}
+
+.dy-ywcover li {
+    color: #000000;
+    font-size: 11pt;
+    font-family: "Arial"
+}
+
+.dy-ywcover p {
+    margin: 0;
+    color: #000000;
+    font-size: 11pt;
+    font-family: "Arial"
+}
+
+.dy-ywcover h1 {
+    padding-top: 20pt;
+    color: #000000;
+    font-size: 20pt;
+    padding-bottom: 6pt;
+    font-family: "Arial";
+    line-height: 1.15;
+    page-break-after: avoid;
+    orphans: 2;
+    widows: 2;
+    text-align: left
+}
+
+.dy-ywcover h2 {
+    padding-top: 18pt;
+    color: #000000;
+    font-size: 16pt;
+    padding-bottom: 6pt;
+    font-family: "Arial";
+    line-height: 1.15;
+    page-break-after: avoid;
+    orphans: 2;
+    widows: 2;
+    text-align: left
+}
+
+.dy-ywcover h3 {
+    padding-top: 16pt;
+    color: #434343;
+    font-size: 14pt;
+    padding-bottom: 4pt;
+    font-family: "Arial";
+    line-height: 1.15;
+    page-break-after: avoid;
+    orphans: 2;
+    widows: 2;
+    text-align: left
+}
+
+.dy-ywcover h4 {
+    padding-top: 14pt;
+    color: #666666;
+    font-size: 12pt;
+    padding-bottom: 4pt;
+    font-family: "Arial";
+    line-height: 1.15;
+    page-break-after: avoid;
+    orphans: 2;
+    widows: 2;
+    text-align: left
+}
+
+.dy-ywcover h5 {
+    padding-top: 12pt;
+    color: #666666;
+    font-size: 11pt;
+    padding-bottom: 4pt;
+    font-family: "Arial";
+    line-height: 1.15;
+    page-break-after: avoid;
+    orphans: 2;
+    widows: 2;
+    text-align: left
+}
+
+.dy-ywcover h6 {
+    padding-top: 12pt;
+    color: #666666;
+    font-size: 11pt;
+    padding-bottom: 4pt;
+    font-family: "Arial";
+    line-height: 1.15;
+    page-break-after: avoid;
+    font-style: italic;
+    orphans: 2;
+    widows: 2;
+    text-align: left
 }
 
 @media print {
-
-    .noprint {
-        display: none;
-    }
-
-    .fb_background {
-        position: absolute;
-        width: 28cm;
-        height: 20cm;
-        left: -0.9cm;
-        bottom: 1.6cm;
-        font-size: 13.5pt;
-        font-weight: 600;
-    }
-
-    .fb_background .zsbh {
-        position: absolute;
-        left: 6.11cm;
-        top: 11.96cm;
-    }
-
-    .fb_background .ZJPZWH {
-        position: absolute;
-        left: 6.11cm;
-        top: 14.84cm;
-    }
-
-    .fb_background .year {
-        position: absolute;
-        left: 7.99cm;
-        top: 18.8cm;
-    }
-
-    .fb_background .month {
-        position: absolute;
-        display: -moz-inline-box;
-        display: inline-block;
-        width: 0.6cm;
-        height: 0.53cm;
-        text-align: center;
-        left: 9.98cm;
-        top: 18.8cm;
-    }
-
-    .fb_background .date {
-        position: absolute;
-        display: -moz-inline-box;
-        display: inline-block;
-        width: 0.6cm;
-        height: 0.53cm;
-        left: 11.15cm;
-        top: 18.8cm;
-        text-align: center;
-    }
-
-    .fb_background .dwmc {
-        position: absolute;
-        display: -moz-inline-box;
-        display: inline-block;
-        width: 7.11cm;
-        height: 1.88cm;
-        left: 20.45cm;
-        top: 2.99cm;
-    }
-
-    .fb_background .DZHI {
-        position: absolute;
-        display: -moz-inline-box;
-        display: inline-block;
-        width: 7.11cm;
-        height: 1.88cm;
-        left: 20.45cm;
-        top: 4.88cm;
-    }
-
-    .fb_background .fddbr {
-        position: absolute;
-        display: -moz-inline-box;
-        display: inline-block;
-        width: 6.11cm;
-        height: 1.5cm;
-        left: 21.6cm;
-        top: 6.64cm;
-    }
-
-    .fb_background .zczj {
-        position: absolute;
-        display: -moz-inline-box;
-        display: inline-block;
-        width: 6.11cm;
-        height: 1.5cm;
-        left: 21.6cm;
-        top: 9.13cm;
-    }
-
-    .fb_background .YYZZHM {
-        position: absolute;
-        display: -moz-inline-box;
-        display: inline-block;
-        width: 6.11cm;
-        height: 1.5cm;
-        left: 20.45cm;
-        top: 11.48cm;
-    }
-
-    .fb_background .JYFW {
-        position: absolute;
-        display: -moz-inline-box;
-        display: inline-block;
-        width: 7.11cm;
-        height: 6cm;
-        left: 20.45cm;
-        top: 13.55cm;
-    }
-
+    body {min-width: initial;}
 }
+

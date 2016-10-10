@@ -2,6 +2,18 @@ import React from 'react'
 import './dy.css'
 import {Row, Col, Modal} from 'antd'
 
+var cssPagedMedia = (function () {
+    var style = document.createElement('style');
+    document.head.appendChild(style);
+    return function (rule) {
+        style.innerHTML = rule;
+    };
+}());
+
+cssPagedMedia.size = function (size) {
+    cssPagedMedia('@page {size: ' + size + '}');
+};
+
 const confirm = Modal.confirm;
 let dy = React.createClass({
     onClick(){
@@ -19,191 +31,202 @@ let dy = React.createClass({
         });
     },
     render(){
-        console.log(this.props.location.query.data)
-        let data = JSON.parse(this.props.location.query.data)
+
+        cssPagedMedia.size('A4 portrait');
+        let data = this.props.location.query.data;
+        if (typeof  data != 'object'){
+            data = JSON.parse(data);
+        }
         const nowy = new Date();
-        return <div className="dy-ywcover">
-            <div>
-                <table cellSpacing="0" cellPadding="0" width="100%">
+        return <div className="dy-ywcover c26">
+                <p className="c5"><span></span></p>
+                <p className="c5"><span></span></p>
+                <p className="c5"><span></span></p>
+                <a id="t.898ebee2b7aaac4487506a87984cd16470d6f443"></a>
+                <a id="t.0"></a>
+                <table className="c4">
                     <tbody>
-                    <tr>
-                        <td></td>
+                    <tr className="c13">
+                        <td className="c0" colSpan="1" rowSpan="1">
+                            <p className="c22"><span className="c17">{data.wtdw}</span></p>
+                        </td>
                     </tr>
-                    <tr>
-                        <td>
-                            <table cellSpacing="0" cellPadding="0" width="100%">
-                                <tbody>
-                                <tr height="260">
-                                    <td>
-                                        <div id="page1">
-                                            <table cellSpacing="0" cellPadding="0" width="660"
-                                                   style={{margin: '0 auto'}}>
-                                                <tbody>
-                                                <tr>
-                                                    <td align="center">
-                                                        <div className="ztit">
-                                                            佛山汉堂济方中药科技有限公司<br/>高新技术企业认定专项鉴证报告<br/>
-                                                            <div style={{
-                                                                fontSize: '23px',
-                                                                fontFamily: 'FangSong_GB2312',
-                                                                fontWeight: '500',
-                                                                paddingBottom: '1px',
-                                                                margin: '1px',
-                                                                lineHeight: '30px'
-                                                            }}>
-                                                                2015年01月01日-2015年12月31日
-                                                            </div>
-                                                            <span style={{fontSize: '30px'}}>(高新技术产品（服务）收入专项鉴证报告)</span>
-                                                        </div>
-                                                        {/*企业所税汇算清缴、个人所得税汇算清缴 的标头打印位置*/}
-                                                        <div style={{borderBottom: '#ccc 2px solid'}} height="2"></div>
-                                                        <table height="60" cellSpacing="0" cellPadding="0" width="100"
-                                                               border="0">
-                                                            <tbody>
-                                                            <tr>
-                                                                <td>&nbsp;</td>
-                                                            </tr>
-                                                            </tbody>
-                                                        </table>
-                                                        <table className="table1" cellSpacing="10" cellPadding="0"
-                                                               width="80%" border="0">
-                                                            <tbody>
-                                                            <tr>
-                                                                <td>【</td>
-                                                                <td className="fsdq" width="32%">防伪条形码</td>
-                                                                <td>】：</td>
-                                                                <td align="left">
-                                                                    <img border="0" alt="/bcimages/20161023112291.png"
-                                                                         src="ywbbAction_files/20161023112291.png"
-                                                                         align="absMiddle"/>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>【</td>
-                                                                <td className="fsdq">报备号码</td>
-                                                                <td>】：</td>
-                                                                <th align="left"><span
-                                                                    className="fontfs">20161023112291&nbsp;</span></th>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>【</td>
-                                                                <td className="fsdq">报告文号</td>
-                                                                <td>】：</td>
-                                                                <th align="left"><span className="fontfs">中海粤专字（2016）第434号&nbsp;</span>
-                                                                </th>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>【</td>
-                                                                <td className="fsdq">企业名称</td>
-                                                                <td>】：</td>
-                                                                <th align="left"><span
-                                                                    className="fontfs">佛山汉堂济方中药科技有限公司&nbsp;</span></th>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>【</td>
-                                                                <td className="fsdq">税务登记证号</td>
-                                                                <td>】：</td>
-                                                                <th align="left"><span className="fontfs">914406043040095490&nbsp;</span>
-                                                                </th>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>【</td>
-                                                                <td className="fsdq">主管税务机关</td>
-                                                                <td>】：</td>
-                                                                <th align="left"><span
-                                                                    className="fontfs">佛山市禅城区国家税务局&nbsp; </span></th>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>【</td>
-                                                                <td className="fsdq">事务所名称</td>
-                                                                <td>】：</td>
-                                                                <th align="left"><span className="fontfs">广州中海粤税务师事务所有限公司&nbsp;</span>
-                                                                </th>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>【</td>
-                                                                <td className="fsdq">报告日期</td>
-                                                                <td>】：</td>
-                                                                <th align="left"><span
-                                                                    className="fontfs">2016年10月10日&nbsp;</span></th>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>【</td>
-                                                                <td className="fsdq">报备日期</td>
-                                                                <td>】：</td>
-                                                                <th align="left"><span
-                                                                    className="fontfs">2016年10月10日&nbsp;</span></th>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>【</td>
-                                                                <td className="fsdq">签名税务师</td>
-                                                                <td>】：</td>
-                                                                <th align="left"><span
-                                                                    className="fontfs">李秋玲,何燕&nbsp;</span></th>
-                                                            </tr>
-                                                            </tbody>
-                                                        </table>
-                                                        <table height="80" cellSpacing="0" cellPadding="0" width="100"
-                                                               border="0">
-                                                            <tbody>
-                                                            <tr>
-                                                                <td>&nbsp;</td>
-                                                            </tr>
-                                                            </tbody>
-                                                        </table>
-                                                        <table className="table2" cellSpacing="0" cellPadding="0"
-                                                               width="80%" align="center" border="0">
-                                                            <tbody>
-                                                            <tr>
-                                                                <td className="fontht" width="100" align="right">事务所电话
-                                                                </td>
-                                                                <td width="5">：</td>
-                                                                <td align="left"><span
-                                                                    className="fontfs">020-37601656&nbsp;</span></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td className="fontht" align="right">传真</td>
-                                                                <td>：</td>
-                                                                <td align="left"><span className="fontfs">020-37601656-810&nbsp;</span>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td className="fontht" align="right">通信地址</td>
-                                                                <td>：</td>
-                                                                <td align="left"><span className="fontfs">广州市越秀区寺右新马路111-115号1520房&nbsp;</span>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td className="fontht" align="right">电子邮件</td>
-                                                                <td>：</td>
-                                                                <td align="left"><span className="fontfs">lzl19832003@163.com&nbsp;</span>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td className="fontht" align="right">事务所网址</td>
-                                                                <td>：</td>
-                                                                <td><span className="fontfs">&nbsp;</span></td>
-                                                            </tr>
-                                                            </tbody>
-                                                        </table>
-                                                        <div className="sxxan"><img border="0"
-                                                                                    src="ywbbAction_files/sy03.gif"
-                                                                                    align="absMiddle"/></div>
-                                                        <span className="dijiao">防伪查询网址：http://www.gdcta.net</span>
-                                                    </td>
-                                                </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
+                    <tr className="c13">
+                        <td className="c0" colSpan="1" rowSpan="1">
+                            <p className="c22"><span className="c17">{data.ywlx}</span></p>
+                        </td>
+                    </tr>
+                    <tr className="c13">
+                        <td className="c0" colSpan="1" rowSpan="1">
+                            <p className="c22"><span className="c10">{data.sstarttime + ' - ' + data.sendtime}</span></p>
+                        </td>
+                    </tr>
+                    <tr className="c13">
+                        <td className="c0" colSpan="1" rowSpan="1">
+                            <p className="c22"><span className="c25">{data.jtxm}</span></p>
                         </td>
                     </tr>
                     </tbody>
                 </table>
-            </div>
+                <p className="c5"><span></span></p>
+                <p className="c5"><span></span></p>
+                <hr/>
+                    <p className="c5"><span className="c12"></span></p>
+                    <p className="c5"><span></span></p>
+                    <p className="c5"><span></span></p>
+                    <a id="t.b7e56ebf297963d11b8d73a58c3b0db7c33a27a8"></a>
+                    <a id="t.1"></a>
+                    <table className="c4">
+                        <tbody>
+                        <tr className="c13">
+                            <td className="c9" colSpan="1" rowSpan="1">
+                                <p className="c3"><span className="c2">&#12304; &#38450; &#20266; &nbsp;&#26465; &nbsp;&#24418; &nbsp;&#30721; &#12305;&#65306;</span></p>
+                            </td>
+                            <td className="c23" colSpan="1" rowSpan="1">
+                                <p className="c6 c8"><span className="c1"></span></p>
+                            </td>
+                        </tr>
+                        <tr className="c13">
+                            <td className="c9" colSpan="1" rowSpan="1">
+                                <p className="c3"><span className="c2">&#12304; &#25253; &nbsp; &#22791; &nbsp; &#21495; &nbsp; &#30721; &#12305;&#65306;</span></p>
+                            </td>
+                            <td className="c21" colSpan="1" rowSpan="1">
+                                <p className="c6"><span className="c1">{data.bbhm}</span></p>
+                            </td>
+                        </tr>
+                        <tr className="c13">
+                            <td className="c9" colSpan="1" rowSpan="1">
+                                <p className="c3"><span className="c2">&#12304; &#25253; &nbsp; &#21578; &nbsp; &#25991; &nbsp; &#21495; &#12305;&#65306;</span></p>
+                            </td>
+                            <td className="c7" colSpan="1" rowSpan="1">
+                                <p className="c6"><span className="c1">{data.bgwh}</span></p>
+                            </td>
+                        </tr>
+                        <tr className="c13">
+                            <td className="c9" colSpan="1" rowSpan="1">
+                                <p className="c3"><span className="c2">&#12304; &#20225; &nbsp; &#19994; &nbsp; &#21517; &nbsp; &#31216; &#12305;&#65306;</span></p>
+                            </td>
+                            <td className="c7" colSpan="1" rowSpan="1">
+                                <p className="c6"><span className="c1">{data.wtdw}</span></p>
+                            </td>
+                        </tr>
+                        <tr className="c24">
+                            <td className="c9" colSpan="1" rowSpan="1">
+                                <p className="c3"><span className="c2">&#12304; &#31246; &#21153; &#30331; &#35760; &#35777; &#21495; &#12305;&#65306;</span></p>
+                            </td>
+                            <td className="c7" colSpan="1" rowSpan="1">
+                                <p className="c6 c8"><span className="c1">{data.wtdw}</span></p>
+                            </td>
+                        </tr>
+                        <tr className="c13">
+                            <td className="c9" colSpan="1" rowSpan="1">
+                                <p className="c3"><span className="c2">&#12304; &#20027; &#31649; &#31246; &#21153; &#26426; &#20851; &#12305;&#65306;</span></p>
+                            </td>
+                            <td className="c7" colSpan="1" rowSpan="1">
+                                <p className="c6 c8"><span className="c1">{data.zgswjg}</span></p>
+                            </td>
+                        </tr>
+                        <tr className="c13">
+                            <td className="c9" colSpan="1" rowSpan="1">
+                                <p className="c3"><span className="c2">&#12304; &#20107; &#21153; &nbsp;&#25152; &nbsp;&#21517; &nbsp;&#31216; &#12305;&#65306;</span></p>
+                            </td>
+                            <td className="c7" colSpan="1" rowSpan="1">
+                                <p className="c6 c8"><span className="c1">{data.swsmc}</span></p>
+                            </td>
+                        </tr>
+                        <tr className="c13">
+                            <td className="c9" colSpan="1" rowSpan="1">
+                                <p className="c3"><span className="c2">&#12304; &#25253; &nbsp; &#21578; &nbsp; &#26085; &nbsp; &#26399; &#12305;&#65306;</span></p>
+                            </td>
+                            <td className="c7" colSpan="1" rowSpan="1">
+                                <p className="c6"><span className="c1">{data.bgrq}</span></p>
+                            </td>
+                        </tr>
+                        <tr className="c13">
+                            <td className="c9" colSpan="1" rowSpan="1">
+                                <p className="c3"><span className="c2">&#12304; &#25253; &nbsp; &#22791; &nbsp; &#26085; &nbsp; &#26399; &#12305;&#65306;</span></p>
+                            </td>
+                            <td className="c7" colSpan="1" rowSpan="1">
+                                <p className="c6"><span className="c1">{data.bbrq}</span></p>
+                            </td>
+                        </tr>
+                        <tr className="c13">
+                            <td className="c9" colSpan="1" rowSpan="1">
+                                <p className="c3"><span className="c2">&#12304; &#31614; &#21517; &nbsp;&#31246; &nbsp;&#21153; &nbsp;&#24072; &#12305;&#65306;</span></p>
+                            </td>
+                            <td className="c7" colSpan="1" rowSpan="1">
+                                <p className="c6"><span className="c1">{data.qzsws}</span></p>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <p className="c5"><span></span></p>
+                    <p className="c5"><span></span></p>
+                    <p className="c5"><span></span></p>
+                    <a id="t.45b59b2954937cd44d27e3dfc8867eae70a983cf"></a>
+                    <a id="t.2"></a>
+                    <table className="c4">
+                        <tbody>
+                        <tr className="c18">
+                            <td className="c15" colSpan="1" rowSpan="1">
+                                <p className="c3"><span className="c1">&#20107; &#21153; &#25152; &#30005; &#35805;&#65306;</span></p>
+                            </td>
+                            <td className="c16" colSpan="1" rowSpan="1">
+                                <p className="c6"><span className="c1">{data.wtdw}</span></p>
+                            </td>
+                        </tr>
+                        <tr className="c13">
+                            <td className="c15" colSpan="1" rowSpan="1">
+                                <p className="c3"><span className="c1">&#20256; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&#30495;&#65306;</span></p>
+                            </td>
+                            <td className="c16" colSpan="1" rowSpan="1">
+                                <p className="c6"><span className="c1">{data.swscz}</span></p>
+                            </td>
+                        </tr>
+                        <tr className="c13">
+                            <td className="c15" colSpan="1" rowSpan="1">
+                                <p className="c3"><span className="c1">&#36890; &nbsp;&#20449; &nbsp;&#22320; &nbsp;&#22336;&#65306;</span></p>
+                            </td>
+                            <td className="c16" colSpan="1" rowSpan="1">
+                                <p className="c6"><span className="c1">{data.txdz}</span></p>
+                            </td>
+                        </tr>
+                        <tr className="c13">
+                            <td className="c15" colSpan="1" rowSpan="1">
+                                <p className="c3"><span className="c1">&#30005; &nbsp;&#23376; &nbsp;&#37038; &nbsp;&#20214;&#65306;</span></p>
+                            </td>
+                            <td className="c16" colSpan="1" rowSpan="1">
+                                <p className="c6"><span className="c1">{data.swsdzyj}</span></p>
+                            </td>
+                        </tr>
+                        <tr className="c13">
+                            <td className="c15" colSpan="1" rowSpan="1">
+                                <p className="c3"><span className="c1">&#20107; &#21153; &#25152; &#32593; &#22336;&#65306;</span></p>
+                            </td>
+                            <td className="c16" colSpan="1" rowSpan="1">
+                                <p className="c6 c8"><span className="c1">{data.swswz}</span></p>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <p className="c5"><span></span></p>
+                    <a id="t.55e22d1cb25eb0693d1aca3918b5fdd74b4dd1e7"></a>
+                    <a id="t.3"></a>
+                    <table className="c4">
+                        <tbody>
+                        <tr className="c18">
+                            <td className="c20" colSpan="1" rowSpan="1">
+                                <p className="c6"><span className="c14 c11">&#38450;&#20266;&#30721;</span></p>
+                            </td>
+                        </tr>
+                        <tr className="c13">
+                            <td className="c19" colSpan="1" rowSpan="1">
+                                <p className="c6"><span className="c11 c14">&#38450;&#20266;&#26597;&#35810;&#32593;&#22336;&#65306;http://www.gdcta.net</span></p>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <p className="c5"><span className="c11"></span></p>
             <div>
                 <button className="noprint" type="button" onClick={this.onClick}
                         style={{'position': 'relative', 'left': '45%', 'width': '60px', 'top': '100%'}}>打印

@@ -105,7 +105,26 @@ const c = React.createClass({
         this.setState({dialogCX:false})
     },
     printCover(record){
-        let query = JSON.stringify(record);
+        let query = JSON.stringify({
+            wtdw:record.wtdw,
+            ywlx:record.ywlx,
+            sstarttime:record.sstarttime,
+            sendtime:record.sendtime,
+            jtxm:record.jtxm,
+            bbhm:record.bbhm,
+            bgwh:record.bgwh,
+            wtdwnsrsbh:record.wtdwnsrsbh,
+            zgswjg:record.zgswjg,
+            swsmc:record.swsmc,
+            bgrq:record.bgrq,
+            bbrq:record.bbrq,
+            qzsws:record.qzsws,
+            swsdh:record.swsdh,
+            swsdzyj:record.swsdzyj,
+            swswz:record.swswz,
+            swscz:record.swscz,
+            txdz:record.txdz
+        });
         query = encodeURIComponent(query);
         window.open('#/print/ywbbcover?data='+query);
     },

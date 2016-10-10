@@ -72,7 +72,7 @@ const Index = React.createClass({
                 require('../module/zzgl/jgzzgl'), //事务所资质管理
                 require('../module/zzgl/zyswszzgl'), //执业注师资质管理
 
-                                //业务管理
+                //业务管理
                 require('../module/ywgl/ywbbgl'),
                 require('../module/ywgl/ywbbthsp'), //业务报备退回审批
                 require('../module/ywgl/ywbbcxsp'), //业务报备退回审批
@@ -93,7 +93,7 @@ const Index = React.createClass({
                 require('../module/cwbb/wsbbb'),
 
                 //手动上报报表
-                /*require('../module/sdsbbb/jzywtjb'),
+                require('../module/sdsbbb/jzywtjb'),
                 require('../module/sdsbbb/jygmtjb'),
                 require('../module/sdsbbb/swsjbqkb'),
                 require('../module/sdsbbb/hyryqktj'),
@@ -219,7 +219,7 @@ const Index = React.createClass({
 
                 //年度检查
                 require('../module/client/swsnj'),//事务所年检
-                require('../module/client/zyswsnj'),//执业税务师年检*/
+                require('../module/client/zyswsnj'),//执业税务师年检
 
                 //业务管理
                 require('../module/client/ywgl/khxxgl'), //客户信息管理
