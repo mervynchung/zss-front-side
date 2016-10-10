@@ -20,7 +20,9 @@ const API_URL_ZJ = config.HOST+config.URI_API_PROJECT + '/spapi/fspsq/zyzjsq';
 const API_URL_FS = config.HOST+config.URI_API_PROJECT + '/spapi/fspsq/zyzrfs';
 const API_URL_ZC = config.HOST+config.URI_API_PROJECT + '/spapi/spsq/zyzcsq';
 const API_URL_ZS = config.HOST+config.URI_API_PROJECT + '/spapi/spsq/zyzssq';
+const API_URL_BA = config.HOST+config.URI_API_PROJECT + '/spapi/fspsq/cyrybasq';
 const API_URL_GX = config.HOST + config.URI_API_PROJECT + '/rygl/ryxpgx/';
+const API_URL_ISSFZH = config.HOST + config.URI_API_PROJECT + '/commont/checksfzh/';
 const ToolBar = Panel.ToolBar;
 const ButtonGroup = Button.Group;
 
@@ -39,6 +41,7 @@ const rycx = React.createClass({
             activeKey:"",
             ryid:"",
             xpPath:"",
+            letValues:[],
 
       };
     },
@@ -142,11 +145,11 @@ const rycx = React.createClass({
     },
     handleCZ(lx,e){//操作入口
     e.preventDefault();
-    this.setState({czAll:lx});
+    this.setState({czAll:lx,letValues:[]});
     
     },
     handleReturn(){//返回按钮
-    this.setState({czAll:0,valueFS: ''});
+    this.setState({czAll:0,valueFS: '',letValues:[]});
     this.callback(13);
 },
     handleBGSubmit(value){
@@ -159,7 +162,26 @@ const rycx = React.createClass({
                 case 3: squrls=API_URL_ZX;break;
                 case 4: squrls=API_URL_ZJ;break;
                 case 6: squrls=API_URL_ZS;break;
+                case 8: squrls=API_URL_BA;
+                            if (!this.state.xpPath) {
+                                Modal.info({ title: '提示', content: (<div><p><b>请上传照片</b></p> </div>)});
+                                this.setState({bgLoading:false});
+                                return
+                            }
+                            ls.xppath=this.state.xpPath;
+                            req({url: API_URL_ISSFZH+ls.sfzh,method: 'get',type: 'json',
+                              headers:{'x-auth-token':auth.getToken()},
+                              success: (result) => {
+                                if (result==false) {
+                                    Modal.info({ title: '提示', content: (<div><p><b>身份证号码已在管理中心备案</b></p> </div>)});
+                                    this.setState({bgLoading:false});
+                                    return
+                                 }
+                              },error: (err) =>{alert('身份证校验错误');this.setState({bgLoading:false});return}
+                              });
+                            break;
             }
+            console.log("1111111111111111");
             ls.ryid=this.state.ryid;
              req({
                 url: squrls,
@@ -230,7 +252,19 @@ const rycx = React.createClass({
                         </a></Dropdown>
                       </span>
     },
-
+    upLoadOnChange(info) {
+                if (info.file.status == 'uploading') {
+                    this.setState({letValues:this.refs.addValues.getFieldsValue()});
+                }
+                if (info.file.status == 'done') {
+                    this.setState({xpPath:info.file.response.text});
+                } else if (info.file.status == 'error') {
+                    Modal.error({
+                        title: '上传失败',
+                        content: (<p>{info.file.name}相片上传失败</p>)
+                    });
+                }
+            },
   componentDidMount() { //REACT提供懒加载方法，懒加载时使用，且方法名必须为componentDidMount
       this.fetch_rycx(); //异步调用后台服务器方法fetch_rycx
     },
@@ -279,23 +313,7 @@ const rycx = React.createClass({
             name: 'file',
             action: '/api/upload',
             headers: {'x-auth-token': auth.getToken()},
-            onChange(info) {
-                if (info.file.status == 'uploading') {
-                    that.setState({sloading: true});
-                }
-                if (info.file.status == 'done') {
-                    that.setState({sloading: false,xpPath:info.file.response.text});
-                    Modal.success({
-                        title: '上传成功',
-                    });
-                } else if (info.file.status == 'error') {
-                    that.setState({sloading: false});
-                    Modal.error({
-                        title: '上传失败',
-                        content: (<p>{info.file.name}上传失败</p>)
-                    });
-                }
-            },
+            onChange:this.upLoadOnChange,
             beforeUpload(file) {
                 if (file.type.indexOf('image')<0) {
                     message.error('只能上传图片类型文件');
@@ -313,7 +331,8 @@ const rycx = React.createClass({
         </ToolBar>; 
         let toolbar2 = <ToolBar>
                 <Button type="ghost" onClick={this.handleReturn}>返回</Button>
-        </ToolBar>;   
+        </ToolBar>; 
+        console.log(this.state.letValues);
       return <div className="rycx">
             <div className="wrap">
                <div className="dataGird">
@@ -336,7 +355,7 @@ const rycx = React.createClass({
                                     
                                     <TabPane tab="详细信息" key="13" >
                                     <div style={{float:"right",width:"143px",height:"175px",backgroundColor: "#fff",border: "1px solid #e9e9e9"}}>
-                                            {!this.state.dataxx.xpian? <p>未上传相片</p> : <img src={this.state.dataxx.xpian} style={{padding:"5px"}}/>}
+                                            {!this.state.dataxx.xpian? <p>未上传相片</p> : <img src={this.state.dataxx.xpian} style={{padding:"5px",width:"138px",height:"170px"}}/>}
                                       </div>
                                       <CompBaseTable data = {this.state.dataxx}  model ={Model.autoformCy} bordered striped />
                                     <p className="nbjgsz">人员简历：</p>
@@ -350,11 +369,11 @@ const rycx = React.createClass({
                                     <div style={{float:"right",}}>
                                     <div style={{width:"143px",height:"175px",backgroundColor: "#fff",border: "1px solid #e9e9e9"}}>
                                             {!this.state.xpPath?!this.state.dataxx.xpian? <p>未上传相片</p> :
-                                             <img src={this.state.dataxx.xpian} style={{padding:"5px"}}/>:
-                                             <img src={this.state.xpPath} style={{padding:"5px"}}/> }
+                                             <img src={this.state.dataxx.xpian} style={{padding:"5px",width:"138px",height:"170px"}}/>:
+                                             <img src={this.state.xpPath} style={{padding:"5px",width:"138px",height:"170px"}}/> }
                                       </div><Upload {...props}><Button >更改照片</Button></Upload><p>（文件大小不能超过1M）</p></div>
-                                    <CompInputBaseTable data={this.state.dataxx}  model={Model.autoformCy2} bordered striped showConfirm bglx 
-                                     onSubmit={this.handleBGSubmit}  disabled={this.state.onSubmitZT} nbsj={this.state.datalist}
+                                    <CompInputBaseTable data={!this.state.letValues?this.state.dataxx:this.state.letValues}  model={Model.autoformCy2} bordered striped showConfirm bglx 
+                                     onSubmit={this.handleBGSubmit}  disabled={this.state.onSubmitZT} nbsj={this.state.datalist} ref="addValues"
                                       submitLoading={this.state.bgLoading} title='您是否确认要提交以上变更信息？'  nbjgsz={Model.ryjl} nbTitle="人员简历："
                                       content='变更后数据将更新' />
                                      </Spin></Panel>}
@@ -362,13 +381,14 @@ const rycx = React.createClass({
                                     <Spin spinning={this.state.sloading}>
                                     <div style={{float:"right",}}>
                                     <div style={{width:"143px",height:"175px",backgroundColor: "#fff",border: "1px solid #e9e9e9"}}>
-                                            {!this.state.xpPath? <p>未上传相片</p> : <img src={this.state.xpPath} style={{padding:"5px"}}/>}
-                                      </div><Upload {...props}><Button >更改照片</Button></Upload><p>（文件大小不能超过1M）</p></div>
-                                    <CompInputBaseTable data={[]}  model={Model.autoformCy2} bordered striped showConfirm  
-                                     onSubmit={this.handleBGSubmit} nbjgsz={Model.ryjl} nbTitle="人员简历："
+                                            {!this.state.xpPath? <p>未上传相片</p> : <img src={this.state.xpPath} style={{padding:"5px",width:"138px",height:"170px"}}/>}
+                                      </div><Upload {...props}><span style={{'color':'red',fontSize:'large'}}>*</span><Button >上传照片</Button></Upload><p>（文件大小不能超过1M）</p></div>
+                                    <CompInputBaseTable data={this.state.letValues}  model={Model.autoformCy2} bordered striped showConfirm  
+                                     onSubmit={this.handleBGSubmit} nbjgsz={Model.ryjl} nbTitle="人员简历：" ref="addValues" 
                                       submitLoading={this.state.bgLoading} title='您是否确认要提交以上人员信息？'  
-                                      content='提交后该人员将在管理中心备案' />
+                                      content='提交后该人员将在管理中心备案' />  
                                      </Spin></Panel>}
+                                    
                             </Panel>
                       </div>  
                   </div>

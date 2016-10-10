@@ -74,7 +74,7 @@ let jgcx = React.createClass({
             } else {//空数据处理
               const pagination = this.state.pagination;
               pagination.total = 0;
-              this.setState({ data: [],  loading: false, });
+              this.setState({ data: [],  loading: false,tjData:result.jftj, });
             };
           },
           error: (err) => { alert('api错误'); this.setState({ data: [],  loading: false, });}
