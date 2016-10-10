@@ -120,6 +120,9 @@ let baseTable = React.createClass({
                 },
               });
             },
+    getLetValues(){
+        return this.props.form.getFieldsValue();
+    },
     render(){
         const { getFieldProps } = this.props.form;
         let colCount = 0;
