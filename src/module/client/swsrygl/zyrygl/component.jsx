@@ -48,6 +48,7 @@ const rycx = React.createClass({
             ryid:"",
             valueFS: '',
             fsRad:null,
+            xpPath:"",
       };
     },
 
@@ -187,7 +188,7 @@ onChangeFS(e) {
             ls.zyswsid=this.state.zyswsid;
             let squrls="";
             switch(this.state.czAll){
-                case 1: squrls=API_URL_BG;break;
+                case 1: squrls=API_URL_BG;ls.xppath=(!this.state.xpPath?this.state.dataxx.xpian:this.state.xpPath);break;
                 case 2: squrls=API_URL_ZFZY;break;
                 case 3: squrls=API_URL_ZX;break;
                 case 4: squrls=API_URL_ZJ;break;
@@ -240,7 +241,7 @@ onChangeFS(e) {
             if(this.state.czAll==5){
                 squrls=API_URL_FS;
                 ls.pid=this.state.valueFS;
-                con="提交后该执业税务师将调入到所选择分所中，由分所管理，并从本事物所人员系统中除去";
+                con="提交后该执业税务师将调入到所选择分所中，由分所管理，并从本事务所人员系统中除去";
                 med='put';
             }else{
               squrls=API_URL_ZC;
@@ -405,33 +406,15 @@ onChangeFS(e) {
             action: '/api/upload',
             headers: {'x-auth-token': auth.getToken()},
             onChange(info) {
-                if (info.file.status == 'uploading') {
-                    that.setState({sloading: true});
+               if (info.file.status == 'uploading') {
+                    that.setState({letValues:that.refs.addValues.getFieldsValue()});
                 }
                 if (info.file.status == 'done') {
-                    that.setState({sloading: false});
-                    req({url: API_URL_GX+that.state.ryid,
-                        method: 'put',
-                        type: 'json',
-                        data:info.file.response.text,
-                      headers:{'x-auth-token':auth.getToken()},
-                      error: (err) =>{
-                            Modal.error({
-                            title: '照片更新失败',
-                            });
-                        }
-                    });
-                    Modal.success({
-                        title: '上传成功',
-                        onOk(){
-                            that.fetch_kzxx(1);
-                        }
-                    });
+                    that.setState({xpPath:info.file.response.text});
                 } else if (info.file.status == 'error') {
-                    that.setState({sloading: false});
                     Modal.error({
                         title: '上传失败',
-                        content: (<p>{info.file.name}上传失败</p>)
+                        content: (<p>{info.file.name}相片上传失败</p>)
                     });
                 }
             },
@@ -475,7 +458,7 @@ onChangeFS(e) {
                    <Tabs type="line" activeKey={this.state.activeKey} onChange={this.callback} key="A">
                         <TabPane tab="详细信息" key="1">
                         <div style={{float:"right",width:"143px",height:"175px",backgroundColor: "#fff",border: "1px solid #e9e9e9"}}>
-                        {!this.state.dataxx.xpian? <p>未上传相片</p> : <img src={this.state.dataxx.xpian} style={{padding:"5px"}}/>}</div>
+                        {!this.state.dataxx.xpian? <p>未上传相片</p> : <img src={this.state.dataxx.xpian} style={{padding:"5px",width:"138px",height:"170px"}}/>}</div>
                         <CompBaseTable data = {this.state.dataxx}  model={Model.autoform} bordered striped /><p className="nbjgsz">人员简历：</p>
                         <Table columns={Model.ryjl} dataSource={this.state.datalist} bordered  size="small" pagination={false} /></TabPane>
                         <TabPane tab="变更记录" key="2"><Table columns={Model.columnsZyrybgjl} dataSource={this.state.datalist} bordered  size="small" /></TabPane>
@@ -486,10 +469,12 @@ onChangeFS(e) {
                         <Spin spinning={this.state.sloading}>
                         <div style={{float:"right",}}>
                         <div style={{width:"143px",height:"175px",backgroundColor: "#fff",border: "1px solid #e9e9e9"}}>
-                                {!this.state.dataxx.xpian? <p>未上传相片</p> : <img src={this.state.dataxx.xpian} style={{padding:"5px"}}/>}
-                          </div><Upload {...props}><Button >更改照片</Button></Upload><p>（文件大小不能超过1M）</p><p>（更新照片不需提交）</p></div>
+                                {!this.state.xpPath?!this.state.dataxx.xpian? <p>未上传相片</p> :
+                                             <img src={this.state.dataxx.xpian} style={{padding:"5px",width:"138px",height:"170px"}}/>:
+                                             <img src={this.state.xpPath} style={{padding:"5px",width:"138px",height:"170px"}}/>}
+                          </div><Upload {...props}><Button >更改照片</Button></Upload><p>（文件大小不能超过1M）</p></div>
                         <CompInputBaseTable data={this.state.dataxx}  model={Model.autoform1} bordered striped showConfirm bglx 
-                         onSubmit={this.handleBGSubmit} bgmc={Model.bgmc} disabled={this.state.onSubmitZT} 
+                         onSubmit={this.handleBGSubmit} bgmc={Model.bgmc} disabled={this.state.onSubmitZT} ref="addValues"
                           submitLoading={this.state.bgLoading} title='您是否确认要提交以上变更信息？' 
                           content='变更项目提交后将提交中心管理端审批，在变更审批完成前，将不能再进行变更操作' />
                          </Spin></Panel>}
