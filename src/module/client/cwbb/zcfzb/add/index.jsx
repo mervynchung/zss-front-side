@@ -71,9 +71,11 @@ let Addzcfzb = React.createClass({
         e.preventDefault();
         var mp = {};
         let value = this.props.form.getFieldsValue();
-        let ldzc_hj_nc = 0;
-        ldzc_hj_nc = parseFloat(value.ldzc_hbzj_nc) + parseFloat(value.ldzc_dqtz_nc);
-        value.ldzc_hj_nc = ldzc_hj_nc;
+        //  let ldzc_hj_nc = 0;
+        // ldzc_hj_nc = parseFloat(value.ldzc_hbzj_nc) + parseFloat(value.ldzc_dqtz_nc);
+        //  value.ldzc_hj_nc = ldzc_hj_nc;
+
+        this.handleInputChange();
         // value['ldzc_hj_nc'] = value['ldzc_hbzj_nc'] + value['ldzc_dqtz_nc'] + value['ldfz_yfpj_nc'] + value['ldzc_ysgl_nc'] + value['ldzc_yslx_nc'] + value['ldzc_yszk_nc']
         //     + value['ldzc_qtys_nc'] + value['ldzc_yfzk_nc'] + value['ldzc_ysbt_nc'] + value['ldzc_ch_nc'] + value['ldzc_dtfy_nc'] + value['ldzc_dqzj_nc'] + value['ldzc_qtldzc_nc'];
         for (var key in value) {
@@ -116,6 +118,10 @@ let Addzcfzb = React.createClass({
     handleInputChange(e) {
         let changeField = e.target.id;
         let value = e.target.value;
+        if (value == null) {
+            value = 0;
+        }
+
         let entity = this.props.form.getFieldsValue();
         let ldzc_hbzj_nc = 0;
         let ldzc_hbzj = 0;
@@ -245,7 +251,7 @@ let Addzcfzb = React.createClass({
         let syzqy_hj = 0;
         let fzsyzqy_hj_nc = 0;
         let fzsyzqy_hj = 0;
-//================================================================
+        //================================================================
 
         if (entity.ldzc_hbzj_nc) {
             ldzc_hbzj_nc = entity.ldzc_hbzj_nc;
@@ -298,33 +304,33 @@ let Addzcfzb = React.createClass({
         if (entity.ldfz_yfgz_nc) {
             ldfz_yfgz_nc = entity.ldfz_yfgz_nc;
         }
-         if (entity.ldfz_yffl_nc) {
+        if (entity.ldfz_yffl_nc) {
             ldfz_yffl_nc = entity.ldfz_yffl_nc;
         }
-         if (entity.ldfz_yf) {
+        if (entity.ldfz_yf) {
             ldfz_yffl = entity.ldfz_yffl;
-        } 
+        }
         if (entity.ldfz_yfgl_nc) {
             ldfz_yfgl_nc = entity.ldfz_yfgl_nc;
-        } 
+        }
         if (entity.ldfz_yfgl) {
             ldfz_yfgl = entity.ldfz_yfgl;
         }
-         if (entity.ldfz_yjsj_nc) {
+        if (entity.ldfz_yjsj_nc) {
             ldfz_yjsj_nc = entity.ldfz_yjsj_nc;
         }
-         if (entity.ldfz_qtyj_nc) {
+        if (entity.ldfz_qtyj_nc) {
             ldfz_qtyj_nc = entity.ldfz_qtyj_nc;
-        } 
+        }
         if (entity.ldfz_qtyf_nc) {
             ldfz_qtyf_nc = entity.ldfz_qtyf_nc;
         }
         if (entity.ldfz_ytfy_nc) {
             ldfz_ytfy_nc = entity.ldfz_ytfy_nc;
-        } 
+        }
         if (entity.ldfz_ytfy) {
             ldfz_ytfy = entity.ldfz_ytfy;
-        } 
+        }
         if (entity.ldfz_yjfz_nc) {
             ldfz_yjfz_nc = entity.ldfz_yjfz_nc;
         }
@@ -616,7 +622,9 @@ let Addzcfzb = React.createClass({
             zczj = entity.zczj;
         }
 
-//-------------------------------------------------------------------------------------
+        //-------------------------------------------------------------------------------------
+
+
 
         if (changeField == "ldzc_hbzj_nc") {
             ldzc_hbzj_nc = value;
@@ -636,7 +644,7 @@ let Addzcfzb = React.createClass({
         } else if (changeField == "ldzc_dqzj") {
             ldzc_dqzj = value;
             this.props.form.setFieldsValue({ ldzc_dqzj: value });
-        }else if (changeField == "ydsx_skjx_nc") {
+        } else if (changeField == "ydsx_skjx_nc") {
             ydsx_skjx_nc = value;
             this.props.form.setFieldsValue({ ydsx_skjx_nc: value });
         } else if (changeField == "ydsx_skjx") {
@@ -669,22 +677,22 @@ let Addzcfzb = React.createClass({
         } else if (changeField == "ldzc_qtys_nc") {
             ldzc_qtys_nc = value;
             this.props.form.setFieldsValue({ ldzc_qtys_nc: value });
-        }else if (changeField == "ldzc_qtys") {
+        } else if (changeField == "ldzc_qtys") {
             ldzc_qtys = value;
             this.props.form.setFieldsValue({ ldzc_qtys: value });
         } else if (changeField == "ldzc_yfzk_nc") {
             ldzc_yfzk_nc = value;
             this.props.form.setFieldsValue({ ldzc_yfzk_nc: value });
-        }else if (changeField == "ldzc_yfzk") {
+        } else if (changeField == "ldzc_yfzk") {
             ldzc_yfzk = value;
             this.props.form.setFieldsValue({ ldzc_yfzk: value });
-        }else if (changeField == "ldzc_ysbt_nc") {
+        } else if (changeField == "ldzc_ysbt_nc") {
             ldzc_ysbt_nc = value;
             this.props.form.setFieldsValue({ ldzc_ysbt_nc: value });
-        }else if (changeField == "ldzc_ysbt") {
+        } else if (changeField == "ldzc_ysbt") {
             ldzc_ysbt = value;
             this.props.form.setFieldsValue({ ldzc_ysbt: value });
-        }else if (changeField == "ldzc_ch_nc") {
+        } else if (changeField == "ldzc_ch_nc") {
             ldzc_ch_nc = value;
             this.props.form.setFieldsValue({ ldzc_ch_nc: value });
         } else if (changeField == "ldzc_ch") {
@@ -693,47 +701,47 @@ let Addzcfzb = React.createClass({
         } else if (changeField == "ldzc_dtfy_nc") {
             ldzc_dtfy_nc = value;
             this.props.form.setFieldsValue({ ldzc_dtfy_nc: value });
-        }else if (changeField == "ldzc_dtfy") {
+        } else if (changeField == "ldzc_dtfy") {
             ldzc_dtfy = value;
             this.props.form.setFieldsValue({ ldzc_dtfy: value });
-        }else if (changeField == "ldzc_dqtz_nc") {
+        } else if (changeField == "ldzc_dqtz_nc") {
             ldzc_dqtz_nc = value;
             this.props.form.setFieldsValue({ ldzc_dqtz_nc: value });
-        }else if (changeField == "ldzc_dqtz") {
+        } else if (changeField == "ldzc_dqtz") {
             ldzc_dqtz = value;
             this.props.form.setFieldsValue({ ldzc_dqtz: value });
-        }else if (changeField == "ldzc_qtldzc_nc") {
+        } else if (changeField == "ldzc_qtldzc_nc") {
             ldzc_qtldzc_nc = value;
             this.props.form.setFieldsValue({ ldzc_qtldzc_nc: value });
-        }else if (changeField == "ldzc_qtldzc") {
+        } else if (changeField == "ldzc_qtldzc") {
             ldzc_qtldzc = value;
             this.props.form.setFieldsValue({ ldzc_qtldzc: value });
-        }else if (changeField == "ldzc_hj_nc") {
+        } else if (changeField == "ldzc_hj_nc") {
             ldzc_hj_nc = value;
             this.props.form.setFieldsValue({ ldzc_hj_nc: value });
         } else if (changeField == "ldzc_hj") {
             ldzc_hj = value;
             this.props.form.setFieldsValue({ ldzc_hj: value });
-        }else if (changeField == "cqtz_gq_nc") {
+        } else if (changeField == "cqtz_gq_nc") {
             cqtz_gq_nc = value;
             this.props.form.setFieldsValue({ cqtz_gq_nc: value });
-        }else if (changeField == "cqtz_gq") {
+        } else if (changeField == "cqtz_gq") {
             cqtz_gq = value;
             this.props.form.setFieldsValue({ cqtz_gq: value });
-        }else if (changeField == "cqtz_zq_nc") {
+        } else if (changeField == "cqtz_zq_nc") {
             cqtz_zq_nc = value;
             this.props.form.setFieldsValue({ cqtz_zq_nc: value });
         } else if (changeField == "cqtz_zq") {
             cqtz_zq = value;
             this.props.form.setFieldsValue({ cqtz_zq: value });
-        }else if (changeField == "cqtz_hj_nc") {
+        } else if (changeField == "cqtz_hj_nc") {
             cqtz_hj_nc = value;
             this.props.form.setFieldsValue({ cqtz_hj_nc: value });
 
-        }else if (changeField == "cqtz_hj") {
+        } else if (changeField == "cqtz_hj") {
             cqtz_hj = value;
             this.props.form.setFieldsValue({ cqtz_hj: value });
-        }else if (changeField == "gd") {
+        } else if (changeField == "gd") {
             cqtz_hj_nc = value;
             this.props.form.setFieldsValue({ cqtz_hj_nc: value });
         } else if (changeField == "cqtz_hj") {
@@ -769,7 +777,7 @@ let Addzcfzb = React.createClass({
         } else if (changeField == "ldzc_hj") {
             ldzc_hj = value;
             this.props.form.setFieldsValue({ ldzc_hj: value });
-        }else if (changeField == "gdzc_yj_nc") {
+        } else if (changeField == "gdzc_yj_nc") {
             gdzc_yj_nc = value;
             this.props.form.setFieldsValue({ gdzc_yj_nc: value });
         } else if (changeField == "gdzc_yj") {
@@ -781,7 +789,7 @@ let Addzcfzb = React.createClass({
         } else if (changeField == "gdzc_ljzj") {
             gdzc_ljzj = value;
             this.props.form.setFieldsValue({ gdzc_ljzj: value });
-        }  else if (changeField == "gdzc_jz_nc") {
+        } else if (changeField == "gdzc_jz_nc") {
             gdzc_jz_nc = value;
             this.props.form.setFieldsValue({ gdzc_jz_nc: value });
         } else if (changeField == "gdzc_jz") {
@@ -799,7 +807,7 @@ let Addzcfzb = React.createClass({
         } else if (changeField == "gdzc_je") {
             gdzc_je = value;
             this.props.form.setFieldsValue({ gdzc_je: value });
-        }else if (changeField == "gdzc_gcwz_nc") {
+        } else if (changeField == "gdzc_gcwz_nc") {
             gdzc_gcwz_nc = value;
             this.props.form.setFieldsValue({ gdzc_gcwz_nc: value });
         } else if (changeField == "gdzc_gcwz") {
@@ -811,13 +819,13 @@ let Addzcfzb = React.createClass({
         } else if (changeField == "gdzc_zjgc") {
             gdzc_zjgc = value;
             this.props.form.setFieldsValue({ gdzc_zjgc: value });
-        }else if (changeField == "gdzc_ql_nc") {
+        } else if (changeField == "gdzc_ql_nc") {
             gdzc_ql_nc = value;
             this.props.form.setFieldsValue({ gdzc_ql_nc: value });
         } else if (changeField == "gdzc_ql") {
             gdzc_ql = value;
             this.props.form.setFieldsValue({ gdzc_ql: value });
-        }else if (changeField == "gdzc_hj_nc") {
+        } else if (changeField == "gdzc_hj_nc") {
             gdzc_hj_nc = value;
             this.props.form.setFieldsValue({ gdzc_hj_nc: value });
         } else if (changeField == "gdzc_hj") {
@@ -835,13 +843,13 @@ let Addzcfzb = React.createClass({
         } else if (changeField == "wxqt_cqdt") {
             wxqt_cqdt = value;
             this.props.form.setFieldsValue({ wxqt_cqdt: value });
-        }else if (changeField == "wxqt_qtcq_nc") {
+        } else if (changeField == "wxqt_qtcq_nc") {
             wxqt_qtcq_nc = value;
             this.props.form.setFieldsValue({ wxqt_qtcq_nc: value });
         } else if (changeField == "wxqt_qtcq") {
             wxqt_qtcq = value;
             this.props.form.setFieldsValue({ wxqt_qtcq: value });
-        }else if (changeField == "wxqt_hj_nc") {
+        } else if (changeField == "wxqt_hj_nc") {
             wxqt_hj = value;
             this.props.form.setFieldsValue({ wxqt_hj_nc: value });
         } else if (changeField == "wxqt_hj") {
@@ -886,43 +894,43 @@ let Addzcfzb = React.createClass({
         } else if (changeField == "ldfz_yffl") {
             ldfz_yffl = value;
             this.props.form.setFieldsValue({ ldfz_yffl: value });
-        }else if (changeField == "ldfz_yfgl_nc") {
+        } else if (changeField == "ldfz_yfgl_nc") {
             ldfz_yfgl_nc = value;
             this.props.form.setFieldsValue({ ldfz_yfgl_nc: value });
         } else if (changeField == "ldfz_yfgl") {
             ldfz_yfgl = value;
             this.props.form.setFieldsValue({ ldfz_yfgl: value });
-        }else if (changeField == "ldfz_yjsj_nc") {
+        } else if (changeField == "ldfz_yjsj_nc") {
             ldfz_yjsj_nc = value;
             this.props.form.setFieldsValue({ ldfz_yjsj_nc: value });
         } else if (changeField == "ldfz_yjsj") {
             ldfz_yjsj = value;
             this.props.form.setFieldsValue({ ldfz_yjsj: value });
-        }else if (changeField == "ldfz_qtyj_nc") {
+        } else if (changeField == "ldfz_qtyj_nc") {
             ldfz_qtyj_nc = value;
             this.props.form.setFieldsValue({ ldfz_qtyj_nc: value });
         } else if (changeField == "ldfz_qtyj") {
             ldfz_qtyj = value;
             this.props.form.setFieldsValue({ ldfz_qtyj: value });
-        }else if (changeField == "ldfz_qtyf_nc") {
+        } else if (changeField == "ldfz_qtyf_nc") {
             ldfz_qtyf_nc = value;
             this.props.form.setFieldsValue({ ldfz_qtyf_nc: value });
         } else if (changeField == "ldfz_qtyf") {
             ldfz_qtyf = value;
             this.props.form.setFieldsValue({ ldfz_qtyf: value });
-        }else if (changeField == "ldfz_ytfy_nc") {
+        } else if (changeField == "ldfz_ytfy_nc") {
             ldfz_ytfy_nc = value;
             this.props.form.setFieldsValue({ ldfz_ytfy_nc: value });
         } else if (changeField == "ldfz_ytfy") {
             ldfz_ytfy = value;
             this.props.form.setFieldsValue({ ldfz_ytfy: value });
-        }else if (changeField == "ldfz_yjfz_nc") {
+        } else if (changeField == "ldfz_yjfz_nc") {
             ldfz_yjfz_nc = value;
             this.props.form.setFieldsValue({ ldfz_yjfz_nc: value });
         } else if (changeField == "ldfz_yjfz") {
             ldfz_yjfz = value;
             this.props.form.setFieldsValue({ ldfz_yjfz: value });
-        }   else if (changeField == "ldfz_dqfz_nc") {
+        } else if (changeField == "ldfz_dqfz_nc") {
             ldfz_dqfz_nc = value;
             this.props.form.setFieldsValue({ ldfz_dqfz_nc: value });
         } else if (changeField == "ldfz_dqfz") {
@@ -940,13 +948,13 @@ let Addzcfzb = React.createClass({
         } else if (changeField == "ldfz_hj") {
             ldfz_hj = value;
             this.props.form.setFieldsValue({ ldfz_hj: value });
-        }else if (changeField == "cqfz_cqjk_nc") {
+        } else if (changeField == "cqfz_cqjk_nc") {
             cqfz_cqjk_nc = value;
             this.props.form.setFieldsValue({ cqfz_cqjk_nc: value });
         } else if (changeField == "cqfz_cqjk") {
             cqfz_cqjk = value;
             this.props.form.setFieldsValue({ cqfz_cqjk: value });
-        }else if (changeField == "cqfz_yfzq_nc") {
+        } else if (changeField == "cqfz_yfzq_nc") {
             cqfz_yfzq_nc = value;
             this.props.form.setFieldsValue({ cqfz_yfzq_nc: value });
         } else if (changeField == "cqfz_yfzq") {
@@ -970,25 +978,25 @@ let Addzcfzb = React.createClass({
         } else if (changeField == "cqfz_zyfxjj") {
             cqfz_zyfxjj = value;
             this.props.form.setFieldsValue({ cqfz_zyfxjj: value });
-        }else if (changeField == "cqfz_qtfz_nc") {
+        } else if (changeField == "cqfz_qtfz_nc") {
             cqfz_qtfz_nc = value;
             this.props.form.setFieldsValue({ cqfz_qtfz_nc: value });
         } else if (changeField == "cqfz_qtfz") {
             cqfz_qtfz = value;
             this.props.form.setFieldsValue({ cqfz_qtfz: value });
-        }else if (changeField == "dysx_dyskdx_nc") {
+        } else if (changeField == "dysx_dyskdx_nc") {
             dysx_dyskdx_nc = value;
             this.props.form.setFieldsValue({ dysx_dyskdx_nc: value });
         } else if (changeField == "dysx_dyskdx") {
             dysx_dyskdx = value;
             this.props.form.setFieldsValue({ dysx_dyskdx: value });
-        }else if (changeField == "dysx_fzhj_nc") {
+        } else if (changeField == "dysx_fzhj_nc") {
             dysx_fzhj_nc = value;
             this.props.form.setFieldsValue({ dysx_fzhj_nc: value });
         } else if (changeField == "dysx_fzhj") {
             dysx_fzhj = value;
             this.props.form.setFieldsValue({ dysx_fzhj: value });
-        }   else if (changeField == "syzqy_sszb_nc") {
+        } else if (changeField == "syzqy_sszb_nc") {
             syzqy_sszb_nc = value;
             this.props.form.setFieldsValue({ syzqy_sszb_nc: value });
         } else if (changeField == "syzqy_sszb") {
@@ -1006,13 +1014,13 @@ let Addzcfzb = React.createClass({
         } else if (changeField == "syzqy_sszbje") {
             syzqy_sszbje = value;
             this.props.form.setFieldsValue({ syzqy_sszbje: value });
-        }  else if (changeField == "syzqy_zbgj_nc") {
+        } else if (changeField == "syzqy_zbgj_nc") {
             syzqy_zbgj_nc = value;
             this.props.form.setFieldsValue({ syzqy_zbgj_nc: value });
         } else if (changeField == "syzqy_zbgj") {
             syzqy_zbgj = value;
             this.props.form.setFieldsValue({ syzqy_zbgj: value });
-        }else if (changeField == "syzqy_yygj_nc") {
+        } else if (changeField == "syzqy_yygj_nc") {
             syzqy_yygj_nc = value;
             this.props.form.setFieldsValue({ syzqy_yygj_nc: value });
         } else if (changeField == "syzqy_yygj") {
@@ -1030,29 +1038,193 @@ let Addzcfzb = React.createClass({
         } else if (changeField == "syzqy_hj") {
             syzqy_hj = value;
             this.props.form.setFieldsValue({ syzqy_hj: value });
-        }else if (changeField == "fzsyzqy_hj_nc") {
+        } else if (changeField == "fzsyzqy_hj_nc") {
             fzsyzqy_hj_nc = value;
             this.props.form.setFieldsValue({ fzsyzqy_hj_nc: value });
         } else if (changeField == "fzsyzqy_hj") {
             fzsyzqy_hj = value;
             this.props.form.setFieldsValue({ fzsyzqy_hj: value });
         }
-//=================================================
 
 
-
-
-        if (changeField == "zgywsr1" || changeField == "zgywcb1" || changeField == "zgywsj1") {
-            zgwylr1 = zgywsr1 - zgywcb1 - zgywsj1;
-            this.props.form.setFieldsValue({ zgwylr1: zgwylr1 });
-        } else if (changeField == "zgywsr" || changeField == "zgywcb" || changeField == "zgywsj") {
-            zgwylr = zgywsr - zgywcb - zgywsj;
-            this.props.form.setFieldsValue({ zgwylr: zgwylr });
+        //========================================
+        //统计14=1+2+3+...+13
+        if (changeField == "ldzc_hj_nc" || changeField == "ldzc_hbzj_nc" || changeField == "ldzc_dqtz_nc" ||
+            changeField == "ldzc_yspj_nc" || changeField == "ldzc_ysgl_nc" || changeField == "ldzc_yslx_nc" ||
+            changeField == "ldzc_yszk_nc" || changeField == "ldzc_qtys_nc" || changeField == "ldzc_yfzk_nc" ||
+            changeField == "ldzc_ysbt_nc" || changeField == "ldzc_ch_nc" || changeField == "ldzc_dtfy_nc" ||
+            changeField == "ldzc_dqzj_nc" || changeField == "ldzc_qtldzc_nc") {
+            ldzc_hj_nc = parseFloat(ldzc_hbzj_nc) + parseFloat(ldzc_dqtz_nc) + parseFloat(ldzc_yspj_nc)
+                + parseFloat(ldzc_ysgl_nc) + parseFloat(ldzc_yslx_nc) + parseFloat(ldzc_yszk_nc) + parseFloat(ldzc_qtys_nc)
+                + parseFloat(ldzc_yfzk_nc) + parseFloat(ldzc_ysbt_nc) + parseFloat(ldzc_ch_nc) + parseFloat(ldzc_dtfy_nc)
+                + parseFloat(ldzc_dqzj_nc) + parseFloat(ldzc_qtldzc_nc);
+            this.props.form.setFieldsValue({ ldzc_hj_nc: ldzc_hj_nc });
+        } else if (changeField == "ldzc_hj" || changeField == "ldzc_hbzj" || changeField == "ldzc_dqtz" ||
+            changeField == "ldzc_yspj" || changeField == "ldzc_ysgl" || changeField == "ldzc_yslx" ||
+            changeField == "ldzc_yszk" || changeField == "ldzc_qtys" || changeField == "ldzc_yfzk" ||
+            changeField == "ldzc_ysbt" || changeField == "ldzc_ch" || changeField == "ldzc_dtfy" ||
+            changeField == "ldzc_dqzj" || changeField == "ldzc_qtldzc") {
+            ldzc_hj = parseFloat(ldzc_hbzj) + parseFloat(ldzc_dqtz) + parseFloat(ldzc_yspj)
+                + parseFloat(ldzc_ysgl) + parseFloat(ldzc_yslx) + parseFloat(ldzc_yszk) + parseFloat(ldzc_qtys)
+                + parseFloat(ldzc_yfzk) + parseFloat(ldzc_ysbt) + parseFloat(ldzc_ch) + parseFloat(ldzc_dtfy)
+                + parseFloat(ldzc_dqzj) + parseFloat(ldzc_qtldzc);
+            this.props.form.setFieldsValue({ ldzc_hj: ldzc_hj });
         }
+        //统计14+17+26+30+31=32
+        else if (changeField == "zczj_nc" || changeField == "ldzc_hj_nc" || changeField == "gdzc_hj_nc" ||
+            changeField == "wxqt_hj_nc" || changeField == "cqtz_hj_nc" || changeField == "ydsx_skjx_nc") {
+            zczj_nc = parseFloat(ldzc_hj_nc) + parseFloat(gdzc_hj_nc) + parseFloat(wxqt_hj_nc) +
+                parseFloat(cqtz_hj_nc) + parseFloat(ydsx_skjx_nc);
+            this.props.form.setFieldsValue({ zczj_nc: zczj_nc });
+        }
+        else if (changeField == "zczj" || changeField == "ldzc_hj" || changeField == "gdzc_hj" ||
+            changeField == "wxqt_hj" || changeField == "cqtz_hj" || changeField == "ydsx_skjx") {
+
+            zczj = parseFloat(ldzc_hj) + parseFloat(gdzc_hj) + parseFloat(wxqt_hj) +
+                parseFloat(cqtz_hj) + parseFloat(ydsx_skjx);
+            this.props.form.setFieldsValue({ zczj: zczj });
+        }
+        //统计15+16=17
+        else if (changeField = "cqtz_hj_nc" || changeField == "cqtz_gq_nc" || changeField == "cqtz_zq_nc") {
+            cqtz_hj_nc = parseFloat(cqtz_gq_nc) + parseFloat(cqtz_zq_nc);
+
+            this.props.form.setFieldsValue({ cqtz_hj_nc: cqtz_hj_nc });
+        }
+        else if (changeField = "cqtz_hj" || changeField == "cqtz_gq" || changeField == "cqtz_zq") {
+            cqtz_hj = parseFloat(cqtz_gq) + parseFloat(cqtz_zq);
+
+            this.props.form.setFieldsValue({ cqtz_hj: cqtz_hj });
+        }
+        //统计18-19=20
+        else if (changeField = "gdzc_jz_nc" || changeField == "gdzc_yj_nc" || changeField == "gdzc_ljzj_nc") {
+            gdzc_jz_nc = parseFloat(gdzc_yj_nc) - parseFloat(gdzc_ljzj_nc);
+
+            this.props.form.setFieldsValue({ gdzc_jz_nc: gdzc_jz_nc });
+        }
+        else if (changeField = "gdzc_jz" || changeField == "gdzc_yj" || changeField == "gdzc_ljzj") {
+            gdzc_jz = parseFloat(gdzc_yj) + parseFloat(gdzc_ljzj);
+
+            this.props.form.setFieldsValue({ gdzc_jz: gdzc_jz });
+        }
+        //统计20-21=22
+        else if (changeField = "gdzc_je_nc" || changeField == "gdzc_jz_nc" || changeField == "gdzc_jzzb_nc") {
+            gdzc_je_nc = parseFloat(gdzc_jz_nc) - parseFloat(gdzc_jzzb_nc);
+
+            this.props.form.setFieldsValue({ gdzc_je_nc: gdzc_je_nc });
+        }
+        else if (changeField = "gdzc_je" || changeField == "gdzc_jz" || changeField == "gdzc_jzzb") {
+            gdzc_je = parseFloat(gdzc_jz) - parseFloat(gdzc_jzzb);
+
+            this.props.form.setFieldsValue({ gdzc_je: gdzc_je });
+        }
+        //统计22+23+24+25=26
+        else if (changeField = "gdzc_hj_nc" || changeField == "gdzc_je_nc" || changeField == "gdzc_gcwz_nc" || changeField == "gdzc_zjgc_nc" || changeField == "gdzc_ql_nc") {
+            gdzc_hj_nc = parseFloat(gdzc_je_nc) + parseFloat(gdzc_gcwz_nc) + parseFloat(gdzc_zjgc_nc) + parseFloat(gdzc_ql_nc);
+
+            this.props.form.setFieldsValue({ gdzc_hj_nc: gdzc_hj_nc });
+        }
+        else if (changeField = "gdzc_hj" || changeField == "gdzc_je" || changeField == "gdzc_gcwz" || changeField == "gdzc_zjgc" || changeField == "gdzc_ql") {
+            gdzc_hj = parseFloat(gdzc_je) + parseFloat(gdzc_gcwz) + parseFloat(gdzc_zjgc) + parseFloat(gdzc_ql);
+
+            this.props.form.setFieldsValue({ gdzc_hj: gdzc_hj });
+        }
+        //统计27+28+29=30
+        else if (changeField = "wxqt_hj_nc" || changeField == "wxqt_wxzc_nc" || changeField == "wxqt_cqdt_nc" || changeField == "wxqt_qtcq_nc") {
+            wxqt_hj_nc = parseFloat(wxqt_wxzc_nc) + parseFloat(wxqt_cqdt_nc) + parseFloat(wxqt_qtcq_nc) + parseFloat(wxqt_cqdt_nc);
+
+            this.props.form.setFieldsValue({ wxqt_hj_nc: wxqt_hj_nc });
+        }
+        else if (changeField = "wxqt_hj" || changeField == "wxqt_wxzc" || changeField == "wxqt_cqdt" || changeField == "wxqt_qtcq") {
+            wxqt_hj = parseFloat(wxqt_wxzc_nc) + parseFloat(wxqt_cqdt) + parseFloat(wxqt_qtcq) + parseFloat(wxqt_cqdt);
+
+            this.props.form.setFieldsValue({ wxqt_hj: wxqt_hj });
+        }
+        //统计47+54+55=56
+        else if (changeField = "dysx_fzhj_nc" || changeField == "ldfz_hj_nc" || changeField == "cqfz_hj_nc" || changeField == "dysx_dyskdx_nc") {
+            dysx_fzhj_nc = parseFloat(ldfz_hj_nc) + parseFloat(cqfz_hj_nc) + parseFloat(dysx_dyskdx_nc);
+
+            this.props.form.setFieldsValue({ dysx_fzhj_nc: dysx_fzhj_nc });
+        }
+        else if (changeField = "dysx_fzhj" || changeField == "ldfz_hj" || changeField == "cqfz_hj" || changeField == "dysx_dyskdx") {
+            dysx_fzhj = parseFloat(ldfz_hj) + parseFloat(cqfz_hj) + parseFloat(dysx_dyskdx);
+
+            this.props.form.setFieldsValue({ dysx_fzhj: dysx_fzhj });
+        }
+        //统计56+63=64
+        else if (changeField = "fzsyzqy_hj_nc" || changeField == "dysx_fzhj_nc" || changeField == "cqfz_hj_nc") {
+            fzsyzqy_hj_nc = parseFloat(dysx_fzhj_nc) + parseFloat(cqfz_hj_nc);
+
+            this.props.form.setFieldsValue({ fzsyzqy_hj_nc: fzsyzqy_hj_nc });
+        }
+        else if (changeField = "fzsyzqy_hj" || changeField == "dysx_fzhj" || changeField == "cqfz_hj") {
+            fzsyzqy_hj = parseFloat(dysx_fzhj) + parseFloat(cqfz_hj);
+
+            this.props.form.setFieldsValue({ fzsyzqy_hj: fzsyzqy_hj });
+        }
+        //统计33+...46=47
+        else if (changeField == "ldfz_hj_nc" || changeField == "ldfz_dqjk_nc" || changeField == "ldfz_yfpj_nc" || changeField == "ldfz_yfzk_nc" || changeField == "ldfz_yszk_nc" || changeField == "ldfz_yfgz_nc"
+            || changeField == "ldfz_yffl_nc" || changeField == "ldfz_yfgl_nc" || changeField == "ldfz_yjsj_nc" || changeField == "ldfz_qtyj_nc" || changeField == "ldfz_qtyf_nc" || changeField == "ldfz_ytfy_nc"
+            || changeField == "ldfz_yjfz_nc" || changeField == "ldfz_dqfz_nc" || changeField == "ldfz_qtfz_nc") {
+            ldfz_hj_nc = parseFloat(ldfz_hj_nc) + parseFloat(ldfz_dqjk_nc) + parseFloat(ldfz_yfpj_nc) + parseFloat(ldfz_yfzk_nc) + parseFloat(ldfz_yszk_nc) + parseFloat(ldfz_yfgz_nc)
+                + parseFloat(ldfz_yffl_nc) + parseFloat(ldfz_yfgl_nc) + parseFloat(ldfz_yjsj_nc) + parseFloat(ldfz_qtyj_nc) + parseFloat(ldfz_qtyf_nc) + parseFloat(ldfz_ytfy_nc) + parseFloat(ldfz_yjfz_nc) + parseFloat(ldfz_dqfz_nc) + parseFloat(ldfz_dqfz_nc) + parseFloat(ldfz_qtfz_nc);
+            this.props.form.setFieldsValue({ ldfz_hj_nc: ldfz_hj_nc });
+        }
+        else if (changeField == "ldfz_hj" || changeField == "ldfz_dqjk" || changeField == "ldfz_yfpj" || changeField == "ldfz_yfzk" || changeField == "ldfz_yszk" || changeField == "ldfz_yfgz"
+            || changeField == "ldfz_yffl" || changeField == "ldfz_yfgl" || changeField == "ldfz_yjsj" || changeField == "ldfz_qtyj" || changeField == "ldfz_qtyf" || changeField == "ldfz_ytfy"
+            || changeField == "ldfz_yjfz" || changeField == "ldfz_dqfz" || changeField == "ldfz_qtfz") {
+            ldfz_hj = parseFloat(ldfz_hj) + parseFloat(ldfz_dqjk) + parseFloat(ldfz_yfpj) + parseFloat(ldfz_yfzk) + parseFloat(ldfz_yszk) + parseFloat(ldfz_yfgz)
+                + parseFloat(ldfz_yffl) + parseFloat(ldfz_yfgl) + parseFloat(ldfz_yjsj) + parseFloat(ldfz_qtyj) + parseFloat(ldfz_qtyf) + parseFloat(ldfz_ytfy) + parseFloat(ldfz_yjfz) + parseFloat(ldfz_dqfz) + parseFloat(ldfz_dqfz) + parseFloat(ldfz_qtfz);
+            this.props.form.setFieldsValue({ ldfz_hj: ldfz_hj });
+        }
+
+        //统计57-58=59
+        else if (changeField == "syzqy_sszbje_nc" || changeField == "syzqy_sszb_nc" || changeField == "syzqy_yhtz_nc") {
+            syzqy_sszbje_nc = parseFloat(syzqy_sszb_nc) - parseFloat(syzqy_yhtz_nc);
+            this.props.form.setFieldsValue({ syzqy_sszbje_nc: syzqy_sszbje_nc });
+
+        }
+        else if (changeField == "syzqy_sszbje" || changeField == "syzqy_sszb" || changeField == "syzqy_yhtz") {
+            syzqy_sszbje = parseFloat(syzqy_sszb) - parseFloat(syzqy_yhtz);
+            this.props.form.setFieldsValue({ syzqy_sszbje: syzqy_sszbje });
+
+        }
+        //统计48+...+53=54
+        else if (changeField == "cqfz_hj_nc" || changeField == "cqfz_cqjk_nc" || changeField == "cqfz_yfzq_nc" || changeField == "cqfz_cqyf_nc" || changeField == "cqfz_zxyf_nc" || changeField == "cqfz_zyfxjj_nc"
+            || changeField == "cqfz_qtfz_nc") {
+            cqfz_hj_nc = parseFloat(cqfz_cqjk_nc) + parseFloat(cqfz_yfzq_nc)
+                + parseFloat(cqfz_cqyf_nc) + parseFloat(cqfz_zxyf_nc) + parseFloat(cqfz_zyfxjj_nc) + parseFloat(cqfz_qtfz_nc);
+
+            this.props.form.setFieldsValue({ cqfz_hj_nc: cqfz_hj_nc });
+        }
+        else if (changeField == "cqfz_hj" || changeField == "cqfz_cqjk" || changeField == "cqfz_yfzq" || changeField == "cqfz_cqyf" || changeField == "cqfz_zxyf" || changeField == "cqfz_zyfxjj"
+            || changeField == "cqfz_qtfz") {
+            cqfz_hj = parseFloat(cqfz_cqjk) + parseFloat(cqfz_yfzq)
+                + parseFloat(cqfz_cqyf) + parseFloat(cqfz_zxyf) + parseFloat(cqfz_zyfxjj) + parseFloat(cqfz_qtfz);
+
+            this.props.form.setFieldsValue({ cqfz_hj: cqfz_hj });
+        }
+
+
+
+        //统计59+...+62=63
+        else if (changeField == "syzqy_hj_nc" || changeField == "syzqy_sszbje_nc" || changeField == "syzqy_zbgj_nc" || changeField == "syzqy_yygj_nc" || changeField == "syzqy_wfplr_nc" || changeField == "cqfz_zyfxjj_nc"
+            || changeField == "cqfz_qtfz_nc") {
+            syzqy_hj_nc = parseFloat(syzqy_sszbje_nc) + parseFloat(syzqy_zbgj_nc)
+                + parseFloat(syzqy_yygj_nc) + parseFloat(syzqy_yygj_nc);
+
+            this.props.form.setFieldsValue({ syzqy_hj_nc: syzqy_hj_nc });
+        }
+        else if (changeField == "syzqy_hj" || changeField == "syzqy_sszbje" || changeField == "syzqy_zbgj" || changeField == "syzqy_yygj" || changeField == "syzqy_wfplr" || changeField == "cqfz_zyfxjj"
+            || changeField == "cqfz_qtfz") {
+            syzqy_hj = parseFloat(syzqy_sszbje) + parseFloat(syzqy_zbgj)
+                + parseFloat(syzqy_yygj) + parseFloat(syzqy_yygj);
+
+            this.props.form.setFieldsValue({ syzqy_hj: syzqy_hj});
+        }
+        
+
+
     },
-
-
-
 
 
     render() {
