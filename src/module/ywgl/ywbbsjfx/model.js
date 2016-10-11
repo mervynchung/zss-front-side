@@ -164,10 +164,24 @@ const headerYw = [
         {title: '60岁以上',key: '61_zrs' },   
     ];
 
+const ywlx = [
+  {'id':1,"mc":'企业技术开发费加计扣除鉴证'}, 
+  {'id':2,"mc":'企业所得税税前扣除鉴证'},
+  {'id':3,"mc":'企业所得税汇算清缴鉴证'},
+  {'id':4,"mc":'土地增值税鉴证'},
+  {'id':5,"mc":'房地产涉税调整鉴证'}, 
+  {'id':6,"mc":'其它鉴证'},
+  {'id':7,"mc":'高新技术企业认定专项鉴证'},
+  {'id':8,"mc":'企业注销税务登记税款清算鉴证'}, 
+  {'id':9,"mc":'企业变更税务登记税款清算鉴证'},
+  {'id':10,"mc":'个人所得税汇算清缴鉴证'}
+];
+
 const model = {
   headerQs:headerQs,
   headerDq:headerDq,
   headerSws:headerSws,
-  headerYw:headerYw
+  headerYw:headerYw,
+  ywlx:ywlx
 } 
 module.exports = model
