@@ -36,7 +36,7 @@ const ywlxTable = React.createClass({
         th.push(<tr key={0}>{td}</tr>);
         td=[];
         //渲染表数据
-        if(datalist.length==0){
+        if(!datalist||datalist.length==0){
             td.push(<td key="empty"  colSpan={headerCount} style={{height:"100px"}}>
             {this.getEmptyText()}
             </td>);
