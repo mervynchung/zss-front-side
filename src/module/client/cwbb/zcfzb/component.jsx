@@ -117,6 +117,7 @@ const zcfzb = React.createClass({
              headers:{'x-auth-token':auth.getToken()},
             contentType:'application/json',
         }).then(resp => {
+            this.fetchData();
             Modal.success({
                 title: '操作成功',
                 content: (
@@ -158,6 +159,7 @@ const zcfzb = React.createClass({
              headers:{'x-auth-token':auth.getToken()},
             contentType:'application/json',           
         }).then(resp => {
+            this.fetchData();
             Modal.success({
                 title: '操作成功',
                 content: (

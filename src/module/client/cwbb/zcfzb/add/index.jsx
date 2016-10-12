@@ -1,11 +1,16 @@
 import React from 'react'
-import {Col, Input, Row, Button, Icon, Form, Modal, DatePicker  } from 'antd'
+import {Col, Input, Row, Button, Icon, Form, Modal, DatePicker, Alert } from 'antd'
 import {SelectorYear, SelectorXZ} from 'component/compSelector'
 import './style.css'
-
+import Panel from 'component/compPanel'
+import req from 'reqwest'
+import config from 'common/configuration'
+import auth from 'common/auth'
 const ButtonGroup = Button.Group;
 const createForm = Form.create;
 const FormItem = Form.Item;
+const ToolBar = Panel.ToolBar;
+const CheckNd_URL=config.HOST + config.URI_API_PROJECT +"/checkzcfz"
 
 Date.prototype.Format = function (fmt) { //时间格式化函数
     var o = {
@@ -30,34 +35,22 @@ let Addzcfzb = React.createClass({
 
         }
     },
+
+
+
     //点击提交
     handleSubmit(e) {
         e.preventDefault();
         var mp = {};
         let value = this.props.form.getFieldsValue()
-        console.log(value);
-        value['ldzc_hj_nc'] = value['ldzc_hbzj_nc'] + value['ldzc_dqtz_nc'] + value['ldfz_yfpj_nc'] + value['ldzc_ysgl_nc'] + value['ldzc_yslx_nc'] + value['ldzc_yszk_nc']
-            + value['ldzc_qtys_nc'] + value['ldzc_yfzk_nc'] + value['ldzc_ysbt_nc'] + value['ldzc_ch_nc'] + value['ldzc_dtfy_nc'] + value['ldzc_dqzj_nc'] + value['ldzc_qtldzc_nc'];
-
-        //this.props.form.setFieldsValue({ nd: value });
-
-
         for (var key in value) {
-            if (Object.prototype.toString.call(value[key]) == "[object Undefined]") {
+            if (Object.prototype.toString.call(value[key]) == "[object Undefined]" || value[key] == "") {
                 value[key] = null
             };
-            if (!value[key]) {
-                value[key] = null;
-            }
-            if (Object.prototype.toString.call(value[key]) == "[object Date]") {//时间格式化
-                var dd = value[key].Format("yyyy-MM-dd");
-                value[key] = dd;
-            }
-
         }
-
         this.props.onSubmit(value);
     },
+
     //点击重置
     handleReset(e) {
         e.preventDefault();
@@ -65,32 +58,20 @@ let Addzcfzb = React.createClass({
     },
     //Modal
     getInitialState() {
-        return { visible: false };
+        return {
+            visible: false,
+            helper: false,
+        };
     },
     showModal(e) {
         e.preventDefault();
         var mp = {};
         let value = this.props.form.getFieldsValue();
-        //  let ldzc_hj_nc = 0;
-        // ldzc_hj_nc = parseFloat(value.ldzc_hbzj_nc) + parseFloat(value.ldzc_dqtz_nc);
-        //  value.ldzc_hj_nc = ldzc_hj_nc;
-
-        this.handleInputChange();
-        // value['ldzc_hj_nc'] = value['ldzc_hbzj_nc'] + value['ldzc_dqtz_nc'] + value['ldfz_yfpj_nc'] + value['ldzc_ysgl_nc'] + value['ldzc_yslx_nc'] + value['ldzc_yszk_nc']
-        //     + value['ldzc_qtys_nc'] + value['ldzc_yfzk_nc'] + value['ldzc_ysbt_nc'] + value['ldzc_ch_nc'] + value['ldzc_dtfy_nc'] + value['ldzc_dqzj_nc'] + value['ldzc_qtldzc_nc'];
         for (var key in value) {
-            if (Object.prototype.toString.call(value[key]) == "[object Undefined]") {
+            if (Object.prototype.toString.call(value[key]) == "[object Undefined]" || value[key] == "") {
                 value[key] = null
             };
-            if (!value[key]) {
-                value[key] = null;
-            }
-            if (Object.prototype.toString.call(value[key]) == "[object Date]") {//时间格式化
-                var dd = value[key].Format("yyyy-MM-dd");
-                value[key] = dd;
-            }
         }
-
         this.setState({
             visible: true,
             okValue: value,
@@ -113,15 +94,83 @@ let Addzcfzb = React.createClass({
             visible: false
         });
     },
+    //帮助按钮
+    handleHelper() {
+        this.setState({ helper: !this.state.helper })
+    },
+    //手动关闭帮助提示
+    handleHelperClose() {
+        this.setState({ helper: false })
+    },
+
+    //填报年度是否重复校验方法
+    checkNdIfExit(rule, value, callback) {
+        const rs=true;
+        const timevalue =this.props.form.getFieldValue("timevalue")
+        const params = { where: encodeURIComponent(JSON.stringify({ nd: value,timevalue: timevalue})), }
+        req({
+            url: CheckNd_URL,
+            type: 'json',
+            method: 'get',
+            data: params,
+            headers: { 'x-auth-token': auth.getToken() },
+            contentType: 'application/json',
+        }).then(resp => {
+            if(resp){
+                callback('同一年度不能做两次年检，请选择其他年度');
+            }else{
+                callback();
+            }
+        }).fail(err => {
+            this.setState({ loading: false });
+            Modal.error({
+                title: '数据获取错误',
+                content: (
+                    <div>
+                        <p>无法从服务器返回数据，需检查应用服务工作情况</p>
+                        <p>Status: {err.status}</p>
+                    </div>)
+            });
+        })
+    },
+    //填报年度是否重复校验方法
+    checkTimevalueIfExit(rule, value, callback) {
+       
+        const nd =this.props.form.getFieldValue("nd")
+        const params = { where: encodeURIComponent(JSON.stringify({ nd:nd,timevalue: value})), }
+        req({
+            url: CheckNd_URL,
+            type: 'json',
+            method: 'get',
+            data: params,
+            headers: { 'x-auth-token': auth.getToken() },
+            contentType: 'application/json',
+        }).then(resp => {
+            if(resp){
+                callback('同一年度不能做两次年检，请选择其他年度');
+            }else{
+                callback();
+            }
+        }).fail(err => {
+            this.setState({ loading: false });
+            Modal.error({
+                title: '数据获取错误',
+                content: (
+                    <div>
+                        <p>无法从服务器返回数据，需检查应用服务工作情况</p>
+                        <p>Status: {err.status}</p>
+                    </div>)
+            });
+        })
+    },
 
     //数值输入处理方法
     handleInputChange(e) {
         let changeField = e.target.id;
         let value = e.target.value;
-        if (value == null) {
+        if (!value) {
             value = 0;
         }
-
         let entity = this.props.form.getFieldsValue();
         let ldzc_hbzj_nc = 0;
         let ldzc_hbzj = 0;
@@ -238,7 +287,7 @@ let Addzcfzb = React.createClass({
         let syzqy_sszb_nc = 0;
         let syzqy_sszb = 0;
         let syzqy_yhtz_nc = 0;
-        let syzqy_yhtz_ = 0;
+        let syzqy_yhtz = 0;
         let syzqy_sszbje_nc = 0;
         let syzqy_sszbje = 0;
         let syzqy_zbgj_nc = 0;
@@ -298,15 +347,31 @@ let Addzcfzb = React.createClass({
         }
         if (entity.ldfz_yfzk_nc) {
             ldfz_yfzk_nc = entity.ldfz_yfzk_nc;
-        } if (entity.ldfz_yszk_nc) {
+        }
+        if (entity.ldfz_yfzk) {
+            ldfz_yfzk = entity.ldfz_yfzk;
+        }
+        if (entity.ldfz_yszk_nc) {
             ldfz_yszk_nc = entity.ldfz_yszk_nc;
         }
+        if (entity.ldfz_yszk) {
+            ldfz_yszk = entity.ldfz_yszk;
+
+        }
+
         if (entity.ldfz_yfgz_nc) {
             ldfz_yfgz_nc = entity.ldfz_yfgz_nc;
+        }
+        if (entity.ldfz_yfgz) {
+            ldfz_yfgz = entity.ldfz_yfgz;
         }
         if (entity.ldfz_yffl_nc) {
             ldfz_yffl_nc = entity.ldfz_yffl_nc;
         }
+        if (entity.ldfz_yffl) {
+            ldfz_yffl = entity.ldfz_yffl;
+        }
+
         if (entity.ldfz_yf) {
             ldfz_yffl = entity.ldfz_yffl;
         }
@@ -319,11 +384,21 @@ let Addzcfzb = React.createClass({
         if (entity.ldfz_yjsj_nc) {
             ldfz_yjsj_nc = entity.ldfz_yjsj_nc;
         }
+        if (entity.ldfz_yjsj) {
+            ldfz_yjsj = entity.ldfz_yjsj;
+        }
         if (entity.ldfz_qtyj_nc) {
             ldfz_qtyj_nc = entity.ldfz_qtyj_nc;
         }
+        if (entity.ldfz_qtyj) {
+            ldfz_qtyj = entity.ldfz_qtyj;
+        }
+
         if (entity.ldfz_qtyf_nc) {
             ldfz_qtyf_nc = entity.ldfz_qtyf_nc;
+        }
+        if (entity.ldfz_qtyf) {
+            ldfz_qtyf = entity.ldfz_qtyf;
         }
         if (entity.ldfz_ytfy_nc) {
             ldfz_ytfy_nc = entity.ldfz_ytfy_nc;
@@ -656,12 +731,6 @@ let Addzcfzb = React.createClass({
         } else if (changeField == "ldzc_dqtz") {
             ldzc_dqtz = value;
             this.props.form.setFieldsValue({ ldzc_dqtz: value });
-        } else if (changeField == "ldfz_dqjk_nc") {
-            ldfz_dqjk_nc = value;
-            this.props.form.setFieldsValue({ ldfz_dqjk_nc: value });
-        } else if (changeField == "ldfz_dqjk") {
-            ldfz_dqjk = value;
-            this.props.form.setFieldsValue({ ldfz_dqjk: value });
         } else if (changeField == "ldzc_yspj_nc") {
             ldzc_yspj_nc = value;
             this.props.form.setFieldsValue({ ldzc_yspj_nc: value });
@@ -867,9 +936,6 @@ let Addzcfzb = React.createClass({
         } else if (changeField == "zczj") {
             zczj = value;
             this.props.form.setFieldsValue({ zczj: value });
-        } else if (changeField == "ldfz_dqjk") {
-            ldfz_dqjk = value;
-            this.props.form.setFieldsValue({ ldfz_dqjk: value });
         } else if (changeField == "ldfz_yfpj_nc") {
             ldfz_yfpj_nc = value;
             this.props.form.setFieldsValue({ ldfz_yfpj_nc: value });
@@ -1085,95 +1151,122 @@ let Addzcfzb = React.createClass({
             this.props.form.setFieldsValue({ zczj: zczj });
         }
         //统计15+16=17
-        else if (changeField = "cqtz_hj_nc" || changeField == "cqtz_gq_nc" || changeField == "cqtz_zq_nc") {
+        else if (changeField == "cqtz_hj_nc" || changeField == "cqtz_gq_nc" || changeField == "cqtz_zq_nc") {
             cqtz_hj_nc = parseFloat(cqtz_gq_nc) + parseFloat(cqtz_zq_nc);
 
             this.props.form.setFieldsValue({ cqtz_hj_nc: cqtz_hj_nc });
         }
-        else if (changeField = "cqtz_hj" || changeField == "cqtz_gq" || changeField == "cqtz_zq") {
+        else if (changeField == "cqtz_hj" || changeField == "cqtz_gq" || changeField == "cqtz_zq") {
             cqtz_hj = parseFloat(cqtz_gq) + parseFloat(cqtz_zq);
 
             this.props.form.setFieldsValue({ cqtz_hj: cqtz_hj });
         }
         //统计18-19=20
-        else if (changeField = "gdzc_jz_nc" || changeField == "gdzc_yj_nc" || changeField == "gdzc_ljzj_nc") {
+        else if (changeField == "gdzc_jz_nc" || changeField == "gdzc_yj_nc" || changeField == "gdzc_ljzj_nc") {
             gdzc_jz_nc = parseFloat(gdzc_yj_nc) - parseFloat(gdzc_ljzj_nc);
 
             this.props.form.setFieldsValue({ gdzc_jz_nc: gdzc_jz_nc });
         }
-        else if (changeField = "gdzc_jz" || changeField == "gdzc_yj" || changeField == "gdzc_ljzj") {
-            gdzc_jz = parseFloat(gdzc_yj) + parseFloat(gdzc_ljzj);
+        else if (changeField == "gdzc_jz" || changeField == "gdzc_yj" || changeField == "gdzc_ljzj") {
+            gdzc_jz = gdzc_yj - gdzc_ljzj;
 
             this.props.form.setFieldsValue({ gdzc_jz: gdzc_jz });
         }
         //统计20-21=22
-        else if (changeField = "gdzc_je_nc" || changeField == "gdzc_jz_nc" || changeField == "gdzc_jzzb_nc") {
+        else if (changeField == "gdzc_je_nc" || changeField == "gdzc_jz_nc" || changeField == "gdzc_jzzb_nc") {
             gdzc_je_nc = parseFloat(gdzc_jz_nc) - parseFloat(gdzc_jzzb_nc);
 
             this.props.form.setFieldsValue({ gdzc_je_nc: gdzc_je_nc });
         }
-        else if (changeField = "gdzc_je" || changeField == "gdzc_jz" || changeField == "gdzc_jzzb") {
+        else if (changeField == "gdzc_je" || changeField == "gdzc_jz" || changeField == "gdzc_jzzb") {
             gdzc_je = parseFloat(gdzc_jz) - parseFloat(gdzc_jzzb);
 
             this.props.form.setFieldsValue({ gdzc_je: gdzc_je });
         }
         //统计22+23+24+25=26
-        else if (changeField = "gdzc_hj_nc" || changeField == "gdzc_je_nc" || changeField == "gdzc_gcwz_nc" || changeField == "gdzc_zjgc_nc" || changeField == "gdzc_ql_nc") {
+        else if (changeField == "gdzc_hj_nc" || changeField == "gdzc_je_nc" || changeField == "gdzc_gcwz_nc" || changeField == "gdzc_zjgc_nc" || changeField == "gdzc_ql_nc") {
             gdzc_hj_nc = parseFloat(gdzc_je_nc) + parseFloat(gdzc_gcwz_nc) + parseFloat(gdzc_zjgc_nc) + parseFloat(gdzc_ql_nc);
 
             this.props.form.setFieldsValue({ gdzc_hj_nc: gdzc_hj_nc });
         }
-        else if (changeField = "gdzc_hj" || changeField == "gdzc_je" || changeField == "gdzc_gcwz" || changeField == "gdzc_zjgc" || changeField == "gdzc_ql") {
+        else if (changeField == "gdzc_hj" || changeField == "gdzc_je" || changeField == "gdzc_gcwz" || changeField == "gdzc_zjgc" || changeField == "gdzc_ql") {
             gdzc_hj = parseFloat(gdzc_je) + parseFloat(gdzc_gcwz) + parseFloat(gdzc_zjgc) + parseFloat(gdzc_ql);
 
             this.props.form.setFieldsValue({ gdzc_hj: gdzc_hj });
         }
         //统计27+28+29=30
-        else if (changeField = "wxqt_hj_nc" || changeField == "wxqt_wxzc_nc" || changeField == "wxqt_cqdt_nc" || changeField == "wxqt_qtcq_nc") {
-            wxqt_hj_nc = parseFloat(wxqt_wxzc_nc) + parseFloat(wxqt_cqdt_nc) + parseFloat(wxqt_qtcq_nc) + parseFloat(wxqt_cqdt_nc);
+        else if (changeField == "wxqt_hj_nc" || changeField == "wxqt_wxzc_nc" || changeField == "wxqt_cqdt_nc" || changeField == "wxqt_qtcq_nc") {
+            wxqt_hj_nc = parseFloat(wxqt_wxzc_nc) + parseFloat(wxqt_cqdt_nc) + parseFloat(wxqt_qtcq_nc);
 
             this.props.form.setFieldsValue({ wxqt_hj_nc: wxqt_hj_nc });
         }
-        else if (changeField = "wxqt_hj" || changeField == "wxqt_wxzc" || changeField == "wxqt_cqdt" || changeField == "wxqt_qtcq") {
-            wxqt_hj = parseFloat(wxqt_wxzc_nc) + parseFloat(wxqt_cqdt) + parseFloat(wxqt_qtcq) + parseFloat(wxqt_cqdt);
+        else if (changeField == "wxqt_hj" || changeField == "wxqt_wxzc" || changeField == "wxqt_cqdt" || changeField == "wxqt_qtcq") {
+            wxqt_hj = parseFloat(wxqt_wxzc) + parseFloat(wxqt_cqdt) + parseFloat(wxqt_qtcq);
 
             this.props.form.setFieldsValue({ wxqt_hj: wxqt_hj });
         }
         //统计47+54+55=56
-        else if (changeField = "dysx_fzhj_nc" || changeField == "ldfz_hj_nc" || changeField == "cqfz_hj_nc" || changeField == "dysx_dyskdx_nc") {
+        else if (changeField == "dysx_fzhj_nc" || changeField == "ldfz_hj_nc" || changeField == "cqfz_hj_nc" || changeField == "dysx_dyskdx_nc") {
             dysx_fzhj_nc = parseFloat(ldfz_hj_nc) + parseFloat(cqfz_hj_nc) + parseFloat(dysx_dyskdx_nc);
 
             this.props.form.setFieldsValue({ dysx_fzhj_nc: dysx_fzhj_nc });
         }
-        else if (changeField = "dysx_fzhj" || changeField == "ldfz_hj" || changeField == "cqfz_hj" || changeField == "dysx_dyskdx") {
+        else if (changeField == "dysx_fzhj" || changeField == "ldfz_hj" || changeField == "cqfz_hj" || changeField == "dysx_dyskdx") {
             dysx_fzhj = parseFloat(ldfz_hj) + parseFloat(cqfz_hj) + parseFloat(dysx_dyskdx);
 
             this.props.form.setFieldsValue({ dysx_fzhj: dysx_fzhj });
         }
         //统计56+63=64
-        else if (changeField = "fzsyzqy_hj_nc" || changeField == "dysx_fzhj_nc" || changeField == "cqfz_hj_nc") {
-            fzsyzqy_hj_nc = parseFloat(dysx_fzhj_nc) + parseFloat(cqfz_hj_nc);
+        else if (changeField == "fzsyzqy_hj_nc" || changeField == "dysx_fzhj_nc" || changeField == "syzqy_hj_nc") {
+            fzsyzqy_hj_nc = parseFloat(dysx_fzhj_nc) + parseFloat(syzqy_hj_nc);
 
             this.props.form.setFieldsValue({ fzsyzqy_hj_nc: fzsyzqy_hj_nc });
         }
-        else if (changeField = "fzsyzqy_hj" || changeField == "dysx_fzhj" || changeField == "cqfz_hj") {
-            fzsyzqy_hj = parseFloat(dysx_fzhj) + parseFloat(cqfz_hj);
+        else if (changeField == "fzsyzqy_hj" || changeField == "dysx_fzhj" || changeField == "syzqy_hj_nc") {
+            fzsyzqy_hj = parseFloat(dysx_fzhj) + parseFloat(syzqy_hj_nc);
 
             this.props.form.setFieldsValue({ fzsyzqy_hj: fzsyzqy_hj });
         }
+
         //统计33+...46=47
-        else if (changeField == "ldfz_hj_nc" || changeField == "ldfz_dqjk_nc" || changeField == "ldfz_yfpj_nc" || changeField == "ldfz_yfzk_nc" || changeField == "ldfz_yszk_nc" || changeField == "ldfz_yfgz_nc"
-            || changeField == "ldfz_yffl_nc" || changeField == "ldfz_yfgl_nc" || changeField == "ldfz_yjsj_nc" || changeField == "ldfz_qtyj_nc" || changeField == "ldfz_qtyf_nc" || changeField == "ldfz_ytfy_nc"
-            || changeField == "ldfz_yjfz_nc" || changeField == "ldfz_dqfz_nc" || changeField == "ldfz_qtfz_nc") {
-            ldfz_hj_nc = parseFloat(ldfz_hj_nc) + parseFloat(ldfz_dqjk_nc) + parseFloat(ldfz_yfpj_nc) + parseFloat(ldfz_yfzk_nc) + parseFloat(ldfz_yszk_nc) + parseFloat(ldfz_yfgz_nc)
-                + parseFloat(ldfz_yffl_nc) + parseFloat(ldfz_yfgl_nc) + parseFloat(ldfz_yjsj_nc) + parseFloat(ldfz_qtyj_nc) + parseFloat(ldfz_qtyf_nc) + parseFloat(ldfz_ytfy_nc) + parseFloat(ldfz_yjfz_nc) + parseFloat(ldfz_dqfz_nc) + parseFloat(ldfz_dqfz_nc) + parseFloat(ldfz_qtfz_nc);
+        else if (changeField == "ldfz_hj_nc" || changeField == "ldfz_dqjk_nc" ||
+            changeField == "ldfz_yfpj_nc" || changeField == "ldfz_yfzk_nc" ||
+            changeField == "ldfz_yszk_nc" || changeField == "ldfz_yfgz_nc"
+            || changeField == "ldfz_yffl_nc" || changeField == "ldfz_yfgl_nc" ||
+            changeField == "ldfz_yjsj_nc" || changeField == "ldfz_qtyj_nc" ||
+            changeField == "ldfz_qtyf_nc" || changeField == "ldfz_ytfy_nc"
+            || changeField == "ldfz_yjfz_nc" || changeField == "ldfz_dqfz_nc" ||
+            changeField == "ldfz_qtfz_nc") {
+            ldfz_hj_nc = parseFloat(ldfz_dqjk_nc) + parseFloat(ldfz_yfpj_nc) + parseFloat(ldfz_yfzk_nc)
+                + parseFloat(ldfz_yszk_nc) + parseFloat(ldfz_yfgz_nc)
+                + parseFloat(ldfz_yffl_nc) + parseFloat(ldfz_yfgl_nc) +
+                parseFloat(ldfz_yjsj_nc) + parseFloat(ldfz_qtyj_nc) +
+                parseFloat(ldfz_qtyf_nc) + parseFloat(ldfz_ytfy_nc)
+                + parseFloat(ldfz_yjfz_nc) + parseFloat(ldfz_dqfz_nc) + parseFloat(ldfz_qtfz_nc);
             this.props.form.setFieldsValue({ ldfz_hj_nc: ldfz_hj_nc });
         }
-        else if (changeField == "ldfz_hj" || changeField == "ldfz_dqjk" || changeField == "ldfz_yfpj" || changeField == "ldfz_yfzk" || changeField == "ldfz_yszk" || changeField == "ldfz_yfgz"
-            || changeField == "ldfz_yffl" || changeField == "ldfz_yfgl" || changeField == "ldfz_yjsj" || changeField == "ldfz_qtyj" || changeField == "ldfz_qtyf" || changeField == "ldfz_ytfy"
-            || changeField == "ldfz_yjfz" || changeField == "ldfz_dqfz" || changeField == "ldfz_qtfz") {
-            ldfz_hj = parseFloat(ldfz_hj) + parseFloat(ldfz_dqjk) + parseFloat(ldfz_yfpj) + parseFloat(ldfz_yfzk) + parseFloat(ldfz_yszk) + parseFloat(ldfz_yfgz)
-                + parseFloat(ldfz_yffl) + parseFloat(ldfz_yfgl) + parseFloat(ldfz_yjsj) + parseFloat(ldfz_qtyj) + parseFloat(ldfz_qtyf) + parseFloat(ldfz_ytfy) + parseFloat(ldfz_yjfz) + parseFloat(ldfz_dqfz) + parseFloat(ldfz_dqfz) + parseFloat(ldfz_qtfz);
+        else if (changeField == "ldfz_hj" || changeField == "ldfz_dqjk" ||
+            changeField == "ldfz_yfpj" || changeField == "ldfz_yfzk" ||
+            changeField == "ldfz_yszk" || changeField == "ldfz_yfgz"
+            || changeField == "ldfz_yffl" || changeField == "ldfz_yfgl" ||
+            changeField == "ldfz_yjsj" || changeField == "ldfz_qtyj" ||
+            changeField == "ldfz_qtyf" || changeField == "ldfz_ytfy"
+            || changeField == "ldfz_yjfz" || changeField == "ldfz_dqfz"
+            || changeField == "ldfz_qtfz") {
+            console.log(parseFloat(ldfz_dqjk) + ";" + parseFloat(ldfz_yfpj) + ";" + parseFloat(ldfz_yfzk)
+                + ";" + parseFloat(ldfz_yszk) + ";" + parseFloat(ldfz_yfgz)
+                + ";" + parseFloat(ldfz_yffl) + ";" + parseFloat(ldfz_yfgl)
+                + ";" + parseFloat(ldfz_yjsj) + ";" + parseFloat(ldfz_qtyj)
+                + ";" + parseFloat(ldfz_qtyf) + ";" + parseFloat(ldfz_ytfy)
+                + ";" + parseFloat(ldfz_yjfz) + ";" + parseFloat(ldfz_dqfz)
+                + ";" + parseFloat(ldfz_qtfz));
+            ldfz_hj = parseFloat(ldfz_dqjk) + parseFloat(ldfz_yfpj) + parseFloat(ldfz_yfzk)
+                + parseFloat(ldfz_yszk) + parseFloat(ldfz_yfgz)
+                + parseFloat(ldfz_yffl) + parseFloat(ldfz_yfgl)
+                + parseFloat(ldfz_yjsj) + parseFloat(ldfz_qtyj)
+                + parseFloat(ldfz_qtyf) + parseFloat(ldfz_ytfy)
+                + parseFloat(ldfz_yjfz) + parseFloat(ldfz_dqfz)
+                + parseFloat(ldfz_qtfz);
             this.props.form.setFieldsValue({ ldfz_hj: ldfz_hj });
         }
 
@@ -1208,28 +1301,47 @@ let Addzcfzb = React.createClass({
 
         //统计59+...+62=63
         else if (changeField == "syzqy_hj_nc" || changeField == "syzqy_sszbje_nc" || changeField == "syzqy_zbgj_nc" || changeField == "syzqy_yygj_nc" || changeField == "syzqy_wfplr_nc" || changeField == "cqfz_zyfxjj_nc"
-            || changeField == "cqfz_qtfz_nc") {
+            || changeField == "cqfz_qtfz_nc" || changeField == "syzqy_wfplr_nc") {
             syzqy_hj_nc = parseFloat(syzqy_sszbje_nc) + parseFloat(syzqy_zbgj_nc)
-                + parseFloat(syzqy_yygj_nc) + parseFloat(syzqy_yygj_nc);
+                + parseFloat(syzqy_yygj_nc) + parseFloat(syzqy_wfplr_nc);
 
             this.props.form.setFieldsValue({ syzqy_hj_nc: syzqy_hj_nc });
         }
         else if (changeField == "syzqy_hj" || changeField == "syzqy_sszbje" || changeField == "syzqy_zbgj" || changeField == "syzqy_yygj" || changeField == "syzqy_wfplr" || changeField == "cqfz_zyfxjj"
-            || changeField == "cqfz_qtfz") {
+            || changeField == "cqfz_qtfz" || changeField == "syzqy_wfplr") {
             syzqy_hj = parseFloat(syzqy_sszbje) + parseFloat(syzqy_zbgj)
-                + parseFloat(syzqy_yygj) + parseFloat(syzqy_yygj);
+                + parseFloat(syzqy_yygj) + parseFloat(syzqy_wfplr);
 
-            this.props.form.setFieldsValue({ syzqy_hj: syzqy_hj});
+            this.props.form.setFieldsValue({ syzqy_hj: syzqy_hj });
         }
-        
+
 
 
     },
 
 
     render() {
-        let nd = new Date().getFullYear();
-        let xz = "半年";
+
+
+        //定义工具栏内容
+        let toolbar = <ToolBar>
+
+
+            <ButtonGroup>
+                <Button type="primary" onClick={this.handleHelper}><Icon type="question"/></Button>
+            </ButtonGroup>
+        </ToolBar>;
+
+        //定义提示内容
+        let helper = [];
+        helper.push(<p key="helper-0">详细说明：</p>);
+        helper.push(<p key="helper-1">《资产负债表》反映事务所全部资产、负债和所有者权益的情况。增设的三个一级会计科目：“低值易耗品”（1231）、“物料用品”（1242）、“库存商品”（1243）之和填入本表“存货栏”。</p>);
+        helper.push(<p key="helper-2">各栏关系：</p>);
+        helper.push(<p key="helper-3">【14行+17行+26行+30行+31行=32行】【1行+...+13行=14行】【15行+16行=17行】【18行-19行=20行】【20行-21行=22行】【22行+23行+24行+25行=26行】【27行+28行+29行=30行】【47行+54行+55行=56行】
+            【56行+63行=64行】【33行+...+46行=47行】【57行-58行=59行】【48行+...+53行=54行】【59行+...+62行=63行】【64行=32行】</p>);
+
+        let nd = new Date().getFullYear()+"";
+        let xz = "0";
         const { getFieldProps } = this.props.form;
         let obj = [{}];
         if (this.props.data.length != 0) {
@@ -1237,6 +1349,13 @@ let Addzcfzb = React.createClass({
 
         };
         return <div className="add">
+            {this.state.helper && <Alert message="资产负债表填报说明"
+                description={helper}
+                type="info"
+                closable
+                onClose={this.handleHelperClose}/>}
+            <Panel toolbar={toolbar}>   </Panel>
+
             <div className="fix-table table-bordered table-striped" >
                 <Form horizontal onSubmit={this.handleSubmit}>
                     <table>
@@ -1261,12 +1380,22 @@ let Addzcfzb = React.createClass({
 
                                 <td width="11%">  <Col
                                     label="年度：">
-                                    <SelectorYear  { ...getFieldProps('nd', { initialValue: nd, }) }/>
+                                  <FormItem>    <SelectorYear  { ...getFieldProps('nd', { initialValue: nd, rules: [{
+                                    require: true,
+                                    message: '选择一个年度做自检',
+                                }, {  validator: this.checkNdIfExit,
+                                    }]
+                            }) }/></FormItem>
                                 </Col>
                                 </td>
 
                                 <td > <Col>
-                                    <SelectorXZ   { ...getFieldProps('timevalue', { initialValue: xz, }) }/>
+                              <FormItem>      <SelectorXZ   { ...getFieldProps('timevalue', { initialValue: xz,rules: [{
+                                    require: true,
+                                    message: '',
+                                }, {  validator: this.checkTimevalueIfExit,
+                                    }]
+                             }) }/></FormItem>
                                 </Col>
                                 </td>
 
@@ -1577,8 +1706,8 @@ let Addzcfzb = React.createClass({
                                 <td ><Input  id='gdzc_zjgc' type='Number' {...getFieldProps('gdzc_zjgc') } onChange={this.handleInputChange}/> </td>
                                 <td style={{ textAlign: 'center' }} >负债合计</td>
                                 <td>56</td>
-                                <td ><Input  id='dysx_fzhj_nc' type='Number' {...getFieldProps('dysx_fzhj_nc') }disabled/></td>
-                                <td ><Input  id='dysx_fzhj' type='Number' {...getFieldProps('dysx_fzhj') }disabled/></td>
+                                <td ><Input  id='dysx_fzhj_nc' type='Number' {...getFieldProps('dysx_fzhj_nc') } onChange={this.handleInputChange}disabled/></td>
+                                <td ><Input  id='dysx_fzhj' type='Number' {...getFieldProps('dysx_fzhj') }onChange={this.handleInputChange}disabled/></td>
                             </tr>
 
                             <tr>
@@ -1605,8 +1734,8 @@ let Addzcfzb = React.createClass({
 
                                 <td style={{ textAlign: 'center' }} >实收资本（或股本）</td>
                                 <td>57</td>
-                                <td ><Input  id='syzqy_sszbje_nc' type='Number' {...getFieldProps('syzqy_sszbje_nc') } onChange={this.handleInputChange}/></td>
-                                <td ><Input  id='syzqy_sszbje' type='Number' {...getFieldProps('syzqy_sszbje') } onChange={this.handleInputChange}/></td>
+                                <td ><Input  id='syzqy_sszb_nc' type='Number' {...getFieldProps('syzqy_sszb_nc') } onChange={this.handleInputChange}/></td>
+                                <td ><Input  id='syzqy_sszb' type='Number' {...getFieldProps('syzqy_sszb') } onChange={this.handleInputChange}/></td>
                             </tr>
 
                             <tr>
@@ -1627,8 +1756,8 @@ let Addzcfzb = React.createClass({
                                 <td ><Input  id='wxqt_cqdt' type='Number' {...getFieldProps('wxqt_cqdt') } onChange={this.handleInputChange}/> </td>
                                 <td style={{ textAlign: 'center' }} >实收资本（股本）净额</td>
                                 <td>59</td>
-                                <td ><Input id='syzqy_sszb_nc' type='Number'  {...getFieldProps('syzqy_sszb_nc') }disabled/></td>
-                                <td ><Input  id='syzqy_sszb' type='Number' {...getFieldProps('syzqy_sszb') }disabled/></td>
+                                <td ><Input id='syzqy_sszbje_nc' type='Number'  {...getFieldProps('syzqy_sszbje_nc') }disabled/></td>
+                                <td ><Input  id='syzqy_sszbje' type='Number' {...getFieldProps('syzqy_sszbje') }disabled/></td>
                             </tr>
 
                             <tr>
@@ -1670,8 +1799,8 @@ let Addzcfzb = React.createClass({
                                 <td ><Input  id='ydsx_skjx' type='Number' {...getFieldProps('ydsx_skjx') } onChange={this.handleInputChange}/> </td>
                                 <td style={{ textAlign: 'center' }} >所有者权益(或股东权益) 合计</td>
                                 <td>63</td>
-                                <td ><Input  id='syzqy_hj_nc' type='Number' {...getFieldProps('syzqy_hj_nc') }disabled/></td>
-                                <td ><Input  id='syzqy_hj' type='Number' {...getFieldProps('syzqy_hj') }disabled/></td>
+                                <td ><Input  id='syzqy_hj_nc' type='Number' {...getFieldProps('syzqy_hj_nc') }onChange={this.handleInputChange}disabled/></td>
+                                <td ><Input  id='syzqy_hj' type='Number' {...getFieldProps('syzqy_hj') }onChange={this.handleInputChange}disabled/></td>
                             </tr>
 
                             <tr>
@@ -1681,8 +1810,8 @@ let Addzcfzb = React.createClass({
                                 <td ><Input  id='zczj' type='Number' {...getFieldProps('zczj') }disabled/> </td>
                                 <td style={{ textAlign: 'center' }} >负债和所有者权益(或股东权益) 合计</td>
                                 <td>64</td>
-                                <td ><Input  id='fzsyzqy_hj_nc' type='Number' {...getFieldProps('fzsyzqy_hj_nc') }disabled/></td>
-                                <td ><Input  id='fzsyzqy_hj' type='Number' {...getFieldProps('fzsyzqy_hj') }disabled/></td>
+                                <td ><Input  id='fzsyzqy_hj_nc' type='Number' {...getFieldProps('fzsyzqy_hj_nc') }onChange={this.handleInputChange}disabled/></td>
+                                <td ><Input  id='fzsyzqy_hj' type='Number' {...getFieldProps('fzsyzqy_hj') }onChange={this.handleInputChange}disabled/></td>
                             </tr>
 
                             <tr>
