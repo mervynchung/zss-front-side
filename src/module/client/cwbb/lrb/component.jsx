@@ -9,7 +9,6 @@ import Add from './Add'
 import Update from './Update'
 import auth from 'common/auth'
 import config from 'common/configuration'
-import BaseTable from 'component/compBaseTable'
 import {entityFormat} from 'common/utils'
 import DetailBox from './detailbox.jsx'
 
@@ -318,9 +317,10 @@ const lrb = React.createClass({
         const column1 = [
             { title: '序号', dataIndex: 'key', key: 'key' },
             { title: '年度', dataIndex: 'nd', key: 'nd' },
+            { title: '性质', key: 'timevalue', dataIndex: 'TIMEVALUE' },
             { title: '机构名称', dataIndex: 'DWMC', key: 'DWMC' },
             { title: '自检时间', dataIndex: 'zjrq', key: 'zjrq' },
-            { title: '状态', key: 'ZTBJ', dataIndex: 'ZTBJ' },
+            { title: '状态', key: 'ztbj', dataIndex: 'ZTBJ' },
             {
                 title: '操作',
                 key: 'operation',
@@ -352,11 +352,12 @@ const lrb = React.createClass({
 
         //定义提示内容
         let helper = [];
-        helper.push(<p key="helper-0">点击查询结果查看利润表明细</p>);
-        helper.push(<p key="helper-1">也可以添加修改和提交利润表</p>);
+        helper.push(<p key="helper-0">《利润表》反映税务师事务所在一定期间利润（亏损）的实际情况</p>);
+        helper.push(<p key="helper-1"> 各栏关系：</p>);
+        helper.push(<p key="helper-2">【1行-2行-3行=4行】【4行+5行-6行-7行-8行=9行】【9行+10行+11行+12行-13行=14行】【14行-15行=16行】</p>);
         return <div className="cwbb-lrb">
             <div className="wrap">
-                {this.state.helper && <Alert message="利润表检索查询帮助"
+                {this.state.helper && <Alert message="使用说明"
                     description={helper}
                     type="info"
                     closable
