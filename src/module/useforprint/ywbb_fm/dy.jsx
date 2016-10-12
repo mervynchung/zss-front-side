@@ -6,12 +6,12 @@ var cssPagedMedia = (function () {
     var style = document.createElement('style');
     document.head.appendChild(style);
     return function (rule) {
-        style.innerHTML = rule;
+        style.innerHTML = rule ;
     };
 }());
 
 cssPagedMedia.size = function (size) {
-    cssPagedMedia('@page {size: ' + size + '}');
+    cssPagedMedia('@page {' + size + '}');
 };
 
 const confirm = Modal.confirm;
@@ -216,7 +216,7 @@ let dy = React.createClass({
                         <tbody>
                         <tr className="c18">
                             <td className="c20" colSpan="1" rowSpan="1">
-                                <p className="c6"><span className="c14 c11">&#38450;&#20266;&#30721;</span></p>
+                                <p className="c6"><span className="c14 c11"><img src={require('./sy03.gif')}/></span></p>
                             </td>
                         </tr>
                         <tr className="c13">
