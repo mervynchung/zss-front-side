@@ -1,5 +1,7 @@
 /**
  * Created by ming on 2016/9/23.
+ * Promise包装的ajax请求
+ * 传入参数{method:'get/post/put/delete', type:'json', url:'url_string', data:{object}}
  */
 'use strict';
 

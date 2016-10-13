@@ -1,5 +1,5 @@
 import React from 'react'
-import {Steps, Col, Row, Spin, notification, Modal, Icon, Button, Form,Input} from 'antd'
+import {Steps, Col, Row, Spin, notification, Icon, Button, Form, Input} from 'antd'
 import Panel from 'component/compPanel'
 import {SelectorYear, SelectorXZ, SelectorJGXZ, SelectorCS} from 'component/compSelector'
 import auth from 'common/auth.js'
@@ -9,27 +9,22 @@ import EditSuccess from './commitSuccessScr';
 
 const ButtonGroup = Button.Group;
 const FormItem = Form.Item;
-const PanelBar = Panel.toolbar;
+const PanelBar = Panel.ToolBar;
 
 
-let form  = React.createClass({
+let form = React.createClass({
     getDefaultProps(){
         return {
             title: '编辑事务所基本情况表',
-            data:{}
+            data: {},
+            url: config.HOST + config.URI_API_PROJECT + '/client/swsjbqk'
         }
     },
     getInitialState(){
         return {
             loading: true,
             addSuccess: false,
-            successResp: {},
-            stage: 0,
-            dataXY: {},
-            dataYW: {},
-            dataJG: {},
-            customer: {},
-            zysws: []
+            successResp: {}
         }
     },
     back(){
@@ -39,7 +34,7 @@ let form  = React.createClass({
     addYwbb(param){
         const token = auth.getToken();
         return req({
-            url: YWBB_URL,
+            url: this.props.apiUrl,
             method: 'post',
             type: 'json',
             contentType: 'application/json',
@@ -89,24 +84,29 @@ let form  = React.createClass({
         this.setState({loading: true});
         this.addYwbb(values)
     },
-    //获取本机构下属执业税务师列表
-    fetchYwbbMisc () {
-        const jid = auth.getJgid();
-        const token = auth.getToken();
-        const YWBBMISC_URL = config.HOST + config.URI_API_PROJECT + '/ywbbmisc/' + jid;
-
-        return req({
-            url: YWBBMISC_URL,
-            method: 'get',
-            type: 'json',
-            headers: {'x-auth-token': token}
-        })
-    },
     componentDidMount(){
+
+        const {url}  = this.props;
+        const {setFieldProps} = this.props.form;
+        const nd = new Date().getFullYear() - 1;
+        let r = req({
+            url:url,
+            type:'json',
+            method:'get',
+            headers: {'x-auth-token': auth.getToken()},
+            data:{page:1,pagesize:5}
+        });
+        console.log(r);
+        /*req({
+            method:'get',
+            url:url
+        }).then(resp=>{
+            setFieldProps({dwmc:resp.dwmc,nd:nd,jgxz_dm:resp.jgxz_dm})
+        })*/
     },
 
     render(){
-        const {id, data,title} = this.props;
+        const {id, data, title} = this.props;
         const {getFieldProps} = this.props.form;
         const panelBar = <PanelBar>
             <Button onClick={this.back}>
@@ -115,96 +115,84 @@ let form  = React.createClass({
         </PanelBar>;
 
         return <Panel className="swsjbqk-edit" toolbar={panelBar} title={title}>
-            <div className="fix-table table-bordered table-striped">
-                <Form horizontal onSubmit={this.handleSubmit}>
-                    <table>
+            <div className="fix-table no-border table-striped ">
+                <Form horizontal>
+                    <table className="tg" style={{width:'765px',border:'none'}}>
                         <colgroup>
-                            <col className="col-3"/>
-                            <col className="col-3"/>
-                            <col className="col-3"/>
-                            <col className="col-3"/>
-                            <col className="col-3"/>
-                            <col className="col-3"/>
-                            <col className="col-3"/>
-                            <col className="col-3"/>
+                            <col style={{width:'15%'}}/>
+                            <col style={{width:'35%'}}/>
+                            <col style={{width:'15%'}}/>
+                            <col style={{width:'35%'}}/>
                         </colgroup>
                         <tbody>
                         <tr>
-                            <td colSpan="3">单位：{data.DWMC}</td>
-                            <td  ><Col
-                                label="年度：">
-                                <SelectorYear  { ...getFieldProps('nd')}/>
-                            </Col>
-                            </td>
-                            <td >制表人：<Input   {...getFieldProps('tianbiaoren', )}/></td>
-                            <td >所长：<Input   {...getFieldProps('suozhang')}/></td>
-                            <td colSpan="2">单位：万元、人</td>
-                        </tr>
-
-                        <tr>
-                            <td width="11%" style={{textAlign: 'center'}}>组织形式</td>
-                            <td width="14%"><Col
-                                label="选择：">
-                                <SelectorJGXZ  { ...getFieldProps('jgxz_dm')}/>
-                            </Col></td>
-                            <td style={{textAlign: 'center'}}>法人</td>
-                            <td ><Input   {...getFieldProps('frdbxm')}/></td>
-                            <td style={{textAlign: 'center'}}>股东人数</td>
-                            <td ><Input   {...getFieldProps('czrs')}/></td>
-                            <td style={{textAlign: 'center'}}>人员总数</td>
-                            <td ><Input   {...getFieldProps('ryzs')}/></td>
-                        </tr>
-
-                        <tr>
-                            <td width="11%" style={{textAlign: 'center'}}>执业人数</td>
-                            <td ><Input disabled  {...getFieldProps('zyzcswsrs')}/></td>
-                            <td style={{textAlign: 'center'}}>资产总额</td>
-                            <td ><Input   {...getFieldProps('zcze')}/></td>
-                            <td style={{textAlign: 'center'}}>注册资金</td>
-                            <td ><Input   {...getFieldProps('zczj')}/></td>
-                            <td style={{textAlign: 'center'}}>收入总额</td>
-                            <td ><Input   {...getFieldProps('srze')}/></td>
-                        </tr>
-
-                        <tr>
-                            <td width="11%" style={{textAlign: 'center'}}>利润总额</td>
-                            <td ><Input disabled  {...getFieldProps('lrze')}/></td>
-                            <td style={{textAlign: 'center'}}>机构所在地</td>
-                            <td  ><Col
-                                label="选择：">
-                                <SelectorCS  { ...getFieldProps('cs_dm')}/>
-                            </Col></td>
-                            <td style={{textAlign: 'center'}}>委托户数</td>
-                            <td ><Input   {...getFieldProps('wths')}/></td>
-                            <td style={{textAlign: 'center'}}>合伙人数</td>
-                            <td ><Input   {...getFieldProps('hhrs')}/></td>
+                            <td className="tg-031e" colSpan="2">单位：{data.dwmc}</td>
+                            <td className="tg-031e" >年度</td>
+                            <td className="tg-031e" ><Input { ...getFieldProps('nd')} /></td>
                         </tr>
                         <tr>
-                            <td style={{textAlign: 'center'}}>运营资金</td>
-                            <td ><Input   {...getFieldProps('yysr')}/></td>
+                            <td className="tg-031e">组织形式</td>
+                            <td className="tg-031e"><SelectorJGXZ disabled { ...getFieldProps('jgxz_dm')}/></td>
+                            <td className="tg-031e">法人</td>
+                            <td className="tg-031e"><Input   {...getFieldProps('frdbxm')}/></td>
                         </tr>
-                        </tbody>
-                        <tbody>
-                        <tr >
-                            <td colSpan="3" style={{textAlign: 'center'}}>
-                                <Button type="primary" onClick={this.handleSubmit}> <Icon type="check"/>保存</Button>
-                            </td>
-                            <td colSpan="2" style={{textAlign: 'center'}}>
-                                <Button type="primary" onClick={this.showModal}> <Icon type="arrow-up"/>提交</Button>
-                                <Modal title="你确定要提交吗？" visible={this.state.visible}
-                                       onOk={this.handleOk} onCancel={this.handleCancel}>
-                                    <p>提交后就不能修改了！！！</p>
-                                </Modal>
-                            </td>
+                        <tr>
+                            <td className="tg-031e">股东人数</td>
+                            <td className="tg-031e"><Input   {...getFieldProps('czrs')}/></td>
+                            <td className="tg-031e">人员总数</td>
+                            <td className="tg-031e"><Input   {...getFieldProps('ryzs')}/></td>
+                        </tr>
+                        <tr>
+                            <td className="tg-031e">执业人数</td>
+                            <td className="tg-031e"><Input disabled  {...getFieldProps('zyzcswsrs')}/></td>
+                            <td className="tg-031e">资产总额</td>
+                            <td className="tg-031e"><Input   {...getFieldProps('zcze')}/></td>
+                        </tr>
+                        <tr>
+                            <td className="tg-031e">注册资金</td>
+                            <td className="tg-031e"><Input   {...getFieldProps('zczj')}/></td>
+                            <td className="tg-031e">收入总额</td>
+                            <td className="tg-031e"><Input   {...getFieldProps('srze')}/></td>
+                        </tr>
+                        <tr>
+                            <td className="tg-031e">利润总额</td>
+                            <td className="tg-031e"><Input disabled  {...getFieldProps('lrze')}/></td>
+                            <td className="tg-031e">机构所在地</td>
+                            <td className="tg-031e"><SelectorCS  { ...getFieldProps('cs_dm')}/></td>
+                        </tr>
+                        <tr>
+                            <td className="tg-031e">委托户数</td>
+                            <td className="tg-031e"><Input   {...getFieldProps('wths')}/></td>
+                            <td className="tg-031e">合伙人数</td>
+                            <td className="tg-031e"><Input   {...getFieldProps('hhrs')}/></td>
+                        </tr>
+                        <tr>
+                            <td className="tg-031e">运营资金</td>
+                            <td className="tg-031e"><Input   {...getFieldProps('yysr')}/></td>
+                            <td className="tg-031e" colSpan="2"></td>
+                        </tr>
+                        <tr>
+                            <td className="tg-031e">制表人</td>
+                            <td className="tg-031e"><Input   {...getFieldProps('tianbiaoren',)}/></td>
+                            <td className="tg-031e">所长</td>
+                            <td className="tg-031e"><Input   {...getFieldProps('suozhang')}/></td>
                         </tr>
                         </tbody>
                     </table>
+                    <Row>
+                        <Col span="24">
+                            <Button type="primary" onClick={this.handleSave}> <Icon type="check"/>保存</Button>
+                            <Button type="primary" onClick={this.handleCommit}> <Icon type="arrow-up"/>提交</Button>
+                        </Col>
+                    </Row>
+
                 </Form>
             </div>
         </Panel>
 
     }
 });
+
 form = Form.create({
     mapPropsToFields(props) {
         let result = {};
@@ -214,4 +202,5 @@ form = Form.create({
         return result;
     }
 })(form);
+
 module.exports = form;
