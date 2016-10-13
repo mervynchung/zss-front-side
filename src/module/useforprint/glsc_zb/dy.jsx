@@ -2,6 +2,17 @@ import React from 'react'
 import './dy.css' 
 import {Row,Col,Modal} from 'antd'
 
+var cssPagedMedia = (function () {
+    var style = document.createElement('style');
+    document.head.appendChild(style);
+    return function (rule) {
+        style.innerHTML = rule;
+    };
+}());
+
+cssPagedMedia.size = function (size) {
+    cssPagedMedia('@page {size: ' + size + '}');
+};
 const confirm = Modal.confirm;
 let dy = React.createClass({
 	onClick(){
@@ -18,6 +29,7 @@ let dy = React.createClass({
 		  });
 	},
 	render(){
+		cssPagedMedia.size('A3 landscape');
 		const sd=decodeURIComponent(this.props.location.search);
 		var rs=JSON.parse(sd.substring(1,sd.length));
 		const nowy = new Date();
