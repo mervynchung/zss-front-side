@@ -18,10 +18,10 @@ const component = React.createClass({
     const year = new Date().getFullYear() - 1;
     return {
       searchToggle: true,
-      panelQs: true,
-      panelDq: false,
-      panelSws: false,
-      panelYwlx: false,
+      panelQs: true,//全省统计数据
+      panelDq: false,//某个市所有事务所数据
+      panelSws: false,//某个事务所的按业务类型进行的数据统计
+      panelYwlx: false,//某个事务所的某个业务类型的数据
       dataQs: [],
       entityQs: {},
       dataDq: [],
@@ -29,18 +29,14 @@ const component = React.createClass({
       dataSws: {},
       entitySws: {},
       dataYwlx: [],
-      tableQs: false,//全省统计数据
-      tableDq: false,//某个市所有事务所数据
-      tableSws: false,//某个事务所的按业务类型进行的数据统计
-      tableYw: false,//某个事务所的某个业务类型的数据
-      loading: false,
       data: [],
       where: { ND: year },
     };
   },
 
+  //全省统计数据
   fetch_data(params = { where: encodeURIComponent(JSON.stringify(this.state.where)) }) {
-    this.setState({ loading: true, });//主查询加载状态
+    this.setState({ loading: true, });
     const token = auth.getToken();
     req({
       url: API_URL,
@@ -53,7 +49,7 @@ const component = React.createClass({
         searchToggle: false,
         tableQs: true,
         loading: false,//关闭加载状态
-        dataQs: resp.data//传入后台获取数据，table组件要求每条查询记录必须拥有字段'key'
+        dataQs: resp.data
       });
     }).fail(e => {
       this.setState({ loading: false });
@@ -65,9 +61,10 @@ const component = React.createClass({
     })
   },
 
+  //某个市所有事务所数据
   fetch_dataDq(params = { where: encodeURIComponent(JSON.stringify(this.state.where)), }) {
     const token = auth.getToken();
-    this.setState({ loading: true, });//主查询加载状态
+    this.setState({ loading: true, });
     req({
       url: API_URL + "/dq",
       type: 'json',
@@ -89,9 +86,10 @@ const component = React.createClass({
     })
   },
 
+  //某个事务所的按业务类型进行的数据统计
   fetch_dataSws(params = { where: encodeURIComponent(JSON.stringify(this.state.where)), }) {
     const token = auth.getToken();
-    this.setState({ loading: true, });//主查询加载状态
+    this.setState({ loading: true, });
     req({
       url: API_URL + "/sws",
       type: 'json',
@@ -99,7 +97,6 @@ const component = React.createClass({
       data: params,
       headers: { 'x-auth-token': token }
     }).then(resp => {
-      console.log(resp);
       this.setState({
         loading: false,//关闭加载状态
         dataSws: resp
@@ -114,6 +111,7 @@ const component = React.createClass({
     })
   },
 
+  //某个事务所的某个业务类型的数据
   fetch_dataYwlx(params = { where: encodeURIComponent(JSON.stringify(this.state.where)), }) {
     const token = auth.getToken();
     this.setState({ loading: true, });//主查询加载状态
@@ -143,11 +141,11 @@ const component = React.createClass({
   handleSearchToggle() {
     this.setState({
       searchToggle: !this.state.searchToggle,
-      tableQs:false
+      tableQs: false
     })
   },
 
-
+  //搜索提交
   handleSearchSubmit(value) {
     this.setState({ where: value });
     this.fetch_data({
@@ -155,6 +153,7 @@ const component = React.createClass({
     })
   },
 
+  //渲染全省统计数据中地区列
   renderDq(text, record, index) {
     var that = this;
     function showDqDetail() {
@@ -168,6 +167,7 @@ const component = React.createClass({
     return <a onClick={showDqDetail}>{text}</a>
   },
 
+  //渲染某个市所有事务所数据中事务所列
   renderSws(text, record, index) {
     var that = this;
     function showSwsDetail() {
@@ -181,6 +181,7 @@ const component = React.createClass({
     return <a onClick={showSwsDetail}>{text}</a>
   },
 
+  //渲染某个事务所的按业务类型进行的数据统计中业务类型列
   renderYwlx(text, record, index) {
     var that = this;
     function showYwlxDetail() {
@@ -194,14 +195,28 @@ const component = React.createClass({
     return <a onClick={showYwlxDetail}>{text}</a>
   },
 
+  //返回按钮点击事件
+  //返回全省统计数据
   backToQs() {
     this.setState({ panelQs: true, panelDq: false });
   },
+  //返回某个市所有事务所数据
   backToDq() {
     this.setState({ panelDq: true, panelSws: false });
   },
+  //返回某个事务所的按业务类型进行的数据统计
   backToSws() {
     this.setState({ panelSws: true, panelYwlx: false });
+  },
+
+  //根据value值获取业务类型名称
+  getYwlxMc(value) {
+    const ywlxs = Model.ywlx;
+    for (var i = 0; i < ywlxs.length; i++) {
+      if (value == ywlxs[i].id) {
+        return ywlxs[i].mc;
+      }
+    }
   },
 
   render() {
@@ -366,6 +381,10 @@ const component = React.createClass({
       </Button>
     </PanelBar>;
 
+    const titleYwlx = <div style={{ width: '600px' }}>
+      <span style={{ marginLeft: '10px' }}>{this.state.where.cxywlx == null ? '' : '业务类型：' + this.getYwlxMc(this.state.where.cxywlx) }</span>
+    </div>;
+
     return <div className="ywbbsjfx">
       <div className="wrap">
         <div className="dataGird">
@@ -381,7 +400,7 @@ const component = React.createClass({
                 bordered   />}
             </Panel>}
           {this.state.panelDq &&
-            <Panel toolbar={panelDqBar}>
+            <Panel title="业务报备数据分析" toolbar={panelDqBar}>
               <ComTable columns={columnsDq}
                 header={Model.headerDq}
                 dataSource={this.state.dataDq}
@@ -390,14 +409,14 @@ const component = React.createClass({
                 bordered   />
             </Panel>}
           {this.state.panelSws &&
-            <Panel toolbar={panelSwsBar}>
+            <Panel title="业务报备数据分析" toolbar={panelSwsBar}>
               <YwlxTable columns={columnsSws}
                 header={Model.headerSws}
                 dataSource={this.state.dataSws}
                 loading={this.state.loading}  bordered   />
             </Panel>}
           {this.state.panelYwlx &&
-            <Panel toolbar={panelYwlxBar}>
+            <Panel title={titleYwlx} toolbar={panelYwlxBar}>
               <Table columns={columnsYw}
                 dataSource={this.state.dataYwlx}
                 loading={this.state.loading}

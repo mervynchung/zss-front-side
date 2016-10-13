@@ -2,7 +2,7 @@ import React from 'react'
 import auth from 'common/auth'
 import config from 'common/configuration'
 import req from 'reqwest'
-import {Col, Input, Row, Button, Icon, Form, Modal, notification } from 'antd'
+import {Col, Input, Row, Button, Icon, Form, Modal, notification,Spin } from 'antd'
 import {SelectorYear, SelectorXZ} from 'component/compSelector'
 import './style.css'
 
@@ -43,7 +43,7 @@ let Addlrb = React.createClass({
 
     //Modal
     getInitialState() {
-        return { visible: false,checkNd:true,checkTimevalue:true};
+        return { visible: false,checkNd:true,checkTimevalue:true,loading:false};
     },
 
     showModal(e) {
@@ -300,6 +300,7 @@ let Addlrb = React.createClass({
         const where = { nd: value, timevalue: timevalue };
         const params = { where: encodeURIComponent(JSON.stringify(where)) };
         const token = auth.getToken();
+        this.setState({loading:true});
         req({
             url: URL,
             type: 'json',
@@ -307,6 +308,7 @@ let Addlrb = React.createClass({
             data: params,
             headers: { 'x-auth-token': token }
         }).then(resp => {
+            this.setState({loading:false});
             if (resp.result) {
                 this.setState({checkNd:true});
                 if(!this.state.checkTimevalue){
@@ -318,12 +320,13 @@ let Addlrb = React.createClass({
                 callback("该年度的利润表记录已存在");
             }
         }).fail(e => {
-            callback("校验失败");
+            this.setState({loading:false});
             notification.error({
                 duration: 2,
                 message: '数据读取失败',
                 description: '可能网络访问原因，请稍后尝试'
             });
+            callback("校验失败");
         })
         
     },
@@ -339,6 +342,7 @@ let Addlrb = React.createClass({
         const where = { nd: nd, timevalue: value };
         const params = { where: encodeURIComponent(JSON.stringify(where)) };
         const token = auth.getToken();
+        this.setState({loading:true});
         req({
             url: URL,
             type: 'json',
@@ -346,6 +350,7 @@ let Addlrb = React.createClass({
             data: params,
             headers: { 'x-auth-token': token }
         }).then(resp => {
+            this.setState({loading:false});
             if (resp.result) {
                 this.setState({checkTimevalue:true});
                 if(!this.state.checkNd){
@@ -357,12 +362,13 @@ let Addlrb = React.createClass({
                 callback(message);
             }
         }).fail(e => {
-            callback("校验失败");
+            this.setState({loading:false});
             notification.error({
                 duration: 2,
                 message: '数据读取失败',
                 description: '可能网络访问原因，请稍后尝试'
             });
+            callback("校验失败");
         })
     },
     render() {
@@ -379,6 +385,7 @@ let Addlrb = React.createClass({
 
         return <div className="add">
             <div className="fix-table table-bordered table-striped" >
+            <Spin spinning={this.state.loading} tip="数据校验中。。。" >
                 <Form horizontal onSubmit={this.handleSubmit}>
                     <table>
                         <colgroup>
@@ -813,7 +820,7 @@ let Addlrb = React.createClass({
 
                     </table>
                 </Form>
-
+</Spin>
             </div>
         </div >
     }
