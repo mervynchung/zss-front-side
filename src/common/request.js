@@ -8,12 +8,12 @@
 import auth from './auth'
 import request  from 'reqwest'
 
-const func = function (param = {method: 'get',type:'json'}) {
+const func = async function (param = {method: 'get',type:'json'}) {
     let {url, method, data} = param;
     if(method != 'get') {
         data = JSON.stringify(data);
     }
-    return request({
+    return await request({
         url:url,
         contentType:'application/json',
         method:method,

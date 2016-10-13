@@ -85,24 +85,20 @@ let form = React.createClass({
         this.addYwbb(values)
     },
     componentDidMount(){
-
         const {url}  = this.props;
         const {setFieldProps} = this.props.form;
         const nd = new Date().getFullYear() - 1;
-        let r = req({
+
+        req({
+            method:'get',
             url:url,
-            type:'json',
-            method:'get',
-            headers: {'x-auth-token': auth.getToken()},
             data:{page:1,pagesize:5}
-        });
-        console.log(r);
-        /*req({
-            method:'get',
-            url:url
         }).then(resp=>{
-            setFieldProps({dwmc:resp.dwmc,nd:nd,jgxz_dm:resp.jgxz_dm})
-        })*/
+            console.log(resp);
+            //setFieldProps({dwmc:resp.dwmc,nd:nd,jgxz_dm:resp.jgxz_dm})
+        }).catch(e=>{
+            console.log(e)
+        })
     },
 
     render(){
@@ -173,7 +169,7 @@ let form = React.createClass({
                         </tr>
                         <tr>
                             <td className="tg-031e">制表人</td>
-                            <td className="tg-031e"><Input   {...getFieldProps('tianbiaoren',)}/></td>
+                            <td className="tg-031e"><Input   {...getFieldProps('tianbiaoren')}/></td>
                             <td className="tg-031e">所长</td>
                             <td className="tg-031e"><Input   {...getFieldProps('suozhang')}/></td>
                         </tr>
