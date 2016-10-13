@@ -247,8 +247,23 @@ var model = {
             render(num) {
                 return numeral(num).format('0,0.00')
             }
+        },
+        {
+            id: 'JSSJ',
+            name: '结束时间',
+            render(num) {
+                let date = new Date(num);
+                return date.toLocaleDateString()
+            }
+        },
+        {
+            id: 'TJRQ',
+            name: '提交日期',
+            render(num) {
+                let date = new Date(num);
+                return date.toLocaleDateString()
+            }
         }
-
     ]
 
 };

@@ -2,7 +2,7 @@
  * Created by ming on 2016/4/11.
  */
 import React from 'react'
-import {Button, Icon} from 'antd'
+import { Button, Icon } from 'antd'
 import numeral from 'Numeral'
 var model = {
     // handleRowButton(){},
@@ -51,7 +51,14 @@ var model = {
                 return date.toLocaleDateString()
             }
         },
-        { id: 'TJRQ', name: '提交日期' },
+        {
+            id: 'TJRQ',
+            name: '提交日期',
+            render(num) {
+                let date = new Date(num);
+                return date.toLocaleDateString()
+            }
+        },
         { id: 'ZTBJ', name: '状态(0:保存,1:提交)' },
         {
             id: 'ZGYWSR',
