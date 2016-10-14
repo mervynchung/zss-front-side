@@ -1,6 +1,6 @@
 import React from 'react'
-import {Col, Input, Row, Button, Icon, Form, Modal, DatePicker, Alert } from 'antd'
-import {SelectorYear, SelectorXZ} from 'component/compSelector'
+import { Col, Input, Row, Button, Icon, Form, Modal, DatePicker, Alert, message } from 'antd'
+import { SelectorYear, SelectorXZ } from 'component/compSelector'
 import './style.css'
 import Panel from 'component/compPanel'
 import req from 'reqwest'
@@ -10,7 +10,7 @@ const ButtonGroup = Button.Group;
 const createForm = Form.create;
 const FormItem = Form.Item;
 const ToolBar = Panel.ToolBar;
-const CheckNd_URL=config.HOST + config.URI_API_PROJECT +"/checkzcfz"
+const CheckNd_URL = config.HOST + config.URI_API_PROJECT + "/checkzcfz"
 
 Date.prototype.Format = function (fmt) { //时间格式化函数
     var o = {
@@ -42,13 +42,22 @@ let Addzcfzb = React.createClass({
     handleSubmit(e) {
         e.preventDefault();
         var mp = {};
-        let value = this.props.form.getFieldsValue()
+        let value = this.props.form.getFieldsValue();
+        console.log(value.gdzc_jz_nc);
         for (var key in value) {
-            if (Object.prototype.toString.call(value[key]) == "[object Undefined]" || value[key] == "") {
+            if (Object.prototype.toString.call(value[key]) == "[object Undefined]" || (!isNaN(value[key])?false:(""==value[key]))) 
+            {
                 value[key] = null
             };
         }
-        this.props.onSubmit(value);
+
+         this.props.form.validateFields((errors, values) => {
+      if (!!errors) {  
+        return;
+      }else{
+          this.props.onSubmit(value);
+      }
+    });
     },
 
     //点击重置
@@ -67,29 +76,32 @@ let Addzcfzb = React.createClass({
         e.preventDefault();
         var mp = {};
         let value = this.props.form.getFieldsValue();
-        for (var key in value) {
-            if (Object.prototype.toString.call(value[key]) == "[object Undefined]" || value[key] == "") {
+         for (var key in value) {
+            if (Object.prototype.toString.call(value[key]) == "[object Undefined]" || (!isNaN(value[key])?false:(""==value[key]))) 
+            {
                 value[key] = null
             };
+        
         }
-        this.setState({
+        //验证表单，若通过就打开确定提交对话框
+        this.props.form.validateFields((errors, values) => {
+      if (!!errors) {  
+        return;
+      }else{
+          this.setState({
             visible: true,
             okValue: value,
         });
+      }
+    });
+    
     },
 
 
+  
     handleOk(e) {
         // console.log('点击了确定',this.state.okValue);
-
         this.props.handleOk(this.state.okValue)
-
-        this.setState({
-            visible: false
-        });
-    },
-    handleCancel(e) {
-
         this.setState({
             visible: false
         });
@@ -105,9 +117,9 @@ let Addzcfzb = React.createClass({
 
     //填报年度是否重复校验方法
     checkNdIfExit(rule, value, callback) {
-        const rs=true;
-        const timevalue =this.props.form.getFieldValue("timevalue")
-        const params = { where: encodeURIComponent(JSON.stringify({ nd: value,timevalue: timevalue})), }
+        const rs = true;
+        const timevalue = this.props.form.getFieldValue("timevalue")
+        const params = { where: encodeURIComponent(JSON.stringify({ nd: value, timevalue: timevalue })), }
         req({
             url: CheckNd_URL,
             type: 'json',
@@ -116,9 +128,9 @@ let Addzcfzb = React.createClass({
             headers: { 'x-auth-token': auth.getToken() },
             contentType: 'application/json',
         }).then(resp => {
-            if(resp){
-                callback('同一年度不能做两次年检，请选择其他年度');
-            }else{
+            if (resp) {
+                callback('同一年度不能做两次上报，请选择其他年度');
+            } else {
                 callback();
             }
         }).fail(err => {
@@ -133,11 +145,11 @@ let Addzcfzb = React.createClass({
             });
         })
     },
-    //填报年度是否重复校验方法
+    //timevalue是否重复校验方法
     checkTimevalueIfExit(rule, value, callback) {
-       
-        const nd =this.props.form.getFieldValue("nd")
-        const params = { where: encodeURIComponent(JSON.stringify({ nd:nd,timevalue: value})), }
+
+        const nd = this.props.form.getFieldValue("nd")
+        const params = { where: encodeURIComponent(JSON.stringify({ nd: nd, timevalue: value })), }
         req({
             url: CheckNd_URL,
             type: 'json',
@@ -146,9 +158,9 @@ let Addzcfzb = React.createClass({
             headers: { 'x-auth-token': auth.getToken() },
             contentType: 'application/json',
         }).then(resp => {
-            if(resp){
-                callback('同一年度不能做两次年检，请选择其他年度');
-            }else{
+            if (resp) {
+                callback('该年度的上半年（或全年）已经填报上报表，请选择其他年度');
+            } else {
                 callback();
             }
         }).fail(err => {
@@ -696,6 +708,12 @@ let Addzcfzb = React.createClass({
         if (entity.zczj) {
             zczj = entity.zczj;
         }
+        if (entity.dysx_fzhj_nc) {
+            dysx_fzhj_nc = entity.dysx_fzhj_nc
+        }
+        if (entity.dysx_fzhj) {
+            dysx_fzhj = entity.dysx_fzhj
+        }
 
         //-------------------------------------------------------------------------------------
 
@@ -1114,206 +1132,173 @@ let Addzcfzb = React.createClass({
 
 
         //========================================
-        //统计14=1+2+3+...+13
-        if (changeField == "ldzc_hj_nc" || changeField == "ldzc_hbzj_nc" || changeField == "ldzc_dqtz_nc" ||
-            changeField == "ldzc_yspj_nc" || changeField == "ldzc_ysgl_nc" || changeField == "ldzc_yslx_nc" ||
-            changeField == "ldzc_yszk_nc" || changeField == "ldzc_qtys_nc" || changeField == "ldzc_yfzk_nc" ||
-            changeField == "ldzc_ysbt_nc" || changeField == "ldzc_ch_nc" || changeField == "ldzc_dtfy_nc" ||
-            changeField == "ldzc_dqzj_nc" || changeField == "ldzc_qtldzc_nc") {
-            ldzc_hj_nc = parseFloat(ldzc_hbzj_nc) + parseFloat(ldzc_dqtz_nc) + parseFloat(ldzc_yspj_nc)
-                + parseFloat(ldzc_ysgl_nc) + parseFloat(ldzc_yslx_nc) + parseFloat(ldzc_yszk_nc) + parseFloat(ldzc_qtys_nc)
-                + parseFloat(ldzc_yfzk_nc) + parseFloat(ldzc_ysbt_nc) + parseFloat(ldzc_ch_nc) + parseFloat(ldzc_dtfy_nc)
-                + parseFloat(ldzc_dqzj_nc) + parseFloat(ldzc_qtldzc_nc);
-            this.props.form.setFieldsValue({ ldzc_hj_nc: ldzc_hj_nc });
-        } else if (changeField == "ldzc_hj" || changeField == "ldzc_hbzj" || changeField == "ldzc_dqtz" ||
-            changeField == "ldzc_yspj" || changeField == "ldzc_ysgl" || changeField == "ldzc_yslx" ||
-            changeField == "ldzc_yszk" || changeField == "ldzc_qtys" || changeField == "ldzc_yfzk" ||
-            changeField == "ldzc_ysbt" || changeField == "ldzc_ch" || changeField == "ldzc_dtfy" ||
-            changeField == "ldzc_dqzj" || changeField == "ldzc_qtldzc") {
-            ldzc_hj = parseFloat(ldzc_hbzj) + parseFloat(ldzc_dqtz) + parseFloat(ldzc_yspj)
-                + parseFloat(ldzc_ysgl) + parseFloat(ldzc_yslx) + parseFloat(ldzc_yszk) + parseFloat(ldzc_qtys)
-                + parseFloat(ldzc_yfzk) + parseFloat(ldzc_ysbt) + parseFloat(ldzc_ch) + parseFloat(ldzc_dtfy)
-                + parseFloat(ldzc_dqzj) + parseFloat(ldzc_qtldzc);
-            this.props.form.setFieldsValue({ ldzc_hj: ldzc_hj });
-        }
-        //统计14+17+26+30+31=32
-        else if (changeField == "zczj_nc" || changeField == "ldzc_hj_nc" || changeField == "gdzc_hj_nc" ||
-            changeField == "wxqt_hj_nc" || changeField == "cqtz_hj_nc" || changeField == "ydsx_skjx_nc") {
-            zczj_nc = parseFloat(ldzc_hj_nc) + parseFloat(gdzc_hj_nc) + parseFloat(wxqt_hj_nc) +
-                parseFloat(cqtz_hj_nc) + parseFloat(ydsx_skjx_nc);
-            this.props.form.setFieldsValue({ zczj_nc: zczj_nc });
-        }
-        else if (changeField == "zczj" || changeField == "ldzc_hj" || changeField == "gdzc_hj" ||
-            changeField == "wxqt_hj" || changeField == "cqtz_hj" || changeField == "ydsx_skjx") {
+        //1.统计14=1+2+3+...+13
+        ldzc_hj_nc = parseFloat(ldzc_hbzj_nc) + parseFloat(ldzc_dqtz_nc) + parseFloat(ldzc_yspj_nc)
+            + parseFloat(ldzc_ysgl_nc) + parseFloat(ldzc_yslx_nc) + parseFloat(ldzc_yszk_nc) + parseFloat(ldzc_qtys_nc)
+            + parseFloat(ldzc_yfzk_nc) + parseFloat(ldzc_ysbt_nc) + parseFloat(ldzc_ch_nc) + parseFloat(ldzc_dtfy_nc)
+            + parseFloat(ldzc_dqzj_nc) + parseFloat(ldzc_qtldzc_nc);
+        this.props.form.setFieldsValue({ ldzc_hj_nc: ldzc_hj_nc });
 
-            zczj = parseFloat(ldzc_hj) + parseFloat(gdzc_hj) + parseFloat(wxqt_hj) +
-                parseFloat(cqtz_hj) + parseFloat(ydsx_skjx);
-            this.props.form.setFieldsValue({ zczj: zczj });
-        }
-        //统计15+16=17
-        else if (changeField == "cqtz_hj_nc" || changeField == "cqtz_gq_nc" || changeField == "cqtz_zq_nc") {
-            cqtz_hj_nc = parseFloat(cqtz_gq_nc) + parseFloat(cqtz_zq_nc);
+        ldzc_hj = parseFloat(ldzc_hbzj) + parseFloat(ldzc_dqtz) + parseFloat(ldzc_yspj)
+            + parseFloat(ldzc_ysgl) + parseFloat(ldzc_yslx) + parseFloat(ldzc_yszk) + parseFloat(ldzc_qtys)
+            + parseFloat(ldzc_yfzk) + parseFloat(ldzc_ysbt) + parseFloat(ldzc_ch) + parseFloat(ldzc_dtfy)
+            + parseFloat(ldzc_dqzj) + parseFloat(ldzc_qtldzc);
+        this.props.form.setFieldsValue({ ldzc_hj: ldzc_hj });
+        //2.统计15+16=17
 
-            this.props.form.setFieldsValue({ cqtz_hj_nc: cqtz_hj_nc });
-        }
-        else if (changeField == "cqtz_hj" || changeField == "cqtz_gq" || changeField == "cqtz_zq") {
-            cqtz_hj = parseFloat(cqtz_gq) + parseFloat(cqtz_zq);
+        cqtz_hj_nc = parseFloat(cqtz_gq_nc) + parseFloat(cqtz_zq_nc);
 
-            this.props.form.setFieldsValue({ cqtz_hj: cqtz_hj });
-        }
-        //统计18-19=20
-        else if (changeField == "gdzc_jz_nc" || changeField == "gdzc_yj_nc" || changeField == "gdzc_ljzj_nc") {
-            gdzc_jz_nc = parseFloat(gdzc_yj_nc) - parseFloat(gdzc_ljzj_nc);
+        this.props.form.setFieldsValue({ cqtz_hj_nc: cqtz_hj_nc });
 
-            this.props.form.setFieldsValue({ gdzc_jz_nc: gdzc_jz_nc });
-        }
-        else if (changeField == "gdzc_jz" || changeField == "gdzc_yj" || changeField == "gdzc_ljzj") {
-            gdzc_jz = gdzc_yj - gdzc_ljzj;
+        cqtz_hj = parseFloat(cqtz_gq) + parseFloat(cqtz_zq);
 
-            this.props.form.setFieldsValue({ gdzc_jz: gdzc_jz });
-        }
-        //统计20-21=22
-        else if (changeField == "gdzc_je_nc" || changeField == "gdzc_jz_nc" || changeField == "gdzc_jzzb_nc") {
-            gdzc_je_nc = parseFloat(gdzc_jz_nc) - parseFloat(gdzc_jzzb_nc);
+        this.props.form.setFieldsValue({ cqtz_hj: cqtz_hj });
 
-            this.props.form.setFieldsValue({ gdzc_je_nc: gdzc_je_nc });
-        }
-        else if (changeField == "gdzc_je" || changeField == "gdzc_jz" || changeField == "gdzc_jzzb") {
-            gdzc_je = parseFloat(gdzc_jz) - parseFloat(gdzc_jzzb);
+        //3.统计18-19=20
+        
+        gdzc_jz_nc = parseFloat(gdzc_yj_nc) - parseFloat(gdzc_ljzj_nc);
+        console.log("gdzc_jz_nc:"+gdzc_jz_nc);
+        this.props.form.setFieldsValue({ gdzc_jz_nc: gdzc_jz_nc });
+        console.log("gdzc_jz_nc2:"+this.props.form.getFieldValue("gdzc_jz_nc"));
+        gdzc_jz = gdzc_yj - gdzc_ljzj;
 
-            this.props.form.setFieldsValue({ gdzc_je: gdzc_je });
-        }
-        //统计22+23+24+25=26
-        else if (changeField == "gdzc_hj_nc" || changeField == "gdzc_je_nc" || changeField == "gdzc_gcwz_nc" || changeField == "gdzc_zjgc_nc" || changeField == "gdzc_ql_nc") {
-            gdzc_hj_nc = parseFloat(gdzc_je_nc) + parseFloat(gdzc_gcwz_nc) + parseFloat(gdzc_zjgc_nc) + parseFloat(gdzc_ql_nc);
+        this.props.form.setFieldsValue({ gdzc_jz: gdzc_jz });
+console.log("gdzc_jz_nc3:"+this.props.form.getFieldValue("gdzc_jz_nc"));
+        //4.统计20-21=22
 
-            this.props.form.setFieldsValue({ gdzc_hj_nc: gdzc_hj_nc });
-        }
-        else if (changeField == "gdzc_hj" || changeField == "gdzc_je" || changeField == "gdzc_gcwz" || changeField == "gdzc_zjgc" || changeField == "gdzc_ql") {
-            gdzc_hj = parseFloat(gdzc_je) + parseFloat(gdzc_gcwz) + parseFloat(gdzc_zjgc) + parseFloat(gdzc_ql);
+        gdzc_je_nc = parseFloat(gdzc_jz_nc) - parseFloat(gdzc_jzzb_nc);
 
-            this.props.form.setFieldsValue({ gdzc_hj: gdzc_hj });
-        }
-        //统计27+28+29=30
-        else if (changeField == "wxqt_hj_nc" || changeField == "wxqt_wxzc_nc" || changeField == "wxqt_cqdt_nc" || changeField == "wxqt_qtcq_nc") {
-            wxqt_hj_nc = parseFloat(wxqt_wxzc_nc) + parseFloat(wxqt_cqdt_nc) + parseFloat(wxqt_qtcq_nc);
+        this.props.form.setFieldsValue({ gdzc_je_nc: gdzc_je_nc });
 
-            this.props.form.setFieldsValue({ wxqt_hj_nc: wxqt_hj_nc });
-        }
-        else if (changeField == "wxqt_hj" || changeField == "wxqt_wxzc" || changeField == "wxqt_cqdt" || changeField == "wxqt_qtcq") {
-            wxqt_hj = parseFloat(wxqt_wxzc) + parseFloat(wxqt_cqdt) + parseFloat(wxqt_qtcq);
+        gdzc_je = parseFloat(gdzc_jz) - parseFloat(gdzc_jzzb);
 
-            this.props.form.setFieldsValue({ wxqt_hj: wxqt_hj });
-        }
-        //统计47+54+55=56
-        else if (changeField == "dysx_fzhj_nc" || changeField == "ldfz_hj_nc" || changeField == "cqfz_hj_nc" || changeField == "dysx_dyskdx_nc") {
-            dysx_fzhj_nc = parseFloat(ldfz_hj_nc) + parseFloat(cqfz_hj_nc) + parseFloat(dysx_dyskdx_nc);
+        this.props.form.setFieldsValue({ gdzc_je: gdzc_je });
 
-            this.props.form.setFieldsValue({ dysx_fzhj_nc: dysx_fzhj_nc });
-        }
-        else if (changeField == "dysx_fzhj" || changeField == "ldfz_hj" || changeField == "cqfz_hj" || changeField == "dysx_dyskdx") {
-            dysx_fzhj = parseFloat(ldfz_hj) + parseFloat(cqfz_hj) + parseFloat(dysx_dyskdx);
+        //5.统计22+23+24+25=26
 
-            this.props.form.setFieldsValue({ dysx_fzhj: dysx_fzhj });
-        }
-        //统计56+63=64
-        else if (changeField == "fzsyzqy_hj_nc" || changeField == "dysx_fzhj_nc" || changeField == "syzqy_hj_nc") {
-            fzsyzqy_hj_nc = parseFloat(dysx_fzhj_nc) + parseFloat(syzqy_hj_nc);
+        gdzc_hj_nc = parseFloat(gdzc_je_nc) + parseFloat(gdzc_gcwz_nc) + parseFloat(gdzc_zjgc_nc) + parseFloat(gdzc_ql_nc);
 
-            this.props.form.setFieldsValue({ fzsyzqy_hj_nc: fzsyzqy_hj_nc });
-        }
-        else if (changeField == "fzsyzqy_hj" || changeField == "dysx_fzhj" || changeField == "syzqy_hj_nc") {
-            fzsyzqy_hj = parseFloat(dysx_fzhj) + parseFloat(syzqy_hj_nc);
+        this.props.form.setFieldsValue({ gdzc_hj_nc: gdzc_hj_nc });
 
-            this.props.form.setFieldsValue({ fzsyzqy_hj: fzsyzqy_hj });
-        }
 
-        //统计33+...46=47
-        else if (changeField == "ldfz_hj_nc" || changeField == "ldfz_dqjk_nc" ||
-            changeField == "ldfz_yfpj_nc" || changeField == "ldfz_yfzk_nc" ||
-            changeField == "ldfz_yszk_nc" || changeField == "ldfz_yfgz_nc"
-            || changeField == "ldfz_yffl_nc" || changeField == "ldfz_yfgl_nc" ||
-            changeField == "ldfz_yjsj_nc" || changeField == "ldfz_qtyj_nc" ||
-            changeField == "ldfz_qtyf_nc" || changeField == "ldfz_ytfy_nc"
-            || changeField == "ldfz_yjfz_nc" || changeField == "ldfz_dqfz_nc" ||
-            changeField == "ldfz_qtfz_nc") {
-            ldfz_hj_nc = parseFloat(ldfz_dqjk_nc) + parseFloat(ldfz_yfpj_nc) + parseFloat(ldfz_yfzk_nc)
-                + parseFloat(ldfz_yszk_nc) + parseFloat(ldfz_yfgz_nc)
-                + parseFloat(ldfz_yffl_nc) + parseFloat(ldfz_yfgl_nc) +
-                parseFloat(ldfz_yjsj_nc) + parseFloat(ldfz_qtyj_nc) +
-                parseFloat(ldfz_qtyf_nc) + parseFloat(ldfz_ytfy_nc)
-                + parseFloat(ldfz_yjfz_nc) + parseFloat(ldfz_dqfz_nc) + parseFloat(ldfz_qtfz_nc);
-            this.props.form.setFieldsValue({ ldfz_hj_nc: ldfz_hj_nc });
-        }
-        else if (changeField == "ldfz_hj" || changeField == "ldfz_dqjk" ||
-            changeField == "ldfz_yfpj" || changeField == "ldfz_yfzk" ||
-            changeField == "ldfz_yszk" || changeField == "ldfz_yfgz"
-            || changeField == "ldfz_yffl" || changeField == "ldfz_yfgl" ||
-            changeField == "ldfz_yjsj" || changeField == "ldfz_qtyj" ||
-            changeField == "ldfz_qtyf" || changeField == "ldfz_ytfy"
-            || changeField == "ldfz_yjfz" || changeField == "ldfz_dqfz"
-            || changeField == "ldfz_qtfz") {
-            console.log(parseFloat(ldfz_dqjk) + ";" + parseFloat(ldfz_yfpj) + ";" + parseFloat(ldfz_yfzk)
-                + ";" + parseFloat(ldfz_yszk) + ";" + parseFloat(ldfz_yfgz)
-                + ";" + parseFloat(ldfz_yffl) + ";" + parseFloat(ldfz_yfgl)
-                + ";" + parseFloat(ldfz_yjsj) + ";" + parseFloat(ldfz_qtyj)
-                + ";" + parseFloat(ldfz_qtyf) + ";" + parseFloat(ldfz_ytfy)
-                + ";" + parseFloat(ldfz_yjfz) + ";" + parseFloat(ldfz_dqfz)
-                + ";" + parseFloat(ldfz_qtfz));
-            ldfz_hj = parseFloat(ldfz_dqjk) + parseFloat(ldfz_yfpj) + parseFloat(ldfz_yfzk)
-                + parseFloat(ldfz_yszk) + parseFloat(ldfz_yfgz)
-                + parseFloat(ldfz_yffl) + parseFloat(ldfz_yfgl)
-                + parseFloat(ldfz_yjsj) + parseFloat(ldfz_qtyj)
-                + parseFloat(ldfz_qtyf) + parseFloat(ldfz_ytfy)
-                + parseFloat(ldfz_yjfz) + parseFloat(ldfz_dqfz)
-                + parseFloat(ldfz_qtfz);
-            this.props.form.setFieldsValue({ ldfz_hj: ldfz_hj });
-        }
+        gdzc_hj = parseFloat(gdzc_je) + parseFloat(gdzc_gcwz) + parseFloat(gdzc_zjgc) + parseFloat(gdzc_ql);
 
-        //统计57-58=59
-        else if (changeField == "syzqy_sszbje_nc" || changeField == "syzqy_sszb_nc" || changeField == "syzqy_yhtz_nc") {
-            syzqy_sszbje_nc = parseFloat(syzqy_sszb_nc) - parseFloat(syzqy_yhtz_nc);
-            this.props.form.setFieldsValue({ syzqy_sszbje_nc: syzqy_sszbje_nc });
+        this.props.form.setFieldsValue({ gdzc_hj: gdzc_hj });
+        //6.统计27+28+29=30
 
-        }
-        else if (changeField == "syzqy_sszbje" || changeField == "syzqy_sszb" || changeField == "syzqy_yhtz") {
-            syzqy_sszbje = parseFloat(syzqy_sszb) - parseFloat(syzqy_yhtz);
-            this.props.form.setFieldsValue({ syzqy_sszbje: syzqy_sszbje });
+        wxqt_hj_nc = parseFloat(wxqt_wxzc_nc) + parseFloat(wxqt_cqdt_nc) + parseFloat(wxqt_qtcq_nc);
 
-        }
-        //统计48+...+53=54
-        else if (changeField == "cqfz_hj_nc" || changeField == "cqfz_cqjk_nc" || changeField == "cqfz_yfzq_nc" || changeField == "cqfz_cqyf_nc" || changeField == "cqfz_zxyf_nc" || changeField == "cqfz_zyfxjj_nc"
-            || changeField == "cqfz_qtfz_nc") {
-            cqfz_hj_nc = parseFloat(cqfz_cqjk_nc) + parseFloat(cqfz_yfzq_nc)
-                + parseFloat(cqfz_cqyf_nc) + parseFloat(cqfz_zxyf_nc) + parseFloat(cqfz_zyfxjj_nc) + parseFloat(cqfz_qtfz_nc);
+        this.props.form.setFieldsValue({ wxqt_hj_nc: wxqt_hj_nc });
 
-            this.props.form.setFieldsValue({ cqfz_hj_nc: cqfz_hj_nc });
-        }
-        else if (changeField == "cqfz_hj" || changeField == "cqfz_cqjk" || changeField == "cqfz_yfzq" || changeField == "cqfz_cqyf" || changeField == "cqfz_zxyf" || changeField == "cqfz_zyfxjj"
-            || changeField == "cqfz_qtfz") {
-            cqfz_hj = parseFloat(cqfz_cqjk) + parseFloat(cqfz_yfzq)
-                + parseFloat(cqfz_cqyf) + parseFloat(cqfz_zxyf) + parseFloat(cqfz_zyfxjj) + parseFloat(cqfz_qtfz);
 
-            this.props.form.setFieldsValue({ cqfz_hj: cqfz_hj });
-        }
+        wxqt_hj = parseFloat(wxqt_wxzc) + parseFloat(wxqt_cqdt) + parseFloat(wxqt_qtcq);
+
+        this.props.form.setFieldsValue({ wxqt_hj: wxqt_hj });
+
+        //7.统计14+17+26+30+31=32
+
+        zczj_nc = parseFloat(ldzc_hj_nc) + parseFloat(gdzc_hj_nc) + parseFloat(wxqt_hj_nc) +
+            parseFloat(cqtz_hj_nc) + parseFloat(ydsx_skjx_nc);
+        this.props.form.setFieldsValue({ zczj_nc: zczj_nc });
+
+
+        zczj = parseFloat(ldzc_hj) + parseFloat(gdzc_hj) + parseFloat(wxqt_hj) +
+            parseFloat(cqtz_hj) + parseFloat(ydsx_skjx);
+        this.props.form.setFieldsValue({ zczj: zczj });
+
+
+        //8.统计33+...46=47
+
+        ldfz_hj_nc = parseFloat(ldfz_dqjk_nc) + parseFloat(ldfz_yfpj_nc) + parseFloat(ldfz_yfzk_nc)
+            + parseFloat(ldfz_yszk_nc) + parseFloat(ldfz_yfgz_nc)
+            + parseFloat(ldfz_yffl_nc) + parseFloat(ldfz_yfgl_nc) +
+            parseFloat(ldfz_yjsj_nc) + parseFloat(ldfz_qtyj_nc) +
+            parseFloat(ldfz_qtyf_nc) + parseFloat(ldfz_ytfy_nc)
+            + parseFloat(ldfz_yjfz_nc) + parseFloat(ldfz_dqfz_nc) + parseFloat(ldfz_qtfz_nc);
+        this.props.form.setFieldsValue({ ldfz_hj_nc: ldfz_hj_nc });
 
 
 
-        //统计59+...+62=63
-        else if (changeField == "syzqy_hj_nc" || changeField == "syzqy_sszbje_nc" || changeField == "syzqy_zbgj_nc" || changeField == "syzqy_yygj_nc" || changeField == "syzqy_wfplr_nc" || changeField == "cqfz_zyfxjj_nc"
-            || changeField == "cqfz_qtfz_nc" || changeField == "syzqy_wfplr_nc") {
-            syzqy_hj_nc = parseFloat(syzqy_sszbje_nc) + parseFloat(syzqy_zbgj_nc)
-                + parseFloat(syzqy_yygj_nc) + parseFloat(syzqy_wfplr_nc);
+        ldfz_hj = parseFloat(ldfz_dqjk) + parseFloat(ldfz_yfpj) + parseFloat(ldfz_yfzk)
+            + parseFloat(ldfz_yszk) + parseFloat(ldfz_yfgz)
+            + parseFloat(ldfz_yffl) + parseFloat(ldfz_yfgl)
+            + parseFloat(ldfz_yjsj) + parseFloat(ldfz_qtyj)
+            + parseFloat(ldfz_qtyf) + parseFloat(ldfz_ytfy)
+            + parseFloat(ldfz_yjfz) + parseFloat(ldfz_dqfz)
+            + parseFloat(ldfz_qtfz);
+        this.props.form.setFieldsValue({ ldfz_hj: ldfz_hj });
 
-            this.props.form.setFieldsValue({ syzqy_hj_nc: syzqy_hj_nc });
-        }
-        else if (changeField == "syzqy_hj" || changeField == "syzqy_sszbje" || changeField == "syzqy_zbgj" || changeField == "syzqy_yygj" || changeField == "syzqy_wfplr" || changeField == "cqfz_zyfxjj"
-            || changeField == "cqfz_qtfz" || changeField == "syzqy_wfplr") {
-            syzqy_hj = parseFloat(syzqy_sszbje) + parseFloat(syzqy_zbgj)
-                + parseFloat(syzqy_yygj) + parseFloat(syzqy_wfplr);
+        //9.统计48+...+53=54
 
-            this.props.form.setFieldsValue({ syzqy_hj: syzqy_hj });
-        }
+
+        cqfz_hj_nc = parseFloat(cqfz_cqjk_nc) + parseFloat(cqfz_yfzq_nc)
+            + parseFloat(cqfz_cqyf_nc) + parseFloat(cqfz_zxyf_nc) + parseFloat(cqfz_zyfxjj_nc) + parseFloat(cqfz_qtfz_nc);
+
+        this.props.form.setFieldsValue({ cqfz_hj_nc: cqfz_hj_nc });
+
+
+
+        cqfz_hj = parseFloat(cqfz_cqjk) + parseFloat(cqfz_yfzq)
+            + parseFloat(cqfz_cqyf) + parseFloat(cqfz_zxyf) + parseFloat(cqfz_zyfxjj) + parseFloat(cqfz_qtfz);
+
+        this.props.form.setFieldsValue({ cqfz_hj: cqfz_hj });
+
+        //10.统计47+54+55=56
+
+        dysx_fzhj_nc = parseFloat(ldfz_hj_nc) + parseFloat(cqfz_hj_nc) + parseFloat(dysx_dyskdx_nc);
+
+        this.props.form.setFieldsValue({ dysx_fzhj_nc: dysx_fzhj_nc });
+
+
+        dysx_fzhj = parseFloat(ldfz_hj) + parseFloat(cqfz_hj) + parseFloat(dysx_dyskdx);
+
+        this.props.form.setFieldsValue({ dysx_fzhj: dysx_fzhj });
+
+        //11.统计57-58=59
+
+        syzqy_sszbje_nc = parseFloat(syzqy_sszb_nc) - parseFloat(syzqy_yhtz_nc);
+        this.props.form.setFieldsValue({ syzqy_sszbje_nc: syzqy_sszbje_nc });
+
+
+
+        syzqy_sszbje = parseFloat(syzqy_sszb) - parseFloat(syzqy_yhtz);
+        this.props.form.setFieldsValue({ syzqy_sszbje: syzqy_sszbje });
+
+
+        //12.统计59+...+62=63
+
+        syzqy_hj_nc = parseFloat(syzqy_sszbje_nc) + parseFloat(syzqy_zbgj_nc)
+            + parseFloat(syzqy_yygj_nc) + parseFloat(syzqy_wfplr_nc);
+
+        this.props.form.setFieldsValue({ syzqy_hj_nc: syzqy_hj_nc });
+
+
+        syzqy_hj = parseFloat(syzqy_sszbje) + parseFloat(syzqy_zbgj)
+            + parseFloat(syzqy_yygj) + parseFloat(syzqy_wfplr);
+
+        this.props.form.setFieldsValue({ syzqy_hj: syzqy_hj });
+
+        //13.统计56+63=64
+        fzsyzqy_hj_nc = parseFloat(dysx_fzhj_nc) + parseFloat(syzqy_hj_nc);
+        this.props.form.setFieldsValue({ fzsyzqy_hj_nc: fzsyzqy_hj_nc });
+
+        console.log(parseFloat(dysx_fzhj) + ";" + parseFloat(syzqy_hj));
+        fzsyzqy_hj = parseFloat(dysx_fzhj) + parseFloat(syzqy_hj);
+
+        this.props.form.setFieldsValue({ fzsyzqy_hj: fzsyzqy_hj });
+
+console.log("gdzc_jz_nc4:"+this.props.form.getFieldValue("gdzc_jz_nc"));
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1328,7 +1313,7 @@ let Addzcfzb = React.createClass({
 
 
             <ButtonGroup>
-                <Button type="primary" onClick={this.handleHelper}><Icon type="question"/></Button>
+                <Button type="primary" onClick={this.handleHelper}><Icon type="question" /></Button>
             </ButtonGroup>
         </ToolBar>;
 
@@ -1340,7 +1325,7 @@ let Addzcfzb = React.createClass({
         helper.push(<p key="helper-3">【14行+17行+26行+30行+31行=32行】【1行+...+13行=14行】【15行+16行=17行】【18行-19行=20行】【20行-21行=22行】【22行+23行+24行+25行=26行】【27行+28行+29行=30行】【47行+54行+55行=56行】
             【56行+63行=64行】【33行+...+46行=47行】【57行-58行=59行】【48行+...+53行=54行】【59行+...+62行=63行】【64行=32行】</p>);
 
-        let nd = new Date().getFullYear()+"";
+        let nd = new Date().getFullYear() + "";
         let xz = "0";
         const { getFieldProps } = this.props.form;
         let obj = [{}];
@@ -1353,21 +1338,21 @@ let Addzcfzb = React.createClass({
                 description={helper}
                 type="info"
                 closable
-                onClose={this.handleHelperClose}/>}
+                onClose={this.handleHelperClose} />}
             <Panel toolbar={toolbar}>   </Panel>
 
             <div className="fix-table table-bordered table-striped" >
                 <Form horizontal onSubmit={this.handleSubmit}>
                     <table>
                         <colgroup>
-                            <col className ="col-4"></col>
+                            <col className="col-4"></col>
                             <col className="col-2"></col>
                             <col className="col-3"></col>
                             <col className="col-3"></col>
-                            <col className ="col-4"></col>
-                            <col className ="col-2"></col>
-                            <col className ="col-3"></col>
-                            <col className ="col-3"></col>
+                            <col className="col-4"></col>
+                            <col className="col-2"></col>
+                            <col className="col-3"></col>
+                            <col className="col-3"></col>
                         </colgroup>
                         <tbody>
                             <tr>
@@ -1380,22 +1365,26 @@ let Addzcfzb = React.createClass({
 
                                 <td width="11%">  <Col
                                     label="年度：">
-                                  <FormItem>    <SelectorYear  { ...getFieldProps('nd', { initialValue: nd, rules: [{
-                                    require: true,
-                                    message: '选择一个年度做自检',
-                                }, {  validator: this.checkNdIfExit,
-                                    }]
-                            }) }/></FormItem>
+                                    <FormItem>    <SelectorYear  { ...getFieldProps('nd', {
+                                        initialValue: nd, rules: [{
+                                            require: true,
+                                            message: '选择一个年度做自检',
+                                        }, {
+                                            validator: this.checkNdIfExit,
+                                        }]
+                                    }) } /></FormItem>
                                 </Col>
                                 </td>
 
                                 <td > <Col>
-                              <FormItem>      <SelectorXZ   { ...getFieldProps('timevalue', { initialValue: xz,rules: [{
-                                    require: true,
-                                    message: '',
-                                }, {  validator: this.checkTimevalueIfExit,
-                                    }]
-                             }) }/></FormItem>
+                                    <FormItem>      <SelectorXZ   { ...getFieldProps('timevalue', {
+                                        initialValue: xz, rules: [{
+                                            require: true,
+                                            message: '',
+                                        }, {
+                                            validator: this.checkTimevalueIfExit,
+                                        }]
+                                    }) } /></FormItem>
                                 </Col>
                                 </td>
 
@@ -1426,155 +1415,155 @@ let Addzcfzb = React.createClass({
                             <tr>
                                 <td style={{ textAlign: 'center' }} >货币资金</td>
                                 <td>1</td>
-                                <td ><Input id='ldzc_hbzj_nc' type='Number'  {...getFieldProps('ldzc_hbzj_nc') } onChange={this.handleInputChange}/> </td>
-                                <td ><Input id='ldzc_hbzj' type='Number' {...getFieldProps('ldzc_hbzj') } onChange={this.handleInputChange}/> </td>
+                                <td ><Input id='ldzc_hbzj_nc' type='Number'  {...getFieldProps('ldzc_hbzj_nc') } onChange={this.handleInputChange} /> </td>
+                                <td ><Input id='ldzc_hbzj' type='Number' {...getFieldProps('ldzc_hbzj') } onChange={this.handleInputChange} /> </td>
                                 <td style={{ textAlign: 'center' }} >短期借款</td>
                                 <td>33</td>
-                                <td ><Input id='ldfz_dqjk_nc' type='Number'  {...getFieldProps('ldfz_dqjk_nc') }  onChange={this.handleInputChange}/></td>
-                                <td ><Input id='ldfz_dqjk'   type='Number'  {...getFieldProps('ldfz_dqjk') }  onChange={this.handleInputChange}/></td>
+                                <td ><Input id='ldfz_dqjk_nc' type='Number'  {...getFieldProps('ldfz_dqjk_nc') } onChange={this.handleInputChange} /></td>
+                                <td ><Input id='ldfz_dqjk' type='Number'  {...getFieldProps('ldfz_dqjk') } onChange={this.handleInputChange} /></td>
                             </tr>
 
                             <tr>
                                 <td style={{ textAlign: 'center' }} >短期投资</td>
                                 <td>2</td>
                                 <td ><Input id='ldzc_dqtz_nc' type='Number'  {...getFieldProps('ldzc_dqtz_nc') } onChange={this.handleInputChange} /> </td>
-                                <td ><Input id='ldzc_dqtz' type='Number'  {...getFieldProps('ldzc_dqtz') } onChange={this.handleInputChange}/> </td>
+                                <td ><Input id='ldzc_dqtz' type='Number'  {...getFieldProps('ldzc_dqtz') } onChange={this.handleInputChange} /> </td>
                                 <td style={{ textAlign: 'center' }} >应付票据</td>
                                 <td>34</td>
-                                <td ><Input  id='ldfz_yfpj_nc' type='Number' {...getFieldProps('ldfz_yfpj_nc') } onChange={this.handleInputChange}/></td>
-                                <td ><Input id='ldfz_yfpj' type='Number' {...getFieldProps('ldfz_yfpj') } onChange={this.handleInputChange}/></td>
+                                <td ><Input id='ldfz_yfpj_nc' type='Number' {...getFieldProps('ldfz_yfpj_nc') } onChange={this.handleInputChange} /></td>
+                                <td ><Input id='ldfz_yfpj' type='Number' {...getFieldProps('ldfz_yfpj') } onChange={this.handleInputChange} /></td>
                             </tr>
 
                             <tr>
                                 <td style={{ textAlign: 'center' }} >应收票据</td>
                                 <td>3</td>
-                                <td ><Input id='ldzc_yspj_nc' type='Number' {...getFieldProps('ldzc_yspj_nc') } onChange={this.handleInputChange}/> </td>
-                                <td ><Input id='ldzc_yspj' type='Number'  {...getFieldProps('ldzc_yspj') } onChange={this.handleInputChange}/> </td>
+                                <td ><Input id='ldzc_yspj_nc' type='Number' {...getFieldProps('ldzc_yspj_nc') } onChange={this.handleInputChange} /> </td>
+                                <td ><Input id='ldzc_yspj' type='Number'  {...getFieldProps('ldzc_yspj') } onChange={this.handleInputChange} /> </td>
                                 <td style={{ textAlign: 'center' }} >应付账款</td>
                                 <td>35</td>
-                                <td ><Input  id='ldfz_yfzk_nc' type='Number' {...getFieldProps('ldfz_yfzk_nc') } onChange={this.handleInputChange}/></td>
-                                <td ><Input  id='ldfz_yfzk' type='Number' {...getFieldProps('ldfz_yfzk') } onChange={this.handleInputChange}/></td>
+                                <td ><Input id='ldfz_yfzk_nc' type='Number' {...getFieldProps('ldfz_yfzk_nc') } onChange={this.handleInputChange} /></td>
+                                <td ><Input id='ldfz_yfzk' type='Number' {...getFieldProps('ldfz_yfzk') } onChange={this.handleInputChange} /></td>
                             </tr>
 
                             <tr>
                                 <td style={{ textAlign: 'center' }} >应收股利</td>
                                 <td>4</td>
-                                <td ><Input id='ldzc_ysgl_nc'  type='Number' {...getFieldProps('ldzc_ysgl_nc') } onChange={this.handleInputChange}/> </td>
-                                <td ><Input  id='ldzc_ysgl' type='Number' {...getFieldProps('ldzc_ysgl') } onChange={this.handleInputChange}/> </td>
+                                <td ><Input id='ldzc_ysgl_nc' type='Number' {...getFieldProps('ldzc_ysgl_nc') } onChange={this.handleInputChange} /> </td>
+                                <td ><Input id='ldzc_ysgl' type='Number' {...getFieldProps('ldzc_ysgl') } onChange={this.handleInputChange} /> </td>
                                 <td style={{ textAlign: 'center' }} >预收账款</td>
                                 <td>36</td>
-                                <td ><Input  id='ldfz_yszk_nc' type='Number' {...getFieldProps('ldfz_yszk_nc') } onChange={this.handleInputChange}/></td>
-                                <td ><Input  id='ldfz_yszk' type='Number' {...getFieldProps('ldfz_yszk') } onChange={this.handleInputChange}/></td>
+                                <td ><Input id='ldfz_yszk_nc' type='Number' {...getFieldProps('ldfz_yszk_nc') } onChange={this.handleInputChange} /></td>
+                                <td ><Input id='ldfz_yszk' type='Number' {...getFieldProps('ldfz_yszk') } onChange={this.handleInputChange} /></td>
                             </tr>
 
                             <tr>
                                 <td style={{ textAlign: 'center' }} >应收利息</td>
                                 <td>5</td>
-                                <td ><Input id='ldzc_yslx_nc' type='Number'  {...getFieldProps('ldzc_yslx_nc') } onChange={this.handleInputChange}/> </td>
-                                <td ><Input  id='ldzc_yslx' type='Number' {...getFieldProps('ldzc_yslx') } onChange={this.handleInputChange}/> </td>
+                                <td ><Input id='ldzc_yslx_nc' type='Number'  {...getFieldProps('ldzc_yslx_nc') } onChange={this.handleInputChange} /> </td>
+                                <td ><Input id='ldzc_yslx' type='Number' {...getFieldProps('ldzc_yslx') } onChange={this.handleInputChange} /> </td>
                                 <td style={{ textAlign: 'center' }} >应付工资</td>
                                 <td>37</td>
-                                <td ><Input  id='ldfz_yfgz_nc' type='Number' {...getFieldProps('ldfz_yfgz_nc') } onChange={this.handleInputChange}/></td>
-                                <td ><Input  id='ldfz_yfgz' type='Number' {...getFieldProps('ldfz_yfgz') } onChange={this.handleInputChange}/></td>
+                                <td ><Input id='ldfz_yfgz_nc' type='Number' {...getFieldProps('ldfz_yfgz_nc') } onChange={this.handleInputChange} /></td>
+                                <td ><Input id='ldfz_yfgz' type='Number' {...getFieldProps('ldfz_yfgz') } onChange={this.handleInputChange} /></td>
                             </tr>
 
                             <tr>
                                 <td style={{ textAlign: 'center' }} >应收账款</td>
                                 <td>6</td>
-                                <td ><Input  id='ldzc_yszk_nc' type='Number' {...getFieldProps('ldzc_yszk_nc') } onChange={this.handleInputChange}/> </td>
-                                <td ><Input id='ldzc_yszk' type='Number' {...getFieldProps('ldzc_yszk') } onChange={this.handleInputChange}/> </td>
+                                <td ><Input id='ldzc_yszk_nc' type='Number' {...getFieldProps('ldzc_yszk_nc') } onChange={this.handleInputChange} /> </td>
+                                <td ><Input id='ldzc_yszk' type='Number' {...getFieldProps('ldzc_yszk') } onChange={this.handleInputChange} /> </td>
                                 <td style={{ textAlign: 'center' }} >应付福利费</td>
                                 <td>38</td>
-                                <td ><Input  id='ldfz_yffl_nc' type='Number' {...getFieldProps('ldfz_yffl_nc') } onChange={this.handleInputChange}/></td>
-                                <td ><Input  id='ldfz_yffl' type='Number' {...getFieldProps('ldfz_yffl') } onChange={this.handleInputChange}/></td>
+                                <td ><Input id='ldfz_yffl_nc' type='Number' {...getFieldProps('ldfz_yffl_nc') } onChange={this.handleInputChange} /></td>
+                                <td ><Input id='ldfz_yffl' type='Number' {...getFieldProps('ldfz_yffl') } onChange={this.handleInputChange} /></td>
                             </tr>
 
                             <tr>
                                 <td style={{ textAlign: 'center' }} >其他应收款</td>
                                 <td>7</td>
-                                <td ><Input id='ldzc_qtys_nc' type='Number'  {...getFieldProps('ldzc_qtys_nc') } onChange={this.handleInputChange}/> </td>
-                                <td ><Input id='ldzc_qtys' type='Number'  {...getFieldProps('ldzc_qtys') } onChange={this.handleInputChange}/> </td>
+                                <td ><Input id='ldzc_qtys_nc' type='Number'  {...getFieldProps('ldzc_qtys_nc') } onChange={this.handleInputChange} /> </td>
+                                <td ><Input id='ldzc_qtys' type='Number'  {...getFieldProps('ldzc_qtys') } onChange={this.handleInputChange} /> </td>
                                 <td style={{ textAlign: 'center' }} >应付股利</td>
                                 <td>39</td>
-                                <td ><Input id='ldfz_yfgl_nc' type='Number'  {...getFieldProps('ldfz_yfgl_nc') } onChange={this.handleInputChange}/></td>
-                                <td ><Input id='ldfz_yfgl' type='Number'  {...getFieldProps('ldfz_yfgl') } onChange={this.handleInputChange}/></td>
+                                <td ><Input id='ldfz_yfgl_nc' type='Number'  {...getFieldProps('ldfz_yfgl_nc') } onChange={this.handleInputChange} /></td>
+                                <td ><Input id='ldfz_yfgl' type='Number'  {...getFieldProps('ldfz_yfgl') } onChange={this.handleInputChange} /></td>
                             </tr>
 
                             <tr>
                                 <td style={{ textAlign: 'center' }} >预付账款</td>
                                 <td>8</td>
-                                <td ><Input id='ldzc_yfzk_nc' type='Number'  {...getFieldProps('ldzc_yfzk_nc') } onChange={this.handleInputChange}/> </td>
-                                <td ><Input  id='ldzc_yfzk' type='Number' {...getFieldProps('ldzc_yfzk') } onChange={this.handleInputChange}/> </td>
+                                <td ><Input id='ldzc_yfzk_nc' type='Number'  {...getFieldProps('ldzc_yfzk_nc') } onChange={this.handleInputChange} /> </td>
+                                <td ><Input id='ldzc_yfzk' type='Number' {...getFieldProps('ldzc_yfzk') } onChange={this.handleInputChange} /> </td>
                                 <td style={{ textAlign: 'center' }} >应交税金</td>
                                 <td>40</td>
-                                <td ><Input  id='ldfz_yjsj_nc' type='Number' {...getFieldProps('ldfz_yjsj_nc') } onChange={this.handleInputChange}/></td>
-                                <td ><Input  id='ldfz_yjsj' type='Number' {...getFieldProps('ldfz_yjsj') } onChange={this.handleInputChange}/></td>
+                                <td ><Input id='ldfz_yjsj_nc' type='Number' {...getFieldProps('ldfz_yjsj_nc') } onChange={this.handleInputChange} /></td>
+                                <td ><Input id='ldfz_yjsj' type='Number' {...getFieldProps('ldfz_yjsj') } onChange={this.handleInputChange} /></td>
                             </tr>
 
                             <tr>
                                 <td style={{ textAlign: 'center' }} >应收补贴款</td>
                                 <td>9</td>
-                                <td ><Input id='ldzc_ysbt_nc' type='Number'  {...getFieldProps('ldzc_ysbt_nc') } onChange={this.handleInputChange}/> </td>
-                                <td ><Input  id='ldzc_ysbt' type='Number' {...getFieldProps('ldzc_ysbt') } onChange={this.handleInputChange}/> </td>
+                                <td ><Input id='ldzc_ysbt_nc' type='Number'  {...getFieldProps('ldzc_ysbt_nc') } onChange={this.handleInputChange} /> </td>
+                                <td ><Input id='ldzc_ysbt' type='Number' {...getFieldProps('ldzc_ysbt') } onChange={this.handleInputChange} /> </td>
                                 <td style={{ textAlign: 'center' }} >其他应交款</td>
                                 <td>41</td>
-                                <td ><Input id='ldfz_qtyj_nc' type='Number'  {...getFieldProps('ldfz_qtyj_nc') } onChange={this.handleInputChange}/></td>
-                                <td ><Input  id='ldfz_qtyj' type='Number' {...getFieldProps('ldfz_qtyj') } onChange={this.handleInputChange}/></td>
+                                <td ><Input id='ldfz_qtyj_nc' type='Number'  {...getFieldProps('ldfz_qtyj_nc') } onChange={this.handleInputChange} /></td>
+                                <td ><Input id='ldfz_qtyj' type='Number' {...getFieldProps('ldfz_qtyj') } onChange={this.handleInputChange} /></td>
                             </tr>
 
                             <tr>
                                 <td style={{ textAlign: 'center' }} >存货</td>
                                 <td>10</td>
-                                <td ><Input id='ldzc_ch_nc' type='Number'  {...getFieldProps('ldzc_ch_nc') } onChange={this.handleInputChange}/> </td>
-                                <td ><Input id='ldzc_ch' type='Number'  {...getFieldProps('ldzc_ch') } onChange={this.handleInputChange}/> </td>
+                                <td ><Input id='ldzc_ch_nc' type='Number'  {...getFieldProps('ldzc_ch_nc') } onChange={this.handleInputChange} /> </td>
+                                <td ><Input id='ldzc_ch' type='Number'  {...getFieldProps('ldzc_ch') } onChange={this.handleInputChange} /> </td>
                                 <td style={{ textAlign: 'center' }} >其他应付款</td>
                                 <td>42</td>
-                                <td ><Input  id='ldfz_qtyf_nc' type='Number' {...getFieldProps('ldfz_qtyf_nc') } onChange={this.handleInputChange}/></td>
-                                <td ><Input id='ldfz_qtyf' type='Number'  {...getFieldProps('ldfz_qtyf') } onChange={this.handleInputChange}/></td>
+                                <td ><Input id='ldfz_qtyf_nc' type='Number' {...getFieldProps('ldfz_qtyf_nc') } onChange={this.handleInputChange} /></td>
+                                <td ><Input id='ldfz_qtyf' type='Number'  {...getFieldProps('ldfz_qtyf') } onChange={this.handleInputChange} /></td>
                             </tr>
 
                             <tr>
                                 <td style={{ textAlign: 'center' }} >待摊费用</td>
                                 <td>11</td>
-                                <td ><Input id='ldzc_dtfy_nc' type='Number'  {...getFieldProps('ldzc_dtfy_nc') } onChange={this.handleInputChange}/> </td>
-                                <td ><Input  id='ldzc_dtfy' type='Number' {...getFieldProps('ldzc_dtfy') } onChange={this.handleInputChange}/> </td>
+                                <td ><Input id='ldzc_dtfy_nc' type='Number'  {...getFieldProps('ldzc_dtfy_nc') } onChange={this.handleInputChange} /> </td>
+                                <td ><Input id='ldzc_dtfy' type='Number' {...getFieldProps('ldzc_dtfy') } onChange={this.handleInputChange} /> </td>
                                 <td style={{ textAlign: 'center' }} >预提费用</td>
                                 <td>43</td>
-                                <td ><Input id='ldfz_ytfy_nc' type='Number'  {...getFieldProps('ldfz_ytfy_nc') } onChange={this.handleInputChange}/></td>
-                                <td ><Input id='ldfz_ytfy' type='Number'  {...getFieldProps('ldfz_ytfy') } onChange={this.handleInputChange}/></td>
+                                <td ><Input id='ldfz_ytfy_nc' type='Number'  {...getFieldProps('ldfz_ytfy_nc') } onChange={this.handleInputChange} /></td>
+                                <td ><Input id='ldfz_ytfy' type='Number'  {...getFieldProps('ldfz_ytfy') } onChange={this.handleInputChange} /></td>
                             </tr>
 
                             <tr>
                                 <td style={{ textAlign: 'center' }} >一年内到期的长期债券投资</td>
                                 <td>12</td>
-                                <td ><Input id='ldzc_dqzj_nc' type='Number'  {...getFieldProps('ldzc_dqzj_nc') } onChange={this.handleInputChange}/> </td>
-                                <td ><Input id='ldzc_dqzj' type='Number'  {...getFieldProps('ldzc_dqzj') } onChange={this.handleInputChange}/> </td>
+                                <td ><Input id='ldzc_dqzj_nc' type='Number'  {...getFieldProps('ldzc_dqzj_nc') } onChange={this.handleInputChange} /> </td>
+                                <td ><Input id='ldzc_dqzj' type='Number'  {...getFieldProps('ldzc_dqzj') } onChange={this.handleInputChange} /> </td>
                                 <td style={{ textAlign: 'center' }} >预计负债</td>
                                 <td>44</td>
-                                <td ><Input id='ldfz_yjfz_nc' type='Number'  {...getFieldProps('ldfz_yjfz_nc') } onChange={this.handleInputChange}/></td>
-                                <td ><Input id='ldfz_yjfz' type='Number'  {...getFieldProps('ldfz_yjfz') } onChange={this.handleInputChange}/></td>
+                                <td ><Input id='ldfz_yjfz_nc' type='Number'  {...getFieldProps('ldfz_yjfz_nc') } onChange={this.handleInputChange} /></td>
+                                <td ><Input id='ldfz_yjfz' type='Number'  {...getFieldProps('ldfz_yjfz') } onChange={this.handleInputChange} /></td>
                             </tr>
 
                             <tr>
                                 <td style={{ textAlign: 'center' }} >其他流动资产</td>
                                 <td>13</td>
-                                <td ><Input  id='ldzc_qtldzc_nc' type='Number' {...getFieldProps('ldzc_qtldzc_nc') } onChange={this.handleInputChange}/> </td>
-                                <td ><Input   id='ldzc_qtldzc' type='Number'{...getFieldProps('ldzc_qtldzc') } onChange={this.handleInputChange}/> </td>
+                                <td ><Input id='ldzc_qtldzc_nc' type='Number' {...getFieldProps('ldzc_qtldzc_nc') } onChange={this.handleInputChange} /> </td>
+                                <td ><Input id='ldzc_qtldzc' type='Number'{...getFieldProps('ldzc_qtldzc') } onChange={this.handleInputChange} /> </td>
                                 <td style={{ textAlign: 'center' }} >一年内到期的长期负债</td>
                                 <td>45</td>
-                                <td ><Input id='ldfz_dqfz_nc' type='Number'  {...getFieldProps('ldfz_dqfz_nc') } onChange={this.handleInputChange}/></td>
-                                <td ><Input  id='ldfz_dqfz' type='Number' {...getFieldProps('ldfz_dqfz') } onChange={this.handleInputChange}/></td>
+                                <td ><Input id='ldfz_dqfz_nc' type='Number'  {...getFieldProps('ldfz_dqfz_nc') } onChange={this.handleInputChange} /></td>
+                                <td ><Input id='ldfz_dqfz' type='Number' {...getFieldProps('ldfz_dqfz') } onChange={this.handleInputChange} /></td>
                             </tr>
 
                             <tr>
                                 <td style={{ textAlign: 'center' }} >流动资产合计</td>
                                 <td>14</td>
-                                <td ><Input  id='ldzc_hj_nc' type='Number' {...getFieldProps('ldzc_hj_nc') }disabled/> </td>
-                                <td ><Input  id='ldzc_hj' type='Number' {...getFieldProps('ldzc_hj') }disabled/> </td>
+                                <td ><Input id='ldzc_hj_nc' type='Number' {...getFieldProps('ldzc_hj_nc') } disabled /> </td>
+                                <td ><Input id='ldzc_hj' type='Number' {...getFieldProps('ldzc_hj') } disabled /> </td>
                                 <td style={{ textAlign: 'center' }} >其他流动负债</td>
                                 <td>46</td>
-                                <td ><Input  id='ldfz_qtfz_nc' type='Number' {...getFieldProps('ldfz_qtfz_nc') } onChange={this.handleInputChange}/></td>
-                                <td ><Input  id='ldfz_qtfz' type='Number' {...getFieldProps('ldfz_qtfz') } onChange={this.handleInputChange}/></td>
+                                <td ><Input id='ldfz_qtfz_nc' type='Number' {...getFieldProps('ldfz_qtfz_nc') } onChange={this.handleInputChange} /></td>
+                                <td ><Input id='ldfz_qtfz' type='Number' {...getFieldProps('ldfz_qtfz') } onChange={this.handleInputChange} /></td>
                             </tr>
 
                             <tr>
@@ -1586,19 +1575,19 @@ let Addzcfzb = React.createClass({
                             <tr>
                                 <td style={{ textAlign: 'center' }} >长期股权投资</td>
                                 <td>15</td>
-                                <td ><Input  id='cqtz_gq_nc' type='Number' {...getFieldProps('cqtz_gq_nc') } onChange={this.handleInputChange}/> </td>
-                                <td ><Input  id='cqtz_gq' type='Number' {...getFieldProps('cqtz_gq') } onChange={this.handleInputChange}/> </td>
+                                <td ><Input id='cqtz_gq_nc' type='Number' {...getFieldProps('cqtz_gq_nc') } onChange={this.handleInputChange} /> </td>
+                                <td ><Input id='cqtz_gq' type='Number' {...getFieldProps('cqtz_gq') } onChange={this.handleInputChange} /> </td>
                                 <td style={{ textAlign: 'center' }} >流动负债合计</td>
                                 <td>47</td>
-                                <td ><Input id='ldfz_hj_nc' type='Number'  {...getFieldProps('ldfz_hj_nc') }disabled/></td>
-                                <td ><Input  id='ldfz_hj' type='Number' {...getFieldProps('ldfz_hj') }disabled/></td>
+                                <td ><Input id='ldfz_hj_nc' type='Number'  {...getFieldProps('ldfz_hj_nc') } disabled /></td>
+                                <td ><Input id='ldfz_hj' type='Number' {...getFieldProps('ldfz_hj') } disabled /></td>
                             </tr>
 
                             <tr>
                                 <td style={{ textAlign: 'center' }} >长期债权投资</td>
                                 <td>16</td>
-                                <td ><Input id='cqtz_zq_nc' type='Number'  {...getFieldProps('cqtz_zq_nc') } onChange={this.handleInputChange}/> </td>
-                                <td ><Input  id='cqtz_zq' type='Number' {...getFieldProps('cqtz_zq') } onChange={this.handleInputChange}/> </td>
+                                <td ><Input id='cqtz_zq_nc' type='Number'  {...getFieldProps('cqtz_zq_nc') } onChange={this.handleInputChange} /> </td>
+                                <td ><Input id='cqtz_zq' type='Number' {...getFieldProps('cqtz_zq') } onChange={this.handleInputChange} /> </td>
                                 <td style={{ textAlign: 'center' }} >长期负债: </td>
                                 <td colSpan="3"></td>
 
@@ -1607,12 +1596,12 @@ let Addzcfzb = React.createClass({
                             <tr>
                                 <td style={{ textAlign: 'center' }} >长期投资合计</td>
                                 <td>17</td>
-                                <td ><Input id='cqtz_hj_nc' type='Number'  {...getFieldProps('cqtz_hj_nc') }disabled/> </td>
-                                <td ><Input  id='cqtz_hj' type='Number' {...getFieldProps('cqtz_hj') }disabled/> </td>
+                                <td ><Input id='cqtz_hj_nc' type='Number'  {...getFieldProps('cqtz_hj_nc') } disabled /> </td>
+                                <td ><Input id='cqtz_hj' type='Number' {...getFieldProps('cqtz_hj') } disabled /> </td>
                                 <td style={{ textAlign: 'center' }} >长期借款</td>
                                 <td>48</td>
-                                <td ><Input  id='cqfz_cqjk_nc' type='Number' {...getFieldProps('cqfz_cqjk_nc') } onChange={this.handleInputChange}/></td>
-                                <td ><Input  id='cqfz_cqjk' type='Number' {...getFieldProps('cqfz_cqjk') } onChange={this.handleInputChange}/></td>
+                                <td ><Input id='cqfz_cqjk_nc' type='Number' {...getFieldProps('cqfz_cqjk_nc') } onChange={this.handleInputChange} /></td>
+                                <td ><Input id='cqfz_cqjk' type='Number' {...getFieldProps('cqfz_cqjk') } onChange={this.handleInputChange} /></td>
                             </tr>
 
                             <tr>
@@ -1621,30 +1610,30 @@ let Addzcfzb = React.createClass({
 
                                 <td style={{ textAlign: 'center' }} >应付债券</td>
                                 <td>49</td>
-                                <td ><Input id='cqfz_yfzq_nc' type='Number'  {...getFieldProps('cqfz_yfzq_nc') } onChange={this.handleInputChange}/></td>
-                                <td ><Input  id='cqfz_yfzq' type='Number' {...getFieldProps('cqfz_yfzq') } onChange={this.handleInputChange}/></td>
+                                <td ><Input id='cqfz_yfzq_nc' type='Number'  {...getFieldProps('cqfz_yfzq_nc') } onChange={this.handleInputChange} /></td>
+                                <td ><Input id='cqfz_yfzq' type='Number' {...getFieldProps('cqfz_yfzq') } onChange={this.handleInputChange} /></td>
                             </tr>
 
                             <tr>
                                 <td style={{ textAlign: 'center' }} >固定资产原价</td>
                                 <td>18</td>
-                                <td ><Input  id='gdzc_yj_nc' type='Number' {...getFieldProps('gdzc_yj_nc') } onChange={this.handleInputChange}/> </td>
-                                <td ><Input   id='gdzc_yj' type='Number'{...getFieldProps('gdzc_yj') } onChange={this.handleInputChange}/> </td>
+                                <td ><Input id='gdzc_yj_nc' type='Number' {...getFieldProps('gdzc_yj_nc') } onChange={this.handleInputChange} /> </td>
+                                <td ><Input id='gdzc_yj' type='Number'{...getFieldProps('gdzc_yj') } onChange={this.handleInputChange} /> </td>
                                 <td style={{ textAlign: 'center' }} >长期应付款</td>
                                 <td>50</td>
-                                <td ><Input  id='cqfz_cqyf_nc' type='Number' {...getFieldProps('cqfz_cqyf_nc') } onChange={this.handleInputChange}/></td>
-                                <td ><Input  id='cqfz_cqyf' type='Number' {...getFieldProps('cqfz_cqyf') } onChange={this.handleInputChange}/></td>
+                                <td ><Input id='cqfz_cqyf_nc' type='Number' {...getFieldProps('cqfz_cqyf_nc') } onChange={this.handleInputChange} /></td>
+                                <td ><Input id='cqfz_cqyf' type='Number' {...getFieldProps('cqfz_cqyf') } onChange={this.handleInputChange} /></td>
                             </tr>
 
                             <tr>
                                 <td style={{ textAlign: 'center' }} >减：累计折旧</td>
                                 <td>19</td>
-                                <td ><Input  id='gdzc_ljzj_nc' type='Number' {...getFieldProps('gdzc_ljzj_nc') } onChange={this.handleInputChange}/> </td>
-                                <td ><Input  id='gdzc_ljzj' type='Number' {...getFieldProps('gdzc_ljzj') } onChange={this.handleInputChange}/> </td>
+                                <td ><Input id='gdzc_ljzj_nc' type='Number' {...getFieldProps('gdzc_ljzj_nc') } onChange={this.handleInputChange} /> </td>
+                                <td ><Input id='gdzc_ljzj' type='Number' {...getFieldProps('gdzc_ljzj') } onChange={this.handleInputChange} /> </td>
                                 <td style={{ textAlign: 'center' }} >专项应付款</td>
                                 <td>51</td>
-                                <td ><Input  id='cqfz_zxyf_nc' type='Number' {...getFieldProps('cqfz_zxyf_nc') } onChange={this.handleInputChange}/></td>
-                                <td ><Input  id='cqfz_zxyf' type='Number' {...getFieldProps('cqfz_zxyf') } onChange={this.handleInputChange}/></td>
+                                <td ><Input id='cqfz_zxyf_nc' type='Number' {...getFieldProps('cqfz_zxyf_nc') } onChange={this.handleInputChange} /></td>
+                                <td ><Input id='cqfz_zxyf' type='Number' {...getFieldProps('cqfz_zxyf') } onChange={this.handleInputChange} /></td>
                             </tr>
 
                             <tr>
@@ -1653,37 +1642,37 @@ let Addzcfzb = React.createClass({
 
                                 <td style={{ textAlign: 'center' }} >职业风险基金</td>
                                 <td>52</td>
-                                <td ><Input  id='cqfz_zyfxjj_nc' type='Number' {...getFieldProps('cqfz_zyfxjj_nc') } onChange={this.handleInputChange}/></td>
-                                <td ><Input  id='cqfz_zyfxjj' type='Number' {...getFieldProps('cqfz_zyfxjj') } onChange={this.handleInputChange}/></td>
+                                <td ><Input id='cqfz_zyfxjj_nc' type='Number' {...getFieldProps('cqfz_zyfxjj_nc') } onChange={this.handleInputChange} /></td>
+                                <td ><Input id='cqfz_zyfxjj' type='Number' {...getFieldProps('cqfz_zyfxjj') } onChange={this.handleInputChange} /></td>
                             </tr>
 
                             <tr>
                                 <td style={{ textAlign: 'center' }} >固定资产净值</td>
                                 <td>20</td>
-                                <td ><Input  id='gdzc_jz_nc' type='Number' {...getFieldProps('gdzc_jz_nc') }disabled/> </td>
-                                <td ><Input  id='gdzc_jz' type='Number' {...getFieldProps('gdzc_jz') }disabled/> </td>
+                                <td ><Input id='gdzc_jz_nc' type='Number' {...getFieldProps('gdzc_jz_nc') } disabled /> </td>
+                                <td ><Input id='gdzc_jz' type='Number' {...getFieldProps('gdzc_jz') } disabled /> </td>
                                 <td style={{ textAlign: 'center' }} >其他长期负债</td>
                                 <td>53</td>
-                                <td ><Input  id='cqfz_qtfz_nc' type='Number' {...getFieldProps('cqfz_qtfz_nc') } onChange={this.handleInputChange}/></td>
-                                <td ><Input  id='cqfz_qtfz' type='Number' {...getFieldProps('cqfz_qtfz') } onChange={this.handleInputChange}/></td>
+                                <td ><Input id='cqfz_qtfz_nc' type='Number' {...getFieldProps('cqfz_qtfz_nc') } onChange={this.handleInputChange} /></td>
+                                <td ><Input id='cqfz_qtfz' type='Number' {...getFieldProps('cqfz_qtfz') } onChange={this.handleInputChange} /></td>
                             </tr>
 
                             <tr>
                                 <td style={{ textAlign: 'center' }} >减：固定资产减值准备</td>
                                 <td>21</td>
-                                <td ><Input  id='gdzc_jzzb_nc' type='Number' {...getFieldProps('gdzc_jzzb_nc') } onChange={this.handleInputChange}/> </td>
-                                <td ><Input  id='gdzc_jzzb' type='Number' {...getFieldProps('gdzc_jzzb') } onChange={this.handleInputChange}/> </td>
+                                <td ><Input id='gdzc_jzzb_nc' type='Number' {...getFieldProps('gdzc_jzzb_nc') } onChange={this.handleInputChange} /> </td>
+                                <td ><Input id='gdzc_jzzb' type='Number' {...getFieldProps('gdzc_jzzb') } onChange={this.handleInputChange} /> </td>
                                 <td style={{ textAlign: 'center' }} >长期负债合计</td>
                                 <td>54</td>
-                                <td ><Input  id='cqfz_hj_nc' type='Number' {...getFieldProps('cqfz_hj_nc') }disabled/></td>
-                                <td ><Input  id='cqfz_hj' type='Number' {...getFieldProps('cqfz_hj') }disabled/></td>
+                                <td ><Input id='cqfz_hj_nc' type='Number' {...getFieldProps('cqfz_hj_nc') } disabled /></td>
+                                <td ><Input id='cqfz_hj' type='Number' {...getFieldProps('cqfz_hj') } disabled /></td>
                             </tr>
 
                             <tr>
                                 <td style={{ textAlign: 'center' }} >固定资产净额</td>
                                 <td>22</td>
-                                <td ><Input  id='gdzc_je_nc' type='Number' {...getFieldProps('gdzc_je_nc') }disabled/> </td>
-                                <td ><Input  id='gdzc_je' type='Number' {...getFieldProps('gdzc_je') }disabled/> </td>
+                                <td ><Input id='gdzc_je_nc' type='Number' {...getFieldProps('gdzc_je_nc') } disabled /> </td>
+                                <td ><Input id='gdzc_je' type='Number' {...getFieldProps('gdzc_je') } disabled /> </td>
                                 <td style={{ textAlign: 'center' }} >递延税项：</td>
                                 <td colSpan="3"></td>
                             </tr>
@@ -1691,30 +1680,30 @@ let Addzcfzb = React.createClass({
                             <tr>
                                 <td style={{ textAlign: 'center' }} >工程物资</td>
                                 <td>23</td>
-                                <td ><Input  id='gdzc_gcwz_nc' type='Number' {...getFieldProps('gdzc_gcwz_nc') } onChange={this.handleInputChange}/> </td>
-                                <td ><Input  id='gdzc_gcwz' type='Number' {...getFieldProps('gdzc_gcwz') } onChange={this.handleInputChange}/> </td>
+                                <td ><Input id='gdzc_gcwz_nc' type='Number' {...getFieldProps('gdzc_gcwz_nc') } onChange={this.handleInputChange} /> </td>
+                                <td ><Input id='gdzc_gcwz' type='Number' {...getFieldProps('gdzc_gcwz') } onChange={this.handleInputChange} /> </td>
                                 <td style={{ textAlign: 'center' }} >递延税款贷项</td>
                                 <td>55</td>
-                                <td ><Input  id='dysx_dyskdx_nc' type='Number' {...getFieldProps('dysx_dyskdx_nc') } onChange={this.handleInputChange}/></td>
-                                <td ><Input  id='dysx_dyskdx' type='Number' {...getFieldProps('dysx_dyskdx') } onChange={this.handleInputChange}/></td>
+                                <td ><Input id='dysx_dyskdx_nc' type='Number' {...getFieldProps('dysx_dyskdx_nc') } onChange={this.handleInputChange} /></td>
+                                <td ><Input id='dysx_dyskdx' type='Number' {...getFieldProps('dysx_dyskdx') } onChange={this.handleInputChange} /></td>
                             </tr>
 
                             <tr>
                                 <td style={{ textAlign: 'center' }} >在建工程</td>
                                 <td>24</td>
-                                <td ><Input id='gdzc_zjgc_nc' type='Number'  {...getFieldProps('gdzc_zjgc_nc') } onChange={this.handleInputChange}/> </td>
-                                <td ><Input  id='gdzc_zjgc' type='Number' {...getFieldProps('gdzc_zjgc') } onChange={this.handleInputChange}/> </td>
+                                <td ><Input id='gdzc_zjgc_nc' type='Number'  {...getFieldProps('gdzc_zjgc_nc') } onChange={this.handleInputChange} /> </td>
+                                <td ><Input id='gdzc_zjgc' type='Number' {...getFieldProps('gdzc_zjgc') } onChange={this.handleInputChange} /> </td>
                                 <td style={{ textAlign: 'center' }} >负债合计</td>
                                 <td>56</td>
-                                <td ><Input  id='dysx_fzhj_nc' type='Number' {...getFieldProps('dysx_fzhj_nc') } onChange={this.handleInputChange}disabled/></td>
-                                <td ><Input  id='dysx_fzhj' type='Number' {...getFieldProps('dysx_fzhj') }onChange={this.handleInputChange}disabled/></td>
+                                <td ><Input id='dysx_fzhj_nc' type='Number' {...getFieldProps('dysx_fzhj_nc') } onChange={this.handleInputChange} disabled /></td>
+                                <td ><Input id='dysx_fzhj' type='Number' {...getFieldProps('dysx_fzhj') } onChange={this.handleInputChange} disabled /></td>
                             </tr>
 
                             <tr>
                                 <td style={{ textAlign: 'center' }} >固定资产清理</td>
                                 <td>25</td>
-                                <td ><Input  id='gdzc_ql_nc' type='Number' {...getFieldProps('gdzc_ql_nc') } onChange={this.handleInputChange}/> </td>
-                                <td ><Input  id='gdzc_ql' type='Number' {...getFieldProps('gdzc_ql') } onChange={this.handleInputChange}/> </td>
+                                <td ><Input id='gdzc_ql_nc' type='Number' {...getFieldProps('gdzc_ql_nc') } onChange={this.handleInputChange} /> </td>
+                                <td ><Input id='gdzc_ql' type='Number' {...getFieldProps('gdzc_ql') } onChange={this.handleInputChange} /> </td>
 
                                 <td colSpan="4"></td>
                             </tr>
@@ -1722,8 +1711,8 @@ let Addzcfzb = React.createClass({
                             <tr>
                                 <td style={{ textAlign: 'center' }} >固定资产合计</td>
                                 <td>26</td>
-                                <td ><Input  id='gdzc_hj_nc' type='Number' {...getFieldProps('gdzc_hj_nc') }disabled/> </td>
-                                <td ><Input  id='gdzc_hj' type='Number' {...getFieldProps('gdzc_hj') }disabled/> </td>
+                                <td ><Input id='gdzc_hj_nc' type='Number' {...getFieldProps('gdzc_hj_nc') } disabled /> </td>
+                                <td ><Input id='gdzc_hj' type='Number' {...getFieldProps('gdzc_hj') } disabled /> </td>
                                 <td style={{ textAlign: 'center' }} >所有者权益（或股东权益）：</td>
                                 <td colSpan="3"></td>
                             </tr>
@@ -1734,52 +1723,52 @@ let Addzcfzb = React.createClass({
 
                                 <td style={{ textAlign: 'center' }} >实收资本（或股本）</td>
                                 <td>57</td>
-                                <td ><Input  id='syzqy_sszb_nc' type='Number' {...getFieldProps('syzqy_sszb_nc') } onChange={this.handleInputChange}/></td>
-                                <td ><Input  id='syzqy_sszb' type='Number' {...getFieldProps('syzqy_sszb') } onChange={this.handleInputChange}/></td>
+                                <td ><Input id='syzqy_sszb_nc' type='Number' {...getFieldProps('syzqy_sszb_nc') } onChange={this.handleInputChange} /></td>
+                                <td ><Input id='syzqy_sszb' type='Number' {...getFieldProps('syzqy_sszb') } onChange={this.handleInputChange} /></td>
                             </tr>
 
                             <tr>
                                 <td style={{ textAlign: 'center' }} >无形资产</td>
                                 <td>27</td>
-                                <td ><Input  id='wxqt_wxzc_nc' type='Number' {...getFieldProps('wxqt_wxzc_nc') } onChange={this.handleInputChange}/> </td>
-                                <td ><Input  id='wxqt_wxzc' type='Number' {...getFieldProps('wxqt_wxzc') } onChange={this.handleInputChange}/> </td>
+                                <td ><Input id='wxqt_wxzc_nc' type='Number' {...getFieldProps('wxqt_wxzc_nc') } onChange={this.handleInputChange} /> </td>
+                                <td ><Input id='wxqt_wxzc' type='Number' {...getFieldProps('wxqt_wxzc') } onChange={this.handleInputChange} /> </td>
                                 <td style={{ textAlign: 'center' }} >减：已归还投资</td>
                                 <td>58</td>
-                                <td ><Input  id='syzqy_yhtz_nc' type='Number' {...getFieldProps('syzqy_yhtz_nc') } onChange={this.handleInputChange}/></td>
-                                <td ><Input  id='syzqy_yhtz' type='Number' {...getFieldProps('syzqy_yhtz') } onChange={this.handleInputChange}/></td>
+                                <td ><Input id='syzqy_yhtz_nc' type='Number' {...getFieldProps('syzqy_yhtz_nc') } onChange={this.handleInputChange} /></td>
+                                <td ><Input id='syzqy_yhtz' type='Number' {...getFieldProps('syzqy_yhtz') } onChange={this.handleInputChange} /></td>
                             </tr>
 
                             <tr>
                                 <td style={{ textAlign: 'center' }} >长期待摊费用</td>
                                 <td>28</td>
-                                <td ><Input  id='wxqt_cqdt_nc' type='Number' {...getFieldProps('wxqt_cqdt_nc') } onChange={this.handleInputChange}/> </td>
-                                <td ><Input  id='wxqt_cqdt' type='Number' {...getFieldProps('wxqt_cqdt') } onChange={this.handleInputChange}/> </td>
+                                <td ><Input id='wxqt_cqdt_nc' type='Number' {...getFieldProps('wxqt_cqdt_nc') } onChange={this.handleInputChange} /> </td>
+                                <td ><Input id='wxqt_cqdt' type='Number' {...getFieldProps('wxqt_cqdt') } onChange={this.handleInputChange} /> </td>
                                 <td style={{ textAlign: 'center' }} >实收资本（股本）净额</td>
                                 <td>59</td>
-                                <td ><Input id='syzqy_sszbje_nc' type='Number'  {...getFieldProps('syzqy_sszbje_nc') }disabled/></td>
-                                <td ><Input  id='syzqy_sszbje' type='Number' {...getFieldProps('syzqy_sszbje') }disabled/></td>
+                                <td ><Input id='syzqy_sszbje_nc' type='Number'  {...getFieldProps('syzqy_sszbje_nc') } disabled /></td>
+                                <td ><Input id='syzqy_sszbje' type='Number' {...getFieldProps('syzqy_sszbje') } disabled /></td>
                             </tr>
 
                             <tr>
                                 <td style={{ textAlign: 'center' }} >其他长期资产</td>
                                 <td>29</td>
-                                <td ><Input id='wxqt_qtcq_nc' type='Number'  {...getFieldProps('wxqt_qtcq_nc') } onChange={this.handleInputChange}/> </td>
-                                <td ><Input  id='wxqt_qtcq' type='Number' {...getFieldProps('wxqt_qtcq') } onChange={this.handleInputChange}/> </td>
+                                <td ><Input id='wxqt_qtcq_nc' type='Number'  {...getFieldProps('wxqt_qtcq_nc') } onChange={this.handleInputChange} /> </td>
+                                <td ><Input id='wxqt_qtcq' type='Number' {...getFieldProps('wxqt_qtcq') } onChange={this.handleInputChange} /> </td>
                                 <td style={{ textAlign: 'center' }} >资本公积</td>
                                 <td>60</td>
-                                <td ><Input  id='syzqy_zbgj_nc' type='Number' {...getFieldProps('syzqy_zbgj_nc') } onChange={this.handleInputChange}/></td>
-                                <td ><Input  id='syzqy_zbgj' type='Number' {...getFieldProps('syzqy_zbgj') } onChange={this.handleInputChange}/></td>
+                                <td ><Input id='syzqy_zbgj_nc' type='Number' {...getFieldProps('syzqy_zbgj_nc') } onChange={this.handleInputChange} /></td>
+                                <td ><Input id='syzqy_zbgj' type='Number' {...getFieldProps('syzqy_zbgj') } onChange={this.handleInputChange} /></td>
                             </tr>
 
                             <tr>
                                 <td style={{ textAlign: 'center' }} >无形资产和其他资产合计</td>
                                 <td>30</td>
-                                <td ><Input  id='wxqt_hj_nc' type='Number' {...getFieldProps('wxqt_hj_nc') }disabled/> </td>
-                                <td ><Input  id='wxqt_hj' type='Number' {...getFieldProps('wxqt_hj') }disabled/> </td>
+                                <td ><Input id='wxqt_hj_nc' type='Number' {...getFieldProps('wxqt_hj_nc') } disabled /> </td>
+                                <td ><Input id='wxqt_hj' type='Number' {...getFieldProps('wxqt_hj') } disabled /> </td>
                                 <td style={{ textAlign: 'center' }} >盈余公积</td>
                                 <td>61</td>
-                                <td ><Input  id='syzqy_yygj_nc' type='Number' {...getFieldProps('syzqy_yygj_nc') } onChange={this.handleInputChange}/></td>
-                                <td ><Input  id='syzqy_yygj' type='Number' {...getFieldProps('syzqy_yygj') } onChange={this.handleInputChange}/></td>
+                                <td ><Input id='syzqy_yygj_nc' type='Number' {...getFieldProps('syzqy_yygj_nc') } onChange={this.handleInputChange} /></td>
+                                <td ><Input id='syzqy_yygj' type='Number' {...getFieldProps('syzqy_yygj') } onChange={this.handleInputChange} /></td>
                             </tr>
 
                             <tr>
@@ -1788,40 +1777,40 @@ let Addzcfzb = React.createClass({
 
                                 <td style={{ textAlign: 'center' }} >未分配利润</td>
                                 <td>62</td>
-                                <td ><Input  id='syzqy_wfplr_nc' type='Number' {...getFieldProps('syzqy_wfplr_nc') } onChange={this.handleInputChange}/></td>
-                                <td ><Input   id='syzqy_wfplr' type='Number' {...getFieldProps('syzqy_wfplr') } onChange={this.handleInputChange}/></td>
+                                <td ><Input id='syzqy_wfplr_nc' type='Number' {...getFieldProps('syzqy_wfplr_nc') } onChange={this.handleInputChange} /></td>
+                                <td ><Input id='syzqy_wfplr' type='Number' {...getFieldProps('syzqy_wfplr') } onChange={this.handleInputChange} /></td>
                             </tr>
 
                             <tr>
                                 <td style={{ textAlign: 'center' }} >递延税款借项</td>
                                 <td>31</td>
-                                <td ><Input  id='ydsx_skjx_nc' type='Number' {...getFieldProps('ydsx_skjx_nc') } onChange={this.handleInputChange}/> </td>
-                                <td ><Input  id='ydsx_skjx' type='Number' {...getFieldProps('ydsx_skjx') } onChange={this.handleInputChange}/> </td>
+                                <td ><Input id='ydsx_skjx_nc' type='Number' {...getFieldProps('ydsx_skjx_nc') } onChange={this.handleInputChange} /> </td>
+                                <td ><Input id='ydsx_skjx' type='Number' {...getFieldProps('ydsx_skjx') } onChange={this.handleInputChange} /> </td>
                                 <td style={{ textAlign: 'center' }} >所有者权益(或股东权益) 合计</td>
                                 <td>63</td>
-                                <td ><Input  id='syzqy_hj_nc' type='Number' {...getFieldProps('syzqy_hj_nc') }onChange={this.handleInputChange}disabled/></td>
-                                <td ><Input  id='syzqy_hj' type='Number' {...getFieldProps('syzqy_hj') }onChange={this.handleInputChange}disabled/></td>
+                                <td ><Input id='syzqy_hj_nc' type='Number' {...getFieldProps('syzqy_hj_nc') } onChange={this.handleInputChange} disabled /></td>
+                                <td ><Input id='syzqy_hj' type='Number' {...getFieldProps('syzqy_hj') } onChange={this.handleInputChange} disabled /></td>
                             </tr>
 
                             <tr>
                                 <td style={{ textAlign: 'center' }} >资产总计</td>
                                 <td>32</td>
-                                <td ><Input id='zczj_nc' type='Number'  {...getFieldProps('zczj_nc') }disabled/> </td>
-                                <td ><Input  id='zczj' type='Number' {...getFieldProps('zczj') }disabled/> </td>
+                                <td ><Input id='zczj_nc' type='Number'  {...getFieldProps('zczj_nc') } disabled /> </td>
+                                <td ><Input id='zczj' type='Number' {...getFieldProps('zczj') } disabled /> </td>
                                 <td style={{ textAlign: 'center' }} >负债和所有者权益(或股东权益) 合计</td>
                                 <td>64</td>
-                                <td ><Input  id='fzsyzqy_hj_nc' type='Number' {...getFieldProps('fzsyzqy_hj_nc') }onChange={this.handleInputChange}disabled/></td>
-                                <td ><Input  id='fzsyzqy_hj' type='Number' {...getFieldProps('fzsyzqy_hj') }onChange={this.handleInputChange}disabled/></td>
+                                <td ><Input id='fzsyzqy_hj_nc' type='Number' {...getFieldProps('fzsyzqy_hj_nc') } disabled /></td>
+                                <td ><Input id='fzsyzqy_hj' type='Number' {...getFieldProps('fzsyzqy_hj') } disabled /></td>
                             </tr>
 
                             <tr>
                                 <td></td>
                                 <td style={{ textAlign: 'center' }} >所长：</td>
-                                <td ><Input   {...getFieldProps('sz') }/> </td>
+                                <td ><Input   {...getFieldProps('sz') } /> </td>
                                 <td style={{ textAlign: 'center' }} >主管会计：</td>
-                                <td ><Input   {...getFieldProps('zgkj') }/></td>
+                                <td ><Input   {...getFieldProps('zgkj') } /></td>
                                 <td style={{ textAlign: 'center' }} >制表人：</td>
-                                <td ><Input   {...getFieldProps('zbr') }/></td>
+                                <td ><Input   {...getFieldProps('zbr') } /></td>
                                 <td></td>
                             </tr>
 
@@ -1831,13 +1820,13 @@ let Addzcfzb = React.createClass({
                             <tr >
                                 <td></td>
                                 <td>
-                                    <Button type="primary" onClick={this.handleSubmit}> <Icon type="check"/>保存</Button>
+                                    <Button type="primary" onClick={this.handleSubmit}> <Icon type="check" />保存</Button>
 
                                 </td>
 
                                 <td style={{ textAlign: 'center' }}>
 
-                                    <Button type="primary" onClick={this.showModal}> <Icon type="arrow-up"/>提交</Button>
+                                    <Button type="primary" onClick={this.showModal}> <Icon type="arrow-up" />提交</Button>
                                     <Modal title="你确定要提交吗？" visible={this.state.visible}
                                         onOk={this.handleOk} onCancel={this.handleCancel}>
                                         <p>提交后就不能修改了！！！</p>
@@ -1847,7 +1836,7 @@ let Addzcfzb = React.createClass({
                                 </td>
 
                                 <td>
-                                    <Button type="primary" onClick={this.handleReset}><Icon type="cross"/>重置</Button>
+                                    <Button type="primary" onClick={this.handleReset}><Icon type="cross" />重置</Button>
 
                                 </td>
 

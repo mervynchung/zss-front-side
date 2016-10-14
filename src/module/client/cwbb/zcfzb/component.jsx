@@ -1,5 +1,5 @@
 import React from 'react'
-import {Table, Modal, Row, Col, Button, Icon, Alert} from 'antd'
+import {Table, Modal, Row, Col, Button, Icon, Alert,message} from 'antd'
 import CompPageHead from 'component/CompPageHead'
 import Panel from 'component/compPanel'
 import {handleRowButton, columns, entityModel} from './model'
