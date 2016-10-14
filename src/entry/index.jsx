@@ -69,7 +69,7 @@ const Index = React.createClass({
                 require('../module/xtgnsz/yhdljlb'),
 
                 //资质管理
-     /*           require('../module/zzgl/jgzzgl'), //事务所资质管理
+                require('../module/zzgl/jgzzgl'), //事务所资质管理
                 require('../module/zzgl/zyswszzgl'), //执业注师资质管理
 
                 //业务管理
@@ -175,7 +175,7 @@ const Index = React.createClass({
                 require('../module/xtsjfx/sjfx/zjgmsjfx'),//资金规模数据分析
                 require('../module/xtsjfx/sjfx/hynlsjfx'),//行业年龄数据分析
                 require('../module/xtsjfx/sjfx/ryztsjfx'),
-                require('../module/xtsjfx/sjfx/zyzshsjfx'),*/
+                require('../module/xtsjfx/sjfx/zyzshsjfx'),
 
                 //会员会费缴纳
                 require('../module/hyhf_new/hyhfjnqk'),

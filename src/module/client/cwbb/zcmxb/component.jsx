@@ -13,7 +13,6 @@ import DetailBox from './detailbox.jsx'
 
 const API_URL = config.HOST + config.URI_API_PROJECT + '/add/zcmxb';
 const URL = config.HOST + config.URI_API_PROJECT + '/addzcmxb';
-const URL_C = config.HOST + config.URI_API_PROJECT + '/commont/checiftjbb/zcmxb';
 const ToolBar = Panel.ToolBar;
 const ButtonGroup = Button.Group;
 
@@ -37,12 +36,8 @@ const zcmxb = React.createClass({
             helper: false,
             entity: '',
            fileds:{},
-            detailHide: true,
-            add: true,
             views:0,
             viewTitle:'支出明细表',
-            update: true,
-            
         }
     },
 
@@ -105,7 +100,6 @@ const zcmxb = React.createClass({
 
         //点击保存
     handleSubmit(lx,value) {
-        this.setState({bloading:true});
         if (lx=='a') {
             this.fetchHandle(value,'','post'); 
         }else if (lx=='b') {
@@ -128,10 +122,10 @@ const zcmxb = React.createClass({
                         <p>操作成功</p>
                     </div>),       
             });
-            this.setState({bloading:false})
+            this.setState({bloading:!this.state.bloading})
             this.fetchData();
         }).fail(err => {
-            this.setState({bloading:false})
+            this.setState({bloading:!this.state.bloading})
             message.error('Status Code:' + err.status + '  api错误 ')
         })
     },
@@ -222,25 +216,6 @@ const zcmxb = React.createClass({
         this.setState({ fileds: fs});
     },
 
-    checkIfND(mp){
-         req({
-            url: URL_C,
-            type: 'json',
-            method: 'get',
-            data: mp,
-            headers:{'x-auth-token':auth.getToken()},
-            contentType:'application/json',            
-        }).then(resp => {
-            if (resp) {
-                return 0;
-            }else{
-               return 1; 
-            };
-        }).fail(err => {
-            return 2;
-        })
-    },
-
     componentDidMount() {
         this.fetchData();
     },
@@ -302,7 +277,7 @@ const zcmxb = React.createClass({
                                                             onRowClick={this.handleRowClick}/>
                                                         </div>}
                     {this.state.views==1 && <Add onSubmit={this.handleSubmit.bind(this,'a')}  changed={this.dealWithChanged} 
-                                                                    data={this.state.fileds} loading={this.state.bloading} checkIfND={this.checkIfND} />}
+                                                                    data={this.state.fileds} loading={this.state.bloading}  />}
                     {this.state.views==2 && <Update onSubmit={this.handleSubmit.bind(this,'b')} data={this.state.fileds} 
                                                                     changed={this.dealWithChanged} loading={this.state.bloading} onReset={this.onReset} />}
                     {this.state.views==3&&<DetailBox data={this.state.entity}/>}
