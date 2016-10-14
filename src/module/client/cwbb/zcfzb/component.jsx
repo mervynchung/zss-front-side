@@ -1,5 +1,5 @@
 import React from 'react'
-import {Table, Modal, Row, Col, Button, Icon, Alert} from 'antd'
+import {Table, Modal, Row, Col, Button, Icon, Alert,message} from 'antd'
 import CompPageHead from 'component/CompPageHead'
 import Panel from 'component/compPanel'
 import {handleRowButton, columns, entityModel} from './model'
@@ -117,6 +117,7 @@ const zcfzb = React.createClass({
              headers:{'x-auth-token':auth.getToken()},
             contentType:'application/json',
         }).then(resp => {
+            this.fetchData();
             Modal.success({
                 title: '操作成功',
                 content: (
@@ -158,6 +159,7 @@ const zcfzb = React.createClass({
              headers:{'x-auth-token':auth.getToken()},
             contentType:'application/json',           
         }).then(resp => {
+            this.fetchData();
             Modal.success({
                 title: '操作成功',
                 content: (
