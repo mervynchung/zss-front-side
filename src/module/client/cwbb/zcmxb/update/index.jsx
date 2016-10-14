@@ -1,13 +1,16 @@
 import React from 'react'
-import {Col, Input,Row,Button,Icon,Form,Modal,Select,DatePicker,InputNumber  } from 'antd'
+import {Col, Input,Row,Button,Icon,Form,Modal,Select,DatePicker,InputNumber,message  } from 'antd'
 import {SelectorYear,SelectorXZ} from 'component/compSelector'
+import config from 'common/configuration'
+import req from 'reqwest'
+import auth from 'common/auth'
 import './style.css'
 
 const ButtonGroup = Button.Group;
 const createForm = Form.create;
 const FormItem = Form.Item;
 const Option = Select.Option;
-
+const URL_C = config.HOST + config.URI_API_PROJECT + '/commont/checiftjbb/zcmxb';
 Date.prototype.Format = function (fmt) { //时间格式化函数
     var o = {
         "M+": this.getMonth() + 1, //月份 
@@ -30,37 +33,48 @@ let Updatezcmxb = React.createClass({
             onSubmit: {}
         }
     },
-   getInitialState() {
-    return { visible: false };
-  },
-    handleSubmit(zt) {
-    let value=this.props.form.getFieldsValue()
-    for(var key in value){
-        if(!value[key]&&Object.prototype.toString.call(value[key])!="[object Number]"){
-            value[key]=null;
+    getInitialState() {
+        return {
+            checkmessage:false,
         }
-        if(Object.prototype.toString.call(value[key])=="[object Date]"){//时间格式化
-                    var dd = value[key].Format("yyyy-MM-dd");
-                    value[key]=dd;
-                }
-    }
-          value.zyywcb1=this.props.data.zyywcb1;
-          value.zyywcb=this.props.data.zyywcb;
-          value.glfy1=this.props.data.glfy1;
-          value.glfy=this.props.data.glfy;
-          value.zczj1=this.props.data.zczj1;
-          value.zczj=this.props.data.zczj;
-          value.id=this.props.data.id;
-          value.ztbj=zt;
-          this.props.onSubmit(value);
-  },
-mixNums(names){
-    let numBuild=this.props.form.getFieldsValue(names);
-    let num=0;
-    for (var key in numBuild) {
-      num+=Number(numBuild[key]);
-    };
-    return num;
+    },
+    componentWillReceiveProps(nextProps){//检测父组件state变化
+        if (this.props.loading!=nextProps.loading) {
+          this.stopLoading();
+        };
+    },
+    stopLoading(){
+            this.setState({loading:false});
+      },
+    handleSubmit(zt) {
+        this.setState({loading:true});
+        this.props.form.validateFieldsAndScroll((errors, values) => {
+                if (errors) {
+                          message.error(this.state.checkmessage);
+                          this.setState({loading:true});
+                            return;
+                        } else {
+                            let value=values;
+                            for(var key in value){
+                                if(!value[key]&&Object.prototype.toString.call(value[key])!="[object Number]"){
+                                    value[key]=null;
+                                }
+                                if(Object.prototype.toString.call(value[key])=="[object Date]"){//时间格式化
+                                            var dd = value[key].Format("yyyy-MM-dd");
+                                            value[key]=dd;
+                                        }
+                            }
+                                  value.zyywcb1=this.props.data.zyywcb1;
+                                  value.zyywcb=this.props.data.zyywcb;
+                                  value.glfy1=this.props.data.glfy1;
+                                  value.glfy=this.props.data.glfy;
+                                  value.zczj1=this.props.data.zczj1;
+                                  value.zczj=this.props.data.zczj;
+                                  value.id=this.props.data.id;
+                                  value.ztbj=zt;
+                                  this.props.onSubmit(value);
+                     }
+       });
   },
      handleReset(e) {
         e.preventDefault();
@@ -77,6 +91,31 @@ mixNums(names){
           },
       });
   },
+
+    selectChange(rule, value, callback){
+        let cValue=this.props.form.getFieldsValue(['timevalue','nd']);
+        cValue.id=this.props.data.id;
+        this.setState({checkmessage:false,cloading:true});
+        req({
+                url: URL_C,
+                type: 'json',
+                method: 'get',
+                data: {checked:encodeURIComponent(JSON.stringify(cValue))},
+                headers:{'x-auth-token':auth.getToken()},
+                contentType:'application/json',            
+            }).then(resp => {
+                this.setState({cloading:false});
+                if (resp) {
+                    callback();
+                }else{
+                   this.setState({checkmessage:"已存在该年份该时段报表"});
+                   callback('已存在该年份该时段报表'); 
+                };
+            }).fail(err => {
+                   this.setState({checkmessage:"校验错误，请检查网络",cloading:false});
+                callback("校验错误，请检查网络");
+            })
+      },
 
     render() {
          
@@ -101,15 +140,18 @@ mixNums(names){
                     <tr>
                         <td colSpan="3">单位： {data.dwmc}</td>
                         
-                        <td colSpan="3">统计截止时间段：
-                                          <SelectorXZ style={{width:'150px'}} { ...getFieldProps('timevalue', 
-                                            { initialValue:((new Date(data.B)).getTime()==(new Date(year,'05','30','08')).getTime()?'0':'1')})}/>                                
+                        <td colSpan="3">统计截止时间段（半年期为1月至6月底）：
+                                          <SelectorXZ style={{width:'150px'}} { ...getFieldProps('timevalue',
+                                           { initialValue:((new Date(data.b)).getTime()==(new Date(year,'05','30','08')).getTime()?'0':'1'),
+                                            rules:[{validator:this.selectChange}]})}/>
+                                          {this.state.cloading&&<span><Icon type="loading" /></span>}
+                                          {this.state.checkmessage&&<p style={{'color':'red'}}>{this.state.checkmessage}</p>}
                         </td>    
                          
                            
                         <td  >  <Col 
                           label="年度：">
-                            <SelectorYear  { ...getFieldProps('nd', { initialValue:data.ND})} allowClear={false}/>
+                            <SelectorYear  { ...getFieldProps('nd', { initialValue:data.ND,rules:[{validator:this.selectChange}]})} allowClear={false}/>
                         </Col>
                            </td>
                        <td>单位：元</td>
@@ -304,19 +346,15 @@ mixNums(names){
                     </tr>
                     
                     <tr>
-                       <td></td>
+                        <td></td>
                         <td style={{textAlign:'center'}} >所长：</td>
-                       
                         <td ><Input   {...getFieldProps('sz', { initialValue:data.SZ})}/> </td>
-                       <td style={{textAlign:'center'}} >主管会计：</td>
-                       <td ><Input   {...getFieldProps('agkj', { initialValue:data.AGKJ})}/> </td>
+                        <td style={{textAlign:'center'}} >主管会计：</td>
+                        <td ><Input   {...getFieldProps('agkj', { initialValue:data.AGKJ})}/> </td>
                         <td style={{textAlign:'center'}} >制表人：</td>  
-                         <td ><Input   {...getFieldProps('zb', { initialValue:data.ZB})}/> </td> 
-                           <td></td>
-                           
+                        <td ><Input   {...getFieldProps('zb', { initialValue:data.ZB})}/> </td> 
+                        <td></td>
                     </tr>
-                    
-                    
                 </tbody>
                 
                  <tbody>
@@ -328,13 +366,13 @@ mixNums(names){
                                 <p>【2行+……16行=1行】【20行+……29行=19行】【1行+17行+18行+19行+30行+31行=32行】</p>
                        </td>
                       <td>               
-                                 <Button type="primary" onClick={this.handleSubmit.bind(this,0)} loading={this.props.loading}> <Icon type="check"/>保存</Button>
+                                 <Button type="primary" onClick={this.handleSubmit.bind(this,0)} loading={this.state.loading}> <Icon type="check"/>保存</Button>
                       </td>
                        <td style={{textAlign:'center'}}>
-                                <Button type="primary" onClick={this.showModal} loading={this.props.loading}> <Icon type="arrow-up"/>提交</Button>
+                                <Button type="primary" onClick={this.showModal} loading={this.state.loading}> <Icon type="arrow-up"/>提交</Button>
                         </td>
                         <td>
-                                <Button type="primary" onClick={this.handleReset} loading={this.props.loading}><Icon type="cross"/>重置</Button>
+                                <Button type="primary" onClick={this.handleReset} loading={this.state.loading}><Icon type="cross"/>重置</Button>
                        </td>
                     </tr>
                 </tbody>
