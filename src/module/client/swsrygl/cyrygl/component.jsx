@@ -42,7 +42,7 @@ const rycx = React.createClass({
             activeKey:"",
             ryid:"",
             xpPath:"",
-            letValues:[],
+            letValues:{},
             fsRad:null,
             valueFS: '',
 
@@ -148,11 +148,11 @@ const rycx = React.createClass({
     },
     handleCZ(lx,e){//操作入口
     e.preventDefault();
-    this.setState({czAll:lx,letValues:[]});
+    this.setState({czAll:lx,letValues:{}});
     
     },
     handleReturn(){//返回按钮
-    this.setState({czAll:0,valueFS: '',letValues:[]});
+    this.setState({czAll:0,valueFS: '',letValues:{}});
     this.callback(13);
 },
     handleBGSubmit(value){
@@ -317,7 +317,9 @@ const rycx = React.createClass({
     },
     upLoadOnChange(info) {
                 if (info.file.status == 'uploading') {
+                    console.log("111",this.state.letValues.xm);
                     this.setState({letValues:this.refs.addValues.getFieldsValue()});
+                    console.log("2222",this.state.letValues.xm);
                 }
                 if (info.file.status == 'done') {
                     this.setState({xpPath:info.file.response.text});
@@ -411,6 +413,7 @@ const rycx = React.createClass({
         let toolbar2 = <ToolBar>
                 <Button type="ghost" onClick={this.handleReturn}>返回</Button>
         </ToolBar>; 
+        console.log("render",this.state.letValues);
       return <div className="rycx">
             <div className="wrap">
                <div className="dataGird">
@@ -450,7 +453,7 @@ const rycx = React.createClass({
                                              <img src={this.state.dataxx.xpian} style={{padding:"5px",width:"138px",height:"170px"}}/>:
                                              <img src={this.state.xpPath} style={{padding:"5px",width:"138px",height:"170px"}}/> }
                                       </div><Upload {...props}><Button >更改照片</Button></Upload><p>（文件大小不能超过1M）</p></div>
-                                    <CompInputBaseTable data={this.state.letValues.size>0?this.state.letValues:this.state.dataxx}  model={Model.autoformCy2} bordered striped showConfirm bglx 
+                                    <CompInputBaseTable data={typeof(this.state.letValues.xm)==='undefined'?this.state.dataxx:this.state.letValues}  model={Model.autoformCy2} bordered striped showConfirm bglx 
                                      onSubmit={this.handleBGSubmit}  disabled={this.state.onSubmitZT} nbsj={this.state.datalist} ref="addValues"
                                       submitLoading={this.state.bgLoading} title='您是否确认要提交以上变更信息？'  nbjgsz={Model.ryjl} nbTitle="人员简历："
                                       content='变更后数据将更新' />
