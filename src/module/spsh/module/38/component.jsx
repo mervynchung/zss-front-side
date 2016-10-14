@@ -16,6 +16,8 @@ const wspcx = React.createClass({
 
     render(){
         //定义工具栏内容
+        const sd=decodeURIComponent(this.props.location.search);
+        var rs=sd.substring(1,sd.length);
        const mxbg=<table >
                     <tbody >
                             <tr>
@@ -71,7 +73,7 @@ const wspcx = React.createClass({
     return <div className="wspxm-spsh">
             <div className="wrap">
                 <SPXX wspcxurl='/spapi/wspcx/ry/38' spmxurl='/spapi/spmxxx/zyzcsp' mxbg={mxbg} getbg={this.makebg} isJG={false}
-                          columns={C_JG.zy} titleTop="待审执业税务师转所申请" titleSecond="执业税务师转所申请明细"/>
+                          columns={C_JG.zy} titleTop="待审执业税务师转所申请" titleSecond="执业税务师转所申请明细" zsid={rs}/>
             </div>
         </div>
     }

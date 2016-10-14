@@ -9,7 +9,7 @@ import Model from './model.js'
 import auth from 'common/auth'
 import SearchForm from './searchForm'
 import { Link } from 'react-router'
-import {  DatePicker,Modal,Form, Input, Select,Table, Icon,Tabs,Button,Row,Col,message,Dropdown,Menu,Spin,Radio }from 'antd'
+import {  DatePicker,Modal,Form, Input, Select,Table, Icon,Tabs,Button,Row,Col,message,Dropdown,Menu,Spin,Radio,Upload }from 'antd'
 // 标签定义
 const TabPane = Tabs.TabPane;
 const ToolBar = Panel.ToolBar;
@@ -24,6 +24,7 @@ const API_URL_FS = config.HOST+config.URI_API_PROJECT + '/spapi/fspsq/zyzrfs';
 const API_URL_ZC = config.HOST+config.URI_API_PROJECT + '/spapi/spsq/zyzcsq';
 const API_URL_ZS = config.HOST+config.URI_API_PROJECT + '/spapi/spsq/zyzssq';
 const API_URL_C = config.HOST + config.URI_API_PROJECT + '/commont/checksping/zysp/';
+const API_URL_GX = config.HOST + config.URI_API_PROJECT + '/rygl/ryxpgx/';
 const radioStyle = {
       display: 'block',
       height: '30px',
@@ -44,8 +45,10 @@ const rycx = React.createClass({
             activeKey:"",
             czAll:0,
             zyswsid:"",
+            ryid:"",
             valueFS: '',
             fsRad:null,
+            xpPath:"",
       };
     },
 
@@ -129,7 +132,7 @@ const rycx = React.createClass({
 
     onSelect(record){//主查询记录被选中方法
        this.state.urls=record._links;
-       this.setState({activeKey:1,zyswsid:record.zyswsid});
+       this.setState({activeKey:1,zyswsid:record.zyswsid,ryid:record.ryid});
        req({
             url: API_URL_C+record.zyswsid,
             type: 'json',
@@ -185,7 +188,7 @@ onChangeFS(e) {
             ls.zyswsid=this.state.zyswsid;
             let squrls="";
             switch(this.state.czAll){
-                case 1: squrls=API_URL_BG;break;
+                case 1: squrls=API_URL_BG;ls.xppath=(!this.state.xpPath?this.state.dataxx.xpian:this.state.xpPath);break;
                 case 2: squrls=API_URL_ZFZY;break;
                 case 3: squrls=API_URL_ZX;break;
                 case 4: squrls=API_URL_ZJ;break;
@@ -238,7 +241,7 @@ onChangeFS(e) {
             if(this.state.czAll==5){
                 squrls=API_URL_FS;
                 ls.pid=this.state.valueFS;
-                con="提交后该执业税务师将调入到所选择分所中，由分所管理，并从本事物所人员系统中除去";
+                con="提交后该执业税务师将调入到所选择分所中，由分所管理，并从本事务所人员系统中除去";
                 med='put';
             }else{
               squrls=API_URL_ZC;
@@ -396,6 +399,37 @@ onChangeFS(e) {
               key: 'operation',
              render:this.columRender,
             }];
+        var that=this;
+        const props = {
+            showUploadList: false,
+            name: 'file',
+            action: '/api/upload',
+            headers: {'x-auth-token': auth.getToken()},
+            onChange(info) {
+               if (info.file.status == 'uploading') {
+                    that.setState({letValues:that.refs.addValues.getFieldsValue()});
+                }
+                if (info.file.status == 'done') {
+                    that.setState({xpPath:info.file.response.text});
+                } else if (info.file.status == 'error') {
+                    Modal.error({
+                        title: '上传失败',
+                        content: (<p>{info.file.name}相片上传失败</p>)
+                    });
+                }
+            },
+            beforeUpload(file) {
+                if (file.type.indexOf('image')<0) {
+                    message.error('只能上传图片类型文件');
+                    return false;
+                }
+                if (file.size>1048576) {
+                    message.error('文件大小不能超过1M');
+                    return false;
+                }
+                return true;
+            }
+        };
         let toolbar = <ToolBar>
             <Button onClick={this.handleSearchToggle}>
                 <Icon type="search"/>查询
@@ -422,7 +456,10 @@ onChangeFS(e) {
 
               {this.state.czAll==0 &&<Spin spinning={this.state.sloading}><Panel >
                    <Tabs type="line" activeKey={this.state.activeKey} onChange={this.callback} key="A">
-                        <TabPane tab="详细信息" key="1"><CompBaseTable data = {this.state.dataxx}  model={Model.autoform} bordered striped /><p className="nbjgsz">人员简历：</p>
+                        <TabPane tab="详细信息" key="1">
+                        <div style={{float:"right",width:"143px",height:"175px",backgroundColor: "#fff",border: "1px solid #e9e9e9"}}>
+                        {!this.state.dataxx.xpian? <p>未上传相片</p> : <img src={this.state.dataxx.xpian} style={{padding:"5px",width:"138px",height:"170px"}}/>}</div>
+                        <CompBaseTable data = {this.state.dataxx}  model={Model.autoform} bordered striped /><p className="nbjgsz">人员简历：</p>
                         <Table columns={Model.ryjl} dataSource={this.state.datalist} bordered  size="small" pagination={false} /></TabPane>
                         <TabPane tab="变更记录" key="2"><Table columns={Model.columnsZyrybgjl} dataSource={this.state.datalist} bordered  size="small" /></TabPane>
                         <TabPane tab="年检记录" key="7"><Table columns={Model.columnsZyrynjjl} dataSource={this.state.datalist} bordered  size="small" /></TabPane>
@@ -430,8 +467,14 @@ onChangeFS(e) {
                         </Panel></Spin>}
                         {this.state.czAll==1 &&<Panel title="信息变更" toolbar={toolbar2}>
                         <Spin spinning={this.state.sloading}>
+                        <div style={{float:"right",}}>
+                        <div style={{width:"143px",height:"175px",backgroundColor: "#fff",border: "1px solid #e9e9e9"}}>
+                                {!this.state.xpPath?!this.state.dataxx.xpian? <p>未上传相片</p> :
+                                             <img src={this.state.dataxx.xpian} style={{padding:"5px",width:"138px",height:"170px"}}/>:
+                                             <img src={this.state.xpPath} style={{padding:"5px",width:"138px",height:"170px"}}/>}
+                          </div><Upload {...props}><Button >更改照片</Button></Upload><p>（文件大小不能超过1M）</p></div>
                         <CompInputBaseTable data={this.state.dataxx}  model={Model.autoform1} bordered striped showConfirm bglx 
-                         onSubmit={this.handleBGSubmit} bgmc={Model.bgmc} disabled={this.state.onSubmitZT} 
+                         onSubmit={this.handleBGSubmit} bgmc={Model.bgmc} disabled={this.state.onSubmitZT} ref="addValues"
                           submitLoading={this.state.bgLoading} title='您是否确认要提交以上变更信息？' 
                           content='变更项目提交后将提交中心管理端审批，在变更审批完成前，将不能再进行变更操作' />
                          </Spin></Panel>}

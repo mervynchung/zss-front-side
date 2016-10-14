@@ -1,11 +1,10 @@
-/*系统统计报表b*/
 module.exports = {
-    path: 'yhdljlb(/)',
-    breadcrumbName:'用户登录记录表',
+    path:'ywgl/ywbbsjhz(/)',
+    breadcrumbName:'业务管理/业务报备数据汇总',	
+    ignoreScrollBehavior:true,
     getComponent(location, cb) {
         require.ensure([], (require) => {
             cb(null, require('./component'))
-            
         })
     }
 }
