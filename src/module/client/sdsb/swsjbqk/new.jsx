@@ -1,65 +1,138 @@
 import React from 'react'
-import {Steps,Col,Row,Spin,notification,Modal,Icon } from 'antd'
+import {Steps, Col, Row, Spin, notification, Icon, Button, Form, Input} from 'antd'
 import Panel from 'component/compPanel'
+import {SelectorYear, SelectorXZ, SelectorSWSXZ, SelectorCS} from 'component/compSelector'
 import auth from 'common/auth.js'
 import config from 'common/configuration.js'
-import req from 'reqwest'
-import Stage0 from './stage0.jsx'
-import Stage1 from './stage1.jsx'
-import Stage2 from './stage2.jsx'
-import AddSuccess from './commitSuccessScr';
+import req from 'common/request'
+import CommitSuccess from './commitSuccessScr'
+import InitFailScr from './initFailScr'
 
-const Step = Steps.Step;
+const ButtonGroup = Button.Group;
+const FormItem = Form.Item;
+const PanelBar = Panel.ToolBar;
 
-const YWBB_URL = config.HOST + config.URI_API_PROJECT + '/ywbb';
+let Editfrom = React.createClass({
+    render(){
+        const {data} = this.props;
+        const {getFieldProps} = this.props.form;
+        return <div className="fix-table no-border table-striped ">
+            <Form horizontal>
+                <table className="tg" style={{width:'765px',border:'none'}}>
+                    <colgroup>
+                        <col style={{width:'15%'}}/>
+                        <col style={{width:'35%'}}/>
+                        <col style={{width:'15%'}}/>
+                        <col style={{width:'35%'}}/>
+                    </colgroup>
+                    <tbody>
+                    <tr>
+                        <td className="tg-031e" colSpan="2">单位：{data.dwmc}</td>
+                        <td className="tg-031e" >年度</td>
+                        <td className="tg-031e" ><Input disabled { ...getFieldProps('nd')} /></td>
+                    </tr>
+                    <tr>
+                        <td className="tg-031e">组织形式</td>
+                        <td className="tg-031e"><SelectorSWSXZ { ...getFieldProps('jgxz_dm')}/></td>
+                        <td className="tg-031e">法人</td>
+                        <td className="tg-031e"><Input   {...getFieldProps('frdbxm')}/></td>
+                    </tr>
+                    <tr>
+                        <td className="tg-031e">股东人数</td>
+                        <td className="tg-031e"><Input   {...getFieldProps('czrs')}/></td>
+                        <td className="tg-031e">人员总数</td>
+                        <td className="tg-031e"><Input   {...getFieldProps('ryzs')}/></td>
+                    </tr>
+                    <tr>
+                        <td className="tg-031e">执业人数</td>
+                        <td className="tg-031e"><Input disabled  {...getFieldProps('zyzcswsrs')}/></td>
+                        <td className="tg-031e">资产总额</td>
+                        <td className="tg-031e"><Input   {...getFieldProps('zcze')}/></td>
+                    </tr>
+                    <tr>
+                        <td className="tg-031e">注册资金</td>
+                        <td className="tg-031e"><Input   {...getFieldProps('zczj')}/></td>
+                        <td className="tg-031e">收入总额</td>
+                        <td className="tg-031e"><Input   {...getFieldProps('srze')}/></td>
+                    </tr>
+                    <tr>
+                        <td className="tg-031e">利润总额</td>
+                        <td className="tg-031e"><Input disabled  {...getFieldProps('lrze')}/></td>
+                        <td className="tg-031e">机构所在地</td>
+                        <td className="tg-031e"><SelectorCS  { ...getFieldProps('cs_dm')}/></td>
+                    </tr>
+                    <tr>
+                        <td className="tg-031e">委托户数</td>
+                        <td className="tg-031e"><Input   {...getFieldProps('wths')}/></td>
+                        <td className="tg-031e">合伙人数</td>
+                        <td className="tg-031e"><Input   {...getFieldProps('hhrs')}/></td>
+                    </tr>
+                    <tr>
+                        <td className="tg-031e">运营资金</td>
+                        <td className="tg-031e"><Input   {...getFieldProps('yysr')}/></td>
+                        <td className="tg-031e" colSpan="2"></td>
+                    </tr>
+                    <tr>
+                        <td className="tg-031e">制表人</td>
+                        <td className="tg-031e"><Input   {...getFieldProps('tianbiaoren')}/></td>
+                        <td className="tg-031e">所长</td>
+                        <td className="tg-031e"><Input   {...getFieldProps('suozhang')}/></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <Row>
+                    <Col span="24">
+                        <Button type="primary" onClick={this.handleSave}> <Icon type="check"/>保存</Button>
+                        <Button type="primary" onClick={this.handleCommit}> <Icon type="arrow-up"/>提交</Button>
+                    </Col>
+                </Row>
+            </Form>
+        </div>
+    }
+});
+Editfrom = Form.create({
+    mapPropsToFields(props) {
+        let result = {};
+        for (let prop in props.data) {
+            result[prop] = {value: props.data[prop]}
+        }
+        return result;
+    }
+})(Editfrom);
 
-const newYwbb = React.createClass({
+
+const c = React.createClass({
+    getDefaultProps(){
+        return {
+            title: '编辑事务所基本情况表',
+            url: config.HOST + config.URI_API_PROJECT + '/client/swsjbqk',
+            initUrl:config.HOST + config.URI_API_PROJECT + '/client/swsjbqkinit',
+        }
+    },
     getInitialState(){
         return {
             loading: true,
-            addSuccess:false,
-            successResp:{},
-            stage: 0,
-            dataXY: {},
-            dataYW: {},
-            dataJG: {},
-            customer:{},
-            zysws: []
+            addSuccess: false,
+            successResp: {},
+            data:{},
+            scr:'edit'
         }
     },
-    resetStep(){
-        this.setState({stage:0,dataXY:{},dataYW:{},customer:{},addSuccess:false,successResp:{}})
-    },
-    handleStageChange(value){
-        this.setState({stage: value})
-    },
-    handleStage0Submit(param){
-        if(!param.customer){
-            param.customer = this.state.customer
-        }
-        this.setState({stage: param.stage, dataXY: param.values, customer: param.customer})
-
-    },
-    handleStage1Submit(param){
-        this.setState({stage: param.stage, dataYW: param.values})
-
-    },
-    handleStage2Submit(param){
-        this.setState({stage: param.stage, dataJG: param.values})
-
+    back(){
+        this.props.onBack();
     },
     //添加新报备信息
     addYwbb(param){
         const token = auth.getToken();
         return req({
-            url: YWBB_URL,
+            url: this.props.apiUrl,
             method: 'post',
             type: 'json',
             contentType: 'application/json',
             data: JSON.stringify(param),
             headers: {'x-auth-token': token}
         }).then(resp=> {
-            this.setState({loading: false,addSuccess:true,successResp:resp});
+            this.setState({loading: false, addSuccess: true, successResp: resp});
         }).fail(e=> {
             let r = JSON.parse(e.responseText);
             this.setState({loading: false});
@@ -102,60 +175,43 @@ const newYwbb = React.createClass({
         this.setState({loading: true});
         this.addYwbb(values)
     },
-    //获取本机构下属执业税务师列表
-    fetchYwbbMisc () {
-        const jid = auth.getJgid();
-        const token = auth.getToken();
-        const YWBBMISC_URL = config.HOST + config.URI_API_PROJECT + '/ywbbmisc/' + jid;
 
-        return req({
-            url: YWBBMISC_URL,
-            method: 'get',
-            type: 'json',
-            headers: {'x-auth-token': token}
-        })
-    },
     componentDidMount(){
-        this.fetchYwbbMisc().then(resp=> {
-            this.setState({dataJG: resp.jgxx, zysws: resp.zysws, loading: false})
-        }).catch(e=> {
-            let c = <div className="ywbb-new-loadfail"> 数据读取失败</div>;
-            this.setState({loading: false, loaded: c})
+        const {initUrl}  = this.props;
+        req({
+            method:'get',
+            url:initUrl
+        }).then(resp=>{
+            this.setState({data:resp,loading:false})
+        }).catch(e=>{
+            this.setState({scr:'fail',loading:false})
         })
     },
 
     render(){
-        let {stage,dataXY,dataYW,dataJG,addSuccess,successResp} = this.state;
-        let stageContent = {
-            '0': this.state.loaded || <Stage0 data={dataXY}
-                                              onSubmit={this.handleStage0Submit}/>,
-            '1': <Stage1 onStageChange={this.handleStageChange}
-                         data={dataYW} zysws={this.state.zysws}
-                         ywlx={this.state.dataXY.YWLX_DM}
-                         onSubmit={this.handleStage1Submit}/>,
-            '2': addSuccess ? <AddSuccess data={successResp} type="add"/>:<Stage2 onStageChange={this.handleStageChange}
-                         data={dataJG}
-                         onSubmit={this.handleStage2Submit}
-                         onSave={this.handleSave}
-                         onCommit={this.handleCommit}/>
+        const {title} = this.props;
+        let {data,loading,scr} = this.state;
+        const panelBar = <PanelBar>
+            <Button onClick={this.back}>
+                <Icon type="rollback"/>返回
+            </Button>
+        </PanelBar>;
+
+        let content = {
+            edit:<Editfrom data = {data}/>,
+            fail:<InitFailScr />,
+            success:<CommitSuccess />
         };
 
-        return <Panel className="new-ywbb">
-            <div style={{textAlign:'right'}}><a onClick={this.resetStep}> <Icon type="retweet" /> 重置</a></div>
-            <Steps current={stage} className="steps">
-                <Step title="填写协议"/>
-                <Step title="填写业务详细信息"/>
-                <Step title="确认事务所基本信息"/>
-            </Steps>
-            <Spin spinning={this.state.loading}>
-                <div>
-                    {stageContent[stage]}
-                </div>
+        return <Panel className="swsjbqk-edit" toolbar={panelBar} title={title}>
+            <Spin spinning={loading} >
+                {content[scr]}
             </Spin>
-
         </Panel>
 
     }
 });
 
-module.exports = newYwbb;
+
+
+module.exports = c;

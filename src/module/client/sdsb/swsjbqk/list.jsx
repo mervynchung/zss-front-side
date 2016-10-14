@@ -117,6 +117,10 @@ const list = React.createClass({
         };
         this.fetchData(param);
     },
+    //添加
+    handleNew(){
+        this.props.onNew();
+    },
 
     //刷新按钮
     handleRefresh(){
@@ -164,8 +168,12 @@ const list = React.createClass({
             </Button>
 
             <ButtonGroup>
-                <Button type="primary" onClick={this.helperToggle}><Icon type="question"/></Button>
-                <Button type="primary" onClick={this.handleRefresh}><Icon type="reload"/></Button>
+                <Button  onClick={this.helperToggle}><Icon type="question"/></Button>
+                <Button  onClick={this.handleRefresh}><Icon type="reload"/></Button>
+            </ButtonGroup>
+
+            <ButtonGroup>
+                <Button type="primary" onClick={this.handleNew}><Icon type="file-text" /> 添加</Button>
             </ButtonGroup>
         </ToolBar>;
         return <div>

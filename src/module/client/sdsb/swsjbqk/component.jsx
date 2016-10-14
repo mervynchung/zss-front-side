@@ -3,10 +3,11 @@ import {Table, Modal, Row, Col, Button, Icon, Alert} from 'antd'
 import List from './list'
 import Detail from './detail'
 import Edit from './edit'
+import New from './new'
 import model from './model'
 import {jsonCopy} from 'common/utils'
 import cloneDeep from 'lodash/cloneDeep';
-import './style.css'
+import '../style.css'
 
 
 const c = React.createClass({
@@ -25,6 +26,10 @@ const c = React.createClass({
     //打开编辑视图
     handleViewEdit(record){
         this.setState({view: 'edit', entity: record})
+    },
+    //打开添加视图
+    handleViewNew(record){
+        this.setState({view: 'new'})
     },
     //返回list视图
     backToList(){
@@ -85,6 +90,8 @@ const c = React.createClass({
             columns: m.columns,
             //记录list组件被切换时状态值的方法
             grabState: this.grabListState,
+            //添加新记录的方法
+            onNew:this.handleViewNew,
             //list组件重新挂载时恢复状态用的历史状态数据
             stateShot: this.state.listState,
 
@@ -102,8 +109,16 @@ const c = React.createClass({
         };
         /*设置编辑组件的参数*/
         const editSetting = {
-            //设置返回主视图调用的方法
             id: this.state.entity.id,
+            //设置返回主视图调用的方法
+            onBack: this.backToList,
+            refreshList: this.refreshList
+        };
+
+        /*设置添加组件的参数*/
+        const newSetting = {
+            id: this.state.entity.id,
+            //设置返回主视图调用的方法
             onBack: this.backToList,
             refreshList: this.refreshList
         };
@@ -112,7 +127,8 @@ const c = React.createClass({
         const view = {
             list: <List {...listSetting} ref="list"/>,
             detail: <Detail {...detailSetting}/>,
-            edit: <Edit {...editSetting}/>
+            edit: <Edit {...editSetting}/>,
+            new: <New {...newSetting} />
         };
 
 
