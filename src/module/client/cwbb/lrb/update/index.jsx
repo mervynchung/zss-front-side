@@ -279,6 +279,12 @@ let Updatelrb = React.createClass({
         };
 
         //本月数
+        if(!zgwylr1) zgwylr1="0";
+        if(!qtywlr1) qtywlr1="0";
+        if(!yylr1) yylr1="0";
+        if(!tzsy1) tzsy1="0";
+        if(!btsr1) btsr1="0";
+        if(!yywsr1) yywsr1="0";
         zgwylr1 = zgywsr1 - zgywcb1 - zgywsj1;
         yylr1 = parseFloat(zgwylr1) + parseFloat(qtywlr1) - yyfy1 - glfy1 - cwfy1;
         lrze1 = parseFloat(yylr1) + parseFloat(tzsy1) + parseFloat(btsr1) + parseFloat(yywsr1) - yywzc1;
@@ -289,6 +295,12 @@ let Updatelrb = React.createClass({
         this.props.form.setFieldsValue({ jlr1: jlr1 });//第16行
 
         //本年累计数
+        if(!zgwylr) zgwylr="0";
+        if(!qtywlr) qtywlr="0";
+        if(!yylr) yylr="0";
+        if(!tzsy) tzsy="0";
+        if(!btsr) btsr="0";
+        if(!yywsr) yywsr="0";
         zgwylr = zgywsr - zgywcb - zgywsj;
         yylr = parseFloat(zgwylr) + parseFloat(qtywlr) - yyfy - glfy - cwfy;
         lrze = parseFloat(yylr) + parseFloat(tzsy) + parseFloat(btsr) + parseFloat(yywsr) - yywzc;
