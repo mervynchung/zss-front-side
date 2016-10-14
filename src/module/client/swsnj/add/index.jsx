@@ -12,6 +12,7 @@ const CheckNd_URL = config.HOST + config.URI_API_PROJECT + '/add/swsnj3';
 const ButtonGroup = Button.Group;
 const createForm = Form.create;
 const FormItem = Form.Item;
+
 let Addswsnj = React.createClass({
     getDefaultProps() {
         return {
