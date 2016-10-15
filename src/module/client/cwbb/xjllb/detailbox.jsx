@@ -11,6 +11,7 @@ const detailBox = React.createClass({
                 <table>
                     <tbody>
                         <tr >
+                            <td >编制地区（单位）：{obj.DWMC}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 时间：{obj.TJRQ}</td>
                             <td ></td>
                             <td colSpan="3">单位：元</td>
                         </tr>
