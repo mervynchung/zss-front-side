@@ -1,5 +1,5 @@
 import React from 'react'
-import {Col, Input,Row,Button,Icon,Form,Modal,DatePicker,InputNumber  } from 'antd'
+import {Col, Input,Row,Button,Icon,Form,Modal,DatePicker,InputNumber,message  } from 'antd'
 import {SelectorYear,SelectorXZ} from 'component/compSelector'
 import config from 'common/configuration'
 import req from 'reqwest'
@@ -32,13 +32,28 @@ let Addzcmxb = React.createClass({
             onSubmit: {},
         }
     },
+    getInitialState() {
+        return {
+            checkmessage:false,
+        }
+    },
+    componentWillReceiveProps(nextProps){//检测父组件state变化
+        if (this.props.loading!=nextProps.loading) {
+          this.stopLoading();
+        };
+    },
+    stopLoading(){
+            this.setState({loading:false});
+      },
     handleSubmit(zt) {
-      this.props.form.validateFields((errors, values) => {
+      this.setState({loading:true});
+      this.props.form.validateFieldsAndScroll((errors, values) => {
             if (errors) {
-                console.log(errors.timevalue.errors[0].message);
+              message.error(this.state.checkmessage);
+              this.setState({loading:false});
                 return;
             } else {
-                  let value=this.props.form.getFieldsValue()
+                  let value=values
                   for(var key in value){
                       if(!value[key]&&Object.prototype.toString.call(value[key])!="[object Number]"){
                           value[key]=null;
@@ -76,22 +91,26 @@ let Addzcmxb = React.createClass({
       });
   },
   selectChange(rule, value, callback){
-    let cValue=this.props.form.getFieldsValue(['timevalue','nd'])
+    let cValue=this.props.form.getFieldsValue(['timevalue','nd']);
+    this.setState({checkmessage:false,cloading:true});
     req({
             url: URL_C,
             type: 'json',
             method: 'get',
-            data: cValue,
+            data: {checked:encodeURIComponent(JSON.stringify(cValue))},
             headers:{'x-auth-token':auth.getToken()},
             contentType:'application/json',            
         }).then(resp => {
+            this.setState({cloading:false});
             if (resp) {
                 callback();
             }else{
+               this.setState({checkmessage:"已存在该年份该时段报表"});
                callback('已存在该年份该时段报表'); 
             };
         }).fail(err => {
-            callback("222222");
+               this.setState({checkmessage:"校验错误，请检查网络",cloading:false});
+            callback("校验错误，请检查网络");
         })
   },
 
@@ -123,12 +142,14 @@ let Addzcmxb = React.createClass({
                         
                         <td colSpan="4">统计截止时间段（半年期为1月至6月底）：
                                           <SelectorXZ style={{width:'150px'}} { ...getFieldProps('timevalue', { initialValue:'0',rules:[{validator:this.selectChange}]})}/>
+                                          {this.state.cloading&&<span><Icon type="loading" /></span>}
+                                          {this.state.checkmessage&&<span style={{'color':'red'}}>{this.state.checkmessage}</span>}
                         </td>
                          
                            
                         <td  >  <Col 
                           label="年度：">
-                            <SelectorYear  { ...getFieldProps('nd', { initialValue:year})} allowClear={false}/>
+                            <SelectorYear  { ...getFieldProps('nd', { initialValue:year,rules:[{validator:this.selectChange}]})} allowClear={false}/>
                         </Col>
                            </td>
                        <td>单位：元</td>
@@ -345,14 +366,14 @@ let Addzcmxb = React.createClass({
                                 <p>【2行+……16行=1行】【20行+……29行=19行】【1行+17行+18行+19行+30行+31行=32行】</p>
                        </td>
                               <td>               
-                        <Button type="primary" onClick={this.handleSubmit.bind(this,0)} loading={this.props.loading}> <Icon type="check"/>保存</Button>
+                        <Button type="primary" onClick={this.handleSubmit.bind(this,0)} loading={this.state.loading}> <Icon type="check"/>保存</Button>
                       </td>
                        <td style={{textAlign:'center'}}>
-                         <Button type="primary" onClick={this.showModal} loading={this.props.loading}> <Icon type="arrow-up"/>提交</Button>
+                         <Button type="primary" onClick={this.showModal} loading={this.state.loading}> <Icon type="arrow-up"/>提交</Button>
                         </td>
                         
                       <td>
-                        <Button type="primary" onClick={this.handleReset} loading={this.props.loading}><Icon type="cross"/>清空</Button>
+                        <Button type="primary" onClick={this.handleReset} loading={this.state.loading}><Icon type="cross"/>清空</Button>
                       
                        </td>
                       
