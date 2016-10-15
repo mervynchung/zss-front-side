@@ -27,7 +27,7 @@ let Updatelrfpb = React.createClass({
         var mp = {};
         let value = this.props.form.getFieldsValue()
         for (var key in value) {
-            if (typeof (value[key]) == 'undefined' || value[key] == "") {
+            if (typeof (value[key]) == 'undefined' || (isNaN(value[key])?(""==value[key]):false)) {
                 value[key] = null;
             }
         }
@@ -52,7 +52,7 @@ let Updatelrfpb = React.createClass({
         var mp = {};
         let value = this.props.form.getFieldsValue()
         for (var key in value) {
-            if (typeof (value[key]) == 'undefined' || value[key] == "") {
+            if (typeof (value[key]) == 'undefined' || (isNaN(value[key])?(""==value[key]):false)) {
                 value[key] = null;
             }
         }
