@@ -296,7 +296,6 @@ const lrfpb = React.createClass({
             </span>
             )
         }
-
     },
 
 
@@ -311,6 +310,7 @@ const lrfpb = React.createClass({
                 key: 'operation',
                 render: this.testee,
             }];
+            
         //定义工具栏内容
         let toolbar = <ToolBar>
             {this.state.add && <Button onClick={this.handleSearchToggle}>
@@ -344,8 +344,6 @@ const lrfpb = React.createClass({
                     type="info"
                     closable
                     onClose={this.handleHelperClose} />}
-
-
                 <Panel title="利润分配表" toolbar={toolbar}>
                     {this.state.searchToggle && <SearchForm
                         onSubmit={this.handleSearchSubmit} />}

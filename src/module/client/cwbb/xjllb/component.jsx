@@ -333,8 +333,8 @@ const xjllb = React.createClass({
                     closable
                     onClose={this.handleHelperClose} />}
                 <Panel title={this.state.viewTitle} toolbar={toolbar}>
-                    {this.state.searchToggle && <SearchForm
-                        onSubmit={this.handleSearchSubmit} />}
+                    {this.state.views == 0 && this.state.searchToggle && 
+                        <SearchForm onSubmit={this.handleSearchSubmit} />}
                     {this.state.views == 0 &&
                         <div className="h-scroll-table">
                             <Table columns={columns}
