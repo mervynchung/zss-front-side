@@ -119,7 +119,7 @@ const lrb = React.createClass({
         };
     },
 
-    //修改或新增现金流量表记录
+    //修改或新增
     fetchHandle(value, ur, met) {
         this.setState({ btnLoading: true });
         req({
