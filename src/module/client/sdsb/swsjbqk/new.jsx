@@ -1,10 +1,11 @@
 import React from 'react'
-import {Steps, Col, Row, Spin, notification, Icon, Button, Form, Input} from 'antd'
+import {Steps, Col, Row, Spin, notification, Icon, Button, Form, Input,InputNumber} from 'antd'
 import Panel from 'component/compPanel'
 import {SelectorYear, SelectorXZ, SelectorSWSXZ, SelectorCS} from 'component/compSelector'
 import auth from 'common/auth.js'
 import config from 'common/configuration.js'
 import req from 'common/request'
+import utils from 'common/utils'
 import CommitSuccess from './commitSuccessScr'
 import InitFailScr from './initFailScr'
 
@@ -13,77 +14,193 @@ const FormItem = Form.Item;
 const PanelBar = Panel.ToolBar;
 
 let Editfrom = React.createClass({
+    checkRyzs(rule, value, callback){
+        if( value < this.props.form.getFieldValue('zyzcswsrs')){
+            callback("人员总数要大于执业人数")
+        }else{
+            callback()
+        }
+    },
+    commit(){
+        const {validateFields} = this.props.form;
+        validateFields((errors, values) => {
+            console.log(errors)
+            if (!!errors) {
+                return;
+            }
+            values = utils.transEmpty2Null(values);
+            this.props.onCommit({stage: 1, values: values,customer:this.state.customer});
+        })
+    },
+    save(){
+
+    },
     render(){
         const {data} = this.props;
         const {getFieldProps} = this.props.form;
-        return <div className="fix-table no-border table-striped ">
+        const layout = {
+            labelCol: {span: 8},
+            wrapperCol: {span: 16}
+        };
+        const style = {style:{width:'100%'}};
+        const ndProps = getFieldProps('nd', {
+            rules: [
+                {required: true, type:'number', message: '必填'}
+            ]
+        });
+        const jgxzProps = getFieldProps('jgxz_dm', {
+            rules: [
+                {required: true,  message: '必填'}
+            ]
+        });
+        const frdbProps = getFieldProps('frdbxm', {
+            rules: [
+                {required: true, whitespce:true, message: '必填'}
+            ]
+        });
+        const ryzsProps = getFieldProps('ryzs', {
+            rules: [
+                {required: true, type:"number",  message: '必填'},
+                { validator: this.checkRyzs }
+            ]
+        });
+        const zyzcswsrsProps = getFieldProps('zyzcswsrs', {
+            rules: [
+                {required: true, type:"number",  message: '必填'}
+            ]
+        });
+        const lrzeProps = getFieldProps('lrze', {
+            rules: [
+                {required: true, type:"number",  message: '必填'}
+            ]
+        });
+        const zczeProps = getFieldProps('zcze', {
+            rules: [
+                {required: true, type:"number",  message: '必填'}
+            ]
+        });
+        const srzeProps = getFieldProps('srze', {
+            rules: [
+                {required: true, type:"number",  message: '必填'}
+            ]
+        });
+        const wthsProps = getFieldProps('wths', {
+            rules: [
+                {required: true, type:"number",  message: '必填'}
+            ]
+        });
+        const csProps = getFieldProps('cs_dm', {
+            rules: [
+                {required: true, message: '必填'}
+            ]
+        });
+        const zczjProps = getFieldProps('zczj', {
+            rules: [
+                {required: true,type:"number", message: '必填'}
+            ]
+        });
+        const czrsProps = getFieldProps('czrs', {
+            rules: [
+                {required: true,type:"number", message: '必填'}
+            ]
+        });
+        const hhrsProps = getFieldProps('hhrs', {
+            rules: [
+                {required: true,type:"number", message: '必填'}
+            ]
+        });
+        const yysrProps = getFieldProps('yysr', {
+            rules: [
+                {required: true,type:"number", message: '必填'}
+            ]
+        });
+        const tbrProps = getFieldProps('tianbiaoren', {
+            rules: [
+                {required: true,whitespace:true, message: '必填'}
+            ]
+        });
+        const szProps = getFieldProps('suozhang', {
+            rules: [
+                {required: true,whitespace:true, message: '必填'}
+            ]
+        });
+        return <div className="fix-table no-border table-striped  ">
             <Form horizontal>
-                <table className="tg" style={{width:'765px',border:'none'}}>
+                <table className="tg">
                     <colgroup>
-                        <col style={{width:'15%'}}/>
-                        <col style={{width:'35%'}}/>
-                        <col style={{width:'15%'}}/>
-                        <col style={{width:'35%'}}/>
+                        <col style={{width:'25%'}}/>
+                        <col style={{width:'25%'}}/>
+                        <col style={{width:'25%'}}/>
+                        <col style={{width:'25%'}}/>
                     </colgroup>
                     <tbody>
                     <tr>
                         <td className="tg-031e" colSpan="2">单位：{data.dwmc}</td>
-                        <td className="tg-031e" >年度</td>
-                        <td className="tg-031e" ><Input disabled { ...getFieldProps('nd')} /></td>
+                        <td className="tg-031e" colSpan="2">
+                            <FormItem label="年度"  {...layout}><Input {...style} disabled { ...ndProps} /></FormItem>
+                        </td>
                     </tr>
                     <tr>
-                        <td className="tg-031e">组织形式</td>
-                        <td className="tg-031e"><SelectorSWSXZ { ...getFieldProps('jgxz_dm')}/></td>
-                        <td className="tg-031e">法人</td>
-                        <td className="tg-031e"><Input   {...getFieldProps('frdbxm')}/></td>
+                        <td className="tg-031e">
+                            <FormItem label="组织形式"  {...layout}><SelectorSWSXZ {...style} disabled { ...jgxzProps}/></FormItem>
+                        </td>
+                        <td className="tg-031e"><FormItem
+                          label="法人" {...layout}><Input {...style} {...frdbProps}/></FormItem>
+                        </td>
+
+                        <td className="tg-031e">
+                            <FormItem label="人员总数" {...layout}><InputNumber {...style}  {...ryzsProps}/></FormItem>
+                        </td>
+                        <td className="tg-031e">
+                            <FormItem label="执业人数" {...layout}><InputNumber {...style}
+                              disabled {...zyzcswsrsProps}/></FormItem>
+                        </td>
                     </tr>
                     <tr>
-                        <td className="tg-031e">股东人数</td>
-                        <td className="tg-031e"><Input   {...getFieldProps('czrs')}/></td>
-                        <td className="tg-031e">人员总数</td>
-                        <td className="tg-031e"><Input   {...getFieldProps('ryzs')}/></td>
+                        <td className="tg-031e">
+                            <FormItem label="利润总额"  {...layout}><InputNumber {...style}  {...lrzeProps}/></FormItem>
+                        </td>
+                        <td className="tg-031e">
+                            <FormItem label="资产总额" {...layout}><InputNumber {...style} {...zczeProps}/></FormItem>
+                        </td>
+
+                        <td className="tg-031e">
+                            <FormItem label="收入总额" {...layout}><InputNumber {...style}
+                              disabled   {...srzeProps}/></FormItem></td>
+                        <td className="tg-031e">
+                            <FormItem label="委托户数" {...layout}><InputNumber {...style}   {...wthsProps}/></FormItem>
+                        </td>
                     </tr>
                     <tr>
-                        <td className="tg-031e">执业人数</td>
-                        <td className="tg-031e"><Input disabled  {...getFieldProps('zyzcswsrs')}/></td>
-                        <td className="tg-031e">资产总额</td>
-                        <td className="tg-031e"><Input   {...getFieldProps('zcze')}/></td>
+                        <td className="tg-031e">
+                            <FormItem
+                              label="所在地" {...layout}><SelectorCS {...style} { ...csProps}/></FormItem></td>
+
+                        {data.jgxz_dm == 2?<td className="tg-031e">
+                            <FormItem label="注册资金" {...layout}><InputNumber {...style} {...zczjProps}/></FormItem></td>:null}
+                        {data.jgxz_dm == 2 ? <td className="tg-031e">
+                            <FormItem label="股东人数" {...layout}><InputNumber {...style}  {...czrsProps}/></FormItem></td>:null}
+                        {data.jgxz_dm ==1 ? <td className="tg-031e">
+                           <FormItem label="合伙人数" {...layout}><InputNumber {...style}  {...hhrsProps}/></FormItem></td>:null}
+                        {data.jgxz_dm == 1? <td className="tg-031e">
+                           <FormItem label="运营资金" {...layout}><InputNumber {...style}  {...yysrProps}/></FormItem></td>:null}
+                        <td> </td>
                     </tr>
                     <tr>
-                        <td className="tg-031e">注册资金</td>
-                        <td className="tg-031e"><Input   {...getFieldProps('zczj')}/></td>
-                        <td className="tg-031e">收入总额</td>
-                        <td className="tg-031e"><Input   {...getFieldProps('srze')}/></td>
-                    </tr>
-                    <tr>
-                        <td className="tg-031e">利润总额</td>
-                        <td className="tg-031e"><Input disabled  {...getFieldProps('lrze')}/></td>
-                        <td className="tg-031e">机构所在地</td>
-                        <td className="tg-031e"><SelectorCS  { ...getFieldProps('cs_dm')}/></td>
-                    </tr>
-                    <tr>
-                        <td className="tg-031e">委托户数</td>
-                        <td className="tg-031e"><Input   {...getFieldProps('wths')}/></td>
-                        <td className="tg-031e">合伙人数</td>
-                        <td className="tg-031e"><Input   {...getFieldProps('hhrs')}/></td>
-                    </tr>
-                    <tr>
-                        <td className="tg-031e">运营资金</td>
-                        <td className="tg-031e"><Input   {...getFieldProps('yysr')}/></td>
-                        <td className="tg-031e" colSpan="2"></td>
-                    </tr>
-                    <tr>
-                        <td className="tg-031e">制表人</td>
-                        <td className="tg-031e"><Input   {...getFieldProps('tianbiaoren')}/></td>
-                        <td className="tg-031e">所长</td>
-                        <td className="tg-031e"><Input   {...getFieldProps('suozhang')}/></td>
+                        <td className="tg-031e">
+                            <FormItem label="制表人" {...layout}><Input {...style}  {...tbrProps}/></FormItem></td>
+                        <td className="tg-031e">
+                            <FormItem label="所长" {...layout}><Input {...style}  {...szProps}/></FormItem></td>
+                        <td colSpan="2"> </td>
                     </tr>
                     </tbody>
                 </table>
-                <Row>
-                    <Col span="24">
-                        <Button type="primary" onClick={this.handleSave}> <Icon type="check"/>保存</Button>
-                        <Button type="primary" onClick={this.handleCommit}> <Icon type="arrow-up"/>提交</Button>
+                <Row style={{marginTop:'24px'}}>
+                    <Col span="5" offset="19">
+                        <ButtonGroup>
+                        <Button type="primary" onClick={this.save}> <Icon type="save" />保存</Button>
+                        <Button type="primary" onClick={this.commit}> <Icon type="to-top" />提交</Button>
+                    </ButtonGroup>
                     </Col>
                 </Row>
             </Form>
@@ -104,9 +221,9 @@ Editfrom = Form.create({
 const c = React.createClass({
     getDefaultProps(){
         return {
-            title: '编辑事务所基本情况表',
+            title: '添加事务所基本情况表',
             url: config.HOST + config.URI_API_PROJECT + '/client/swsjbqk',
-            initUrl:config.HOST + config.URI_API_PROJECT + '/client/swsjbqkinit',
+            initUrl: config.HOST + config.URI_API_PROJECT + '/client/swsjbqkinit'
         }
     },
     getInitialState(){
@@ -114,8 +231,8 @@ const c = React.createClass({
             loading: true,
             addSuccess: false,
             successResp: {},
-            data:{},
-            scr:'edit'
+            data: {},
+            scr: 'edit'
         }
     },
     back(){
@@ -179,18 +296,28 @@ const c = React.createClass({
     componentDidMount(){
         const {initUrl}  = this.props;
         req({
-            method:'get',
-            url:initUrl
-        }).then(resp=>{
-            this.setState({data:resp,loading:false})
-        }).catch(e=>{
-            this.setState({scr:'fail',loading:false})
+            method: 'get',
+            url: initUrl
+        }).then(resp=> {
+            this.setState({data: resp, loading: false})
+        }).catch(e=> {
+            if (e.status == 403) {
+                let res = JSON.parse(e.response);
+                let failtext = {
+                    title: '无法添新的报表',
+                    text: res.text
+                };
+                this.setState({scr: 'fail', loading: false, failtext: failtext})
+            } else {
+                this.setState({scr: 'fail', loading: false})
+            }
+
         })
     },
 
     render(){
         const {title} = this.props;
-        let {data,loading,scr} = this.state;
+        let {data,loading,scr,failtext} = this.state;
         const panelBar = <PanelBar>
             <Button onClick={this.back}>
                 <Icon type="rollback"/>返回
@@ -198,20 +325,19 @@ const c = React.createClass({
         </PanelBar>;
 
         let content = {
-            edit:<Editfrom data = {data}/>,
-            fail:<InitFailScr />,
-            success:<CommitSuccess />
+            edit: <Editfrom data={data} onCommit={this.handleCommit} onSave={this.handleSave}/>,
+            fail: <InitFailScr data={failtext}/>,
+            success: <CommitSuccess />
         };
 
         return <Panel className="swsjbqk-edit" toolbar={panelBar} title={title}>
-            <Spin spinning={loading} >
+            <Spin spinning={loading}>
                 {content[scr]}
             </Spin>
         </Panel>
 
     }
 });
-
 
 
 module.exports = c;

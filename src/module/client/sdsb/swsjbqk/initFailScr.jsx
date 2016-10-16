@@ -13,7 +13,7 @@ const c = React.createClass({
                              type="error" />;
         if(!!data){
             element  = <Alert message={data.title}
-                              description={<div>{data.description}</div>}
+                              description={<div>{data.text}</div>}
                               type="error" />;
         }
 
