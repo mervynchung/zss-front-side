@@ -1,8 +1,8 @@
 import React from 'react'
-import {Table, Modal, Row, Col, Button, Icon, Alert, message} from 'antd'
+import { Table, Modal, Row, Col, Button, Icon, Alert, message } from 'antd'
 import CompPageHead from 'component/CompPageHead'
 import Panel from 'component/compPanel'
-import {handleRowButton, columns, entityModel} from './model'
+import { handleRowButton, columns, entityModel } from './model'
 import req from 'reqwest';
 import SearchForm from './searchForm'
 import Add from './Add'
@@ -10,7 +10,7 @@ import Update from './Update'
 import auth from 'common/auth'
 import config from 'common/configuration'
 import BaseTable from 'component/compBaseTable'
-import {entityFormat} from 'common/utils'
+import { entityFormat } from 'common/utils'
 import DetailBox from './detailbox.jsx'
 
 
@@ -313,50 +313,53 @@ const lrfpb = React.createClass({
             }];
         //定义工具栏内容
         let toolbar = <ToolBar>
-            { this.state.add && <Button onClick={this.handleSearchToggle}>
-                <Icon type="search"/>查询
-                { this.state.searchToggle ? <Icon className="toggle-tip" type="circle-o-up"/> :
-                    <Icon className="toggle-tip" type="circle-o-down"/>}
+            {this.state.add && <Button onClick={this.handleSearchToggle}>
+                <Icon type="search" />查询
+                {this.state.searchToggle ? <Icon className="toggle-tip" type="circle-o-up" /> :
+                    <Icon className="toggle-tip" type="circle-o-down" />}
             </Button>}
-            { this.state.add && <ButtonGroup>
-                <Button type="primary" onClick={this.handleHelper}><Icon type="question"/></Button>
-                <Button type="primary" onClick={this.handleRefresh}><Icon type="reload"/></Button>
+            {this.state.add && <ButtonGroup>
+                <Button type="primary" onClick={this.handleHelper}><Icon type="question" /></Button>
+                <Button type="primary" onClick={this.handleRefresh}><Icon type="reload" /></Button>
             </ButtonGroup>
             }
             <Button onClick={this.handleAdd}>
-                <Icon type="primary"/>{this.state.add ? "添加" : "返回"}
-                { this.state.add ? <Icon className="toggle-tip" type="plus-square"/> :
-                    <Icon className="toggle-tip" type="arrow-left"/>}
+                <Icon type="primary" />{this.state.add ? "添加" : "返回"}
+                {this.state.add ? <Icon className="toggle-tip" type="plus-square" /> :
+                    <Icon className="toggle-tip" type="arrow-left" />}
             </Button>
         </ToolBar>;
 
         //定义提示内容
         let helper = [];
-        helper.push(<p key="helper-0">点击查询结果查看利润分配表明细</p>);
-        helper.push(<p key="helper-1">也可以添加修改和提交利润分配表</p>);
+        helper.push(<p key="helper-0">1、《利润分配表》反映企业利润分配的情况和年末未分配利润的结余情况。</p>);
+        helper.push(<p key="helper-1">2、《利润分配表》上报时可选择上报数据的时间。上报的数据“时间”框件中，“年度”不可提交相同年度的单据。</p>);
+        helper.push(<p key="helper-2">各栏关系：</p>);
+        helper.push(<p key="helper-3">【1行+2行+3行=4行】【4行-5行-6行-7行-8行-9行=10行】【10行-11行-12行-13行=14行】</p>);
+
         return <div className="cwbb-lrb">
             <div className="wrap">
                 {this.state.helper && <Alert message="利润分配表检索查询帮助"
                     description={helper}
                     type="info"
                     closable
-                    onClose={this.handleHelperClose}/>}
+                    onClose={this.handleHelperClose} />}
 
 
                 <Panel title="利润分配表" toolbar={toolbar}>
                     {this.state.searchToggle && <SearchForm
-                        onSubmit={this.handleSearchSubmit}/>}
-                    { this.state.add && <div className="h-scroll-table">
+                        onSubmit={this.handleSearchSubmit} />}
+                    {this.state.add && <div className="h-scroll-table">
 
                         <Table columns={column1}
                             dataSource={this.state.data}
                             pagination={this.state.pagination}
                             loading={this.state.loading}
                             onChange={this.handleChange}
-                            onRowClick={this.handleRowClick}/>
+                            onRowClick={this.handleRowClick} />
                     </div>}
                     {!this.state.add && <Add onSubmit={this.handleSubmit} handleOk={this.handleOk} />}
-                    {!this.state.update && <Panel title="修改"  onClose={this.handleDetailClose}
+                    {!this.state.update && <Panel title="修改" onClose={this.handleDetailClose}
                         closable>
                         <Update onSubmit={this.handleSubmit1} handleOk={this.handleOk1} data={this.state.entity} />
                     </Panel>}
@@ -364,7 +367,7 @@ const lrfpb = React.createClass({
                 {this.state.detailHide ? null : <Panel title="利润分配表明细"
                     onClose={this.handleDetailClose}
                     closable>
-                    <DetailBox data={this.state.entity}/>
+                    <DetailBox data={this.state.entity} />
                 </Panel>}
             </div>
         </div>

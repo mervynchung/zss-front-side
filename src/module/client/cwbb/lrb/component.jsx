@@ -352,8 +352,10 @@ const lrb = React.createClass({
 
         //定义提示内容
         let helper = [];
-        helper.push(<p key="helper-0">点击查询结果查看利润表明细</p>);
-        helper.push(<p key="helper-1">也可以添加修改和提交利润表</p>);
+        helper.push(<p key="helper-0">《利润表》反映税务师事务所在一定期内利润（亏损）的情况。</p>);
+        helper.push(<p key="helper-1">各栏关系：</p>);
+        helper.push(<p key="helper-2">【1行-2行-3行=4行】【4行+5行-6行-7行-8行=9行】【9行+10行+11行+12行-13行=14行】【14行-15行=16行】</p>);
+
         return <div className="cwbb-lrb">
             <div className="wrap">
                 {this.state.helper && <Alert message="利润表检索查询帮助"
