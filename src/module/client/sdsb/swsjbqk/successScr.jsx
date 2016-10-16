@@ -4,26 +4,25 @@ import {Alert} from 'antd'
 const c = React.createClass({
     getDefaultProps(){
         return{
-            type:'add'
+            type:'save'
         }
     },
 
     render(){
-        const {type,data} = this.props;
+        const {type,text} = this.props;
         let element = {};
-        element.add = <Alert message="报备添加成功"
+        element.commit = <Alert message="操作成功"
                              description={<div>
-                                 <p>业务报备编号 ： {data.bbhm}</p>
-                                 <p>验证码 ： {data.yzm}</p>
+                                 <p>报表数据已提交</p>
                              </div>}
                              type="success" />;
-        element.edit =  <Alert message="报备修改成功"
+        element.save =  <Alert message="操作成功"
                                description={<div>
-                                   <p>报备信息已更新</p>
+                                   <p>报表数据已保存</p>
                                </div>}
                                type="success" />;
 
-        return <div className="sucz-scr">
+        return <div className="success-scr">
             {element[type]}
         </div>
     }

@@ -5,8 +5,8 @@ import {SelectorYear, SelectorXZ, SelectorSWSXZ, SelectorCS} from 'component/com
 import auth from 'common/auth.js'
 import config from 'common/configuration.js'
 import req from 'common/request'
-import CommitSuccess from './commitSuccessScr'
-import InitFailScr from './initFailScr'
+import CommitSuccess from './successScr'
+import InitFailScr from './failScr'
 
 const ButtonGroup = Button.Group;
 const FormItem = Form.Item;

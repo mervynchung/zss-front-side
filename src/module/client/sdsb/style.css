@@ -4,6 +4,9 @@
 .client-swsjbqk .row-selected {
     background-color:#eaf8fe ;
 }
-.client-swsjbqk .init-fail-scr {
+.client-swsjbqk .fail-scr {
+    padding:24px 24px 72px 24px
+}
+.client-swsjbqk .success-scr {
     padding:24px 24px 72px 24px
 }

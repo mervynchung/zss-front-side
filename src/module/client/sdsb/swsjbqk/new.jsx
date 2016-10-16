@@ -6,8 +6,8 @@ import auth from 'common/auth.js'
 import config from 'common/configuration.js'
 import req from 'common/request'
 import utils from 'common/utils'
-import CommitSuccess from './commitSuccessScr'
-import InitFailScr from './initFailScr'
+import Success from './successScr'
+import FailScr from './failScr'
 
 const ButtonGroup = Button.Group;
 const FormItem = Form.Item;
@@ -15,25 +15,59 @@ const PanelBar = Panel.ToolBar;
 
 let Editfrom = React.createClass({
     checkRyzs(rule, value, callback){
-        if( value < this.props.form.getFieldValue('zyzcswsrs')){
+        if (value < this.props.form.getFieldValue('zyzcswsrs')) {
             callback("人员总数要大于执业人数")
-        }else{
+        } else {
+            callback()
+        }
+    },
+    checkZczj(rule, value, callback){
+        if ( this.props.data.jgxz_dm==2 && (!value || value <= 0)) {
+            callback("必填")
+        } else {
+            callback()
+        }
+    },
+    checkCzrs(rule, value, callback){
+        if ( this.props.data.jgxz_dm==2 && (!value || value <= 0)) {
+            callback("必填")
+        } else {
+            callback()
+        }
+    },
+    checkHhrs(rule, value, callback){
+        if ( this.props.data.jgxz_dm==1 && (!value || value <= 0)) {
+            callback("必填")
+        } else {
+            callback()
+        }
+    },
+    checkYysr(rule, value, callback){
+        if ( this.props.data.jgxz_dm==1 && (!value || value <= 0)) {
+            callback("必填")
+        } else {
             callback()
         }
     },
     commit(){
         const {validateFields} = this.props.form;
         validateFields((errors, values) => {
-            console.log(errors)
             if (!!errors) {
                 return;
             }
             values = utils.transEmpty2Null(values);
-            this.props.onCommit({stage: 1, values: values,customer:this.state.customer});
+            this.props.onCommit(values);
         })
     },
     save(){
-
+        const {validateFields} = this.props.form;
+        validateFields((errors, values) => {
+            if (!!errors) {
+                return;
+            }
+            values = utils.transEmpty2Null(values);
+            this.props.onSave(values);
+        })
     },
     render(){
         const {data} = this.props;
@@ -42,51 +76,51 @@ let Editfrom = React.createClass({
             labelCol: {span: 8},
             wrapperCol: {span: 16}
         };
-        const style = {style:{width:'100%'}};
+        const style = {style: {width: '100%'}};
         const ndProps = getFieldProps('nd', {
             rules: [
-                {required: true, type:'number', message: '必填'}
+                {required: true, type: 'number', message: '必填'}
             ]
         });
         const jgxzProps = getFieldProps('jgxz_dm', {
             rules: [
-                {required: true,  message: '必填'}
+                {required: true, message: '必填'}
             ]
         });
         const frdbProps = getFieldProps('frdbxm', {
             rules: [
-                {required: true, whitespce:true, message: '必填'}
+                {required: true, whitespace: true, message: '必填'}
             ]
         });
         const ryzsProps = getFieldProps('ryzs', {
             rules: [
-                {required: true, type:"number",  message: '必填'},
-                { validator: this.checkRyzs }
+                {required: true, type: "number", message: '必填'},
+                {validator: this.checkRyzs}
             ]
         });
         const zyzcswsrsProps = getFieldProps('zyzcswsrs', {
             rules: [
-                {required: true, type:"number",  message: '必填'}
+                {required: true, type: "number", message: '必填'}
             ]
         });
         const lrzeProps = getFieldProps('lrze', {
             rules: [
-                {required: true, type:"number",  message: '必填'}
+                {required: true, type: "number", message: '必填'}
             ]
         });
         const zczeProps = getFieldProps('zcze', {
             rules: [
-                {required: true, type:"number",  message: '必填'}
+                {required: true, type: "number", message: '必填'}
             ]
         });
         const srzeProps = getFieldProps('srze', {
             rules: [
-                {required: true, type:"number",  message: '必填'}
+                {required: true, type: "number", message: '必填'}
             ]
         });
         const wthsProps = getFieldProps('wths', {
             rules: [
-                {required: true, type:"number",  message: '必填'}
+                {required: true, type: "number", message: '必填'}
             ]
         });
         const csProps = getFieldProps('cs_dm', {
@@ -96,32 +130,32 @@ let Editfrom = React.createClass({
         });
         const zczjProps = getFieldProps('zczj', {
             rules: [
-                {required: true,type:"number", message: '必填'}
+                {validator: this.checkZczj}
             ]
         });
         const czrsProps = getFieldProps('czrs', {
             rules: [
-                {required: true,type:"number", message: '必填'}
+                {validator: this.checkCzrs}
             ]
         });
         const hhrsProps = getFieldProps('hhrs', {
             rules: [
-                {required: true,type:"number", message: '必填'}
+                {validator: this.checkHhrs}
             ]
         });
         const yysrProps = getFieldProps('yysr', {
             rules: [
-                {required: true,type:"number", message: '必填'}
+                {validator: this.checkYysr}
             ]
         });
         const tbrProps = getFieldProps('tianbiaoren', {
             rules: [
-                {required: true,whitespace:true, message: '必填'}
+                {required: true, whitespace: true, message: '必填'}
             ]
         });
         const szProps = getFieldProps('suozhang', {
             rules: [
-                {required: true,whitespace:true, message: '必填'}
+                {required: true, whitespace: true, message: '必填'}
             ]
         });
         return <div className="fix-table no-border table-striped  ">
@@ -142,14 +176,15 @@ let Editfrom = React.createClass({
                     </tr>
                     <tr>
                         <td className="tg-031e">
-                            <FormItem label="组织形式"  {...layout}><SelectorSWSXZ {...style} disabled { ...jgxzProps}/></FormItem>
+                            <FormItem label="组织形式"  {...layout}><SelectorSWSXZ {...style}
+                              disabled { ...jgxzProps}/></FormItem>
                         </td>
                         <td className="tg-031e"><FormItem
                           label="法人" {...layout}><Input {...style} {...frdbProps}/></FormItem>
                         </td>
 
                         <td className="tg-031e">
-                            <FormItem label="人员总数" {...layout}><InputNumber {...style}  {...ryzsProps}/></FormItem>
+                            <FormItem label="人员总数" {...layout}><InputNumber {...style} {...ryzsProps}/></FormItem>
                         </td>
                         <td className="tg-031e">
                             <FormItem label="执业人数" {...layout}><InputNumber {...style}
@@ -158,7 +193,7 @@ let Editfrom = React.createClass({
                     </tr>
                     <tr>
                         <td className="tg-031e">
-                            <FormItem label="利润总额"  {...layout}><InputNumber {...style}  {...lrzeProps}/></FormItem>
+                            <FormItem label="利润总额"  {...layout}><InputNumber {...style} {...lrzeProps}/></FormItem>
                         </td>
                         <td className="tg-031e">
                             <FormItem label="资产总额" {...layout}><InputNumber {...style} {...zczeProps}/></FormItem>
@@ -168,7 +203,7 @@ let Editfrom = React.createClass({
                             <FormItem label="收入总额" {...layout}><InputNumber {...style}
                               disabled   {...srzeProps}/></FormItem></td>
                         <td className="tg-031e">
-                            <FormItem label="委托户数" {...layout}><InputNumber {...style}   {...wthsProps}/></FormItem>
+                            <FormItem label="委托户数" {...layout}><InputNumber {...style} {...wthsProps}/></FormItem>
                         </td>
                     </tr>
                     <tr>
@@ -176,21 +211,25 @@ let Editfrom = React.createClass({
                             <FormItem
                               label="所在地" {...layout}><SelectorCS {...style} { ...csProps}/></FormItem></td>
 
-                        {data.jgxz_dm == 2?<td className="tg-031e">
-                            <FormItem label="注册资金" {...layout}><InputNumber {...style} {...zczjProps}/></FormItem></td>:null}
                         {data.jgxz_dm == 2 ? <td className="tg-031e">
-                            <FormItem label="股东人数" {...layout}><InputNumber {...style}  {...czrsProps}/></FormItem></td>:null}
-                        {data.jgxz_dm ==1 ? <td className="tg-031e">
-                           <FormItem label="合伙人数" {...layout}><InputNumber {...style}  {...hhrsProps}/></FormItem></td>:null}
-                        {data.jgxz_dm == 1? <td className="tg-031e">
-                           <FormItem label="运营资金" {...layout}><InputNumber {...style}  {...yysrProps}/></FormItem></td>:null}
+                            <FormItem label="注册资金" {...layout}><InputNumber {...style} {...zczjProps}/></FormItem>
+                        </td> : null}
+                        {data.jgxz_dm == 2 ? <td className="tg-031e">
+                            <FormItem label="股东人数" {...layout}><InputNumber {...style} {...czrsProps}/></FormItem>
+                        </td> : null}
+                        {data.jgxz_dm == 1 ? <td className="tg-031e">
+                            <FormItem label="合伙人数" {...layout}><InputNumber {...style} {...hhrsProps}/></FormItem>
+                        </td> : null}
+                        {data.jgxz_dm == 1 ? <td className="tg-031e">
+                            <FormItem label="运营资金" {...layout}><InputNumber {...style} {...yysrProps}/></FormItem>
+                        </td> : null}
                         <td> </td>
                     </tr>
                     <tr>
                         <td className="tg-031e">
-                            <FormItem label="制表人" {...layout}><Input {...style}  {...tbrProps}/></FormItem></td>
+                            <FormItem label="制表人" {...layout}><Input {...style} {...tbrProps}/></FormItem></td>
                         <td className="tg-031e">
-                            <FormItem label="所长" {...layout}><Input {...style}  {...szProps}/></FormItem></td>
+                            <FormItem label="所长" {...layout}><Input {...style} {...szProps}/></FormItem></td>
                         <td colSpan="2"> </td>
                     </tr>
                     </tbody>
@@ -198,9 +237,9 @@ let Editfrom = React.createClass({
                 <Row style={{marginTop:'24px'}}>
                     <Col span="5" offset="19">
                         <ButtonGroup>
-                        <Button type="primary" onClick={this.save}> <Icon type="save" />保存</Button>
-                        <Button type="primary" onClick={this.commit}> <Icon type="to-top" />提交</Button>
-                    </ButtonGroup>
+                            <Button type="primary" onClick={this.save}> <Icon type="save"/>保存</Button>
+                            <Button type="primary" onClick={this.commit}> <Icon type="to-top"/>提交</Button>
+                        </ButtonGroup>
                     </Col>
                 </Row>
             </Form>
@@ -229,8 +268,6 @@ const c = React.createClass({
     getInitialState(){
         return {
             loading: true,
-            addSuccess: false,
-            successResp: {},
             data: {},
             scr: 'edit'
         }
@@ -238,59 +275,46 @@ const c = React.createClass({
     back(){
         this.props.onBack();
     },
-    //添加新报备信息
-    addYwbb(param){
-        const token = auth.getToken();
-        return req({
-            url: this.props.apiUrl,
-            method: 'post',
-            type: 'json',
-            contentType: 'application/json',
-            data: JSON.stringify(param),
-            headers: {'x-auth-token': token}
-        }).then(resp=> {
-            this.setState({loading: false, addSuccess: true, successResp: resp});
-        }).fail(e=> {
-            let r = JSON.parse(e.responseText);
-            this.setState({loading: false});
-            if (e.status == 403) {
-                Modal.error({
-                    title: '业务信息提交失败',
-                    content: r.text
-                });
-            } else {
-                notification.error({
-                    duration: 3,
-                    message: '操作失败',
-                    description: '网络访问故障'
-                });
-            }
-        })
-    },
 
-    //保存业务报备
-    handleSave(){
-        let values = {
-            dataXY: this.state.dataXY,
-            dataYW: this.state.dataYW,
-            dataJG: this.state.dataJG,
-            customer: this.state.customer,
-            type: 'save'
-        };
-        this.setState({loading: true});
-        this.addYwbb(values)
+    //保存
+    handleSave(values){
+        const {url} = this.props;
+        values.ztbj = 0;
+        this.setState({loading:true});
+        req({
+            method:'post',
+            url:url,
+            data:values
+        }).then(resp=>{
+            this.setState({loading:false,scr:'success',successType:'save'})
+        }).catch(e=>{
+            this.setState({loading: false});
+            notification.error({
+                duration: 3,
+                message: '操作失败',
+                description: '报表数据保存失败，请稍后再尝试'
+            });
+        });
     },
-    //提交业务报备
-    handleCommit(){
-        let values = {
-            dataXY: this.state.dataXY,
-            dataYW: this.state.dataYW,
-            dataJG: this.state.dataJG,
-            customer: this.state.customer,
-            type: 'commit'
-        };
-        this.setState({loading: true});
-        this.addYwbb(values)
+    //提交
+    handleCommit(values){
+        const {url} = this.props;
+        values.ztbj = 2;
+        this.setState({loading:true});
+        req({
+            method:'post',
+            url:url,
+            data:values
+        }).then(resp=>{
+            this.setState({loading:false,scr:'success',successType:'commit'})
+        }).catch(e=>{
+            this.setState({loading: false});
+            notification.error({
+                duration: 3,
+                message: '操作失败',
+                description: '报表数据保存失败，请稍后再尝试'
+            });
+        });
     },
 
     componentDidMount(){
@@ -304,7 +328,6 @@ const c = React.createClass({
             if (e.status == 403) {
                 let res = JSON.parse(e.response);
                 let failtext = {
-                    title: '无法添新的报表',
                     text: res.text
                 };
                 this.setState({scr: 'fail', loading: false, failtext: failtext})
@@ -317,7 +340,7 @@ const c = React.createClass({
 
     render(){
         const {title} = this.props;
-        let {data,loading,scr,failtext} = this.state;
+        let {data,loading,scr,failtext,successType} = this.state;
         const panelBar = <PanelBar>
             <Button onClick={this.back}>
                 <Icon type="rollback"/>返回
@@ -326,8 +349,8 @@ const c = React.createClass({
 
         let content = {
             edit: <Editfrom data={data} onCommit={this.handleCommit} onSave={this.handleSave}/>,
-            fail: <InitFailScr data={failtext}/>,
-            success: <CommitSuccess />
+            fail: <FailScr text={failtext}/>,
+            success: <Success type={successType}/>
         };
 
         return <Panel className="swsjbqk-edit" toolbar={panelBar} title={title}>
