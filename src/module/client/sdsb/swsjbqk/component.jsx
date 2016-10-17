@@ -72,7 +72,7 @@ const c = React.createClass({
                     <a onClick={()=> {
                         this.handleViewDetail(record)
                     }}>查看</a>
-                    {record.ZTBJ == 0 || record.ZTBJ == 3?
+                    {record.ztdm == 0 || record.ztdm == 3?
                         <a onClick={()=> {
                             this.handleViewEdit(record)
                         }}>编辑</a> : null}
