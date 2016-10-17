@@ -71,10 +71,10 @@ const Index = React.createClass({
                 //资质管理
                 require('../module/zzgl/jgzzgl'), //事务所资质管理
                 require('../module/zzgl/zyswszzgl'), //执业注师资质管理
-        
-/*
-                //业务管理
 
+
+
+                //业务管理
                 require('../module/ywgl/ywbbgl'),
                 require('../module/ywgl/ywbbthsp'), //业务报备退回审批
                 require('../module/ywgl/ywbbcxsp'), //业务报备退回审批
@@ -84,10 +84,7 @@ const Index = React.createClass({
                 require('../module/ywgl/ywwtfyjgl'), //业务委托方预警管理
                 require('../module/ywgl/setting'), //业务参数设置
                 require('../module/ywgl/ywbbsjfx'),//业务报备数据分析
-
-
                 require('../module/ywgl/ywbbsjhz'),//业务报备数据汇总
-
 
                 //财务报表
                 require('../module/cwbb/lrfpb'),
@@ -118,11 +115,11 @@ const Index = React.createClass({
                 require('../module/lsjlcx/fzyzjjl'),
                 require('../module/lsjlcx/fzyzxjl'),
                 require('../module/lsjlcx/fzyzzyjl'),
-*/
+
                 //监督检查
                 require('../module/jdjc/zyswsnjb'),
                 require('../module/jdjc/swsnj'),
-/*
+
                 //逐级审核
                 require('../module/spsh'),
                 require('../module/spshlsjl'),
@@ -148,8 +145,8 @@ const Index = React.createClass({
                 require('../module/spsh/module/43'),
                 require('../module/spsh/module/44'),
                 require('../module/spsh/module/46'),
-*/
-/*
+
+
                 // 数据统计分析 - 年检数据分析
                 require('../module/xtsjfx/njsjfx/rynjsjfx'),//人员年检数据分析
                 require('../module/xtsjfx/njsjfx/jgnjsjfxb'),//机构年检数据分析
@@ -190,7 +187,7 @@ const Index = React.createClass({
                 require('../module/hyhf_new/scgl'),
 
                 //证照打印管理
-                require('../module/zzdygl/zyglscdy'),*/
+                require('../module/zzdygl/zyglscdy'),
 
 
                 //客户端
@@ -200,14 +197,14 @@ const Index = React.createClass({
                 require('../module/client/jggl/swshb'),
                 require('../module/client/jggl/swsfssl'),
                 require('../module/client/jggl/swsslzltb'), //新所设立资料填报
-/*
+
                 //事务所内部审批
                 require('../module/client/swswspcx'),
 
                 //人员管理
                 require('../module/client/swsrygl/zyrygl'),
                 require('../module/client/swsrygl/cyrygl'),
-                require('../module/client/swsrygl/rydr'),*/
+                require('../module/client/swsrygl/rydr'),
 
                 //财务报表上传
                 require('../module/client/cwbb/lrb'),
