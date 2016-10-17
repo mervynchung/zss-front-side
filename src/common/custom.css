@@ -28,6 +28,9 @@ body {
 .no-border {
     border:none
 }
+.text-right{
+    text-align: right;
+}
 
 .bg-height:before {
     position: absolute;

@@ -14,6 +14,7 @@ var selector = {
     SelectorHY: require('./hy'), // 行业门类
     SelectorJCLB: require('./jclb'), //检查类别
     SelectorJGXZ: require('./jgxz'), //机构性质
+    SelectorSWSXZ: require('./swsxz'), //机构性质
     SelectorMZ: require('./mz'),//民族
     SelectorZW: require('./zw'),//民族
     SelectorZZMM: require('./zzmm'), //政治面貌
