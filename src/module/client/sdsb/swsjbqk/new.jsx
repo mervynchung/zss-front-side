@@ -1,5 +1,5 @@
 import React from 'react'
-import {Steps, Col, Row, Spin, notification, Icon, Button, Form, Input,InputNumber} from 'antd'
+import {Steps, Col, Row, Spin, notification, Icon, Button, Form, Input,InputNumber,Popconfirm} from 'antd'
 import Panel from 'component/compPanel'
 import {SelectorYear, SelectorXZ, SelectorSWSXZ, SelectorCS} from 'component/compSelector'
 import auth from 'common/auth.js'
@@ -125,7 +125,7 @@ let Editfrom = React.createClass({
         });
         const csProps = getFieldProps('cs_dm', {
             rules: [
-                {required: true, message: '必填'}
+                {required: true, type:'object', message: '必填'}
             ]
         });
         const zczjProps = getFieldProps('zczj', {
@@ -209,7 +209,7 @@ let Editfrom = React.createClass({
                     <tr>
                         <td className="tg-031e">
                             <FormItem
-                              label="所在地" {...layout}><SelectorCS {...style} { ...csProps}/></FormItem></td>
+                              label="所在地" {...layout}><SelectorCS labelInValue {...style} { ...csProps}/></FormItem></td>
 
                         {data.jgxz_dm == 2 ? <td className="tg-031e">
                             <FormItem label="注册资金 万元" {...layout}><InputNumber step={0.01} {...style} {...zczjProps}/></FormItem>
@@ -237,8 +237,12 @@ let Editfrom = React.createClass({
                 <Row style={{marginTop:'24px'}}>
                     <Col span="5" offset="19">
                         <ButtonGroup>
-                            <Button type="primary" onClick={this.save}> <Icon type="save"/>保存</Button>
-                            <Button type="primary" onClick={this.commit}> <Icon type="to-top"/>提交</Button>
+                            <Popconfirm placement="top" title="确定保存？" onConfirm={this.save}>
+                                <Button type="primary"> <Icon type="save"/>保存</Button>
+                            </Popconfirm>
+                            <Popconfirm placement="top" title="确定提交？" onConfirm={this.commit}>
+                                <Button type="primary"> <Icon type="to-top"/>提交</Button>
+                            </Popconfirm>
                         </ButtonGroup>
                     </Col>
                 </Row>
@@ -309,7 +313,7 @@ const c = React.createClass({
     //提交
     handleCommit(values){
         const {url} = this.props;
-        values.ztbj = 2;
+        values.ztbj = 1;
         values.dwmc = this.state.data.dwmc;
         this.setState({loading:true,data:values});
         req({
