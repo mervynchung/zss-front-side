@@ -73,8 +73,8 @@ let Editfrom = React.createClass({
         const {data} = this.props;
         const {getFieldProps} = this.props.form;
         const layout = {
-            labelCol: {span: 8},
-            wrapperCol: {span: 16}
+            labelCol: {span: 12},
+            wrapperCol: {span: 12}
         };
         const style = {style: {width: '100%'}};
         const ndProps = getFieldProps('nd', {
@@ -184,7 +184,7 @@ let Editfrom = React.createClass({
                         </td>
 
                         <td className="tg-031e">
-                            <FormItem label="人员总数" {...layout}><InputNumber {...style} {...ryzsProps}/></FormItem>
+                            <FormItem label="人员总数" {...layout}><InputNumber  {...style} {...ryzsProps}/></FormItem>
                         </td>
                         <td className="tg-031e">
                             <FormItem label="执业人数" {...layout}><InputNumber {...style}
@@ -193,14 +193,14 @@ let Editfrom = React.createClass({
                     </tr>
                     <tr>
                         <td className="tg-031e">
-                            <FormItem label="利润总额"  {...layout}><InputNumber {...style} {...lrzeProps}/></FormItem>
+                            <FormItem label="利润总额 万元"  {...layout}><InputNumber step={0.01} {...style} {...lrzeProps}/></FormItem>
                         </td>
                         <td className="tg-031e">
-                            <FormItem label="资产总额" {...layout}><InputNumber {...style} {...zczeProps}/></FormItem>
+                            <FormItem label="资产总额 万元" {...layout}><InputNumber step={0.01} {...style} {...zczeProps}/></FormItem>
                         </td>
 
                         <td className="tg-031e">
-                            <FormItem label="收入总额" {...layout}><InputNumber {...style}
+                            <FormItem label="收入总额 万元" {...layout}><InputNumber step={0.01} {...style}
                               disabled   {...srzeProps}/></FormItem></td>
                         <td className="tg-031e">
                             <FormItem label="委托户数" {...layout}><InputNumber {...style} {...wthsProps}/></FormItem>
@@ -212,7 +212,7 @@ let Editfrom = React.createClass({
                               label="所在地" {...layout}><SelectorCS {...style} { ...csProps}/></FormItem></td>
 
                         {data.jgxz_dm == 2 ? <td className="tg-031e">
-                            <FormItem label="注册资金" {...layout}><InputNumber {...style} {...zczjProps}/></FormItem>
+                            <FormItem label="注册资金 万元" {...layout}><InputNumber step={0.01} {...style} {...zczjProps}/></FormItem>
                         </td> : null}
                         {data.jgxz_dm == 2 ? <td className="tg-031e">
                             <FormItem label="股东人数" {...layout}><InputNumber {...style} {...czrsProps}/></FormItem>
@@ -221,7 +221,7 @@ let Editfrom = React.createClass({
                             <FormItem label="合伙人数" {...layout}><InputNumber {...style} {...hhrsProps}/></FormItem>
                         </td> : null}
                         {data.jgxz_dm == 1 ? <td className="tg-031e">
-                            <FormItem label="运营资金" {...layout}><InputNumber {...style} {...yysrProps}/></FormItem>
+                            <FormItem label="运营资金 万元" {...layout}><InputNumber step={0.01} {...style} {...yysrProps}/></FormItem>
                         </td> : null}
                         <td> </td>
                     </tr>
@@ -269,7 +269,7 @@ const c = React.createClass({
         return {
             loading: true,
             data: {},
-            scr: 'edit'
+            scr: 'normal'
         }
     },
     back(){
@@ -280,6 +280,7 @@ const c = React.createClass({
     handleSave(values){
         const {url} = this.props;
         values.ztbj = 0;
+        values.dwmc = this.state.data.dwmc;
         this.setState({loading:true,data:values});
         req({
             method:'post',
@@ -309,6 +310,7 @@ const c = React.createClass({
     handleCommit(values){
         const {url} = this.props;
         values.ztbj = 2;
+        values.dwmc = this.state.data.dwmc;
         this.setState({loading:true,data:values});
         req({
             method:'post',
@@ -317,6 +319,7 @@ const c = React.createClass({
         }).then(resp=>{
             this.setState({loading:false,scr:'success',successType:'commit'})
         }).catch(e=>{
+            this.setState({loading: false});
             if (e.status == 403){
                 let res = JSON.parse(e.response);
                 notification.error({
@@ -365,7 +368,7 @@ const c = React.createClass({
         </PanelBar>;
 
         let content = {
-            edit: <Editfrom data={data} onCommit={this.handleCommit} onSave={this.handleSave} />,
+            normal: <Editfrom data={data} onCommit={this.handleCommit} onSave={this.handleSave} />,
             fail: <FailScr text={failtext}/>,
             success: <Success type={successType}/>
         };
