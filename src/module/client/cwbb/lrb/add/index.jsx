@@ -464,7 +464,6 @@ let Addlrb = React.createClass({
                                 <td colSpan="2">
                                     <Input type="number"  {...getFieldProps('zgywcb') }
                                         id="zgywcb"
-                                        type="number"
                                         onChange={this.handleInputChange}/>
                                 </td>
                             </tr>
