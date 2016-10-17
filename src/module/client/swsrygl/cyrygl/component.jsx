@@ -155,6 +155,9 @@ const rycx = React.createClass({
     this.setState({czAll:0,valueFS: '',letValues:{}});
     this.callback(13);
 },
+  valueReset(){
+    this.setState({letValues:this.state.data});
+  },
     handleBGSubmit(value){
         this.setState({bgLoading:true});
             var ls = value;
@@ -317,9 +320,7 @@ const rycx = React.createClass({
     },
     upLoadOnChange(info) {
                 if (info.file.status == 'uploading') {
-                    console.log("111",this.state.letValues.xm);
                     this.setState({letValues:this.refs.addValues.getFieldsValue()});
-                    console.log("2222",this.state.letValues.xm);
                 }
                 if (info.file.status == 'done') {
                     this.setState({xpPath:info.file.response.text});
@@ -413,7 +414,6 @@ const rycx = React.createClass({
         let toolbar2 = <ToolBar>
                 <Button type="ghost" onClick={this.handleReturn}>返回</Button>
         </ToolBar>; 
-        console.log("render",this.state.letValues);
       return <div className="rycx">
             <div className="wrap">
                <div className="dataGird">
@@ -454,7 +454,7 @@ const rycx = React.createClass({
                                              <img src={this.state.xpPath} style={{padding:"5px",width:"138px",height:"170px"}}/> }
                                       </div><Upload {...props}><Button >更改照片</Button></Upload><p>（文件大小不能超过1M）</p></div>
                                     <CompInputBaseTable data={typeof(this.state.letValues.xm)==='undefined'?this.state.dataxx:this.state.letValues}  model={Model.autoformCy2} bordered striped showConfirm bglx 
-                                     onSubmit={this.handleBGSubmit}  disabled={this.state.onSubmitZT} nbsj={this.state.datalist} ref="addValues"
+                                     onSubmit={this.handleBGSubmit}  disabled={this.state.onSubmitZT} nbsj={this.state.datalist} ref="addValues" valueReset={this.valueReset} 
                                       submitLoading={this.state.bgLoading} title='您是否确认要提交以上变更信息？'  nbjgsz={Model.ryjl} nbTitle="人员简历："
                                       content='变更后数据将更新' />
                                      </Spin></Panel>}

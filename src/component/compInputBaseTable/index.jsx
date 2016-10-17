@@ -26,6 +26,10 @@ let baseTable = React.createClass({
     handleReset(e) {
         this.props.form.resetFields();
     },
+    valueReset(){
+        e.preventDefault();
+        this.props.valueReset();
+    },
 
     handleSubmit(){
         this.props.form.validateFieldsAndScroll((errors, values) => {//条件校验处理
@@ -285,6 +289,7 @@ let baseTable = React.createClass({
                     <tr key="0005"><td key="0005" colSpan='10'><div style={{float:'right'}}>
                         <Button type="primary"  htmlType="submit" onClick={this.props.showConfirm?this.showConfirm:this.handleSubmit} disabled={this.props.disabled} loading={this.props.submitLoading}>提交</Button>
                         {this.props.reset?<span ><span className="ant-divider"></span><Button type="ghost"  htmlType="submit" onClick={this.handleReset} >重置</Button></span>:null}
+                        {this.props.valueReset?<span ><span className="ant-divider"></span><Button type="ghost"  htmlType="submit" onClick={this.valueReset} >重置</Button></span>:null}
                     </div></td></tr>
                 </tbody>
                 
