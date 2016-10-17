@@ -49,6 +49,7 @@ const rycx = React.createClass({
             valueFS: '',
             fsRad:null,
             xpPath:"",
+            letValues:{},
       };
     },
 
@@ -165,7 +166,7 @@ const rycx = React.createClass({
 },
 
     handleReturn(){//返回按钮
-    this.setState({czAll:0,valueFS: ''});
+    this.setState({czAll:0,valueFS: '',letValues:{}});
     this.callback(1);
 },
 
@@ -173,7 +174,7 @@ const rycx = React.createClass({
     e.preventDefault();
     //  e.stopPropagation();//阻止onRowClick事件冒泡
     // e.nativeEvent.stopImmediatePropagation();
-    this.setState({czAll:lx});
+    this.setState({czAll:lx,letValues:{}});
     
 },
 onChangeFS(e) {
@@ -431,6 +432,7 @@ onChangeFS(e) {
             }
         };
         let toolbar = <ToolBar>
+        <Button type="ghost" onClick={this.handleCZ.bind(this,8)}>添加执业人员</Button>
             <Button onClick={this.handleSearchToggle}>
                 <Icon type="search"/>查询
                 { this.state.searchToggle ? <Icon className="toggle-tip" type="arrow-up"/> :
@@ -473,9 +475,9 @@ onChangeFS(e) {
                                              <img src={this.state.dataxx.xpian} style={{padding:"5px",width:"138px",height:"170px"}}/>:
                                              <img src={this.state.xpPath} style={{padding:"5px",width:"138px",height:"170px"}}/>}
                           </div><Upload {...props}><Button >更改照片</Button></Upload><p>（文件大小不能超过1M）</p></div>
-                        <CompInputBaseTable data={this.state.dataxx}  model={Model.autoform1} bordered striped showConfirm bglx 
-                         onSubmit={this.handleBGSubmit} bgmc={Model.bgmc} disabled={this.state.onSubmitZT} ref="addValues"
-                          submitLoading={this.state.bgLoading} title='您是否确认要提交以上变更信息？' 
+                        <CompInputBaseTable data={typeof(this.state.letValues.xm)==='undefined'?this.state.dataxx:this.state.letValues}  model={Model.autoform1} bordered striped showConfirm bglx 
+                         onSubmit={this.handleBGSubmit} disabled={this.state.onSubmitZT} ref="addValues" nbsj={this.state.datalist}
+                          submitLoading={this.state.bgLoading} title='您是否确认要提交以上变更信息？' nbjgsz={Model.ryjl2} nbTitle="人员简历：" 
                           content='变更项目提交后将提交中心管理端审批，在变更审批完成前，将不能再进行变更操作' />
                          </Spin></Panel>}
                         {this.state.czAll==2 &&<Panel title="转非执业" toolbar={toolbar2}>
@@ -523,7 +525,17 @@ onChangeFS(e) {
                             <p style={{'textAlign':'center'}}><Button type="primary" disabled={this.state.onSubmitZT} onClick={this.showConfirm} loading={this.state.bgLoading}>提交</Button>
                             <span className="ant-divider"></span><Button type="ghost"  htmlType="submit" onClick={this.handleReturn} >取消</Button></p>
                         </Spin></Panel>}
-                       
+                       {this.state.czAll==8 &&<Panel title="添加执业人员" toolbar={toolbar2}>
+                                    <Spin spinning={this.state.sloading}>
+                                    <div style={{float:"right",}}>
+                                    <div style={{width:"143px",height:"175px",backgroundColor: "#fff",border: "1px solid #e9e9e9"}}>
+                                            {!this.state.xpPath? <p>未上传相片</p> : <img src={this.state.xpPath} style={{padding:"5px",width:"138px",height:"170px"}}/>}
+                                      </div><Upload {...props}><span style={{'color':'red',fontSize:'large'}}>*</span><Button >上传照片</Button></Upload><p>（文件大小不能超过1M）</p></div>
+                                    <CompInputBaseTable data={this.state.letValues}  model={Model.autoformba} bordered striped showConfirm  
+                                     onSubmit={this.handleBGSubmit} nbjgsz={Model.ryjl2} nbTitle="人员简历：" ref="addValues" 
+                                      submitLoading={this.state.bgLoading} title='您是否确认要提交以上人员信息？'  
+                                      content='提交后将提交省管理中心审批，通过后该人员将在管理中心备案' />  
+                                     </Spin></Panel>}
                   </div>  
               </div>
         

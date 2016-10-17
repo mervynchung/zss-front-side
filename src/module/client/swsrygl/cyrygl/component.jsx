@@ -410,6 +410,11 @@ const rycx = React.createClass({
         };
          let toolbar = <ToolBar>
                 <Button type="ghost" onClick={this.handleCZ.bind(this,8)}>添加从业人员</Button>
+                <Button onClick={this.handleSearchToggle}>
+                <Icon type="search"/>查询
+                { this.state.searchToggle ? <Icon className="toggle-tip" type="arrow-up"/> :
+                  <Icon className="toggle-tip" type="arrow-down"/>}
+            </Button>
         </ToolBar>; 
         let toolbar2 = <ToolBar>
                 <Button type="ghost" onClick={this.handleReturn}>返回</Button>
