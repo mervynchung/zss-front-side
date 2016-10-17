@@ -280,7 +280,7 @@ const c = React.createClass({
     handleSave(values){
         const {url} = this.props;
         values.ztbj = 0;
-        this.setState({loading:true});
+        this.setState({loading:true,data:values});
         req({
             method:'post',
             url:url,
@@ -289,18 +289,27 @@ const c = React.createClass({
             this.setState({loading:false,scr:'success',successType:'save'})
         }).catch(e=>{
             this.setState({loading: false});
-            notification.error({
-                duration: 3,
-                message: '操作失败',
-                description: '报表数据保存失败，请稍后再尝试'
-            });
+            if (e.status == 403){
+                let res = JSON.parse(e.response);
+                notification.error({
+                    duration: 3,
+                    message: '操作失败',
+                    description: res.text
+                });
+            }else{
+                notification.error({
+                    duration: 3,
+                    message: '操作失败',
+                    description: '报表数据保存失败，请稍后再尝试'
+                });
+            }
         });
     },
     //提交
     handleCommit(values){
         const {url} = this.props;
         values.ztbj = 2;
-        this.setState({loading:true});
+        this.setState({loading:true,data:values});
         req({
             method:'post',
             url:url,
@@ -308,12 +317,20 @@ const c = React.createClass({
         }).then(resp=>{
             this.setState({loading:false,scr:'success',successType:'commit'})
         }).catch(e=>{
-            this.setState({loading: false});
-            notification.error({
-                duration: 3,
-                message: '操作失败',
-                description: '报表数据保存失败，请稍后再尝试'
-            });
+            if (e.status == 403){
+                let res = JSON.parse(e.response);
+                notification.error({
+                    duration: 3,
+                    message: '操作失败',
+                    description: res.text
+                });
+            }else{
+                notification.error({
+                    duration: 3,
+                    message: '操作失败',
+                    description: '报表数据保存失败，请稍后再尝试'
+                });
+            }
         });
     },
 
@@ -348,7 +365,7 @@ const c = React.createClass({
         </PanelBar>;
 
         let content = {
-            edit: <Editfrom data={data} onCommit={this.handleCommit} onSave={this.handleSave}/>,
+            edit: <Editfrom data={data} onCommit={this.handleCommit} onSave={this.handleSave} />,
             fail: <FailScr text={failtext}/>,
             success: <Success type={successType}/>
         };
