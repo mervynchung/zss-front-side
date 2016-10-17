@@ -30,8 +30,10 @@ let searchForm = React.createClass({
             wrapperCol: {span: 16}
         };
         return <div className="search-form">
-            <Form horizontal onSubmit={this.handleSubmit} form={this.props.form}>
-                <Row> 
+            <Form horizontal onSubmit={this.handleSubmit}>
+                <Row>
+                   
+                   
                     <Col span="8">
                         <FormItem
                           {...formItemLayout}
