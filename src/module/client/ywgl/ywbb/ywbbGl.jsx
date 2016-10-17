@@ -104,20 +104,24 @@ const c = React.createClass({
     closeCX(){
         this.setState({dialogCX:false})
     },
+    formatDate(str){
+        let date = new Date(str);
+        return date.getFullYear()+'年'+(date.getMonth()+1)+'月'+date.getDate()+'日'
+    },
     printCover(record){
         let query = JSON.stringify({
             wtdw:record.wtdw,
             ywlx:record.ywlx,
-            sstarttime:record.sstarttime,
-            sendtime:record.sendtime,
+            sstarttime:this.formatDate(record.sstarttime),
+            sendtime:this.formatDate(record.sendtime),
             jtxm:record.jtxm,
             bbhm:record.bbhm,
             bgwh:record.bgwh,
             wtdwnsrsbh:record.wtdwnsrsbh,
             zgswjg:record.zgswjg,
             swsmc:record.swsmc,
-            bgrq:record.bgrq,
-            bbrq:record.bbrq,
+            bgrq:this.formatDate(record.bgrq),
+            bbrq:this.formatDate(record.bbrq),
             qzsws:record.qzsws,
             swsdh:record.swsdh,
             swsdzyj:record.swsdzyj,
