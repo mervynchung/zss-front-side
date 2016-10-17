@@ -89,7 +89,6 @@ const yhdljlb = React.createClass({
                 value[key]=null;
          }}
         const pager = this.state.pagination;
-         console.log(value);
         
         pager.current = 1;
         const params = {
