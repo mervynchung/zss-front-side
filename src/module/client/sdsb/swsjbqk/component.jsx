@@ -100,12 +100,9 @@ const c = React.createClass({
         /*设置明细信息组件的参数*/
         const detailSetting = {
             //设置数据源
-            data: this.state.entity,
-            //设置标题
-            title: '业务报备详细信息',
+            id: this.state.entity.id,
             //设置返回主视图调用的方法
-            onBack: this.backToList,
-            printCover: null
+            onBack: this.backToList
         };
         /*设置编辑组件的参数*/
         const editSetting = {
