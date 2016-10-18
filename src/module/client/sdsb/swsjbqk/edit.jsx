@@ -2,7 +2,6 @@ import React from 'react'
 import {Steps, Col, Row, Spin, notification, Icon, Button, Form, Input,InputNumber,Popconfirm} from 'antd'
 import Panel from 'component/compPanel'
 import {SelectorYear, SelectorXZ, SelectorSWSXZ, SelectorCS} from 'component/compSelector'
-import auth from 'common/auth.js'
 import config from 'common/configuration.js'
 import req from 'common/request'
 import utils from 'common/utils'
@@ -47,6 +46,13 @@ let Editfrom = React.createClass({
         if ( this.props.data.jgxz_dm==1 && (!value || value <= 0)) {
             callback("必填")
         } else {
+            callback()
+        }
+    },
+    checkZyzcswsrs(rule, value, callback){
+        if(value > this.props.zyzcswsrs){
+            callback('填报的执业人数不能多于'+this.props.zyzcswsrs+'人')
+        }else {
             callback()
         }
     },
@@ -101,7 +107,8 @@ let Editfrom = React.createClass({
         });
         const zyzcswsrsProps = getFieldProps('zyzcswsrs', {
             rules: [
-                {required: true, type: "number", message: '必填'}
+                {required: true, type: "number", message: '必填'},
+                {validator: this.checkZyzcswsrs}
             ]
         });
         const lrzeProps = getFieldProps('lrze', {
@@ -189,7 +196,7 @@ let Editfrom = React.createClass({
                         </td>
                         <td className="tg-031e">
                             <FormItem label="执业人数" {...layout}><InputNumber {...style}
-                              disabled {...zyzcswsrsProps}/></FormItem>
+                              {...zyzcswsrsProps}/></FormItem>
                         </td>
                     </tr>
                     <tr>
@@ -265,7 +272,7 @@ Editfrom = Form.create({
 const c = React.createClass({
     getDefaultProps(){
         return {
-            title: '添加事务所基本情况表',
+            title: '编辑事务所基本情况表',
             url: config.HOST + config.URI_API_PROJECT + '/client/swsjbqk'
         }
     },
@@ -282,13 +289,13 @@ const c = React.createClass({
 
     //保存
     handleSave(values){
-        const {url} = this.props;
+        const {url,id} = this.props;
         values.ztbj = 0;
         values.dwmc = this.state.data.dwmc;
         this.setState({loading:true,data:values});
         req({
-            method:'post',
-            url:url,
+            method:'put',
+            url:url+ `/${id}`,
             data:values
         }).then(resp=>{
             this.setState({loading:false,scr:'success',successType:'save'})
@@ -312,13 +319,13 @@ const c = React.createClass({
     },
     //提交
     handleCommit(values){
-        const {url} = this.props;
+        const {url,id} = this.props;
         values.ztbj = 1;
         values.dwmc = this.state.data.dwmc;
         this.setState({loading:true,data:values});
         req({
-            method:'post',
-            url:url,
+            method:'put',
+            url:url+ `/${id}`,
             data:values
         }).then(resp=>{
             this.setState({loading:false,scr:'success',successType:'commit'})
@@ -351,10 +358,10 @@ const c = React.createClass({
             let values = mapKeys(resp,function(value,key){
                 return key.toLowerCase()
             });
-            //将机构性质和城市代码转为字符串
-            data.jgxz_dm = ''+data.jgxz_dm;
-            data.cs_dm = ''+data.cs_dm;
-            this.setState({data: values, loading: false})
+            //将机构性质和城市代码转为字符串，城市下拉由于labelInValue，所以需采用下面的赋值方式
+            values.jgxz_dm = ''+values.jgxz_dm;
+            values.cs_dm = {key:''+values.cs_dm};
+            this.setState({data: values, loading: false,zyzcswsrs:values.zyzcswsrs})
         }).catch(e=> {
             if (e.status == 403) {
                 let res = JSON.parse(e.response);
@@ -371,7 +378,7 @@ const c = React.createClass({
 
     render(){
         const {title} = this.props;
-        let {data,loading,scr,failtext,successType} = this.state;
+        let {data,loading,scr,failtext,successType,zyzcswsrs} = this.state;
         const panelBar = <PanelBar>
             <Button onClick={this.back}>
                 <Icon type="rollback"/>返回
@@ -381,7 +388,7 @@ const c = React.createClass({
 
 
         let content = {
-            normal: <Editfrom data={data} onCommit={this.handleCommit} onSave={this.handleSave} />,
+            normal: <Editfrom data={data} onCommit={this.handleCommit} onSave={this.handleSave} zyzcswsrs={zyzcswsrs}/>,
             fail: <FailScr text={failtext}/>,
             success: <Success type={successType}/>
         };
