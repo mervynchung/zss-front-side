@@ -398,7 +398,7 @@ const c = React.createClass({
         return {
             title: '添加行业人员情况统计表',
             url: config.HOST + config.URI_API_PROJECT + '/client/swsjbqk',
-            initUrl: config.HOST + config.URI_API_PROJECT + '/client/swsjbqkinit'
+            initUrl: config.HOST + config.URI_API_PROJECT + '/client/hyryqktj/check'
         }
     },
     getInitialState(){
@@ -476,14 +476,16 @@ const c = React.createClass({
             method: 'get',
             url: initUrl
         }).then(resp=> {
+            if (resp) {
             this.setState({data: resp, loading: false})
+            }else{
+            this.setState({warnning: true, loading: false})
+            };
         }).catch(e=> {
             if (e.status == 403) {
                 let res = JSON.parse(e.response);
-                let failtext = {
-                    text: res.text
-                };
-                this.setState({scr: 'fail', loading: false, failtext: failtext})
+                let failtext =  res.text;
+                this.setState({scr: 'fail', loading: false, failtext: failtext});
             } else {
                 this.setState({scr: 'fail', loading: false})
             }
@@ -508,6 +510,7 @@ const c = React.createClass({
 
         return <Panel className="swsjbqk-edit" toolbar={panelBar} title={title}>
             <Spin spinning={loading}>
+            <p>请先填报上年度基本情况统计表（表1），提交通过后再填报此表</p>
                 {content[scr]}
             </Spin>
         </Panel>

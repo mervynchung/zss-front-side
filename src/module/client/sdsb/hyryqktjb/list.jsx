@@ -2,7 +2,7 @@ import React from 'react'
 import {Table, Row, Col, Button, Icon, notification, Alert} from 'antd'
 import Panel from 'component/compPanel'
 import req from 'reqwest';
-import SearchForm from './searchForm'
+import SearchForm from './searchForm.jsx'
 import merge from 'lodash/merge';
 import config from 'common/configuration'
 import {isEmptyObject,jsonCopy} from 'common/utils'
