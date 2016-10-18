@@ -52,6 +52,8 @@ let Editfrom = React.createClass({
     checkZyzcswsrs(rule, value, callback){
         if(value > this.props.zyzcswsrs){
             callback('填报的执业人数不能多于'+this.props.zyzcswsrs+'人')
+        }else if (value > this.props.form.getFieldValue('ryzs')){
+            callback('执业人数不能大于人员总数')
         }else {
             callback()
         }
@@ -273,7 +275,8 @@ const c = React.createClass({
     getDefaultProps(){
         return {
             title: '编辑事务所基本情况表',
-            url: config.HOST + config.URI_API_PROJECT + '/client/swsjbqk'
+            url: config.HOST + config.URI_API_PROJECT + '/client/swsjbqk',
+            initUrl: config.HOST + config.URI_API_PROJECT + '/client/swsjbqkinit'
         }
     },
     getInitialState(){
@@ -348,16 +351,31 @@ const c = React.createClass({
         });
     },
 
-    componentDidMount(){
-        const {url,id}  = this.props;
-        req({
+    //异步获取注册税务师人数和报表明细信息
+    async fetchData(){
+        const {url,initUrl,id} = this.props;
+        let fetch1 = req({
+            method: 'get',
+            url: initUrl,
+            data:{id:id}
+        });
+        let fetch2 =  req({
             method: 'get',
             url: url + `/${id}`
-        }).then(resp=> {
-            //将接收对象的所有属性名转成小写
-            let values = mapKeys(resp,function(value,key){
+        });
+        let [init, mx] = await Promise.all([fetch1, fetch2]);
+        return {init: init, mx: mx}
+    },
+
+    componentDidMount(){
+        //const {url,id}  = this.props;
+        this.fetchData().then(resp=> {
+            //将明细对象的所有属性名转成小写
+            let values = mapKeys(resp.mx,function(value,key){
                 return key.toLowerCase()
             });
+            values.srze = resp.init.srze;
+            values.zyzcswsrs = resp.init.zyzcswsrs;
             //将机构性质和城市代码转为字符串，城市下拉由于labelInValue，所以需采用下面的赋值方式
             values.jgxz_dm = ''+values.jgxz_dm;
             values.cs_dm = {key:''+values.cs_dm};
@@ -365,10 +383,7 @@ const c = React.createClass({
         }).catch(e=> {
             if (e.status == 403) {
                 let res = JSON.parse(e.response);
-                let failtext = {
-                    text: res.text
-                };
-                this.setState({scr: 'fail', loading: false, failtext: failtext})
+                this.setState({scr: 'fail', loading: false, failtext: res.text})
             } else {
                 this.setState({scr: 'fail', loading: false})
             }

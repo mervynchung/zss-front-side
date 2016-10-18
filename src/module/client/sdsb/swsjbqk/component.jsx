@@ -109,7 +109,6 @@ const c = React.createClass({
             id: this.state.entity.id,
             //设置返回主视图调用的方法
             onBack: this.backToList,
-            refreshList: this.refreshList
         };
 
         /*设置添加组件的参数*/
@@ -117,7 +116,6 @@ const c = React.createClass({
             id: this.state.entity.id,
             //设置返回主视图调用的方法
             onBack: this.backToList,
-            refreshList: this.refreshList
         };
 
         /*通过控制state.view的值，实现页面上列表/详细信息等组件的切换*/
