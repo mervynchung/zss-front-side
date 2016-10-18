@@ -110,4 +110,8 @@ module.exports = {
         }
         return entity;
     },
+    formatDate(str){
+        let date = new Date(str);
+        return date.getFullYear()+'年'+(date.getMonth()+1)+'月'+date.getDate()+'日'
+    }
 };
