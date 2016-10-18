@@ -15,41 +15,36 @@ const PanelBar = Panel.ToolBar;
 
 let Editfrom = React.createClass({
     checkRyzs(rule, value, callback){
-        const {getFieldValue} = this.props.form;
-        if (value < getFieldValue('zyzcswsrs')) {
+        if (value < this.props.form.getFieldValue('zyzcswsrs')) {
             callback("人员总数要大于执业人数")
-        } else if (this.props.data.jgxz_dm==2 && value < getFieldValue('czrs')){
-            callback("人员总数要大于出资人数")
-        } else if( this.props.data.jgxz_dm==1 && value < getFieldValue('hhrs')) {
-            callback("人员总数要大于合伙人数")
         } else {
             callback()
         }
     },
     checkZczj(rule, value, callback){
-        if ( this.props.data.jgxz_dm==2 && (!value )) {
+        if ( this.props.data.jgxz_dm==2 && (!value || value <= 0)) {
             callback("必填")
         } else {
             callback()
         }
     },
     checkCzrs(rule, value, callback){
-        if ( this.props.data.jgxz_dm==2 && (!value )) {
+        if ( this.props.data.jgxz_dm==2 && (!value || value <= 0)) {
             callback("必填")
         } else {
             callback()
         }
     },
     checkHhrs(rule, value, callback){
-        if ( this.props.data.jgxz_dm==1 && (!value )) {
+        if ( this.props.data.jgxz_dm==1 && (!value || value <= 0)) {
             callback("必填")
         } else {
             callback()
         }
     },
     checkYysr(rule, value, callback){
-        if ( this.props.data.jgxz_dm==1 && (!value )) {
-            callback("必须大于0")
+        if ( this.props.data.jgxz_dm==1 && (!value || value <= 0)) {
+            callback("必填")
         } else {
             callback()
         }
@@ -60,13 +55,6 @@ let Editfrom = React.createClass({
         }else if (value > this.props.form.getFieldValue('ryzs')){
             callback('执业人数不能大于人员总数')
         }else {
-            callback()
-        }
-    },
-    checkLrze(rule,value,callback){
-        if ( value > this.props.form.getFieldValue('srze')) {
-            callback("收入总额必须大于利润总额")
-        } else {
             callback()
         }
     },
@@ -82,7 +70,7 @@ let Editfrom = React.createClass({
     },
     save(){
         const {validateFields} = this.props.form;
-        validateFields({force:true},(errors, values)=> {
+        validateFields((errors, values) => {
             if (!!errors) {
                 return;
             }
@@ -127,8 +115,7 @@ let Editfrom = React.createClass({
         });
         const lrzeProps = getFieldProps('lrze', {
             rules: [
-                {required: true, type: "number", message: '必填'},
-                {validator: this.checkLrze}
+                {required: true, type: "number", message: '必填'}
             ]
         });
         const zczeProps = getFieldProps('zcze', {
@@ -203,15 +190,15 @@ let Editfrom = React.createClass({
                               disabled { ...jgxzProps}/></FormItem>
                         </td>
                         <td className="tg-031e"><FormItem
-                          label="法人"  {...layout}><Input disabled {...style} {...frdbProps}/></FormItem>
+                          label="法人" {...layout}><Input {...style} {...frdbProps}/></FormItem>
                         </td>
 
                         <td className="tg-031e">
-                            <FormItem label="人员总数" {...layout}><InputNumber min={0}  {...style} {...ryzsProps}/></FormItem>
+                            <FormItem label="人员总数" {...layout}><InputNumber  {...style} {...ryzsProps}/></FormItem>
                         </td>
                         <td className="tg-031e">
-                            <FormItem label="执业人数" {...layout}><InputNumber min={0} {...style}
-                                                                             {...zyzcswsrsProps}/></FormItem>
+                            <FormItem label="执业人数" {...layout}><InputNumber {...style}
+                              {...zyzcswsrsProps}/></FormItem>
                         </td>
                     </tr>
                     <tr>
@@ -219,14 +206,14 @@ let Editfrom = React.createClass({
                             <FormItem label="利润总额 万元"  {...layout}><InputNumber step={0.01} {...style} {...lrzeProps}/></FormItem>
                         </td>
                         <td className="tg-031e">
-                            <FormItem label="资产总额 万元" {...layout}><InputNumber min={0} step={0.01} {...style} {...zczeProps}/></FormItem>
+                            <FormItem label="资产总额 万元" {...layout}><InputNumber step={0.01} {...style} {...zczeProps}/></FormItem>
                         </td>
 
                         <td className="tg-031e">
-                            <FormItem label="收入总额 万元" {...layout}><InputNumber min={0} step={0.01} {...style}
+                            <FormItem label="收入总额 万元" {...layout}><InputNumber step={0.01} {...style}
                                                                                disabled   {...srzeProps}/></FormItem></td>
                         <td className="tg-031e">
-                            <FormItem label="委托户数" {...layout}><InputNumber min={0} {...style} {...wthsProps}/></FormItem>
+                            <FormItem label="委托户数" {...layout}><InputNumber {...style} {...wthsProps}/></FormItem>
                         </td>
                     </tr>
                     <tr>
@@ -235,13 +222,13 @@ let Editfrom = React.createClass({
                               label="所在地" {...layout}><SelectorCS labelInValue {...style} { ...csProps}/></FormItem></td>
 
                         {data.jgxz_dm == 2 ? <td className="tg-031e">
-                            <FormItem label="注册资金 万元" {...layout}><InputNumber min={0} step={0.01} {...style} {...zczjProps}/></FormItem>
+                            <FormItem label="注册资金 万元" {...layout}><InputNumber step={0.01} {...style} {...zczjProps}/></FormItem>
                         </td> : null}
                         {data.jgxz_dm == 2 ? <td className="tg-031e">
-                            <FormItem label="股东人数" {...layout}><InputNumber min={0} {...style} {...czrsProps}/></FormItem>
+                            <FormItem label="股东人数" {...layout}><InputNumber {...style} {...czrsProps}/></FormItem>
                         </td> : null}
                         {data.jgxz_dm == 1 ? <td className="tg-031e">
-                            <FormItem label="合伙人数" {...layout}><InputNumber min={0} {...style} {...hhrsProps}/></FormItem>
+                            <FormItem label="合伙人数" {...layout}><InputNumber {...style} {...hhrsProps}/></FormItem>
                         </td> : null}
                         {data.jgxz_dm == 1 ? <td className="tg-031e">
                             <FormItem label="运营资金 万元" {...layout}><InputNumber step={0.01} {...style} {...yysrProps}/></FormItem>
@@ -252,7 +239,7 @@ let Editfrom = React.createClass({
                         <td className="tg-031e">
                             <FormItem label="制表人" {...layout}><Input {...style} {...tbrProps}/></FormItem></td>
                         <td className="tg-031e">
-                            <FormItem label="所长" {...layout}><Input disabled {...style} {...szProps}/></FormItem></td>
+                            <FormItem label="所长" {...layout}><Input {...style} {...szProps}/></FormItem></td>
                         <td colSpan="2"> </td>
                     </tr>
                     </tbody>
@@ -412,6 +399,8 @@ const c = React.createClass({
                 <Icon type="rollback"/>返回
             </Button>
         </PanelBar>;
+
+
 
         let content = {
             normal: <Editfrom data={data} onCommit={this.handleCommit} onSave={this.handleSave} zyzcswsrs={zyzcswsrs}/>,
