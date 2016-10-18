@@ -17,9 +17,11 @@ let Editfrom = React.createClass({
         const {getFieldValue} = this.props.form;
         if (value < getFieldValue('zyzcswsrs')) {
             callback("人员总数要大于执业人数")
-        } else if (value < getFieldValue('czrs')){
+        } else if (this.props.data.jgxz_dm==2 && value < getFieldValue('czrs')){
             callback("人员总数要大于出资人数")
-        } else if( value < getFieldValue('hhrs')) {
+        } else if( this.props.data.jgxz_dm==1 && value < getFieldValue('hhrs')) {
+            callback("人员总数要大于合伙人数")
+        } else {
             callback()
         }
     },
@@ -70,13 +72,12 @@ let Editfrom = React.createClass({
     },
     save(){
         const {validateFields} = this.props.form;
-        validateFields({force:true},(errors, values)=> {
+        validateFields((errors, values)=> {
             if (!!errors) {
-                console.log(errors)
                 return;
             }
             values = utils.transEmpty2Null(values);
-            //this.props.onSave(values);
+            this.props.onSave(values);
         })
     },
     render(){
