@@ -10,3 +10,7 @@
 .client-swsjbqk .success-scr {
     padding:24px 24px 72px 24px
 }
+.client-swsjbqk .table-bordered table{
+    border-left:1px solid #ececec;
+    border-right:1px solid #ececec
+}
