@@ -1,107 +1,98 @@
 import React from 'react'
-import {Col, Input,Row,Button,Icon,Form,Modal,DatePicker  } from 'antd'
+import {Steps, Col, Row, Spin, notification, Icon, Button, Form, Input,InputNumber,Modal} from 'antd'
 import Panel from 'component/compPanel'
-import {SelectorYear,SelectorXZ,SelectorJGXZ,SelectorCS} from 'component/compSelector'
-import './style.css'
+import {SelectorYear, SelectorXZ, SelectorSWSXZ, SelectorCS} from 'component/compSelector'
+import auth from 'common/auth.js'
+import config from 'common/configuration.js'
+import req from 'common/request'
+import utils from 'common/utils'
+import Success from './successScr'
+import FailScr from './failScr'
 
 const ButtonGroup = Button.Group;
-const createForm = Form.create;
 const FormItem = Form.Item;
+const PanelBar = Panel.ToolBar;
 
-Date.prototype.Format = function (fmt) { //时间格式化函数
-    var o = {
-        "M+": this.getMonth() + 1, //月份 
-        "d+": this.getDate(), //日 
-        "h+": this.getHours(), //小时 
-        "m+": this.getMinutes(), //分 
-        "s+": this.getSeconds(), //秒 
-        "q+": Math.floor((this.getMonth() + 3) / 3), //季度 
-        "S": this.getMilliseconds() //毫秒 
-    };
-    if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
-    for (var k in o)
-    if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));//补0处理
-    return fmt;
-}
-
-let Addhyryqktjb = React.createClass({
-    getDefaultProps(){
-        return {
-            onSubmit: {},
-           
+let Editfrom = React.createClass({
+    checkRyzs(rule, value, callback){
+        if (value < this.props.form.getFieldValue('zyzcswsrs')) {
+            callback("人员总数要大于执业人数")
+        } else {
+            callback()
         }
     },
-    handleSubmit(e) {
-    e.preventDefault();
-    var mp = {};
-    let value=this.props.form.getFieldsValue()
-    for(var key in value){
-        if(!value[key]){
-            value[key]=null;
+    checkZczj(rule, value, callback){
+        if ( this.props.data.jgxz_dm==2 && (!value || value <= 0)) {
+            callback("必填")
+        } else {
+            callback()
         }
-          if(Object.prototype.toString.call(value[key])=="[object Date]"){//时间格式化
-                    var dd = value[key].Format("yyyy-MM-dd");
-                    value[key]=dd;
-                }
-        
-    }
-   // console.log('收到表单值：', value);
-    this.props.onSubmit(value);
-  },
-
-     handleReset(e) {
-        e.preventDefault();
-        this.props.form.resetFields();
     },
-    //Modal
-   getInitialState() {
-    return { visible: false };
-  },
-  showModal(e) {  
-    e.preventDefault();
-    var mp={};
-    let value=this.props.form.getFieldsValue()
-     for(var key in value){
-         if(!value[key]){
-             value[key]=null;
-         }
-         if(Object.prototype.toString.call(value[key])=="[object Date]"){//时间格式化
-                    var dd = value[key].Format("yyyy-MM-dd");
-                    value[key]=dd;
-                }
-     }
-     
-    this.setState({
-      visible: true,
-      okValue:value,
-    });
-  },
-  
-  
-  handleOk(e) {
-    // console.log('点击了确定',this.state.okValue);
-    
-     this.props.handleOk(this.state.okValue)
-     
-    this.setState({
-      visible: false
-    });
-  },
-  handleCancel(e) {
-    
-    this.setState({
-      visible: false
-    });
-  },
-    render() {
-        
-         const { getFieldProps } = this.props.form; 
-          let data =[{}];
+    checkCzrs(rule, value, callback){
+        if ( this.props.data.jgxz_dm==2 && (!value || value <= 0)) {
+            callback("必填")
+        } else {
+            callback()
+        }
+    },
+    checkHhrs(rule, value, callback){
+        if ( this.props.data.jgxz_dm==1 && (!value || value <= 0)) {
+            callback("必填")
+        } else {
+            callback()
+        }
+    },
+    checkYysr(rule, value, callback){
+        if ( this.props.data.jgxz_dm==1 && (!value || value <= 0)) {
+            callback("必填")
+        } else {
+            callback()
+        }
+    },
+    commit(){
+        const {validateFieldsAndScroll} = this.props.form;
+        validateFieldsAndScroll((errors, values) => {
+            if (!!errors) {
+                return;
+            }
+            for(var key in values){
+                    if(Object.prototype.toString.call(value[key]) == "[object Undefined]" || (isNaN(values[key])&&(""==values[key]))){
+                        values[key]=null;
+                    }
+                      if(Object.prototype.toString.call(values[key])=="[object Date]"){//时间格式化
+                                var dd = values[key].Format("yyyy-MM-dd");
+                                values[key]=dd;
+                            }
+            }
+            this.props.onCommit(values);
+        })
+    },
+    save(){
+        const {validateFieldsAndScroll} = this.props.form;
+        validateFieldsAndScroll((errors, values) => {
+            if (!!errors) {
+                return;
+            }
+            for(var key in values){
+                    if(Object.prototype.toString.call(value[key]) == "[object Undefined]" || (isNaN(values[key])&&(""==values[key]))){
+                        values[key]=null;
+                    }
+                      if(Object.prototype.toString.call(values[key])=="[object Date]"){//时间格式化
+                                var dd = values[key].Format("yyyy-MM-dd");
+                                values[key]=dd;
+                            }
+                    
+            }
+            this.props.onSave(values);
+        })
+    },
+    render(){
+        const {getFieldProps} = this.props.form;
+        let data =[{}];
          if(this.props.data.length!=0){
               data = this.props.data;
-         };           
-              
-        return <div className="add">
+         };
+        return <div className="add_hyryb">
          <div className="h-scroll-table" >
         <div className="fix-table table-bordered table-striped" >
   
@@ -133,7 +124,7 @@ let Addhyryqktjb = React.createClass({
                 </colgroup>
                 <tbody>
                 <tr>  
-                    <td colSpan="3" >单位：{data[0].DWMC}</td>
+                    <td colSpan="3" >单位：</td>
                    <td colSpan="2" >所长：</td>
                      <td colSpan="5" ><Input   {...getFieldProps('sz')}/> </td> 
                     <td  colSpan="3">  <Col 
@@ -371,24 +362,6 @@ let Addhyryqktjb = React.createClass({
                 
                       
                 </tbody>   
-                 <tbody>
-                    <tr >                      
-                              <td  colSpan="3" style={{textAlign:'center'}}>               
-                        <Button type="primary" onClick={this.handleSubmit}> <Icon type="check"/>保存</Button>
-                         </td>
-                         <td  colSpan="2" style={{textAlign:'center'}}> 
-                         <Button type="primary" onClick={this.showModal}> <Icon type="arrow-up"/>提交</Button>
-                                       <Modal title="你确定要提交吗？" visible={this.state.visible}
-                                             onOk={this.handleOk} onCancel={this.handleCancel}>
-                                                 <p>提交后就不能修改了！！！</p>                             
-                                        </Modal>
-                        </td>
-                      <td  colSpan="3" style={{textAlign:'center'}}> 
-                        <Button type="primary" onClick={this.handleReset}><Icon type="cross"/>重置</Button>
-                      </td> 
-                    </tr>
-                </tbody>
-               
             </table>
             </Form>
         
@@ -398,13 +371,18 @@ let Addhyryqktjb = React.createClass({
                 <p>1、本表统计数据截止为统计年度的12月31日；上报截止期为次年3月31日。（具体时间以各省通知为准）</p>
                    <p> 2、人员总数=执业注册税务师+其他从业人员</p>
                    <p> 3、"具有其他专业服务执业资格的人员"是指除执业注册税务师以外的注册会计师、注册资产评估师、律师的专业服务执业资格的人 具有两种以上中介执业资格的人员，可以重复统计。</p>
-                   <p> 4、备注栏中埴列县以上人大代表和政协委员。</p>
+                   <p> 4、备注栏中填写县以上人大代表和政协委员。</p>
+            </div>
+            <div style={{textAlign:'center'}}>
+            <Button type="primary" onClick={this.save}> <Icon type="check"/>保存</Button>
+            <span className="ant-divider"></span>
+            <Button type="primary" onClick={this.commit}> <Icon type="arrow-up"/>提交</Button>
             </div>
             </div>
         </div>
     }
 });
-Addhyryqktjb = Form.create({
+Editfrom = Form.create({
     mapPropsToFields(props) {
         let result = {};
         for (let prop in props.data) {
@@ -412,7 +390,130 @@ Addhyryqktjb = Form.create({
         }
         return result;
     }
-})(Addhyryqktjb);
+})(Editfrom);
 
 
-module.exports = Addhyryqktjb;
+const c = React.createClass({
+    getDefaultProps(){
+        return {
+            title: '添加行业人员情况统计表',
+            url: config.HOST + config.URI_API_PROJECT + '/client/swsjbqk',
+            initUrl: config.HOST + config.URI_API_PROJECT + '/client/swsjbqkinit'
+        }
+    },
+    getInitialState(){
+        return {
+            loading: true,
+            data: {},
+            scr: 'edit'
+        }
+    },
+    back(){
+        this.props.onBack();
+    },
+
+    //保存
+    handleSave(values){
+        const {url} = this.props;
+        values.ztbj = 0;
+        this.setState({loading:true,data:values});
+        req({
+            method:'post',
+            url:url,
+            data:values
+        }).then(resp=>{
+            this.setState({loading:false,scr:'success',successType:'save'})
+        }).catch(e=>{
+            this.setState({loading: false});
+            if (e.status == 403){
+                let res = JSON.parse(e.response);
+                notification.error({
+                    duration: 3,
+                    message: '操作失败',
+                    description: res.text
+                });
+            }else{
+                notification.error({
+                    duration: 3,
+                    message: '操作失败',
+                    description: '报表数据保存失败，请稍后再尝试'
+                });
+            }
+        });
+    },
+    //提交
+    handleCommit(values){
+        const {url} = this.props;
+        values.ztbj = 2;
+        this.setState({loading:true,data:values});
+        req({
+            method:'post',
+            url:url,
+            data:values
+        }).then(resp=>{
+            this.setState({loading:false,scr:'success',successType:'commit'})
+        }).catch(e=>{
+            if (e.status == 403){
+                let res = JSON.parse(e.response);
+                notification.error({
+                    duration: 3,
+                    message: '操作失败',
+                    description: res.text
+                });
+            }else{
+                notification.error({
+                    duration: 3,
+                    message: '操作失败',
+                    description: '报表数据保存失败，请稍后再尝试'
+                });
+            }
+        });
+    },
+
+    componentDidMount(){
+        const {initUrl}  = this.props;
+        req({
+            method: 'get',
+            url: initUrl
+        }).then(resp=> {
+            this.setState({data: resp, loading: false})
+        }).catch(e=> {
+            if (e.status == 403) {
+                let res = JSON.parse(e.response);
+                let failtext = {
+                    text: res.text
+                };
+                this.setState({scr: 'fail', loading: false, failtext: failtext})
+            } else {
+                this.setState({scr: 'fail', loading: false})
+            }
+
+        })
+    },
+
+    render(){
+        const {title} = this.props;
+        let {data,loading,scr,failtext,successType} = this.state;
+        const panelBar = <PanelBar>
+            <Button onClick={this.back}>
+                <Icon type="rollback"/>返回
+            </Button>
+        </PanelBar>;
+
+        let content = {
+            edit: <Editfrom data={data} onCommit={this.handleCommit} onSave={this.handleSave} />,
+            fail: <FailScr text={failtext}/>,
+            success: <Success type={successType}/>
+        };
+
+        return <Panel className="swsjbqk-edit" toolbar={panelBar} title={title}>
+            <Spin spinning={loading}>
+                {content[scr]}
+            </Spin>
+        </Panel>
+
+    }
+});
+
+
+module.exports = c;
