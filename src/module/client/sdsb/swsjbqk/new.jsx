@@ -2,7 +2,6 @@ import React from 'react'
 import {Steps, Col, Row, Spin, notification, Icon, Button, Form, Input,InputNumber,Popconfirm} from 'antd'
 import Panel from 'component/compPanel'
 import {SelectorYear, SelectorXZ, SelectorSWSXZ, SelectorCS} from 'component/compSelector'
-import auth from 'common/auth.js'
 import config from 'common/configuration.js'
 import req from 'common/request'
 import utils from 'common/utils'
@@ -351,10 +350,7 @@ const c = React.createClass({
         }).catch(e=> {
             if (e.status == 403) {
                 let res = JSON.parse(e.response);
-                let failtext = {
-                    text: res.text
-                };
-                this.setState({scr: 'fail', loading: false, failtext: failtext})
+                this.setState({scr: 'fail', loading: false, failtext: res.text})
             } else {
                 this.setState({scr: 'fail', loading: false})
             }
