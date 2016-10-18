@@ -100,7 +100,7 @@ module.exports = {
     transEmpty2Null(obj){
         let entity = new Object();
         for (let prop in obj) {
-            if (!obj[prop]) {
+            if (!obj[prop] && obj[prop] !== 0) {
                 entity[prop] = null;
             } else if (typeof obj[prop] == 'string' && !(obj[prop] = obj[prop].trim())) {
                 entity[prop] = null;
@@ -110,4 +110,8 @@ module.exports = {
         }
         return entity;
     },
+    formatDate(str){
+        let date = new Date(str);
+        return date.getFullYear()+'年'+(date.getMonth()+1)+'月'+date.getDate()+'日'
+    }
 };

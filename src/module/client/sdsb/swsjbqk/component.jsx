@@ -72,7 +72,7 @@ const c = React.createClass({
                     <a onClick={()=> {
                         this.handleViewDetail(record)
                     }}>查看</a>
-                    {record.ZTBJ != 0 ?
+                    {record.ztdm == 0 || record.ztdm == 3?
                         <a onClick={()=> {
                             this.handleViewEdit(record)
                         }}>编辑</a> : null}
@@ -100,19 +100,15 @@ const c = React.createClass({
         /*设置明细信息组件的参数*/
         const detailSetting = {
             //设置数据源
-            data: this.state.entity,
-            //设置标题
-            title: '业务报备详细信息',
+            id: this.state.entity.id,
             //设置返回主视图调用的方法
-            onBack: this.backToList,
-            printCover: null
+            onBack: this.backToList
         };
         /*设置编辑组件的参数*/
         const editSetting = {
             id: this.state.entity.id,
             //设置返回主视图调用的方法
             onBack: this.backToList,
-            refreshList: this.refreshList
         };
 
         /*设置添加组件的参数*/
@@ -120,7 +116,6 @@ const c = React.createClass({
             id: this.state.entity.id,
             //设置返回主视图调用的方法
             onBack: this.backToList,
-            refreshList: this.refreshList
         };
 
         /*通过控制state.view的值，实现页面上列表/详细信息等组件的切换*/
