@@ -159,77 +159,148 @@ let Editfrom = React.createClass({
         });
         return <div className="fix-table no-border table-striped  ">
             <Form horizontal>
-                <table className="tg">
+                <table>
                     <colgroup>
-                        <col style={{width:'25%'}}/>
-                        <col style={{width:'25%'}}/>
-                        <col style={{width:'25%'}}/>
-                        <col style={{width:'25%'}}/>
+                        <col className ="col-2"/>
+                        <col className="col-6"/>
+                        <col className="col-4"/>
+                        <col className="col-4"/>
+                        <col className ="col-4"/>
+                        <col className ="col-4"/>
+
                     </colgroup>
                     <tbody>
                     <tr>
-                        <td className="tg-031e" colSpan="2">单位：{data.dwmc}</td>
-                        <td className="tg-031e" colSpan="2">
-                            <FormItem label="年度"  {...layout}><Input {...style} disabled { ...ndProps} /></FormItem>
+                        <td >单位:</td>
+                        <td></td>
+                        <td  >  <Col
+                            label="年度：">
+                            <SelectorYear  { ...getFieldProps('nd')}/>
+                        </Col>
                         </td>
+                        <td >制表人：<Input   {...getFieldProps('tianbiaoren')}/> </td>
+                        <td >所长：<Input   {...getFieldProps('suozhang')}/> </td>
+                        <td>单位：万元、户</td>
                     </tr>
                     <tr>
-                        <td className="tg-031e">
-                            <FormItem label="组织形式"  {...layout}><SelectorSWSXZ {...style}
-                              disabled { ...jgxzProps}/></FormItem>
-                        </td>
-                        <td className="tg-031e"><FormItem
-                          label="法人" {...layout}><Input {...style} {...frdbProps}/></FormItem>
-                        </td>
+                        <td rowSpan="2">序号</td>
+                        <td rowSpan="2">项目</td>
+                        <td colSpan="2">上年数</td>
+                        <td colSpan="2">本年数</td>
 
-                        <td className="tg-031e">
-                            <FormItem label="人员总数" {...layout}><InputNumber  {...style} {...ryzsProps}/></FormItem>
-                        </td>
-                        <td className="tg-031e">
-                            <FormItem label="执业人数" {...layout}><InputNumber {...style}
-                              disabled {...zyzcswsrsProps}/></FormItem>
-                        </td>
                     </tr>
                     <tr>
-                        <td className="tg-031e">
-                            <FormItem label="利润总额 万元"  {...layout}><InputNumber step={0.01} {...style} {...lrzeProps}/></FormItem>
-                        </td>
-                        <td className="tg-031e">
-                            <FormItem label="资产总额 万元" {...layout}><InputNumber step={0.01} {...style} {...zczeProps}/></FormItem>
-                        </td>
+                        <td>户数</td>
+                        <td>金额</td>
+                        <td>户数</td>
+                        <td>金额</td>
 
-                        <td className="tg-031e">
-                            <FormItem label="收入总额 万元" {...layout}><InputNumber step={0.01} {...style}
-                              disabled   {...srzeProps}/></FormItem></td>
-                        <td className="tg-031e">
-                            <FormItem label="委托户数" {...layout}><InputNumber {...style} {...wthsProps}/></FormItem>
-                        </td>
                     </tr>
                     <tr>
-                        <td className="tg-031e">
-                            <FormItem
-                              label="所在地" {...layout}><SelectorCS labelInValue {...style} { ...csProps}/></FormItem></td>
 
-                        {data.jgxz_dm == 2 ? <td className="tg-031e">
-                            <FormItem label="注册资金 万元" {...layout}><InputNumber step={0.01} {...style} {...zczjProps}/></FormItem>
-                        </td> : null}
-                        {data.jgxz_dm == 2 ? <td className="tg-031e">
-                            <FormItem label="股东人数" {...layout}><InputNumber {...style} {...czrsProps}/></FormItem>
-                        </td> : null}
-                        {data.jgxz_dm == 1 ? <td className="tg-031e">
-                            <FormItem label="合伙人数" {...layout}><InputNumber {...style} {...hhrsProps}/></FormItem>
-                        </td> : null}
-                        {data.jgxz_dm == 1 ? <td className="tg-031e">
-                            <FormItem label="运营资金 万元" {...layout}><InputNumber step={0.01} {...style} {...yysrProps}/></FormItem>
-                        </td> : null}
-                        <td> </td>
+                        <td>1</td>
+                        <td>企业所得税汇算清缴总户数</td>
+                        <td>--</td>
+                        <td>--</td>
+                        <td>--</td>
+                        <td>--</td>
                     </tr>
                     <tr>
-                        <td className="tg-031e">
-                            <FormItem label="制表人" {...layout}><Input {...style} {...tbrProps}/></FormItem></td>
-                        <td className="tg-031e">
-                            <FormItem label="所长" {...layout}><Input {...style} {...szProps}/></FormItem></td>
-                        <td colSpan="2"> </td>
+                        <td  >2</td>
+                        <td >企业所得税汇算清缴纳税申报鉴证业务  </td>
+                        <td ><Input   {...getFieldProps('hsqjje_hs0')}/> </td>
+                        <td ><Input   {...getFieldProps('hsqjje_je0')}/> </td>
+                        <td ><Input   {...getFieldProps('hsqjje_hs')}/> </td>
+                        <td ><Input   {...getFieldProps('hsqjje_je')}/> </td>
+                    </tr>
+                    <tr>
+                        <td  >3</td>
+                        <td >其中：（1）调增应纳所得税税额  </td>
+                        <td ><Input   {...getFieldProps('tzynsdse_hs0')}/> </td>
+                        <td ><Input   {...getFieldProps('tzynsdse_je0')}/> </td>
+                        <td ><Input   {...getFieldProps('tzynsdse_hs')}/> </td>
+                        <td ><Input   {...getFieldProps('tzynsdse_je')}/> </td>
+                    </tr>
+
+                    <tr>
+                        <td  >4</td>
+                        <td > &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;（2）调减应纳所得税税额  </td>
+                        <td ><Input   {...getFieldProps('tjynsdse_hs0')}/> </td>
+                        <td ><Input   {...getFieldProps('tjynsdse_je0')}/> </td>
+                        <td ><Input   {...getFieldProps('tjynsdse_hs')}/> </td>
+                        <td ><Input   {...getFieldProps('tjynsdse_je')}/> </td>
+                    </tr>
+
+                    <tr>
+                        <td  >5</td>
+                        <td > 企业税前弥补亏损鉴证业务 </td>
+                        <td ><Input   {...getFieldProps('mbksje_hs0')}/> </td>
+                        <td ><Input   {...getFieldProps('mbksje_je0')}/> </td>
+                        <td ><Input   {...getFieldProps('mbksje_hs')}/> </td>
+                        <td ><Input   {...getFieldProps('mbksje_je')}/> </td>
+                    </tr>
+
+                    <tr>
+                        <td  >6</td>
+                        <td > 企业资产损失税前扣除鉴证业务 </td>
+                        <td ><Input   {...getFieldProps('ccsskc_hs0')}/> </td>
+                        <td ><Input   {...getFieldProps('ccsskc_je0')}/> </td>
+                        <td ><Input   {...getFieldProps('ccsskc_hs')}/> </td>
+                        <td ><Input   {...getFieldProps('ccsskc_je')}/> </td>
+                    </tr>
+
+                    <tr>
+                        <td  >7</td>
+                        <td > 土地增值税清算鉴证业务 </td>
+                        <td ><Input   {...getFieldProps('tdzzsqsjz_hs0')}/> </td>
+                        <td ><Input   {...getFieldProps('tdzzsqsjz_je0')}/> </td>
+                        <td ><Input   {...getFieldProps('tdzzsqsjz_hs')}/> </td>
+                        <td ><Input   {...getFieldProps('tdzzsqsjz_je')}/> </td>
+                    </tr>
+
+                    <tr>
+                        <td  >8</td>
+                        <td > 其他鉴证业务小计 </td>
+                        <td ><Input   {...getFieldProps('qtjz_hs0')}/> </td>
+                        <td ><Input   {...getFieldProps('qtjz_je0')}/> </td>
+                        <td ><Input   {...getFieldProps('qtjz_hs')}/> </td>
+                        <td ><Input   {...getFieldProps('qtjz_je')}/> </td>
+                    </tr>
+
+                    <tr>
+                        <td  >9</td>
+                        <td > 其中：（1）高新技术企业认定鉴证业务 </td>
+                        <td ><Input   {...getFieldProps('gxjsqyrdqzyw_hs0')}/> </td>
+                        <td ><Input   {...getFieldProps('gxjsqyrdqzyw_je0')}/> </td>
+                        <td ><Input   {...getFieldProps('gxjsqyrdqzyw_hs')}/> </td>
+                        <td ><Input   {...getFieldProps('gxjsqyrdqzyw_je')}/> </td>
+                    </tr>
+
+                    <tr>
+                        <td  >10</td>
+                        <td >&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;（2）企业注销税务登记税款清算鉴证业务 </td>
+                        <td ><Input   {...getFieldProps('qyzxswdeskjsjzyw_hs0')}/> </td>
+                        <td ><Input   {...getFieldProps('qyzxswdeskjsjzyw_je0')}/> </td>
+                        <td ><Input   {...getFieldProps('qyzxswdeskjsjzyw_hs')}/> </td>
+                        <td ><Input   {...getFieldProps('qyzxswdeskjsjzyw_je')}/> </td>
+                    </tr>
+
+                    <tr>
+                        <td  >11</td>
+                        <td >&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;（3）研发费加计扣除鉴证业务 </td>
+                        <td ><Input   {...getFieldProps('yffjjkcjzyw_hs0')}/> </td>
+                        <td ><Input   {...getFieldProps('yffjjkcjzyw_je0')}/> </td>
+                        <td ><Input   {...getFieldProps('yffjjkcjzyw_hs')}/> </td>
+                        <td ><Input   {...getFieldProps('yffjjkcjzyw_je')}/> </td>
+                    </tr>
+
+                    <tr>
+                        <td  >12</td>
+                        <td >&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;（4）其他 </td>
+                        <td ><Input   {...getFieldProps('qt_hs0')}/> </td>
+                        <td ><Input   {...getFieldProps('qt_je0')}/> </td>
+                        <td ><Input   {...getFieldProps('qt_hs')}/> </td>
+                        <td ><Input   {...getFieldProps('qt_je')}/> </td>
                     </tr>
                     </tbody>
                 </table>
@@ -245,6 +316,7 @@ let Editfrom = React.createClass({
                         </ButtonGroup>
                     </Col>
                 </Row>
+
             </Form>
         </div>
     }
@@ -263,9 +335,9 @@ Editfrom = Form.create({
 const c = React.createClass({
     getDefaultProps(){
         return {
-            title: '添加事务所基本情况表',
-            url: config.HOST + config.URI_API_PROJECT + '/client/swsjbqk',
-            initUrl: config.HOST + config.URI_API_PROJECT + '/client/swsjbqkinit'
+            title: '添加行业鉴证业务情况统计表6',
+            url: config.HOST + config.URI_API_PROJECT + '/client/jzywqktjb',
+            initUrl: config.HOST + config.URI_API_PROJECT + '/client/jzywqktjbinit'
         }
     },
     getInitialState(){
