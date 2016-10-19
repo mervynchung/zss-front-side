@@ -58,7 +58,7 @@ const detail = React.createClass({
                 <h1 style={{textAlign:'center'}}>{data.ND}年度税务师事务所基本情况统计表（表1)</h1>
                 <Row className="dt"><Col span="12">编制地区(单位）：{data.DWMC}</Col><Col span="8">上报时间：{data.SBRQ}</Col><Col
                   span="4">单位：万元、人</Col></Row>
-                <div className="fix-table table-bordered">
+                <div className="fix-table table-bordered detail">
                     <table>
                         <tbody>
 
