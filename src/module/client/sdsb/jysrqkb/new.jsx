@@ -14,6 +14,17 @@ const FormItem = Form.Item;
 const PanelBar = Panel.ToolBar;
 
 let Editfrom = React.createClass({
+    checkSrze(rule, value, callback) {
+        let zyywsrhj_je = this.props.form.getFieldValue('zyywsrhj_je');
+        let qtywsrhj = this.props.form.getFieldValue('qtywsrhj');
+        let srze = Number(zyywsrhj_je ? zyywsrhj_je : 0)
+            + Number(qtywsrhj ? qtywsrhj : 0);
+        if(value==srze){
+            callback();
+        }else{
+            callback("收入总额=主营业务合计+其他收入合计,现在收入总额≠主营业务合计+其他收入合计，数据有误，请重新确认一遍");
+        }
+    },
     checkRyzs(rule, value, callback) {
         if (value < this.props.form.getFieldValue('zyzcswsrs')) {
             callback("人员总数要大于执业人数")
@@ -372,87 +383,7 @@ let Editfrom = React.createClass({
             wrapperCol: { span: 12 }
         };
         const style = { style: { width: '100%' } };
-        const ndProps = getFieldProps('nd', {
-            rules: [
-                { required: true, type: 'number', message: '必填' }
-            ]
-        });
-        const jgxzProps = getFieldProps('jgxz_dm', {
-            rules: [
-                { required: true, message: '必填' }
-            ]
-        });
-        const frdbProps = getFieldProps('frdbxm', {
-            rules: [
-                { required: true, whitespace: true, message: '必填' }
-            ]
-        });
-        const ryzsProps = getFieldProps('ryzs', {
-            rules: [
-                { required: true, type: "number", message: '必填' },
-                { validator: this.checkRyzs }
-            ]
-        });
-        const zyzcswsrsProps = getFieldProps('zyzcswsrs', {
-            rules: [
-                { required: true, type: "number", message: '必填' }
-            ]
-        });
-        const lrzeProps = getFieldProps('lrze', {
-            rules: [
-                { required: true, type: "number", message: '必填' }
-            ]
-        });
-        const zczeProps = getFieldProps('zcze', {
-            rules: [
-                { required: true, type: "number", message: '必填' }
-            ]
-        });
-        const srzeProps = getFieldProps('srze', {
-            rules: [
-                { required: true, type: "number", message: '必填' }
-            ]
-        });
-        const wthsProps = getFieldProps('wths', {
-            rules: [
-                { required: true, type: "number", message: '必填' }
-            ]
-        });
-        const csProps = getFieldProps('cs_dm', {
-            rules: [
-                { required: true, type: 'object', message: '必填' }
-            ]
-        });
-        const zczjProps = getFieldProps('zczj', {
-            rules: [
-                { validator: this.checkZczj }
-            ]
-        });
-        const czrsProps = getFieldProps('czrs', {
-            rules: [
-                { validator: this.checkCzrs }
-            ]
-        });
-        const hhrsProps = getFieldProps('hhrs', {
-            rules: [
-                { validator: this.checkHhrs }
-            ]
-        });
-        const yysrProps = getFieldProps('yysr', {
-            rules: [
-                { validator: this.checkYysr }
-            ]
-        });
-        const tbrProps = getFieldProps('tianbiaoren', {
-            rules: [
-                { required: true, whitespace: true, message: '必填' }
-            ]
-        });
-        const szProps = getFieldProps('suozhang', {
-            rules: [
-                { required: true, whitespace: true, message: '必填' }
-            ]
-        });
+
         return <div className="fix-table no-border table-striped  ">
             <Form horizontal>
                 <table className="tg">
@@ -499,21 +430,21 @@ let Editfrom = React.createClass({
                             <td><b>（一）主营业务合计</b></td>
                             <td colSpan="2"><InputNumber disabled  {...getFieldProps('zyywsrhj_hs0', { initialValue: data.ZYYWSRHJ_HS }) } /></td>
                             <td><InputNumber step={0.01} disabled  {...getFieldProps('zyywsrhj_je0', { initialValue: data.ZYYWSRHJ_JE }) } /></td>
-                            <td colSpan="2"><InputNumber disabled {...getFieldProps('zyywsrhj_hs') } /></td>
+                            <td colSpan="2"><InputNumber max={99999} disabled {...getFieldProps('zyywsrhj_hs') } /></td>
                             <td><InputNumber step={0.01} disabled {...getFieldProps('zyywsrhj_je') } /></td>
                         </tr>
                         <tr>
                             <td>1、涉税服务业务</td>
                             <td colSpan="2"><InputNumber disabled  {...getFieldProps('ssfwyw_hs0', { initialValue: data.SSFWYW_HS }) } /></td>
                             <td><InputNumber step={0.01} disabled {...getFieldProps('ssfwyw_je0', { initialValue: data.SSFWYW_JE }) } /></td>
-                            <td colSpan="2"><InputNumber disabled  {...getFieldProps('ssfwyw_hs') } /></td>
+                            <td colSpan="2"><InputNumber max={99999} disabled  {...getFieldProps('ssfwyw_hs') } /></td>
                             <td><InputNumber step={0.01} disabled  {...getFieldProps('ssfwyw_je') } /></td>
                         </tr>
                         <tr>
                             <td>(1)代理税务登记</td>
                             <td colSpan="2"><InputNumber disabled  {...getFieldProps('dlswdj_hs0', { initialValue: data.DLSWDJ_HS }) } /></td>
                             <td><InputNumber step={0.01} disabled  {...getFieldProps('dlswdj_je0', { initialValue: data.DLSWDJ_JE }) } /></td>
-                            <td colSpan="2"><InputNumber {...getFieldProps('dlswdj_hs') } onChange={this.handleSrInputChange.bind(this, "dlswdj_hs")} /></td>
+                            <td colSpan="2"><InputNumber max={99999} {...getFieldProps('dlswdj_hs') } onChange={this.handleSrInputChange.bind(this, "dlswdj_hs")} /></td>
                             <td><InputNumber step={0.01}   {...getFieldProps('dlswdj_je') } onChange={this.handleSrInputChange.bind(this, "dlswdj_je")} /></td>
                         </tr>
                         <tr>
@@ -663,37 +594,37 @@ let Editfrom = React.createClass({
                         <tr>
                             <td>（一）主营业务成本</td>
                             <td colSpan="3"><Col span={12} offset={6}><InputNumber step={0.01} disabled {...getFieldProps('zyywcb0', { initialValue: data.ZYYWCB }) } /></Col></td>
-                            <td colSpan="3"><Col span={12} offset={6}><InputNumber step={0.01}  {...getFieldProps('zyywcb') } onChange={this.handleZcInputChange.bind(this,"zyywcb")}/></Col></td>
+                            <td colSpan="3"><Col span={12} offset={6}><InputNumber step={0.01}  {...getFieldProps('zyywcb') } onChange={this.handleZcInputChange.bind(this, "zyywcb")} /></Col></td>
                         </tr>
                         <tr>
                             <td>（二）主营业务税金及附加</td>
                             <td colSpan="3"><Col span={12} offset={6}><InputNumber step={0.01} disabled {...getFieldProps('zyywsjfj0', { initialValue: data.ZYYWSJFJ }) } /></Col></td>
-                            <td colSpan="3"><Col span={12} offset={6}><InputNumber step={0.01}  {...getFieldProps('zyywsjfj') } /></Col></td>
+                            <td colSpan="3"><Col span={12} offset={6}><InputNumber step={0.01}  {...getFieldProps('zyywsjfj') } onChange={this.handleZcInputChange.bind(this, "zyywsjfj")} /></Col></td>
                         </tr>
                         <tr>
                             <td>（三）营业费用</td>
                             <td colSpan="3"><Col span={12} offset={6}><InputNumber step={0.01} disabled {...getFieldProps('yyfy0', { initialValue: data.YYFY }) } /></Col></td>
-                            <td colSpan="3"><Col span={12} offset={6}><InputNumber step={0.01}  {...getFieldProps('yyfy') } /></Col></td>
+                            <td colSpan="3"><Col span={12} offset={6}><InputNumber step={0.01}  {...getFieldProps('yyfy') } onChange={this.handleZcInputChange.bind(this, "yyfy")} /></Col></td>
                         </tr>
                         <tr>
                             <td>（四）管理费用</td>
                             <td colSpan="3"><Col span={12} offset={6}><InputNumber step={0.01} disabled {...getFieldProps('glfy0', { initialValue: data.GLFY }) } /></Col></td>
-                            <td colSpan="3"><Col span={12} offset={6}><InputNumber step={0.01}  {...getFieldProps('glfy') } /></Col></td>
+                            <td colSpan="3"><Col span={12} offset={6}><InputNumber step={0.01}  {...getFieldProps('glfy') } onChange={this.handleZcInputChange.bind(this, "glfy")} /></Col></td>
                         </tr>
                         <tr>
                             <td>（五）财务费用</td>
                             <td colSpan="3"><Col span={12} offset={6}><InputNumber step={0.01} disabled {...getFieldProps('cwfy0', { initialValue: data.CWFY }) } /></Col></td>
-                            <td colSpan="3"><Col span={12} offset={6}><InputNumber step={0.01}  {...getFieldProps('cwfy') } /></Col></td>
+                            <td colSpan="3"><Col span={12} offset={6}><InputNumber step={0.01}  {...getFieldProps('cwfy') } onChange={this.handleZcInputChange.bind(this, "cwfy")} /></Col></td>
                         </tr>
                         <tr>
                             <td>（六）营业外支出</td>
                             <td colSpan="3"><Col span={12} offset={6}><InputNumber step={0.01} disabled {...getFieldProps('yywzc0', { initialValue: data.YYWZC }) } /></Col></td>
-                            <td colSpan="3"><Col span={12} offset={6}><InputNumber step={0.01}  {...getFieldProps('yywzc') } /></Col></td>
+                            <td colSpan="3"><Col span={12} offset={6}><InputNumber step={0.01}  {...getFieldProps('yywzc') } onChange={this.handleZcInputChange.bind(this, "yywzc")} /></Col></td>
                         </tr>
                         <tr>
                             <td>（七）其他支出</td>
                             <td colSpan="3"><Col span={12} offset={6}><InputNumber step={0.01} disabled {...getFieldProps('qtzc0', { initialValue: data.QTZC }) } /></Col></td>
-                            <td colSpan="3"><Col span={12} offset={6}><InputNumber step={0.01}  {...getFieldProps('qtzc') } /></Col></td>
+                            <td colSpan="3"><Col span={12} offset={6}><InputNumber step={0.01}  {...getFieldProps('qtzc') } onChange={this.handleZcInputChange.bind(this, "qtzc")} /></Col></td>
                         </tr>
                         <tr>
                             <td><b>三、利润总额</b></td>
@@ -733,7 +664,7 @@ const c = React.createClass({
     getDefaultProps() {
         return {
             title: '经营收入情况表',
-            url: config.HOST + config.URI_API_PROJECT + '/client/swsjbqk',
+            url: config.HOST + config.URI_API_PROJECT + '/addjysrqkb',
             initUrl: config.HOST + config.URI_API_PROJECT + '/add/upyear1'
         }
     },
