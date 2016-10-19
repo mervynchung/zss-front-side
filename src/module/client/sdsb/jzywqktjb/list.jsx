@@ -21,7 +21,7 @@ const list = React.createClass({
             //默认每页显示数量
             pageSize: 10,
             //数据来源api
-            apiUrl: config.HOST + config.URI_API_PROJECT + `/client/swsjbqk`,
+            apiUrl: config.HOST + config.URI_API_PROJECT + `/client/jzywqktjb`,
             //初始搜索条件
             defaultWhere:{},
             //栏目名称
