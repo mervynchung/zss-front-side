@@ -21,7 +21,7 @@ const list = React.createClass({
             //默认每页显示数量
             pageSize: 10,
             //数据来源api
-            apiUrl: config.HOST + config.URI_API_PROJECT + '/client/jygmtjb',
+            apiUrl: config.HOST + config.URI_API_PROJECT + `/client/jygmtjb`,
             //初始搜索条件
             defaultWhere:{},
             //栏目名称
@@ -117,7 +117,7 @@ const list = React.createClass({
         };
         this.fetchData(param);
     },
-  
+   
 
     //刷新按钮
     handleRefresh(){
@@ -169,7 +169,6 @@ const list = React.createClass({
                 <Button  onClick={this.handleRefresh}><Icon type="reload"/></Button>
             </ButtonGroup>
 
-           
         </ToolBar>;
         return <div>
             {this.state.helper && <Alert message={helperTitle}

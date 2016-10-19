@@ -1,8 +1,8 @@
 import '../common/lib';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Router, Route, IndexRoute, useRouterHistory} from 'react-router';
-import {createHistory, createHashHistory} from 'history'
+import { Router, Route, IndexRoute, useRouterHistory } from 'react-router';
+import { createHistory, createHashHistory } from 'history'
 import App from '../component/App';
 import Signin from 'module/signin';
 import Dyfp from 'module/useforprint/fpdy/dy.jsx';
@@ -11,7 +11,7 @@ import Dyry from 'module/useforprint/glsc_ry/dy.jsx';
 import Dyzb from 'module/useforprint/glsc_zb/dy.jsx';
 import Dyfb from 'module/useforprint/glsc_fb/dy.jsx';
 import YwbbCover from 'module/useforprint/ywbb_fm/dy.jsx';
-import {home} from '../module/home';
+import { home } from '../module/home';
 import Zyjbxx from 'module/rygl/rycx/zyryjbxx.jsx';
 import Cyjbxx from 'module/rygl/rycx/cyryjbxx.jsx';
 import NotFound from 'module/404notfound'
@@ -25,7 +25,7 @@ const history = useRouterHistory(createHashHistory)({
 const Index = React.createClass({
 
     /*登录校验*/
-    requireAuth(nextState, replace){
+    requireAuth(nextState, replace) {
         /*if (!auth.verifyPermission(nextState.location.pathname)) {
          replace({
          pathname: '/404',
@@ -35,17 +35,17 @@ const Index = React.createClass({
         if (!auth.verifyAuth()) {
             replace({
                 pathname: '/signin',
-                state: {nextPathname: nextState.location.pathname}
+                state: { nextPathname: nextState.location.pathname }
             })
         }
     },
 
-    render(){
+    render() {
         /*路由配置*/
         const routes = [{
             path: '/',
             component: App,
-            indexRoute: {component: home},
+            indexRoute: { component: home },
             ignoreScrollBehavior: true,
             breadcrumbName: '首页',
             onEnter: this.requireAuth,
@@ -68,7 +68,7 @@ const Index = React.createClass({
                 require('../module/xtgnsz/yhgl'),
                 require('../module/xtgnsz/yhdljlb'),
 
-            //资质管理
+                //资质管理
                 require('../module/zzgl/jgzzgl'), //事务所资质管理
                 require('../module/zzgl/zyswszzgl'), //执业注师资质管理
 
@@ -146,7 +146,6 @@ const Index = React.createClass({
                 require('../module/spsh/module/44'),
                 require('../module/spsh/module/46'),
 
-
                 // 数据统计分析 - 年检数据分析
                 require('../module/xtsjfx/njsjfx/rynjsjfx'),//人员年检数据分析
                 require('../module/xtsjfx/njsjfx/jgnjsjfxb'),//机构年检数据分析
@@ -187,7 +186,7 @@ const Index = React.createClass({
                 require('../module/hyhf_new/scgl'),
 
                 //证照打印管理
-                require('../module/zzdygl/zyglscdy'),*/
+                require('../module/zzdygl/zyglscdy'),
 
 
                 //客户端
@@ -219,7 +218,7 @@ const Index = React.createClass({
                 require('../module/client/sdsb/jzywqktjb'),
                 require('../module/client/sdsb/hyryqktjb'),
                 require('../module/client/sdsb/jysrqkb'),
-                
+
 
                 //年度检查
                 require('../module/client/swsnj'),//事务所年检
@@ -257,20 +256,20 @@ const Index = React.createClass({
         }, {
             path: '/new_blank/sws/zyjbxx',
             component: Zyjbxx
-        },{
+        }, {
             path: '/new_blank/sws/cyjbxx',
             component: Cyjbxx
         }, {
             path: '/print/ywbbcover',
             component: YwbbCover
-        },{
+        }, {
             path: '*',
             component: NotFound
         }];
-        return <Router history={history} routes={routes}/>
+        return <Router history={history} routes={routes} />
     }
 });
-ReactDOM.render(<Index/>, document.getElementById('app'));
+ReactDOM.render(<Index />, document.getElementById('app'));
 
 
 
