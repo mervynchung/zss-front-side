@@ -9,6 +9,7 @@ import Add from './Add'
 import Update from './Update'
 import auth from 'common/auth'
 import config from 'common/configuration'
+import cloneDeep from 'lodash/cloneDeep'
 import BaseTable from 'component/compBaseTable'
 import { entityFormat } from 'common/utils'
 import DetailBox from './detailbox.jsx'
@@ -34,7 +35,7 @@ const lrfpb = React.createClass({
                 pageSizeOptions: ['5', '10', '20'],
                 alert: ''
             },
-            searchToggle: false, 
+            searchToggle: false,
             where: '',
             helper: false,
             entity: '',
@@ -66,7 +67,7 @@ const lrfpb = React.createClass({
 
     //查询按钮
     handleSearchToggle() {
-        this.setState({ searchToggle: !this.state.searchToggle  });
+        this.setState({ searchToggle: !this.state.searchToggle });
     },
 
 
@@ -81,7 +82,7 @@ const lrfpb = React.createClass({
     //帮助按钮
     handleHelper() {
         this.setState({ helper: !this.state.helper })
-    }, 
+    },
 
     //手动关闭帮助提示
     handleHelperClose() {
@@ -124,7 +125,7 @@ const lrfpb = React.createClass({
             message.error('Status Code:' + err.status + '  api错误 ')
         })
     },
- 
+
 
     //提交条件查询
     handleSearchSubmit(value) {
@@ -140,7 +141,7 @@ const lrfpb = React.createClass({
         this.setState({ searchToggle: false })
     },
 
-  
+
     //通过API获取数据
     fetchData(params = { page: 1, pageSize: this.state.pagination.pageSize }) {
         this.setState({ loading: true });
@@ -184,8 +185,17 @@ const lrfpb = React.createClass({
             headers: { 'x-auth-token': auth.getToken() },
             contentType: 'application/json'
         }).then(resp => {
-            let entity = entityFormat(resp, entityModel);
-            this.setState({ entity: entity, dataLoading: false });
+            let entity=cloneDeep(resp);
+            entity = entityFormat(entity, entityModel);
+            let fs = {};
+            for (var key in resp) {
+                let num = resp[key];
+                if(key=="ND"){
+                    num=num+"";
+                } 
+                fs[key] = num;
+            }
+            this.setState({ entity: entity,fileds:fs, dataLoading: false });
         }).fail(err => {
             Modal.error({
                 title: '数据获取错误',
@@ -302,7 +312,7 @@ const lrfpb = React.createClass({
                 {this.state.views == 2 &&
                     <Update
                         onSubmit={this.handleSubmit.bind(this, 'update')}
-                        data={this.state.entity}
+                        data={this.state.fileds}
                         loading={this.state.dataLoading}
                         btnloading={this.state.btnLoading}
                         toback={this.handleViewChange.bind(this, 0)} />

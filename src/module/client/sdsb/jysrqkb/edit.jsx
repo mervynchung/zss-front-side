@@ -67,14 +67,14 @@ let Editfrom = React.createClass({
                             <td><b>（一）主营业务合计</b></td>
                             <td colSpan="2"><Input   {...getFieldProps('zyywsrhj_hs0', { initialValue: data.ZYYWSRHJ_HS0 }) } /></td>
                             <td><Input   {...getFieldProps('zyywsrhj_je0', { initialValue: data.ZYYWSRHJ_JE0 }) } /></td>
-                            <td colSpan="2"><Input   {...getFieldProps('zyywsrhj_hs', { initialValue: data.ZYYWSRHJ_JE }) } /></td>
+                            <td colSpan="2"><Input   {...getFieldProps('zyywsrhj_hs', { initialValue: data.ZYYWSRHJ_HS }) } /></td>
                             <td><Input   {...getFieldProps('zyywsrhj_je', { initialValue: data.ZYYWSRHJ_JE }) } /></td>
                         </tr>
                         <tr>
                             <td>1、涉税服务业务</td>
                             <td colSpan="2"><Input   {...getFieldProps('ssfwyw_hs0', { initialValue: data.SSFWYW_HS0 }) } /></td>
                             <td><Input   {...getFieldProps('ssfwyw_je0', { initialValue: data.SSFWYW_JE0 }) } /></td>
-                            <td colSpan="2"><Input   {...getFieldProps('ssfwyw_hs', { initialValue: data.SSFWYW_JE }) } /></td>
+                            <td colSpan="2"><Input   {...getFieldProps('ssfwyw_hs', { initialValue: data.SSFWYW_HS }) } /></td>
                             <td><Input   {...getFieldProps('ssfwyw_je', { initialValue: data.SSFWYW_JE }) } /></td>
                         </tr>
                         <tr>
