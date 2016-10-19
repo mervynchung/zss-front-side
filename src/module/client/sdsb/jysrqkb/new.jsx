@@ -690,8 +690,8 @@ const c = React.createClass({
     getDefaultProps() {
         return {
             title: '经营收入情况表',
-            url: config.HOST + config.URI_API_PROJECT + '/addjysrqkb',
-            initUrl: config.HOST + config.URI_API_PROJECT + '/add/upyear1'
+            url: config.HOST + config.URI_API_PROJECT + '/client/jysrqkb',
+            initUrl: config.HOST + config.URI_API_PROJECT + '/client/jysrqkb/getUpyear'
         }
     },
     getInitialState() {

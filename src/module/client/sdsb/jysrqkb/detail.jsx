@@ -13,7 +13,7 @@ const detail = React.createClass({
     getDefaultProps() {
         return {
             title: '经营收入情况详细信息',
-            initUrl: config.HOST + config.URI_API_PROJECT + '/add/jysrqkb',
+            initUrl: config.HOST + config.URI_API_PROJECT + '/client/jysrqkb',
         }
     },
 

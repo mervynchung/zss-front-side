@@ -696,9 +696,9 @@ const c = React.createClass({
     getDefaultProps() {
         return {
             title: '编辑经营收入情况表',
-            url: config.HOST + config.URI_API_PROJECT + '/addjysrqkb',
-            initUrl: config.HOST + config.URI_API_PROJECT + '/add/upyear1',
-            detailUrl: config.HOST + config.URI_API_PROJECT + '/add/jysrqkb'
+            url: config.HOST + config.URI_API_PROJECT + '/client/jysrqkb',
+            initUrl: config.HOST + config.URI_API_PROJECT + '/client/jysrqkb/getUpyear',
+            detailUrl: config.HOST + config.URI_API_PROJECT + '/client/jysrqkb'
         }
     },
     getInitialState() {
@@ -774,7 +774,7 @@ const c = React.createClass({
         });
     },
 
-    //异步获取注册税务师人数和报表明细信息
+    //异步获取前年数据和经营收入情况表明细
     async fetchData() {
         const {detailUrl, initUrl, id} = this.props;
         let fetch1 = req({
@@ -820,7 +820,7 @@ const c = React.createClass({
             success: <Success type={successType} />
         };
 
-        return <Panel className="swsjbqk-edit" toolbar={panelBar} title={title}>
+        return <Panel className="jysrqkb-edit" toolbar={panelBar} title={title}>
             <Spin spinning={loading}>
                 {content[scr]}
             </Spin>
