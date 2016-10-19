@@ -49,10 +49,10 @@ let Updatexjllb = React.createClass({
             if (Object.prototype.toString.call(value[key]) == "[object Date]") {//时间格式化
                 var dd = value[key].Format("yyyy-MM-dd");
                 value[key] = dd;
-            }
+            } 
         }
         value.ztbj = ztbj;
-        value.id = obj.id;
+        value.id = obj.id; 
         this.props.form.validateFields((errors, values) => {
             if (errors) {
                 return;
@@ -118,7 +118,7 @@ let Updatexjllb = React.createClass({
 
     render() {
         const { getFieldProps } = this.props.form;
-        const data = this.props.data;
+        const data = this.props.data; 
         const loading = this.props.loading;
         return <div className="add">
             <div className="fix-table table-bordered table-striped">
