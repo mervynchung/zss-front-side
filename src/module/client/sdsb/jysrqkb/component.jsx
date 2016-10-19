@@ -132,7 +132,7 @@ const c = React.createClass({
         };
 
 
-        return <div className="client-jysrqkb">
+        return <div className="client-jysrqkb client-sdsb">
             <div className="wrap">
                 {view[this.state.view]}
             </div>
