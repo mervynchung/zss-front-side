@@ -57,6 +57,8 @@ let searchForm = React.createClass({
                             <Select  placeholder="选择状态" {...getFieldProps('ztbj')}   >
                                 <Option key="0">保存</Option>
                                 <Option key="1">提交</Option>
+                                <Option key="2">通过</Option>
+                                <Option key="3">退回</Option>
                             </Select>
                         </FormItem>
                     </Col>
