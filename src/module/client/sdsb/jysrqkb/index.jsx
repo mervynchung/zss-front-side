@@ -1,4 +1,4 @@
-/*利润表*/
+/*事务所基本情况表1填报*/
 module.exports = {
     path: 'client_1/jysrqkb(/)',
     breadcrumbName:'经营收入情况统计',
@@ -7,4 +7,4 @@ module.exports = {
             cb(null, require('./component'))
         })
     }
-}
+};

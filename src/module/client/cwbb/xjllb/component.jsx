@@ -9,6 +9,7 @@ import Add from './Add'
 import Update from './Update'
 import auth from 'common/auth'
 import config from 'common/configuration'
+import cloneDeep from 'lodash/cloneDeep'
 import BaseTable from 'component/compBaseTable'
 import { entityFormat } from 'common/utils'
 import DetailBox from './detailbox.jsx'
@@ -169,21 +170,27 @@ const xjllb = React.createClass({
         })
     },
 
+ 
     //根据表id获取现金流量表明细
     fetchDetail(record) {
         this.setState({ dataLoading: true });
         req({
             url: API_URL + '/' + record.id,
-            type: 'json',
+            
             method: 'get',
             headers: { 'x-auth-token': token },
-            contentType: 'application/json'
+            
         }).then(resp => {
-            let entity = entityFormat(resp, entityModel);
+            let entity=cloneDeep(resp);
+            entity = entityFormat(entity, entityModel);
             let fs = {};
-            for (var key in entity) {
+            for (var key in resp) {
                 let newkey = key.toLowerCase();
-                fs[newkey] = entity[key];
+                let num = resp[key];
+                if(key=="ND"){
+                    num=num+"";
+                } 
+                fs[newkey] = num;
             }
             this.setState({ dataLoading: false, entity: entity, fileds: fs });
         }).fail(e => {
@@ -333,7 +340,7 @@ const xjllb = React.createClass({
                     closable
                     onClose={this.handleHelperClose} />}
                 <Panel title={this.state.viewTitle} toolbar={toolbar}>
-                    {this.state.views == 0 && this.state.searchToggle && 
+                    {this.state.views == 0 && this.state.searchToggle &&
                         <SearchForm onSubmit={this.handleSearchSubmit} />}
                     {this.state.views == 0 &&
                         <div className="h-scroll-table">
