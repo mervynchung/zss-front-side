@@ -8,6 +8,7 @@ import SearchForm from './searchForm'
 import Add from './Add'
 import Update from './Update'
 import auth from 'common/auth'
+import cloneDeep from 'lodash/cloneDeep'
 import config from 'common/configuration'
 import BaseTable from 'component/compBaseTable'
 import { entityFormat } from 'common/utils'
@@ -189,8 +190,17 @@ const lrb = React.createClass({
             headers: { 'x-auth-token': auth.getToken() },
             contentType: 'application/json'
         }).then(resp => {
-            let entity = entityFormat(resp, entityModel);
-            this.setState({ entity: entity, dataLoading: false });
+            let entity=cloneDeep(resp);
+            entity = entityFormat(entity, entityModel);
+            let fs = {};
+            for (var key in resp) {
+                let num = resp[key];
+                if(key=="ND"){
+                    num=num+"";
+                } 
+                fs[key] = num;
+            }
+            this.setState({ entity: entity,fileds:fs, dataLoading: false });
         }).fail(err => {
             Modal.error({
                 title: '数据获取错误',
@@ -298,7 +308,7 @@ const lrb = React.createClass({
                 {this.state.views == 2 &&
                     <Update
                         onSubmit={this.handleSubmit.bind(this, 'update')}
-                        data={this.state.entity}
+                        data={this.state.fileds}
                         loading={this.state.dataLoading}
                         btnloading={this.state.btnLoading}
                         toback={this.handleViewChange.bind(this, 0)} />
