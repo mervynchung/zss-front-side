@@ -124,18 +124,17 @@ let Editfrom = React.createClass({
                 </colgroup>
                 <tbody>
                 <tr>  
-                    <td colSpan="3" >单位：</td>
-                   <td colSpan="2" >所长：</td>
-                     <td colSpan="5" ><Input   {...getFieldProps('sz')}/> </td> 
-                    <td  colSpan="3">  <Col 
-                          label="年度：">
-                            <SelectorYear  { ...getFieldProps('nd')}/>
-                        </Col>
+                    <td colSpan="2" >单位：</td>
+                   <td colSpan="3" >所长：<Input disabled={!this.props.bDisabled}  {...getFieldProps('sz')}/></td>
+                     <td colSpan="3" ><Col >年度：
+                            <SelectorYear disabled={!this.props.bDisabled} { ...getFieldProps('nd')}/>
+                        </Col> </td> 
+                    <td  colSpan="3">  制表人：<Input {...getFieldProps('zbr')}/>
                            </td>
-                           <td >制表人：</td>
-                           <td colSpan="6" ><Input {...getFieldProps('zbr')}/> </td>
+                           <td ></td>
+                           <td colSpan="6" > </td>
                           
-                       <td colSpan="2">单位：万元、户</td>   
+                       <td colSpan="5">单位：万元、户</td>   
                 
                 </tr>
                 
@@ -175,7 +174,7 @@ let Editfrom = React.createClass({
                 </tr>
                  <tr>
                     <td colSpan="2">人员总数</td>
-                    <td ><Input   {...getFieldProps('ryzs_ry_zj')}/></td>
+                    <td ><Input  disabled={!this.props.bDisabled} {...getFieldProps('ryzs_ry_zj')}/></td>
                     <td><Input   {...getFieldProps('ryzs_ry_nv')}/></td>
                     <td><Input   {...getFieldProps('ryzs_xl_yjs')}/></td>
                     <td><Input   {...getFieldProps('ryzs_xl_bk')}/></td>
@@ -198,7 +197,7 @@ let Editfrom = React.createClass({
                 </tr>
                  <tr>
                     <td colSpan="2">1、执业注册税务师</td>
-                    <td><Input   {...getFieldProps('zysws_ry_zj')}/></td>
+                    <td><Input disabled={!this.props.bDisabled}  {...getFieldProps('zysws_ry_zj')}/></td>
                     <td><Input   {...getFieldProps('zysws_ry_nv')}/></td>
                     <td><Input   {...getFieldProps('zysws_xl_yjs')}/></td>
                     <td><Input   {...getFieldProps('zysws_xl_bk')}/></td>
@@ -374,9 +373,9 @@ let Editfrom = React.createClass({
                    <p> 4、备注栏中填写县以上人大代表和政协委员。</p>
             </div>
             <div style={{textAlign:'center'}}>
-            <Button type="primary" onClick={this.save}> <Icon type="check"/>保存</Button>
+            <Button type="primary" onClick={this.save} disabled={this.props.bDisabled}> <Icon type="check"/>保存</Button>
             <span className="ant-divider"></span>
-            <Button type="primary" onClick={this.commit}> <Icon type="arrow-up"/>提交</Button>
+            <Button type="primary" onClick={this.commit} disabled={this.props.bDisabled}> <Icon type="arrow-up"/>提交</Button>
             </div>
             </div>
         </div>
@@ -479,13 +478,12 @@ const c = React.createClass({
             if (resp) {
             this.setState({data: resp, loading: false})
             }else{
-            this.setState({warnning: true, loading: false})
+            this.setState({warnning: true, loading: false,bDisabled:true})
             };
         }).catch(e=> {
             if (e.status == 403) {
                 let res = JSON.parse(e.response);
-                let failtext =  res.text;
-                this.setState({scr: 'fail', loading: false, failtext: failtext});
+                this.setState({scr: 'fail', loading: false, failtext: res.text});
             } else {
                 this.setState({scr: 'fail', loading: false})
             }
@@ -503,14 +501,14 @@ const c = React.createClass({
         </PanelBar>;
 
         let content = {
-            edit: <Editfrom data={data} onCommit={this.handleCommit} onSave={this.handleSave} />,
+            edit: <Editfrom data={data} onCommit={this.handleCommit} onSave={this.handleSave} bDisabled={this.state.bDisabled} />,
             fail: <FailScr text={failtext}/>,
             success: <Success type={successType}/>
         };
 
         return <Panel className="swsjbqk-edit" toolbar={panelBar} title={title}>
             <Spin spinning={loading}>
-            <p>请先填报上年度基本情况统计表（表1），提交通过后再填报此表</p>
+            {this.state.warnning&&<div style={{textAlign:'center'}}><span style={{'color':'red',fontSize:'large'}}>请先填报上年度基本情况统计表（表1），提交通过后再填报此表</span></div>}
                 {content[scr]}
             </Spin>
         </Panel>

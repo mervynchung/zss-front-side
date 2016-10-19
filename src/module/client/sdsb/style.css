@@ -14,3 +14,6 @@
     border-left:1px solid #ececec;
     border-right:1px solid #ececec
 }
+.add_hyryb .ant-input[disabled], fieldset[disabled] .ant-input{
+   color: #666;
+}
