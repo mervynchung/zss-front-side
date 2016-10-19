@@ -216,7 +216,6 @@ const Index = React.createClass({
                 require('../module/client/sdsb/jzywqktjb'),
                 require('../module/client/sdsb/hyryqktjb'),
                 require('../module/client/sdsb/jysrqkb'),
-                require('../module/client/sdsb/jysrqkb1'),
 
                 //年度检查
                 require('../module/client/swsnj'),//事务所年检
