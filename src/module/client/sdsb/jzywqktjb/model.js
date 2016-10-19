@@ -19,34 +19,34 @@ const model = {
         dataIndex: 'ZTBJ',
         width:80
     },{
-        title: '法人',
-        key: 'FRDBXM',
-        dataIndex: 'FRDBXM',
-        width:80
+        title: '汇算清缴户数',
+        key: 'HSQJJE_HS',
+        dataIndex: 'HSQJJE_HS',
+        width: 120
     }, {
-        title: '组织形式',
-        key: 'JGXZ',
-        dataIndex: 'JGXZ',
-        width: 130
+        title: '汇算清缴金额',
+        key: 'HSQJJE_JE',
+        dataIndex: 'HSQJJE_JE',
+        width:120
     }, {
-        title: '注册资金（单位：万元）',
-        key: 'ZCZJ',
-        dataIndex: 'ZCZJ',
-        width:180
-    }, {
-        title: '股东人数',
-        key: 'CZRS',
-        dataIndex: 'CZRS',
+        title: '调增户数',
+        key: 'TZYNSDSE_HS',
+        dataIndex: 'TZYNSDSE_HS',
         width: 100
     }, {
-        title: '人员人数',
-        key: 'RYZS',
-        dataIndex: 'RYZS',
+        title: '调增金额',
+        key: 'TZYNSDSE_JE',
+        dataIndex: 'TZYNSDSE_JE',
         width:100
     }, {
-        title: '执业人数',
-        key: 'ZYZCSWSRS',
-        dataIndex: 'ZYZCSWSRS'
+        title: '调减户数',
+        key: 'TJYNSDSE_HS',
+        dataIndex: 'TJYNSDSE_HS',
+        width:100
+    }, {
+        title: '调减金额',
+        key: 'TJYNSDSE_JE',
+        dataIndex: 'TJYNSDSE_JE'
     }]
 };
 
