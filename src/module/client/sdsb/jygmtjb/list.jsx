@@ -112,7 +112,7 @@ const list = React.createClass({
         const p = this.state.pagination;
         const param = {
             page: 1,
-            pagesize: p.pageSize,
+            pageSize: p.pageSize,
             where: values
         };
         this.fetchData(param);
@@ -122,12 +122,12 @@ const list = React.createClass({
     //刷新按钮
     handleRefresh(){
         const p = this.state.pagination;
-        this.fetchData({page:1, pagesize: p.pageSize});
+        this.fetchData({page:1, pageSize: p.pageSize});
     },
     //刷新当前页
     refreshCurrent(){
         const p = this.state.pagination;
-        this.fetchData({page: p.current, pagesize: p.pageSize});
+        this.fetchData({page: p.current, pageSize: p.pageSize});
     },
 
     //帮助按钮开关

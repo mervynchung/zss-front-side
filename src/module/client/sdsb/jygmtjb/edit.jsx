@@ -1,5 +1,5 @@
 import React from 'react'
-import { Steps, Col, Row, Spin, notification, Icon, Button, Form, Input } from 'antd'
+import { Steps, Col, Row, Spin, notification, Icon, Button, Form, Input ,InputNumber,Popconfirm} from 'antd'
 import Panel from 'component/compPanel'
 import { SelectorYear, SelectorXZ, SelectorSWSXZ, SelectorCS } from 'component/compSelector'
 import auth from 'common/auth.js'
@@ -9,12 +9,34 @@ import CommitSuccess from './successScr'
 import InitFailScr from './failScr'
 import Success from './successScr'
 import FailScr from './failScr'
+import {mapKeys} from 'lodash'
+import utils from 'common/utils'
 
 const ButtonGroup = Button.Group;
 const FormItem = Form.Item;
 const PanelBar = Panel.ToolBar;
 
 let Editfrom = React.createClass({
+    commit(){
+        const {validateFields} = this.props.form;
+        validateFields((errors, values) => {
+            if (!!errors) {
+                return;
+            }
+            values = utils.transEmpty2Null(values);
+            this.props.onCommit(values);
+        })
+    },
+    save(){
+        const {validateFields} = this.props.form;
+        validateFields({force:true},(errors, values)=> {
+            if (!!errors) {
+                return;
+            }
+            values = utils.transEmpty2Null(values);
+            this.props.onSave(values);
+        })
+    },
     render() {
         const {data} = this.props; 
         const layout = {
@@ -23,56 +45,74 @@ let Editfrom = React.createClass({
         };
         const style = {style: {width: '100%'}};
         const {getFieldProps} = this.props.form;
-        return <div className="fix-table table-bordered table-striped" >
+
+return <div className="fix-table no-border table-striped  ">
             <Form horizontal>
-                <table className="tg" style={{ width: '765px', border: 'none' }}>
+                <table className="tg">
                     <colgroup>
-                        <col style={{ width: '15%' }} />
-                        <col style={{ width: '15%' }} />
-                        <col style={{ width: '15%' }} />
-                        <col style={{ width: '15%' }} />
-                        <col style={{ width: '20%' }} />
-                        <col style={{ width: '30%' }} />
+                        <col style={{width:'25%'}}/>
+                        <col style={{width:'25%'}}/>
+                        <col style={{width:'25%'}}/>
+                        <col style={{width:'25%'}}/>
                     </colgroup>
-
                     <tbody>
-                        <tr>
-                            <td colSpan="3">单位： {data.DWMC}</td>
-                            <td  >  <Col
-                                label="年度：">
-                                <Input  { ...getFieldProps('nd', { initialValue: data.ND }) }disabled />
-                            </Col>
-                            </td>
-                            <td ><Col>制表人：<Input   {...getFieldProps('tbr', { initialValue: data.TBR }) } /> </Col></td>
-                            <td >所长：<Input   {...getFieldProps('sz', { initialValue: data.SZ }) } /> </td>
-                            <td  >上年收入总计</td>
-                            <td ><Input   {...getFieldProps('snsrze', { initialValue: data.SNSRZE }) } /> </td>
+                    <tr>
+                        <td className="tg-031e" colSpan="2">单位：{data.dwmc}</td>
+                        <td className="tg-031e" colSpan="2">
+                            <FormItem label="年度"  {...layout}><Input {...style} disabled {...getFieldProps('nd')} /></FormItem>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td className="tg-031e">
+                            <FormItem label="制表人"  {...layout}><Input {...style} {...getFieldProps('tbr')}
+                              disabled /></FormItem>
+                        </td>
+                        <td className="tg-031e"><FormItem
+                          label="所长"  {...layout}><Input disabled {...style} {...getFieldProps('sz')}/></FormItem>
+                        </td>
 
-                        </tr>
+                        <td className="tg-031e">
+                            <FormItem label="上年收入总计" {...layout}><InputNumber step={0.01} {...style} {...getFieldProps('snsrze')}disabled/></FormItem>
+                        </td>
+                        <td className="tg-031e">
+                            <FormItem label="本年收入总额合计" {...layout}><InputNumber step={0.01} {...style}
+                                                                             {...getFieldProps('bnsrze_hj')}/></FormItem>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td className="tg-031e">
+                            <FormItem label="本年收入总额涉税服务(万元)"  {...layout}><InputNumber step={0.01} {...style} {...getFieldProps('bnsrze_ssfw')}/></FormItem>
+                        </td>
+                        <td className="tg-031e">
+                            <FormItem label="本年收入总额涉税鉴证(万元)" {...layout}><InputNumber min={0} step={0.01} {...style}{...getFieldProps('bnsrze_ssjz')}/></FormItem>
+                        </td>
 
-                        <tr>
-
-                            <td  >本年收入总额合计</td>
-                            <td ><Input   {...getFieldProps('bnsrze_hj', { initialValue: data.BNSRZE_HJ }) } /> </td>
-                            <td >本年收入总额涉税服务</td>
-                            <td ><Input   {...getFieldProps('bnsrze_ssfw', { initialValue: data.BNSRZE_SSFW }) } /> </td>
-                            <td >本年收入总额涉税鉴证</td>
-                            <td ><Input   {...getFieldProps('bnsrze_ssjz', { initialValue: data.BNSRZE_SSJZ }) } /> </td>
-                            <td  >本年收入总额涉税鉴证</td>
-                            <td ><Input   {...getFieldProps('bnsrze_qtyw', { initialValue: data.BNSRZE_QTYW }) } /> </td>
-                        </tr>
-                    </tbody>
+                        <td className="tg-031e">
+                            <FormItem label="本年收入总额其他业务(万元)" {...layout}><InputNumber min={0} step={0.01} {...style}
+                                                                                {...getFieldProps('bnsrze_qtyw')}/></FormItem></td>
+                        
+                    </tr>
+                   </tbody>
                 </table>
-                <Row>
-                    <Col span="24">
-                        <Button type="primary" onClick={this.handleSave}> <Icon type="check" />保存</Button>
-                        <Button type="primary" onClick={this.handleCommit}> <Icon type="arrow-up" />提交</Button>
+                <Row style={{marginTop:'24px'}}>
+                    <Col span="5" offset="19">
+                        <ButtonGroup>
+                            <Popconfirm placement="top" title="确定保存？" onConfirm={this.save}>
+                                <Button type="primary"> <Icon type="save"/>保存</Button>
+                            </Popconfirm>
+                            <Popconfirm placement="top" title="确定提交？" onConfirm={this.commit}>
+                                <Button type="primary"> <Icon type="to-top"/>提交</Button>
+                            </Popconfirm>
+                        </ButtonGroup>
                     </Col>
                 </Row>
             </Form>
         </div>
     }
 });
+
+
+       
 Editfrom = Form.create({
     mapPropsToFields(props) {
         let result = {};
@@ -87,7 +127,7 @@ Editfrom = Form.create({
 const c = React.createClass({
     getDefaultProps(){
         return {
-            title: '编辑经营规模表',
+            title: '编辑事务所基本情况表',
             url: config.HOST + config.URI_API_PROJECT + '/client/jygmtjb',
             initUrl: config.HOST + config.URI_API_PROJECT + '/client/jygmtjinit'
         }
@@ -108,6 +148,7 @@ const c = React.createClass({
         const {url,id} = this.props;
         values.ztbj = 0;
         values.dwmc = this.state.data.dwmc;
+        values['id']=this.state.data.id;
         this.setState({loading:true,data:values});
         req({
             method:'put',
@@ -138,6 +179,7 @@ const c = React.createClass({
         const {url,id} = this.props;
         values.ztbj = 1;
         values.dwmc = this.state.data.dwmc;
+        values['id']=this.state.data.id;
         this.setState({loading:true,data:values});
         req({
             method:'put',
@@ -203,6 +245,7 @@ const c = React.createClass({
 
         })
     },
+    
 
     render(){
         const {title} = this.props;
@@ -213,15 +256,13 @@ const c = React.createClass({
             </Button>
         </PanelBar>;
 
-
-
         let content = {
             normal: <Editfrom data={data} onCommit={this.handleCommit} onSave={this.handleSave} zyzcswsrs={zyzcswsrs}/>,
             fail: <FailScr text={failtext}/>,
             success: <Success type={successType}/>
         };
 
-        return <Panel className="swsjbqk-edit" toolbar={panelBar} title={title}>
+        return <Panel className="jygmtjb-edit" toolbar={panelBar} title={title}>
             <Spin spinning={loading}>
                 {content[scr]}
             </Spin>

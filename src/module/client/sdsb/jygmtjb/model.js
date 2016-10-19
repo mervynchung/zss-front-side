@@ -40,8 +40,8 @@ const model = {
         width: 120
     }, {
         title: '状态',
-        key: 'ZTBJ',
-        dataIndex: 'ZTBJ',
+        key: 'ZTDM',
+        dataIndex: 'ZTDM',
         width:120
     }, ]
 };
