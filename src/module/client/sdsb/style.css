@@ -14,7 +14,7 @@
     border-left:1px solid #ececec;
     border-right:1px solid #ececec
 }
-.add_hyryb .ant-input[disabled], fieldset[disabled] .ant-input{
+.add_hyryb .ant-input[disabled], fieldset[disabled] .ant-input,.add_hyryb .ant-input-number-input[disabled]{
    color: #666;
+   cursor: text;
 }
-

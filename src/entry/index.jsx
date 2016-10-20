@@ -69,7 +69,7 @@ const Index = React.createClass({
                 require('../module/xtgnsz/yhdljlb'),
 
                 //资质管理
-           /*     require('../module/zzgl/jgzzgl'), //事务所资质管理
+                require('../module/zzgl/jgzzgl'), //事务所资质管理
                 require('../module/zzgl/zyswszzgl'), //执业注师资质管理
 
                 //业务管理
@@ -184,7 +184,7 @@ const Index = React.createClass({
                 require('../module/hyhf_new/scgl'),
 
                 //证照打印管理
-                require('../module/zzdygl/zyglscdy'),*/
+                require('../module/zzdygl/zyglscdy'),
 
 
                 //客户端

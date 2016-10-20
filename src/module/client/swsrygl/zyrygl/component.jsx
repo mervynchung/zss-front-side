@@ -23,6 +23,7 @@ const API_URL_ZJ = config.HOST+config.URI_API_PROJECT + '/spapi/spsq/zyzjsq';
 const API_URL_FS = config.HOST+config.URI_API_PROJECT + '/spapi/fspsq/zyzrfs';
 const API_URL_ZC = config.HOST+config.URI_API_PROJECT + '/spapi/spsq/zyzcsq';
 const API_URL_ZS = config.HOST+config.URI_API_PROJECT + '/spapi/spsq/zyzssq';
+const API_URL_BA = config.HOST+config.URI_API_PROJECT + '/spapi/spsq/zyswsbasq';
 const API_URL_C = config.HOST + config.URI_API_PROJECT + '/commont/checksping/zysp/';
 const API_URL_GX = config.HOST + config.URI_API_PROJECT + '/rygl/ryxpgx/';
 const radioStyle = {
@@ -194,6 +195,24 @@ onChangeFS(e) {
                 case 3: squrls=API_URL_ZX;break;
                 case 4: squrls=API_URL_ZJ;break;
                 case 6: squrls=API_URL_ZS;break;
+                case 8: squrls=API_URL_BA;
+                            if (!this.state.xpPath) {
+                                Modal.info({ title: '提示', content: (<div><p><b>请上传照片</b></p> </div>)});
+                                this.setState({bgLoading:false});
+                                return
+                            }
+                            ls.xppath=this.state.xpPath;
+                            req({url: API_URL_ISSFZH+ls.sfzh,method: 'get',type: 'json',
+                              headers:{'x-auth-token':auth.getToken()},
+                              success: (result) => {
+                                if (result==false) {
+                                    Modal.info({ title: '提示', content: (<div><p><b>身份证号码已在管理中心备案</b></p> </div>)});
+                                    this.setState({bgLoading:false});
+                                    return
+                                 }
+                              },error: (err) =>{alert('身份证校验错误');this.setState({bgLoading:false});return}
+                              });
+                            break;
             }
              req({
                 url: squrls,

@@ -72,10 +72,10 @@ const c = React.createClass({
                     <a onClick={()=> {
                         this.handleViewDetail(record)
                     }}>查看</a>
-                    {record.ZTBJ != 0 ?
+                    {record.ztdm == 0 ?<span><span className="ant-divider"></span>
                         <a onClick={()=> {
                             this.handleViewEdit(record)
-                        }}>编辑</a> : null}
+                        }}>编辑</a></span> : null}
                 </span>;
                 return actGroup
             }
