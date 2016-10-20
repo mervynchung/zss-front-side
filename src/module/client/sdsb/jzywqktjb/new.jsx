@@ -7,16 +7,17 @@ import req from 'common/request'
 import utils from 'common/utils'
 import Success from './successScr'
 import FailScr from './failScr'
-import num from 'numeral'
+import numeral from 'Numeral'
+import cloneDeep from 'lodash/cloneDeep';
 
 const ButtonGroup = Button.Group;
 const FormItem = Form.Item;
 const PanelBar = Panel.ToolBar;
 
 let Editfrom = React.createClass({
-    checkRyzs(rule, value, callback){
-        if (value < this.props.form.getFieldValue('zyzcswsrs')) {
-            callback("人员总数要大于执业人数")
+    checkhs1(rule, value, callback){
+        if (value ==0 && this.props.form.getFieldValue('tzynsdse_je')!=0) {
+            callback("户数不能为0")
         } else {
             callback()
         }
@@ -57,16 +58,11 @@ let Editfrom = React.createClass({
             wrapperCol: {span: 12}
         };
         const style = {style: {width: '100%'}};
-        const ndProps = getFieldProps('nd', {
+        const tzynsdse_hs = getFieldProps('tzynsdse_hs', {
             rules: [
-                {required: true, type: 'number', message: '必填'}
-            ]
-        });
-
-        const hsqjje_hs0 = getFieldProps('hsqjje_hs0', {
-            rules: [
-                {validator: this.checkZczj}
-            ]
+                {validator: this.checkhs1}
+            ],
+            normalize:this.zero
         });
 
         return <div className="fix-table no-border table-striped  ">
@@ -82,8 +78,8 @@ let Editfrom = React.createClass({
                     </colgroup>
                     <tbody>
                     <tr>
-                        <td colSpan="2">事务所名称：{data.dwmc}</td>
-                        <td colSpan="2"><FormItem label="年度"  {...layout}><Input {...style} disabled { ...ndProps} /></FormItem></td>
+                        <td colSpan="2">事务所名称：{data.dwmc?data.dwmc.value:''}</td>
+                        <td colSpan="2"><FormItem label="年度"  {...layout}><Input {...style} disabled { ...getFieldProps('nd')} /></FormItem></td>
                         <td colSpan="2">单位：万元、户</td>
                     </tr>
                     <tr>
@@ -110,31 +106,31 @@ let Editfrom = React.createClass({
                         <td className="tg-031e">2</td>
                         <td className="tg-031e">企业所得税汇算清缴纳税申报鉴证业务</td>
                         <td className="tg-031e"><FormItem><InputNumber disabled {...style} {...getFieldProps('hsqjje_hs0',{normalize:this.zero})}/></FormItem></td>
-                        <td className="tg-031e"><FormItem><InputNumber disabled {...style} {...getFieldProps('hsqjje_je0',{normalize:this.zero})}/></FormItem></td>
+                        <td className="tg-031e"><FormItem><InputNumber disabled step={0.01} {...style} {...getFieldProps('hsqjje_je0',{normalize:this.zero})}/></FormItem></td>
                         <td className="tg-yw4l"><FormItem><InputNumber disabled {...style} {...getFieldProps('hsqjje_hs',{normalize:this.zero})} /></FormItem></td>
-                        <td className="tg-yw4l"><FormItem><InputNumber disabled {...style} {...getFieldProps('hsqjje_je',{normalize:this.zero})}/></FormItem></td>
+                        <td className="tg-yw4l"><FormItem><InputNumber disabled step={0.01} {...style} {...getFieldProps('hsqjje_je',{normalize:this.zero})}/></FormItem></td>
                     </tr>
                     <tr>
                         <td className="tg-031e">3</td>
                         <td className="tg-031e">其中：（1）调增应纳所得税税额</td>
                         <td className="tg-031e"><FormItem><InputNumber disabled {...style} {...getFieldProps('tzynsdse_hs0',{normalize:this.zero})}/></FormItem></td>
-                        <td className="tg-031e"><FormItem><InputNumber disabled {...style} {...getFieldProps('tzynsdse_je0',{normalize:this.zero})}/></FormItem></td>
-                        <td className="tg-yw4l"><FormItem><InputNumber min={0} {...style} {...getFieldProps('tzynsdse_hs',{normalize:this.zero})}/></FormItem></td>
-                        <td className="tg-yw4l"><FormItem><InputNumber min={0} {...style} {...getFieldProps('tzynsdse_je',{normalize:this.zero})}/></FormItem></td>
+                        <td className="tg-031e"><FormItem><InputNumber disabled step={0.01} {...style} {...getFieldProps('tzynsdse_je0',{normalize:this.zero})}/></FormItem></td>
+                        <td className="tg-yw4l"><FormItem><InputNumber min={0} {...style} {...tzynsdse_hs}/></FormItem></td>
+                        <td className="tg-yw4l"><FormItem><InputNumber min={0} step={0.01} {...style} {...getFieldProps('tzynsdse_je',{normalize:this.zero})}/></FormItem></td>
                     </tr>
                     <tr>
                         <td className="tg-031e">4</td>
                         <td className="tg-031e">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;（2）调减应纳所得税税额</td>
                         <td className="tg-031e"><FormItem><InputNumber disabled {...style} {...getFieldProps('tjynsdse_hs0',{normalize:this.zero})}/></FormItem></td>
-                        <td className="tg-031e"><FormItem><InputNumber disabled {...style} {...getFieldProps('tjynsdse_je0',{normalize:this.zero})}/></FormItem></td>
+                        <td className="tg-031e"><FormItem><InputNumber disabled step={0.01} {...style} {...getFieldProps('tjynsdse_je0',{normalize:this.zero})}/></FormItem></td>
                         <td className="tg-yw4l"><FormItem><InputNumber min={0} {...style} {...getFieldProps('tjynsdse_hs',{normalize:this.zero})}/></FormItem></td>
-                        <td className="tg-yw4l"><FormItem><InputNumber min={0} {...style} {...getFieldProps('tjynsdse_je',{normalize:this.zero})}/></FormItem></td>
+                        <td className="tg-yw4l"><FormItem><InputNumber min={0} step={0.01} {...style} {...getFieldProps('tjynsdse_je',{normalize:this.zero})}/></FormItem></td>
                     </tr>
-                    {/*<tr>
+                    <tr>
                         <td className="tg-031e">5</td>
                         <td className="tg-031e">企业税前弥补亏损鉴证业务</td>
                         <td className="tg-031e"><FormItem><InputNumber disabled {...style} {...getFieldProps('mbksje_hs0',{normalize:this.zero})}/></FormItem></td>
-                        <td className="tg-031e"><FormItem><InputNumber disabled {...style} {...getFieldProps('mbksje_je0',{normalize:this.zero})}/></FormItem></td>
+                        <td className="tg-031e"><FormItem><InputNumber disabled step={0.01} {...style} {...getFieldProps('mbksje_je0',{normalize:this.zero})}/></FormItem></td>
                         <td className="tg-yw4l"><FormItem><InputNumber min={0} {...style} {...getFieldProps('mbksje_hs',{normalize:this.zero})}/></FormItem></td>
                         <td className="tg-yw4l"><FormItem><InputNumber step={0.01} {...style} {...getFieldProps('mbksje_je',{normalize:this.zero})}/></FormItem></td>
                     </tr>
@@ -142,7 +138,7 @@ let Editfrom = React.createClass({
                         <td className="tg-031e">6</td>
                         <td className="tg-031e">企业资产损失税前扣除鉴证业务</td>
                         <td className="tg-031e"><FormItem><InputNumber disabled {...style} {...getFieldProps('ccsskc_hs0',{normalize:this.zero})}/></FormItem></td>
-                        <td className="tg-031e"><FormItem><InputNumber disabled {...style} {...getFieldProps('ccsskc_je0',{normalize:this.zero})}/></FormItem></td>
+                        <td className="tg-031e"><FormItem><InputNumber disabled step={0.01} {...style} {...getFieldProps('ccsskc_je0',{normalize:this.zero})}/></FormItem></td>
                         <td className="tg-yw4l"><FormItem><InputNumber min={0}  {...style} {...getFieldProps('ccsskc_hs',{normalize:this.zero})}/></FormItem></td>
                         <td className="tg-yw4l"><FormItem><InputNumber step={0.01} {...style} {...getFieldProps('ccsskc_je',{normalize:this.zero})}/></FormItem></td>
                     </tr>
@@ -150,7 +146,7 @@ let Editfrom = React.createClass({
                         <td className="tg-031e">7</td>
                         <td className="tg-031e">土地增值税清算鉴证业务</td>
                         <td className="tg-031e"><FormItem><InputNumber disabled {...style} {...getFieldProps('tdzzsqsjz_hs0',{normalize:this.zero})}/></FormItem></td>
-                        <td className="tg-031e"><FormItem><InputNumber disabled {...style} {...getFieldProps('tdzzsqsjz_je0',{normalize:this.zero})}/></FormItem></td>
+                        <td className="tg-031e"><FormItem><InputNumber disabled step={0.01} {...style} {...getFieldProps('tdzzsqsjz_je0',{normalize:this.zero})}/></FormItem></td>
                         <td className="tg-yw4l"><FormItem><InputNumber min={0} {...style} {...getFieldProps('tdzzsqsjz_hs',{normalize:this.zero})}/></FormItem></td>
                         <td className="tg-yw4l"><FormItem><InputNumber step={0.01} {...style} {...getFieldProps('tdzzsqsjz_je',{normalize:this.zero})}/></FormItem></td>
                     </tr>
@@ -158,7 +154,7 @@ let Editfrom = React.createClass({
                         <td className="tg-031e">8</td>
                         <td className="tg-031e">其他鉴证业务小计</td>
                         <td className="tg-031e"><FormItem><InputNumber disabled {...style} {...getFieldProps('qtjz_hs0',{normalize:this.zero})}/></FormItem></td>
-                        <td className="tg-031e"><FormItem><InputNumber disabled {...style} {...getFieldProps('qtjz_je0',{normalize:this.zero})}/></FormItem></td>
+                        <td className="tg-031e"><FormItem><InputNumber disabled step={0.01} {...style} {...getFieldProps('qtjz_je0',{normalize:this.zero})}/></FormItem></td>
                         <td className="tg-yw4l"><FormItem><InputNumber min={0} disabled{...style} {...getFieldProps('qtjz_hs',{normalize:this.zero})}/></FormItem></td>
                         <td className="tg-yw4l"><FormItem><InputNumber step={0.01} disabled {...style} {...getFieldProps('qtjz_je',{normalize:this.zero})}/></FormItem></td>
                     </tr>
@@ -166,7 +162,7 @@ let Editfrom = React.createClass({
                         <td className="tg-031e">9</td>
                         <td className="tg-031e">其中：（1）高新技术企业认定鉴证业务</td>
                         <td className="tg-031e"><FormItem><InputNumber disabled {...style} {...getFieldProps('gxjsqyrdqzyw_hs0',{normalize:this.zero})}/></FormItem></td>
-                        <td className="tg-031e"><FormItem><InputNumber disabled {...style} {...getFieldProps('gxjsqyrdqzyw_je0',{normalize:this.zero})}/></FormItem></td>
+                        <td className="tg-031e"><FormItem><InputNumber disabled step={0.01} {...style} {...getFieldProps('gxjsqyrdqzyw_je0',{normalize:this.zero})}/></FormItem></td>
                         <td className="tg-yw4l"><FormItem><InputNumber min={0} {...style} {...getFieldProps('gxjsqyrdqzyw_hs',{normalize:this.zero})}/></FormItem></td>
                         <td className="tg-yw4l"><FormItem><InputNumber step={0.01} {...style} {...getFieldProps('gxjsqyrdqzyw_je',{normalize:this.zero})}/></FormItem></td>
                     </tr>
@@ -174,7 +170,7 @@ let Editfrom = React.createClass({
                         <td className="tg-031e">10</td>
                         <td className="tg-031e">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;（2）企业注销税务登记税款清算鉴证业务 </td>
                         <td className="tg-031e"><FormItem><InputNumber disabled {...style} {...getFieldProps('qyzxswdeskjsjzyw_hs0',{normalize:this.zero})}/></FormItem></td>
-                        <td className="tg-031e"><FormItem><InputNumber disabled {...style} {...getFieldProps('qyzxswdeskjsjzyw_je0',{normalize:this.zero})}/></FormItem></td>
+                        <td className="tg-031e"><FormItem><InputNumber disabled step={0.01} {...style} {...getFieldProps('qyzxswdeskjsjzyw_je0',{normalize:this.zero})}/></FormItem></td>
                         <td className="tg-yw4l"><FormItem><InputNumber min={0} {...style} {...getFieldProps('qyzxswdeskjsjzyw_hs',{normalize:this.zero})}/></FormItem></td>
                         <td className="tg-yw4l"><FormItem><InputNumber step={0.01} {...style} {...getFieldProps('qyzxswdeskjsjzyw_je',{normalize:this.zero})}/></FormItem></td>
                     </tr>
@@ -182,7 +178,7 @@ let Editfrom = React.createClass({
                         <td className="tg-031e">11</td>
                         <td className="tg-031e">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;（3）研发费加计扣除鉴证业务</td>
                         <td className="tg-031e"><FormItem><InputNumber disabled {...style} {...getFieldProps('yffjjkcjzyw_hs0',{normalize:this.zero})}/></FormItem></td>
-                        <td className="tg-031e"><FormItem><InputNumber disabled {...style} {...getFieldProps('yffjjkcjzyw_je0',{normalize:this.zero})}/></FormItem></td>
+                        <td className="tg-031e"><FormItem><InputNumber disabled step={0.01} {...style} {...getFieldProps('yffjjkcjzyw_je0',{normalize:this.zero})}/></FormItem></td>
                         <td className="tg-yw4l"><FormItem><InputNumber min={0} {...style} {...getFieldProps('yffjjkcjzyw_hs',{normalize:this.zero})}/></FormItem></td>
                         <td className="tg-yw4l"><FormItem><InputNumber step={0.01} {...style} {...getFieldProps('yffjjkcjzyw_je',{normalize:this.zero})}/></FormItem></td>
                     </tr>
@@ -190,10 +186,10 @@ let Editfrom = React.createClass({
                         <td className="tg-031e">12</td>
                         <td className="tg-031e">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;（4）其他</td>
                         <td className="tg-031e"><FormItem><InputNumber disabled {...style} {...getFieldProps('qt_hs0',{normalize:this.zero})}/></FormItem></td>
-                        <td className="tg-031e"><FormItem><InputNumber disabled {...style} {...getFieldProps('qt_je0',{normalize:this.zero})}/></FormItem></td>
+                        <td className="tg-031e"><FormItem><InputNumber disabled step={0.01} {...style} {...getFieldProps('qt_je0',{normalize:this.zero})}/></FormItem></td>
                         <td className="tg-yw4l"><FormItem><InputNumber min={0} {...style} {...getFieldProps('qt_hs',{normalize:this.zero})}/></FormItem></td>
                         <td className="tg-yw4l"><FormItem><InputNumber step={0.01} {...style} {...getFieldProps('qt_je',{normalize:this.zero})}/></FormItem></td>
-                    </tr>*/}
+                    </tr>
 
                     </tbody>
                 </table>
@@ -217,11 +213,7 @@ let Editfrom = React.createClass({
 });
 Editfrom = Form.create({
     mapPropsToFields(props) {
-        let result = {};
-        for (let prop in props.data) {
-            result[prop] = {value: props.data[prop]}
-        }
-        return result;
+        return props.data
     },
     onFieldsChange(props, fields) {
        props.onFieldChange(fields)
@@ -249,11 +241,14 @@ const c = React.createClass({
     },
     handleFieldChange(field){
         const {data} = this.state;
-        for(let o in field){
-            data[field[o].name] = field[o].value;
+        for (let prop in field){
+            data[prop] = field[prop]
         }
-        data.hsqjje_hs = num(data.tzynsdse_hs) + num(data.tjynsdse_hs);
-        data.hsqjje_je = num(data.tzynsdse_je) + num(data.tjynsdse_je);
+
+        data.hsqjje_hs.value = numeral(data.tzynsdse_hs.value) + numeral(data.tjynsdse_hs.value);
+        data.hsqjje_je.value = numeral(data.tzynsdse_je.value) + numeral(data.tjynsdse_je.value);
+        data.qtjz_hs.value = numeral(data.gxjsqyrdqzyw_hs.value) + numeral(data.qyzxswdeskjsjzyw_hs.value) + numeral(data.yffjjkcjzyw_hs.value) +numeral(data.qt_hs.value);
+        data.qtjz_je.value = numeral(data.gxjsqyrdqzyw_je.value) + numeral(data.qyzxswdeskjsjzyw_je.value) + numeral(data.yffjjkcjzyw_je.value) +numeral(data.qt_je.value);
         this.setState({data:data})
     },
 
@@ -324,8 +319,12 @@ const c = React.createClass({
             method: 'get',
             url: initUrl
         }).then(resp=> {
-            this.setState({data: resp, loading: false})
-        }).catch(e=> {
+            let result = {};
+            for (let prop in resp) {
+                result[prop] = {value: resp[prop]}
+            }
+            this.setState({data: result, loading: false})
+        })/*.catch(e=> {
             if (e.status == 403) {
                 let res = JSON.parse(e.response);
                 this.setState({scr: 'fail', loading: false, failtext: res.text})
@@ -333,7 +332,7 @@ const c = React.createClass({
                 this.setState({scr: 'fail', loading: false})
             }
 
-        })
+        })*/
     },
 
     render(){
