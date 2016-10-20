@@ -13,7 +13,6 @@ getDefaultProps() {//初始化某些传入值
     render() {
     
      const data =this.props.data;
-     console.log(data);
         var arr1 =[];
         var obj2={};
         var arr2 =[];
