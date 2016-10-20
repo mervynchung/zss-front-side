@@ -13,7 +13,7 @@ const detail = React.createClass({
     getDefaultProps() {
         return {
             title: '经营收入情况详细信息',
-            initUrl: config.HOST + config.URI_API_PROJECT + '/add/jysrqkb',
+            initUrl: config.HOST + config.URI_API_PROJECT + '/client/jysrqkb',
         }
     },
 
@@ -122,7 +122,7 @@ const detail = React.createClass({
                                 <td>{data.ZYYWSRHJ_JE0}</td>
                                 <td>{data.ZYYWSRHJ_HS}</td>
                                 <td>{data.ZYYWSRHJ_JE}</td>
-                                <td>{this.formatnum(data.ZYYWSRHJ_HS - data.ZYYWSRHJ_HS0)}</td>
+                                <td>{(data.ZYYWSRHJ_HS - data.ZYYWSRHJ_HS0)}</td>
                                 <td>{this.formatnum(data.ZYYWSRHJ_JE - data.ZYYWSRHJ_JE0)}</td>
                                 <td>{this.formatBf(data.ZYYWSRHJ_HS, data.ZYYWSRHJ_HS0)}</td>
                                 <td>{this.formatBf(data.ZYYWSRHJ_JE, data.ZYYWSRHJ_JE0)}</td>
@@ -133,7 +133,7 @@ const detail = React.createClass({
                                 <td>{data.SSFWYW_JE0}</td>
                                 <td>{data.SSFWYW_HS}</td>
                                 <td>{data.SSFWYW_JE}</td>
-                                <td>{this.formatnum(data.SSFWYW_HS - data.SSFWYW_HS0)}</td>
+                                <td>{(data.SSFWYW_HS - data.SSFWYW_HS0)}</td>
                                 <td>{this.formatnum(data.SSFWYW_JE - data.SSFWYW_JE0)}</td>
                                 <td>{this.formatBf(data.SSFWYW_HS, data.SSFWYW_HS0)}</td>
                                 <td>{this.formatBf(data.SSFWYW_JE, data.SSFWYW_JE0)}</td>
@@ -144,7 +144,7 @@ const detail = React.createClass({
                                 <td>{data.DLSWDJ_JE0}</td>
                                 <td>{data.DLSWDJ_HS}</td>
                                 <td>{data.DLSWDJ_JE}</td>
-                                <td>{this.formatnum(data.DLSWDJ_HS - data.DLSWDJ_HS0)}</td>
+                                <td>{(data.DLSWDJ_HS - data.DLSWDJ_HS0)}</td>
                                 <td>{this.formatnum(data.DLSWDJ_JE - data.DLSWDJ_JE0)}</td>
                                 <td>{this.formatBf(data.DLSWDJ_HS, data.DLSWDJ_HS0)}</td>
                                 <td>{this.formatBf(data.DLSWDJ_HS, data.DLSWDJ_HS0)}</td>
@@ -155,7 +155,7 @@ const detail = React.createClass({
                                 <td>{data.DLNSSB_JE0}</td>
                                 <td>{data.DLNSSB_HS}</td>
                                 <td>{data.DLNSSB_JE}</td>
-                                <td>{this.formatnum(data.DLNSSB_HS - data.DLNSSB_HS0)}</td>
+                                <td>{(data.DLNSSB_HS - data.DLNSSB_HS0)}</td>
                                 <td>{this.formatnum(data.DLNSSB_JE - data.DLNSSB_JE0)}</td>
                                 <td>{this.formatBf(data.DLNSSB_HS, data.DLNSSB_HS0)}</td>
                                 <td>{this.formatBf(data.DLNSSB_JE, data.DLNSSB_JE0)}</td>
@@ -166,7 +166,7 @@ const detail = React.createClass({
                                 <td>{data.DLJZJZ_JE0}</td>
                                 <td>{data.DLJZJZ_HS}</td>
                                 <td>{data.DLJZJZ_JE}</td>
-                                <td>{this.formatnum(data.DLJZJZ_HS - data.DLJZJZ_HS0)}</td>
+                                <td>{(data.DLJZJZ_HS - data.DLJZJZ_HS0)}</td>
                                 <td>{this.formatnum(data.DLJZJZ_JE - data.DLJZJZ_JE0)}</td>
                                 <td>{this.formatBf(data.DLJZJZ_HS, data.DLJZJZ_HS0)}</td>
                                 <td>{this.formatBf(data.DLJZJZ_JE, data.DLJZJZ_JE0)}</td>
@@ -177,7 +177,7 @@ const detail = React.createClass({
                                 <td>{data.DLSQJMTS_JE0}</td>
                                 <td>{data.DLSQJMTS_HS}</td>
                                 <td>{data.DLSQJMTS_JE}</td>
-                                <td>{this.formatnum(data.DLSQJMTS_HS - data.DLSQJMTS_HS0)}</td>
+                                <td>{(data.DLSQJMTS_HS - data.DLSQJMTS_HS0)}</td>
                                 <td>{this.formatnum(data.DLSQJMTS_JE - data.DLSQJMTS_JE0)}</td>
                                 <td>{this.formatBf(data.DLSQJMTS_HS, data.DLSQJMTS_HS0)}</td>
                                 <td>{this.formatBf(data.DLSQJMTS_JE, data.DLSQJMTS_JE0)}</td>
@@ -188,7 +188,7 @@ const detail = React.createClass({
                                 <td>{data.DLZGRD_JE0}</td>
                                 <td>{data.DLZGRD_HS}</td>
                                 <td>{data.DLZGRD_JE}</td>
-                                <td>{this.formatnum(data.DLZGRD_HS - data.DLZGRD_HS0)}</td>
+                                <td>{(data.DLZGRD_HS - data.DLZGRD_HS0)}</td>
                                 <td>{this.formatnum(data.DLZGRD_JE - data.DLZGRD_JE0)}</td>
                                 <td>{this.formatBf(data.DLZGRD_HS, data.DLZGRD_HS0)}</td>
                                 <td>{this.formatBf(data.DLZGRD_JE, data.DLZGRD_JE0)}</td>
@@ -199,7 +199,7 @@ const detail = React.createClass({
                                 <td>{data.DLZZSSWS_JE0}</td>
                                 <td>{data.DLZZSSWS_HS}</td>
                                 <td>{data.DLZZSSWS_JE}</td>
-                                <td>{this.formatnum(data.DLZZSSWS_HS - data.DLZZSSWS_HS0)}</td>
+                                <td>{(data.DLZZSSWS_HS - data.DLZZSSWS_HS0)}</td>
                                 <td>{this.formatnum(data.DLZZSSWS_JE - data.DLZZSSWS_JE0)}</td>
                                 <td>{this.formatBf(data.DLZZSSWS_HS, data.DLZZSSWS_HS0)}</td>
                                 <td>{this.formatBf(data.DLZZSSWS_JE, data.DLZZSSWS_JE0)}</td>
@@ -210,7 +210,7 @@ const detail = React.createClass({
                                 <td>{data.DLYJDK_JE0}</td>
                                 <td>{data.DLYJDK_HS}</td>
                                 <td>{data.DLYJDK_JE}</td>
-                                <td>{this.formatnum(data.DLYJDK_HS - data.DLYJDK_HS0)}</td>
+                                <td>{(data.DLYJDK_HS - data.DLYJDK_HS0)}</td>
                                 <td>{this.formatnum(data.DLYJDK_JE - data.DLYJDK_JE0)}</td>
                                 <td>{this.formatBf(data.DLYJDK_HS, data.DLYJDK_HS0)}</td>
                                 <td>{this.formatBf(data.DLYJDK_JE, data.DLYJDK_JE0)}</td>
@@ -221,7 +221,7 @@ const detail = React.createClass({
                                 <td>{data.SPSWGWZX_JE0}</td>
                                 <td>{data.SPSWGWZX_HS}</td>
                                 <td>{data.SPSWGWZX_JE}</td>
-                                <td>{this.formatnum(data.SPSWGWZX_HS - data.SPSWGWZX_HS0)}</td>
+                                <td>{(data.SPSWGWZX_HS - data.SPSWGWZX_HS0)}</td>
                                 <td>{this.formatnum(data.SPSWGWZX_JE - data.SPSWGWZX_JE0)}</td>
                                 <td>{this.formatBf(data.SPSWGWZX_HS, data.SPSWGWZX_HS0)}</td>
                                 <td>{this.formatBf(data.SPSWGWZX_JE, data.SPSWGWZX_JE0)}</td>
@@ -232,7 +232,7 @@ const detail = React.createClass({
                                 <td>{data.DLSSCH_JE0}</td>
                                 <td>{data.DLSSCH_HS}</td>
                                 <td>{data.DLSSCH_JE}</td>
-                                <td>{this.formatnum(data.DLSSCH_HS - data.DLSSCH_HS0)}</td>
+                                <td>{(data.DLSSCH_HS - data.DLSSCH_HS0)}</td>
                                 <td>{this.formatnum(data.DLSSCH_JE - data.DLSSCH_JE0)}</td>
                                 <td>{this.formatBf(data.DLSSCH_HS, data.DLSSCH_HS0)}</td>
                                 <td>{this.formatBf(data.DLSSCH_JE, data.DLSSCH_JE0)}</td>
@@ -243,7 +243,7 @@ const detail = React.createClass({
                                 <td>{data.SSPX_JE0}</td>
                                 <td>{data.SSPX_HS}</td>
                                 <td>{data.SSPX_JE}</td>
-                                <td>{this.formatnum(data.SSPX_HS - data.SSPX_HS0)}</td>
+                                <td>{(data.SSPX_HS - data.SSPX_HS0)}</td>
                                 <td>{this.formatnum(data.SSPX_JE - data.SSPX_JE0)}</td>
                                 <td>{this.formatBf(data.SSPX_HS, data.SSPX_HS0)}</td>
                                 <td>{this.formatBf(data.SSPX_JE, data.SSPX_JE0)}</td>
@@ -254,7 +254,7 @@ const detail = React.createClass({
                                 <td>{data.QTSSFWYWXJ_JE0}</td>
                                 <td>{data.QTSSFWYWXJ_HS}</td>
                                 <td>{data.QTSSFWYWXJ_JE}</td>
-                                <td>{this.formatnum(data.QTSSFWYWXJ_HS - data.QTSSFWYWXJ_HS0)}</td>
+                                <td>{(data.QTSSFWYWXJ_HS - data.QTSSFWYWXJ_HS0)}</td>
                                 <td>{this.formatnum(data.QTSSFWYWXJ_JE - data.QTSSFWYWXJ_JE0)}</td>
                                 <td>{this.formatBf(data.QTSSFWYWXJ_HS, data.QTSSFWYWXJ_HS0)}</td>
                                 <td>{this.formatBf(data.QTSSFWYWXJ_JE, data.QTSSFWYWXJ_JE0)}</td>
@@ -265,7 +265,7 @@ const detail = React.createClass({
                                 <td>{data.SSJZYW_JE0}</td>
                                 <td>{data.SSJZYW_HS}</td>
                                 <td>{data.SSJZYW_JE}</td>
-                                <td>{this.formatnum(data.SSJZYW_HS - data.SSJZYW_HS0)}</td>
+                                <td>{(data.SSJZYW_HS - data.SSJZYW_HS0)}</td>
                                 <td>{this.formatnum(data.SSJZYW_JE - data.SSJZYW_JE0)}</td>
                                 <td>{this.formatBf(data.SSJZYW_HS, data.SSJZYW_HS0)}</td>
                                 <td>{this.formatBf(data.SSJZYW_JE, data.SSJZYW_JE0)}</td>
@@ -276,7 +276,7 @@ const detail = React.createClass({
                                 <td>{data.SDSHSQJ_JE0}</td>
                                 <td>{data.SDSHSQJ_HS}</td>
                                 <td>{data.SDSHSQJ_JE}</td>
-                                <td>{this.formatnum(data.SDSHSQJ_HS - data.SDSHSQJ_HS0)}</td>
+                                <td>{(data.SDSHSQJ_HS - data.SDSHSQJ_HS0)}</td>
                                 <td>{this.formatnum(data.SDSHSQJ_JE - data.SDSHSQJ_JE0)}</td>
                                 <td>{this.formatBf(data.SDSHSQJ_HS, data.SDSHSQJ_HS0)}</td>
                                 <td>{this.formatBf(data.SDSHSQJ_JE, data.SDSHSQJ_JE0)}</td>
@@ -287,7 +287,7 @@ const detail = React.createClass({
                                 <td>{data.MBKS_JE0}</td>
                                 <td>{data.MBKS_HS}</td>
                                 <td>{data.MBKS_JE}</td>
-                                <td>{this.formatnum(data.MBKS_HS - data.MBKS_HS0)}</td>
+                                <td>{(data.MBKS_HS - data.MBKS_HS0)}</td>
                                 <td>{this.formatnum(data.MBKS_JE - data.MBKS_JE0)}</td>
                                 <td>{this.formatBf(data.MBKS_HS, data.MBKS_HS0)}</td>
                                 <td>{this.formatBf(data.MBKS_JE, data.MBKS_JE0)}</td>
@@ -298,7 +298,7 @@ const detail = React.createClass({
                                 <td>{data.CCSSSQKC_JE0}</td>
                                 <td>{data.CCSSSQKC_HS}</td>
                                 <td>{data.CCSSSQKC_JE}</td>
-                                <td>{this.formatnum(data.CCSSSQKC_HS - data.CCSSSQKC_HS0)}</td>
+                                <td>{(data.CCSSSQKC_HS - data.CCSSSQKC_HS0)}</td>
                                 <td>{this.formatnum(data.CCSSSQKC_JE - data.CCSSSQKC_JE0)}</td>
                                 <td>{this.formatBf(data.CCSSSQKC_HS, data.CCSSSQKC_HS0)}</td>
                                 <td>{this.formatBf(data.CCSSSQKC_JE, data.CCSSSQKC_JE0)}</td>
@@ -309,7 +309,7 @@ const detail = React.createClass({
                                 <td>{data.TT_JE0}</td>
                                 <td>{data.TT_HS}</td>
                                 <td>{data.TT_JE}</td>
-                                <td>{this.formatnum(data.TT_HS - data.TT_HS0)}</td>
+                                <td>{(data.TT_HS - data.TT_HS0)}</td>
                                 <td>{this.formatnum(data.TT_JE - data.TT_JE0)}</td>
                                 <td>{this.formatBf(data.TT_HS, data.TT_HS0)}</td>
                                 <td>{this.formatBf(data.TT_JE, data.TT_JE0)}</td>
@@ -320,7 +320,7 @@ const detail = React.createClass({
                                 <td>{data.QTSSJZ_JE0}</td>
                                 <td>{data.QTSSJZ_HS}</td>
                                 <td>{data.QTSSJZ_JE}</td>
-                                <td>{this.formatnum(data.QTSSJZ_HS - data.QTSSJZ_HS0)}</td>
+                                <td>{(data.QTSSJZ_HS - data.QTSSJZ_HS0)}</td>
                                 <td>{this.formatnum(data.QTSSJZ_JE - data.QTSSJZ_JE0)}</td>
                                 <td>{this.formatBf(data.QTSSJZ_HS, data.QTSSJZ_HS0)}</td>
                                 <td>{this.formatBf(data.QTSSJZ_JE, data.QTSSJZ_JE0)}</td>
@@ -331,7 +331,7 @@ const detail = React.createClass({
                                 <td>{data.QTSSYWSR_JE10}</td>
                                 <td>{data.QTSSYWSR_HS1}</td>
                                 <td>{data.QTSSYWSR_JE1}</td>
-                                <td>{this.formatnum(data.QTSSYWSR_HS1 - data.QTSSYWSR_HS10)}</td>
+                                <td>{(data.QTSSYWSR_HS1 - data.QTSSYWSR_HS10)}</td>
                                 <td>{this.formatnum(data.QTSSYWSR_JE1 - data.QTSSYWSR_JE10)}</td>
                                 <td>{this.formatBf(data.QTSSYWSR_HS1, data.QTSSYWSR_HS10)}</td>
                                 <td>{this.formatBf(data.QTSSYWSR_JE1, data.QTSSYWSR_JE10)}</td>
@@ -342,7 +342,7 @@ const detail = React.createClass({
                                 <td>{data.QTSSYWSR_JE20}</td>
                                 <td>{data.QTSSYWSR_HS2}</td>
                                 <td>{data.QTSSYWSR_JE2}</td>
-                                <td>{this.formatnum(data.QTSSYWSR_HS2 - data.QTSSYWSR_HS20)}</td>
+                                <td>{(data.QTSSYWSR_HS2 - data.QTSSYWSR_HS20)}</td>
                                 <td>{this.formatnum(data.QTSSYWSR_JE2 - data.QTSSYWSR_JE20)}</td>
                                 <td>{this.formatBf(data.QTSSYWSR_HS2, data.QTSSYWSR_HS20)}</td>
                                 <td>{this.formatBf(data.QTSSYWSR_JE2, data.QTSSYWSR_JE20)}</td>
@@ -353,7 +353,7 @@ const detail = React.createClass({
                                 <td>{data.QTSSYWSR_JE30}</td>
                                 <td>{data.QTSSYWSR_HS3}</td>
                                 <td>{data.QTSSYWSR_JE3}</td>
-                                <td>{this.formatnum(data.QTSSYWSR_HS3 - data.QTSSYWSR_HS30)}</td>
+                                <td>{(data.QTSSYWSR_HS3 - data.QTSSYWSR_HS30)}</td>
                                 <td>{this.formatnum(data.QTSSYWSR_JE3 - data.QTSSYWSR_JE30)}</td>
                                 <td>{this.formatBf(data.QTSSYWSR_HS3, data.QTSSYWSR_HS30)}</td>
                                 <td>{this.formatBf(data.QTSSYWSR_JE3, data.QTSSYWSR_JE30)}</td>
