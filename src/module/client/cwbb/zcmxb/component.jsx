@@ -260,7 +260,6 @@ const zcmxb = React.createClass({
         let helper = [];
         helper.push(<p key="helper-0">点击查询结果查看支出明细表明细</p>);
         helper.push(<p key="helper-1">也可以添加修改和提交支出明细表</p>);
-
         return <div className="cwbb-zcmx">
             <div className="wrap">
                 {this.state.helper && <Alert message="支出明细表检索查询帮助"
