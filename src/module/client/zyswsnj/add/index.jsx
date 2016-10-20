@@ -44,7 +44,6 @@ let Addswsnj = React.createClass({
         } else {
             value['wg'] = wg;
         }
-        console.log(value);
         //验证表单，若通过就保存
         this.props.form.validateFields((errors, values) => {
             if (!!errors) {
@@ -201,6 +200,7 @@ let Addswsnj = React.createClass({
     render() {
 
         const { getFieldProps } = this.props.form;
+        
         //签证时间校验
         const sjProps = getFieldProps('SWSFZRSJ', {
             rules: [
@@ -291,7 +291,7 @@ let Addswsnj = React.createClass({
                                 <tr>
                                     <td>资格证书编号：</td>
                                     <td>{obj1.ZYZGZSBH}</td>
-                                    <td>本年度报备份数：</td>
+                                    <td>本年度报备份数：(选择年度后方显示)</td>
                                     <td><label {...getFieldProps('bndbafs', { initialValue: this.state.bndbafs }) }>{this.state.bndbafs}</label></td>
                                 </tr>
 

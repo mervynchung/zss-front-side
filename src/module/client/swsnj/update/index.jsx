@@ -2,8 +2,8 @@ import React from 'react'
 import req from 'reqwest'
 import config from 'common/configuration'
 import auth from 'common/auth'
-import {Col, Input, Row, Button, Icon, Form, Modal, Checkbox, DatePicker, InputNumber, Select} from 'antd'
-import {SelectorYear, SelectorXZ, SelectorXm} from 'component/compSelector'
+import { Col, Input, Row, Button, Icon, Form, Modal, Checkbox, DatePicker, InputNumber, Select } from 'antd'
+import { SelectorYear, SelectorXZ, SelectorXm } from 'component/compSelector'
 import './style.css'
 
 const API_URL3 = config.HOST + config.URI_API_PROJECT + '/add/swsnj2';
@@ -28,8 +28,8 @@ let Updatejgnjb = React.createClass({
         value['id'] = id;
         let arr = [];
         for (var key in value) {
-            if(Object.prototype.toString.call(value[key])=="[object Undefined]"){
-                value[key]=null
+            if (Object.prototype.toString.call(value[key]) == "[object Undefined]") {
+                value[key] = null
             };
             if (key.indexOf('wg') != -1) {
                 if (value[key]) {
@@ -56,7 +56,10 @@ let Updatejgnjb = React.createClass({
     },
     //Modal
     getInitialState() {
-        return { visible: false, entity: this.props.data, bndbafs: this.props.data.BAFS };
+        return {
+             visible: false, entity: this.props.data, bndbafs: this.props.data.BAFS 
+                
+        };
     },
     showModal(e) {
         e.preventDefault();
@@ -66,8 +69,8 @@ let Updatejgnjb = React.createClass({
         value['id'] = id;
         let arr = [];
         for (var key in value) {
-            if(Object.prototype.toString.call(value[key])=="[object Undefined]"){
-                value[key]=null
+            if (Object.prototype.toString.call(value[key]) == "[object Undefined]") {
+                value[key] = null
             };
             if (key.indexOf('wg') != -1) {
                 if (value[key]) {
@@ -169,7 +172,31 @@ let Updatejgnjb = React.createClass({
     render() {
         const { getFieldProps } = this.props.form;
         const data = this.props.data;
-        console.log(data);
+        console.log("我是data"+data);
+
+        const obj = this.props.data;
+        
+        var obj2 = {};
+        var obj3 = {};
+        var arr1 = [];
+        var arr2 = [];
+
+        if (obj.ZJWGDM) {
+            arr1 = obj.ZJWGDM.split(',');
+
+            for (var i = 0; i < arr1.length; i++) {
+                obj2[arr1[i]] = true;
+            }
+        }
+
+        if (obj.NJWGDM) {
+            arr2 = obj.NJWGDM.split(',');
+            for (var i = 0; i < arr2.length; i++) {
+                obj3[arr2[i]] = true;
+            }
+        }
+
+
         return <div className="add">
             <div className="fix-table table-bordered table-striped" >
                 <Form horizontal onSubmit={this.handleSubmit}>
@@ -177,7 +204,7 @@ let Updatejgnjb = React.createClass({
 
 
                         <colgroup>
-                            <col className ="col-2"></col>
+                            <col className="col-2"></col>
                             <col className="col-9"></col>
                             <col className="col-2"></col>
                             <col className="col-3"></col>
@@ -201,8 +228,8 @@ let Updatejgnjb = React.createClass({
                                                 require: true,
                                                 message: '选择一个年度做自检',
                                             }, {
-                                                    validator: this.checkNdIfExit
-                                                }]
+                                                validator: this.checkNdIfExit
+                                            }]
                                         }) } onChange={this.handleNdChange} />
                                     </FormItem>
                                 </Col>
@@ -227,9 +254,9 @@ let Updatejgnjb = React.createClass({
                             </tr>
                             <tr>
                                 <td>总人数：</td>
-                                <td><Input  {...getFieldProps('ZRS', { initialValue: data.dqzyrs }) } style={{ width: "30%" }}/></td>
+                                <td><Input  {...getFieldProps('ZRS', { initialValue: data.dqzyrs }) } style={{ width: "30%" }} /></td>
                                 <td>执业注册税务师人数：</td>
-                                <td><Input {...getFieldProps('zyrs', { initialValue: data.ZYRS }) }  style={{ width: "30%" }}/></td>
+                                <td><Input {...getFieldProps('zyrs', { initialValue: data.ZYRS }) } style={{ width: "30%" }} /></td>
                                 <td></td>
 
 
@@ -240,9 +267,9 @@ let Updatejgnjb = React.createClass({
                             <tr>
                                 <td>参加后续教育：</td>
 
-                                <td><FormItem labelCol={{ span: 6 }} wrapperCol={{ span: 8 }} label="人应参加：" ><Input {...getFieldProps('yjyrs', { initialValue: data.YJYRS }) }  style={{ width: "40%" }}/></FormItem></td>
-                                <td ><FormItem labelCol={{ span: 7 }} wrapperCol={{ span: 8 }} label="人实参加：" ><Input {...getFieldProps('sjjyrs', { initialValue: data.SJJYRS }) }  style={{ width: "40%" }}/></FormItem></td>
-                                <td><FormItem labelCol={{ span: 6 }} wrapperCol={{ span: 12 }} label="未参加：" ><Input {...getFieldProps('wjyrs', { initialValue: data.WJYRS }) }  style={{ width: "40%" }}/></FormItem></td>
+                                <td><FormItem labelCol={{ span: 6 }} wrapperCol={{ span: 8 }} label="人应参加：" ><Input {...getFieldProps('yjyrs', { initialValue: data.YJYRS }) } style={{ width: "40%" }} /></FormItem></td>
+                                <td ><FormItem labelCol={{ span: 7 }} wrapperCol={{ span: 8 }} label="人实参加：" ><Input {...getFieldProps('sjjyrs', { initialValue: data.SJJYRS }) } style={{ width: "40%" }} /></FormItem></td>
+                                <td><FormItem labelCol={{ span: 6 }} wrapperCol={{ span: 12 }} label="未参加：" ><Input {...getFieldProps('wjyrs', { initialValue: data.WJYRS }) } style={{ width: "40%" }} /></FormItem></td>
 
                                 <td></td>
 
@@ -251,32 +278,32 @@ let Updatejgnjb = React.createClass({
                             <tr>
 
                                 <td>注册税务师变动情况：</td>
-                                <td colSpan="2" ><FormItem labelCol={{ span: 6 }} wrapperCol={{ span: 12 }} label="增加：" ><Input {...getFieldProps('ZCSWSBZJ') }/></FormItem></td>
-                                <td colSpan="2" ><FormItem labelCol={{ span: 6 }} wrapperCol={{ span: 12 }} label="减少：" ><Input {...getFieldProps('ZCSWSBJS') }  style={{ width: "30%" }}/></FormItem></td>
+                                <td colSpan="2" ><FormItem labelCol={{ span: 6 }} wrapperCol={{ span: 12 }} label="增加：" ><Input {...getFieldProps('ZCSWSBZJ') } /></FormItem></td>
+                                <td colSpan="2" ><FormItem labelCol={{ span: 6 }} wrapperCol={{ span: 12 }} label="减少：" ><Input {...getFieldProps('ZCSWSBJS') } style={{ width: "30%" }} /></FormItem></td>
 
                             </tr>
                             <tr >
 
                                 <td>股东变动情况：</td>
-                                <td colSpan="2" ><FormItem labelCol={{ span: 6 }} wrapperCol={{ span: 12 }} label="增加：" ><Input {...getFieldProps('GDBDQKZJ') }  style={{ width: "30%" }}/></FormItem></td>
-                                <td colSpan="2" ><FormItem labelCol={{ span: 6 }} wrapperCol={{ span: 12 }} label="减少：" ><Input {...getFieldProps('GDBDQKJS') }  style={{ width: "30%" }}/></FormItem></td>
+                                <td colSpan="2" ><FormItem labelCol={{ span: 6 }} wrapperCol={{ span: 12 }} label="增加：" ><Input {...getFieldProps('GDBDQKZJ') } style={{ width: "30%" }} /></FormItem></td>
+                                <td colSpan="2" ><FormItem labelCol={{ span: 6 }} wrapperCol={{ span: 12 }} label="减少：" ><Input {...getFieldProps('GDBDQKJS') } style={{ width: "30%" }} /></FormItem></td>
 
                             </tr>
                             <tr>
                                 <td> 分所数: </td>
-                                <td colSpan="4"><Input{...getFieldProps('FSS') }  style={{ width: "30%" }}/></td>
+                                <td colSpan="4"><Input{...getFieldProps('FSS') } style={{ width: "30%" }} /></td>
                             </tr>
 
                             <tr>
                                 <td>自检选项：</td>
                                 <td colSpan="3">违规条款</td>
-                                <td>所自检：<Checkbox></Checkbox></td>
+                                <td>所自检</td>
                             </tr>
 
                             <tr>
                                 <td>执业资格：</td>
                                 <td colSpan="3">本所存在注册税务师人数未达到规定的标准</td>
-                                <td><Checkbox {...getFieldProps('wg1') }> </Checkbox></td>
+                                <td><Checkbox {...getFieldProps('wg1',{ initialValue:obj2['1'] , valuePropName: 'checked' })}> </Checkbox></td>
                             </tr>
 
 
@@ -287,7 +314,7 @@ let Updatejgnjb = React.createClass({
 
                                     本所有发起人或合伙人以及出资人不按规定出资
                                 </td>
-                                <td><Checkbox {...getFieldProps('wg2') }></Checkbox></td>
+                                <td><Checkbox  {...getFieldProps('wg2',{ initialValue:obj2['2'] , valuePropName: 'checked' })} ></Checkbox></td>
                             </tr>
 
                             <tr>
@@ -296,7 +323,7 @@ let Updatejgnjb = React.createClass({
 
                                     本所注册资本或经营资金不到位，出资人（股东）的出资不符合规定
                                 </td>
-                                <td><Checkbox {...getFieldProps('wg3') }></Checkbox></td>
+                                <td><Checkbox {...getFieldProps('wg3',{ initialValue:obj2['3'] , valuePropName: 'checked' }) }></Checkbox></td>
                             </tr>
 
                             <tr>
@@ -305,7 +332,7 @@ let Updatejgnjb = React.createClass({
 
                                     本所事项变更存在未按归定和程序办理相关的手续
                                 </td>
-                                <td><Checkbox {...getFieldProps('wg4') }></Checkbox></td>
+                                <td><Checkbox {...getFieldProps('wg4',{ initialValue:obj2['4'] , valuePropName: 'checked' }) }></Checkbox></td>
                             </tr>
 
                             <tr>
@@ -314,7 +341,7 @@ let Updatejgnjb = React.createClass({
 
                                     本所办公地点和税务机关在一起
                                 </td>
-                                <td><Checkbox {...getFieldProps('wg5') }></Checkbox></td>
+                                <td><Checkbox {...getFieldProps('wg5',{ initialValue:obj2['5'] , valuePropName: 'checked' }) }></Checkbox></td>
                             </tr>
 
                             <tr>
@@ -323,7 +350,7 @@ let Updatejgnjb = React.createClass({
 
                                     本所存在拒绝在规定的时间参加年检
                                 </td>
-                                <td><Checkbox {...getFieldProps('wg6') }></Checkbox></td>
+                                <td><Checkbox {...getFieldProps('wg6',{ initialValue:obj2['6'] , valuePropName: 'checked' }) }></Checkbox></td>
                             </tr>
 
                             <tr>
@@ -334,7 +361,7 @@ let Updatejgnjb = React.createClass({
 
                                     本所存在采取强迫、欺诈等不正当的手段招揽业务
                                 </td>
-                                <td><Checkbox {...getFieldProps('wg7') }> </Checkbox></td>
+                                <td><Checkbox {...getFieldProps('wg7',{ initialValue:obj2['7'] , valuePropName: 'checked' }) }> </Checkbox></td>
                             </tr>
 
                             <tr>
@@ -343,7 +370,7 @@ let Updatejgnjb = React.createClass({
 
                                     本所没有与委托人签订协议书或协议书有不规范的行为
                                 </td>
-                                <td><Checkbox {...getFieldProps('wg8') }></Checkbox></td>
+                                <td><Checkbox {...getFieldProps('wg8',{ initialValue:obj2['8'] , valuePropName: 'checked' }) }></Checkbox></td>
                             </tr>
 
                             <tr>
@@ -352,7 +379,7 @@ let Updatejgnjb = React.createClass({
 
                                     本所收到《注册税务师管理暂行办法》第四十三、四十四条所列行政处罚
                                 </td>
-                                <td><Checkbox {...getFieldProps('wg9') }></Checkbox></td>
+                                <td><Checkbox {...getFieldProps('wg9',{ initialValue:obj2['9'] , valuePropName: 'checked' }) }></Checkbox></td>
                             </tr>
 
                             <tr>
@@ -361,7 +388,7 @@ let Updatejgnjb = React.createClass({
 
                                     本所存在未按照《注册税务师管理暂行办法》归定承办相关业务
                                 </td>
-                                <td><Checkbox {...getFieldProps('wg10') }></Checkbox></td>
+                                <td><Checkbox {...getFieldProps('wg10',{ initialValue:obj2['10'] , valuePropName: 'checked' }) }></Checkbox></td>
                             </tr>
 
                             <tr>
@@ -370,7 +397,7 @@ let Updatejgnjb = React.createClass({
 
                                     本所存在未按协议规定履行义务
                                 </td>
-                                <td><Checkbox {...getFieldProps('wg11') }></Checkbox></td>
+                                <td><Checkbox {...getFieldProps('wg11',{ initialValue:obj2['11'] , valuePropName: 'checked' }) }></Checkbox></td>
                             </tr>
 
                             <tr>
@@ -379,7 +406,7 @@ let Updatejgnjb = React.createClass({
 
                                     本所未按照财务会计制度核算，内部管理较不好
                                 </td>
-                                <td><Checkbox {...getFieldProps('wg12') }></Checkbox></td>
+                                <td><Checkbox  {...getFieldProps('wg12',{ initialValue:obj2['12'] , valuePropName: 'checked' }) }></Checkbox></td>
                             </tr>
 
                             <tr>
@@ -388,7 +415,7 @@ let Updatejgnjb = React.createClass({
 
                                     本所利用职务之便，牟取不正当利益
                                 </td>
-                                <td><Checkbox {...getFieldProps('wg13') }></Checkbox></td>
+                                <td><Checkbox {...getFieldProps('wg13',{ initialValue:obj2['13'] , valuePropName: 'checked' }) }></Checkbox></td>
                             </tr>
 
                             <tr>
@@ -397,7 +424,7 @@ let Updatejgnjb = React.createClass({
 
                                     本所有采取夸大宣传、诋毁同行、以低于成本价收费等不正当方式承接业务
                                 </td>
-                                <td><Checkbox {...getFieldProps('wg14') } ></Checkbox></td>
+                                <td><Checkbox  {...getFieldProps('wg14',{ initialValue:obj2['14'] , valuePropName: 'checked' }) } ></Checkbox></td>
                             </tr>
 
 
@@ -407,7 +434,7 @@ let Updatejgnjb = React.createClass({
 
                                     本所有允许以本所名义承接相关业务
                                 </td>
-                                <td><Checkbox {...getFieldProps('wg15') }></Checkbox></td>
+                                <td><Checkbox  {...getFieldProps('wg15',{ initialValue:obj2['15'] , valuePropName: 'checked' }) }></Checkbox></td>
                             </tr>
 
                             <tr>
@@ -416,7 +443,7 @@ let Updatejgnjb = React.createClass({
 
                                     本所有出具虚假涉税文书，造成委托人未缴或少缴税款
                                 </td>
-                                <td><Checkbox {...getFieldProps('wg16') }></Checkbox></td>
+                                <td><Checkbox {...getFieldProps('wg16',{ initialValue:obj2['16'] , valuePropName: 'checked' }) }></Checkbox></td>
                             </tr>
 
                             <tr>
@@ -425,7 +452,7 @@ let Updatejgnjb = React.createClass({
 
                                     本所有违反税收法律，行政法规，造成委托人未缴或少缴税款
                                 </td>
-                                <td><Checkbox {...getFieldProps('wg17') }></Checkbox></td>
+                                <td><Checkbox {...getFieldProps('wg17',{ initialValue:obj2['17'] , valuePropName: 'checked' }) }></Checkbox></td>
                             </tr>
 
                             <tr>
@@ -434,7 +461,7 @@ let Updatejgnjb = React.createClass({
 
                                     连续两年以上未开展任何业务的
                                 </td>
-                                <td><Checkbox {...getFieldProps('wg28') }></Checkbox></td>
+                                <td><Checkbox {...getFieldProps('wg28',{ initialValue:obj2['28'] , valuePropName: 'checked' }) }></Checkbox></td>
                             </tr>
                             <tr>
                                 <td></td>
@@ -442,14 +469,14 @@ let Updatejgnjb = React.createClass({
 
                                     未执行全省统一涉税鉴证收费标准的
                                 </td>
-                                <td><Checkbox {...getFieldProps('wg29') }></Checkbox></td>
+                                <td><Checkbox {...getFieldProps('wg29',{ initialValue:obj2['29'] , valuePropName: 'checked' }) }></Checkbox></td>
                             </tr>
                             <tr>
                                 <td>收费管理：</td>
                                 <td colSpan="3">
                                     本所财务会计制度不健全，会计核算不符合规定要求
                                 </td>
-                                <td><Checkbox {...getFieldProps('wg18') }></Checkbox></td>
+                                <td><Checkbox  {...getFieldProps('wg18',{ initialValue:obj2['18'] , valuePropName: 'checked' }) }></Checkbox></td>
                             </tr>
                             <tr>
                                 <td></td>
@@ -457,7 +484,7 @@ let Updatejgnjb = React.createClass({
 
                                     本所有隐藏，转移业务收入，虚报经营亏损
                                 </td>
-                                <td><Checkbox {...getFieldProps('wg19') }></Checkbox></td>
+                                <td><Checkbox {...getFieldProps('wg19',{ initialValue:obj2['19'] , valuePropName: 'checked' }) }></Checkbox></td>
                             </tr>
                             <tr>
                                 <td></td>
@@ -465,7 +492,7 @@ let Updatejgnjb = React.createClass({
 
                                     本所有弄虚作假高额支付租赁房屋，设备等费用
                                 </td>
-                                <td><Checkbox {...getFieldProps('wg20') }></Checkbox></td>
+                                <td><Checkbox {...getFieldProps('wg20',{ initialValue:obj2['20'] , valuePropName: 'checked' }) }></Checkbox></td>
                             </tr>
                             <tr>
                                 <td></td>
@@ -473,7 +500,7 @@ let Updatejgnjb = React.createClass({
 
                                     本所未按规定进行纳税申报以及缴纳税款
                                 </td>
-                                <td><Checkbox {...getFieldProps('wg21') }></Checkbox></td>
+                                <td><Checkbox  {...getFieldProps('wg21',{ initialValue:obj2['21'] , valuePropName: 'checked' }) }></Checkbox></td>
                             </tr>
                             <tr>
                                 <td></td>
@@ -481,7 +508,7 @@ let Updatejgnjb = React.createClass({
 
                                     本所有偷税行为
                                 </td>
-                                <td><Checkbox {...getFieldProps('wg22') }></Checkbox></td>
+                                <td><Checkbox {...getFieldProps('wg22',{ initialValue:obj2['22'] , valuePropName: 'checked' }) }></Checkbox></td>
                             </tr>
                             <tr>
                                 <td>其他方面：</td>
@@ -489,7 +516,7 @@ let Updatejgnjb = React.createClass({
 
                                     本所有未经批准自行设立分支机构
                                 </td>
-                                <td><Checkbox {...getFieldProps('wg23') }></Checkbox></td>
+                                <td><Checkbox {...getFieldProps('wg23',{ initialValue:obj2['23'] , valuePropName: 'checked' }) }></Checkbox></td>
                             </tr>
                             <tr>
                                 <td></td>
@@ -497,7 +524,7 @@ let Updatejgnjb = React.createClass({
 
                                     本所有未经批准自行挂靠或者接受挂靠
                                 </td>
-                                <td><Checkbox {...getFieldProps('wg24') }></Checkbox></td>
+                                <td><Checkbox {...getFieldProps('wg24',{ initialValue:obj2['24'] , valuePropName: 'checked' }) }></Checkbox></td>
                             </tr>
                             <tr>
                                 <td></td>
@@ -505,7 +532,7 @@ let Updatejgnjb = React.createClass({
 
                                     本所有对分支机构只收管理费
                                 </td>
-                                <td><Checkbox {...getFieldProps('wg25') }></Checkbox></td>
+                                <td><Checkbox {...getFieldProps('wg25',{ initialValue:obj2['25'] , valuePropName: 'checked' }) }></Checkbox></td>
                             </tr>
                             <tr>
                                 <td></td>
@@ -513,7 +540,7 @@ let Updatejgnjb = React.createClass({
 
                                     本所分支机构执业资质不符合要求
                                 </td>
-                                <td><Checkbox {...getFieldProps('wg26') }></Checkbox></td>
+                                <td><Checkbox {...getFieldProps('wg26',{ initialValue:obj2['26'] , valuePropName: 'checked' }) }></Checkbox></td>
                             </tr>
                             <tr>
                                 <td></td>
@@ -521,7 +548,7 @@ let Updatejgnjb = React.createClass({
 
                                     本所分支机构一年内有两次以上执业质量问题
                                 </td>
-                                <td><Checkbox {...getFieldProps('wg27') }></Checkbox></td>
+                                <td><Checkbox {...getFieldProps('wg27',{ initialValue:obj2['27'] , valuePropName: 'checked' }) }></Checkbox></td>
                             </tr>
                             <tr>
                                 <td></td>
@@ -529,7 +556,7 @@ let Updatejgnjb = React.createClass({
 
                                     未按照规定缴纳团体会费
                                 </td>
-                                <td><Checkbox {...getFieldProps('wg30') }></Checkbox></td>
+                                <td><Checkbox {...getFieldProps('wg30',{ initialValue:obj2['30'] , valuePropName: 'checked' }) }></Checkbox></td>
                             </tr>
                             <tr>
                                 <td></td>
@@ -537,13 +564,13 @@ let Updatejgnjb = React.createClass({
 
                                     未按照规定办理团体会员登记、变更手续
                                 </td>
-                                <td><Checkbox {...getFieldProps('wg31') }></Checkbox></td>
+                                <td><Checkbox {...getFieldProps('wg31',{ initialValue:obj2['31'] , valuePropName: 'checked' }) }></Checkbox></td>
                             </tr>
 
 
                             <tr>
                                 <td >年检总结修改：</td>
-                                <td colSpan="4"><Input {...getFieldProps('ZJ') } row={100} type="textarea"/></td>
+                                <td colSpan="4"><Input {...getFieldProps('ZJ') } row={100} type="textarea" /></td>
                             </tr>
 
                             <tr>
@@ -555,8 +582,8 @@ let Updatejgnjb = React.createClass({
                             <tr>
 
 
-                                <td colSpan="4"><Input {...getFieldProps('NJZJ') } placeholder="可根据实际情况对输入框进行调整（将鼠标放置到输入框右下角即可拉伸）" type="textarea"/></td>
-                                <td><Input {...getFieldProps('FZR') }/></td>
+                                <td colSpan="4"><Input {...getFieldProps('NJZJ') } placeholder="可根据实际情况对输入框进行调整（将鼠标放置到输入框右下角即可拉伸）" type="textarea" /></td>
+                                <td><Input {...getFieldProps('FZR') } /></td>
 
                             </tr>
 
@@ -572,12 +599,12 @@ let Updatejgnjb = React.createClass({
 
 
                                 <td>
-                                    <Button type="primary" onClick={this.handleSubmit}> <Icon type="check"/>保存</Button>
+                                    <Button type="primary" onClick={this.handleSubmit}> <Icon type="check" />保存</Button>
                                 </td>
 
                                 <td style={{ textAlign: 'center' }}>
 
-                                    <Button type="primary" onClick={this.showModal}> <Icon type="arrow-up"/>提交</Button>
+                                    <Button type="primary" onClick={this.showModal}> <Icon type="arrow-up" />提交</Button>
                                     <Modal title="你确定要提交吗？" visible={this.state.visible}
                                         onOk={this.handleOk} onCancel={this.handleCancel}>
                                         <p>提交后就不能修改了！！！</p>
