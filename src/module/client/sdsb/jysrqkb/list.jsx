@@ -21,7 +21,7 @@ const list = React.createClass({
             //默认每页显示数量
             pageSize: 10,
             //数据来源api
-            apiUrl: config.HOST + config.URI_API_PROJECT + '/add/jysrqkb',
+            apiUrl: config.HOST + config.URI_API_PROJECT + '/client/jysrqkb',
             //初始搜索条件
             defaultWhere: {},
             //栏目名称
@@ -41,6 +41,7 @@ const list = React.createClass({
     getInitialState() {
         return {
             loading: false,
+            addDisabled:true,
             data: [],
             entity: {},
             where: this.props.defaultWhere,
@@ -90,7 +91,27 @@ const list = React.createClass({
             });
         })
     },
-
+    
+    fetch_checkAdd(){
+        this.setState({ addDisabled: true });
+        const token = auth.getToken();
+        const {apiUrl} = this.props;
+        req({
+            url: apiUrl+"/checkAdd",
+            type: 'json',
+            method: 'get', 
+            headers: { 'x-auth-token': token }
+        }).then(resp => { 
+            this.setState({addDisabled:!resp});
+        }).fail(e => {
+            this.setState({ addDisabled: true });
+            notification.error({
+                duration: 2,
+                message: '数据读取失败',
+                description: '可能网络访问原因，请稍后尝试'
+            });
+        })
+    },
     //改变页码
     handleChange(pagination, filters, sorter) {
         let param = {
@@ -146,6 +167,7 @@ const list = React.createClass({
         } else {
             this.setState(this.props.stateShot)
         }
+        this.fetch_checkAdd();
     },
 //unmount时记录目前状态
 componentWillUnmount(){
@@ -171,7 +193,7 @@ render(){
         </ButtonGroup>
 
         <ButtonGroup>
-            <Button type="primary" onClick={this.handleNew}><Icon type="file-text" /> 添加</Button>
+            <Button type="primary" disabled={this.state.addDisabled} onClick={this.handleNew}><Icon type="file-text" /> 添加</Button>
         </ButtonGroup>
     </ToolBar>;
     return <div>
