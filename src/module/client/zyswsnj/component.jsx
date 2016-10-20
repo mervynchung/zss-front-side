@@ -127,7 +127,6 @@ const zyswsnj = React.createClass({
 
     //点击保存
     handleSubmit(value) {
-        console.log(value);
         let vv = value;
         vv.ztbj = '1'
         this.fetchHandle(vv);
@@ -143,7 +142,6 @@ const zyswsnj = React.createClass({
 
     },
     fetchHandle1(value) {
-        console.log("value", value)
         req({
             url: URL + '/' + value.id,
             type: 'json',
