@@ -1,6 +1,5 @@
 import React from 'react'
 import {Table,Col,Row,Tree,Tabs,Modal,Button,Spin,notification,Icon} from 'antd'
-import {Link} from 'react-router'
 import Panel from 'component/compPanel'
 import config from 'common/configuration'
 import {SelectorDQ,SelectorCS} from 'component/compSelector'
@@ -116,6 +115,7 @@ const khxxList = React.createClass({
     },
     //查询提交
     handleSearchSubmit(commitValues){
+        const jid = auth.getJgid();
         const values = new Object();
         for (let prop in commitValues) {
             if (commitValues[prop]){
@@ -188,8 +188,7 @@ const khxxList = React.createClass({
         </PanelBar>;
 
 
-        return   <Spin spinning={this.state.pageLoading}>
-                    <Panel title="已有客户列表" toolbar={panelBar}>
+        return    <Panel title="已有客户列表" toolbar={panelBar}>
                         {this.state.searchToggle && <SearchForm
                             onSubmit={this.handleSearchSubmit}/>}
                         <Table className="outer-border"
@@ -198,9 +197,9 @@ const khxxList = React.createClass({
                                pagination={this.state.pagination}
                                onChange={this.handlePageChange}
                                rowKey={record => record.ID}
+                               loading={this.state.pageLoading}
                         />
                     </Panel>
-                </Spin>
     }
 });
 
