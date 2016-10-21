@@ -62,7 +62,7 @@ let Editfrom = React.createClass({
     },
     commit(){
         const {validateFields} = this.props.form;
-        validateFields((errors, values) => {
+        validateFields({force:true},(errors, values) => {
             if (!!errors) {
                 return;
             }
@@ -72,7 +72,7 @@ let Editfrom = React.createClass({
     },
     save(){
         const {validateFields} = this.props.form;
-        validateFields((errors, values)=> {
+        validateFields({force:true},(errors, values)=> {
             if (!!errors) {
                 return;
             }

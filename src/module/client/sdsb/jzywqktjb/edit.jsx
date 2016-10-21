@@ -8,69 +8,111 @@ import utils from 'common/utils'
 import Success from './successScr'
 import FailScr from './failScr'
 import {mapKeys} from 'lodash'
+import numeral from 'Numeral'
+import cloneDeep from 'lodash/cloneDeep';
 
 const ButtonGroup = Button.Group;
 const FormItem = Form.Item;
 const PanelBar = Panel.ToolBar;
 
 let Editfrom = React.createClass({
-    checkRyzs(rule, value, callback){
-        if (value < this.props.form.getFieldValue('zyzcswsrs')) {
-            callback("人员总数要大于执业人数")
+    checkhs1(rule, value, callback){
+        if (value == 0 && this.props.form.getFieldValue('tzynsdse_je') != 0) {
+            callback("户数不能为0")
         } else {
             callback()
         }
     },
-    checkZczj(rule, value, callback){
-        if ( this.props.data.jgxz_dm==2 && (!value || value <= 0)) {
-            callback("必填")
+    checkhs2(rule, value, callback){
+        if (value == 0 && this.props.form.getFieldValue('tjynsdse_je') != 0) {
+            callback("户数不能为0")
         } else {
             callback()
         }
     },
-    checkCzrs(rule, value, callback){
-        if ( this.props.data.jgxz_dm==2 && (!value || value <= 0)) {
-            callback("必填")
+    checkhs3(rule, value, callback){
+        if (value == 0 && this.props.form.getFieldValue('mbksje_je') != 0) {
+            callback("户数不能为0")
         } else {
             callback()
         }
     },
-    checkHhrs(rule, value, callback){
-        if ( this.props.data.jgxz_dm==1 && (!value || value <= 0)) {
-            callback("必填")
+    checkhs4(rule, value, callback){
+        if (value == 0 && this.props.form.getFieldValue('ccsskc_je') != 0) {
+            callback("户数不能为0")
         } else {
             callback()
         }
     },
-    checkYysr(rule, value, callback){
-        if ( this.props.data.jgxz_dm==1 && (!value || value <= 0)) {
-            callback("必填")
+    checkhs5(rule, value, callback){
+        if (value == 0 && this.props.form.getFieldValue('tdzzsqsjz_je') != 0) {
+            callback("户数不能为0")
         } else {
             callback()
         }
     },
-    checkZyzcswsrs(rule, value, callback){
-        if(value > this.props.zyzcswsrs){
-            callback('填报的执业人数不能多于'+this.props.zyzcswsrs+'人')
-        }else if (value > this.props.form.getFieldValue('ryzs')){
-            callback('执业人数不能大于人员总数')
-        }else {
+    checkhs6(rule, value, callback){
+        if (value == 0 && this.props.form.getFieldValue('qtjz_je') != 0) {
+            callback("户数不能为0")
+        } else {
             callback()
+        }
+    },
+    checkhs7(rule, value, callback){
+        if (value == 0 && this.props.form.getFieldValue('gxjsqyrdqzyw_je') != 0) {
+            callback("户数不能为0")
+        } else {
+            callback()
+        }
+    },
+    checkhs8(rule, value, callback){
+        if (value == 0 && this.props.form.getFieldValue('qyzxswdeskjsjzyw_je') != 0) {
+            callback("户数不能为0")
+        } else {
+            callback()
+        }
+    },
+    checkhs9(rule, value, callback){
+        if (value == 0 && this.props.form.getFieldValue('yffjjkcjzyw_je') != 0) {
+            callback("户数不能为0")
+        } else {
+            callback()
+        }
+    },
+    checkhs10(rule, value, callback){
+        if (value == 0 && this.props.form.getFieldValue('qt_je') != 0) {
+            callback("户数不能为0")
+        } else {
+            callback()
+        }
+    },
+    zero(v, prev){
+        if (!v) {
+            return 0
+        } else {
+            return v
+        }
+    },
+    tonull(v, prev){
+        console.log('a')
+        if (!v.trim()) {
+            return null
+        } else {
+            return v
         }
     },
     commit(){
         const {validateFields} = this.props.form;
-        validateFields((errors, values) => {
+        validateFields({force: true}, (errors, values) => {
             if (!!errors) {
                 return;
             }
-            values = utils.transEmpty2Null(values);
             this.props.onCommit(values);
         })
     },
     save(){
         const {validateFields} = this.props.form;
-        validateFields((errors, values) => {
+        validateFields({force: true}, (errors, values) => {
             if (!!errors) {
                 return;
             }
@@ -86,77 +128,65 @@ let Editfrom = React.createClass({
             wrapperCol: {span: 12}
         };
         const style = {style: {width: '100%'}};
-        const ndProps = getFieldProps('nd', {
+        const tzynsdse_hs = getFieldProps('tzynsdse_hs', {
             rules: [
-                {required: true, type: 'number', message: '必填'}
-            ]
+                {validator: this.checkhs1}
+            ],
+            normalize: this.zero
         });
-        const jgxzProps = getFieldProps('jgxz_dm', {
+        const tjynsdse_hs = getFieldProps('tjynsdse_hs', {
             rules: [
-                {required: true, message: '必填'}
-            ]
+                {validator: this.checkhs2}
+            ],
+            normalize: this.zero
         });
-        const frdbProps = getFieldProps('frdbxm', {
+        const mbksje_hs = getFieldProps('mbksje_hs', {
             rules: [
-                {required: true, whitespace: true, message: '必填'}
-            ]
+                {validator: this.checkhs3}
+            ],
+            normalize: this.zero
         });
-        const ryzsProps = getFieldProps('ryzs', {
+        const ccsskc_hs = getFieldProps('ccsskc_hs', {
             rules: [
-                {required: true, type: "number", message: '必填'},
-                {validator: this.checkRyzs}
-            ]
+                {validator: this.checkhs4}
+            ],
+            normalize: this.zero
         });
-        const zyzcswsrsProps = getFieldProps('zyzcswsrs', {
+        const tdzzsqsjz_hs = getFieldProps('tdzzsqsjz_hs', {
             rules: [
-                {required: true, type: "number", message: '必填'},
-                {validator: this.checkZyzcswsrs}
-            ]
+                {validator: this.checkhs5}
+            ],
+            normalize: this.zero
         });
-        const lrzeProps = getFieldProps('lrze', {
+        const qtjz_hs = getFieldProps('qtjz_hs', {
             rules: [
-                {required: true, type: "number", message: '必填'}
-            ]
+                {validator: this.checkhs6}
+            ],
+            normalize: this.zero
         });
-        const zczeProps = getFieldProps('zcze', {
+        const gxjsqyrdqzyw_hs = getFieldProps('gxjsqyrdqzyw_hs', {
             rules: [
-                {required: true, type: "number", message: '必填'}
-            ]
+                {validator: this.checkhs7}
+            ],
+            normalize: this.zero
         });
-        const srzeProps = getFieldProps('srze', {
+        const qyzxswdeskjsjzyw_hs = getFieldProps('qyzxswdeskjsjzyw_hs', {
             rules: [
-                {required: true, type: "number", message: '必填'}
-            ]
+                {validator: this.checkhs8}
+            ],
+            normalize: this.zero
         });
-        const wthsProps = getFieldProps('wths', {
+        const yffjjkcjzyw_hs = getFieldProps('yffjjkcjzyw_hs', {
             rules: [
-                {required: true, type: "number", message: '必填'}
-            ]
+                {validator: this.checkhs9}
+            ],
+            normalize: this.zero
         });
-        const csProps = getFieldProps('cs_dm', {
+        const qt_hs = getFieldProps('qt_hs', {
             rules: [
-                {required: true, type:'object', message: '必填'}
-            ]
-        });
-        const zczjProps = getFieldProps('zczj', {
-            rules: [
-                {validator: this.checkZczj}
-            ]
-        });
-        const czrsProps = getFieldProps('czrs', {
-            rules: [
-                {validator: this.checkCzrs}
-            ]
-        });
-        const hhrsProps = getFieldProps('hhrs', {
-            rules: [
-                {validator: this.checkHhrs}
-            ]
-        });
-        const yysrProps = getFieldProps('yysr', {
-            rules: [
-                {validator: this.checkYysr}
-            ]
+                {validator: this.checkhs10}
+            ],
+            normalize: this.zero
         });
         const tbrProps = getFieldProps('tianbiaoren', {
             rules: [
@@ -168,83 +198,185 @@ let Editfrom = React.createClass({
                 {required: true, whitespace: true, message: '必填'}
             ]
         });
+
         return <div className="fix-table no-border table-striped  ">
             <Form horizontal>
                 <table className="tg">
                     <colgroup>
-                        <col style={{width:'25%'}}/>
-                        <col style={{width:'25%'}}/>
-                        <col style={{width:'25%'}}/>
-                        <col style={{width:'25%'}}/>
+                        <col style={{width:'5%'}}/>
+                        <col style={{width:'35%'}}/>
+                        <col style={{width:'15%'}}/>
+                        <col style={{width:'15%'}}/>
+                        <col style={{width:'15%'}}/>
+                        <col style={{width:'15%'}}/>
                     </colgroup>
                     <tbody>
                     <tr>
-                        <td className="tg-031e" colSpan="2">单位：{data.dwmc}</td>
-                        <td className="tg-031e" colSpan="2">
-                            <FormItem label="年度"  {...layout}><Input {...style} disabled { ...ndProps} /></FormItem>
+                        <td colSpan="2">事务所名称：{data.dwmc ? data.dwmc.value : ''}</td>
+                        <td colSpan="2"><FormItem label="年度"  {...layout}><Input {...style}
+                          disabled { ...getFieldProps('nd')} /></FormItem></td>
+                        <td colSpan="2">单位：万元、户</td>
+                    </tr>
+                    <tr>
+                        <td className="tg-s6z2" rowSpan="2"><br/>序号</td>
+                        <td className="tg-s6z2" rowSpan="2"><br/>项目</td>
+                        <td className="tg-s6z2" colSpan="2">上年数</td>
+                        <td className="tg-s6z2" colSpan="2">本年数</td>
+                    </tr>
+                    <tr>
+                        <td className="tg-s6z2">户数</td>
+                        <td className="tg-s6z2">金额</td>
+                        <td className="tg-s6z2">户数</td>
+                        <td className="tg-s6z2">金额</td>
+                    </tr>
+                    <tr>
+                        <td className="tg-031e">1</td>
+                        <td className="tg-031e">企业所得税汇算清缴总户数</td>
+                        <td className="tg-031e">--</td>
+                        <td className="tg-031e">--</td>
+                        <td className="tg-yw4l">--</td>
+                        <td className="tg-yw4l">--</td>
+                    </tr>
+                    <tr>
+                        <td className="tg-031e">2</td>
+                        <td className="tg-031e">企业所得税汇算清缴纳税申报鉴证业务</td>
+                        <td className="tg-031e"><FormItem><InputNumber disabled {...style} {...getFieldProps('hsqjje_hs0', {normalize: this.zero})}/></FormItem></td>
+                        <td className="tg-031e"><FormItem><InputNumber disabled step={0.01} {...style} {...getFieldProps('hsqjje_je0', {normalize: this.zero})}/></FormItem>
+                        </td>
+                        <td className="tg-yw4l"><FormItem><InputNumber disabled {...style} {...getFieldProps('hsqjje_hs', {normalize: this.zero})} /></FormItem></td>
+                        <td className="tg-yw4l"><FormItem><InputNumber disabled step={0.01} {...style} {...getFieldProps('hsqjje_je', {normalize: this.zero})}/></FormItem>
                         </td>
                     </tr>
                     <tr>
-                        <td className="tg-031e">
-                            <FormItem label="组织形式"  {...layout}><SelectorSWSXZ {...style}
-                              disabled { ...jgxzProps}/></FormItem>
+                        <td className="tg-031e">3</td>
+                        <td className="tg-031e">其中：（1）调增应纳所得税税额</td>
+                        <td className="tg-031e"><FormItem><InputNumber disabled {...style} {...getFieldProps('tzynsdse_hs0', {normalize: this.zero})}/></FormItem>
                         </td>
-                        <td className="tg-031e"><FormItem
-                          label="法人" {...layout}><Input {...style} {...frdbProps}/></FormItem>
+                        <td className="tg-031e"><FormItem><InputNumber disabled step={0.01} {...style} {...getFieldProps('tzynsdse_je0', {normalize: this.zero})}/></FormItem>
                         </td>
+                        <td className="tg-yw4l"><FormItem><InputNumber min={0} {...style} {...tzynsdse_hs}/></FormItem>
+                        </td>
+                        <td className="tg-yw4l"><FormItem><InputNumber min={0} step={0.01} {...style} {...getFieldProps('tzynsdse_je', {normalize: this.zero})}/></FormItem>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td className="tg-031e">4</td>
+                        <td className="tg-031e">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;（2）调减应纳所得税税额</td>
+                        <td className="tg-031e"><FormItem><InputNumber disabled {...style} {...getFieldProps('tjynsdse_hs0', {normalize: this.zero})}/></FormItem>
+                        </td>
+                        <td className="tg-031e"><FormItem><InputNumber disabled step={0.01} {...style} {...getFieldProps('tjynsdse_je0', {normalize: this.zero})}/></FormItem>
+                        </td>
+                        <td className="tg-yw4l"><FormItem><InputNumber min={0} {...style} {...tjynsdse_hs}/></FormItem></td>
+                        <td className="tg-yw4l"><FormItem><InputNumber min={0} step={0.01} {...style} {...getFieldProps('tjynsdse_je', {normalize: this.zero})}/></FormItem>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td className="tg-031e">5</td>
+                        <td className="tg-031e">企业税前弥补亏损鉴证业务</td>
+                        <td className="tg-031e"><FormItem><InputNumber disabled {...style} {...getFieldProps('mbksje_hs0', {normalize: this.zero})}/></FormItem></td>
+                        <td className="tg-031e"><FormItem><InputNumber disabled step={0.01} {...style} {...getFieldProps('mbksje_je0', {normalize: this.zero})}/></FormItem>
+                        </td>
+                        <td className="tg-yw4l"><FormItem><InputNumber min={0} {...style} {...mbksje_hs}/></FormItem></td>
+                        <td className="tg-yw4l"><FormItem><InputNumber step={0.01} {...style} {...getFieldProps('mbksje_je', {normalize: this.zero})}/></FormItem>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td className="tg-031e">6</td>
+                        <td className="tg-031e">企业资产损失税前扣除鉴证业务</td>
+                        <td className="tg-031e"><FormItem><InputNumber disabled {...style} {...getFieldProps('ccsskc_hs0', {normalize: this.zero})}/></FormItem></td>
+                        <td className="tg-031e"><FormItem><InputNumber disabled step={0.01} {...style} {...getFieldProps('ccsskc_je0', {normalize: this.zero})}/></FormItem>
+                        </td>
+                        <td className="tg-yw4l"><FormItem><InputNumber min={0}  {...style} {...ccsskc_hs}/></FormItem></td>
+                        <td className="tg-yw4l"><FormItem><InputNumber step={0.01} {...style} {...getFieldProps('ccsskc_je', {normalize: this.zero})}/></FormItem>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td className="tg-031e">7</td>
+                        <td className="tg-031e">土地增值税清算鉴证业务</td>
+                        <td className="tg-031e"><FormItem><InputNumber disabled {...style} {...getFieldProps('tdzzsqsjz_hs0', {normalize: this.zero})}/></FormItem>
+                        </td>
+                        <td className="tg-031e"><FormItem><InputNumber disabled step={0.01} {...style} {...getFieldProps('tdzzsqsjz_je0', {normalize: this.zero})}/></FormItem>
+                        </td>
+                        <td className="tg-yw4l"><FormItem><InputNumber min={0} {...style} {...tdzzsqsjz_hs}/></FormItem>
+                        </td>
+                        <td className="tg-yw4l"><FormItem><InputNumber step={0.01} {...style} {...getFieldProps('tdzzsqsjz_je', {normalize: this.zero})}/></FormItem>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td className="tg-031e">8</td>
+                        <td className="tg-031e">其他鉴证业务小计</td>
+                        <td className="tg-031e"><FormItem><InputNumber disabled {...style} {...getFieldProps('qtjz_hs0', {normalize: this.zero})}/></FormItem></td>
+                        <td className="tg-031e"><FormItem><InputNumber disabled step={0.01} {...style} {...getFieldProps('qtjz_je0', {normalize: this.zero})}/></FormItem>
+                        </td>
+                        <td className="tg-yw4l"><FormItem><InputNumber min={0} disabled{...style} {...qtjz_hs}/></FormItem>
+                        </td>
+                        <td className="tg-yw4l"><FormItem><InputNumber step={0.01} disabled {...style} {...getFieldProps('qtjz_je', {normalize: this.zero})}/></FormItem>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td className="tg-031e">9</td>
+                        <td className="tg-031e">其中：（1）高新技术企业认定鉴证业务</td>
+                        <td className="tg-031e"><FormItem><InputNumber disabled {...style} {...getFieldProps('gxjsqyrdqzyw_hs0', {normalize: this.zero})}/></FormItem>
+                        </td>
+                        <td className="tg-031e"><FormItem><InputNumber disabled step={0.01} {...style} {...getFieldProps('gxjsqyrdqzyw_je0', {normalize: this.zero})}/></FormItem>
+                        </td>
+                        <td className="tg-yw4l"><FormItem><InputNumber min={0} {...style} {...gxjsqyrdqzyw_hs}/></FormItem>
+                        </td>
+                        <td className="tg-yw4l"><FormItem><InputNumber step={0.01} {...style} {...getFieldProps('gxjsqyrdqzyw_je', {normalize: this.zero})}/></FormItem>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td className="tg-031e">10</td>
+                        <td className="tg-031e">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;（2）企业注销税务登记税款清算鉴证业务</td>
+                        <td className="tg-031e"><FormItem><InputNumber disabled {...style} {...getFieldProps('qyzxswdeskjsjzyw_hs0', {normalize: this.zero})}/></FormItem>
+                        </td>
+                        <td className="tg-031e"><FormItem><InputNumber disabled step={0.01} {...style} {...getFieldProps('qyzxswdeskjsjzyw_je0', {normalize: this.zero})}/></FormItem>
+                        </td>
+                        <td className="tg-yw4l"><FormItem><InputNumber min={0} {...style} {...qyzxswdeskjsjzyw_hs}/></FormItem>
+                        </td>
+                        <td className="tg-yw4l"><FormItem><InputNumber step={0.01} {...style} {...getFieldProps('qyzxswdeskjsjzyw_je', {normalize: this.zero})}/></FormItem>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td className="tg-031e">11</td>
+                        <td className="tg-031e">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;（3）研发费加计扣除鉴证业务</td>
+                        <td className="tg-031e"><FormItem><InputNumber
+                          disabled {...style} {...getFieldProps('yffjjkcjzyw_hs0', {normalize: this.zero})}/></FormItem>
+                        </td>
+                        <td className="tg-031e"><FormItem><InputNumber disabled
+                                                                       step={0.01} {...style} {...getFieldProps('yffjjkcjzyw_je0', {normalize: this.zero})}/></FormItem>
+                        </td>
+                        <td className="tg-yw4l"><FormItem><InputNumber
+                          min={0} {...style} {...yffjjkcjzyw_hs}/></FormItem>
+                        </td>
+                        <td className="tg-yw4l"><FormItem><InputNumber
+                          step={0.01} {...style} {...getFieldProps('yffjjkcjzyw_je', {normalize: this.zero})}/></FormItem>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td className="tg-031e">12</td>
+                        <td className="tg-031e">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;（4）其他</td>
+                        <td className="tg-031e"><FormItem><InputNumber
+                          disabled {...style} {...getFieldProps('qt_hs0', {normalize: this.zero})}/></FormItem></td>
+                        <td className="tg-031e"><FormItem><InputNumber disabled
+                                                                       step={0.01} {...style} {...getFieldProps('qt_je0', {normalize: this.zero})}/></FormItem>
+                        </td>
+                        <td className="tg-yw4l"><FormItem><InputNumber
+                          min={0} {...style} {...qt_hs}/></FormItem></td>
+                        <td className="tg-yw4l"><FormItem><InputNumber
+                          step={0.01} {...style} {...getFieldProps('qt_je', {normalize: this.zero})}/></FormItem></td>
+                    </tr>
+                    <tr>
+                        <td className="tg-031e" colSpan="2"><FormItem labelCol={{span: 4}} wrapperCol={{span: 20}} label="备注">
+                            <Input type="textarea" {...style} {...getFieldProps('bz')}/></FormItem></td>
+                        <td className="tg-031e" colSpan="2"><FormItem {...layout} label="填表人"><Input  {...style} {...tbrProps}/></FormItem></td>
+                        <td className="tg-031e" colSpan="2"><FormItem {...layout} label="所长"><Input disabled {...style} {...szProps}/></FormItem></td>
 
-                        <td className="tg-031e">
-                            <FormItem label="人员总数" {...layout}><InputNumber  {...style} {...ryzsProps}/></FormItem>
-                        </td>
-                        <td className="tg-031e">
-                            <FormItem label="执业人数" {...layout}><InputNumber {...style}
-                              {...zyzcswsrsProps}/></FormItem>
-                        </td>
                     </tr>
-                    <tr>
-                        <td className="tg-031e">
-                            <FormItem label="利润总额 万元"  {...layout}><InputNumber step={0.01} {...style} {...lrzeProps}/></FormItem>
-                        </td>
-                        <td className="tg-031e">
-                            <FormItem label="资产总额 万元" {...layout}><InputNumber step={0.01} {...style} {...zczeProps}/></FormItem>
-                        </td>
 
-                        <td className="tg-031e">
-                            <FormItem label="收入总额 万元" {...layout}><InputNumber step={0.01} {...style}
-                                                                               disabled   {...srzeProps}/></FormItem></td>
-                        <td className="tg-031e">
-                            <FormItem label="委托户数" {...layout}><InputNumber {...style} {...wthsProps}/></FormItem>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td className="tg-031e">
-                            <FormItem
-                              label="所在地" {...layout}><SelectorCS labelInValue {...style} { ...csProps}/></FormItem></td>
-
-                        {data.jgxz_dm == 2 ? <td className="tg-031e">
-                            <FormItem label="注册资金 万元" {...layout}><InputNumber step={0.01} {...style} {...zczjProps}/></FormItem>
-                        </td> : null}
-                        {data.jgxz_dm == 2 ? <td className="tg-031e">
-                            <FormItem label="股东人数" {...layout}><InputNumber {...style} {...czrsProps}/></FormItem>
-                        </td> : null}
-                        {data.jgxz_dm == 1 ? <td className="tg-031e">
-                            <FormItem label="合伙人数" {...layout}><InputNumber {...style} {...hhrsProps}/></FormItem>
-                        </td> : null}
-                        {data.jgxz_dm == 1 ? <td className="tg-031e">
-                            <FormItem label="运营资金 万元" {...layout}><InputNumber step={0.01} {...style} {...yysrProps}/></FormItem>
-                        </td> : null}
-                        <td> </td>
-                    </tr>
-                    <tr>
-                        <td className="tg-031e">
-                            <FormItem label="制表人" {...layout}><Input {...style} {...tbrProps}/></FormItem></td>
-                        <td className="tg-031e">
-                            <FormItem label="所长" {...layout}><Input {...style} {...szProps}/></FormItem></td>
-                        <td colSpan="2"> </td>
-                    </tr>
                     </tbody>
                 </table>
-                <Row style={{marginTop:'24px'}}>
+                <Row style={{marginTop: '24px'}}>
                     <Col span="5" offset="19">
                         <ButtonGroup>
                             <Popconfirm placement="top" title="确定保存？" onConfirm={this.save}>
@@ -256,17 +388,17 @@ let Editfrom = React.createClass({
                         </ButtonGroup>
                     </Col>
                 </Row>
+
             </Form>
         </div>
     }
 });
 Editfrom = Form.create({
     mapPropsToFields(props) {
-        let result = {};
-        for (let prop in props.data) {
-            result[prop] = {value: props.data[prop]}
-        }
-        return result;
+        return props.data
+    },
+    onFieldsChange(props, fields) {
+        props.onFieldChange(fields)
     }
 })(Editfrom);
 
@@ -274,9 +406,8 @@ Editfrom = Form.create({
 const c = React.createClass({
     getDefaultProps(){
         return {
-            title: '编辑事务所基本情况表',
-            url: config.HOST + config.URI_API_PROJECT + '/client/swsjbqk',
-            initUrl: config.HOST + config.URI_API_PROJECT + '/client/swsjbqkinit'
+            title: '添加行业鉴证业务情况统计表6',
+            url: config.HOST + config.URI_API_PROJECT + '/client/jzywqktjb',
         }
     },
     getInitialState(){
@@ -289,29 +420,65 @@ const c = React.createClass({
     back(){
         this.props.onBack();
     },
+    propAdd(o, propList){
+        let value = null;
+        let i = propList.length;
+        while (i--){
+            if (o.hasOwnProperty(propList[i])) {
+                value += numeral(o[propList[i]].value).value();
+            }
+        }
+        return value;
+    },
+    handleFieldChange(field){
+        const {data} = this.state;
+        for (let prop in field) {
+            data[prop] = field[prop]
+        }
+        let value = this.propAdd(data, ['tzynsdse_hs','tjynsdse_hs']);
+        if (value !== null){
+            data['hsqjje_hs'] = {};
+            data['hsqjje_hs'].value = value
+        }
+        value = this.propAdd(data, ['tzynsdse_je','tjynsdse_je']);
+        if (value !== null){
+            data['hsqjje_je'] = {};
+            data['hsqjje_je'].value = value
+        }
+        value = this.propAdd(data, ['gxjsqyrdqzyw_hs','qyzxswdeskjsjzyw_hs','yffjjkcjzyw_hs','qt_hs']);
+        if (value !== null){
+            data['qtjz_hs'] = {};
+            data['qtjz_hs'].value = value
+        }
+        value = this.propAdd(data, ['gxjsqyrdqzyw_je','qyzxswdeskjsjzyw_je','yffjjkcjzyw_je','qt_je']);
+        if (value !== null) {
+            data['qtjz_je'] = {};
+            data['qtjz_je'].value = value
+        }
+        this.setState({data: data})
+    },
 
     //保存
     handleSave(values){
         const {url,id} = this.props;
         values.ztbj = 0;
-        values.dwmc = this.state.data.dwmc;
-        this.setState({loading:true,data:values});
+        this.setState({loading: true});
         req({
-            method:'put',
-            url:url+ `/${id}`,
-            data:values
-        }).then(resp=>{
-            this.setState({loading:false,scr:'success',successType:'save'})
-        }).catch(e=>{
+            method: 'put',
+            url: url+ `/${id}`,
+            data: values
+        }).then(resp=> {
+            this.setState({loading: false, scr: 'success', successType: 'save'})
+        }).catch(e=> {
             this.setState({loading: false});
-            if (e.status == 403){
+            if (e.status == 403) {
                 let res = JSON.parse(e.response);
                 notification.error({
                     duration: 3,
                     message: '操作失败',
                     description: res.text
                 });
-            }else{
+            } else {
                 notification.error({
                     duration: 3,
                     message: '操作失败',
@@ -324,24 +491,23 @@ const c = React.createClass({
     handleCommit(values){
         const {url,id} = this.props;
         values.ztbj = 1;
-        values.dwmc = this.state.data.dwmc;
-        this.setState({loading:true,data:values});
+        this.setState({loading: true});
         req({
-            method:'put',
-            url:url+ `/${id}`,
-            data:values
-        }).then(resp=>{
-            this.setState({loading:false,scr:'success',successType:'commit'})
-        }).catch(e=>{
+            method: 'put',
+            url: url+ `/${id}`,
+            data: values
+        }).then(resp=> {
+            this.setState({loading: false, scr: 'success', successType: 'commit'})
+        }).catch(e=> {
             this.setState({loading: false});
-            if (e.status == 403){
+            if (e.status == 403) {
                 let res = JSON.parse(e.response);
                 notification.error({
                     duration: 3,
                     message: '操作失败',
                     description: res.text
                 });
-            }else{
+            } else {
                 notification.error({
                     duration: 3,
                     message: '操作失败',
@@ -351,35 +517,20 @@ const c = React.createClass({
         });
     },
 
-    //异步获取注册税务师人数和报表明细信息
-    async fetchData(){
-        const {url,initUrl,id} = this.props;
-        let fetch1 = req({
-            method: 'get',
-            url: initUrl,
-            data:{id:id}
-        });
-        let fetch2 =  req({
+    componentDidMount(){
+        const {url,id}  = this.props;
+        req({
             method: 'get',
             url: url + `/${id}`
-        });
-        let [init, mx] = await Promise.all([fetch1, fetch2]);
-        return {init: init, mx: mx}
-    },
-
-    componentDidMount(){
-        //const {url,id}  = this.props;
-        this.fetchData().then(resp=> {
-            //将明细对象的所有属性名转成小写
-            let values = mapKeys(resp.mx,function(value,key){
+        }).then(resp=> {
+            let values = mapKeys(resp,function(value,key){
                 return key.toLowerCase()
             });
-            values.srze = resp.init.srze;
-            values.zyzcswsrs = resp.init.zyzcswsrs;
-            //将机构性质和城市代码转为字符串，城市下拉由于labelInValue，所以需采用下面的赋值方式
-            values.jgxz_dm = ''+values.jgxz_dm;
-            values.cs_dm = {key:''+values.cs_dm};
-            this.setState({data: values, loading: false,zyzcswsrs:values.zyzcswsrs})
+            let result = {};
+            for (let prop in values) {
+                result[prop] = {value: values[prop]}
+            }
+            this.setState({data: result, loading: false})
         }).catch(e=> {
             if (e.status == 403) {
                 let res = JSON.parse(e.response);
@@ -387,23 +538,23 @@ const c = React.createClass({
             } else {
                 this.setState({scr: 'fail', loading: false})
             }
-
         })
     },
 
     render(){
         const {title} = this.props;
-        let {data,loading,scr,failtext,successType,zyzcswsrs} = this.state;
+        let {data, loading, scr, failtext, successType} = this.state;
         const panelBar = <PanelBar>
             <Button onClick={this.back}>
                 <Icon type="rollback"/>返回
             </Button>
         </PanelBar>;
 
-
-
         let content = {
-            normal: <Editfrom data={data} onCommit={this.handleCommit} onSave={this.handleSave} zyzcswsrs={zyzcswsrs}/>,
+            normal: <Editfrom data={data}
+                              onCommit={this.handleCommit}
+                              onSave={this.handleSave}
+                              onFieldChange={this.handleFieldChange}/>,
             fail: <FailScr text={failtext}/>,
             success: <Success type={successType}/>
         };
