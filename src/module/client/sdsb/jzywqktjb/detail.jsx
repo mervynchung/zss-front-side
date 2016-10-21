@@ -185,6 +185,9 @@ const detail = React.createClass({
                         </tbody>
                         <tbody>
                         <tr>
+                            <td colSpan="6">备注：{data.BZ}</td>
+                        </tr>
+                        <tr>
                             <td colSpan="3">填报人：{data.TIANBIAOREN}</td>
                             <td colSpan="3">所长：{data.SUOZHANG}</td>
                         </tr>

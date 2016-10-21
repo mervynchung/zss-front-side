@@ -3,6 +3,7 @@
  */
 import React from 'react'
 import {Button ,Icon } from 'antd'
+import numeral from 'Numeral'
 var model = {
     // handleRowButton(){},
 
@@ -43,6 +44,15 @@ var model = {
          {
             id: 'JSSJ',
             name: '结束时间',
+            render(num){
+                let date = new Date(num);
+               
+                return date.toLocaleDateString()
+            }
+        },
+            {
+            id: 'SBRQ',
+            name: '上报日期',
             render(num){
                 let date = new Date(num);
                
