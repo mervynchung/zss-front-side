@@ -1,4 +1,3 @@
-import numeral from 'Numeral'
 const model = {
     columns: [
         {title: '注销日期', dataIndex: 'zxrq', key: 'zxrq'},
