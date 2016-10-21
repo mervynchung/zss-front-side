@@ -165,56 +165,56 @@ const detailBox = React.createClass({
                 </tr>
                 <tr>   
                     <td colSpan="2">连续两年以上未开展任何业务的</td>
-                    <td colSpan="2"><Col span="12"><Checkbox checked={!obj2['18'] ? false:true}  /></Col><Col offSpan="12"><Checkbox checked={!obj3['18'] ? false:true}  /></Col></td>
+                    <td colSpan="2"><Col span="12"><Checkbox checked={!obj2['28'] ? false:true}  /></Col><Col offSpan="12"><Checkbox checked={!obj3['18'] ? false:true}  /></Col></td>
                 </tr>
                 <tr>   
                     <td colSpan="2">未执行全省统一涉税鉴证收费标准的</td>
-                    <td colSpan="2"><Col span="12"><Checkbox checked={!obj2['19'] ? false:true}  /></Col><Col offSpan="12"><Checkbox checked={!obj3['19'] ? false:true}  /></Col></td>
+                    <td colSpan="2"><Col span="12"><Checkbox checked={!obj2['29'] ? false:true}  /></Col><Col offSpan="12"><Checkbox checked={!obj3['19'] ? false:true}  /></Col></td>
                 </tr>
 
                 <tr>   
                     <td rowSpan="5"><b>收费管理：</b></td>
                     <td colSpan="2">本所财务会计制度不健全，会计核算不符合规定要求</td>
-                    <td colSpan="2"><Col span="12"><Checkbox checked={!obj2['20'] ? false:true}  /></Col><Col offSpan="12"><Checkbox checked={!obj3['20'] ? false:true}  /></Col></td>
+                    <td colSpan="2"><Col span="12"><Checkbox checked={!obj2['18'] ? false:true}  /></Col><Col offSpan="12"><Checkbox checked={!obj3['20'] ? false:true}  /></Col></td>
                 </tr>
                  <tr>   
                     <td colSpan="2">本所有隐藏，转移业务收入，虚报经营亏损</td>
-                    <td colSpan="2"><Col span="12"><Checkbox checked={!obj2['21'] ? false:true}  /></Col><Col offSpan="12"><Checkbox checked={!obj3['21'] ? false:true}  /></Col></td>
+                    <td colSpan="2"><Col span="12"><Checkbox checked={!obj2['19'] ? false:true}  /></Col><Col offSpan="12"><Checkbox checked={!obj3['21'] ? false:true}  /></Col></td>
                 </tr>
                  <tr>   
                     <td colSpan="2">本所有弄虚作假高额支付租赁房屋，设备等费用</td>
-                    <td colSpan="2"><Col span="12"><Checkbox checked={!obj2['22'] ? false:true}  /></Col><Col offSpan="12"><Checkbox checked={!obj3['22'] ? false:true}  /></Col></td>
+                    <td colSpan="2"><Col span="12"><Checkbox checked={!obj2['20'] ? false:true}  /></Col><Col offSpan="12"><Checkbox checked={!obj3['22'] ? false:true}  /></Col></td>
                 </tr>
                  <tr>   
                     <td colSpan="2">本所未按规定进行纳税申报及缴纳税款</td>
-                    <td colSpan="2"><Col span="12"><Checkbox checked={!obj2['23'] ? false:true}  /></Col><Col offSpan="12"><Checkbox checked={!obj3['23'] ? false:true}  /></Col></td>
+                    <td colSpan="2"><Col span="12"><Checkbox checked={!obj2['21'] ? false:true}  /></Col><Col offSpan="12"><Checkbox checked={!obj3['23'] ? false:true}  /></Col></td>
                 </tr>
                  <tr>   
                     <td colSpan="2">本所有偷税行为</td>
-                    <td colSpan="2"><Col span="12"><Checkbox checked={!obj2['24'] ? false:true}  /></Col><Col offSpan="12"><Checkbox checked={!obj3['24'] ? false:true}  /></Col></td>
+                    <td colSpan="2"><Col span="12"><Checkbox checked={!obj2['22'] ? false:true}  /></Col><Col offSpan="12"><Checkbox checked={!obj3['24'] ? false:true}  /></Col></td>
                 </tr>
 
 
                 <tr>   
                     <td rowSpan="7"><b>其他方面：</b></td>
                     <td colSpan="2">本所有未经批准自行设立分支机构</td>
-                    <td colSpan="2"><Col span="12"><Checkbox checked={!obj2['25'] ? false:true} /></Col><Col offSpan="12"><Checkbox checked={!obj3['25'] ? false:true} /></Col></td>
+                    <td colSpan="2"><Col span="12"><Checkbox checked={!obj2['23'] ? false:true} /></Col><Col offSpan="12"><Checkbox checked={!obj3['25'] ? false:true} /></Col></td>
                 </tr>
                  <tr>   
                     <td colSpan="2">本所有未经批准自行挂索或接受挂</td>
-                    <td colSpan="2"><Col span="12"><Checkbox checked={!obj2['26'] ? false:true} /></Col><Col offSpan="12"><Checkbox checked={!obj3['26'] ? false:true} /></Col></td>
+                    <td colSpan="2"><Col span="12"><Checkbox checked={!obj2['24'] ? false:true} /></Col><Col offSpan="12"><Checkbox checked={!obj3['26'] ? false:true} /></Col></td>
                 </tr>
                  <tr>   
                     <td colSpan="2">本所有对分支机构只收管理费</td>
-                    <td colSpan="2"><Col span="12"><Checkbox checked={!obj2['27'] ? false:true} /></Col><Col offSpan="12"><Checkbox checked={!obj3['27'] ? false:true} /></Col></td>
+                    <td colSpan="2"><Col span="12"><Checkbox checked={!obj2['25'] ? false:true} /></Col><Col offSpan="12"><Checkbox checked={!obj3['27'] ? false:true} /></Col></td>
                 </tr>
                  <tr>   
                     <td colSpan="2">本所分支机构执业资质不符合要求</td>
-                    <td colSpan="2"><Col span="12"><Checkbox checked={!obj2['28'] ? false:true} /></Col><Col offSpan="12"><Checkbox checked={!obj3['28'] ? false:true} /></Col></td>
+                    <td colSpan="2"><Col span="12"><Checkbox checked={!obj2['26'] ? false:true} /></Col><Col offSpan="12"><Checkbox checked={!obj3['28'] ? false:true} /></Col></td>
                 </tr>
                  <tr>   
                     <td colSpan="2">本所分支机构一年内有两次以上执业质量问题</td>
-                    <td colSpan="2"><Col span="12"><Checkbox checked={!obj2['29'] ? false:true} /></Col><Col offSpan="12"><Checkbox checked={!obj3['29'] ? false:true} /></Col></td>
+                    <td colSpan="2"><Col span="12"><Checkbox checked={!obj2['27'] ? false:true} /></Col><Col offSpan="12"><Checkbox checked={!obj3['29'] ? false:true} /></Col></td>
                 </tr>
                  <tr>   
                     <td colSpan="2">未按照规定缴纳团体会费</td>

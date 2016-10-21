@@ -109,7 +109,7 @@ let Addswsnj = React.createClass({
 
     },
 
-
+//执业税务师选择年度是否已做年检的校验（传姓名及年度过去）
 
 
 

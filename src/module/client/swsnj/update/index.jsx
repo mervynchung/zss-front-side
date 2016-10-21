@@ -172,7 +172,7 @@ let Updatejgnjb = React.createClass({
     render() {
         const { getFieldProps } = this.props.form;
         const data = this.props.data;
-        console.log("我是data"+data);
+        
 
         const obj = this.props.data;
         
@@ -186,11 +186,13 @@ let Updatejgnjb = React.createClass({
 
             for (var i = 0; i < arr1.length; i++) {
                 obj2[arr1[i]] = true;
+                console.log(obj2);
             }
         }
 
         if (obj.NJWGDM) {
             arr2 = obj.NJWGDM.split(',');
+        
             for (var i = 0; i < arr2.length; i++) {
                 obj3[arr2[i]] = true;
             }
