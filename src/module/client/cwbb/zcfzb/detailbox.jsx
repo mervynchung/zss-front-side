@@ -5,6 +5,7 @@ const detailBox = React.createClass({
 
     render(){
         const obj = this.props.data;
+        console.log(obj);
   
 
         return <div className="fix-table table-bordered table-striped">
@@ -165,8 +166,8 @@ const detailBox = React.createClass({
                 <tr>
                     <td>流动资产合计</td>
                     <td>14</td>
-                    <td>{obj.LDZCHJ_NC}</td>
-                    <td>{obj.LDZCHJ}</td>
+                    <td>{obj.LDZC_HJ_NC}</td>
+                    <td>{obj.LDZC_HJ}</td>
                     <td>其他流动负债</td>
                     <td>46</td>
                     <td>{obj.LDFZ_QTFZ_NC}</td>

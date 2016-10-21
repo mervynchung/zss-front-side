@@ -1,13 +1,16 @@
 import React from 'react'
-import {Col, Input,Row,Button,Icon,Form,Modal,Select,DatePicker,InputNumber  } from 'antd'
+import {Col, Input,Row,Button,Icon,Form,Modal,Select,DatePicker,InputNumber,message  } from 'antd'
 import {SelectorYear,SelectorXZ} from 'component/compSelector'
+import config from 'common/configuration'
+import req from 'reqwest'
+import auth from 'common/auth'
 import './style.css'
 
 const ButtonGroup = Button.Group;
 const createForm = Form.create;
 const FormItem = Form.Item;
 const Option = Select.Option;
-
+const URL_C = config.HOST + config.URI_API_PROJECT + '/commont/checiftjbb/zcmxb';
 Date.prototype.Format = function (fmt) { //时间格式化函数
     var o = {
         "M+": this.getMonth() + 1, //月份 
@@ -30,93 +33,94 @@ let Updatezcmxb = React.createClass({
             onSubmit: {}
         }
     },
-   getInitialState() {
-    return { visible: false };
-  },
-    handleSubmit(e) {
-    const obj = this.props.data1;
-    e.preventDefault();
-    var mp = {};
-    let value=this.props.form.getFieldsValue()
-    for(var key in value){
-        if(!value[key]&&Object.prototype.toString.call(value[key])!="[object Number]"){
-            value[key]=null;
+    getInitialState() {
+        return {
+            checkmessage:false,
         }
-        if(Object.prototype.toString.call(value[key])=="[object Date]"){//时间格式化
-                    var dd = value[key].Format("yyyy-MM-dd");
-                    value[key]=dd;
-                }
-    }
-
-    value.id = obj.ID;
-    value.jg_id=obj.JG_ID;
-    value.zyywcb1=this.mixNums(["gzfy1","flf1","jyf1","ghjf1","shtc1",'bgf1','clf1',"hf1",'pxzlf1','hwf1',"zpf1","zj1","zfgjj1","gwzxf1","qt1"]);
-    value.zyywcb=this.mixNums(["gzfy","flf","jyf","ghjf","shtc",'bgf','clf',"hf",'pxzlf','hwf',"zpf","zj","zfgjj","gwzxf","qt"]);
-    value.glfy1=this.mixNums(["glfy_gzfy1","glfy_flf1","glfy_ywzdf1","glfy_bgf1","glfy_qtsj1",'glfy_qcfy1','glfy_zyfxjj1',"glfy_zyzrbx1",'glfy_clf1','glfy_qtfy1']);
-    value.glfy=this.mixNums(["glfy_gzfy","glfy_flf","glfy_ywzdf","glfy_bgf","glfy_qtsj",'glfy_qcfy','glfy_zyfxjj',"glfy_zyzrbx",'glfy_clf','glfy_qtfy']);
-    value.zczj1=this.mixNums(["zyywsjfj1","qtywzc1","cwfy1","yywzc1"])+Number(value.zyywcb1)+Number(value.glfy1);
-    value.zczj=this.mixNums(["zyywsjfj","qtywzc","cwfy","yywzc"])+Number(value.zyywcb)+Number(value.glfy);
-    this.props.onSubmit(value);
-  },
-mixNums(names){
-    let numBuild=this.props.form.getFieldsValue(names);
-    let num=0;
-    for (var key in numBuild) {
-      num+=Number(numBuild[key]);
-    };
-    return num;
+    },
+    componentWillReceiveProps(nextProps){//检测父组件state变化
+        if (this.props.loading!=nextProps.loading) {
+          this.stopLoading();
+        };
+    },
+    stopLoading(){
+            this.setState({loading:false});
+      },
+    handleSubmit(zt) {
+        this.setState({loading:true});
+        this.props.form.validateFieldsAndScroll((errors, values) => {
+                if (errors) {
+                          message.error(this.state.checkmessage);
+                          this.setState({loading:true});
+                            return;
+                        } else {
+                            let value=values;
+                            for(var key in value){
+                                if(!value[key]&&Object.prototype.toString.call(value[key])!="[object Number]"){
+                                    value[key]=null;
+                                }
+                                if(Object.prototype.toString.call(value[key])=="[object Date]"){//时间格式化
+                                            var dd = value[key].Format("yyyy-MM-dd");
+                                            value[key]=dd;
+                                        }
+                            }
+                                  value.zyywcb1=this.props.data.zyywcb1;
+                                  value.zyywcb=this.props.data.zyywcb;
+                                  value.glfy1=this.props.data.glfy1;
+                                  value.glfy=this.props.data.glfy;
+                                  value.zczj1=this.props.data.zczj1;
+                                  value.zczj=this.props.data.zczj;
+                                  value.id=this.props.data.id;
+                                  value.ztbj=zt;
+                                  this.props.onSubmit(value);
+                     }
+       });
   },
      handleReset(e) {
         e.preventDefault();
-        this.props.form.resetFields();
+        this.props.onReset();
     },
   showModal(e) {
-    e.preventDefault();
-    let value=this.props.form.getFieldsValue()
-     for(var key in value){
-         if(!value[key]&&Object.prototype.toString.call(value[key])!="[object Number]"){
-             value[key]=null;
-            
-         }
-         if(Object.prototype.toString.call(value[key])=="[object Date]"){//时间格式化
-                    var dd = value[key].Format("yyyy-MM-dd");
-                    value[key]=dd;
-                }
-     }
-     value.zyywcb1=this.mixNums(["gzfy1","flf1","jyf1","ghjf1","shtc1",'bgf1','clf1',"hf1",'pxzlf1','hwf1',"zpf1","zj1","zfgjj1","gwzxf1","qt1"]);
-    value.zyywcb=this.mixNums(["gzfy","flf","jyf","ghjf","shtc",'bgf','clf',"hf",'pxzlf','hwf',"zpf","zj","zfgjj","gwzxf","qt"]);
-    value.glfy1=this.mixNums(["glfy_gzfy1","glfy_flf1","glfy_ywzdf1","glfy_bgf1","glfy_qtsj1",'glfy_qcfy1','glfy_zyfxjj1',"glfy_zyzrbx1",'glfy_clf1','glfy_qtfy1']);
-    value.glfy=this.mixNums(["glfy_gzfy","glfy_flf","glfy_ywzdf","glfy_bgf","glfy_qtsj",'glfy_qcfy','glfy_zyfxjj',"glfy_zyzrbx",'glfy_clf','glfy_qtfy']);
-    value.zczj1=this.mixNums(["zyywsjfj1","qtywzc1","cwfy1","yywzc1"])+Number(value.zyywcb1)+Number(value.glfy1);
-    value.zczj=this.mixNums(["zyywsjfj","qtywzc","cwfy","yywzc"])+Number(value.zyywcb)+Number(value.glfy);
-    this.setState({
-      visible: true,
-      okValue:value,
-     
-    });
-    const obj = this.props.data1;
-    value.id = obj.ID;   
-    value.jg_id=obj.JG_ID;
-     
+        e.preventDefault();
+        var that=this;
+        Modal.confirm({
+        title: '是否确定提交？',
+        content: '提交后将上传至省管理中心',
+        onOk(){
+                  that.handleSubmit(1);
+          },
+      });
   },
-  handleOk(e) {
-    // console.log('点击了确定',this.state.okValue);
-    this.props.handleOk(this.state.okValue)
-    this.setState({
-      visible: false
-    });
-  },
-  handleCancel(e) {
-    
-    this.setState({
-      visible: false
-    });
-  },
+
+    selectChange(rule, value, callback){
+        let cValue=this.props.form.getFieldsValue(['timevalue','nd']);
+        cValue.id=this.props.data.id;
+        this.setState({checkmessage:false,cloading:true});
+        req({
+                url: URL_C,
+                type: 'json',
+                method: 'get',
+                data: {checked:encodeURIComponent(JSON.stringify(cValue))},
+                headers:{'x-auth-token':auth.getToken()},
+                contentType:'application/json',            
+            }).then(resp => {
+                this.setState({cloading:false});
+                if (resp) {
+                    callback();
+                }else{
+                   this.setState({checkmessage:"已存在该年份该时段报表"});
+                   callback('已存在该年份该时段报表'); 
+                };
+            }).fail(err => {
+                   this.setState({checkmessage:"校验错误，请检查网络",cloading:false});
+                callback("校验错误，请检查网络");
+            })
+      },
 
     render() {
          
          const { getFieldProps } = this.props.form;
-         const data = this.props.data1;
+         const data = this.props.data;
         const year = new Date().getFullYear();
         return <div className="add">
         <div className="fix-table table-bordered table-striped" >
@@ -134,17 +138,20 @@ mixNums(names){
                 </colgroup>
                 <tbody>
                     <tr>
-                        <td colSpan="2">单位： {data.DWMC}</td>
+                        <td colSpan="3">单位： {data.dwmc}</td>
                         
-                        <td colSpan="4">统计截止时间段：
-                                          <SelectorXZ style={{width:'150px'}} { ...getFieldProps('timevalue', 
-                                            { initialValue:((new Date(data.B)).getTime()==(new Date(year,'05','30','08')).getTime()?'0':'1')})}/>                                
+                        <td colSpan="3">统计截止时间段（半年期为1月至6月底）：
+                                          <SelectorXZ style={{width:'150px'}} { ...getFieldProps('timevalue',
+                                           { initialValue:((new Date(data.b)).getTime()==(new Date(year,'05','30','08')).getTime()?'0':'1'),
+                                            rules:[{validator:this.selectChange}]})}/>
+                                          {this.state.cloading&&<span><Icon type="loading" /></span>}
+                                          {this.state.checkmessage&&<p style={{'color':'red'}}>{this.state.checkmessage}</p>}
                         </td>    
                          
                            
                         <td  >  <Col 
                           label="年度：">
-                            <SelectorYear  { ...getFieldProps('nd', { initialValue:data.ND})} allowClear={false}/>
+                            <SelectorYear  { ...getFieldProps('nd', { initialValue:data.ND,rules:[{validator:this.selectChange}]})} allowClear={false}/>
                         </Col>
                            </td>
                        <td>单位：元</td>
@@ -165,8 +172,8 @@ mixNums(names){
                     <tr>
                         <td style={{textAlign:'center'}} >一、主营业务成本</td>
                         <td>1</td>
-                        <td >{data.ZYYWCB1}</td>
-                       <td >{data.ZYYWCB}</td>
+                        <td >{!data.zyywcb1?data.ZYYWCB1:data.zyywcb1}</td>
+                       <td >{!data.zyywcb?data.ZYYWCB:data.zyywcb}</td>
                         <td style={{textAlign:'center'}} >二、主营业务税金及附加</td>   
                         <td>17</td>      
                         <td ><InputNumber min={0}  step={0.01}   {...getFieldProps('zyywsjfj1', { initialValue:data.ZYYWSJFJ1})}/></td>
@@ -191,8 +198,8 @@ mixNums(names){
                        <td ><InputNumber min={0}  step={0.01}   {...getFieldProps('flf', { initialValue:data.FLF})}/> </td>
                         <td style={{textAlign:'center'}} >四、管理费用</td>   
                         <td>19</td>      
-                        <td >{data.GLFY1}</td>
-                        <td >{ data.GLFY}</td>      
+                        <td >{!data.glfy1?data.GLFY1:data.glfy1}</td>
+                        <td >{!data.glfy?data.GLFY:data.glfy}</td>      
                     </tr>
                     
                      <tr>
@@ -334,47 +341,39 @@ mixNums(names){
                        <td ><InputNumber min={0}  step={0.01}   {...getFieldProps('qt', { initialValue:data.QT})}/> </td>
                         <td style={{textAlign:'center'}} >支出总计</td>   
                         <td>32</td>      
-                        <td > {data.ZCZJ1}</td>
-                        <td > {data.ZCZJ}</td>      
+                        <td > {!data.zczj1?data.ZCZJ1:data.zczj1}</td>
+                        <td > {!data.zczj?data.ZCZJ:data.zczj}</td>      
                     </tr>
                     
                     <tr>
-                       <td></td>
+                        <td></td>
                         <td style={{textAlign:'center'}} >所长：</td>
-                       
                         <td ><Input   {...getFieldProps('sz', { initialValue:data.SZ})}/> </td>
-                       <td style={{textAlign:'center'}} >主管会计：</td>
-                       <td ><Input   {...getFieldProps('agkj', { initialValue:data.AGKJ})}/> </td>
+                        <td style={{textAlign:'center'}} >主管会计：</td>
+                        <td ><Input   {...getFieldProps('agkj', { initialValue:data.AGKJ})}/> </td>
                         <td style={{textAlign:'center'}} >制表人：</td>  
-                         <td ><Input   {...getFieldProps('zb', { initialValue:data.ZB})}/> </td> 
-                           <td></td>
-                           
+                        <td ><Input   {...getFieldProps('zb', { initialValue:data.ZB})}/> </td> 
+                        <td></td>
                     </tr>
-                    
-                    
                 </tbody>
                 
                  <tbody>
                     <tr >
-                       <td></td>
-                              <td>               
-                        <Button type="primary" onClick={this.handleSubmit}> <Icon type="check"/>保存</Button>
-                                      
+                       <td colSpan="5">
+                                <p>1、支出明细表上报时需填报"本期数"及"本年累计数"，所选上报期时间以半年期/全年期为标准，每期只可提交一单数据；</p>
+                                <p>2、"本期数"填报上报期的月份数据，"本年累计数"填报上报期年初至上报期月末的数据；</p>
+                                <p>各栏关系：</p>
+                                <p>【2行+……16行=1行】【20行+……29行=19行】【1行+17行+18行+19行+30行+31行=32行】</p>
+                       </td>
+                      <td>               
+                                 <Button type="primary" onClick={this.handleSubmit.bind(this,0)} loading={this.state.loading}> <Icon type="check"/>保存</Button>
                       </td>
-                      
                        <td style={{textAlign:'center'}}>
-                        
-                         <Button type="primary" onClick={this.showModal}> <Icon type="arrow-up"/>提交</Button>
-                                       <Modal title="你确定要提交吗？" visible={this.state.visible}
-                                             onOk={this.handleOk} onCancel={this.handleCancel}>
-                                                 <p>提交后就不能修改了！！！</p>
-                                                 
-                                          
-        </Modal>
+                                <Button type="primary" onClick={this.showModal} loading={this.state.loading}> <Icon type="arrow-up"/>提交</Button>
                         </td>
-                        
-                      
-                      
+                        <td>
+                                <Button type="primary" onClick={this.handleReset} loading={this.state.loading}><Icon type="cross"/>重置</Button>
+                       </td>
                     </tr>
                 </tbody>
                
@@ -394,6 +393,11 @@ Updatezcmxb = Form.create({
             result[prop] = {value: props.data[prop]}
         }
         return result;
+    },
+       onFieldsChange(props, fields){
+      for (var key in fields) {
+        props.changed(key,fields[key]['value']);
+        }
     }
 })(Updatezcmxb);
    

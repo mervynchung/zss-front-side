@@ -83,7 +83,13 @@ const yhdljlb = React.createClass({
 
     //提交条件查询
     handleSearchSubmit(value) {
+       
+         for (var key in value) {
+            if(Object.prototype.toString.call(value[key])=="[object Undefined]"){
+                value[key]=null;
+         }}
         const pager = this.state.pagination;
+        
         pager.current = 1;
         const params = {
             pagenum: 1,

@@ -90,8 +90,6 @@ const zyswsnj = React.createClass({
         this.setState({ update: !this.state.update, detailHide: true });
 
     },
-
-
     //手动关闭帮助提示
     handleHelperClose() {
         this.setState({ helper: false })
@@ -129,7 +127,6 @@ const zyswsnj = React.createClass({
 
     //点击保存
     handleSubmit(value) {
-        console.log(value);
         let vv = value;
         vv.ztbj = '1'
         this.fetchHandle(vv);
@@ -145,7 +142,6 @@ const zyswsnj = React.createClass({
 
     },
     fetchHandle1(value) {
-        console.log("value", value)
         req({
             url: URL + '/' + value.id,
             type: 'json',
@@ -153,8 +149,6 @@ const zyswsnj = React.createClass({
             data: JSON.stringify(value),
             headers: { 'x-auth-token': auth.getToken() },
             contentType: 'application/json',
-
-
         }).then(resp => {
             Modal.success({
                 title: '操作成功',
