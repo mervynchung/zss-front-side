@@ -2,8 +2,8 @@ import React from 'react'
 import req from 'reqwest'
 import config from 'common/configuration'
 import auth from 'common/auth'
-import {Col, Input, Row, Button, Icon, Form, Modal, Checkbox, DatePicker} from 'antd'
-import {SelectorYear, SelectorXZ, SelectorXm} from 'component/compSelector'
+import { Col, Input, Row, Button, Icon, Form, Modal, Checkbox, DatePicker } from 'antd'
+import { SelectorYear, SelectorXZ, SelectorXm } from 'component/compSelector'
 import './style.css'
 
 const API_URL1 = config.HOST + config.URI_API_PROJECT + '/add/zyswsnj1';
@@ -21,13 +21,13 @@ let Addswsnj = React.createClass({
         e.preventDefault();
         var mp = {};
         let value = this.props.form.getFieldsValue()
-       
+
         var date = new Date(value['SWSFZRSJ']);
-        value['SWSFZRSJ']=date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate();
+        value['SWSFZRSJ'] = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
         let arr = []
         for (var key in value) {
-            if(Object.prototype.toString.call(value[key])=="[object Undefined]"){
-                value[key]=null
+            if (Object.prototype.toString.call(value[key]) == "[object Undefined]") {
+                value[key] = null
             };
             if (key.indexOf('wg') != -1) {
                 if (value[key]) {
@@ -72,11 +72,11 @@ let Addswsnj = React.createClass({
         var mp = {};
         let value = this.props.form.getFieldsValue()
         var date = new Date(value['SWSFZRSJ']);
-        value['SWSFZRSJ']=date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate();
+        value['SWSFZRSJ'] = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
         let arr = []
         for (var key in value) {
-           if(Object.prototype.toString.call(value[key])=="[object Undefined]"){
-                value[key]=null
+            if (Object.prototype.toString.call(value[key]) == "[object Undefined]") {
+                value[key] = null
             };
             if (key.indexOf('wg') != -1) {
                 if (value[key]) {
@@ -109,7 +109,7 @@ let Addswsnj = React.createClass({
 
     },
 
-//执业税务师选择年度是否已做年检的校验（传姓名及年度过去）
+    //执业税务师选择年度是否已做年检的校验（传姓名及年度过去）
 
 
 
@@ -200,7 +200,7 @@ let Addswsnj = React.createClass({
     render() {
 
         const { getFieldProps } = this.props.form;
-        
+
         //签证时间校验
         const sjProps = getFieldProps('SWSFZRSJ', {
             rules: [
@@ -234,7 +234,7 @@ let Addswsnj = React.createClass({
                 { required: true, type: 'integer', whitespace: true, message: '请选择一个人进行年检' },
             ],
         });
-        
+
         //年度校验
         const ndProps = getFieldProps('ND', {
             rules: [
@@ -257,11 +257,11 @@ let Addswsnj = React.createClass({
                             <tbody>
                                 <tr>
                                     <td>姓名：</td>
-                                    <td><FormItem><SelectorXm {...xmProps } style={{ width: '100px' }} onChange={this.handleXmChange}/></FormItem></td>
+                                    <td><FormItem><SelectorXm {...xmProps } style={{ width: '100px' }} onChange={this.handleXmChange} /></FormItem></td>
                                     <td>性别: {obj1.xb}</td>
-                                    <td><FormItem>年度： <SelectorYear {...ndProps } style={{ width: "30%" }} onChange={this.handleNdChange}/></FormItem>
+                                    <td><FormItem>年度： <SelectorYear {...ndProps } style={{ width: "30%" }} onChange={this.handleNdChange} /></FormItem>
                                     </td>
-                                    <td rowSpan="6"><img src={obj1.XPIAN}/></td>
+                                    <td rowSpan="6"><img src={obj1.XPIAN} /></td>
                                 </tr>
                                 <tr>
                                     <td>出生年月：</td>
@@ -300,7 +300,7 @@ let Addswsnj = React.createClass({
                                 <tr className="add">
                                     <th>自检情况：</th>
                                     <th colSpan="3">违规条款(违规请打勾) </th>
-                                    <th>自检<Checkbox></Checkbox></th>
+                                    <th>自检</th>
                                 </tr>
 
 
@@ -453,29 +453,33 @@ let Addswsnj = React.createClass({
 
                                 <tr>
                                     <td>年检总结: </td>
-                                    <td colSpan="4"><FormItem><Input {...njzjProps} type="textarea"  autosize /></FormItem></td>
+                                    <td colSpan="4"><FormItem><Input {...njzjProps} type="textarea" autosize /></FormItem></td>
                                 </tr>
 
                                 <tr>
                                     <td rowSpan="2">事务所负责人意见</td>
-                                    <td colSpan="2"><FormItem><Input {...swsfzryjProps } type="textarea"  autosize /></FormItem></td>
-                                    <td colSpan="2"><FormItem>时间：<DatePicker {...sjProps} style={{ width: "30%" }}/></FormItem>
-                                        <FormItem>负责人签名：<Input {...swsfzrqmProps} style={{ width: "30%" }}/> </FormItem></td>
+                                    <td colSpan="2"><FormItem><Input {...swsfzryjProps } type="textarea" autosize /></FormItem></td>
+                                    <td colSpan="2"><FormItem>时间：<DatePicker {...sjProps} style={{ width: "30%" }} /></FormItem>
+                                        <FormItem>负责人签名：<Input {...swsfzrqmProps} style={{ width: "30%" }} /> </FormItem></td>
 
                                 </tr>
                             </tbody>
                         </table >
                     </div>
-
+                    <Row>
+                        <Col>
+                            <FormItem></FormItem>
+                        </Col>
+                    </Row>
                     <Row>
                         <Col span="4">
-                            <Button type="primary" onClick={this.handleSubmit}> <Icon type="check"/>保存</Button>
+                            <Button type="primary" onClick={this.handleSubmit}> <Icon type="check" />保存</Button>
 
 
                         </Col>
 
                         <Col span="4">
-                            <Button type="primary" onClick={this.showModal}> <Icon type="arrow-up"/>提交</Button>
+                            <Button type="primary" onClick={this.showModal}> <Icon type="arrow-up" />提交</Button>
                             <Modal title="你确定要提交吗？" visible={this.state.visible}
                                 onOk={this.handleOk} onCancel={this.handleCancel}>
                                 <p>提交后就不能修改了！！！</p>
@@ -485,7 +489,7 @@ let Addswsnj = React.createClass({
                         </Col>
 
                         <Col span="4">
-                            <Button type="primary" onClick={this.handleReset}><Icon type="cross"/>重置</Button>
+                            <Button type="primary" onClick={this.handleReset}><Icon type="cross" />重置</Button>
 
 
 
