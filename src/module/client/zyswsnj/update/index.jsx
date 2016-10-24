@@ -131,7 +131,6 @@ let Updateswsnjb = React.createClass({
     },
     //处理姓名下拉框改变事件
     handleXmChange(value) {
-        //   alert(value);//此value即id
         this.props.form.setFieldsValue({ sws_id: value });
         req({
             url: API_URL + '/' + value,
@@ -155,36 +154,6 @@ let Updateswsnjb = React.createClass({
 
     },
 
-   /* componentDidMount() {
-        const { getFieldProps } = this.props.form;
-        const data = this.props.data1;
-        const obj1 = this.state.swsdata;
-
-        var obj2 = {};
-        var obj3 = {};
-        var arr1 = [];
-        var arr2 = [];
-
-        if (data.ZJWGDM) {
-            arr1 = data.ZJWGDM.split(',');
-
-            for (var i = 0; i < arr1.length; i++) {
-                obj2[arr1[i]] = true;
-            }
-        }
-
-        if (data.NJWGDM) {
-            arr2 = data.NJWGDM.split(',');
-            for (var i = 0; i < arr2.length; i++) {
-                obj3[arr2[i]] = true;
-            }
-        }
-        this.props.form.setFieldsValue({
-            wg1: (!obj2['2'] ? false : true),
-
-        });
-
-    },*/
 
     render() {
 
