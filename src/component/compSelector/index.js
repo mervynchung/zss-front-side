@@ -26,10 +26,12 @@ var selector = {
     SelectorXL: require('./xl'), //学历
     SelectorXB: require('./xb'), //性别
     SelectorRYSF: require('./rysf'), //人员身份
+    SelectorRSLB: require('./rslb'), //入所类别
     SelectorYWLX: require('./ywlx'), //业务类型
     SelectorSPLX: require('./splx'), //审批类型
     SelectorZTBJ: require('./ztbj'), //通过状态
     SelectorZTDM: require('./ztdm'), //年检状态
+    SelectorISGZ: require('./isgz'), //是否改制
     SelectorTGZT: require('./tgzt'), //通过状态
     SelectorXZ: require('./xz'), //性质
     SelectorZT: require('./zt'), //状态

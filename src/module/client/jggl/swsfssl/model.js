@@ -23,7 +23,7 @@ const data = {
  name: '证书编号：',required:true, }, 
      {
  id:'swsxz',
- name: '机构性质：',required:true, }, 
+ name: '机构性质：',required:true,inputType:'jgxz',type: 'number' }, 
     {
  id:'zczj',
  name:  '注册资金（万元）：',required:true, }, 
