@@ -8,7 +8,7 @@ import utils from 'common/utils'
 import Success from './successScr'
 import FailScr from './failScr'
 import {mapKeys} from 'lodash'
-import numeral from 'Numeral'
+import numeral from 'numeral'
 import cloneDeep from 'lodash/cloneDeep';
 
 const ButtonGroup = Button.Group;
