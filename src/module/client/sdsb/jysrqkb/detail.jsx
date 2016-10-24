@@ -2,7 +2,7 @@ import React from 'react'
 import auth from 'common/auth.js'
 import config from 'common/configuration.js'
 import req from 'common/request'
-import numeral from 'Numeral'
+import numeral from 'numeral'
 import { Button, Icon, Row, Col, Modal, Spin, notification } from 'antd'
 import Panel from 'component/compPanel'
 
