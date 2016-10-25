@@ -4,7 +4,7 @@
  */
 import React from 'react'
 import {Button ,Icon } from 'antd'
-import numeral from 'Numeral'
+import numeral from 'numeral'
 var model = {
     entityModel: [
         {

@@ -169,4 +169,12 @@ body {
     margin-right:16px;
 }
 
+/*全局loading样式*/
+.ant-spin-nested-loading > .ant-spin-container {
+    opacity: 0.3;
+    -webkit-filter: initial;
+    filter: initial;
+}
+
+
 
