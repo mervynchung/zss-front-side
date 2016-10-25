@@ -3,7 +3,7 @@ import {Steps,Col,Row,Spin,notification,Modal,Icon } from 'antd'
 import Panel from 'component/compPanel'
 import auth from 'common/auth.js'
 import config from 'common/configuration.js'
-import req from 'reqwest'
+import req from 'common/request'
 import Stage0 from './stage0.jsx'
 import Stage1 from './stage1.jsx'
 import Stage2 from './stage2.jsx'
@@ -11,9 +11,15 @@ import AddSuccess from './commitSuccessScr';
 
 const Step = Steps.Step;
 
-const YWBB_URL = config.HOST + config.URI_API_PROJECT + '/ywbb';
+
 
 const newYwbb = React.createClass({
+    getDefaultProps(){
+        return{
+            ywbbUrl:config.HOST + config.URI_API_PROJECT + '/ywbb',
+            miscUrl:config.HOST + config.URI_API_PROJECT + '/ywbbmisc/'
+        }
+    },
     getInitialState(){
         return {
             loading: true,
@@ -50,14 +56,11 @@ const newYwbb = React.createClass({
     },
     //添加新报备信息
     addYwbb(param){
-        const token = auth.getToken();
+        const {ywbbUrl} = this.props;
         return req({
-            url: YWBB_URL,
+            url: ywbbUrl,
             method: 'post',
-            type: 'json',
-            contentType: 'application/json',
-            data: JSON.stringify(param),
-            headers: {'x-auth-token': token}
+            data: param
         }).then(resp=> {
             this.setState({loading: false,addSuccess:true,successResp:resp});
         }).fail(e=> {
@@ -104,15 +107,11 @@ const newYwbb = React.createClass({
     },
     //获取本机构下属执业税务师列表
     fetchYwbbMisc () {
+        const {miscUrl} = this.props;
         const jid = auth.getJgid();
-        const token = auth.getToken();
-        const YWBBMISC_URL = config.HOST + config.URI_API_PROJECT + '/ywbbmisc/' + jid;
-
         return req({
-            url: YWBBMISC_URL,
-            method: 'get',
-            type: 'json',
-            headers: {'x-auth-token': token}
+            url: miscUrl + jid,
+            method: 'get'
         })
     },
     componentDidMount(){
