@@ -14,7 +14,7 @@
 
 .dy-ywcover .c21 {
     padding: 5pt 5pt 5pt 5pt;
-    vertical-align: top;
+    vertical-align: bottom;
     width: 287.2pt;
     border: 0;
     border-bottom: 1pt dotted #ECECEC;
@@ -22,21 +22,21 @@
 
 .dy-ywcover .c23 {
     padding: 5pt 5pt 5pt 5pt;
-    vertical-align: top;
+    vertical-align: bottom;
     width: 287.2pt;
     border: 0;
 }
 
 .dy-ywcover .c0 {
     padding: 5pt 5pt 5pt 5pt;
-    vertical-align: top;
+    vertical-align: bottom;
     width: 510.2pt;
     border: 0;
 }
 
 .dy-ywcover .c7 {
     padding: 5pt 5pt 5pt 5pt;
-    vertical-align: top;
+    vertical-align: bottom;
     width: 287.2pt;
     border: 1pt dotted #ECECEC;
     border-right: 0;
@@ -45,34 +45,34 @@
 
 .dy-ywcover .c9 {
     padding: 5pt 5pt 5pt 5pt;
-    vertical-align: top;
+    vertical-align: bottom;
     width: 213.8pt;
     border: 0;
 }
 
 .dy-ywcover .c15 {
     padding: 2.8pt 2.8pt 2.8pt 2.8pt;
-    vertical-align: top;
+    vertical-align: bottom;
     width: 113.2pt;
     border: 0;
 }
 
 .dy-ywcover .c16 {
     padding: 2.8pt 2.8pt 2.8pt 2.8pt;
-    vertical-align: top;
+    vertical-align: bottom;
     width: 396.8pt;
     border: 0;
 }
 
 .dy-ywcover .c19 {
     padding: 2.8pt 2.8pt 2.8pt 2.8pt;
-    vertical-align: top;
+    vertical-align: bottom;
     width: 510.2pt;
     border: 0;
 }
 
 .dy-ywcover .c20 {
-    vertical-align: top;
+    vertical-align: bottom;
     width: 510.2pt;
     border: 0;
 }
@@ -166,7 +166,7 @@
 .dy-ywcover.c26 {
     background-color: #f8f8f0;
     max-width: 510.2pt;
-    padding: 1.5cm
+    padding: 1.5cm 1.5cm 0 1.5cm
 }
 
 .dy-ywcover .c5 {
@@ -324,8 +324,21 @@
     margin: 1em 0;
     padding: 0;
 }
+.dy-ywcover .t2 .c13{
+    height: 1cm;
+}
+.dy-ywcover .t3 {
+    margin-top:2cm;
+}
+.dy-ywcover .t1{
+    margin-top:1cm;
+}
 
 @media print {
-    body {min-width: initial;}
+    body {min-width: initial;background: none}
+
+    .dy-ywcover.c26 {
+        background:none;
+    }
 }
 
