@@ -12,7 +12,6 @@ import model from './model'
 import config from 'common/configuration'
 import {jsonCopy} from 'common/utils'
 import cloneDeep from 'lodash/cloneDeep';
-import auth from 'common/auth'
 
 
 const c = React.createClass({
@@ -144,7 +143,6 @@ const c = React.createClass({
     },
 
     render(){
-        const jgId = auth.getJgid();
         //重新复制一个model对象，使修改不会影响原model对象，避免每次组件渲染时给原model对象累积赋值
         const m = cloneDeep(model);
 
@@ -192,7 +190,7 @@ const c = React.createClass({
             //list组件重新挂载时恢复状态用的历史状态数据
             stateShot: this.state.listState,
             //数据来源api
-            apiUrl: config.HOST + config.URI_API_PROJECT + `/jgyw/${jgId}`,
+            apiUrl: config.HOST + config.URI_API_PROJECT + `/jgyw`,
             //初始搜索条件
             defaultWhere:{}
         };
