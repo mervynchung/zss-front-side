@@ -18,17 +18,6 @@ const confirm = Modal.confirm;
 let dy = React.createClass({
     onClick(){
         window.print();
-        confirm({
-            title: '打印信息',
-            content: '是否打印完成？',
-            okText: "是",
-            cancelText: "否",
-            onOk() {
-                window.close();
-            },
-            onCancel() {
-            },
-        });
     },
     render(){
 

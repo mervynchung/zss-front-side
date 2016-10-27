@@ -9,7 +9,6 @@ import Success from './successScr'
 import FailScr from './failScr'
 import {mapKeys} from 'lodash'
 import numeral from 'numeral'
-import cloneDeep from 'lodash/cloneDeep';
 
 const ButtonGroup = Button.Group;
 const FormItem = Form.Item;
@@ -94,7 +93,6 @@ let Editfrom = React.createClass({
         }
     },
     tonull(v, prev){
-        console.log('a')
         if (!v.trim()) {
             return null
         } else {
@@ -190,8 +188,9 @@ let Editfrom = React.createClass({
         });
         const tbrProps = getFieldProps('tianbiaoren', {
             rules: [
-                {required: true, whitespace: true, message: '必填'}
-            ]
+                {required: true, whitespace: true, message: '必填'},
+            ],
+            normalize: this.tonull
         });
         const szProps = getFieldProps('suozhang', {
             rules: [
