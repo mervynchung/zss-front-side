@@ -1,5 +1,6 @@
 import React from 'react'
 import CompBaseTable from 'component/compBaseTable';
+import Export from 'component/ComExcelExperss';
 import config from 'common/configuration'
 import Panel from 'component/compPanel'
 import './style.css'
@@ -191,6 +192,7 @@ const rycx = React.createClass({
     render() {
       
         let toolbar = <ToolBar>
+          <Export resData={this.state.data} model={Model.columns} />
             <Button onClick={this.handleSearchToggle}>
                 <Icon type="search"/>查询
                 { this.state.searchToggle ? <Icon className="toggle-tip" type="arrow-up"/> :

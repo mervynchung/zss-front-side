@@ -27,7 +27,7 @@ let baseTable = React.createClass({
     handleReset(e) {
         this.props.form.resetFields();
     },
-    valueReset(){
+    valueReset(e){
         e.preventDefault();
         this.props.valueReset();
     },
