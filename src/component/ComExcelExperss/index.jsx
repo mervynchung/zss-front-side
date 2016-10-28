@@ -1,20 +1,12 @@
 import React from 'react'
+import Iconv from 'iconv-lite'
 import {Button,notification } from 'antd'
 
-const exportWay='csv';
-var Iconv = require('iconv-lite');
 let dy = React.createClass({
-	toGB2312 (str) { 
-	str = str.replace(/./g, function (sHex) { 
-	let encodeStr = ""; 
-	if (window.execScript) {
-	    window.execScript('encodeStr=Hex(Asc(sHex))', "vbscript");
-	  } else {
-	    window.eval('encodeStr=Hex(Asc(sHex))');
-	  }
-	return encodeStr.replace(/../g, "%{blogcontent}amp;"); 
-	}); 
-	return str; 
+	getDefaultProps() {
+		return {
+			type:'csv'
+		}
 	},
 	emitXmlHeader() {
 		    let headerRow =  '<ss:Row>\n';
@@ -61,12 +53,11 @@ let dy = React.createClass({
 	},
 	jsonToCSV(jsonObject){
 		    let csv='';
-		    var iconv = new Iconv('UTF-8', 'GBK');
 		    const modelTypes =this.props.model;
 		    for (let i =0 ; i <modelTypes.length; i++) {
 		    	const value=modelTypes[i].title+'';
-	    		const valueANSI = encodeURI(value);
-		    	csv +=   valueANSI+ ',';
+	    		const valueANSI = Iconv.encode(value,'GBK');
+		    	csv +=  '"\t'+ value+ '",';
 		    };
 		    let data = (typeof(jsonObject) != "object" ? JSON.parse(jsonObject) : jsonObject);
 		    for (let row = 0; row < data.length; row++) {
@@ -74,15 +65,15 @@ let dy = React.createClass({
 			for (let i = 0; i < modelTypes.length; i++) {
 			      for (let col in data[row]) {
 			    	if (modelTypes[i].dataIndex==col) {
-			    		const value='"'+data[row][col]+'"';
-			    		// const valueANSI = encodeURI(value);
-			       		 csv += value+ ',';
+			    		const value=data[row][col]+'';
+			    		const valueANSI = Iconv.encode(value,'GBK');
+			       		 csv += '"\t'+value+ '",';
 			    	};
 			}
 		        }
 
 		    }
-		    return csv;  
+		    return Iconv.encode(csv,'GBK');  
 	},
 	valueExport(e){
 		e.preventDefault();
@@ -98,35 +89,45 @@ let dy = React.createClass({
 			xml:this.jsonToSsXml(data),
 			csv:this.jsonToCSV(data),
 		}
+		const exportWay=this.props.type;
 		let ex=selFuntion[exportWay];
 		if (!!window.ActiveXObject || "ActiveXObject" in window)  {//判断是否ie
-			let xlsWin = null;  
-			let width = 1; 
-			let height = 1;  
-			let openPara = "left=" + (window.screen.width / 2 + width / 2) + ",top=" + (window.screen.height + height / 2) +  
-			",scrollbars=no,width=" + width + ",height=" + height;  
-			xlsWin = window.open("", "_blank", openPara);  
-			xlsWin.document.write(ex);  
-			xlsWin.document.close();  
-			xlsWin.document.execCommand('Saveas', true, 'fileName.'+(exportWay=='xml'?'xls':exportWay));  
-			xlsWin.close();  
-		}else{
-			    let aLink = document.createElement('a');	
-
-			  /*  let blob = new Blob([ex]);
-			    let evt = document.createEvent("HTMLEvents");
-			    evt.initEvent("click", false, false);//initEvent 不加后两个参数在FF下会报错
+			// let xlsWin = null;  
+			// let width = 1; 
+			// let height = 1;  
+			// let openPara = "left=" + (window.screen.width / 2 + width / 2) + ",top=" + (window.screen.height + height / 2) +  
+			// ",scrollbars=no,width=" + width + ",height=" + height;  
+			// xlsWin = window.open("", "_blank", openPara);  
+			// xlsWin.document.write(ex);  
+			// xlsWin.document.close();  
+			// xlsWin.document.execCommand('Saveas', true, 'fileName.'+(exportWay=='xml'?'xls':exportWay));  
+			// xlsWin.close();  
+			let aLink = document.createElement('a');	
+			    let blob = new Blob([ex]);
 			    aLink.download = 'fileName.'+(exportWay=='xml'?'xls':exportWay);
 			    aLink.href = URL.createObjectURL(blob);
-			    aLink.dispatchEvent(evt);*/
-			    var uri = 'data:text/csv;charset=utf-8,\uFEFF' + encodeURI(ex);
+			    document.body.appendChild(aLink);
+			    aLink.click();
+			    document.body.removeChild(aLink);
+			    window.URL.revokeObjectURL(URL.createObjectURL(blob));
+		}else{
+			    let aLink = document.createElement('a');	
+			    let blob = new Blob([ex]);
+			    aLink.download = 'fileName.'+(exportWay=='xml'?'xls':exportWay);
+			    aLink.href = URL.createObjectURL(blob);
+			    document.body.appendChild(aLink);
+			    aLink.click();
+			    document.body.removeChild(aLink);
+			    window.URL.revokeObjectURL(URL.createObjectURL(blob)); 
+
+			   /* var uri = 'data:text/csv;charset=utf-8,' + encodeURIComponent(ex);
 			    var link = document.createElement("a");
 			    link.href = uri;
 			    link.style = "visibility:hidden";
 	 		    link.download = 'fileName' + ".csv";
 	 		    document.body.appendChild(link);
 		                 link.click();
-		                 document.body.removeChild(link);
+		                 document.body.removeChild(link);*/
 		};
     	},
 	render() {
