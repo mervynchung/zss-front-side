@@ -5,7 +5,6 @@ import config from 'common/configuration.js'
 import req from 'common/request'
 import Stage0 from './stage0.jsx'
 import Stage1 from './stage1.jsx'
-import Stage2 from './stage2.jsx'
 import AddSuccess from './commitSuccessScr';
 import LockedScr from './lockedScr'
 
@@ -125,30 +124,26 @@ const newYwbb = React.createClass({
     },
 
     render(){
-        let {stage, dataXY, dataYW, dataJG, addSuccess, successResp, locked} = this.state;
+        let {stage, dataXY, zysws,dataYW, addSuccess, successResp, locked} = this.state;
         let stageContent = {
             '0': this.state.loaded || <Stage0 data={dataXY}
                                               onSubmit={this.handleStage0Submit}/>,
-            '1': <Stage1 onStageChange={this.handleStageChange}
-                         data={dataYW} zysws={this.state.zysws}
-                         ywlx={this.state.dataXY.YWLX_DM}
-                         onSubmit={this.handleStage1Submit}/>,
-            '2': addSuccess ? <AddSuccess data={successResp} type="add"/> :
-                <Stage2 onStageChange={this.handleStageChange}
-                        data={dataJG}
-                        onSubmit={this.handleStage2Submit}
-                        onSave={this.handleSave}
-                        onCommit={this.handleCommit}/>
+            '1': addSuccess ? <AddSuccess data={successResp} type="add"/> :
+                <Stage1 onStageChange={this.handleStageChange}
+                         data={dataYW} zysws={zysws}
+                         ywlx={dataXY.YWLX_DM}
+                         onSave={this.handleSave}
+                         onCommit={this.handleCommit}
+                         onSubmit={this.handleStage1Submit}/>
         };
 
         return <Panel className="new-ywbb">
-            {!!this.state.locked.length ? <LockedScr data={this.state.locked}/>:
+            {!!locked.length ? <LockedScr data={locked}/>:
             <div>
                 <div style={{textAlign: 'right'}}><a onClick={this.resetStep}> <Icon type="retweet"/> 重置</a></div>
                 <Steps current={stage} className="steps">
                     <Step title="填写协议"/>
                     <Step title="填写业务详细信息"/>
-                    <Step title="确认事务所基本信息"/>
                 </Steps>
                 <Spin spinning={this.state.loading}>
                     <div>

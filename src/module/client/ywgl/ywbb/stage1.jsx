@@ -63,6 +63,12 @@ let stage = React.createClass({
     handleISWS(value){
         this.setState({isws: value})
     },
+    save(){
+        this.props.onSave();
+    },
+    commit(){
+        this.props.onCommit();
+    },
     next(){
         this.props.form.validateFields((errors, values) => {
             if (!!errors) {
@@ -366,8 +372,13 @@ let stage = React.createClass({
                           style={{marginRight:'16px'}}
                           onClick={this.back}>上一步</Button>
                         <Button
-                          size="large"
-                          onClick={this.next}>下一步</Button>
+                            size="large"
+                            style={{marginRight:'16px'}}
+                            onClick={this.save}>保存</Button>
+                        <Button
+                            size="large"
+                            type="primary"
+                            onClick={this.commit}>报备</Button>
 
                     </Col>
                 </Row>
