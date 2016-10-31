@@ -1,19 +1,20 @@
 import React from 'react'
-import { Col, Input, Row, Button, Icon, Form, Modal, Select, DatePicker,message } from 'antd'
+import { Col, Input, Row, Button, Icon, Form, Modal, Select, DatePicker,message,p} from 'antd'
 import { SelectorYear, SelectorXZ } from 'component/compSelector'
 import './style.css'
 import req from 'reqwest'
 import config from 'common/configuration'
 import auth from 'common/auth'
+import Panel from 'component/compPanel'
 
 const ButtonGroup = Button.Group;
 const createForm = Form.create;
 const FormItem = Form.Item;
 const Option = Select.Option;
-
+const ToolBar=Panel.ToolBar;
 const CheckNd_URL = config.HOST + config.URI_API_PROJECT + "/checkzcfz";
 
-Date.prototype.Format = function (fmt) { //时间格式化函数
+/*Date.prototype.Format = function (fmt) { //时间格式化函数
     var o = {
         "M+": this.getMonth() + 1, //月份 
         "d+": this.getDate(), //日 
@@ -28,8 +29,57 @@ Date.prototype.Format = function (fmt) { //时间格式化函数
         if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));//补0处理
     return fmt;
 }
+*/
+
 
 let Updatezcfzb = React.createClass({
+    getDefaultProps() {
+        return {
+            onSubmit: {}
+        }
+    },
+
+    getInitialState() {
+        return { visible: false, checkNd: true, checkTimevalue: true, loading: false, helper: true ,entity:this.props.data};
+    },
+
+    handleSubmit(ztbj) {
+        const obj = this.props.data;
+        let value = this.props.form.getFieldsValue()
+        for (var key in value) {
+            if (typeof (value[key]) == 'undefined' || (isNaN(value[key]) ? ("" == value[key]) : false)) {
+                value[key] = null;
+            }
+        }
+        value.ztbj = ztbj;
+        value.id = obj.ID;
+        this.props.form.validateFields((errors, values) => {
+            if (errors) {
+                return;
+            } else {
+                this.props.onSubmit(value);
+            }
+        });
+    },
+
+    handleReset(e) {
+        e.preventDefault();
+        this.props.form.resetFields();
+    },
+
+    showModal(e) {
+        e.preventDefault();
+        var that = this;
+        Modal.confirm({
+            title: '是否确定提交？',
+            content: '提交后就不能修改了！！！',
+            onOk() {
+                that.handleSubmit(1);
+            },
+        });
+    },
+
+/*let Updatezcfzb = React.createClass({
     getDefaultProps() {
         return {
             onSubmit: {}
@@ -66,6 +116,7 @@ let Updatezcfzb = React.createClass({
     getInitialState() {
         return { visible: false, entity: this.props.data1 };
     },
+    */
     //年检年度是否重复校验方法
     checkNdIfExit(rule, value, callback) {
         var id = this.state.entity.ID;
@@ -127,7 +178,7 @@ let Updatezcfzb = React.createClass({
         })
     },
 
-
+/*
     showModal(e) {
         e.preventDefault();
         var mp = {};
@@ -165,7 +216,7 @@ let Updatezcfzb = React.createClass({
         this.setState({
             visible: false
         });
-    },
+    },*/
     //数值输入处理方法
     handleInputChange(e) {
         let changeField = e.target.id;
@@ -1324,8 +1375,9 @@ let Updatezcfzb = React.createClass({
     render() {
 
         const { getFieldProps } = this.props.form;
-        const data = this.props.data1;
-        console.log(data);
+         const data = this.props.data;
+         console.log(data.DWMC);
+        
         let xz = "0";
 
 
@@ -1345,11 +1397,9 @@ let Updatezcfzb = React.createClass({
                         </colgroup>
                         <tbody>
                             <tr>
-                                <td colSpan="2">单位： {data.DWMC}</td>
+                                <td colSpan="2" style={{textAlign:'center'}}>单位： </td>
 
-                                <td colSpan="3">
-
-                        </td>
+                                <td colSpan="3">{data.DWMC}</td>
 
 
                                 <td width="11%">  <Col

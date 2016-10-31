@@ -8,10 +8,12 @@ import './style.css'
 
 const API_URL1 = config.HOST + config.URI_API_PROJECT + '/add/zyswsnj1';
 const API_URL2 = config.HOST + config.URI_API_PROJECT + '/add/zyswsnj2';
+const CheckNd_URL=config.HOST + config.URI_API_PROJECT+'/checkzyswsnjnd';
+
 const ButtonGroup = Button.Group;
 const createForm = Form.create;
 const FormItem = Form.Item;
-let Addswsnj = React.createClass({
+let Addzyswsnj = React.createClass({
     getDefaultProps() {
         return {
             onSubmit: {},
@@ -110,7 +112,36 @@ let Addswsnj = React.createClass({
     },
 
     //执业税务师选择年度是否已做年检的校验（传姓名及年度过去）
-
+    checkNdIfExit(rule, value, callback) {
+        let sws_id= this.props.form.getFieldValue("sws_id");
+        const params = { where: encodeURIComponent(JSON.stringify({nd:value,sws_id:sws_id})) }
+        req({
+            url: CheckNd_URL,
+            type: 'json',
+            method: 'get',
+            data: params,
+            headers: { 'x-auth-token': auth.getToken() },
+            contentType: 'application/json',
+        }).then(resp => {
+            //obj（）里面的内容是：{data=[{nd=2012},],jg_id=1}，其中
+            console.log(resp.data[0]);
+            if(value==resp){
+                callback('该税务师该年度已做年检，请选择其他年度');
+            }else{
+                callback();
+            }
+        }).fail(err => {
+            this.setState({ loading: false });
+            Modal.error({
+               title: '数据获取错误',
+                content: (
+                  <div>
+                     <p>无法从服务器返回数据，需检查应用服务工作情况</p>
+                      <p>Status: {err.status}</p>
+                   </div>)
+           });
+       })
+    },
 
 
     handleOk(e) {
@@ -153,7 +184,8 @@ let Addswsnj = React.createClass({
     },
     //年度下拉框数据显示
     handleNdChange(value) {
-        this.props.form.setFieldsValue({ ND: value });
+        this.props.form.setFieldsValue({ nd: value });
+        alert(value);
         let sws_id = this.props.form.getFieldValue("sws_id");
         this.fetchdata3({ nd: value, sws_id: sws_id });
     },
@@ -259,7 +291,14 @@ let Addswsnj = React.createClass({
                                     <td>姓名：</td>
                                     <td><FormItem><SelectorXm {...xmProps } style={{ width: '100px' }} onChange={this.handleXmChange} /></FormItem></td>
                                     <td>性别: {obj1.xb}</td>
-                                    <td><FormItem>年度： <SelectorYear {...ndProps } style={{ width: "30%" }} onChange={this.handleNdChange} /></FormItem>
+                                    <td><FormItem>年度： <SelectorYear {...ndProps } style={{ width: "30%" }} {...getFieldProps('nd', {
+                              
+                                rules: [{
+                                    require: true,
+                                    message: '选择一个年度做自检',
+                                }, {  validator: this.checkNdIfExit,
+                                    }]
+                            }) }onChange={this.handleNdChange} /></FormItem>
                                     </td>
                                     <td rowSpan="6"><img src={obj1.XPIAN} /></td>
                                 </tr>
@@ -453,14 +492,14 @@ let Addswsnj = React.createClass({
 
                                 <tr>
                                     <td>年检总结: </td>
-                                    <td colSpan="4"><FormItem><Input {...njzjProps} type="textarea" autosize /></FormItem></td>
+                                  <td colSpan="4">  <FormItem><Input {...njzjProps} type="textarea" autosize /></FormItem></td>
                                 </tr>
 
                                 <tr>
                                     <td rowSpan="2">事务所负责人意见</td>
-                                    <td colSpan="2"><FormItem><Input {...swsfzryjProps } type="textarea" autosize /></FormItem></td>
-                                    <td colSpan="2"><FormItem>时间：<DatePicker {...sjProps} style={{ width: "30%" }} /></FormItem>
-                                        <FormItem>负责人签名：<Input {...swsfzrqmProps} style={{ width: "30%" }} /> </FormItem></td>
+                                <td colSpan="2">  <FormItem><Input {...swsfzryjProps } type="textarea" autosize /></FormItem></td>
+                                   <td colSpan="2"> <FormItem>时间：<DatePicker {...sjProps} style={{ width: "30%" }} />
+                                     负责人签名：<Input {...swsfzrqmProps} style={{ width: "30%" }} /></FormItem></td>
 
                                 </tr>
                             </tbody>
@@ -502,7 +541,7 @@ let Addswsnj = React.createClass({
         </div>
     }
 });
-Addswsnj = Form.create({
+Addzyswsnj = Form.create({
     mapPropsToFields(props) {
         let result = {};
         for (let prop in props.data) {
@@ -510,7 +549,7 @@ Addswsnj = Form.create({
         }
         return result;
     }
-})(Addswsnj);
+})(Addzyswsnj);
 
 
 
@@ -519,4 +558,4 @@ Addswsnj = Form.create({
 
 
 
-module.exports = Addswsnj;
+module.exports = Addzyswsnj;
