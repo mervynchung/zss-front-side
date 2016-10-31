@@ -64,18 +64,17 @@ let stage = React.createClass({
         this.setState({isws: value})
     },
     save(){
+        let values = this.props.form.getFieldsValue();
+        this.props.onSubmit({stage: 0, values: values});
         this.props.onSave();
     },
     commit(){
-        this.props.onCommit();
-    },
-    next(){
         this.props.form.validateFields((errors, values) => {
             if (!!errors) {
                 return;
             }
-            values = utils.transEmpty2Null(values);
-            this.props.onSubmit({stage: 2, values: values});
+            this.props.onSubmit({values: values});
+            this.props.onCommit();
         })
     },
     back(){

@@ -1,5 +1,5 @@
 import React from 'react'
-import {Steps, Col, Row, Spin, notification, Modal, Icon, Alert} from 'antd'
+import {Steps, Spin, notification, Modal, Icon, Alert} from 'antd'
 import Panel from 'component/compPanel'
 import config from 'common/configuration.js'
 import req from 'common/request'
@@ -45,11 +45,7 @@ const newYwbb = React.createClass({
 
     },
     handleStage1Submit(param){
-        this.setState({stage: param.stage, dataYW: param.values})
-
-    },
-    handleStage2Submit(param){
-        this.setState({stage: param.stage, dataJG: param.values})
+        this.setState({dataYW: param.values})
 
     },
     //添加新报备信息
@@ -80,7 +76,8 @@ const newYwbb = React.createClass({
     },
 
     //保存业务报备
-    handleSave(){
+    handleSave(param){
+
         let values = {
             dataXY: this.state.dataXY,
             dataYW: this.state.dataYW,
@@ -127,7 +124,8 @@ const newYwbb = React.createClass({
         let {stage, dataXY, zysws,dataYW, addSuccess, successResp, locked} = this.state;
         let stageContent = {
             '0': this.state.loaded || <Stage0 data={dataXY}
-                                              onSubmit={this.handleStage0Submit}/>,
+                                              onSubmit={this.handleStage0Submit}
+                                              onSave={this.handleSave}/>,
             '1': addSuccess ? <AddSuccess data={successResp} type="add"/> :
                 <Stage1 onStageChange={this.handleStageChange}
                          data={dataYW} zysws={zysws}
