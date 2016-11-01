@@ -5,6 +5,7 @@ import config from 'common/configuration.js'
 import req from 'common/request'
 import Stage0 from './stage0.jsx'
 import Stage1 from './stage1.jsx'
+import Stage from './stage.jsx'
 import AddSuccess from './commitSuccessScr';
 import LockedScr from './lockedScr'
 
@@ -139,14 +140,13 @@ const newYwbb = React.createClass({
             {!!locked.length ? <LockedScr data={locked}/>:
             <div>
                 <div style={{textAlign: 'right'}}><a onClick={this.resetStep}> <Icon type="retweet"/> 重置</a></div>
-                <Steps current={stage} className="steps">
-                    <Step title="填写协议"/>
-                    <Step title="填写业务详细信息"/>
-                </Steps>
+
                 <Spin spinning={this.state.loading}>
-                    <div>
-                        {stageContent[stage]}
-                    </div>
+                    <Stage dataXY={dataXY}
+                           dataYW={dataYW}
+                           zysws={zysws}
+                           onSave = {this.handleSave}
+                           onCommit = {this.handleCommit} />
                 </Spin>
             </div>}
 
