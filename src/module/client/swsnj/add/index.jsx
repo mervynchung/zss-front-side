@@ -50,6 +50,7 @@ let Addswsnj = React.createClass({
         return;
       }else{
           this.props.onSubmit(value);
+
       }
     });
         
@@ -161,7 +162,7 @@ let Addswsnj = React.createClass({
 
     //年度下拉框数据显示
     handleNdChange(value) {
-        alert(value);
+        
         this.props.form.setFieldsValue({ nd: value });
         this.props.form.validateFields(['nd'], { force: true });
         const params = { where: encodeURIComponent(JSON.stringify({ nd: value })), }
@@ -678,7 +679,7 @@ let Addswsnj = React.createClass({
 
                     <Row>
                         <Col span="24">
-                            <FormItem labelCol={{ span: 2 }}wrapperCol={{ span: 22 }} label="年检总结">  <Input {...textareaProps}  type="textarea"/>
+                            <FormItem labelCol={{ span: 3 }}wrapperCol={{ span: 21 }} label="年检总结">  <Input {...textareaProps}  type="textarea"/>
                             </FormItem>
                         </Col>
 
@@ -688,7 +689,7 @@ let Addswsnj = React.createClass({
 
 
                     <Row>
-                        <Col span="16">
+                        <Col span="12">
 
                             <FormItem labelCol={{ span: 4 }} wrapperCol={{ span: 20 }} label="事务所负责人意见:" ><Input {...fzryjProps } type="textarea"/></FormItem>
 
@@ -698,12 +699,12 @@ let Addswsnj = React.createClass({
 
 
 
-                        <Col span="3" >
-                            <FormItem labelCol={{ span: 8 }} wrapperCol={{ span: 16 }} label="时间:" > <DatePicker {...sjProps} /></FormItem>
+                        <Col span="6" >
+                            <FormItem labelCol={{ span: 6 }} wrapperCol={{ span: 16}}  label="时间:" > <DatePicker {...sjProps} /></FormItem>
 
                         </Col>
-                        <Col span="5">
-                            <FormItem labelCol={{ span: 10 }} wrapperCol={{ span: 14 }} label="负责人签名:" >
+                        <Col span="6">
+                            <FormItem labelCol={{ span: 6 }} wrapperCol={{ span: 16}} label="负责人签名:" >
                                 <Input {...qmProps }></Input>
                             </FormItem>
                         </Col>

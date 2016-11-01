@@ -114,6 +114,12 @@ let Addzcfzb = React.createClass({
     handleHelperClose() {
         this.setState({ helper: false })
     },
+    //对话框点击取消按钮
+    handleCancel() {
+    this.setState({
+      visible: false,
+    });
+  },
 
     //填报年度是否重复校验方法
     checkNdIfExit(rule, value, callback) {
