@@ -54,7 +54,7 @@ const SelectZysws = React.createClass({
     }
 });
 
-let stage = React.createClass({
+let form = React.createClass({
     getInitialState(){
         return {
             customerModal: false
@@ -103,7 +103,7 @@ let stage = React.createClass({
     },
     render(){
         const {getFieldProps} = this.props.form;
-        const {ywlx} = this.state;
+        const {YWLX_DM} = this.props.data;
         const xyhProps = getFieldProps('XYH', {
             rules: [
                 {required: true, whitespace: true, message: '请填写协议文号'}
@@ -483,7 +483,7 @@ let stage = React.createClass({
                     </FormItem>
                 </Col>
             </Row>
-            {tzValue[ywlx]}
+            {!!YWLX_DM ? tzValue[ywlx] : null}
             <Row>
                 <Col span="24">
                     <FormItem
@@ -496,10 +496,6 @@ let stage = React.createClass({
 
             <Row>
                 <Col span="10" offset="10">
-                    <Button
-                        size="large"
-                        style={{marginRight: '16px'}}
-                        onClick={this.back}>上一步</Button>
                     <Button
                         size="large"
                         style={{marginRight: '16px'}}
@@ -517,14 +513,13 @@ let stage = React.createClass({
     }
 });
 
-stage = createForm({
+form = createForm({
     mapPropsToFields(props) {
-        let result = {};
-        for (let prop in props.data) {
-            result[prop] = {value: props.data[prop]}
-        }
-        return result;
+        return props.data
+    },
+    onFieldsChange(props, fields) {
+        props.onFieldChange(fields)
     }
-})(stage);
+})(form);
 
-module.exports = stage;
+module.exports = form;

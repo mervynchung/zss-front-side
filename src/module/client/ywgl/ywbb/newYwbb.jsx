@@ -120,9 +120,16 @@ const newYwbb = React.createClass({
             this.setState({loading: false, loaded: c})
         })
     },
+    handleFieldChange(field){
+        const {data} = this.state;
+        for (let prop in field) {
+            data[prop] = field[prop]
+        }
+        this.setState({data: data})
+    },
 
     render(){
-        let {stage, dataXY, zysws,dataYW, addSuccess, successResp, locked} = this.state;
+        let { data, zysws, addSuccess, successResp, locked} = this.state;
         let stageContent = {
             '0': this.state.loaded || <Stage0 data={dataXY}
                                               onSubmit={this.handleStage0Submit}
@@ -142,11 +149,12 @@ const newYwbb = React.createClass({
                 <div style={{textAlign: 'right'}}><a onClick={this.resetStep}> <Icon type="retweet"/> 重置</a></div>
 
                 <Spin spinning={this.state.loading}>
-                    <Stage dataXY={dataXY}
-                           dataYW={dataYW}
-                           zysws={zysws}
-                           onSave = {this.handleSave}
-                           onCommit = {this.handleCommit} />
+                    addSuccess && <AddSuccess data={successResp} type="add"/>
+                    !addSuccess && <Stage data={data}
+                                          zysws={zysws}
+                                          onSave = {this.handleSave}
+                                          onCommit = {this.handleCommit}
+                                          onFieldChange={this.handleFieldChange}/>
                 </Spin>
             </div>}
 
