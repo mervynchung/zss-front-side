@@ -11,7 +11,6 @@ import Dyry from 'module/useforprint/glsc_ry/dy.jsx';
 import Dyzb from 'module/useforprint/glsc_zb/dy.jsx';
 import Dyfb from 'module/useforprint/glsc_fb/dy.jsx';
 import YwbbCover from 'module/useforprint/ywbb_fm/dy.jsx';
-import EX from 'component/ComExcelExperss';
 import { home } from '../module/home';
 import Zyjbxx from 'module/rygl/rycx/zyryjbxx.jsx';
 import Cyjbxx from 'module/rygl/rycx/cyryjbxx.jsx';
@@ -70,7 +69,7 @@ const Index = React.createClass({
                 require('../module/xtgnsz/yhdljlb'),
 
                 //资质管理
-        /*        require('../module/zzgl/jgzzgl'), //事务所资质管理
+                require('../module/zzgl/jgzzgl'), //事务所资质管理
                 require('../module/zzgl/zyswszzgl'), //执业注师资质管理
 
 
@@ -229,7 +228,7 @@ const Index = React.createClass({
                 require('../module/client/ywgl/khxxgl'), //客户信息管理
                 require('../module/client/ywgl/ywbb'), //事务所业务报备
                 require('../module/client/ywgl/grywtj'), //个人业务统计
-                require('../module/client/ywgl/swsywtj'), //事务所业务统计*/
+                require('../module/client/ywgl/swsywtj'), //事务所业务统计
 
 
                 //公用功能
@@ -264,9 +263,6 @@ const Index = React.createClass({
             path: '/print/ywbbcover',
             component: YwbbCover
         },{
-            path: '/print/ex',
-            component: EX
-        }, {
             path: '*',
             component: NotFound
         }];

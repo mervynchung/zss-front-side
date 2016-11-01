@@ -3,6 +3,7 @@ import Panel from 'component/compPanel'
 import config from 'common/configuration'
 import req from 'reqwest'
 import auth from 'common/auth'
+import Export from 'component/ComExcelExperss';
 import {Link} from 'react-router'
 import SearchForm from './searchForm'
 import { Upload, Input, Table, Icon, Tabs, Button, Row, Col, message,Modal,Spin }from 'antd'
@@ -270,8 +271,8 @@ const jgcx = React.createClass({
             title: '欠交个人会费',
             dataIndex: 'qjgr',
             key: 'qjgr',
-            sorter: true
-        }];
+            sorter: true,
+        },];
         var that = this;
         const sdyy = <p>锁定原因：<Input type="text" style={{width:"50%"}} ref="myTextInput"/></p>;
         const props = {
@@ -341,6 +342,8 @@ const jgcx = React.createClass({
                 <span className="ant-divider"></span>
                 <Button type="ghost" onClick={this.allClean}
                         disabled={this.state.selectedRowKeys.length<=0}>撤销选择</Button>
+                <span className="ant-divider"></span>
+                <Export resData={this.state.data} model={columns} fileName ="会员会费缴纳情况"  />
             </div>
         </ToolBar>;
         const rowSelection = {
