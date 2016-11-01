@@ -38,7 +38,7 @@ const swsnjb = React.createClass({
                 alert: ''
 
             },
-             searchToggle: false,
+            searchToggle: false,
             where: '',
             helper: false,
             entity: '',
@@ -99,56 +99,56 @@ const swsnjb = React.createClass({
     handleHelperClose() {
         this.setState({ helper: false })
     },
-/*
-    //点击提交
-    handleOk(e) {
-        let vv = e;
-        vv.ztbj = '2';
-        this.fetchHandle(vv);
-        this.handleAdd();
-    },
-*/
-/*
-
-    fetchHandle(value) {
-        req({
-            url: URL,
-            type: 'json',
-            method: 'post',
-            data: JSON.stringify(value),
-            headers: { 'x-auth-token': auth.getToken() },
-            contentType: 'application/json',
-
-
-        }).then(resp => {
-            Modal.success({
-                title: '操作成功',
-                content: (
-                    <div>
-                        <p>操作成功！</p>
-                    </div>)
-            });
-        }).fail(err => {
-            message.error('Status Code:' + err.status + '  api错误 ')
-        })
-    },
-*/
-  /*  //点击保存
-    handleSubmit(value) {
-        let vv = value;
-        vv.ztbj = '1'
-        this.fetchHandle(vv);
-        this.handleAdd();
-    },
-
-    //点击编辑提交
-    handleOk1(e) {
-        let vv = e;
-        vv.ztbj = '2'
-        this.fetchHandle1(vv);
-        this.handleUpdate();
-
-    },*/
+    /*
+        //点击提交
+        handleOk(e) {
+            let vv = e;
+            vv.ztbj = '2';
+            this.fetchHandle(vv);
+            this.handleAdd();
+        },
+    */
+    /*
+    
+        fetchHandle(value) {
+            req({
+                url: URL,
+                type: 'json',
+                method: 'post',
+                data: JSON.stringify(value),
+                headers: { 'x-auth-token': auth.getToken() },
+                contentType: 'application/json',
+    
+    
+            }).then(resp => {
+                Modal.success({
+                    title: '操作成功',
+                    content: (
+                        <div>
+                            <p>操作成功！</p>
+                        </div>)
+                });
+            }).fail(err => {
+                message.error('Status Code:' + err.status + '  api错误 ')
+            })
+        },
+    */
+    /*  //点击保存
+      handleSubmit(value) {
+          let vv = value;
+          vv.ztbj = '1'
+          this.fetchHandle(vv);
+          this.handleAdd();
+      },
+  
+      //点击编辑提交
+      handleOk1(e) {
+          let vv = e;
+          vv.ztbj = '2'
+          this.fetchHandle1(vv);
+          this.handleUpdate();
+  
+      },*/
     fetchHandle1(value) {
         req({
             url: URL + '/' + value.id,
@@ -171,15 +171,15 @@ const swsnjb = React.createClass({
             message.error('Status Code:' + err.status + '  api错误 ')
         })
     },
-/*
-    //点击编辑保存
-    handleSubmit1(value) {
-        let vv = value;
-        vv.ztbj = '0'
-        this.fetchHandle1(vv);
-        this.handleUpdate();
-    },
-*/
+    /*
+        //点击编辑保存
+        handleSubmit1(value) {
+            let vv = value;
+            vv.ztbj = '0'
+            this.fetchHandle1(vv);
+            this.handleUpdate();
+        },
+    */
     //提交条件查询
     handleSearchSubmit(value) {
         const pager = this.state.pagination;
@@ -193,32 +193,32 @@ const swsnjb = React.createClass({
         this.fetchData(params);
         this.setState({ searchToggle: false })
     },
-/*
-    //点击查看明细
-    fetchDetail(record) {
-        this.setState({ dataLoading: true });
-        req({
-            url: API_URL + '/' + record.ID,
-            type: 'json',
-            method: 'get',
-            headers: { 'x-auth-token': auth.getToken() },
-            contentType: 'application/json'
-        }).then(resp => {
-            let entity = entityFormat(resp, entityModel);
-            this.setState({ entity: entity, detailHide: false });
-        }).fail(err => {
-            Modal.error({
-                title: '数据获取错误',
-                content: (
-                    <div>
-                        <p>无法从服务器返回数据，需检查应用服务工作情况</p>
-                        <p>Status: {err.status}</p>
-                    </div>)
-            });
-        })
-    },*/
+    /*
+        //点击查看明细
+        fetchDetail(record) {
+            this.setState({ dataLoading: true });
+            req({
+                url: API_URL + '/' + record.ID,
+                type: 'json',
+                method: 'get',
+                headers: { 'x-auth-token': auth.getToken() },
+                contentType: 'application/json'
+            }).then(resp => {
+                let entity = entityFormat(resp, entityModel);
+                this.setState({ entity: entity, detailHide: false });
+            }).fail(err => {
+                Modal.error({
+                    title: '数据获取错误',
+                    content: (
+                        <div>
+                            <p>无法从服务器返回数据，需检查应用服务工作情况</p>
+                            <p>Status: {err.status}</p>
+                        </div>)
+                });
+            })
+        },*/
 
-fetchDetail(record) {
+    fetchDetail(record) {
         this.setState({ dataLoading: true });
         req({
             url: API_URL + '/' + record.ID,
@@ -269,7 +269,7 @@ fetchDetail(record) {
     },
 
 
-//点击保存或提交
+    //点击保存或提交
     handleSubmit(lx, value) {
         if (lx == 'add') {
             this.fetchHandle(value, '', 'post');
@@ -344,62 +344,62 @@ fetchDetail(record) {
         this.fetchData();
     },
 
-/*
-    testee(text, record, index) {
-
-        var that = this;
-        function ddd() {
-            req({
-                url: API_URL + '/' + record.ID,
-                type: 'json',
-                method: 'get',
-                headers: { 'x-auth-token': auth.getToken() },
-                contentType: 'application/json'
-            }).then(resp => {
-
-
-                that.setState({ update: !that.state.update, detailHide: true, entity: resp, });
-
-            }).fail(err => {
-                Modal.error({
-                    title: '数据获取错误',
-                    content: (
-                        <div>
-                            <p>无法从服务器返回数据，需检查应用服务工作情况</p>
-                            <p>Status: {err.status}</p>
-                        </div>)
-                });
-            })
-
-        }
-        function look() {
-            that.fetchData2(record)
-            that.setState({ update: true })
-        }
-        if (record.ZTDM == "0" || record.ZTDM == "1") {
-            return (<span>
-                <Button size="small" onClick={ddd} >
-                    <Icon type="edit" />编辑
-                </Button>
-                <Button size="small" onClick={look} >
-                    <Icon type="book" />查看
-                </Button>
-            </span>
-            )
-        } else {
-            return (<span>
-                <Button disabled size="small" onClick={ddd} >
-                    <Icon type="edit" />编辑
-                </Button>
-                <Button size="small" onClick={look} >
-                    <Icon type="book" />查看
-                </Button>
-            </span>
-            )
-        }
-
-    },
-    */
+    /*
+        testee(text, record, index) {
+    
+            var that = this;
+            function ddd() {
+                req({
+                    url: API_URL + '/' + record.ID,
+                    type: 'json',
+                    method: 'get',
+                    headers: { 'x-auth-token': auth.getToken() },
+                    contentType: 'application/json'
+                }).then(resp => {
+    
+    
+                    that.setState({ update: !that.state.update, detailHide: true, entity: resp, });
+    
+                }).fail(err => {
+                    Modal.error({
+                        title: '数据获取错误',
+                        content: (
+                            <div>
+                                <p>无法从服务器返回数据，需检查应用服务工作情况</p>
+                                <p>Status: {err.status}</p>
+                            </div>)
+                    });
+                })
+    
+            }
+            function look() {
+                that.fetchData2(record)
+                that.setState({ update: true })
+            }
+            if (record.ZTDM == "0" || record.ZTDM == "1") {
+                return (<span>
+                    <Button size="small" onClick={ddd} >
+                        <Icon type="edit" />编辑
+                    </Button>
+                    <Button size="small" onClick={look} >
+                        <Icon type="book" />查看
+                    </Button>
+                </span>
+                )
+            } else {
+                return (<span>
+                    <Button disabled size="small" onClick={ddd} >
+                        <Icon type="edit" />编辑
+                    </Button>
+                    <Button size="small" onClick={look} >
+                        <Icon type="book" />查看
+                    </Button>
+                </span>
+                )
+            }
+    
+        },
+        */
     rowRender(text, record, index) {
         var that = this;
         function showDetail(lx) {
@@ -409,12 +409,12 @@ fetchDetail(record) {
 
         return (
             <span>
-                <Button disabled={record.ZTBJ == "提交" ? true : false} size="small" onClick={showDetail.bind(this, 2)} ><Icon type="edit" />编辑</Button>
+                <Button disabled={record.njzt == "已年检" ? true : false} size="small" onClick={showDetail.bind(this, 2)} ><Icon type="edit" />编辑</Button>
                 <Button size="small" onClick={showDetail.bind(this, 3)} ><Icon type="book" />查看</Button>
             </span>
         )
     },
-    
+
 
 
 
@@ -432,7 +432,7 @@ fetchDetail(record) {
                 key: 'operation',
                 render: this.rowRender,
             }];
-       
+
         //定义工具栏内容
         let toolbar = <ToolBar>
             {this.state.views == 0 ?

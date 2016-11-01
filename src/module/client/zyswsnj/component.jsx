@@ -12,6 +12,7 @@ import config from 'common/configuration'
 import BaseTable from 'component/compBaseTable'
 import { entityFormat } from 'common/utils'
 import DetailBox from './detailbox.jsx'
+import cloneDeep from 'lodash/cloneDeep'
 
 
 
@@ -48,7 +49,7 @@ const zyswsnj = React.createClass({
             entity: '',
             fileds: {},
             views: 0,
-            viewTitle: '机构年检表',
+            viewTitle: '执业税务师年检表',
             dataLoading: false,
             btnLoading: false
 
@@ -140,7 +141,7 @@ const zyswsnj = React.createClass({
         this.fetchData(params);
         this.setState({ searchToggle: false })
     },
-
+/*
     //点击查看明细
     fetchDetail(record) {
         this.setState({ dataLoading: true });
@@ -164,6 +165,40 @@ const zyswsnj = React.createClass({
             });
         })
     },
+*/
+fetchDetail(record) {
+        this.setState({ dataLoading: true });
+        req({
+            url: API_URL + '/' + record.id,
+            type: 'json',
+            method: 'get',
+            headers: { 'x-auth-token': auth.getToken() },
+            contentType: 'application/json'
+        }).then(resp => {
+            let entity = cloneDeep(resp);
+            entity = entityFormat(entity, entityModel);
+            let fs = {};
+            for (var key in resp) {
+                let num = resp[key];
+                if (key == "ND") {
+                    num = num + "";
+                }
+                fs[key] = num;
+            }
+            console.log(fs);
+            this.setState({ entity: entity, fileds: fs, dataLoading: false });
+        }).fail(err => {
+            Modal.error({
+                title: '数据获取错误',
+                content: (
+                    <div>
+                        <p>无法从服务器返回数据，需检查应用服务工作情况</p>
+                        <p>Status: {err.status}</p>
+                    </div>)
+            });
+        })
+    },
+
 
     //明细表关闭
     handleDetailClose() {
@@ -266,7 +301,7 @@ const zyswsnj = React.createClass({
 
         return (
             <span>
-                <Button disabled={record.ZTBJ == "提交" ? true : false} size="small" onClick={showDetail.bind(this, 2)} ><Icon type="edit" />编辑</Button>
+                <Button disabled={(record.ZTDM== "自检"||record.ZTDM=="年检") ? true : false} size="small" onClick={showDetail.bind(this, 2)} ><Icon type="edit" />编辑</Button>
                 <Button size="small" onClick={showDetail.bind(this, 3)} ><Icon type="book" />查看</Button>
             </span>
         )
@@ -576,7 +611,7 @@ const zyswsnj = React.createClass({
             { title: '年度', dataIndex: 'ND', key: 'ND' },
             { title: '姓名', dataIndex: 'XMING', key: 'XMING' },
             { title: '状态', key: 'ZTDM', dataIndex: 'ZTDM' },
-            { title: '处理结果', dataIndex: 'njcl', key: 'njcl' },
+            { title: '处理结果', dataIndex: 'NJCL', key: 'NJCL' },
             {
                 title: '操作',
                 key: 'operation',

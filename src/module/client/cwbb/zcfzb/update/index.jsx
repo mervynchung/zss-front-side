@@ -1856,29 +1856,20 @@ let Updatezcfzb = React.createClass({
 
                         </tbody>
 
-                        <tbody>
-                            <tr >
-                                <td></td>
-                                <td>
-                                    <Button type="primary" onClick={this.handleSubmit}> <Icon type="check" />保存</Button>
-
-                                </td>
-
-                                <td style={{ textAlign: 'center' }}>
-
-                                    <Button type="primary" onClick={this.showModal}> <Icon type="arrow-up" />提交</Button>
-                                    <Modal title="你确定要提交吗？" visible={this.state.visible}
-                                        onOk={this.handleOk} onCancel={this.handleCancel}>
-                                        <p>提交后就不能修改了！！！</p>
-
-
-                                    </Modal>
-                                </td>
-
-
-
-                            </tr>
-                        </tbody>
+                       <tbody>
+                                        <tr >
+                                            <td></td>
+                                            <td>
+                                                <Button type="primary" onClick={this.handleSubmit.bind(this, 0)} loading={this.props.btnloading}> <Icon type="check" />保存</Button>
+                                            </td>
+                                            <td>
+                                                <Button type="primary" onClick={this.showModal} loading={this.props.btnloading}> <Icon type="arrow-up" />提交</Button>
+                                            </td>
+                                            <td>
+                                                <Button type="primary" onClick={this.handleReset} loading={this.props.btnloading}><Icon type="cross" />重置</Button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
 
                     </table>
                 </Form>
