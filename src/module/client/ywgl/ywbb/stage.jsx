@@ -102,8 +102,9 @@ let form = React.createClass({
         })
     },
     render(){
+        console.log('stage render')
         const {getFieldProps} = this.props.form;
-        const {YWLX_DM} = this.props.data;
+        const {YWLX_DM,ISWS} = this.props.data;
         const xyhProps = getFieldProps('XYH', {
             rules: [
                 {required: true, whitespace: true, message: '请填写协议文号'}
@@ -385,7 +386,7 @@ let form = React.createClass({
                         })} />
                     </FormItem>
                 </Col>
-                {swjg[this.state.isws]}
+                {!!ISWS ? swjg[ISWS.value] : swjg['N']}
             </Row>
             <Row>
                 <Col span="12">
@@ -483,7 +484,7 @@ let form = React.createClass({
                     </FormItem>
                 </Col>
             </Row>
-            {!!YWLX_DM ? tzValue[ywlx] : null}
+            {!!YWLX_DM ? tzValue[YWLX_DM.value] : null}
             <Row>
                 <Col span="24">
                     <FormItem
@@ -518,6 +519,7 @@ form = createForm({
         return props.data
     },
     onFieldsChange(props, fields) {
+        console.log('field change')
         props.onFieldChange(fields)
     }
 })(form);

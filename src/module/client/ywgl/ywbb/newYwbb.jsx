@@ -27,6 +27,7 @@ const newYwbb = React.createClass({
             dataXY: {},
             dataYW: {},
             dataJG: {},
+            data: {},
             customer: {},
             zysws: [],
             locked: []
@@ -129,34 +130,33 @@ const newYwbb = React.createClass({
     },
 
     render(){
-        let { data, zysws, addSuccess, successResp, locked} = this.state;
+        let {data, zysws, addSuccess, successResp, locked} = this.state;
         let stageContent = {
-            '0': this.state.loaded || <Stage0 data={dataXY}
+            '0': this.state.loaded || <Stage0 data={data}
                                               onSubmit={this.handleStage0Submit}
                                               onSave={this.handleSave}/>,
             '1': addSuccess ? <AddSuccess data={successResp} type="add"/> :
                 <Stage1 onStageChange={this.handleStageChange}
-                         data={dataYW} zysws={zysws}
-                         ywlx={dataXY.YWLX_DM}
-                         onSave={this.handleSave}
-                         onCommit={this.handleCommit}
-                         onSubmit={this.handleStage1Submit}/>
+                        data={data} zysws={zysws}
+                        onSave={this.handleSave}
+                        onCommit={this.handleCommit}
+                        onSubmit={this.handleStage1Submit}/>
         };
 
         return <Panel className="new-ywbb">
-            {!!locked.length ? <LockedScr data={locked}/>:
-            <div>
-                <div style={{textAlign: 'right'}}><a onClick={this.resetStep}> <Icon type="retweet"/> 重置</a></div>
+            {!!locked.length ? <LockedScr data={locked}/> :
+                <div>
+                    <div style={{textAlign: 'right'}}><a onClick={this.resetStep}> <Icon type="retweet"/> 重置</a></div>
 
-                <Spin spinning={this.state.loading}>
-                    addSuccess && <AddSuccess data={successResp} type="add"/>
-                    !addSuccess && <Stage data={data}
-                                          zysws={zysws}
-                                          onSave = {this.handleSave}
-                                          onCommit = {this.handleCommit}
-                                          onFieldChange={this.handleFieldChange}/>
-                </Spin>
-            </div>}
+                    <Spin spinning={this.state.loading}>
+                        {addSuccess && <AddSuccess data={successResp} type="add"/>}
+                        {!addSuccess && <Stage data={data}
+                                              zysws={zysws}
+                                              onSave={this.handleSave}
+                                              onCommit={this.handleCommit}
+                                              onFieldChange={this.handleFieldChange}/>}
+                    </Spin>
+                </div>}
 
         </Panel>
 
