@@ -18,7 +18,7 @@ let Updateswsnjb = React.createClass({
             onSubmit: {}
         }
     },
-    handleSubmit(ztbj) {
+    handleSubmit(ztdm) {
         const obj = this.props.data;
         var mp = {};
         let value = this.props.form.getFieldsValue()
@@ -44,7 +44,7 @@ let Updateswsnjb = React.createClass({
         } else {
             value['wg'] = wg;
         }
-        value.ztbj=ztbj;
+        value.ztdm=ztdm;
         value['id'] = obj.ID;
 
         this.props.onSubmit(value);
@@ -75,45 +75,7 @@ let Updateswsnjb = React.createClass({
             }
         };
     },
-    /*
-    showModal(e) {
-        e.preventDefault();
-        var mp = {};
-        let value = this.props.form.getFieldsValue()
-        var date = new Date(value['SWSFZRSJ']);
-        value['SWSFZRSJ'] = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
-        let arr = []
-        for (var key in value) {
-            if (!value[key]) {
-                value[key] = null;
-
-
-            }
-            if (key.indexOf('wg') != -1) {
-                if (value[key]) {
-                    let length = key.length - 2;
-                    let str = key.substr(2, length);
-                    arr.push(str);
-
-                }
-            }
-        }
-        let wg = arr.join(',');
-        if (wg == '') {
-            value['wg'] = null;
-        } else {
-            value['wg'] = wg;
-        }
-        this.setState({
-            visible: true,
-            okValue: value,
-
-        });
-        const obj = this.props.data;
-        value.id = obj.ID;
-        value.jg_id = obj.JG_ID;
-
-    },*/
+    
     showModal(e) {
         e.preventDefault();
         var that = this;
@@ -121,7 +83,7 @@ let Updateswsnjb = React.createClass({
             title: '是否确定提交？',
             content: '提交后就不能修改了！！！',
             onOk() {
-                that.handleSubmit(1);
+                that.handleSubmit(2);
             },
         });
     },
@@ -415,7 +377,7 @@ let Updateswsnjb = React.createClass({
                                         <tr >
                                             <td></td>
                                             <td>
-                                                <Button type="primary" onClick={this.handleSubmit.bind(this, 0)} loading={this.props.btnloading}> <Icon type="check" />保存</Button>
+                                                <Button type="primary" onClick={this.handleSubmit.bind(this, 1)} loading={this.props.btnloading}> <Icon type="check" />保存</Button>
                                             </td>
                                             <td>
                                                 <Button type="primary" onClick={this.showModal} loading={this.props.btnloading}> <Icon type="arrow-up" />提交</Button>

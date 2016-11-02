@@ -13,24 +13,6 @@ const FormItem = Form.Item;
 const ToolBar = Panel.ToolBar;
 const CheckNd_URL = config.HOST + config.URI_API_PROJECT + "/checkzcfz"
 
-/*Date.prototype.Format = function (fmt) { //时间格式化函数
-    var o = {
-        "M+": this.getMonth() + 1, //月份 
-        "d+": this.getDate(), //日 
-        "h+": this.getHours(), //小时 
-        "m+": this.getMinutes(), //分 
-        "s+": this.getSeconds(), //秒 
-        "q+": Math.floor((this.getMonth() + 3) / 3), //季度 
-        "S": this.getMilliseconds() //毫秒 
-    };
-    if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
-    for (var k in o)
-        if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));//补0处理
-    return fmt;
-}*/
-
-
-
 
 let Addzcfzb = React.createClass({
     getInitialState() {
@@ -77,55 +59,9 @@ let Addzcfzb = React.createClass({
             },
         });
     },
-    /*  showModal(e) {
-          e.preventDefault();
-          var mp = {};
-          let value = this.props.form.getFieldsValue();
-           for (var key in value) {
-              if (Object.prototype.toString.call(value[key]) == "[object Undefined]" || (!isNaN(value[key])?false:(""==value[key]))) 
-              {
-                  value[key] = null
-              };
-          
-          }
-          //验证表单，若通过就打开确定提交对话框
-          this.props.form.validateFields((errors, values) => {
-        if (!!errors) {  
-          return;
-        }else{
-            this.setState({
-              visible: true,
-              okValue: value,
-          });
-        }
-      });
-      
-      },
-  
-  */
-    /*  
-        handleOk(e) {
-            // console.log('点击了确定',this.state.okValue);
-            this.props.handleOk(this.state.okValue)
-            this.setState({
-                visible: false
-            });
-        },
-        //帮助按钮
-        handleHelper() {
-            this.setState({ helper: !this.state.helper })
-        },
-        //手动关闭帮助提示
-        handleHelperClose() {
-            this.setState({ helper: false })
-        },
-        //对话框点击取消按钮
-        handleCancel() {
-        this.setState({
-          visible: false,
-        });
-      },
-    */
+    
+    
+     
     //帮助按钮
     handleHelper() {
         this.setState({ helper: !this.state.helper })
@@ -1838,32 +1774,21 @@ let Addzcfzb = React.createClass({
 
                                     </tbody>
 
-                                    <tbody>
-                                        <tr >
-                                            <td></td>
-                                            <td>
-                                                <Button type="primary" onClick={this.handleSubmit}> <Icon type="check" />保存</Button>
-
-                                            </td>
-
-                                            <td style={{ textAlign: 'center' }}>
-
-                                                <Button type="primary" onClick={this.showModal}> <Icon type="arrow-up" />提交</Button>
-                                                <Modal title="你确定要提交吗？" visible={this.state.visible}
-                                                    onOk={this.handleOk} onCancel={this.handleCancel}>
-                                                    <p>提交后就不能修改了！！！</p>
-
-
-                                                </Modal>
-                                            </td>
-
-                                            <td>
-                                                <Button type="primary" onClick={this.handleReset}><Icon type="cross" />重置</Button>
-
-                                            </td>
-
-                                        </tr>
-                                    </tbody>
+                                    
+                                <tbody>
+                                    <tr >
+                                        <td></td>
+                                        <td>
+                                            <Button type="primary" onClick={this.handleSubmit.bind(this, 0)} loading={this.props.btnloading}> <Icon type="check" />保存</Button>
+                                        </td>
+                                        <td>
+                                            <Button type="primary" onClick={this.showModal} loading={this.props.btnloading}> <Icon type="arrow-up" />提交</Button>
+                                        </td>
+                                        <td>
+                                            <Button type="primary" onClick={this.handleReset} loading={this.props.btnloading}><Icon type="cross" />重置</Button>
+                                        </td>
+                                    </tr>
+                                </tbody>
 
                                 </table>
                             </Form>

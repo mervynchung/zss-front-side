@@ -14,23 +14,6 @@ const Option = Select.Option;
 const ToolBar=Panel.ToolBar;
 const CheckNd_URL = config.HOST + config.URI_API_PROJECT + "/checkzcfz";
 
-/*Date.prototype.Format = function (fmt) { //时间格式化函数
-    var o = {
-        "M+": this.getMonth() + 1, //月份 
-        "d+": this.getDate(), //日 
-        "h+": this.getHours(), //小时 
-        "m+": this.getMinutes(), //分 
-        "s+": this.getSeconds(), //秒 
-        "q+": Math.floor((this.getMonth() + 3) / 3), //季度 
-        "S": this.getMilliseconds() //毫秒 
-    };
-    if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
-    for (var k in o)
-        if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));//补0处理
-    return fmt;
-}
-*/
-
 
 let Updatezcfzb = React.createClass({
     getDefaultProps() {
@@ -79,44 +62,7 @@ let Updatezcfzb = React.createClass({
         });
     },
 
-/*let Updatezcfzb = React.createClass({
-    getDefaultProps() {
-        return {
-            onSubmit: {}
-        }
-    },
-    handleSubmit(e) {
-        const obj = this.props.data1;
-        e.preventDefault();
-        var mp = {};
-        let value = this.props.form.getFieldsValue()
-         for (var key in value) {
-            if (Object.prototype.toString.call(value[key]) == "[object Undefined]" || (!isNaN(value[key])?false:(""==value[key]))) 
-            {
-                value[key] = null
-            };
-        
-            if (Object.prototype.toString.call(value[key]) == "[object Date]") {//时间格式化
-                var dd = value[key].Format("yyyy-MM-dd");
-                value[key] = dd;
-            }
-        }
 
-        value.id = obj.ID;
-        value.jg_id = obj.JG_ID;
-
-        this.props.onSubmit(value);
-    },
-
-    handleReset(e) {
-        e.preventDefault();
-        this.props.form.resetFields();
-    },
-    //Modal
-    getInitialState() {
-        return { visible: false, entity: this.props.data1 };
-    },
-    */
     //年检年度是否重复校验方法
     checkNdIfExit(rule, value, callback) {
         var id = this.state.entity.ID;
@@ -178,45 +124,7 @@ let Updatezcfzb = React.createClass({
         })
     },
 
-/*
-    showModal(e) {
-        e.preventDefault();
-        var mp = {};
-        let value = this.props.form.getFieldsValue()
-       for (var key in value) {
-            if (Object.prototype.toString.call(value[key]) == "[object Undefined]" || (!isNaN(value[key])?false:(""==value[key]))) 
-            {
-                value[key] = null
-            };
-        
-            if (Object.prototype.toString.call(value[key]) == "[object Date]") {//时间格式化
-                var dd = value[key].Format("yyyy-MM-dd");
-                value[key] = dd;
-            }
-        }
-        this.setState({
-            visible: true,
-            okValue: value,
 
-        });
-        const obj = this.props.data1;
-        value.id = obj.ID;
-        value.jg_id = obj.JG_ID;
-
-    },
-    handleOk(e) {
-        // console.log('点击了确定',this.state.okValue);
-        this.props.handleOk(this.state.okValue)
-        this.setState({
-            visible: false
-        });
-    },
-    handleCancel(e) {
-
-        this.setState({
-            visible: false
-        });
-    },*/
     //数值输入处理方法
     handleInputChange(e) {
         let changeField = e.target.id;
