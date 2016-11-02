@@ -262,7 +262,7 @@ const Index = React.createClass({
         }, {
             path: '/print/ywbbcover',
             component: YwbbCover
-        }, {
+        },{
             path: '*',
             component: NotFound
         }];
