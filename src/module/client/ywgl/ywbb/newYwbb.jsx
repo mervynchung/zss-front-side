@@ -126,6 +126,8 @@ const newYwbb = React.createClass({
         for (let prop in field) {
             data[prop] = field[prop]
         }
+        console.log(field)
+        //if ((field.SB_DM || field.DQ) && )
         this.setState({data: data})
     },
 

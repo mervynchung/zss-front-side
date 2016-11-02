@@ -7,6 +7,7 @@ import Customer from './customer.jsx'
 const RangePicker = DatePicker.RangePicker;
 const FormItem = Form.Item;
 const createForm = Form.create;
+const Option = Select.Option;
 
 //定义纳税方式人性质下拉
 const SelectNSRXZ = React.createClass({
@@ -102,7 +103,6 @@ let form = React.createClass({
         })
     },
     render(){
-        console.log('stage render')
         const {getFieldProps} = this.props.form;
         const {YWLX_DM,ISWS} = this.props.data;
         const xyhProps = getFieldProps('XYH', {
@@ -188,17 +188,17 @@ let form = React.createClass({
         swjg['N'] = [];
         swjg['N'].push(<Col span="3" key="1">
             <FormItem style={{width:'90%'}}>
-                <SelectorSB  {...getFieldProps('SB_DM', {initialValue: '1'})}/>
+                <SelectorSB labelInValue   {...getFieldProps('SB_DM', {initialValue: { key: '1' } })}/>
             </FormItem>
         </Col>);
         swjg['N'].push(<Col span="5" key="2">
             <FormItem style={{width:'90%'}}>
-                <SelectorDQ placeholder="选择地区" {...dqProps}/>
+                <SelectorDQ  labelInValue  placeholder="选择地区" {...dqProps}/>
             </FormItem>
         </Col>);
         swjg['N'].push(<Col span="4" key="3">
             <FormItem style={{width:'90%'}}>
-                <Input placeholder="主管税务机关名称"  {...getFieldProps('ZGSWJG')}/>
+                <Input  placeholder="主管税务机关名称"  {...getFieldProps('ZGSWJG')}/>
             </FormItem>
         </Col>);
 
@@ -519,7 +519,6 @@ form = createForm({
         return props.data
     },
     onFieldsChange(props, fields) {
-        console.log('field change')
         props.onFieldChange(fields)
     }
 })(form);
