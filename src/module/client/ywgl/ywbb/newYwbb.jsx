@@ -126,8 +126,6 @@ const newYwbb = React.createClass({
         for (let prop in field) {
             data[prop] = field[prop]
         }
-        console.log(field)
-        //if ((field.SB_DM || field.DQ) && )
         this.setState({data: data})
     },
 
@@ -148,8 +146,6 @@ const newYwbb = React.createClass({
         return <Panel className="new-ywbb">
             {!!locked.length ? <LockedScr data={locked}/> :
                 <div>
-                    <div style={{textAlign: 'right'}}><a onClick={this.resetStep}> <Icon type="retweet"/> 重置</a></div>
-
                     <Spin spinning={this.state.loading}>
                         {addSuccess && <AddSuccess data={successResp} type="add"/>}
                         {!addSuccess && <Stage data={data}

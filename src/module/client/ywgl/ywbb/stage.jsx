@@ -58,8 +58,43 @@ const SelectZysws = React.createClass({
 let form = React.createClass({
     getInitialState(){
         return {
-            customerModal: false
+            customerModal: false,
+            cs:''
         }
+    },
+    checkSssq(rule, value, callback){
+        if (value && (!(value[0] instanceof Date) && !(value[1] instanceof Date))) {
+            callback("请输入所属时期起止")
+        } else {
+            callback()
+        }
+    },
+    checkQmsws(rule, value, callback){
+        if (!value || value.length != 2) {
+            callback("只能选择两位签名税务师")
+        } else {
+            callback()
+        }
+    },
+    checkCity(rule, value, callback){
+        let isws = this.props.form.getFieldValue('ISWS');
+        if (isws == 'Y' && (!value || !value.trim())) {
+            callback("必填项");
+        } else {
+            callback()
+        }
+    },
+    checkDq(rule, value, callback){
+        let isws = this.props.form.getFieldValue('ISWS');
+        if (isws === 'N' && !value) {
+            callback("必填项")
+        } else {
+            callback()
+        }
+    },
+    reset(e){
+        e.preventDefault();
+        this.props.form.resetFields();
     },
     next(){
         this.props.form.validateFields((errors, values) => {
@@ -69,13 +104,6 @@ let form = React.createClass({
             values = utils.transEmpty2Null(values);
             this.props.onSubmit({stage: 1, values: values, customer: this.state.customer});
         })
-    },
-    checkSssq(rule, value, callback){
-        if (value && (!(value[0] instanceof Date) && !(value[1] instanceof Date))) {
-            callback("请输入所属时期起止")
-        } else {
-            callback()
-        }
     },
     save(){
         let values = this.props.form.getFieldsValue();
@@ -101,6 +129,31 @@ let form = React.createClass({
             LXDH: entity.LXDH,
             DWDZ: entity.DWDZ
         })
+    },
+    getSwjg1(value,option){
+        const {setFieldsValue,getFieldValue} = this.props.form;
+        let sbdm = getFieldValue('SB_DM');
+        let cs = option[0].label;
+        if(option.length == 2){
+            cs = option[0].label+option[1].label
+        }
+
+
+        this.setState({cs:cs});
+        if (sbdm == 1 ) {
+            setFieldsValue({ZGSWJG:cs+'国家税务局'})
+        }else {
+            setFieldsValue({ZGSWJG:cs+'地方税务局'})
+        }
+    },
+    getSwjg2(value){
+        const {setFieldsValue} = this.props.form;
+        let {cs} = this.state;
+        if (value == 1 ) {
+            setFieldsValue({ZGSWJG:cs+'国家税务局'})
+        }else {
+            setFieldsValue({ZGSWJG:cs+'地方税务局'})
+        }
     },
     render(){
         const {getFieldProps} = this.props.form;
@@ -140,7 +193,8 @@ let form = React.createClass({
         const dqProps = getFieldProps('DQ', {
             rules: [
                 {validator: this.checkDq}
-            ]
+            ],
+            onChange:this.getSwjg1
         });
         const cityProps = getFieldProps('CITY', {
             rules: [
@@ -188,15 +242,15 @@ let form = React.createClass({
         swjg['N'] = [];
         swjg['N'].push(<Col span="3" key="1">
             <FormItem style={{width:'90%'}}>
-                <SelectorSB labelInValue   {...getFieldProps('SB_DM', {initialValue: { key: '1' } })}/>
+                <SelectorSB  {...getFieldProps('SB_DM', {initialValue: '1',onChange:this.getSwjg2 })}/>
             </FormItem>
         </Col>);
         swjg['N'].push(<Col span="5" key="2">
             <FormItem style={{width:'90%'}}>
-                <SelectorDQ  labelInValue  placeholder="选择地区" {...dqProps}/>
+                <SelectorDQ  placeholder="选择地区" {...dqProps}/>
             </FormItem>
         </Col>);
-        swjg['N'].push(<Col span="4" key="3">
+        swjg['N'].push(<Col span="6" key="3">
             <FormItem style={{width:'90%'}}>
                 <Input  placeholder="主管税务机关名称"  {...getFieldProps('ZGSWJG')}/>
             </FormItem>
@@ -497,6 +551,10 @@ let form = React.createClass({
 
             <Row>
                 <Col span="10" offset="10">
+                    <Button
+                        size="large"
+                        style={{marginRight: '16px'}}
+                        onClick={this.reset}>清空</Button>
                     <Button
                         size="large"
                         style={{marginRight: '16px'}}
