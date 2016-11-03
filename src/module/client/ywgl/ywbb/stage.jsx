@@ -214,17 +214,20 @@ let form = React.createClass({
         const yjfhProps = getFieldProps('YJFH', {
             rules: [
                 {required: true, whitespace: true, message: '必填项'}
-            ]
+            ],
+            trigger: 'onBlur'
         });
         const rjfhProps = getFieldProps('RJFH', {
             rules: [
                 {required: true, whitespace: true, message: '必填项'}
-            ]
+            ],
+            trigger:'onBlur'
         });
         const sjfhProps = getFieldProps('SJFH', {
             rules: [
                 {required: true, whitespace: true, message: '必填项'}
-            ]
+            ],
+            trigger:'onBlur'
         });
         const sfjeProps = getFieldProps('SFJE', {
             rules: [
@@ -422,7 +425,7 @@ let form = React.createClass({
                     <FormItem
                         labelCol={{span: 4}} wrapperCol={{span: 16}}
                         label="备注">
-                        <Input type="textarea" rows={2} {...getFieldProps('MEMO')}/>
+                        <Input type="textarea" rows={2} {...getFieldProps('MEMO',{trigger: 'onBlur'})}/>
                     </FormItem>
                 </Col>
             </Row>
@@ -525,8 +528,8 @@ let form = React.createClass({
                     <FormItem
                         labelCol={{span: 6}} wrapperCol={{span: 9}}
                         label="签名注册税务师" required>
-                        <SelectZysws labelInValue data={this.props.zysws} {...qmswsProps}/>
-                        <span>{this.props.data.qmswsxming}</span>
+                        <SelectZysws  data={this.props.zysws} {...qmswsProps}/>
+                        <span>{this.props.data.qmsws}</span>
                     </FormItem>
                 </Col>
             </Row>
@@ -575,9 +578,10 @@ let form = React.createClass({
 
 form = createForm({
     mapPropsToFields(props) {
-        return props.data
+        return props.data.fields
     },
     onFieldsChange(props, fields) {
+        console.log('field')
         props.onFieldChange(fields)
     }
 })(form);

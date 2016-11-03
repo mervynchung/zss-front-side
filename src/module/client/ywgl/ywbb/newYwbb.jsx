@@ -27,7 +27,7 @@ const newYwbb = React.createClass({
             dataXY: {},
             dataYW: {},
             dataJG: {},
-            data: {},
+            data: {fields:{}},
             customer: {},
             zysws: [],
             locked: []
@@ -124,21 +124,21 @@ const newYwbb = React.createClass({
     handleFieldChange(field){
         const {data} = this.state;
         for (let prop in field) {
-            data[prop] = field[prop]
+            data.fields[prop] = field[prop]
         }
-        if (!!field.QMSWS){
+        if (!!field.QMSWS && !!field.QMSWS.value){
             let i = field.QMSWS.value.length;
-            let qmswsxming = [];
+            let qmsws = [];
             while(i--){
-                qmswsxming.push(field.QMSWS.value[i].label )
+                qmsws.push(field.QMSWS.value[i].label )
             }
-            data.qmswsxming = qmswsxming.reverse().join(' , ');
+            data.qmsws = qmsws.reverse().join(' , ');
         }
         this.setState({data: data})
     },
 
     render(){
-        let {data, zysws, addSuccess, successResp, locked} = this.state;
+        let {data, zysws, addSuccess, successResp, locked,qmsws} = this.state;
         let stageContent = {
             '0': this.state.loaded || <Stage0 data={data}
                                               onSubmit={this.handleStage0Submit}
