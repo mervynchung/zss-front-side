@@ -30,7 +30,6 @@ let Addswsnj = React.createClass({
         let arr = [];
         var date = new Date(value['qzrq']);
         value['qzrq'] = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
-        console.log(value);
         for (var key in value) {
             if (key.indexOf('wg') != -1) {
                 if (value[key]) {

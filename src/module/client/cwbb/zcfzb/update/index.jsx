@@ -1214,13 +1214,6 @@ let Updatezcfzb = React.createClass({
             changeField == "ldfz_qtyf" || changeField == "ldfz_ytfy"
             || changeField == "ldfz_yjfz" || changeField == "ldfz_dqfz"
             || changeField == "ldfz_qtfz") {
-            console.log(parseFloat(ldfz_dqjk) + ";" + parseFloat(ldfz_yfpj) + ";" + parseFloat(ldfz_yfzk)
-                + ";" + parseFloat(ldfz_yszk) + ";" + parseFloat(ldfz_yfgz)
-                + ";" + parseFloat(ldfz_yffl) + ";" + parseFloat(ldfz_yfgl)
-                + ";" + parseFloat(ldfz_yjsj) + ";" + parseFloat(ldfz_qtyj)
-                + ";" + parseFloat(ldfz_qtyf) + ";" + parseFloat(ldfz_ytfy)
-                + ";" + parseFloat(ldfz_yjfz) + ";" + parseFloat(ldfz_dqfz)
-                + ";" + parseFloat(ldfz_qtfz));
             ldfz_hj = parseFloat(ldfz_dqjk) + parseFloat(ldfz_yfpj) + parseFloat(ldfz_yfzk)
                 + parseFloat(ldfz_yszk) + parseFloat(ldfz_yfgz)
                 + parseFloat(ldfz_yffl) + parseFloat(ldfz_yfgl)
@@ -1284,7 +1277,7 @@ let Updatezcfzb = React.createClass({
 
         const { getFieldProps } = this.props.form;
          const data = this.props.data;
-         console.log(data.DWMC);
+       
         
         let xz = "0";
 
@@ -1316,9 +1309,7 @@ let Updatezcfzb = React.createClass({
                                         initialValue: data.ND, rules: [{
                                             require: true,
                                             message: '选择一个年度做自检',
-                                        }, {
-                                            validator: this.checkNdIfExit,
-                                        }]
+                                        },]
                                     }) } />
                                     </FormItem>
                                 </Col>
@@ -1329,9 +1320,7 @@ let Updatezcfzb = React.createClass({
                                         initialValue: data.TIMEVALUE, rules: [{
                                             require: true,
                                             message: '选择一个年度做自检',
-                                        }, {
-                                            validator: this.checkTimeValueIfExit,
-                                        }]
+                                        },]
                                     }) } />
                                 </Col>
                                 </td>
@@ -1772,9 +1761,6 @@ let Updatezcfzb = React.createClass({
                                             </td>
                                             <td>
                                                 <Button type="primary" onClick={this.showModal} loading={this.props.btnloading}> <Icon type="arrow-up" />提交</Button>
-                                            </td>
-                                            <td>
-                                                <Button type="primary" onClick={this.handleReset} loading={this.props.btnloading}><Icon type="cross" />重置</Button>
                                             </td>
                                         </tr>
                                     </tbody>

@@ -95,7 +95,6 @@ let Addzyswsnj = React.createClass({
             contentType: 'application/json',
         }).then(resp => {
             //obj（）里面的内容是：{data=[{nd=2012},],jg_id=1}，其中
-            console.log(resp.data[0]);
             if (value == resp) {
                 callback('该税务师该年度已做年检，请选择其他年度');
             } else {

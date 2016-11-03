@@ -20,7 +20,7 @@ let Updatejgnjb = React.createClass({
         }
     },
     handleSubmit(ztdm) {
-        const obj = this.props.data1;
+        
         var mp = {};
         let value = this.props.form.getFieldsValue()
         var id = this.state.entity.ID;
@@ -164,7 +164,6 @@ let Updatejgnjb = React.createClass({
 
             for (var i = 0; i < arr1.length; i++) {
                 obj2[arr1[i]] = true;
-                console.log(obj2);
             }
         }
 
@@ -579,9 +578,6 @@ let Updatejgnjb = React.createClass({
                                 </td>
                                 <td>
                                     <Button type="primary" onClick={this.showModal} loading={this.props.btnloading}> <Icon type="arrow-up" />提交</Button>
-                                </td>
-                                <td>
-                                    <Button type="primary" onClick={this.handleReset} loading={this.props.btnloading}><Icon type="cross" />重置</Button>
                                 </td>
                             </tr>
                         </tbody>

@@ -1108,13 +1108,13 @@ let Addzcfzb = React.createClass({
         //3.统计18-19=20
 
         gdzc_jz_nc = parseFloat(gdzc_yj_nc) - parseFloat(gdzc_ljzj_nc);
-        console.log("gdzc_jz_nc:" + gdzc_jz_nc);
+       
         this.props.form.setFieldsValue({ gdzc_jz_nc: gdzc_jz_nc });
-        console.log("gdzc_jz_nc2:" + this.props.form.getFieldValue("gdzc_jz_nc"));
-        gdzc_jz = gdzc_yj - gdzc_ljzj;
+       
+       
 
         this.props.form.setFieldsValue({ gdzc_jz: gdzc_jz });
-        console.log("gdzc_jz_nc3:" + this.props.form.getFieldValue("gdzc_jz_nc"));
+        
         //4.统计20-21=22
 
         gdzc_je_nc = parseFloat(gdzc_jz_nc) - parseFloat(gdzc_jzzb_nc);
@@ -1233,12 +1233,12 @@ let Addzcfzb = React.createClass({
         fzsyzqy_hj_nc = parseFloat(dysx_fzhj_nc) + parseFloat(syzqy_hj_nc);
         this.props.form.setFieldsValue({ fzsyzqy_hj_nc: fzsyzqy_hj_nc });
 
-        console.log(parseFloat(dysx_fzhj) + ";" + parseFloat(syzqy_hj));
+       
         fzsyzqy_hj = parseFloat(dysx_fzhj) + parseFloat(syzqy_hj);
 
         this.props.form.setFieldsValue({ fzsyzqy_hj: fzsyzqy_hj });
 
-        console.log("gdzc_jz_nc4:" + this.props.form.getFieldValue("gdzc_jz_nc"));
+      
 
 
 

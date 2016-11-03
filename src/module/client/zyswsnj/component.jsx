@@ -161,7 +161,6 @@ fetchDetail(record) {
                 }
                 fs[key] = num;
             }
-            console.log(fs);
             this.setState({ entity: entity, fileds: fs, dataLoading: false });
         }).fail(err => {
             Modal.error({

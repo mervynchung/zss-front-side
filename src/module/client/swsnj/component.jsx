@@ -157,7 +157,6 @@ const swsnjb = React.createClass({
                 }
                 fs[key] = num;
             }
-            console.log(fs);
             this.setState({ entity: entity, fileds: fs, dataLoading: false });
         }).fail(err => {
             Modal.error({
@@ -194,7 +193,7 @@ const swsnjb = React.createClass({
         if (lx == 'add') {
             this.fetchHandle(value, '', 'post');
         } else if (lx == 'update') {
-            this.fetchHandle(value, ("/" + value.id), 'put');
+            this.fetchHandle(value, ("/" + value.ID), 'put');
         };
     },
 
