@@ -127,12 +127,12 @@ const newYwbb = React.createClass({
             data[prop] = field[prop]
         }
         if (!!field.QMSWS){
-            let i = field.QMSWS.length;
-            let qmswsxming ='';
+            let i = field.QMSWS.value.length;
+            let qmswsxming = [];
             while(i--){
-                qmswsxming += field.QMSWS.value[i] + ' '
+                qmswsxming.push(field.QMSWS.value[i].label )
             }
-            data.qmswsxming = qmswsxming;
+            data.qmswsxming = qmswsxming.reverse().join(' , ');
         }
         this.setState({data: data})
     },
