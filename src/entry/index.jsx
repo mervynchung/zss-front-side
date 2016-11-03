@@ -72,8 +72,6 @@ const Index = React.createClass({
                 require('../module/zzgl/jgzzgl'), //事务所资质管理
                 require('../module/zzgl/zyswszzgl'), //执业注师资质管理
 
-
-
                 //业务管理
                 require('../module/ywgl/ywbbgl'),
                 require('../module/ywgl/ywbbthsp'), //业务报备退回审批
@@ -188,7 +186,6 @@ const Index = React.createClass({
                 //证照打印管理
                 require('../module/zzdygl/zyglscdy'),
 
-
                 //客户端
                 //机构管理
                 require('../module/client/jggl/swsbg'),
@@ -219,7 +216,6 @@ const Index = React.createClass({
                 require('../module/client/sdsb/hyryqktjb'),
                 require('../module/client/sdsb/jysrqkb'),
 
-
                 //年度检查
                 require('../module/client/swsnj'),//事务所年检
                 require('../module/client/zyswsnj'),//执业税务师年检
@@ -229,7 +225,6 @@ const Index = React.createClass({
                 require('../module/client/ywgl/ywbb'), //事务所业务报备
                 require('../module/client/ywgl/grywtj'), //个人业务统计
                 require('../module/client/ywgl/swsywtj'), //事务所业务统计
-
 
                 //公用功能
                 //修改密码
