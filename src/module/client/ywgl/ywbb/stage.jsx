@@ -521,13 +521,15 @@ let form = React.createClass({
                 </Col>
             </Row>
             <Row>
-                <Col span="24">
+                <Col span="16">
                     <FormItem
-                        labelCol={{span: 4}} wrapperCol={{span: 6}}
+                        labelCol={{span: 6}} wrapperCol={{span: 9}}
                         label="签名注册税务师" required>
                         <SelectZysws labelInValue data={this.props.zysws} {...qmswsProps}/>
+
                     </FormItem>
                 </Col>
+                <Col span="8"> {this.props.data.qmswsxming} </Col>
             </Row>
             <Row>
                 <Col span="24">
