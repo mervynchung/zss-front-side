@@ -1,7 +1,7 @@
 import React from 'react'
-import {Form, Row, Col, Input, Button, InputNumber, DatePicker,Select} from 'antd'
+import {Form, Row, Col, Input, Button, InputNumber, DatePicker, Select} from 'antd'
 import utils from 'common/utils'
-import {SelectorYWLX,SelectorISWS,SelectorSB,SelectorHY,SelectorDQ} from 'component/compSelector'
+import {SelectorYWLX, SelectorISWS, SelectorSB, SelectorHY, SelectorDQ} from 'component/compSelector'
 import Customer from './customer.jsx'
 
 const RangePicker = DatePicker.RangePicker;
@@ -49,7 +49,7 @@ const SelectZysws = React.createClass({
             {...this.props}
             placeholder="点击选择"
             multiple
-            style={{ width: '100%' }}>
+            style={{width: '100%'}}>
             {options}
         </Select>
     }
@@ -59,7 +59,8 @@ let form = React.createClass({
     getInitialState(){
         return {
             customerModal: false,
-            cs:''
+            cs: '',
+            qmsws: ''
         }
     },
     checkSssq(rule, value, callback){
@@ -130,34 +131,45 @@ let form = React.createClass({
             DWDZ: entity.DWDZ
         })
     },
-    getSwjg1(value,option){
-        const {setFieldsValue,getFieldValue} = this.props.form;
+    getSwjg1(value, option){
+        const {setFieldsValue, getFieldValue} = this.props.form;
         let sbdm = getFieldValue('SB_DM');
-        let cs = option[0].label;
-        if(option.length == 2){
-            cs = option[0].label+option[1].label
+        let cs = [];
+        let length = option.length;
+        for(let i=0; i < length; i++){
+            if(option[i].label == '直属'){
+                cs.push('');
+            }else{
+                cs.push(option[i].label)
+            }
         }
-
-
-        this.setState({cs:cs});
-        if (sbdm == 1 ) {
-            setFieldsValue({ZGSWJG:cs+'国家税务局'})
-        }else {
-            setFieldsValue({ZGSWJG:cs+'地方税务局'})
+        this.setState({cs: cs.join('')});
+        if (sbdm == 1) {
+            setFieldsValue({ZGSWJG: '广东省'+cs.join('') + '国家税务局'})
+        } else {
+            setFieldsValue({ZGSWJG: '广东省'+cs.join('') + '地方税务局'})
         }
     },
     getSwjg2(value){
         const {setFieldsValue} = this.props.form;
         let {cs} = this.state;
-        if (value == 1 ) {
-            setFieldsValue({ZGSWJG:cs+'国家税务局'})
-        }else {
-            setFieldsValue({ZGSWJG:cs+'地方税务局'})
+        if (value == 1) {
+            setFieldsValue({ZGSWJG: '广东省'+cs + '国家税务局'})
+        } else {
+            setFieldsValue({ZGSWJG: '广东省'+cs + '地方税务局'})
         }
+    },
+    getQMSWS(value){
+        let i = value.length;
+        let qmsws = [];
+        while (i--) {
+            qmsws.push(value[i].label)
+        }
+        this.setState({qmsws: qmsws.reverse().join(' , ')});
     },
     render(){
         const {getFieldProps} = this.props.form;
-        const {YWLX_DM,ISWS} = this.props.data;
+        const {YWLX_DM, ISWS} = this.props.data;
         const xyhProps = getFieldProps('XYH', {
             rules: [
                 {required: true, whitespace: true, message: '请填写协议文号'}
@@ -188,13 +200,14 @@ let form = React.createClass({
         const qmswsProps = getFieldProps('QMSWS', {
             rules: [
                 {validator: this.checkQmsws}
-            ]
+            ],
+            onChange: this.getQMSWS
         });
         const dqProps = getFieldProps('DQ', {
             rules: [
                 {validator: this.checkDq}
             ],
-            onChange:this.getSwjg1
+            onChange: this.getSwjg1
         });
         const cityProps = getFieldProps('CITY', {
             rules: [
@@ -221,13 +234,13 @@ let form = React.createClass({
             rules: [
                 {required: true, whitespace: true, message: '必填项'}
             ],
-            trigger:'onBlur'
+            trigger: 'onBlur'
         });
         const sjfhProps = getFieldProps('SJFH', {
             rules: [
                 {required: true, whitespace: true, message: '必填项'}
             ],
-            trigger:'onBlur'
+            trigger: 'onBlur'
         });
         const sfjeProps = getFieldProps('SFJE', {
             rules: [
@@ -238,24 +251,24 @@ let form = React.createClass({
         const swjg = {};
 
         swjg['Y'] = <Col span="9">
-            <FormItem style={{width:'90%'}}>
+            <FormItem style={{width: '90%'}}>
                 <Input placeholder="填写业务所属地，如黑龙江省哈尔滨市"  {...cityProps}/>
             </FormItem>
         </Col>;
         swjg['N'] = [];
         swjg['N'].push(<Col span="3" key="1">
-            <FormItem style={{width:'90%'}}>
-                <SelectorSB  {...getFieldProps('SB_DM', {initialValue: '1',onChange:this.getSwjg2 })}/>
+            <FormItem style={{width: '90%'}}>
+                <SelectorSB  {...getFieldProps('SB_DM', {initialValue: '1', onChange: this.getSwjg2})}/>
             </FormItem>
         </Col>);
         swjg['N'].push(<Col span="5" key="2">
-            <FormItem style={{width:'90%'}}>
-                <SelectorDQ  placeholder="选择地区" {...dqProps}/>
+            <FormItem style={{width: '90%'}}>
+                <SelectorDQ placeholder="选择地区" {...dqProps}/>
             </FormItem>
         </Col>);
         swjg['N'].push(<Col span="6" key="3">
-            <FormItem style={{width:'90%'}}>
-                <Input  placeholder="主管税务机关名称"  {...getFieldProps('ZGSWJG')}/>
+            <FormItem style={{width: '90%'}}>
+                <Input placeholder="主管税务机关名称"  {...getFieldProps('ZGSWJG')}/>
             </FormItem>
         </Col>);
 
@@ -265,7 +278,8 @@ let form = React.createClass({
                 <FormItem
                     labelCol={{span: 4}} wrapperCol={{span: 8}}
                     label="所得税税前扣除项目鉴证金额" required>
-                    <InputNumber  min={0} max={9999999999.99} step={0.01} style={{width:'75%'}} {...getFieldProps('TZVALUE1')}/>元
+                    <InputNumber min={0} max={9999999999.99} step={0.01}
+                                 style={{width: '75%'}} {...getFieldProps('TZVALUE1')}/>元
                 </FormItem>
             </Col>
         </Row>;
@@ -274,14 +288,16 @@ let form = React.createClass({
                 <FormItem
                     labelCol={{span: 8}} wrapperCol={{span: 12}}
                     label="纳税调整增加额" required>
-                    <InputNumber  min={0} max={9999999999.99} step={0.01} style={{width:'75%'}} {...getFieldProps('TZVALUE1')}/>元
+                    <InputNumber min={0} max={9999999999.99} step={0.01}
+                                 style={{width: '75%'}} {...getFieldProps('TZVALUE1')}/>元
                 </FormItem>
             </Col>
             <Col span="12">
                 <FormItem
                     labelCol={{span: 8}} wrapperCol={{span: 12}}
                     label="纳税调整减少额" required>
-                    <InputNumber  min={0} max={9999999999.99} step={0.01} style={{width:'75%'}} {...getFieldProps('TJVALUE2')}/>元
+                    <InputNumber min={0} max={9999999999.99} step={0.01}
+                                 style={{width: '75%'}} {...getFieldProps('TJVALUE2')}/>元
                 </FormItem>
             </Col>
         </Row>;
@@ -290,14 +306,16 @@ let form = React.createClass({
                 <FormItem
                     labelCol={{span: 8}} wrapperCol={{span: 12}}
                     label="应补税额" required>
-                    <InputNumber min={0} max={9999999999.99} step={0.01} style={{width:'75%'}} {...getFieldProps('TZVALUE1')}/>元
+                    <InputNumber min={0} max={9999999999.99} step={0.01}
+                                 style={{width: '75%'}} {...getFieldProps('TZVALUE1')}/>元
                 </FormItem>
             </Col>
             <Col span="12">
                 <FormItem
                     labelCol={{span: 8}} wrapperCol={{span: 12}}
                     label="应退税额" required>
-                    <InputNumber min={0} max={9999999999.99} step={0.01} style={{width:'75%'}} {...getFieldProps('TJVALUE2')}/>元
+                    <InputNumber min={0} max={9999999999.99} step={0.01}
+                                 style={{width: '75%'}} {...getFieldProps('TJVALUE2')}/>元
                 </FormItem>
             </Col>
         </Row>;
@@ -310,14 +328,16 @@ let form = React.createClass({
                 <FormItem
                     labelCol={{span: 8}} wrapperCol={{span: 12}}
                     label="调增应纳税额" required>
-                    <InputNumber min={0} max={9999999999.99} step={0.01} style={{width:'75%'}} {...getFieldProps('TZVALUE1')}/>元
+                    <InputNumber min={0} max={9999999999.99} step={0.01}
+                                 style={{width: '75%'}} {...getFieldProps('TZVALUE1')}/>元
                 </FormItem>
             </Col>
             <Col span="12">
                 <FormItem
                     labelCol={{span: 8}} wrapperCol={{span: 12}}
                     label="调减应纳税额" required>
-                    <InputNumber min={0} max={9999999999.99} step={0.01} style={{width:'75%'}} {...getFieldProps('TJVALUE2')}/>元
+                    <InputNumber min={0} max={9999999999.99} step={0.01}
+                                 style={{width: '75%'}} {...getFieldProps('TJVALUE2')}/>元
                 </FormItem>
             </Col>
         </Row>;
@@ -331,104 +351,104 @@ let form = React.createClass({
                       onCancel={this.closeCustomer}/>
             <h3>填写协议信息</h3>
             <div className="form-content">
-            <Row>
-                <Col span="24">
-                    <FormItem
-                        labelCol={{span: 4}} wrapperCol={{span: 6}}
-                        label="协议文号">
-                        <Input  {...xyhProps}/>
-                    </FormItem>
-                </Col>
-            </Row>
-            <Row>
-                <Col span="24">
-                    <FormItem
-                        labelCol={{span: 4}} wrapperCol={{span: 10}}
-                        label="委托企业">
-                        <Input style={{width: '60%'}} disabled {...dwmcProps}/> &nbsp;
-                        <Button type="ghost" onClick={this.getCustomers}>选择</Button>
-                    </FormItem>
-                </Col>
-            </Row>
-            <Row>
-                <Col span="24">
-                    <FormItem
-                        labelCol={{span: 4}} wrapperCol={{span: 6}}
-                        label="纳税人识别号">
-                        <Input placeholder="纳税人识别号" disabled {...getFieldProps('NSRSBH')}/>
-                    </FormItem>
-                </Col>
-            </Row>
-            <Row>
-                <Col span="24">
-                    <FormItem
-                        labelCol={{span: 4}} wrapperCol={{span: 6}}
-                        label="地税税务登记证号">
-                        <Input placeholder="地税税务登记证号" disabled {...getFieldProps('NSRSBHDF')}/>
-                    </FormItem>
-                </Col>
-            </Row>
-            <Row>
-                <Col span="12">
-                    <FormItem
-                        labelCol={{span: 8}} wrapperCol={{span: 12}}
-                        label="联系人">
-                        <Input disabled {...getFieldProps('LXR')}/>
-                    </FormItem>
-                </Col>
-                <Col span="12" pull="4">
-                    <FormItem
-                        labelCol={{span: 8}} wrapperCol={{span: 8}}
-                        label="联系电话">
-                        <Input disabled {...getFieldProps('LXDH')}/>
-                    </FormItem>
-                </Col>
-            </Row>
-            <Row>
-                <Col span="24">
-                    <FormItem
-                        labelCol={{span: 4}} wrapperCol={{span: 12}}
-                        label="委托企业联系地址">
-                        <Input disabled {...getFieldProps('DWDZ')}/>
-                    </FormItem>
-                </Col>
-            </Row>
-            <Row>
-                <Col span="24">
-                    <FormItem
-                        labelCol={{span: 4}} wrapperCol={{span: 6}}
-                        label="委托项目类型">
-                        <SelectorYWLX  {...ywlxProps}/>
-                    </FormItem>
-                </Col>
-            </Row>
-            <Row>
-                <Col span="24">
-                    <FormItem
-                        labelCol={{span: 4}} wrapperCol={{span: 10}}
-                        label="协议收费金额">
-                        <InputNumber min={0} max={9999999999.99} step={0.01} style={{width: '60%'}} {...xyjeProps}/>元
-                    </FormItem>
-                </Col>
-            </Row>
-            <Row>
-                <Col span="24">
-                    <FormItem
-                        labelCol={{span: 4}} wrapperCol={{span: 6}}
-                        label="项目所属时期">
-                        <RangePicker format="yyyy/MM/dd " {...sssqProps}/>
-                    </FormItem>
-                </Col>
-            </Row>
-            <Row>
-                <Col span="24">
-                    <FormItem
-                        labelCol={{span: 4}} wrapperCol={{span: 16}}
-                        label="备注">
-                        <Input type="textarea" rows={2} {...getFieldProps('MEMO',{trigger: 'onBlur'})}/>
-                    </FormItem>
-                </Col>
-            </Row>
+                <Row>
+                    <Col span="24">
+                        <FormItem
+                            labelCol={{span: 4}} wrapperCol={{span: 6}}
+                            label="协议文号">
+                            <Input  {...xyhProps}/>
+                        </FormItem>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col span="24">
+                        <FormItem
+                            labelCol={{span: 4}} wrapperCol={{span: 10}}
+                            label="委托企业">
+                            <Input style={{width: '60%'}} disabled {...dwmcProps}/> &nbsp;
+                            <Button type="ghost" onClick={this.getCustomers}>选择</Button>
+                        </FormItem>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col span="24">
+                        <FormItem
+                            labelCol={{span: 4}} wrapperCol={{span: 6}}
+                            label="纳税人识别号">
+                            <Input placeholder="纳税人识别号" disabled {...getFieldProps('NSRSBH')}/>
+                        </FormItem>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col span="24">
+                        <FormItem
+                            labelCol={{span: 4}} wrapperCol={{span: 6}}
+                            label="地税税务登记证号">
+                            <Input placeholder="地税税务登记证号" disabled {...getFieldProps('NSRSBHDF')}/>
+                        </FormItem>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col span="12">
+                        <FormItem
+                            labelCol={{span: 8}} wrapperCol={{span: 12}}
+                            label="联系人">
+                            <Input disabled {...getFieldProps('LXR')}/>
+                        </FormItem>
+                    </Col>
+                    <Col span="12" pull="4">
+                        <FormItem
+                            labelCol={{span: 8}} wrapperCol={{span: 8}}
+                            label="联系电话">
+                            <Input disabled {...getFieldProps('LXDH')}/>
+                        </FormItem>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col span="24">
+                        <FormItem
+                            labelCol={{span: 4}} wrapperCol={{span: 12}}
+                            label="委托企业联系地址">
+                            <Input disabled {...getFieldProps('DWDZ')}/>
+                        </FormItem>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col span="24">
+                        <FormItem
+                            labelCol={{span: 4}} wrapperCol={{span: 6}}
+                            label="委托项目类型">
+                            <SelectorYWLX  {...ywlxProps}/>
+                        </FormItem>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col span="24">
+                        <FormItem
+                            labelCol={{span: 4}} wrapperCol={{span: 10}}
+                            label="协议收费金额">
+                            <InputNumber min={0} max={9999999999.99} step={0.01} style={{width: '60%'}} {...xyjeProps}/>元
+                        </FormItem>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col span="24">
+                        <FormItem
+                            labelCol={{span: 4}} wrapperCol={{span: 6}}
+                            label="项目所属时期">
+                            <RangePicker format="yyyy/MM/dd " {...sssqProps}/>
+                        </FormItem>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col span="24">
+                        <FormItem
+                            labelCol={{span: 4}} wrapperCol={{span: 16}}
+                            label="备注">
+                            <Input type="textarea" rows={2} {...getFieldProps('MEMO', {trigger: 'onBlur'})}/>
+                        </FormItem>
+                    </Col>
+                </Row>
             </div>
 
             <h3>填写业务信息</h3>
@@ -528,8 +548,8 @@ let form = React.createClass({
                     <FormItem
                         labelCol={{span: 6}} wrapperCol={{span: 9}}
                         label="签名注册税务师" required>
-                        <SelectZysws  data={this.props.zysws} {...qmswsProps}/>
-                        <span>{this.props.data.qmsws}</span>
+                        <SelectZysws labelInValue  data={this.props.zysws} {...qmswsProps}/>
+                        <span>{this.state.qmsws}</span>
                     </FormItem>
                 </Col>
             </Row>
@@ -578,11 +598,7 @@ let form = React.createClass({
 
 form = createForm({
     mapPropsToFields(props) {
-        return props.data.fields
-    },
-    onFieldsChange(props, fields) {
-        console.log('field')
-        props.onFieldChange(fields)
+        return props.data
     }
 })(form);
 

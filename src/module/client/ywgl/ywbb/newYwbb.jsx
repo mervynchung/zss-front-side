@@ -126,14 +126,7 @@ const newYwbb = React.createClass({
         for (let prop in field) {
             data.fields[prop] = field[prop]
         }
-        if (!!field.QMSWS && !!field.QMSWS.value){
-            let i = field.QMSWS.value.length;
-            let qmsws = [];
-            while(i--){
-                qmsws.push(field.QMSWS.value[i].label )
-            }
-            data.qmsws = qmsws.reverse().join(' , ');
-        }
+
         this.setState({data: data})
     },
 
