@@ -124,10 +124,14 @@ const newYwbb = React.createClass({
     handleFieldChange(field){
         const {data} = this.state;
         for (let prop in field) {
-            data.fields[prop] = field[prop]
+            data[prop] = field[prop];
+            if (prop == 'YWLX_DM'){
+                this.setState({data:data})
+            }
+            if(prop == 'ISWS'){
+                this.setState({data:data})
+            }
         }
-
-        this.setState({data: data})
     },
 
     render(){

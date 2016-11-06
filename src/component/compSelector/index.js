@@ -41,7 +41,8 @@ var selector = {
     SelectorZSFS:require('./zsfs'), //业务报备征收方式
     SelectorJg:require('./jg'), //机构
     SelectorXm:require('./zyswsxm'),//执业税务师人员姓名选择
-    SelectorLogRole:require('./log_roles')//登陆用户角色选择
+    SelectorLogRole:require('./log_roles'),//登陆用户角色选择
+    SelectorQGSS:require('./qgss') //全国省市
 
 
 };

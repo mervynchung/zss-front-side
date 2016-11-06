@@ -1,7 +1,7 @@
 import React from 'react'
 import {Form, Row, Col, Input, Button, InputNumber, DatePicker, Select} from 'antd'
 import utils from 'common/utils'
-import {SelectorYWLX, SelectorISWS, SelectorSB, SelectorHY, SelectorDQ} from 'component/compSelector'
+import {SelectorYWLX, SelectorISWS, SelectorSB, SelectorHY, SelectorDQ,SelectorQGSS} from 'component/compSelector'
 import Customer from './customer.jsx'
 
 const RangePicker = DatePicker.RangePicker;
@@ -169,7 +169,7 @@ let form = React.createClass({
     },
     render(){
         const {getFieldProps} = this.props.form;
-        const {YWLX_DM, ISWS} = this.props.data;
+        const {YWLX_DM,ISWS} = this.props.data;
         const xyhProps = getFieldProps('XYH', {
             rules: [
                 {required: true, whitespace: true, message: '请填写协议文号'}
@@ -204,6 +204,12 @@ let form = React.createClass({
             onChange: this.getQMSWS
         });
         const dqProps = getFieldProps('DQ', {
+            rules: [
+                {validator: this.checkDq}
+            ],
+            onChange: this.getSwjg1
+        });
+        const qgssProps = getFieldProps('DQ',{
             rules: [
                 {validator: this.checkDq}
             ],
@@ -250,11 +256,18 @@ let form = React.createClass({
 
         const swjg = {};
 
-        swjg['Y'] = <Col span="9">
+        swjg['Y'] = [];
+        swjg['Y'].push(<Col span="3" key="1">
             <FormItem style={{width: '90%'}}>
-                <Input placeholder="填写业务所属地，如黑龙江省哈尔滨市"  {...cityProps}/>
+                <SelectorSB  {...getFieldProps('SB_DM', {initialValue: '1', onChange: this.getSwjg2})}/>
             </FormItem>
-        </Col>;
+        </Col>);
+        swjg['Y'].push(<Col span="5" key="2">
+            <FormItem style={{width: '90%'}}>
+                <SelectorQGSS placeholder="选择地区" {...qgssProps}/>
+            </FormItem>
+        </Col>);
+
         swjg['N'] = [];
         swjg['N'].push(<Col span="3" key="1">
             <FormItem style={{width: '90%'}}>
@@ -266,11 +279,7 @@ let form = React.createClass({
                 <SelectorDQ placeholder="选择地区" {...dqProps}/>
             </FormItem>
         </Col>);
-        swjg['N'].push(<Col span="6" key="3">
-            <FormItem style={{width: '90%'}}>
-                <Input placeholder="主管税务机关名称"  {...getFieldProps('ZGSWJG')}/>
-            </FormItem>
-        </Col>);
+
 
         const tzValue = {};
         tzValue['2'] = <Row>
@@ -445,7 +454,7 @@ let form = React.createClass({
                         <FormItem
                             labelCol={{span: 4}} wrapperCol={{span: 16}}
                             label="备注">
-                            <Input type="textarea" rows={2} {...getFieldProps('MEMO', {trigger: 'onBlur'})}/>
+                            <Input type="textarea" rows={2} {...getFieldProps('MEMO')}/>
                         </FormItem>
                     </Col>
                 </Row>
@@ -455,8 +464,8 @@ let form = React.createClass({
             <Row>
                 <Col span="6">
                     <FormItem
-                        labelCol={{span: 16}} wrapperCol={{span: 7}}
-                        label="主管税务机关">
+                      labelCol={{span: 16}} wrapperCol={{span: 7}}
+                      label="主管税务机关">
                         <SelectorISWS {...getFieldProps('ISWS', {
                             initialValue: 'N',
                             onChange: this.handleISWS
@@ -464,19 +473,24 @@ let form = React.createClass({
                     </FormItem>
                 </Col>
                 {!!ISWS ? swjg[ISWS.value] : swjg['N']}
+                <Col span="6" key="3">
+                    <FormItem style={{width: '90%'}}>
+                        <Input placeholder="主管税务机关名称"  {...getFieldProps('ZGSWJG')}/>
+                    </FormItem>
+                </Col>
             </Row>
             <Row>
                 <Col span="12">
                     <FormItem
-                        labelCol={{span: 8}} wrapperCol={{span: 12}}
-                        label="委托企业行业类型">
+                      labelCol={{span: 8}} wrapperCol={{span: 12}}
+                      label="委托企业行业类型">
                         <SelectorHY  {...getFieldProps('HY_ID', {initialValue: '1'})}/>
                     </FormItem>
                 </Col>
                 <Col span="12">
                     <FormItem
-                        labelCol={{span: 8}} wrapperCol={{span: 12}}
-                        label="委托企业增值税纳税人类型">
+                      labelCol={{span: 8}} wrapperCol={{span: 12}}
+                      label="委托企业增值税纳税人类型">
                         <SelectNSRXZ  {...getFieldProps('NSRXZ', {initialValue: '0'})}/>
                     </FormItem>
                 </Col>
@@ -484,15 +498,15 @@ let form = React.createClass({
             <Row>
                 <Col span="12">
                     <FormItem
-                        labelCol={{span: 8}} wrapperCol={{span: 12}}
-                        label="委托企业征收方式">
+                      labelCol={{span: 8}} wrapperCol={{span: 12}}
+                      label="委托企业征收方式">
                         <SelectZSFS  {...getFieldProps('ZSFS_DM', {initialValue: '0'})}/>
                     </FormItem>
                 </Col>
                 <Col span="12">
                     <FormItem
-                        labelCol={{span: 8}} wrapperCol={{span: 12}}
-                        label="委托企业性质">
+                      labelCol={{span: 8}} wrapperCol={{span: 12}}
+                      label="委托企业性质">
                         <SelectWTDWXZ  {...getFieldProps('WTDWXZ_DM', {initialValue: '0'})}/>
                     </FormItem>
                 </Col>
@@ -501,15 +515,15 @@ let form = React.createClass({
             <Row>
                 <Col span="12">
                     <FormItem
-                        labelCol={{span: 8}} wrapperCol={{span: 12}}
-                        label="报告文号">
+                      labelCol={{span: 8}} wrapperCol={{span: 12}}
+                      label="报告文号">
                         <Input  {...bgwhProps}/>
                     </FormItem>
                 </Col>
                 <Col span="12">
                     <FormItem
-                        labelCol={{span: 8}} wrapperCol={{span: 12}}
-                        label="报告日期">
+                      labelCol={{span: 8}} wrapperCol={{span: 12}}
+                      label="报告日期">
                         <DatePicker  {...bgrqProps}/>
                     </FormItem>
                 </Col>
@@ -517,8 +531,8 @@ let form = React.createClass({
             <Row>
                 <Col span="24">
                     <FormItem
-                        labelCol={{span: 4}} wrapperCol={{span: 10}}
-                        label="一级复核" required={true}>
+                      labelCol={{span: 4}} wrapperCol={{span: 10}}
+                      label="一级复核" required={true}>
                         <Input style={{width: '60%'}} {...yjfhProps}/> 项目负责人的复核
                     </FormItem>
                 </Col>
@@ -526,9 +540,9 @@ let form = React.createClass({
             <Row>
                 <Col span="24">
                     <FormItem
-                        labelCol={{span: 4}} wrapperCol={{span: 10}}
-                        label="二级复核"
-                        required>
+                      labelCol={{span: 4}} wrapperCol={{span: 10}}
+                      label="二级复核"
+                      required>
                         <Input style={{width: '60%'}} {...rjfhProps}/> 部门负责人的复核
                     </FormItem>
                 </Col>
@@ -536,9 +550,9 @@ let form = React.createClass({
             <Row>
                 <Col span="24">
                     <FormItem
-                        labelCol={{span: 4}} wrapperCol={{span: 10}}
-                        label="三级复核"
-                        required>
+                      labelCol={{span: 4}} wrapperCol={{span: 10}}
+                      label="三级复核"
+                      required>
                         <Input style={{width: '60%'}} {...sjfhProps}/> 机构负责人的复核
                     </FormItem>
                 </Col>
@@ -546,8 +560,8 @@ let form = React.createClass({
             <Row>
                 <Col span="16">
                     <FormItem
-                        labelCol={{span: 6}} wrapperCol={{span: 9}}
-                        label="签名注册税务师" required>
+                      labelCol={{span: 6}} wrapperCol={{span: 9}}
+                      label="签名注册税务师" required>
                         <SelectZysws labelInValue  data={this.props.zysws} {...qmswsProps}/>
                         <span>{this.state.qmsws}</span>
                     </FormItem>
@@ -556,8 +570,8 @@ let form = React.createClass({
             <Row>
                 <Col span="24">
                     <FormItem
-                        labelCol={{span: 4}} wrapperCol={{span: 8}}
-                        label="委托企业营业收入">
+                      labelCol={{span: 4}} wrapperCol={{span: 8}}
+                      label="委托企业营业收入">
                         <InputNumber min={0} max={999999999999.99} step={0.01} style={{width: '75%'}} {...sfjeProps}/>元
                     </FormItem>
                 </Col>
@@ -566,8 +580,8 @@ let form = React.createClass({
             <Row>
                 <Col span="24">
                     <FormItem
-                        labelCol={{span: 4}} wrapperCol={{span: 8}}
-                        label="具体项目">
+                      labelCol={{span: 4}} wrapperCol={{span: 8}}
+                      label="具体项目">
                         <Input style={{width: '100%'}} {...getFieldProps('JTXM')}/>
                     </FormItem>
                 </Col>
@@ -599,6 +613,9 @@ let form = React.createClass({
 form = createForm({
     mapPropsToFields(props) {
         return props.data
+    },
+    onFieldsChange(props,field){
+        props.onFieldChange(field)
     }
 })(form);
 
