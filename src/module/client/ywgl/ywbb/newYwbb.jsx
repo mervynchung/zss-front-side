@@ -33,12 +33,7 @@ const newYwbb = React.createClass({
             locked: []
         }
     },
-    resetStep(){
-        this.setState({stage: 0, dataXY: {}, dataYW: {}, customer: {}, addSuccess: false, successResp: {}})
-    },
-    handleStageChange(value){
-        this.setState({stage: value})
-    },
+
     handleStage0Submit(param){
         if (!param.customer) {
             param.customer = this.state.customer
@@ -81,8 +76,7 @@ const newYwbb = React.createClass({
     handleSave(param){
 
         let values = {
-            dataXY: this.state.dataXY,
-            dataYW: this.state.dataYW,
+
             dataJG: this.state.dataJG,
             customer: this.state.customer,
             type: 'save'

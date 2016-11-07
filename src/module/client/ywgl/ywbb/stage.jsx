@@ -77,14 +77,6 @@ let form = React.createClass({
             callback()
         }
     },
-    checkCity(rule, value, callback){
-        let isws = this.props.form.getFieldValue('ISWS');
-        if (isws == 'Y' && (!value || !value.trim())) {
-            callback("必填项");
-        } else {
-            callback()
-        }
-    },
     checkDq(rule, value, callback){
         let isws = this.props.form.getFieldValue('ISWS');
         if (isws === 'N' && !value) {
@@ -93,6 +85,15 @@ let form = React.createClass({
             callback()
         }
     },
+    checkQGSS(rule, value, callback){
+        let isws = this.props.form.getFieldValue('ISWS');
+        if (isws === 'Y' && !value) {
+            callback("必填项")
+        } else {
+            callback()
+        }
+    },
+
     reset(e){
         e.preventDefault();
         this.props.form.resetFields();
@@ -108,7 +109,7 @@ let form = React.createClass({
     },
     save(){
         let values = this.props.form.getFieldsValue();
-        this.props.onSubmit({stage: 0, values: values, customer: this.state.customer});
+        this.props.onSubmit({values: values, customer: this.state.customer});
         this.props.onSave();
     },
     getCustomers(){
@@ -144,6 +145,7 @@ let form = React.createClass({
             }
         }
         this.setState({cs: cs.join('')});
+        setFieldsValue({CITY:option[0].label});
         if (sbdm == 1) {
             setFieldsValue({ZGSWJG: '广东省'+cs.join('') + '国家税务局'})
         } else {
@@ -151,14 +153,36 @@ let form = React.createClass({
         }
     },
     getSwjg2(value){
-        const {setFieldsValue} = this.props.form;
+        const {getFieldValue,setFieldsValue} = this.props.form;
+        let isws = getFieldValue('ISWS');
         let {cs} = this.state;
-        if (value == 1) {
+        if (isws=='N' && value == 1) {
             setFieldsValue({ZGSWJG: '广东省'+cs + '国家税务局'})
-        } else {
+        } else if(isws=='N' && value == 2) {
             setFieldsValue({ZGSWJG: '广东省'+cs + '地方税务局'})
+        } else if (isws=='Y' && value == 1){
+            setFieldsValue({ZGSWJG: cs + '国家税务局'})
+        } else {
+            setFieldsValue({ZGSWJG: cs + '地方税务局'})
         }
     },
+    getSwjg3(value, option){
+        const {setFieldsValue, getFieldValue} = this.props.form;
+        let sbdm = getFieldValue('SB_DM');
+        let cs = [];
+        let length = option.length;
+        for(let i=0; i < length; i++){
+            cs.push(option[i].label)
+        }
+        this.setState({cs: cs.join('')});
+        setFieldsValue({CITY:cs.join('')});
+        if (sbdm == 1) {
+            setFieldsValue({ZGSWJG: cs.join('') + '国家税务局'})
+        } else {
+            setFieldsValue({ZGSWJG: cs.join('') + '地方税务局'})
+        }
+    },
+
     getQMSWS(value){
         let i = value.length;
         let qmsws = [];
@@ -209,17 +233,14 @@ let form = React.createClass({
             ],
             onChange: this.getSwjg1
         });
-        const qgssProps = getFieldProps('DQ',{
+        const cityProps = getFieldProps('CITY');
+        const qgssProps = getFieldProps('QGSS', {
             rules: [
-                {validator: this.checkDq}
+                {validator: this.checkQGSS}
             ],
-            onChange: this.getSwjg1
+            onChange: this.getSwjg3
         });
-        const cityProps = getFieldProps('CITY', {
-            rules: [
-                {validator: this.checkCity}
-            ]
-        });
+
         const bgwhProps = getFieldProps('BGWH', {
             rules: [
                 {required: true, whitespace: true, message: '必填项'}
@@ -255,30 +276,17 @@ let form = React.createClass({
         });
 
         const swjg = {};
-
-        swjg['Y'] = [];
-        swjg['Y'].push(<Col span="3" key="1">
-            <FormItem style={{width: '90%'}}>
-                <SelectorSB  {...getFieldProps('SB_DM', {initialValue: '1', onChange: this.getSwjg2})}/>
-            </FormItem>
-        </Col>);
-        swjg['Y'].push(<Col span="5" key="2">
+        swjg['Y']=<Col span="5" key="2">
             <FormItem style={{width: '90%'}}>
                 <SelectorQGSS placeholder="选择地区" {...qgssProps}/>
             </FormItem>
-        </Col>);
+        </Col>;
 
-        swjg['N'] = [];
-        swjg['N'].push(<Col span="3" key="1">
-            <FormItem style={{width: '90%'}}>
-                <SelectorSB  {...getFieldProps('SB_DM', {initialValue: '1', onChange: this.getSwjg2})}/>
-            </FormItem>
-        </Col>);
-        swjg['N'].push(<Col span="5" key="2">
+        swjg['N']=<Col span="5" key="2">
             <FormItem style={{width: '90%'}}>
                 <SelectorDQ placeholder="选择地区" {...dqProps}/>
             </FormItem>
-        </Col>);
+        </Col>;
 
 
         const tzValue = {};
@@ -470,6 +478,11 @@ let form = React.createClass({
                             initialValue: 'N',
                             onChange: this.handleISWS
                         })} />
+                    </FormItem>
+                </Col>
+                <Col span="3" key="1">
+                    <FormItem style={{width: '90%'}}>
+                        <SelectorSB  {...getFieldProps('SB_DM', {initialValue: '1', onChange: this.getSwjg2})}/>
                     </FormItem>
                 </Col>
                 {!!ISWS ? swjg[ISWS.value] : swjg['N']}
