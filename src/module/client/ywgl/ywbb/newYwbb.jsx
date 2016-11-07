@@ -1,5 +1,5 @@
 import React from 'react'
-import {Steps, Spin, notification, Modal, Icon, Alert} from 'antd'
+import {Spin, notification, Modal, Icon, Alert} from 'antd'
 import Panel from 'component/compPanel'
 import config from 'common/configuration.js'
 import req from 'common/request'
@@ -9,7 +9,6 @@ import Stage from './stage.jsx'
 import AddSuccess from './commitSuccessScr';
 import LockedScr from './lockedScr'
 
-const Step = Steps.Step;
 
 const newYwbb = React.createClass({
     getDefaultProps(){
@@ -27,7 +26,7 @@ const newYwbb = React.createClass({
             dataXY: {},
             dataYW: {},
             dataJG: {},
-            data: {fields:{}},
+            data: {},
             customer: {},
             zysws: [],
             locked: []
@@ -41,10 +40,10 @@ const newYwbb = React.createClass({
         this.setState({stage: param.stage, dataXY: param.values, customer: param.customer})
 
     },
-    handleStage1Submit(param){
-        this.setState({dataYW: param.values})
-
-    },
+    resetNew(){
+        this.setState({addSuccess:false})
+    }
+    ,
     //添加新报备信息
     addYwbb(param){
         const {ywbbUrl} = this.props;
@@ -145,7 +144,11 @@ const newYwbb = React.createClass({
             {!!locked.length ? <LockedScr data={locked}/> :
                 <div>
                     <Spin spinning={this.state.loading}>
-                        {addSuccess && (<div><AddSuccess data={successResp} type="add"/></div>)}
+                        {addSuccess &&
+                        <div>
+                            <div style={{textAlign:'right'}}><a onClick={this.resetNew}> <Icon type="retweet" /> 重置</a></div>
+                            <AddSuccess data={successResp} type="add"/>
+                        </div>}
                         {!addSuccess && <Stage data={data}
                                               zysws={zysws}
                                               onSave={this.handleSave}

@@ -1,66 +1,55 @@
 import React from 'react'
-import {Steps,Col,Row,Spin,notification,Modal,Icon,Button } from 'antd'
+import {Spin, notification, Modal, Icon, Alert} from 'antd'
 import Panel from 'component/compPanel'
-import auth from 'common/auth.js'
 import config from 'common/configuration.js'
-import req from 'reqwest'
+import req from 'common/request'
 import Stage0 from './stage0.jsx'
 import Stage1 from './stage1.jsx'
-import Stage2 from './stage2.jsx'
-import EditSuccess from './commitSuccessScr';
+import Stage from './stage.jsx'
+import AddSuccess from './commitSuccessScr';
+import LockedScr from './lockedScr'
 
-const Step = Steps.Step;
-
-const YWBB_URL = config.HOST + config.URI_API_PROJECT + '/ywbb';
 
 const newYwbb = React.createClass({
+    getDefaultProps(){
+        return {
+            ywbbUrl: config.HOST + config.URI_API_PROJECT + '/ywbb',
+            miscUrl: config.HOST + config.URI_API_PROJECT + '/ywbbmisc/'
+        }
+    },
     getInitialState(){
         return {
             loading: true,
-            addSuccess:false,
-            successResp:{},
+            addSuccess: false,
+            successResp: {},
             stage: 0,
             dataXY: {},
             dataYW: {},
             dataJG: {},
-            customer:{},
-            zysws: []
+            data: {},
+            customer: {},
+            zysws: [],
+            locked: []
         }
     },
+
+    resetNew(){
+        this.setState({addSuccess:false})
+    },
+    //退回用户管理界面
     back(){
         this.props.onBack();
     },
-    handleStageChange(value){
-        this.setState({stage: value})
-    },
-    handleStage0Submit(param){
-        if(!param.customer){
-            param.customer = this.state.customer
-        }
-        this.setState({stage: param.stage, dataXY: param.values, customer: param.customer})
-
-    },
-    handleStage1Submit(param){
-        this.setState({stage: param.stage, dataYW: param.values})
-
-    },
-    handleStage2Submit(param){
-        this.setState({stage: param.stage, dataJG: param.values})
-
-    },
     //添加新报备信息
     addYwbb(param){
-        const token = auth.getToken();
+        const {ywbbUrl} = this.props;
         return req({
-            url: YWBB_URL,
+            url: ywbbUrl,
             method: 'post',
-            type: 'json',
-            contentType: 'application/json',
-            data: JSON.stringify(param),
-            headers: {'x-auth-token': token}
+            data: param
         }).then(resp=> {
-            this.setState({loading: false,addSuccess:true,successResp:resp});
-        }).fail(e=> {
+            this.setState({loading: false, addSuccess: true, successResp: resp});
+        }).catch(e=> {
             let r = JSON.parse(e.responseText);
             this.setState({loading: false});
             if (e.status == 403) {
@@ -79,12 +68,11 @@ const newYwbb = React.createClass({
     },
 
     //保存业务报备
-    handleSave(){
+    handleSave(param){
+
         let values = {
-            dataXY: this.state.dataXY,
-            dataYW: this.state.dataYW,
+            formValue:param,
             dataJG: this.state.dataJG,
-            customer: this.state.customer,
             type: 'save'
         };
         this.setState({loading: true});
@@ -102,57 +90,52 @@ const newYwbb = React.createClass({
         this.setState({loading: true});
         this.addYwbb(values)
     },
-    //获取本机构下属执业税务师列表
+    //获取修改报备的初始化信息：旗下执业人员/机构信息/报备明细
     fetchYwbbMisc () {
-        const jid = auth.getJgid();
-        const token = auth.getToken();
-        const YWBBMISC_URL = config.HOST + config.URI_API_PROJECT + '/ywbbmisc/' + jid;
-
+        const {miscUrl} = this.props;
         return req({
-            url: YWBBMISC_URL,
-            method: 'get',
-            type: 'json',
-            headers: {'x-auth-token': token}
+            url: miscUrl,
+            method: 'get'
         })
     },
     componentDidMount(){
         this.fetchYwbbMisc().then(resp=> {
+            if (!!resp.locked && !!resp.locked.length) {
+                this.setState({locked: resp.locked})
+            }
             this.setState({dataJG: resp.jgxx, zysws: resp.zysws, loading: false})
         }).catch(e=> {
             let c = <div className="ywbb-new-loadfail"> 数据读取失败</div>;
             this.setState({loading: false, loaded: c})
         })
     },
+    handleFieldChange(field){
+        const {data} = this.state;
+        for (let prop in field) {
+            data[prop] = field[prop];
+            if (prop == 'YWLX_DM'){
+                this.setState({data:data})
+            }
+            if(prop == 'ISWS'){
+                this.setState({data:data})
+            }
+        }
+    },
 
     render(){
-        const {id} = this.props;
-        let {stage,dataXY,dataYW,dataJG,addSuccess,successResp} = this.state;
-        let stageContent = {
-            '0': this.state.loaded || <Stage0 data={dataXY}
-                                              onSubmit={this.handleStage0Submit}/>,
-            '1': <Stage1 onStageChange={this.handleStageChange}
-                         data={dataYW} zysws={this.state.zysws}
-                         ywlx={this.state.dataXY.YWLX_DM}
-                         onSubmit={this.handleStage1Submit}/>,
-            '2': addSuccess ? <EditSuccess type="edit"/>:<Stage2 onStageChange={this.handleStageChange}
-                         data={dataJG}
-                         onSubmit={this.handleStage2Submit}
-                         onSave={this.handleSave}
-                         onCommit={this.handleCommit}/>
-        };
+        let {data, zysws, addSuccess, successResp} = this.state;
 
-        return <Panel className="new-ywbb">
-            <div style={{textAlign:'right'}}> <Button onClick={this.back}><Icon type="rollback"/>返回</Button></div>
-            <Steps current={stage} className="steps">
-                <Step title="填写协议"/>
-                <Step title="填写业务详细信息"/>
-                <Step title="确认事务所基本信息"/>
-            </Steps>
-            <Spin spinning={this.state.loading}>
+        return <Panel className="client-ywbb edit">
                 <div>
-                    {stageContent[stage]}
+                    <Spin spinning={this.state.loading}>
+                        {addSuccess && <AddSuccess data={successResp} type="add"/>}
+                        {!addSuccess && <Stage data={data}
+                                               zysws={zysws}
+                                               onSave={this.handleSave}
+                                               onCommit={this.handleCommit}
+                                               onFieldChange={this.handleFieldChange}/>}
+                    </Spin>
                 </div>
-            </Spin>
 
         </Panel>
 

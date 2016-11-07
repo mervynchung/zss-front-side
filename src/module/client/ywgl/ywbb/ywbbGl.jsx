@@ -209,8 +209,7 @@ const c = React.createClass({
         const editSetting = {
             //设置返回主视图调用的方法
             id:this.state.entity.id,
-            onBack: this.backToList,
-            refreshList:this.refreshList
+            onBack: this.backToList
         };
 
         /*设置收费操作对话框的参数*/
