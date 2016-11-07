@@ -109,8 +109,7 @@ let form = React.createClass({
     },
     save(){
         let values = this.props.form.getFieldsValue();
-        this.props.onSubmit({values: values, customer: this.state.customer});
-        this.props.onSave();
+        this.props.onSave(values);
     },
     getCustomers(){
         this.setState({customerModal: true})

@@ -54,7 +54,7 @@ const newYwbb = React.createClass({
             data: param
         }).then(resp=> {
             this.setState({loading: false, addSuccess: true, successResp: resp});
-        }).fail(e=> {
+        }).catch(e=> {
             let r = JSON.parse(e.responseText);
             this.setState({loading: false});
             if (e.status == 403) {
@@ -76,9 +76,8 @@ const newYwbb = React.createClass({
     handleSave(param){
 
         let values = {
-
+            formValue:param,
             dataJG: this.state.dataJG,
-            customer: this.state.customer,
             type: 'save'
         };
         this.setState({loading: true});
@@ -146,7 +145,7 @@ const newYwbb = React.createClass({
             {!!locked.length ? <LockedScr data={locked}/> :
                 <div>
                     <Spin spinning={this.state.loading}>
-                        {addSuccess && <AddSuccess data={successResp} type="add"/>}
+                        {addSuccess && (<div><AddSuccess data={successResp} type="add"/></div>)}
                         {!addSuccess && <Stage data={data}
                                               zysws={zysws}
                                               onSave={this.handleSave}
