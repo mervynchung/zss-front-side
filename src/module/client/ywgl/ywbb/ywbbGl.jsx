@@ -7,6 +7,7 @@ import DialogBB from './dialogBB'
 import DialogTH from './dialogTH'
 import DialogCX from './dialogCX'
 import DialogQY from './dialogQY'
+import DialogDEL from './dialogDEl'
 import Edit from './editYwbb'
 import model from './model'
 import config from 'common/configuration'
@@ -24,7 +25,8 @@ const c = React.createClass({
             dialogBB:false,
             dialogTH:false,
             dialogCX:false,
-            dialogQY:false
+            dialogQY:false,
+            dialogDEL:false
         }
     },
 
@@ -103,6 +105,17 @@ const c = React.createClass({
     closeCX(){
         this.setState({dialogCX:false})
     },
+    //打开删除对话框
+    openDEL(record){
+        if(record.id){
+            this.setState({dialogDEL:true,entity:record})
+        }else{
+            this.setState({dialogDEL: true})
+        }
+    },
+    closeDEL(){
+        this.setState({dialogDEL:false})
+    },
     formatDate(str){
         let date = new Date(str);
         return date.getFullYear()+'年'+(date.getMonth()+1)+'月'+date.getDate()+'日'
@@ -159,6 +172,8 @@ const c = React.createClass({
                       <a onClick={()=>{this.handleViewEdit(record)}}>修改</a>:null}
                     {record.ywzt_dm == 0 ?
                         <a onClick={()=>{this.openDiaBB(record)}}>报备</a>:null}
+                    {record.ywzt_dm == 0 ?
+                        <a onClick={()=>{this.openDEL(record)}}>删除</a>:null}
                     {record.ywzt_dm == 1 ?
                       <a onClick={()=>{this.openSF(record)}}>收费</a>:null}
                     {record.ywzt_dm == 1 ?
@@ -253,6 +268,14 @@ const c = React.createClass({
             onClose:this.closeQY,
             apiUrl:config.HOST + config.URI_API_PROJECT + '/ywbb/'
         };
+        /*设置删除对话框的参数*/
+        const diaDELSetting = {
+            data: this.state.entity,
+            visible:this.state.dialogDEL,
+            refreshList:this.refreshList,
+            onClose:this.closeDEL,
+            apiUrl:config.HOST + config.URI_API_PROJECT + '/ywbb/'
+        };
 
         /*通过控制state.view的值，实现页面上列表/详细信息等组件的切换*/
         const view = {
@@ -268,6 +291,7 @@ const c = React.createClass({
                 <DialogTH {...diaTHSetting}  />
                 <DialogCX {...diaCXSetting}  />
                 <DialogQY {...diaQYSetting}  />
+                <DialogDEL {...diaDELSetting}  />
                 {view[this.state.view]}
             </div>
     }

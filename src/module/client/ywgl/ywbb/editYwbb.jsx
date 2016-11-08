@@ -1,14 +1,12 @@
 import React from 'react'
-import {Spin, notification, Modal, Icon, Alert} from 'antd'
+import {Spin, notification, Modal, Icon, Alert,Button} from 'antd'
 import Panel from 'component/compPanel'
 import config from 'common/configuration.js'
 import req from 'common/request'
-import Stage0 from './stage0.jsx'
-import Stage1 from './stage1.jsx'
 import Stage from './stage.jsx'
-import AddSuccess from './commitSuccessScr';
-import LockedScr from './lockedScr'
+import AddSuccess from './commitSuccessScr'
 
+const PanelBar = Panel.ToolBar;
 
 const newYwbb = React.createClass({
     getDefaultProps(){
@@ -22,9 +20,6 @@ const newYwbb = React.createClass({
             loading: true,
             addSuccess: false,
             successResp: {},
-            stage: 0,
-            dataXY: {},
-            dataYW: {},
             dataJG: {},
             data: {},
             customer: {},
@@ -91,20 +86,25 @@ const newYwbb = React.createClass({
         this.addYwbb(values)
     },
     //获取修改报备的初始化信息：旗下执业人员/机构信息/报备明细
-    fetchYwbbMisc () {
-        const {miscUrl} = this.props;
-        return req({
+    async fetchData () {
+        const {miscUrl,ywbbUrl,id} = this.props;
+        let fetchmisc =  req({
             url: miscUrl,
             method: 'get'
-        })
+        });
+        let fetchmx = req({
+            url:ywbbUrl+`/${id}`,
+            method:'get'
+        });
+        let [misc, mx] = await Promise.all([fetchmisc(), fetchmx()]);
+        return {misc: misc, mx: mx}
     },
     componentDidMount(){
-        this.fetchYwbbMisc().then(resp=> {
-            if (!!resp.locked && !!resp.locked.length) {
-                this.setState({locked: resp.locked})
-            }
-            this.setState({dataJG: resp.jgxx, zysws: resp.zysws, loading: false})
+        this.fetchData().then(resp=> {
+            console.log('suc')
+            this.setState({dataJG: resp.misc.jgxx, zysws: resp.misc.zysws, data:resp.mx,loading: false})
         }).catch(e=> {
+            console.log('fail')
             let c = <div className="ywbb-new-loadfail"> 数据读取失败</div>;
             this.setState({loading: false, loaded: c})
         })
@@ -123,9 +123,15 @@ const newYwbb = React.createClass({
     },
 
     render(){
+        const {title} = this.props;
         let {data, zysws, addSuccess, successResp} = this.state;
+        const panelBar = <PanelBar>
+            <Button onClick={this.back}>
+                <Icon type="rollback"/>返回
+            </Button>
+        </PanelBar>;
 
-        return <Panel className="client-ywbb edit">
+        return <Panel className="client-ywbb edit" toolbar={panelBar} title={title} >
                 <div>
                     <Spin spinning={this.state.loading}>
                         {addSuccess && <AddSuccess data={successResp} type="add"/>}
@@ -136,7 +142,6 @@ const newYwbb = React.createClass({
                                                onFieldChange={this.handleFieldChange}/>}
                     </Spin>
                 </div>
-
         </Panel>
 
     }

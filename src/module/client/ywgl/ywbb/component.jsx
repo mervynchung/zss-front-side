@@ -22,27 +22,19 @@ const ywbb = React.createClass({
             }
         }
     },
-    fetchYwbb(param = {page: 1, pageSize: 20}){
-        const jid = auth.getJgid();
-        const token = auth.getToken();
-        const LIST_URL = config.HOST + config.URI_API_PROJECT + '/jg/'+jid+'/yw' ;
-        return req({
-            url: LIST_URL,
-            method: 'get',
-            type: 'json',
-            data: param,
-            headers:{'x-auth-token':token}
-        })
+    refreshList(){
+        this.refs.ywgl.refreshList()
     },
+
     render(){
         return <div className="client-ywbb">
             <div className="wrap">
                 <Tabs type="card">
                     <TabPane tab="业务报备记录" key="1">
-                        <YwbbGl />
+                        <YwbbGl ref="ywgl" />
                     </TabPane>
                     <TabPane tab= {<span><Icon type="plus-circle-o" />添加</span>} key="2">
-                        <NewYwbb />
+                        <NewYwbb refreshList={this.refreshList}/>
                     </TabPane>
                 </Tabs>
             </div>

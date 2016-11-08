@@ -63,6 +63,24 @@ let form = React.createClass({
             qmsws: ''
         }
     },
+    reset(e){
+        e.preventDefault();
+        this.props.form.resetFields();
+    },
+    commit(){
+        this.props.form.validateFields((errors, values) => {
+            console.log('valid')
+            if (!!errors) {
+                return;
+            }
+            console.log(values);
+            //this.props.onSubmit({stage: 1, values: values, customer: this.state.customer});
+        })
+    },
+    save(){
+        let values = this.props.form.getFieldsValue();
+        this.props.onSave(values);
+    },
     checkSssq(rule, value, callback){
         if (value && (!(value[0] instanceof Date) && !(value[1] instanceof Date))) {
             callback("请输入所属时期起止")
@@ -94,23 +112,7 @@ let form = React.createClass({
         }
     },
 
-    reset(e){
-        e.preventDefault();
-        this.props.form.resetFields();
-    },
-    next(){
-        this.props.form.validateFields((errors, values) => {
-            if (!!errors) {
-                return;
-            }
-            values = utils.transEmpty2Null(values);
-            this.props.onSubmit({stage: 1, values: values, customer: this.state.customer});
-        })
-    },
-    save(){
-        let values = this.props.form.getFieldsValue();
-        this.props.onSave(values);
-    },
+
     getCustomers(){
         this.setState({customerModal: true})
     },
@@ -144,7 +146,7 @@ let form = React.createClass({
             }
         }
         this.setState({cs: cs.join('')});
-        setFieldsValue({CITY:option[0].label});
+        setFieldsValue({CITY:option[0]?option[0].label:''});
         if (sbdm == 1) {
             setFieldsValue({ZGSWJG: '广东省'+cs.join('') + '国家税务局'})
         } else {
@@ -193,6 +195,7 @@ let form = React.createClass({
     render(){
         const {getFieldProps} = this.props.form;
         const {YWLX_DM,ISWS} = this.props.data;
+        console.log(ISWS,YWLX_DM)
         const xyhProps = getFieldProps('XYH', {
             rules: [
                 {required: true, whitespace: true, message: '请填写协议文号'}
@@ -484,7 +487,7 @@ let form = React.createClass({
                         <SelectorSB  {...getFieldProps('SB_DM', {initialValue: '1', onChange: this.getSwjg2})}/>
                     </FormItem>
                 </Col>
-                {!!ISWS ? swjg[ISWS.value] : swjg['N']}
+                {(!!ISWS && !!ISWS.value) ? swjg[ISWS.value] : swjg['N']}
                 <Col span="6" key="3">
                     <FormItem style={{width: '90%'}}>
                         <Input placeholder="主管税务机关名称"  {...getFieldProps('ZGSWJG')}/>
