@@ -83,7 +83,7 @@ const detail = React.createClass({
                         <td>所属时期</td>
                         <td>{data.sstarttime} 至 {data.sendtime}</td>
                         <td>业务所属地</td>
-                        <td>{data.cs != '省外'? `${data.cs} / ${data.qx}`: `${data.city}` }</td>
+                        <td>{data.cs != '省外'? ''.concat(data.cs,data.qx).replace(/null/gi,'') : `${data.city}` }</td>
                     </tr>
                     <tr>
                         <td>业务所属税务机关</td>

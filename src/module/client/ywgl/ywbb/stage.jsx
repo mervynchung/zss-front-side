@@ -1,6 +1,5 @@
 import React from 'react'
 import {Form, Row, Col, Input, Button, InputNumber, DatePicker, Select} from 'antd'
-import utils from 'common/utils'
 import {SelectorYWLX, SelectorISWS, SelectorSB, SelectorHY, SelectorDQ,SelectorQGSS} from 'component/compSelector'
 import Customer from './customer.jsx'
 
@@ -68,13 +67,12 @@ let form = React.createClass({
         this.props.form.resetFields();
     },
     commit(){
-        this.props.form.validateFields((errors, values) => {
-            console.log('valid')
+        this.props.form.validateFields({force: true},(errors, values) => {
             if (!!errors) {
                 return;
             }
-            console.log(values);
-            //this.props.onSubmit({stage: 1, values: values, customer: this.state.customer});
+            console.log(values)
+            this.props.onCommit(values);
         })
     },
     save(){
@@ -97,21 +95,12 @@ let form = React.createClass({
     },
     checkDq(rule, value, callback){
         let isws = this.props.form.getFieldValue('ISWS');
-        if (isws === 'N' && !value) {
+        if (isws === 'N' && (!value || value.length == 0) ) {
             callback("必填项")
         } else {
             callback()
         }
     },
-    checkQGSS(rule, value, callback){
-        let isws = this.props.form.getFieldValue('ISWS');
-        if (isws === 'Y' && !value) {
-            callback("必填项")
-        } else {
-            callback()
-        }
-    },
-
 
     getCustomers(){
         this.setState({customerModal: true})
@@ -130,7 +119,8 @@ let form = React.createClass({
             NSRSBHDF: entity.NSRSBHDF,
             LXR: entity.LXR,
             LXDH: entity.LXDH,
-            DWDZ: entity.DWDZ
+            DWDZ: entity.DWDZ,
+            CUSTOMER_ID:entity.ID
         })
     },
     getSwjg1(value, option){
@@ -195,7 +185,6 @@ let form = React.createClass({
     render(){
         const {getFieldProps} = this.props.form;
         const {YWLX_DM,ISWS} = this.props.data;
-        console.log(ISWS,YWLX_DM)
         const xyhProps = getFieldProps('XYH', {
             rules: [
                 {required: true, whitespace: true, message: '请填写协议文号'}
@@ -235,11 +224,7 @@ let form = React.createClass({
             ],
             onChange: this.getSwjg1
         });
-        const cityProps = getFieldProps('CITY');
         const qgssProps = getFieldProps('QGSS', {
-            rules: [
-                {validator: this.checkQGSS}
-            ],
             onChange: this.getSwjg3
         });
 
@@ -276,6 +261,8 @@ let form = React.createClass({
                 {required: true, type: 'number', message: '必填项'}
             ]
         });
+        const cityProps = getFieldProps('CITY');
+        const khProps = getFieldProps('CUSTOMER_ID');
 
         const swjg = {};
         swjg['Y']=<Col span="5" key="2">

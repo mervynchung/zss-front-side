@@ -73,12 +73,10 @@ const newYwbb = React.createClass({
         this.addYwbb(values)
     },
     //提交业务报备
-    handleCommit(){
+    handleCommit(param){
         let values = {
-            dataXY: this.state.dataXY,
-            dataYW: this.state.dataYW,
+            formValue:param,
             dataJG: this.state.dataJG,
-            customer: this.state.customer,
             type: 'commit'
         };
         this.setState({loading: true});
