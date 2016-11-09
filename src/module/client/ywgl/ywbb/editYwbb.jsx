@@ -1,14 +1,14 @@
 import React from 'react'
-import {Spin, notification, Modal, Icon, Alert,Button} from 'antd'
+import {Spin, notification, Modal, Icon, Alert,Button,Row,Col} from 'antd'
 import Panel from 'component/compPanel'
 import config from 'common/configuration.js'
 import req from 'common/request'
 import Stage from './stage.jsx'
-import AddSuccess from './commitSuccessScr'
+import AddSuccess from './commitSuccessScr';
 
 const PanelBar = Panel.ToolBar;
 
-const newYwbb = React.createClass({
+const c = React.createClass({
     getDefaultProps(){
         return {
             ywbbUrl: config.HOST + config.URI_API_PROJECT + '/ywbb',
@@ -18,18 +18,18 @@ const newYwbb = React.createClass({
     getInitialState(){
         return {
             loading: true,
-            addSuccess: false,
             successResp: {},
             dataJG: {},
             data: {},
             customer: {},
             zysws: [],
-            locked: []
+            locked: [],
+            view:'form'
         }
     },
 
     resetNew(){
-        this.setState({addSuccess:false})
+        this.setState({view:'form'})
     },
     //退回用户管理界面
     back(){
@@ -37,26 +37,27 @@ const newYwbb = React.createClass({
     },
     //添加新报备信息
     addYwbb(param){
-        const {ywbbUrl} = this.props;
+        const {ywbbUrl,refreshList} = this.props;
         return req({
             url: ywbbUrl,
             method: 'post',
             data: param
         }).then(resp=> {
-            this.setState({loading: false, addSuccess: true, successResp: resp});
+            this.setState({loading: false, view: 'success', successResp: resp});
+            refreshList();
         }).catch(e=> {
             let r = JSON.parse(e.responseText);
             this.setState({loading: false});
             if (e.status == 403) {
                 Modal.error({
-                    title: '业务信息提交失败',
+                    title: '新建业务失败',
                     content: r.text
                 });
             } else {
                 notification.error({
                     duration: 3,
                     message: '操作失败',
-                    description: '网络访问故障'
+                    description: '网络故障，信息无法提交'
                 });
             }
         })
@@ -74,12 +75,10 @@ const newYwbb = React.createClass({
         this.addYwbb(values)
     },
     //提交业务报备
-    handleCommit(){
+    handleCommit(param){
         let values = {
-            dataXY: this.state.dataXY,
-            dataYW: this.state.dataYW,
+            formValue:param,
             dataJG: this.state.dataJG,
-            customer: this.state.customer,
             type: 'commit'
         };
         this.setState({loading: true});
@@ -92,21 +91,36 @@ const newYwbb = React.createClass({
             url: miscUrl,
             method: 'get'
         });
-        let fetchmx = req({
+        let fetchmx =  req({
             url:ywbbUrl+`/${id}`,
             method:'get'
         });
-        let [misc, mx] = await Promise.all([fetchmisc(), fetchmx()]);
+        let [misc, mx] = await Promise.all([fetchmisc, fetchmx]);
         return {misc: misc, mx: mx}
     },
+
     componentDidMount(){
         this.fetchData().then(resp=> {
-            console.log('suc')
-            this.setState({dataJG: resp.misc.jgxx, zysws: resp.misc.zysws, data:resp.mx,loading: false})
+            let result = {};
+            for (let prop in resp.mx) {
+                result[prop] = {value: resp.mx[prop]}
+            }
+            result.DQ = {
+                value:[resp.mx.cs_dm,resp.mx.qx_dm]
+            };
+            result.QGSS = {
+                value:[]
+            };
+            result.BBRQ = {
+                value:new Date(resp.mx.BBRQ)
+            };
+            result.SSSQ = {
+                value:[new Date(resp.mx.SSTARTTIME),new Date(resp.mx.SENDTIME)]
+            }
+            this.setState({dataJG: resp.misc.jgxx, zysws: resp.misc.zysws, data:result,loading: false})
         }).catch(e=> {
-            console.log('fail')
-            let c = <div className="ywbb-new-loadfail"> 数据读取失败</div>;
-            this.setState({loading: false, loaded: c})
+            console.log('fail',e)
+            this.setState({loading: false, view:'fail'})
         })
     },
     handleFieldChange(field){
@@ -124,27 +138,33 @@ const newYwbb = React.createClass({
 
     render(){
         const {title} = this.props;
-        let {data, zysws, addSuccess, successResp} = this.state;
+        let {data, zysws, successResp} = this.state;
         const panelBar = <PanelBar>
             <Button onClick={this.back}>
                 <Icon type="rollback"/>返回
             </Button>
         </PanelBar>;
 
+        let view ={
+            'fail' : <div className="ywbb-new-loadfail"> 初始数据读取失败，请重新刷新页面</div>,
+            'success':<div>
+                <AddSuccess data={successResp} type="add"/>
+                <Row><Col span="4" offset={10}><Button onClick={this.resetNew}>继续录入</Button></Col></Row>
+            </div>,
+            'form':<Stage data={data}
+                          zysws={zysws}
+                          onSave={this.handleSave}
+                          onCommit={this.handleCommit}
+                          onFieldChange={this.handleFieldChange}/>
+        };
+
         return <Panel className="client-ywbb edit" toolbar={panelBar} title={title} >
-                <div>
-                    <Spin spinning={this.state.loading}>
-                        {addSuccess && <AddSuccess data={successResp} type="add"/>}
-                        {!addSuccess && <Stage data={data}
-                                               zysws={zysws}
-                                               onSave={this.handleSave}
-                                               onCommit={this.handleCommit}
-                                               onFieldChange={this.handleFieldChange}/>}
-                    </Spin>
-                </div>
+            <Spin spinning={this.state.loading}>
+                {view[this.state.view]}
+            </Spin>
         </Panel>
 
     }
 });
 
-module.exports = newYwbb;
+module.exports = c;

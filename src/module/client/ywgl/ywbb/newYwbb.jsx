@@ -3,8 +3,6 @@ import {Spin, notification, Modal, Icon, Alert,Button,Row,Col} from 'antd'
 import Panel from 'component/compPanel'
 import config from 'common/configuration.js'
 import req from 'common/request'
-import Stage0 from './stage0.jsx'
-import Stage1 from './stage1.jsx'
 import Stage from './stage.jsx'
 import AddSuccess from './commitSuccessScr';
 import LockedScr from './lockedScr'
@@ -114,7 +112,7 @@ const newYwbb = React.createClass({
     },
 
     render(){
-        let {data, zysws, addSuccess, successResp, locked,qmsws} = this.state;
+        let {data, zysws, successResp, locked} = this.state;
         let view ={
             'locked' : <LockedScr data={locked}/>,
             'fail' : <div className="ywbb-new-loadfail"> 初始数据读取失败，请重新刷新页面</div>,
@@ -127,17 +125,6 @@ const newYwbb = React.createClass({
                           onSave={this.handleSave}
                           onCommit={this.handleCommit}
                           onFieldChange={this.handleFieldChange}/>
-        };
-        let stageContent = {
-            '0': this.state.loaded || <Stage0 data={data}
-                                              onSubmit={this.handleStage0Submit}
-                                              onSave={this.handleSave}/>,
-            '1': addSuccess ? <AddSuccess data={successResp} type="add"/> :
-                <Stage1 onStageChange={this.handleStageChange}
-                        data={data} zysws={zysws}
-                        onSave={this.handleSave}
-                        onCommit={this.handleCommit}
-                        onSubmit={this.handleStage1Submit}/>
         };
 
         return <Panel className="new-ywbb">

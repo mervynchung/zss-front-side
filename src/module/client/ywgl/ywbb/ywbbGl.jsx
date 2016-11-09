@@ -3,7 +3,6 @@ import {Table, Modal, Row, Col, Button, Icon, Alert} from 'antd'
 import List from './list'
 import Detail from './detail'
 import DialogSF from './dialogSF'
-import DialogBB from './dialogBB'
 import DialogTH from './dialogTH'
 import DialogCX from './dialogCX'
 import DialogQY from './dialogQY'
@@ -22,7 +21,6 @@ const c = React.createClass({
             listState: {},
             entity: {},
             dialogSF: false,
-            dialogBB:false,
             dialogTH:false,
             dialogCX:false,
             dialogQY:false,
@@ -83,17 +81,6 @@ const c = React.createClass({
         this.setState({dialogQY: false});
     },
 
-    //打开报备对话框
-    openDiaBB(record){
-        if(record.id){
-            this.setState({dialogBB:true,entity:record})
-        }else{
-            this.setState({dialogBB: true})
-        }
-    },
-    closeDiaBB(){
-        this.setState({dialogBB:false})
-    },
     //打开撤销对话框
     openCX(record){
         if(record.id){
@@ -171,8 +158,6 @@ const c = React.createClass({
                     {record.ywzt_dm == 0 ?
                       <a onClick={()=>{this.handleViewEdit(record)}}>修改</a>:null}
                     {record.ywzt_dm == 0 ?
-                        <a onClick={()=>{this.openDiaBB(record)}}>报备</a>:null}
-                    {record.ywzt_dm == 0 ?
                         <a onClick={()=>{this.openDEL(record)}}>删除</a>:null}
                     {record.ywzt_dm == 1 ?
                       <a onClick={()=>{this.openSF(record)}}>收费</a>:null}
@@ -236,14 +221,6 @@ const c = React.createClass({
             apiUrl:config.HOST + config.URI_API_PROJECT + '/ywbb/'
         };
 
-        /*设置提交报备对话框的参数*/
-        const diaBBSetting = {
-            data: this.state.entity,
-            visible:this.state.dialogBB,
-            refreshList:this.refreshList,
-            onClose:this.closeDiaBB,
-            apiUrl:config.HOST + config.URI_API_PROJECT + '/ywbb/'
-        };
         /*设置退回申请对话框的参数*/
         const diaTHSetting = {
             data: this.state.entity,
@@ -287,7 +264,6 @@ const c = React.createClass({
 
         return <div className="ywbbgl">
                 <DialogSF {...dialogSFSetting}  />
-                <DialogBB {...diaBBSetting}  />
                 <DialogTH {...diaTHSetting}  />
                 <DialogCX {...diaCXSetting}  />
                 <DialogQY {...diaQYSetting}  />
