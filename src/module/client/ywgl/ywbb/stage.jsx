@@ -71,7 +71,6 @@ let form = React.createClass({
             if (!!errors) {
                 return;
             }
-            console.log(values)
             this.props.onCommit(values);
         })
     },
@@ -114,7 +113,7 @@ let form = React.createClass({
             customer: entity
         });
         this.props.form.setFieldsValue({
-            DWMC: entity.DWMC,
+            WTDW: entity.DWMC,
             NSRSBH: entity.NSRSBH,
             NSRSBHDF: entity.NSRSBHDF,
             LXR: entity.LXR,
@@ -190,7 +189,7 @@ let form = React.createClass({
                 {required: true, whitespace: true, message: '请填写协议文号'}
             ]
         });
-        const dwmcProps = getFieldProps('DWMC', {
+        const dwmcProps = getFieldProps('WTDW', {
             rules: [
                 {required: true, whitespace: true, message: '请选择一个委托企业单位'}
             ]

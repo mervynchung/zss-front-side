@@ -99,27 +99,38 @@ const c = React.createClass({
         return {misc: misc, mx: mx}
     },
 
+    formatData(data){
+        data.DQ = [data.CS_DM,data.QX_DM];
+        data.QGSS = [];
+        data.BBRQ = new Date(data.BBRQ);
+        data.SSSQ = [new Date(data.SSTARTTIME),new Date(data.SENDTIME)];
+        data.BGRQ = new Date(data.BGRQ);
+        let qmsws = data.QMSWSID.split(',');
+        data.QMSWS = [{key:qmsws[0]},{key:qmsws[1]}];
+        data.YWLX_DM = ''+data.YWLX_DM;
+        data.SB_DM = ''+data.SB_DM;
+        data.ZSFS_DM = ''+data.ZSFS_DM;
+        data.HY_ID = ''+data.HY_ID;
+        data.NSRXZ =''+data.NSRXZ;
+        data.WTDWXZ_DM = ''+data.WTDWXZ_DM;
+        data.NSRSBH = data.WTDWNSRSBH;
+        data.NSRSBHDF = data.WTDWNSRSBHDF;
+        data.LXR = data.WTDWLXR;
+        data.LXDH = data.WTDWLXDH;
+        data.LXDZ = data.WTDXLXDZ;
+        data.DWDZ = data.WTDXLXDZ;
+    },
+
     componentDidMount(){
         this.fetchData().then(resp=> {
             let result = {};
+            this.formatData(resp.mx);
             for (let prop in resp.mx) {
                 result[prop] = {value: resp.mx[prop]}
             }
-            result.DQ = {
-                value:[resp.mx.cs_dm,resp.mx.qx_dm]
-            };
-            result.QGSS = {
-                value:[]
-            };
-            result.BBRQ = {
-                value:new Date(resp.mx.BBRQ)
-            };
-            result.SSSQ = {
-                value:[new Date(resp.mx.SSTARTTIME),new Date(resp.mx.SENDTIME)]
-            }
             this.setState({dataJG: resp.misc.jgxx, zysws: resp.misc.zysws, data:result,loading: false})
         }).catch(e=> {
-            console.log('fail',e)
+            console.log(e)
             this.setState({loading: false, view:'fail'})
         })
     },
