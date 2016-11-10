@@ -12,7 +12,7 @@ const c = React.createClass({
     getDefaultProps(){
         return {
             ywbbUrl: config.HOST + config.URI_API_PROJECT + '/ywbb',
-            miscUrl: config.HOST + config.URI_API_PROJECT + '/ywbbmisc/'
+            miscUrl: config.HOST + config.URI_API_PROJECT + '/ywbbmisc'
         }
     },
     getInitialState(){
@@ -35,22 +35,22 @@ const c = React.createClass({
     back(){
         this.props.onBack();
     },
-    //添加新报备信息
-    addYwbb(param){
-        const {ywbbUrl,refreshList} = this.props;
+    //修改报备信息
+    updateYwbb(param){
+        const {ywbbUrl,id} = this.props;
         return req({
-            url: ywbbUrl,
-            method: 'post',
+            url: ywbbUrl + `/${id}`,
+            method: 'put',
             data: param
         }).then(resp=> {
             this.setState({loading: false, view: 'success', successResp: resp});
-            refreshList();
         }).catch(e=> {
+            console.log(e)
             let r = JSON.parse(e.responseText);
             this.setState({loading: false});
             if (e.status == 403) {
                 Modal.error({
-                    title: '新建业务失败',
+                    title: '更新业务信息失败',
                     content: r.text
                 });
             } else {
@@ -67,22 +67,28 @@ const c = React.createClass({
     handleSave(param){
 
         let values = {
-            formValue:param,
-            dataJG: this.state.dataJG,
-            type: 'save'
+            data:{
+                formValue:param,
+                dataJG: this.state.dataJG,
+            },
+            //类型1为保存修改信息操作
+            lx:1
         };
         this.setState({loading: true});
-        this.addYwbb(values)
+        this.updateYwbb(values)
     },
     //提交业务报备
     handleCommit(param){
         let values = {
-            formValue:param,
-            dataJG: this.state.dataJG,
-            type: 'commit'
+            data:{
+                formValue:param,
+                dataJG: this.state.dataJG
+            },
+            //类型3为报备操作
+            lx:3
         };
         this.setState({loading: true});
-        this.addYwbb(values)
+        this.updateYwbb(values,3)
     },
     //获取修改报备的初始化信息：旗下执业人员/机构信息/报备明细
     async fetchData () {
@@ -101,13 +107,14 @@ const c = React.createClass({
 
     formatData(data){
         data.DQ = [data.CS_DM,data.QX_DM];
+        data.DQ = data.DQ.filter(t=> t!=undefined && t!==null );
+        data.DQ = data.DQ.length > 0 ? data.DQ : null;
         data.QGSS = [];
-        data.BBRQ = new Date(data.BBRQ);
-        data.SSSQ = [new Date(data.SSTARTTIME),new Date(data.SENDTIME)];
-        data.BGRQ = new Date(data.BGRQ);
-        let qmsws = data.QMSWSID.split(',');
-        data.QMSWS = [{key:qmsws[0]},{key:qmsws[1]}];
-        data.YWLX_DM = ''+data.YWLX_DM;
+        data.SSSQ = !!data.SSTARTTIME ? [new Date(data.SSTARTTIME),new Date(data.SENDTIME)] : null;
+        data.BGRQ = !!data.BGRQ ? new Date(data.BGRQ) : null;
+        let qmsws = !!data.QMSWSID?data.QMSWSID.split(','):[];
+        data.QMSWS = qmsws.length ? qmsws.map(t=>({key:t})) : [];
+        data.YWLX_DM = data.YWLX_DM != null ? ''+data.YWLX_DM : null;
         data.SB_DM = ''+data.SB_DM;
         data.ZSFS_DM = ''+data.ZSFS_DM;
         data.HY_ID = ''+data.HY_ID;
@@ -118,7 +125,6 @@ const c = React.createClass({
         data.LXR = data.WTDWLXR;
         data.LXDH = data.WTDWLXDH;
         data.LXDZ = data.WTDXLXDZ;
-        data.DWDZ = data.WTDXLXDZ;
     },
 
     componentDidMount(){
@@ -126,7 +132,9 @@ const c = React.createClass({
             let result = {};
             this.formatData(resp.mx);
             for (let prop in resp.mx) {
-                result[prop] = {value: resp.mx[prop]}
+                if(resp.mx[prop] != null){
+                    result[prop] = {value: resp.mx[prop]}
+                }
             }
             this.setState({dataJG: resp.misc.jgxx, zysws: resp.misc.zysws, data:result,loading: false})
         }).catch(e=> {
@@ -159,8 +167,7 @@ const c = React.createClass({
         let view ={
             'fail' : <div className="ywbb-new-loadfail"> 初始数据读取失败，请重新刷新页面</div>,
             'success':<div>
-                <AddSuccess data={successResp} type="add"/>
-                <Row><Col span="4" offset={10}><Button onClick={this.resetNew}>继续录入</Button></Col></Row>
+                <AddSuccess  type="edit"/>
             </div>,
             'form':<Stage data={data}
                           zysws={zysws}

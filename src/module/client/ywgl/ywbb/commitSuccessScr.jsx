@@ -4,7 +4,8 @@ import {Alert} from 'antd'
 const c = React.createClass({
     getDefaultProps(){
         return{
-            type:'add'
+            type:'add',
+            data:{}
         }
     },
 

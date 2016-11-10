@@ -118,7 +118,7 @@ let form = React.createClass({
             NSRSBHDF: entity.NSRSBHDF,
             LXR: entity.LXR,
             LXDH: entity.LXDH,
-            DWDZ: entity.DWDZ,
+            LXDZ: entity.DWDZ,
             CUSTOMER_ID:entity.ID
         })
     },
@@ -414,7 +414,7 @@ let form = React.createClass({
                         <FormItem
                             labelCol={{span: 4}} wrapperCol={{span: 12}}
                             label="委托企业联系地址">
-                            <Input disabled {...getFieldProps('DWDZ')}/>
+                            <Input disabled {...getFieldProps('LXDZ')}/>
                         </FormItem>
                     </Col>
                 </Row>
