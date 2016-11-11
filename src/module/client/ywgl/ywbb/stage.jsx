@@ -183,7 +183,7 @@ let form = React.createClass({
     },
     render(){
         const {getFieldProps} = this.props.form;
-        const {YWLX_DM,ISWS} = this.props.data;
+        const {YWLX_DM,ISWS,ZT} = this.props.data;
         const xyhProps = getFieldProps('XYH', {
             rules: [
                 {required: true, whitespace: true, message: '请填写协议文号'}
@@ -598,10 +598,11 @@ let form = React.createClass({
                         size="large"
                         style={{marginRight: '16px'}}
                         onClick={this.save}>保存</Button>
+                    {!!zt && zt === 0 ?
                     <Button
                         size="large"
                         type="primary"
-                        onClick={this.commit}>报备</Button>
+                        onClick={this.commit}>报备</Button> :null}
 
                 </Col>
             </Row>

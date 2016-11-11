@@ -335,10 +335,14 @@
 }
 
 @media print {
-    body {min-width: initial;background: none}
+    body {min-width: initial;background: none;color:#000}
 
     .dy-ywcover.c26 {
         background:none;
     }
+    @page  {
+        margin: 0cm;
+    }
+
 }
 

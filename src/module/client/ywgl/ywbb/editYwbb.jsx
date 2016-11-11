@@ -35,17 +35,16 @@ const c = React.createClass({
     back(){
         this.props.onBack();
     },
-    //修改报备信息
-    updateYwbb(param){
+    //修改报备信息,type为反馈信息组件类型，分别是edit和add
+    updateYwbb(param,type){
         const {ywbbUrl,id} = this.props;
         return req({
             url: ywbbUrl + `/${id}`,
             method: 'put',
             data: param
         }).then(resp=> {
-            this.setState({loading: false, view: 'success', successResp: resp});
+            this.setState({loading: false, view: 'success', successResp: resp.data,type:type});
         }).catch(e=> {
-            console.log(e)
             let r = JSON.parse(e.responseText);
             this.setState({loading: false});
             if (e.status == 403) {
@@ -75,7 +74,7 @@ const c = React.createClass({
             lx:1
         };
         this.setState({loading: true});
-        this.updateYwbb(values)
+        this.updateYwbb(values,'edit')
     },
     //提交业务报备
     handleCommit(param){
@@ -88,7 +87,7 @@ const c = React.createClass({
             lx:3
         };
         this.setState({loading: true});
-        this.updateYwbb(values,3)
+        this.updateYwbb(values,'add')
     },
     //获取修改报备的初始化信息：旗下执业人员/机构信息/报备明细
     async fetchData () {
@@ -138,7 +137,6 @@ const c = React.createClass({
             }
             this.setState({dataJG: resp.misc.jgxx, zysws: resp.misc.zysws, data:result,loading: false})
         }).catch(e=> {
-            console.log(e)
             this.setState({loading: false, view:'fail'})
         })
     },
@@ -157,7 +155,7 @@ const c = React.createClass({
 
     render(){
         const {title} = this.props;
-        let {data, zysws, successResp} = this.state;
+        let {data, zysws, successResp,type} = this.state;
         const panelBar = <PanelBar>
             <Button onClick={this.back}>
                 <Icon type="rollback"/>返回
@@ -167,7 +165,7 @@ const c = React.createClass({
         let view ={
             'fail' : <div className="ywbb-new-loadfail"> 初始数据读取失败，请重新刷新页面</div>,
             'success':<div>
-                <AddSuccess  type="edit"/>
+                <AddSuccess data={successResp} type={type}/>
             </div>,
             'form':<Stage data={data}
                           zysws={zysws}

@@ -38,7 +38,13 @@ const c = React.createClass({
     },
     //返回list视图
     backToList(){
-        this.setState({view: 'list'})
+        this.setState({view: 'list'});
+    },
+
+    //从edit视图返回list
+    async editToList(){
+        await this.setState({view: 'list'});
+        await this.refreshList()
     },
     //抓取当前list分页状态
     grabListState(state){
@@ -151,11 +157,11 @@ const c = React.createClass({
             title: '操作',
             key: 'action',
             fixed: 'right',
-            width: 180,
+            width: 220,
             render: (text, record)=> {
                 let actGroup = <span className="act-group">
                     <a onClick={()=>{this.handleViewDetail(record)}}>明细</a>
-                    {record.ywzt_dm == 0 ?
+                    {(record.ywzt_dm == 0 || record.ywzt_dm == 1 || record.ywzt_dm == 3) && record.overtime === 0 ?
                       <a onClick={()=>{this.handleViewEdit(record)}}>修改</a>:null}
                     {record.ywzt_dm == 0 ?
                         <a onClick={()=>{this.openDEL(record)}}>删除</a>:null}
@@ -163,9 +169,9 @@ const c = React.createClass({
                       <a onClick={()=>{this.openSF(record)}}>收费</a>:null}
                     {record.ywzt_dm == 1 ?
                         <a onClick={()=>{this.printCover(record)}}>打印</a>:null}
-                    {record.ywzt_dm == 1 ?
+                    {record.ywzt_dm == 1 || record.ywzt_dm == 3 ?
                       <a onClick={()=>{this.openTH(record)}}>退回</a>:null}
-                    {record.ywzt_dm == 1 ?
+                    {record.ywzt_dm == 1 || record.ywzt_dm == 3?
                       <a onClick={()=>{this.openCX(record)}}>撤销</a>:null}
                     {record.ywzt_dm == 5 ?
                         <a onClick={()=>{this.openQY(record)}}>启用</a>:null}
@@ -209,7 +215,7 @@ const c = React.createClass({
         const editSetting = {
             //设置返回主视图调用的方法
             id:this.state.entity.id,
-            onBack: this.backToList
+            onBack: this.editToList
         };
 
         /*设置收费操作对话框的参数*/
