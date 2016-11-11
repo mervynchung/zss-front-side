@@ -214,7 +214,7 @@ const jgcx = React.createClass({
         })
     },
     allClean(){
-        this.setState({selectedRowKeys: []});
+        this.setState({selectedRowKeys: [] });
     },
     componentDidMount() { //REACT提供懒加载方法，懒加载时使用，且方法名必须为componentDidMount
         this.fetch_jgcx(); //异步调用后台服务器方法fetch_jgcx
@@ -231,7 +231,56 @@ const jgcx = React.createClass({
             title: '所属年度',
             dataIndex: 'nd',
             key: 'nd'
-        }, {
+        },{
+            title: 'Address',
+            children: [
+                  {
+                    title: 'Street',
+                    dataIndex: 'street',
+                    key: 'street',
+                    width: 200,
+                  },
+                      {
+                        title: 'Block',
+                        children: [
+                          {
+                            title: 'Building',
+                            children: [
+                          {
+                            title: 'Building',
+                            children: [
+                          {
+                            title: 'Building',
+                            dataIndex: 'building',
+                            key: 'building',
+                            width: 50,
+                          },
+                      {
+                        title: 'Door No.',
+                        dataIndex: 'number',
+                        key: 'number',
+                        width: 100,
+                      },
+                ],
+                          },
+                      {
+                        title: 'Door No.',
+                        dataIndex: 'number',
+                        key: 'number',
+                        width: 100,
+                      },
+                ],
+                          },
+                      {
+                        title: 'Door No.',
+                        dataIndex: 'number',
+                        key: 'number',
+                        width: 100,
+                      },
+                ],
+              },
+            ],
+      },{
             title: '单位名称',
             dataIndex: 'dwmc',
             key: 'dwmc',
@@ -347,6 +396,7 @@ const jgcx = React.createClass({
             </div>
         </ToolBar>;
         const rowSelection = {
+            selectedRowKeys:this.state.selectedRowKeys,
             onChange: this.onSelectChange,
             getCheckboxProps: record => ({
                 disabled: !record.issd == false  // 配置无法勾选的列

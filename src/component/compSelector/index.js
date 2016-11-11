@@ -16,7 +16,7 @@ var selector = {
     SelectorJGXZ: require('./jgxz'), //机构性质
     SelectorSWSXZ: require('./swsxz'), //机构性质
     SelectorMZ: require('./mz'),//民族
-    SelectorZW: require('./zw'),//民族
+    SelectorZW: require('./zw'),//职务
     SelectorZZMM: require('./zzmm'), //政治面貌
     SelectorNJJL: require('./njjl'), //年检结论
     SelectorRYZT: require('./ryzt'), //人员状态

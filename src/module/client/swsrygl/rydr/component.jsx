@@ -7,8 +7,6 @@ import auth from 'common/auth'
 
 const API_URL = config.HOST+config.URI_API_PROJECT + '/swsrycx/zyglscdy/';
 const API_URL_CYDR = config.HOST+config.URI_API_PROJECT + '/spapi/fspsq/cydrsq';
-const API_URL_ZYRFS = config.HOST+config.URI_API_PROJECT + '/spapi/fspsq/zydrzssq';
-const API_URL_CYRFS = config.HOST+config.URI_API_PROJECT + '/spapi/fspsq/cydrzssq';
 const API_URL_ZYDR = config.HOST+config.URI_API_PROJECT + '/spapi/spsq/zydrsq';
 const API_URL_FZYZZY = config.HOST+config.URI_API_PROJECT + '/spapi/spsq/fzyzzysq';
 const createForm = Form.create;
@@ -66,8 +64,6 @@ handleSubmit(ry){
                                 switch(ry){
                                     case 1: squrls=API_URL_ZYDR;med="post";break;
                                     case 2: squrls=API_URL_CYDR;break;
-                                    case 3: squrls=API_URL_ZYRFS;break;
-                                    case 4: squrls=API_URL_CYRFS;break;
                                     case 5: squrls=API_URL_FZYZZY;ls.ydw=resp[0].ZZDW;med="post";break;
                                 }
                                   req({
@@ -160,8 +156,6 @@ handleSubmit(ry){
                     <Tabs defaultActiveKey="1" onChange={this.callback}>
                         <TabPane tab="执业税务师调入" key="1">{tabConst}</TabPane>
                         <TabPane tab="从业人员调入" key="2">{tabConst}</TabPane>
-                        <TabPane tab="分所执业税务师调入主所" key="3">{tabConst}</TabPane>
-                        <TabPane tab="分所从业人员调入主所" key="4">{tabConst}</TabPane>
                         <TabPane tab="非执业税务师转执业" key="5">{tabConst}</TabPane>
                   </Tabs>
                 

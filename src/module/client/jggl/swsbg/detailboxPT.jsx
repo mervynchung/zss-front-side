@@ -30,7 +30,7 @@ let detailBox = React.createClass({
                 Modal.info({ title: '提示', content: (<div><p><b>请填写所有必填项</b></p> </div>)});
                 return;
           }
-        let value = this.props.form.getFieldsValue();
+        let value = values;
         if (!!this.props.nbjgsz) {
                 let nbjgsz=[];
                 for (let i = 0; i < this.props.nbjgsz.rowNum; i++) {
@@ -52,7 +52,7 @@ let detailBox = React.createClass({
                 var dd = value[key].Format("yyyy-MM-dd");
                 value[key]=dd;
             }
-            if (old[key]!=value[key]) {
+            if (old[key]!=value[key]&&key!='nbjgsz') {
                 if (value[key]=='') {//空值处理
                     ls.push({mc:Model.props[key],jzhi:old[key],xzhi:null});
                     }else{
