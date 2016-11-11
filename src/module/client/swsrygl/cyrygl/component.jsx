@@ -9,7 +9,7 @@ import auth from 'common/auth'
 import Model from './model.js' 
 import SearchForm from './searchForm'
 import { Link } from 'react-router'
-import {  DatePicker,Modal,Form, Input, Select,Table, Icon,Tabs,Button,Row,Col,message,Dropdown,Menu,Spin,Radio,Upload }from 'antd'
+import {  DatePicker,Modal,Form, Input, Select,Table, Icon,Tabs,Button,Row,Col,message,Dropdown,Menu,Spin,Radio,Upload,Popconfirm }from 'antd'
 // 标签定义
 const TabPane = Tabs.TabPane;
 const RadioGroup = Radio.Group;
@@ -19,6 +19,7 @@ const API_URL_ZFZY= config.HOST+config.URI_API_PROJECT + '/spapi/fspsq/zyzfzysq'
 const API_URL_ZX = config.HOST+config.URI_API_PROJECT + '/spapi/fspsq/cyzxsq';
 const API_URL_DC = config.HOST+config.URI_API_PROJECT + '/spapi/fspsq/cydcsq';
 const API_URL_FS = config.HOST+config.URI_API_PROJECT + '/spapi/fspsq/cyzrfssq';
+const API_URL_CYRFS = config.HOST+config.URI_API_PROJECT + '/spapi/fspsq/cydrzssq';
 const API_URL_ZC = config.HOST+config.URI_API_PROJECT + '/spapi/fspsq/cyzcsq';
 const API_URL_ZS = config.HOST+config.URI_API_PROJECT + '/spapi/spsq/zyzssq';
 const API_URL_BA = config.HOST+config.URI_API_PROJECT + '/spapi/fspsq/cyrybasq';
@@ -26,6 +27,11 @@ const API_URL_GX = config.HOST + config.URI_API_PROJECT + '/rygl/ryxpgx/';
 const API_URL_ISSFZH = config.HOST + config.URI_API_PROJECT + '/commont/checksfzh/';
 const ToolBar = Panel.ToolBar;
 const ButtonGroup = Button.Group;
+const radioStyle = {
+      display: 'block',
+      height: '30px',
+      lineHeight: '30px',
+    };
 
 const rycx = React.createClass({
   getInitialState() { //初始化State状态，使用传入参数
@@ -86,6 +92,12 @@ const rycx = React.createClass({
         type: 'json',
         headers:{'x-auth-token':auth.getToken()},
         success: (result) => {
+          for(let j=0;j<Model.ryjl.rowNum;j++){
+            for (let k = 0;k < Model.ryjl.rows.length; k++) {
+                let prop = Model.ryjl.rows[k].dataIndex;
+                result.data[prop+'_'+(j+1)+'_'+k] = (typeof result.data.ryjl[j] ==='undefined'?null:result.data.ryjl[j][prop]);
+            }
+          }
           this.setState({
             dataxx: result.data,
             datalist: result.data.ryjl,//简历的data
@@ -122,9 +134,11 @@ const rycx = React.createClass({
   },
 
     onSelect(record){//主查询记录被选中方法
+      if (this.state.ryid!=record.ryid) {
        this.state.urls=record._links;
         this.setState({activeKey:13,ryid:record.ryid});
        this.callback(13);
+     }
     },
 
     handleSearchToggle(){//点击查询按钮，显示查询form
@@ -171,7 +185,7 @@ const rycx = React.createClass({
                 case 8: squrls=API_URL_BA;
                             if (!this.state.xpPath) {
                                 Modal.info({ title: '提示', content: (<div><p><b>请上传照片</b></p> </div>)});
-                                this.setState({bgLoading:false});
+                                this.setState({bgLoading:false,letValues:this.refs.addValues.getFieldsValue()});
                                 return
                             }
                             ls.xppath=this.state.xpPath;
@@ -180,10 +194,10 @@ const rycx = React.createClass({
                               success: (result) => {
                                 if (result==false) {
                                     Modal.info({ title: '提示', content: (<div><p><b>身份证号码已在管理中心备案</b></p> </div>)});
-                                    this.setState({bgLoading:false});
+                                    this.setState({bgLoading:false,letValues:this.refs.addValues.getFieldsValue()});
                                     return
                                  }
-                              },error: (err) =>{alert('身份证校验错误');this.setState({bgLoading:false});return}
+                              },error: (err) =>{alert('身份证校验错误');this.setState({bgLoading:false,letValues:this.refs.addValues.getFieldsValue()});return}
                               });
                             break;
             }
@@ -196,6 +210,7 @@ const rycx = React.createClass({
                 contentType: 'application/json',
                 headers:{'x-auth-token':auth.getToken()},
             }).then(resp=> {
+              var that=this;
                 Modal.success({
                     title: '提交成功',
                     content: (
@@ -203,10 +218,10 @@ const rycx = React.createClass({
                             <p>提交成功</p>
                         </div>  ),
                     onOk() {
-                              window.location.reload();
+                              that.fetch_rycx();
                             },
                 });
-                 this.setState({bgLoading:false});
+                 this.setState({bgLoading:false,czAll:0,valueFS: '',letValues:{}});
             }).fail(err=> {
                 Modal.error({
                     title: '数据获取错误',
@@ -217,7 +232,7 @@ const rycx = React.createClass({
                             <p>Status: {err.status}</p>
                         </div>  )
                 });
-                this.setState({bgLoading:false});
+                this.setState({bgLoading:false,letValues:this.refs.addValues.getFieldsValue()});
             })
         },
       showConfirm(e) {
@@ -229,10 +244,18 @@ const rycx = React.createClass({
             let con ="提交后该人员将从本事务所人员系统中除去，转出至人才库";
             let med="put";
             if(this.state.czAll==5){
+               if (this.state.valueFS =='') {
+                  Modal.error({
+                            title: '请选择转入分所',
+                        });
+                  return;
+                };
                 squrls=API_URL_FS;
                 ls.pid=this.state.valueFS;
                 con="提交后该人员将调入到所选择分所中，由分所管理，并从本事务所人员系统中除去";
-                med='put';
+            }else if(this.state.czAll==10){
+              squrls=API_URL_CYRFS;
+              con="提交后该执业税务师将调入到所选择主所中，由主所管理，并从本事务所人员系统中除去";
             }else{
               squrls=API_URL_ZC;
             }
@@ -256,10 +279,10 @@ const rycx = React.createClass({
                                     <p>提交成功</p>
                                 </div>  ),
                             onOk() {
-                                      window.location.reload();
-                                    },
+                              that.fetch_rycx();
+                            },
                         });
-                         that.setState({bgLoading:false});
+                         that.setState({bgLoading:false,czAll:0,valueFS: '',letValues:{}});
                     }).fail(err=> {
                         Modal.error({
                             title: '数据获取错误',
@@ -287,9 +310,17 @@ const rycx = React.createClass({
 
     columRender(text, row, index) {
           var that = this;
-          if (row.ryztdm==3) {
+          if (row.ztdm==14) {
                 return <span>
-                          <a >重新申请备案</a>
+                          <a onClick={that.handleCZ.bind(this,9)}>重新申请备案</a>
+                          <span className="ant-divider" ></span>
+                          <Popconfirm title="撤销后需重新备案，是否撤销？" onConfirm={that.handleCX.bind(this,11)}>
+                        <a >撤销备案</a></Popconfirm>
+                        </span>
+            };
+            if (row.ztdm==3) {
+                return <span>
+                          该执业税务师审批中，无法进行操作
                         </span>
             };
           const menu = (
@@ -298,7 +329,8 @@ const rycx = React.createClass({
                         <a onClick={that.handleCZ.bind(this,4)}>调出</a>
                       </Menu.Item>
                       <Menu.Item key="1">
-                        <a onClick={that.handleCZ.bind(this,5)}>转入分所</a>
+                        {that.state.fsRad==1?<a onClick={that.handleCZ.bind(this,10)}>转入主所</a>:
+                                    <a onClick={that.handleCZ.bind(this,5)}>转入分所</a>}
                       </Menu.Item>
                       <Menu.Divider />
                       
@@ -334,17 +366,19 @@ const rycx = React.createClass({
   componentDidMount() { //REACT提供懒加载方法，懒加载时使用，且方法名必须为componentDidMount
       this.fetch_rycx(); //异步调用后台服务器方法fetch_rycx
       req({
-            url: config.HOST+config.URI_API_PROJECT + '/jg/jgchild',//默认数据查询后台返回JSON
+            url: config.HOST+config.URI_API_PROJECT + '/jg/jgchild',//判断是否分所
             method: 'get',
             type: 'json',
             contentType: 'application/json',
             headers:{'x-auth-token':auth.getToken()},
         }).then(resp=> {
-          if (resp.length>0) {
+          if (typeof resp ==='object' &&resp.length>0) {
           const fsmap=resp.map((fs,index)=>
             <Radio  style={radioStyle} key={index} value={fs.ID} >{fs.DWMC}</Radio>
             )
           this.setState({fsRad:fsmap});
+          }else if(resp==1){
+            this.setState({fsRad:1});
           }else{
             this.setState({fsRad:false});
           };
@@ -401,8 +435,8 @@ const rycx = React.createClass({
                     message.error('只能上传图片类型文件');
                     return false;
                 }
-                if (file.size>1048576) {
-                    message.error('文件大小不能超过1M');
+                if (file.size>3145728) {
+                    message.error('文件大小不能超过3M');
                     return false;
                 }
                 return true;
@@ -410,7 +444,7 @@ const rycx = React.createClass({
         };
          let toolbar = <ToolBar>
                 <Button type="ghost" onClick={this.handleCZ.bind(this,8)}>添加从业人员</Button>
-                <Button onClick={this.handleSearchToggle}>
+                <Button onClick={this.handleSearchToggle} type="ghost">
                 <Icon type="search"/>查询
                 { this.state.searchToggle ? <Icon className="toggle-tip" type="arrow-up"/> :
                   <Icon className="toggle-tip" type="arrow-down"/>}
@@ -422,17 +456,15 @@ const rycx = React.createClass({
       return <div className="rycx">
             <div className="wrap">
                <div className="dataGird">
-                 <Panel title="从业人员管理" toolbar={toolbar} >
-
+                 {this.state.czAll!=8 &&<Panel title="从业人员管理" toolbar={toolbar} >
                       {this.state.searchToggle && <SearchForm onSubmit={this.handleOk}/>}
-
                           <Table columns={columns} 
                           dataSource={this.state.data} 
                           pagination={this.state.pagination}
                           onChange={this.handleTableChange} 
                           onRowClick={this.onSelect}
                           loading={this.state.loading}  bordered   />
-                    </Panel>
+                    </Panel>}
                 </div>
 
                   <Panel >
@@ -457,7 +489,7 @@ const rycx = React.createClass({
                                             {!this.state.xpPath?!this.state.dataxx.xpian? <p>未上传相片</p> :
                                              <img src={this.state.dataxx.xpian} style={{padding:"5px",width:"138px",height:"170px"}}/>:
                                              <img src={this.state.xpPath} style={{padding:"5px",width:"138px",height:"170px"}}/> }
-                                      </div><Upload {...props}><Button >更改照片</Button></Upload><p>（文件大小不能超过1M）</p></div>
+                                      </div><Upload {...props}><Button >更改照片</Button></Upload><p>（文件大小不能超过3M）</p></div>
                                     <CompInputBaseTable data={typeof(this.state.letValues.xm)==='undefined'?this.state.dataxx:this.state.letValues}  model={Model.autoformCy2} bordered striped showConfirm bglx 
                                      onSubmit={this.handleBGSubmit}  disabled={this.state.onSubmitZT} nbsj={this.state.datalist} ref="addValues" valueReset={this.valueReset} 
                                       submitLoading={this.state.bgLoading} title='您是否确认要提交以上变更信息？'  nbjgsz={Model.ryjl} nbTitle="人员简历："
@@ -468,30 +500,34 @@ const rycx = React.createClass({
                                     <div style={{float:"right",}}>
                                     <div style={{width:"143px",height:"175px",backgroundColor: "#fff",border: "1px solid #e9e9e9"}}>
                                             {!this.state.xpPath? <p>未上传相片</p> : <img src={this.state.xpPath} style={{padding:"5px",width:"138px",height:"170px"}}/>}
-                                      </div><Upload {...props}><span style={{'color':'red',fontSize:'large'}}>*</span><Button >上传照片</Button></Upload><p>（文件大小不能超过1M）</p></div>
+                                      </div><Upload {...props}><span style={{'color':'red',fontSize:'large'}}>*</span><Button >上传照片</Button></Upload><p>（文件大小不能超过3M）</p></div>
                                     <CompInputBaseTable data={this.state.letValues}  model={Model.autoformCy2} bordered striped showConfirm  
                                      onSubmit={this.handleBGSubmit} nbjgsz={Model.ryjl} nbTitle="人员简历：" ref="addValues" 
                                       submitLoading={this.state.bgLoading} title='您是否确认要提交以上人员信息？'  
                                       content='提交后该人员将在管理中心备案' />  
                                      </Spin></Panel>}
                     {this.state.czAll==2 &&<Panel title="转执业" toolbar={toolbar2}>
-                        <Spin spinning={this.state.sloading}><p className="nbjgsz"><b style={{'padding':'10px'}}>{this.state.dataxx.xm} 转执业申请</b></p>
-                        <CompInputBaseTable data={this.state.dataxx}  model={Model.autoform2} bordered striped reset showConfirm
-                        onSubmit={this.handleBGSubmit}  disabled={this.state.onSubmitZT} 
-                        submitLoading={this.state.bgLoading} title='您是否确认提交以上信息？'  
-                        content='申请提交后将提交中心管理端审批，在审批完成前，将不能再进行操作'  />
-                        </Spin></Panel>}
+                        <Spin spinning={this.state.sloading}>
+                                    <div style={{float:"right",}}>
+                                    <div style={{width:"143px",height:"175px",backgroundColor: "#fff",border: "1px solid #e9e9e9"}}>
+                                            {!this.state.xpPath? <p>未上传相片</p> : <img src={this.state.xpPath} style={{padding:"5px",width:"138px",height:"170px"}}/>}
+                                      </div><Upload {...props}><span style={{'color':'red',fontSize:'large'}}>*</span><Button >上传照片</Button></Upload><p>（文件大小不能超过3M）</p></div>
+                                    <CompInputBaseTable data={typeof(this.state.letValues.xm)==='undefined'?this.state.dataxx:this.state.letValues}  model={Model.autoformba} bordered striped showConfirm  
+                                     onSubmit={this.handleBGSubmit} nbjgsz={Model.ryjl} nbTitle="人员简历：" ref="addValues" valueReset={this.valueReset}
+                                      submitLoading={this.state.bgLoading} title='您是否确认要提交以下人员信息？'  
+                                      content='提交后将提交省管理中心审批，通过后该人员将以执业税务师身份在管理中心备案' />  
+                                     </Spin></Panel>}
                         {this.state.czAll==3 &&<Panel title="注销备案" toolbar={toolbar2}>
                         <Spin spinning={this.state.sloading}><p className="nbjgsz"><b style={{'padding':'10px'}}>{this.state.dataxx.xm} 注销备案申请</b></p>
-                        <CompInputBaseTable data={this.state.dataxx}  model={Model.autoform3} bordered striped reset showConfirm
-                        onSubmit={this.handleBGSubmit}  disabled={this.state.onSubmitZT} 
+                        <CompInputBaseTable data={this.state.letValues}  model={Model.autoform3} bordered striped reset showConfirm
+                        onSubmit={this.handleBGSubmit}  disabled={this.state.onSubmitZT} ref="addValues"
                         submitLoading={this.state.bgLoading} title='您是否确认提交以上信息？'  
                         content='提交后该人员将注销'  />
                         </Spin></Panel>}
                         {this.state.czAll==4 &&<Panel title="人员调出" toolbar={toolbar2}>
                         <Spin spinning={this.state.sloading}><p className="nbjgsz"><b style={{'padding':'10px'}}>{this.state.dataxx.xm} 调出申请</b></p>
-                        <CompInputBaseTable data={this.state.dataxx}  model={Model.autoform4} bordered striped reset showConfirm
-                        onSubmit={this.handleBGSubmit}  disabled={this.state.onSubmitZT} 
+                        <CompInputBaseTable data={this.state.letValues}  model={Model.autoform4} bordered striped reset showConfirm
+                        onSubmit={this.handleBGSubmit}  disabled={this.state.onSubmitZT} ref="addValues"
                         submitLoading={this.state.bgLoading} title='您是否确认提交以上信息？'  
                         content='提交后该人员将不在系统备案'  />
                         </Spin></Panel>}
@@ -508,8 +544,8 @@ const rycx = React.createClass({
                           </Spin>}</Panel>}
                         {this.state.czAll==6 &&<Panel title="转所" toolbar={toolbar2}>
                         <Spin spinning={this.state.sloading}><p className="nbjgsz"><b style={{'padding':'10px'}}>{this.state.dataxx.xm} 转所申请</b></p>
-                        <CompInputBaseTable data={this.state.dataxx}  model={Model.autoform6} bordered striped reset showConfirm
-                        onSubmit={this.handleBGSubmit} disabled={this.state.onSubmitZT} 
+                        <CompInputBaseTable data={this.state.letValues}  model={Model.autoform6} bordered striped reset showConfirm
+                        onSubmit={this.handleBGSubmit} disabled={this.state.onSubmitZT} ref="addValues"
                         submitLoading={this.state.bgLoading} title='您是否确认提交以上信息？'  
                         content='提交后该人员将转入该所'  />
                         </Spin></Panel>}
@@ -519,7 +555,12 @@ const rycx = React.createClass({
                             <p style={{'textAlign':'center'}}><Button type="primary" disabled={this.state.onSubmitZT} onClick={this.showConfirm} loading={this.state.bgLoading}>提交</Button>
                             <span className="ant-divider"></span><Button type="ghost"  htmlType="submit" onClick={this.handleReturn} >取消</Button></p>
                         </Spin></Panel>}
-                                    
+                         {this.state.czAll==10 &&<Panel title="转入主所" toolbar={toolbar2}>
+                                    <Spin spinning={this.state.sloading}><p className="nbjgsz"><b style={{'padding':'10px'}}>{this.state.dataxx.xm} 转入主所申请</b></p>
+                                    <div style={{'textAlign':'center',padding:'20px'}}><div><p><b>提交后将向主所发起调入申请，主所通过后该人员进入主所人员系统</b></p></div></div>
+                                        <p style={{'textAlign':'center'}}><Button type="primary" disabled={this.state.onSubmitZT} onClick={this.showConfirm} loading={this.state.bgLoading}>提交</Button>
+                                        <span className="ant-divider"></span><Button type="ghost"  htmlType="submit" onClick={this.handleReturn} >取消</Button></p>
+                                    </Spin></Panel>}           
                             </Panel>
                       </div>  
                   </div>

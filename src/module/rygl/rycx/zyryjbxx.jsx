@@ -36,7 +36,7 @@ let dy = React.createClass({
 		<p className="nbjgsz">人员简历：</p>
 		<Table columns={ryjl} dataSource={this.state.datalist} bordered  size="small" pagination={false} />
 		<div style={{position: "absolute",right:"10px",top:"10px",zIndex:"9",width:"143px",height:"175px",backgroundColor: "#fff",border: "1px solid #e9e9e9"}}>
-		{!this.state.dataxx.xpian? <p>未上传相片</p> : <img src={this.state.dataxx.xpian} style={{padding:"5px"}}/>}</div>
+		{!this.state.dataxx.xpian? <p>未上传相片</p> : <img src={this.state.dataxx.xpian} style={{padding:"5px",width:"138px",height:"170px"}}/>}</div>
 		</div></div>
 	}
 	});

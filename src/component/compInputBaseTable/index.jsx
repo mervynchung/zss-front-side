@@ -39,26 +39,27 @@ let baseTable = React.createClass({
                 return;
             }
 
-            let value = this.props.form.getFieldsValue();
+            let value = values;
+            //重构内部机构设置的传递类型
             let nbjgsz=[];
             let nbjgszbg=[];
             if (!!this.props.nbjgsz) {
                 for (let i = 0; i < this.props.nbjgsz.rowNum; i++) {
                     let nbzsRow=[];
-                    var target=[];
+                    let target=[];
                     if (this.props.nbsj.length>0) {
                         let dat=this.props.nbsj[i];
-                         for (var key in dat) {
+                         for (let key in dat) {
                             target.push(dat[key]);
                         };
                     };
-                    for (var j = 0;j < this.props.nbjgsz.rows.length; j++) {
+                    for (let j = 0;j < this.props.nbjgsz.rows.length; j++) {
                         let prop = this.props.nbjgsz.rows[j];
                         let values=value[prop.dataIndex+'_'+(i+1)+'_'+j];
                         nbzsRow.push(!values?null:values);
                         if (!!target) {
                             let sCol = (this.props.nbjgsz.startCol>0?this.props.nbjgsz.startCol:0);
-                            if (values!=target[j+sCol]) {
+                            if (values!=target[j+sCol]) {//是否变更数据
                                     nbjgszbg.push(i+'_'+j);
                             };  
                         };
@@ -71,11 +72,11 @@ let baseTable = React.createClass({
                 }
             }
             if (this.props.bglx) {
-            var ls = [];
+            let ls = [];
             const old = this.props.data;
-            for(var key in value){
+            for(let key in value){
                     if(Object.prototype.toString.call(value[key])=="[object Date]"){//时间格式化
-                        var dd = value[key].Format("yyyy-MM-dd");
+                        let dd = value[key].Format("yyyy-MM-dd");
                         value[key]=dd;
                     };
                     if(Object.prototype.toString.call(value[key])=="[object Undefined]"){
@@ -100,9 +101,9 @@ let baseTable = React.createClass({
                 return;
             };
         }else{
-                for(var key in value){
+                for(let key in value){
                     if(Object.prototype.toString.call(value[key])=="[object Date]"){//时间格式化
-                            var dd = value[key].Format("yyyy-MM-dd");
+                            let dd = value[key].Format("yyyy-MM-dd");
                             value[key]=dd;
                         };
                     if(Object.prototype.toString.call(value[key])=="[object Undefined]"){
@@ -116,7 +117,7 @@ let baseTable = React.createClass({
     },
     showConfirm(e) {
             e.preventDefault();
-            var that=this;
+            let that=this;
               Modal.confirm({
                 title: this.props.title,
                 content: this.props.content,
@@ -192,6 +193,8 @@ let baseTable = React.createClass({
                                  td.push(<td key={'td-v-'+prop.id} colSpan={prop.groupspan*2-1} ><SelectorRSLB disabled={prop.disabled} style={{'width':prop.width?prop.width:'200px'}} { ...getFieldProps(prop.id, { rules: [{ type: prop.type,required: !!prop.required}]})}></SelectorRSLB></td>);break;
                         case "isgz":
                                  td.push(<td key={'td-v-'+prop.id} colSpan={prop.groupspan*2-1} ><SelectorISGZ disabled={prop.disabled} style={{'width':prop.width?prop.width:'200px'}} { ...getFieldProps(prop.id, { rules: [{ type: prop.type,required: !!prop.required}]})}></SelectorISGZ></td>);break;
+                         case "unInput":
+                                 td.push(<td key={'td-v-'+prop.id} colSpan={prop.groupspan*2-1} ></td>);break;
                     }
                 }else{
                  td.push(<td key={'td-v-'+prop.id} colSpan={prop.groupspan*2-1} ><Input style={{'width':prop.width?prop.width:'200px'}} disabled={prop.disabled} { ...getFieldProps(prop.id, { rules: [{type: prop.type, required: !!prop.required}]})}></Input></td>);
@@ -236,6 +239,8 @@ let baseTable = React.createClass({
                                  td.push(<td key={'td-v-'+prop.id} colSpan={prop.groupspan*2-1} ><SelectorRSLB disabled={prop.disabled} style={{'width':prop.width?prop.width:'200px'}} { ...getFieldProps(prop.id, { rules: [{ type: prop.type,required: !!prop.required}]})}></SelectorRSLB></td>);break;
                         case "isgz":
                                  td.push(<td key={'td-v-'+prop.id} colSpan={prop.groupspan*2-1} ><SelectorISGZ disabled={prop.disabled} style={{'width':prop.width?prop.width:'200px'}} { ...getFieldProps(prop.id, { rules: [{ type: prop.type,required: !!prop.required}]})}></SelectorISGZ></td>);break;
+                        case "unInput":
+                                 td.push(<td key={'td-v-'+prop.id} colSpan={prop.groupspan*2-1} ></td>);break;
                     }
                 }else{
                  td.push(<td key={'td-v-'+prop.id}><Input style={{'width':prop.width?prop.width:'200px'}} disabled={prop.disabled} { ...getFieldProps(prop.id, { rules: [{type: prop.type, required: !!prop.required}]})}></Input></td>);
@@ -257,22 +262,22 @@ let baseTable = React.createClass({
             for (let i = 0; i < this.props.nbjgsz.rowNum+1; i++) {
                 if (i==0) {
                     let nbzsCol=[];
-                    for (var j = 0;j < this.props.nbjgsz.rows.length; j++) {
+                    for (let j = 0;j < this.props.nbjgsz.rows.length; j++) {
                         let prop = this.props.nbjgsz.rows[j];
                         nbzsCol.push(<td key={'td-title-'+prop.dataIndex} style={{'width':prop.width?prop.width:'auto',textAlign:'center'}} className="prop-name">{prop.title}</td>);
                     };
                     nbzsRow.push(<TrWrapper key={'tr-nbjgsz'+i}>{nbzsCol}</TrWrapper>);
                     continue
                 };
-                var target=[];
+                let target=[];
                 if (this.props.nbsj.length>0) {
                     let dat=this.props.nbsj[i-1];
-                     for (var key in dat) {
+                     for (let key in dat) {
                         target.push(dat[key]);
                     };
                 };
                 let nbzsCol=[];
-                    for (var j = 0;j < this.props.nbjgsz.rows.length; j++) {
+                    for (let j = 0;j < this.props.nbjgsz.rows.length; j++) {
                         let prop = this.props.nbjgsz.rows[j];
                         if (!!target) {
                         let sCol = (this.props.nbjgsz.startCol>0?this.props.nbjgsz.startCol:0);
@@ -316,13 +321,13 @@ baseTable = createForm({
         for (let i = 0; i < props.model.props.length; i++) {
             let prop = props.model.props[i];
             if (prop.inputType=="date") {
-                var dd = null;
+                let dd = null;
                 if (!!props.data[prop.id]) {
                          dd = new Date(props.data[prop.id].toString().replace(/-/g, "/"));
                  };
                 result[prop.id] = {value: dd};
             }else if (prop.inputType=="number") {
-                var num = null;
+                let num = null;
                 if (!!props.data[prop.id]) {
                          num = String(props.data[prop.id]);
                  };
@@ -331,6 +336,14 @@ baseTable = createForm({
             result[prop.id] = {value: props.data[prop.id]}
             };
         };
+        if (!!props.nbjgsz) {
+            for(let j=0;j<props.nbjgsz.rowNum;j++){
+                for (let k = 0;k < props.nbjgsz.rows.length; k++) {
+                    let prop = props.nbjgsz.rows[k];
+                    result[prop.dataIndex+'_'+j+'_'+k] = {value: props.data[prop.dataIndex+'_'+j+'_'+k]}
+                }
+            }
+        }
         return result;
     }
 })(baseTable);

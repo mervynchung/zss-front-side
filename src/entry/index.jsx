@@ -212,7 +212,7 @@ const Index = React.createClass({
                 require('../module/client/cwbb/zcfzb'),
                 require('../module/client/cwbb/zcmxb'),
 
-               //手动上报报表
+                //手动上报报表
                 require('../module/client/sdsb/swsjbqk'),
                 require('../module/client/sdsb/jygmtjb'),
                 require('../module/client/sdsb/jzywqktjb'),

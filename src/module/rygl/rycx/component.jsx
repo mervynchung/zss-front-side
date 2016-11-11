@@ -58,7 +58,11 @@ const rycx = React.createClass({
                          this.setState({data: [],dataxx: {values: {}},datalist:[],loading:false, zy:false,fz:false,cy:false,});
                     };
             },
-            error: (err) =>{alert('api错误');}
+            error: (err) =>{alert('api错误');
+            const pagination = this.state.pagination;
+             pagination.total = 0;
+             this.setState({data: [],dataxx: {values: {}},datalist:[],loading:false, zy:false,fz:false,cy:false,});
+          }
     });
   },
 
@@ -227,7 +231,7 @@ const rycx = React.createClass({
           {this.state.zy && <Tabs type="line" activeKey={this.state.activeKey} onChange={this.callback} key="A">
                 <TabPane tab="详细信息" key="1">
                 <div style={{float:"right",width:"143px",height:"175px",backgroundColor: "#fff",border: "1px solid #e9e9e9"}}>
-                {!this.state.dataxx.xpian? <p>未上传相片</p> : <img src={this.state.dataxx.xpian} style={{padding:"5px"}}/>}</div>
+                {!this.state.dataxx.xpian? <p>未上传相片</p> : <img src={this.state.dataxx.xpian} style={{padding:"5px",width:"138px",height:"170px"}}/>}</div>
                 <CompBaseTable data = {this.state.dataxx}  model ={Model.autoform} bordered striped /><p className="nbjgsz">人员简历：</p><Table columns={Model.ryjl} dataSource={this.state.datalist} bordered  size="small" pagination={false} /></TabPane>
                 <TabPane tab="变更记录" key="2"><Table columns={Model.columnsZyrybgjl} dataSource={this.state.datalist} bordered  size="small" /></TabPane>
                 <TabPane tab="转所记录" key="3"><Table columns={Model.columnsZyryzsjl} dataSource={this.state.datalist} bordered  size="small" /></TabPane>
@@ -239,7 +243,7 @@ const rycx = React.createClass({
           {this.state.fz && <Tabs type="line" activeKey={this.state.activeKey} onChange={this.callback} key="B">
                 <TabPane tab="详细信息" key="8">
                 <div style={{float:"right",width:"143px",height:"175px",backgroundColor: "#fff",border: "1px solid #e9e9e9"}}>
-                {!this.state.dataxx.xpian? <p>未上传相片</p> : <img src={this.state.dataxx.xpian} style={{padding:"5px"}}/>}</div>
+                {!this.state.dataxx.xpian? <p>未上传相片</p> : <img src={this.state.dataxx.xpian} style={{padding:"5px",width:"138px",height:"170px"}}/>}</div>
                 <CompBaseTable data = {this.state.dataxx}  model ={Model.autoformFzy} bordered striped /><p className="nbjgsz">人员简历：</p><Table columns={Model.ryjl} dataSource={this.state.datalist} bordered  size="small" pagination={false} /></TabPane>
                 <TabPane tab="变更记录" key="9"><Table columns={Model.columnsZyrybgjl} dataSource={this.state.datalist} bordered  size="small" /></TabPane>
                 <TabPane tab="注销记录" key="10"><Table columns={Model.columnsFzyryzxjl} dataSource={this.state.datalist} bordered  size="small" /></TabPane>
@@ -249,7 +253,7 @@ const rycx = React.createClass({
           {this.state.cy && <Tabs type="line" activeKey={this.state.activeKey} onChange={this.callback} key="C">
                 <TabPane tab="详细信息" key="13">
                 <div style={{float:"right",width:"143px",height:"175px",backgroundColor: "#fff",border: "1px solid #e9e9e9"}}>
-                {!this.state.dataxx.xpian? <p>未上传相片</p> : <img src={this.state.dataxx.xpian} style={{padding:"5px"}}/>}</div>
+                {!this.state.dataxx.xpian? <p>未上传相片</p> : <img src={this.state.dataxx.xpian} style={{padding:"5px",width:"138px",height:"170px"}}/>}</div>
                 <CompBaseTable data = {this.state.dataxx}  model ={Model.autoformCy} bordered striped /><p className="nbjgsz">人员简历：</p><Table columns={Model.ryjl} dataSource={this.state.datalist} bordered  size="small" pagination={false} /></TabPane>
                 <TabPane tab="变更记录" key="14"><Table columns={Model.columnsZyrybgjl} dataSource={this.state.datalist} bordered  size="small" /></TabPane>
           </Tabs>}

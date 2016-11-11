@@ -440,12 +440,22 @@ const autoformba = {
     {
  id:'rhsj',
  name: '入会时间：', inputType:'date',type: 'date'}, 
-  {
- id:'rslb',
- name: '入所类别：',required:true, inputType:'date',type: 'date'}, 
     {
  id:'rydazt',
  name: '人事档案状态：', }, 
+  {
+ id:'rslb',
+ name: '入所类别：',required:true, inputType:'rslb',type: 'number'}, 
+  {
+ id:'rslbSM',
+ name: '跨省转籍请填写以下信息：', inputType:'unInput',groupspan:2}, 
+ {
+ id:'DCS',
+ name: '原机构所在地：', }, {
+ id:'YJGMC',
+ name: '原机构名称：', }, {
+ id:'YJGDH',
+ name: '原机构电话：', }, 
     
   ]
 }
