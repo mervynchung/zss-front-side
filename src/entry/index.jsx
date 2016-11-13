@@ -60,7 +60,7 @@ const Index = React.createClass({
                 require('../module/jggl/swsslsp'),
 
                 //人员管理
-               /* require('../module/rygl/rycx'),
+                require('../module/rygl/rycx'),
 
                 //系统功能设置
                 require('../module/xtgnsz/mkgl'),
@@ -69,10 +69,8 @@ const Index = React.createClass({
                 require('../module/xtgnsz/yhdljlb'),
 
                 //资质管理
-                */require('../module/zzgl/jgzzgl'), //事务所资质管理
+                require('../module/zzgl/jgzzgl'), //事务所资质管理
                 require('../module/zzgl/zyswszzgl'), //执业注师资质管理
-/*
-
 
                 //业务管理
                 require('../module/ywgl/ywbbgl'),
@@ -209,7 +207,7 @@ const Index = React.createClass({
                 require('../module/client/cwbb/lrb'),
                 require('../module/client/cwbb/lrfpb'),
                 require('../module/client/cwbb/xjllb'),
-                require('../module/client/cwbb/zcfzb'),*/
+                require('../module/client/cwbb/zcfzb'),
                 require('../module/client/cwbb/zcmxb'),
 
                //手动上报报表
@@ -229,6 +227,7 @@ const Index = React.createClass({
                 require('../module/client/ywgl/ywbb'), //事务所业务报备
                 require('../module/client/ywgl/grywtj'), //个人业务统计
                 require('../module/client/ywgl/swsywtj'), //事务所业务统计
+                //require('../module/client/ywgl/ywhztj'), //业务汇总统计
 
 
                 //公用功能
