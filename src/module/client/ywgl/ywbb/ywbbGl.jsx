@@ -114,6 +114,7 @@ const c = React.createClass({
         return date.getFullYear()+'年'+(date.getMonth()+1)+'月'+date.getDate()+'日'
     },
     printCover(record){
+        console.log(record)
         let query = JSON.stringify({
             wtdw:record.wtdw,
             ywlx:record.ywlx,
@@ -165,7 +166,7 @@ const c = React.createClass({
                       <a onClick={()=>{this.handleViewEdit(record)}}>修改</a>:null}
                     {record.ywzt_dm == 0 ?
                         <a onClick={()=>{this.openDEL(record)}}>删除</a>:null}
-                    {record.ywzt_dm == 1 ?
+                    {(record.ywzt_dm == 1 || record.ywzt_dm == 3) && record.overtime === 0 ?
                       <a onClick={()=>{this.openSF(record)}}>收费</a>:null}
                     {record.ywzt_dm == 1 ?
                         <a onClick={()=>{this.printCover(record)}}>打印</a>:null}
@@ -209,7 +210,7 @@ const c = React.createClass({
             title: '业务报备详细信息',
             //设置返回主视图调用的方法
             onBack: this.backToList,
-            printCover:null
+            printCover:this.printCover
         };
         /*设置编辑组件的参数*/
         const editSetting = {

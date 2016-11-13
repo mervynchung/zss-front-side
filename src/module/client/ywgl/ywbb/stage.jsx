@@ -67,7 +67,7 @@ let form = React.createClass({
         this.props.form.resetFields();
     },
     commit(){
-        this.props.form.validateFields({force: true},(errors, values) => {
+        this.props.form.validateFieldsAndScroll({force: true},(errors, values) => {
             if (!!errors) {
                 return;
             }
@@ -75,8 +75,12 @@ let form = React.createClass({
         })
     },
     save(){
-        let values = this.props.form.getFieldsValue();
-        this.props.onSave(values);
+        this.props.form.validateFieldsAndScroll({force: true},(errors, values) => {
+            if (!!errors) {
+                return;
+            }
+            this.props.onSave(values);
+        })
     },
     checkSssq(rule, value, callback){
         if (value && (!(value[0] instanceof Date) && !(value[1] instanceof Date))) {
@@ -598,7 +602,7 @@ let form = React.createClass({
                         size="large"
                         style={{marginRight: '16px'}}
                         onClick={this.save}>保存</Button>
-                    {!!zt && zt === 0 ?
+                    {!ZT || ZT.value === 0 ?
                     <Button
                         size="large"
                         type="primary"

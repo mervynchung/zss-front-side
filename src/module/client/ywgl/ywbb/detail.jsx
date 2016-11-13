@@ -175,7 +175,7 @@ const detail = React.createClass({
                     <Button size="large" onClick={this.back}>
                         <Icon type="rollback"/>返回
                     </Button>
-                    {data.ywzt_dm == 1 || data.ywzt_dm == 3 ? <Button size="large" onClick={printCover}>显示封面</Button>:null}
+                    {data.ywzt_dm == 1 || data.ywzt_dm == 3 ? <Button size="large" onClick={()=>printCover(data)}>显示封面</Button>:null}
                 </Col>
             </Row>
         </Panel>
