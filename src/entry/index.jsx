@@ -210,13 +210,12 @@ const Index = React.createClass({
                 require('../module/client/cwbb/zcfzb'),
                 require('../module/client/cwbb/zcmxb'),
 
-               //手动上报报表
+                //手动上报报表
                 require('../module/client/sdsb/swsjbqk'),
                 require('../module/client/sdsb/jygmtjb'),
                 require('../module/client/sdsb/jzywqktjb'),
                 require('../module/client/sdsb/hyryqktjb'),
                 require('../module/client/sdsb/jysrqkb'),
-
 
                 //年度检查
                 require('../module/client/swsnj'),//事务所年检
@@ -228,7 +227,6 @@ const Index = React.createClass({
                 require('../module/client/ywgl/grywtj'), //个人业务统计
                 require('../module/client/ywgl/swsywtj'), //事务所业务统计
                 //require('../module/client/ywgl/ywhztj'), //业务汇总统计
-
 
                 //公用功能
                 //修改密码
@@ -261,7 +259,7 @@ const Index = React.createClass({
         }, {
             path: '/print/ywbbcover',
             component: YwbbCover
-        }, {
+        },{
             path: '*',
             component: NotFound
         }];

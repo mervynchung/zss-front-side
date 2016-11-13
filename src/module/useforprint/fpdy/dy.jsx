@@ -72,7 +72,6 @@ let dy = React.createClass({
 	render(){
 		const sd=decodeURIComponent(this.props.location.search);//603
 		var rs=JSON.parse(sd.substring(1,sd.length));
-		console.log(rs);
 		const nowy = new Date(rs.ND);
 		let tt="";
 		let gr="";
@@ -123,7 +122,7 @@ let dy = React.createClass({
 				<tr>
 					<td colSpan="2" style={{'width':'250','height':'30'}}>{gr}</td>
 					<td style={{'width':'70','height':'30'}}>{rs.YJGRHF?'800':null}</td>
-					<td style={{'width':'70','height':'30'}}></td>
+					<td style={{'textAlign':'center','width':'70','height':'30'}}>{rs.YJGRHF?rs.BCJFRS:null}</td>
 					<td  style={{'textAlign':'right','height':'30'}}>{rs.YJGRHF?this.changeNum(rs.YJGRHF):null}</td>
 				</tr>
 				<tr>

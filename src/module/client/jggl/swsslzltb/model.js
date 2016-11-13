@@ -8,7 +8,7 @@ const data = {
  name: '单位名称：', required:true,disabled:true,}, 
     {
  id:'isgz',
- name: '是否改制：', required:true,}, 
+ name: '是否改制：', required:true,inputType:'isgz',type: 'number'}, 
     {
  id:'csdm',
  name: '所在城市：',required:true, inputType:'cs',type: 'number' }, 
@@ -23,7 +23,7 @@ const data = {
  name: '证书编号：',required:true, }, 
      {
  id:'swsxz',
- name: '机构性质：',required:true, }, 
+ name: '机构性质：',required:true,inputType:'jgxz',type: 'number' }, 
     {
  id:'zczj',
  name:  '注册资金（万元）：',required:true, }, 

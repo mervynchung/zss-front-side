@@ -278,6 +278,99 @@ rows:[{ //设定列
   key: 'zmr',
 
 }]}
+const autoformba = {
+   colGroupNum: 2,
+  props: [
+    {
+ id:'xm',
+ name: '姓名：',required:true,disabled:true }, 
+    {
+ id:'CS_DM',
+ name: '所在城市：',
+ inputType:'cs',required:true,type: 'number'
+ }, 
+    {
+ id:'XB_DM',
+ name:  '性别：',inputType:'xb',required:true,
+  type: 'number'}, 
+    {
+ id:'MZ_DM',
+ name:  '民族：', 
+  inputType:'mz',required:true,
+  type: 'number'
+}, 
+    {
+ id:'csny',
+ name:  '出生年月：',
+ inputType:'date',required:true,type: 'date' }, 
+    {
+ id:'XL_DM',
+ name:  '学历：',
+ inputType:'xl', 
+ type: 'number'
+}, 
+    {
+ id:'sfzh',
+ name:  '身份证号码：',required:true,disabled:true }, 
+    {
+ id:'ZZMM_DM',
+ name:  '政治面貌：',
+ inputType:'zzmm', 
+ type: 'number' 
+}, 
+    {
+ id:'txdz',
+ name: '通讯地址：', }, 
+    {
+ id:'yddh',
+ name: '移动电话：', }, 
+    {
+ id:'yzbm',
+ name:  '邮政编码：', }, 
+    {
+ id:'ZW_DM',
+ name: '职务（职称）：',  inputType:'zw',required:true,
+ type: 'number'  }, 
+    {
+ id:'dhhm',
+ name:  '电话号码：', }, 
+    {
+ id:'byyx',
+ name:  '毕业院校：', }, 
+    {
+ id:'zyzgzsbh',
+ name:  '执业资格证书编号：',required:true }, 
+    {
+ id:'bysj',
+ name:  '毕业时间：', inputType:'date',type: 'date'}, 
+    {
+ id:'qfrq',
+ name: '执业资格证书签发日期：',inputType:'date',required:true,type: 'date' }, 
+    {
+ id:'grhybh',
+ name: '个人会员注册号：', }, 
+    {
+ id:'rhsj',
+ name: '入会时间：', inputType:'date',type: 'date'}, 
+    {
+ id:'rydazt',
+ name: '人事档案状态：', }, 
+  {
+ id:'rslb',
+ name: '入所类别：',required:true, inputType:'rslb',type: 'number'}, 
+  {
+ id:'rslbSM',
+ name: '跨省转籍请填写以下信息：', inputType:'unInput',groupspan:2}, 
+ {
+ id:'DCS',
+ name: '原机构所在地：', }, {
+ id:'YJGMC',
+ name: '原机构名称：', }, {
+ id:'YJGDH',
+ name: '原机构电话：', }, 
+    
+  ]
+}
 const model = {
   autoformCy:autoformCy,
   autoformCy2:autoformCy2,
@@ -286,6 +379,7 @@ const model = {
   autoform4:autoform4,
   autoform6:autoform6,
   pageSetting:pageSetting,
+  autoformba:autoformba,
   columnsZyrybgjl:columnsZyrybgjl,
   ryjl:ryjl,
 } 

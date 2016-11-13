@@ -3,6 +3,7 @@ import Panel from 'component/compPanel'
 import config from 'common/configuration'
 import req from 'reqwest'
 import auth from 'common/auth'
+import Export from 'component/ComExcelExperss';
 import {Link} from 'react-router'
 import SearchForm from './searchForm'
 import { Upload, Input, Table, Icon, Tabs, Button, Row, Col, message,Modal,Spin }from 'antd'
@@ -213,7 +214,7 @@ const jgcx = React.createClass({
         })
     },
     allClean(){
-        this.setState({selectedRowKeys: []});
+        this.setState({selectedRowKeys: [] });
     },
     componentDidMount() { //REACT提供懒加载方法，懒加载时使用，且方法名必须为componentDidMount
         this.fetch_jgcx(); //异步调用后台服务器方法fetch_jgcx
@@ -230,7 +231,56 @@ const jgcx = React.createClass({
             title: '所属年度',
             dataIndex: 'nd',
             key: 'nd'
-        }, {
+        },{
+            title: 'Address',
+            children: [
+                  {
+                    title: 'Street',
+                    dataIndex: 'street',
+                    key: 'street',
+                    width: 200,
+                  },
+                      {
+                        title: 'Block',
+                        children: [
+                          {
+                            title: 'Building',
+                            children: [
+                          {
+                            title: 'Building',
+                            children: [
+                          {
+                            title: 'Building',
+                            dataIndex: 'building',
+                            key: 'building',
+                            width: 50,
+                          },
+                      {
+                        title: 'Door No.',
+                        dataIndex: 'number',
+                        key: 'number',
+                        width: 100,
+                      },
+                ],
+                          },
+                      {
+                        title: 'Door No.',
+                        dataIndex: 'number',
+                        key: 'number',
+                        width: 100,
+                      },
+                ],
+                          },
+                      {
+                        title: 'Door No.',
+                        dataIndex: 'number',
+                        key: 'number',
+                        width: 100,
+                      },
+                ],
+              },
+            ],
+      },{
             title: '单位名称',
             dataIndex: 'dwmc',
             key: 'dwmc',
@@ -270,8 +320,8 @@ const jgcx = React.createClass({
             title: '欠交个人会费',
             dataIndex: 'qjgr',
             key: 'qjgr',
-            sorter: true
-        }];
+            sorter: true,
+        },];
         var that = this;
         const sdyy = <p>锁定原因：<Input type="text" style={{width:"50%"}} ref="myTextInput"/></p>;
         const props = {
@@ -341,9 +391,12 @@ const jgcx = React.createClass({
                 <span className="ant-divider"></span>
                 <Button type="ghost" onClick={this.allClean}
                         disabled={this.state.selectedRowKeys.length<=0}>撤销选择</Button>
+                <span className="ant-divider"></span>
+                <Export resData={this.state.data} model={columns} fileName ="会员会费缴纳情况"  />
             </div>
         </ToolBar>;
         const rowSelection = {
+            selectedRowKeys:this.state.selectedRowKeys,
             onChange: this.onSelectChange,
             getCheckboxProps: record => ({
                 disabled: !record.issd == false  // 配置无法勾选的列

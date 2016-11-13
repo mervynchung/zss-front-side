@@ -117,6 +117,18 @@ const wspcx = React.createClass({
                                     <td ><b>人事档案状态：</b></td>
                                     <td colSpan="2">{obj.RYDAZT}</td>
                               </tr>
+                              <tr>
+                                    <td ><b>入所类别：</b></td>
+                                    <td >{obj.rslb}</td>
+                                    <td ><b>{obj.rslb_dm!=1?null:"调出所："}</b></td>
+                                    <td colSpan="2">{obj.rslb_dm!=1?null:obj.DCS}</td>
+                              </tr>
+                              {obj.rslb_dm!=1?null:<tr>
+                                    <td ><b>原机构：</b></td>
+                                    <td >{obj.YJGMC}</td>
+                                    <td ><b>原机构电话：</b></td>
+                                    <td colSpan="2">{obj.YJGDH}</td>
+                              </tr>}
                         </tbody>
                   </table>
                   <p className="nbjgsz">个人简介：</p>
