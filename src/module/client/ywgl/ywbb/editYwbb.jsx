@@ -1,162 +1,186 @@
 import React from 'react'
-import {Steps,Col,Row,Spin,notification,Modal,Icon,Button } from 'antd'
+import {Spin, notification, Modal, Icon, Alert,Button,Row,Col} from 'antd'
 import Panel from 'component/compPanel'
-import auth from 'common/auth.js'
 import config from 'common/configuration.js'
-import req from 'reqwest'
-import Stage0 from './stage0.jsx'
-import Stage1 from './stage1.jsx'
-import Stage2 from './stage2.jsx'
-import EditSuccess from './commitSuccessScr';
+import req from 'common/request'
+import Stage from './stage.jsx'
+import AddSuccess from './commitSuccessScr';
 
-const Step = Steps.Step;
+const PanelBar = Panel.ToolBar;
 
-const YWBB_URL = config.HOST + config.URI_API_PROJECT + '/ywbb';
-
-const newYwbb = React.createClass({
+const c = React.createClass({
+    getDefaultProps(){
+        return {
+            ywbbUrl: config.HOST + config.URI_API_PROJECT + '/ywbb',
+            miscUrl: config.HOST + config.URI_API_PROJECT + '/ywbbmisc'
+        }
+    },
     getInitialState(){
         return {
             loading: true,
-            addSuccess:false,
-            successResp:{},
-            stage: 0,
-            dataXY: {},
-            dataYW: {},
+            successResp: {},
             dataJG: {},
-            customer:{},
-            zysws: []
+            data: {},
+            customer: {},
+            zysws: [],
+            locked: [],
+            view:'form'
         }
     },
+
+    resetNew(){
+        this.setState({view:'form'})
+    },
+    //退回用户管理界面
     back(){
         this.props.onBack();
     },
-    handleStageChange(value){
-        this.setState({stage: value})
-    },
-    handleStage0Submit(param){
-        if(!param.customer){
-            param.customer = this.state.customer
-        }
-        this.setState({stage: param.stage, dataXY: param.values, customer: param.customer})
-
-    },
-    handleStage1Submit(param){
-        this.setState({stage: param.stage, dataYW: param.values})
-
-    },
-    handleStage2Submit(param){
-        this.setState({stage: param.stage, dataJG: param.values})
-
-    },
-    //添加新报备信息
-    addYwbb(param){
-        const token = auth.getToken();
+    //修改报备信息,type为反馈信息组件类型，分别是edit和add
+    updateYwbb(param,type){
+        const {ywbbUrl,id} = this.props;
         return req({
-            url: YWBB_URL,
-            method: 'post',
-            type: 'json',
-            contentType: 'application/json',
-            data: JSON.stringify(param),
-            headers: {'x-auth-token': token}
+            url: ywbbUrl + `/${id}`,
+            method: 'put',
+            data: param
         }).then(resp=> {
-            this.setState({loading: false,addSuccess:true,successResp:resp});
-        }).fail(e=> {
+            this.setState({loading: false, view: 'success', successResp: resp.data,type:type});
+        }).catch(e=> {
             let r = JSON.parse(e.responseText);
             this.setState({loading: false});
             if (e.status == 403) {
                 Modal.error({
-                    title: '业务信息提交失败',
+                    title: '更新业务信息失败',
                     content: r.text
                 });
             } else {
                 notification.error({
                     duration: 3,
                     message: '操作失败',
-                    description: '网络访问故障'
+                    description: '网络故障，信息无法提交'
                 });
             }
         })
     },
 
     //保存业务报备
-    handleSave(){
+    handleSave(param){
+
         let values = {
-            dataXY: this.state.dataXY,
-            dataYW: this.state.dataYW,
-            dataJG: this.state.dataJG,
-            customer: this.state.customer,
-            type: 'save'
+            data:{
+                formValue:param,
+                dataJG: this.state.dataJG,
+            },
+            //类型1为保存修改信息操作
+            lx:1
         };
         this.setState({loading: true});
-        this.addYwbb(values)
+        this.updateYwbb(values,'edit')
     },
     //提交业务报备
-    handleCommit(){
+    handleCommit(param){
         let values = {
-            dataXY: this.state.dataXY,
-            dataYW: this.state.dataYW,
-            dataJG: this.state.dataJG,
-            customer: this.state.customer,
-            type: 'commit'
+            data:{
+                formValue:param,
+                dataJG: this.state.dataJG
+            },
+            //类型3为报备操作
+            lx:3
         };
         this.setState({loading: true});
-        this.addYwbb(values)
+        this.updateYwbb(values,'add')
     },
-    //获取本机构下属执业税务师列表
-    fetchYwbbMisc () {
-        const jid = auth.getJgid();
-        const token = auth.getToken();
-        const YWBBMISC_URL = config.HOST + config.URI_API_PROJECT + '/ywbbmisc/' + jid;
+    //获取修改报备的初始化信息：旗下执业人员/机构信息/报备明细
+    async fetchData () {
+        const {miscUrl,ywbbUrl,id} = this.props;
+        let fetchmisc =  req({
+            url: miscUrl,
+            method: 'get'
+        });
+        let fetchmx =  req({
+            url:ywbbUrl+`/${id}`,
+            method:'get'
+        });
+        let [misc, mx] = await Promise.all([fetchmisc, fetchmx]);
+        return {misc: misc, mx: mx}
+    },
 
-        return req({
-            url: YWBBMISC_URL,
-            method: 'get',
-            type: 'json',
-            headers: {'x-auth-token': token}
+    formatData(data){
+        data.DQ = [data.CS_DM,data.QX_DM];
+        data.DQ = data.DQ.filter(t=> t!=undefined && t!==null );
+        data.DQ = data.DQ.length > 0 ? data.DQ : null;
+        data.QGSS = [];
+        data.SSSQ = !!data.SSTARTTIME ? [new Date(data.SSTARTTIME),new Date(data.SENDTIME)] : null;
+        data.BGRQ = !!data.BGRQ ? new Date(data.BGRQ) : null;
+        let qmsws = !!data.QMSWSID?data.QMSWSID.split(','):[];
+        data.QMSWS = qmsws.length ? qmsws.map(t=>({key:t})) : [];
+        data.YWLX_DM = data.YWLX_DM != null ? ''+data.YWLX_DM : null;
+        data.SB_DM = ''+data.SB_DM;
+        data.ZSFS_DM = ''+data.ZSFS_DM;
+        data.HY_ID = ''+data.HY_ID;
+        data.NSRXZ =''+data.NSRXZ;
+        data.WTDWXZ_DM = ''+data.WTDWXZ_DM;
+        data.NSRSBH = data.WTDWNSRSBH;
+        data.NSRSBHDF = data.WTDWNSRSBHDF;
+        data.LXR = data.WTDWLXR;
+        data.LXDH = data.WTDWLXDH;
+        data.LXDZ = data.WTDXLXDZ;
+    },
+
+    componentDidMount(){
+        this.fetchData().then(resp=> {
+            let result = {};
+            this.formatData(resp.mx);
+            for (let prop in resp.mx) {
+                if(resp.mx[prop] != null){
+                    result[prop] = {value: resp.mx[prop]}
+                }
+            }
+            this.setState({dataJG: resp.misc.jgxx, zysws: resp.misc.zysws, data:result,loading: false})
+        }).catch(e=> {
+            this.setState({loading: false, view:'fail'})
         })
     },
-    componentDidMount(){
-        this.fetchYwbbMisc().then(resp=> {
-            this.setState({dataJG: resp.jgxx, zysws: resp.zysws, loading: false})
-        }).catch(e=> {
-            let c = <div className="ywbb-new-loadfail"> 数据读取失败</div>;
-            this.setState({loading: false, loaded: c})
-        })
+    handleFieldChange(field){
+        const {data} = this.state;
+        for (let prop in field) {
+            data[prop] = field[prop];
+            if (prop == 'YWLX_DM'){
+                this.setState({data:data})
+            }
+            if(prop == 'ISWS'){
+                this.setState({data:data})
+            }
+        }
     },
 
     render(){
-        const {id} = this.props;
-        let {stage,dataXY,dataYW,dataJG,addSuccess,successResp} = this.state;
-        let stageContent = {
-            '0': this.state.loaded || <Stage0 data={dataXY}
-                                              onSubmit={this.handleStage0Submit}/>,
-            '1': <Stage1 onStageChange={this.handleStageChange}
-                         data={dataYW} zysws={this.state.zysws}
-                         ywlx={this.state.dataXY.YWLX_DM}
-                         onSubmit={this.handleStage1Submit}/>,
-            '2': addSuccess ? <EditSuccess type="edit"/>:<Stage2 onStageChange={this.handleStageChange}
-                         data={dataJG}
-                         onSubmit={this.handleStage2Submit}
-                         onSave={this.handleSave}
-                         onCommit={this.handleCommit}/>
+        const {title} = this.props;
+        let {data, zysws, successResp,type} = this.state;
+        const panelBar = <PanelBar>
+            <Button onClick={this.back}>
+                <Icon type="rollback"/>返回
+            </Button>
+        </PanelBar>;
+
+        let view ={
+            'fail' : <div className="ywbb-new-loadfail"> 初始数据读取失败，请重新刷新页面</div>,
+            'success':<div>
+                <AddSuccess data={successResp} type={type}/>
+            </div>,
+            'form':<Stage data={data}
+                          zysws={zysws}
+                          onSave={this.handleSave}
+                          onCommit={this.handleCommit}
+                          onFieldChange={this.handleFieldChange}/>
         };
 
-        return <Panel className="new-ywbb">
-            <div style={{textAlign:'right'}}> <Button onClick={this.back}><Icon type="rollback"/>返回</Button></div>
-            <Steps current={stage} className="steps">
-                <Step title="填写协议"/>
-                <Step title="填写业务详细信息"/>
-                <Step title="确认事务所基本信息"/>
-            </Steps>
+        return <Panel className="client-ywbb edit" toolbar={panelBar} title={title} >
             <Spin spinning={this.state.loading}>
-                <div>
-                    {stageContent[stage]}
-                </div>
+                {view[this.state.view]}
             </Spin>
-
         </Panel>
 
     }
 });
 
-module.exports = newYwbb;
+module.exports = c;

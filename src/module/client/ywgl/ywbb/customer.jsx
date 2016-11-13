@@ -57,7 +57,7 @@ const customer = React.createClass({
             onSelect: this.handleSelect
         };
 
-        return <Modal {...this.props} title="选择客户" width="300" onOk={this.handleOk}>
+        return <Modal {...this.props} title="选择客户" width="400" onOk={this.handleOk}>
             <div className="ant-search-input-wrapper" style={{ width: 240 }}>
                 <InputGroup className="ant-search-input">
                     <Input placeholder="用单位名称查询"

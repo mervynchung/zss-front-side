@@ -8,7 +8,12 @@ const model = {
         dataIndex: 'nd',
         key: 'nd',
         width: 60
-    }, {
+    },{
+        title: '状态',
+        key: 'ywzt',
+        dataIndex: 'ywzt',
+        width:100
+    },{
         title: '委托企业名称',
         dataIndex: 'wtdw',
         key: 'wtdw',
@@ -52,11 +57,6 @@ const model = {
         title: '签字税务师',
         key: 'qzsws',
         dataIndex: 'qzsws',
-        width:100
-    },{
-        title: '状态',
-        key: 'ywzt',
-        dataIndex: 'ywzt',
         width:100
     }]
 };

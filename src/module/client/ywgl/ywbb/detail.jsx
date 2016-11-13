@@ -1,6 +1,7 @@
 import React from 'react'
 import {Button,Icon,Row,Col} from 'antd'
 import Panel from 'component/compPanel'
+import numeral from 'numeral'
 
 const PanelBar = Panel.ToolBar;
 const detail = React.createClass({
@@ -54,10 +55,10 @@ const detail = React.createClass({
                         <td colSpan="3">{data.wtdxlxdz}</td>
                     </tr>
                     <tr>
-                        <td>事务所名称</td>
-                        <td>{data.swsmc}</td>
                         <td>协议收费金额</td>
-                        <td>{data.xyje}</td>
+                        <td>{numeral(data.xyje).format('0,0.00')}</td>
+                        <td>实际收费金额</td>
+                        <td>{numeral(data.sjsqje).format('0,0.00')}</td>
                     </tr>
                     <tr>
                         <td>委托项目</td>
@@ -66,8 +67,8 @@ const detail = React.createClass({
                         <td>{data.sstarttime} 至 {data.sendtime}</td>
                     </tr>
                     <tr>
-                        <td>实际收取金额</td>
-                        <td>{data.sjsqje}</td>
+                        <td>发票金额</td>
+                        <td>{numeral(data.fpje).format('0,0.00')}</td>
                         <td>发票号码</td>
                         <td>{data.fphm}</td>
                     </tr>
@@ -82,7 +83,7 @@ const detail = React.createClass({
                         <td>所属时期</td>
                         <td>{data.sstarttime} 至 {data.sendtime}</td>
                         <td>业务所属地</td>
-                        <td>{data.cs != '省外'? `${data.cs} / ${data.qx}`: `${data.city}` }</td>
+                        <td>{data.cs != '省外'? ''.concat(data.cs,data.qx).replace(/null/gi,'') : `${data.city}` }</td>
                     </tr>
                     <tr>
                         <td>业务所属税务机关</td>
@@ -130,7 +131,7 @@ const detail = React.createClass({
                     </tr>
                     <tr>
                         <td>委托企业营业收入</td>
-                        <td colSpan="3">{data.xyh}</td>
+                        <td colSpan="3">{numeral(data.sfje).format('0,0.00')}</td>
                     </tr>
                     <tr>
                         <td>具体项目</td>
@@ -174,7 +175,7 @@ const detail = React.createClass({
                     <Button size="large" onClick={this.back}>
                         <Icon type="rollback"/>返回
                     </Button>
-                    {data.ywzt_dm == 1 || data.ywzt_dm == 3 ? <Button size="large" onClick={printCover}>显示封面</Button>:null}
+                    {data.ywzt_dm == 1 || data.ywzt_dm == 3 ? <Button size="large" onClick={()=>printCover(data)}>显示封面</Button>:null}
                 </Col>
             </Row>
         </Panel>

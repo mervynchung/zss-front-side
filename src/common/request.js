@@ -13,13 +13,13 @@ const func = async function (param = {method: 'get',type:'json'}) {
     if(method != 'get') {
         data = JSON.stringify(data);
     }
-    return await (request({
+    return await request({
         url:url,
         contentType:'application/json',
         method:method,
         type:'json',
         data:data,
         headers: {'x-auth-token': auth.getToken()}
-    }));
+    });
 };
 module.exports = func;

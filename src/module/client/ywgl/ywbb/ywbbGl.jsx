@@ -3,16 +3,15 @@ import {Table, Modal, Row, Col, Button, Icon, Alert} from 'antd'
 import List from './list'
 import Detail from './detail'
 import DialogSF from './dialogSF'
-import DialogBB from './dialogBB'
 import DialogTH from './dialogTH'
 import DialogCX from './dialogCX'
 import DialogQY from './dialogQY'
+import DialogDEL from './dialogDEl'
 import Edit from './editYwbb'
 import model from './model'
 import config from 'common/configuration'
 import {jsonCopy} from 'common/utils'
 import cloneDeep from 'lodash/cloneDeep';
-import auth from 'common/auth'
 
 
 const c = React.createClass({
@@ -22,10 +21,10 @@ const c = React.createClass({
             listState: {},
             entity: {},
             dialogSF: false,
-            dialogBB:false,
             dialogTH:false,
             dialogCX:false,
-            dialogQY:false
+            dialogQY:false,
+            dialogDEL:false
         }
     },
 
@@ -39,7 +38,13 @@ const c = React.createClass({
     },
     //返回list视图
     backToList(){
-        this.setState({view: 'list'})
+        this.setState({view: 'list'});
+    },
+
+    //从edit视图返回list
+    async editToList(){
+        await this.setState({view: 'list'});
+        await this.refreshList()
     },
     //抓取当前list分页状态
     grabListState(state){
@@ -82,17 +87,6 @@ const c = React.createClass({
         this.setState({dialogQY: false});
     },
 
-    //打开报备对话框
-    openDiaBB(record){
-        if(record.id){
-            this.setState({dialogBB:true,entity:record})
-        }else{
-            this.setState({dialogBB: true})
-        }
-    },
-    closeDiaBB(){
-        this.setState({dialogBB:false})
-    },
     //打开撤销对话框
     openCX(record){
         if(record.id){
@@ -104,11 +98,23 @@ const c = React.createClass({
     closeCX(){
         this.setState({dialogCX:false})
     },
+    //打开删除对话框
+    openDEL(record){
+        if(record.id){
+            this.setState({dialogDEL:true,entity:record})
+        }else{
+            this.setState({dialogDEL: true})
+        }
+    },
+    closeDEL(){
+        this.setState({dialogDEL:false})
+    },
     formatDate(str){
         let date = new Date(str);
         return date.getFullYear()+'年'+(date.getMonth()+1)+'月'+date.getDate()+'日'
     },
     printCover(record){
+        console.log(record)
         let query = JSON.stringify({
             wtdw:record.wtdw,
             ywlx:record.ywlx,
@@ -144,7 +150,6 @@ const c = React.createClass({
     },
 
     render(){
-        const jgId = auth.getJgid();
         //重新复制一个model对象，使修改不会影响原model对象，避免每次组件渲染时给原model对象累积赋值
         const m = cloneDeep(model);
 
@@ -153,21 +158,21 @@ const c = React.createClass({
             title: '操作',
             key: 'action',
             fixed: 'right',
-            width: 180,
+            width: 220,
             render: (text, record)=> {
                 let actGroup = <span className="act-group">
                     <a onClick={()=>{this.handleViewDetail(record)}}>明细</a>
-                    {record.ywzt_dm == 0 ?
+                    {(record.ywzt_dm == 0 || record.ywzt_dm == 1 || record.ywzt_dm == 3) && record.overtime === 0 ?
                       <a onClick={()=>{this.handleViewEdit(record)}}>修改</a>:null}
                     {record.ywzt_dm == 0 ?
-                        <a onClick={()=>{this.openDiaBB(record)}}>报备</a>:null}
-                    {record.ywzt_dm == 1 ?
+                        <a onClick={()=>{this.openDEL(record)}}>删除</a>:null}
+                    {(record.ywzt_dm == 1 || record.ywzt_dm == 3) && record.overtime === 0 ?
                       <a onClick={()=>{this.openSF(record)}}>收费</a>:null}
                     {record.ywzt_dm == 1 ?
                         <a onClick={()=>{this.printCover(record)}}>打印</a>:null}
-                    {record.ywzt_dm == 1 ?
+                    {record.ywzt_dm == 1 || record.ywzt_dm == 3 ?
                       <a onClick={()=>{this.openTH(record)}}>退回</a>:null}
-                    {record.ywzt_dm == 1 ?
+                    {record.ywzt_dm == 1 || record.ywzt_dm == 3?
                       <a onClick={()=>{this.openCX(record)}}>撤销</a>:null}
                     {record.ywzt_dm == 5 ?
                         <a onClick={()=>{this.openQY(record)}}>启用</a>:null}
@@ -192,7 +197,7 @@ const c = React.createClass({
             //list组件重新挂载时恢复状态用的历史状态数据
             stateShot: this.state.listState,
             //数据来源api
-            apiUrl: config.HOST + config.URI_API_PROJECT + `/jgyw/${jgId}`,
+            apiUrl: config.HOST + config.URI_API_PROJECT + `/jgyw`,
             //初始搜索条件
             defaultWhere:{}
         };
@@ -205,14 +210,13 @@ const c = React.createClass({
             title: '业务报备详细信息',
             //设置返回主视图调用的方法
             onBack: this.backToList,
-            printCover:null
+            printCover:this.printCover
         };
         /*设置编辑组件的参数*/
         const editSetting = {
             //设置返回主视图调用的方法
             id:this.state.entity.id,
-            onBack: this.backToList,
-            refreshList:this.refreshList
+            onBack: this.editToList
         };
 
         /*设置收费操作对话框的参数*/
@@ -224,14 +228,6 @@ const c = React.createClass({
             apiUrl:config.HOST + config.URI_API_PROJECT + '/ywbb/'
         };
 
-        /*设置提交报备对话框的参数*/
-        const diaBBSetting = {
-            data: this.state.entity,
-            visible:this.state.dialogBB,
-            refreshList:this.refreshList,
-            onClose:this.closeDiaBB,
-            apiUrl:config.HOST + config.URI_API_PROJECT + '/ywbb/'
-        };
         /*设置退回申请对话框的参数*/
         const diaTHSetting = {
             data: this.state.entity,
@@ -256,6 +252,14 @@ const c = React.createClass({
             onClose:this.closeQY,
             apiUrl:config.HOST + config.URI_API_PROJECT + '/ywbb/'
         };
+        /*设置删除对话框的参数*/
+        const diaDELSetting = {
+            data: this.state.entity,
+            visible:this.state.dialogDEL,
+            refreshList:this.refreshList,
+            onClose:this.closeDEL,
+            apiUrl:config.HOST + config.URI_API_PROJECT + '/ywbb/'
+        };
 
         /*通过控制state.view的值，实现页面上列表/详细信息等组件的切换*/
         const view = {
@@ -267,10 +271,10 @@ const c = React.createClass({
 
         return <div className="ywbbgl">
                 <DialogSF {...dialogSFSetting}  />
-                <DialogBB {...diaBBSetting}  />
                 <DialogTH {...diaTHSetting}  />
                 <DialogCX {...diaCXSetting}  />
                 <DialogQY {...diaQYSetting}  />
+                <DialogDEL {...diaDELSetting}  />
                 {view[this.state.view]}
             </div>
     }
