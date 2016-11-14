@@ -1,7 +1,7 @@
 import React from 'react'
 import Iconv from 'iconv-lite'
 import FileSaver from 'file-saver'
-import {Button,notification } from 'antd'
+import {Button,notification,Icon } from 'antd'
 
 
 /**
@@ -156,7 +156,7 @@ let dy = React.createClass({
     	},
 	render() {
 
-		return <Button type="ghost"  onClick={this.valueExport} {...this.props}>
+		return <Button type="ghost"  onClick={this.valueExport} {...this.props}><Icon type="export" />
 			{typeof(this.props.butName)==='string'&&this.props.butName.length!=0?this.props.butName:"导出"}
 			</Button>
 		
