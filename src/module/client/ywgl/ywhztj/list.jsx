@@ -155,6 +155,8 @@ const list = React.createClass({
     handleYwlxChange(ywlx){
         if (!!ywlx && ywlx.label != this.state.ywlxLabel) {
             this.setState({ywlxLabel: ywlx.label})
+        } else {
+            this.setState({ywlxLabel:'全部'})
         }
     },
     render(){
@@ -171,7 +173,7 @@ const list = React.createClass({
             </ButtonGroup>
 
             <ButtonGroup>
-                <Button type="primary" onClick={this.handleNew}><Icon type="export"/> 导出excel</Button>
+                <Export resData={this.state.data} model={columns} />
             </ButtonGroup>
         </ToolBar>;
         title += ' 业务类型：' +this.state.ywlxLabel;
