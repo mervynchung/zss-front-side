@@ -83,7 +83,6 @@ const Index = React.createClass({
                 require('../module/ywgl/setting'), //业务参数设置
                 require('../module/ywgl/ywbbsjfx'),//业务报备数据分析
                 require('../module/ywgl/ywbbsjhz'),//业务报备数据汇总
-/*
 
                 //财务报表
                 require('../module/cwbb/lrfpb'),
@@ -177,7 +176,6 @@ const Index = React.createClass({
                 require('../module/xtsjfx/sjfx/hynlsjfx'),//行业年龄数据分析
                 require('../module/xtsjfx/sjfx/ryztsjfx'),
                 require('../module/xtsjfx/sjfx/zyzshsjfx'),
-*/
 
                 //会员会费缴纳
                 require('../module/hyhf_new/hyhfjnqk'),
