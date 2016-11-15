@@ -94,6 +94,35 @@ const c = React.createClass({
         });
         return w;
     },
+    formatDate(str){
+        let date = new Date(str);
+        return date.getFullYear()+'年'+(date.getMonth()+1)+'月'+date.getDate()+'日'
+    },
+    printCover(record){
+        console.log(record)
+        let query = JSON.stringify({
+            wtdw:record.wtdw,
+            ywlx:record.ywlx,
+            sstarttime:this.formatDate(record.sstarttime),
+            sendtime:this.formatDate(record.sendtime),
+            jtxm:record.jtxm,
+            bbhm:record.bbhm,
+            bgwh:record.bgwh,
+            wtdwnsrsbh:record.wtdwnsrsbh,
+            zgswjg:record.zgswjg,
+            swsmc:record.swsmc,
+            bgrq:this.formatDate(record.bgrq),
+            bbrq:this.formatDate(record.bbrq),
+            qzsws:record.qzsws,
+            swsdh:record.swsdh,
+            swsdzyj:record.swsdzyj,
+            swswz:record.swswz,
+            swscz:record.swscz,
+            txdz:record.txdz
+        });
+        query = encodeURIComponent(query);
+        window.open('#/print/ywbbcover?data='+query);
+    },
 
     render(){
         //重新复制一个model对象，使修改不会影响原model对象，避免每次组件渲染时给原model对象累积赋值
@@ -157,7 +186,7 @@ const c = React.createClass({
             //设置返回主视图调用的方法
             onBack: this.backToList,
             sentBack: this.openSentBack,
-            printCover:null,
+            printCover:this.printCover,
             spCX:null,
             spQY:null,
             spTH:null
