@@ -231,6 +231,7 @@ const Index = React.createClass({
                 require('../module/client/ywgl/ywhztj'), //业务汇总统计
 
                 //培训报名
+                require('../module/client/wsbm'),
 
                 //公用功能
                 //修改密码
