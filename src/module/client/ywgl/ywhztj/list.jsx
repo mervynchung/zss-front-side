@@ -161,6 +161,8 @@ const list = React.createClass({
     },
     render(){
         let {title, helperTitle, helperDesc, scrollx, keyCol, columns} = this.props;
+        let expoHeader = '业务类型：'+this.state.ywlxLabel+','+'（单位：元）\n';
+        title += ' 业务类型：' +this.state.ywlxLabel;
         let toolbar = <ToolBar>
             <Button onClick={this.handleSearchToggle}>
                 <Icon type="search"/>查询
@@ -173,10 +175,13 @@ const list = React.createClass({
             </ButtonGroup>
 
             <ButtonGroup>
-                <Export resData={this.state.data} model={columns} />
+                <Export
+                    resData={this.state.data}
+                    model={columns}
+                    fileName={'业务汇总统计-'+this.state.ywlxLabel+'-'+Date.now()}
+                    header={expoHeader}/>
             </ButtonGroup>
         </ToolBar>;
-        title += ' 业务类型：' +this.state.ywlxLabel;
         return <div>
             {this.state.helper && <Alert message={helperTitle}
                                          description={helperDesc}
