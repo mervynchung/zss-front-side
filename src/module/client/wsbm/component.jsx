@@ -14,14 +14,20 @@ const c = React.createClass({
         return {
             view: 'list',
             listState: {},
-            entity: {}
+            entity: {},
+            dialogDetail:false
         }
     },
 
-    //打开明细信息视图
-    handleViewDetail(record){
-        this.setState({view: 'detail', entity: record})
+    //打开详情信息视图
+    openDetail(record){
+        this.setState({dialogDetail: true, entity: record})
     },
+    //关闭详情视图
+    closeDetail(){
+        this.setState({dialogDetail:false})
+    },
+
     //打开编辑视图
     handleViewEdit(record){
         this.setState({view: 'edit', entity: record})
@@ -69,7 +75,7 @@ const c = React.createClass({
             render: (text, record)=> {
                 let actGroup = <span className="act-group">
                     <a onClick={()=> {
-                        this.handleViewDetail(record)
+                        this.openDetail(record)
                     }}>详情</a>
                     {record.ztdm == 0 || record.ztdm == 3?
                         <a onClick={()=> {
@@ -100,8 +106,9 @@ const c = React.createClass({
         const detailSetting = {
             //设置数据源
             id: this.state.entity.id,
+            visible:this.state.dialogDetail,
             //设置返回主视图调用的方法
-            onBack: this.backToList
+            onClose: this.closeDetail
         };
         /*设置编辑组件的参数*/
         const editSetting = {
@@ -120,13 +127,13 @@ const c = React.createClass({
         /*通过控制state.view的值，实现页面上列表/详细信息等组件的切换*/
         const view = {
             list: <List {...listSetting} ref="list"/>,
-            detail: <Detail {...detailSetting}/>,
             edit: <Edit {...editSetting}/>,
             new: <New {...newSetting} />
         };
 
 
-        return <div className="client-jzywqktjb client-sdsb">
+        return <div className="client-pxxx">
+            <Detail {...detailSetting}/>
             <div className="wrap">
                 {view[this.state.view]}
             </div>
