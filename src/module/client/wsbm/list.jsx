@@ -1,7 +1,7 @@
 import React from 'react'
 import {Table, Row, Col, Button, Icon, notification, Alert} from 'antd'
 import Panel from 'component/compPanel'
-import req from 'reqwest';
+import req from 'common/request';
 import SearchForm from './searchForm'
 import merge from 'lodash/merge';
 import config from 'common/configuration'
@@ -21,22 +21,18 @@ const list = React.createClass({
             //默认每页显示数量
             pageSize: 10,
             //数据来源api
-            apiUrl: config.HOST + config.URI_API_PROJECT + `/client/jzywqktjb`,
+            apiUrl: config.HOST + config.URI_API_PROJECT + `/pxxx`,
             //初始搜索条件
             defaultWhere:{},
             //栏目名称
-            title:'鉴证业务情况表',
+            title:'培训课程网上报名',
             //帮助信息title
             helperTitle:'使用说明',
             //帮助信息详细
             helperDesc:<div>
-                <p>1.本表统计数据截至为统计年度的12月31日，上报截止期为次年3月31日。</p>
-                <p>2.“企业汇算清缴总户数”是指税务机关掌握的本地区企业所得税汇算清缴的总户数。</p>
-                <p>3.“调增应纳所得税额”和“调减应纳所得税额”的填报口径：以纳税人为计算单位，对同一纳税人，根据税务师事务所为纳税人实际调增或调减的应纳税额之差的绝对值填列。如调增大于调减，在“调增应纳所得税额”栏中填报；调减大于调增，在“调减应纳所得税额”栏中填报。对不同纳税人，应按税务师事务所为不同纳税人实际调增或调减的应纳税额之差的绝对值，在“调增应纳所得税额”和“调减应纳所得税额”栏中分别填报，不能相抵。</p>
-                <p>4.“所得税汇算清缴鉴证业务”金额=“调增应纳所得税额”金额+“调减应纳所得税额”金额。</p>
-                <p>5.在“其他鉴证业务小计”明细项目中的“（四）其他”，反映不属于“其他鉴证业务小计”中（一）、（二）、（三）明细项目的其他鉴证业务情况。</p>
-                <p>6.“其他鉴证业务小计”=“其中：(一)高新技术企业认定鉴证业务”+“(二)企业注销税务登记税款清算鉴证业务”+“(三)研发费加计扣除鉴证业务”+“（四）其他”</p>
-                <p>7.单位：万元（精确到小数点后两位）、户。</p>
+                <p>1.本表显示目前所有培训信息</p>
+                <p>2.可点击“详情”查看课程详细信息，点击“报名”可录入本单位参加课程的具体人员信息。</p>
+                <p>3.首次报名后，报名状态变为绿色，可点击”报名“修改报名信息</p>
             </div>
         }
     },
@@ -63,7 +59,6 @@ const list = React.createClass({
     //通过API获取数据
     fetchData(params = {page: 1, pagesize: this.props.pageSize}){
         this.setState({loading: true});
-        const token = auth.getToken();
         const {apiUrl,defaultWhere} = this.props;
         let where = merge(jsonCopy(defaultWhere),params.where);
         if(!isEmptyObject(where)){
@@ -71,10 +66,8 @@ const list = React.createClass({
         }
         req({
             url: apiUrl,
-            type: 'json',
             method: 'get',
             data: params,
-            headers: {'x-auth-token': token}
         }).then(resp=> {
             const p = this.state.pagination;
             p.current = params.page;
@@ -84,12 +77,13 @@ const list = React.createClass({
                 return `共 ${resp.total} 条，显示前 ${total} 条`
             };
             this.setState({data: resp.data, pagination: p, loading: false,where:where})
-        }).fail(e=> {
+        }).catch(e=> {
+            console.log(e)
             this.setState({loading: false});
             notification.error({
                 duration: 2,
                 message: '数据读取失败',
-                description: '可能网络访问原因，请稍后尝试'
+                description: '网络访问故障，请尝试刷新页面'
             });
         })
     },
@@ -162,19 +156,9 @@ const list = React.createClass({
     render(){
         const {title, helperTitle, helperDesc, scrollx,keyCol,columns} = this.props;
         let toolbar = <ToolBar>
-            <Button onClick={this.handleSearchToggle}>
-                <Icon type="search"/>查询
-                { this.state.searchToggle ? <Icon className="toggle-tip" type="circle-o-up"/> :
-                    <Icon className="toggle-tip" type="circle-o-down"/>}
-            </Button>
-
             <ButtonGroup>
                 <Button  onClick={this.helperToggle}><Icon type="question"/></Button>
                 <Button  onClick={this.handleRefresh}><Icon type="reload"/></Button>
-            </ButtonGroup>
-
-            <ButtonGroup>
-                <Button type="primary" onClick={this.handleNew}><Icon type="file-text" /> 添加</Button>
             </ButtonGroup>
         </ToolBar>;
         return <div>

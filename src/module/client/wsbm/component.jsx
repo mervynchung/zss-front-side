@@ -70,7 +70,7 @@ const c = React.createClass({
                 let actGroup = <span className="act-group">
                     <a onClick={()=> {
                         this.handleViewDetail(record)
-                    }}>查看</a>
+                    }}>详情</a>
                     {record.ztdm == 0 || record.ztdm == 3?
                         <a onClick={()=> {
                             this.handleViewEdit(record)
