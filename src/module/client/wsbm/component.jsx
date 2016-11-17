@@ -78,8 +78,8 @@ const c = React.createClass({
                     <a onClick={()=> {
                         this.openDetail(record)
                     }}>详情</a>
-                    {record.isbm == 0 &&  <a onClick={()=> {this.addBm(record)}}>报名</a>}
-                    {record.isbm == 1 &&  <a onClick={()=> {this.editBm(record)}}>报名</a>}
+                    {(record.isbm == 0 && record.fbzt == 0) &&  <a onClick={()=> {this.addBm(record)}}>报名</a>}
+                    {(record.isbm == 1 && record.fbzt == 0) &&  <a onClick={()=> {this.editBm(record)}}>报名</a>}
                 </span>;
                 return actGroup
             }
