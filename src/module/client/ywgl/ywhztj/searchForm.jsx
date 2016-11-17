@@ -21,7 +21,6 @@ let searchForm = React.createClass({
     handleSubmit(e){
         e.preventDefault();
         let commitValues = this.props.form.getFieldsValue();
-        console.log(commitValues)
         //首先处理搜索表单提交的信息，将字符串去首尾空格，将空值的搜索条件丢弃
         const values = {};
         for (let prop in commitValues) {

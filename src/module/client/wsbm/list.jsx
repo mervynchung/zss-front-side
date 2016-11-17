@@ -78,7 +78,6 @@ const list = React.createClass({
             };
             this.setState({data: resp.data, pagination: p, loading: false,where:where})
         }).catch(e=> {
-            console.log(e)
             this.setState({loading: false});
             notification.error({
                 duration: 2,
