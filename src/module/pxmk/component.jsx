@@ -2,7 +2,7 @@ import React from 'react'
 import {Table,Modal,Row,Col,Button,Icon,Alert,Spin,Input,Popconfirm} from 'antd'
 import CompInputBaseTable from 'component/compInputBaseTable';
 import Panel from 'component/compPanel'
-import req from 'reqwest';
+import req from 'common/request';
 import Model from './model.js' 
 import auth from 'common/auth'
 import SearchForm from './searchForm'
@@ -88,7 +88,7 @@ const lrb = React.createClass({
                 pagination: p,
                 loading: false
             })
-        }).fail(err=> {
+        }).catch(err=> {
             this.setState({loading: false});
             Modal.error({
                 title: '数据获取错误',
@@ -128,7 +128,7 @@ const lrb = React.createClass({
                 url: API_URL_FB,
                 type: 'json',
                 method: metd,
-                data: JSON.stringify(ls),
+                data: ls,
                 contentType: 'application/json',
                 headers:{'x-auth-token':auth.getToken()},
             }).then(resp=> {
@@ -143,8 +143,8 @@ const lrb = React.createClass({
                               that.fetchData();
                             },
                 });
-                 this.setState({bgLoading:false,view:0,letValues:{}});
-            }).fail(err=> {
+                 this.setState({bgLoading:false,view:0,letValues:{},pxid:''});
+            }).catch(err=> {
                 Modal.error({
                     title: '数据获取错误',
                     content: (
@@ -181,7 +181,7 @@ const lrb = React.createClass({
                             },
                 });
                  this.setState({view:0,letValues:{}});
-            }).fail(err=> {
+            }).catch(err=> {
               this.setState({loading: false});
                 Modal.error({
                     title: '数据获取错误',
