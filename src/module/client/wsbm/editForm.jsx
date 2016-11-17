@@ -9,6 +9,15 @@ const ButtonGroup = Button.Group;
 const FormItem = Form.Item;
 
 let form = React.createClass({
+    getInitialState(){
+        return {
+            ry:[],
+            data:[]
+        }
+    },
+    handleSelected(selectedRowKeys){
+
+    },
     commit(){
         const {validateFields} = this.props.form;
         validateFields({force: true}, (errors, values) => {
@@ -19,7 +28,6 @@ let form = React.createClass({
         })
     },
     render(){
-        const {data} = this.props;
         const {getFieldProps} = this.props.form;
         const layout = {
             labelCol: {span: 6},
@@ -73,7 +81,7 @@ let form = React.createClass({
                 <Row>
                     <Col offset={1}><h2>参会人员信息</h2></Col>
                 </Row>
-                <Row><RyList data={ry}/></Row>
+                <Row><RyList data={this.state.ry} onSelected={this.handleSelected}/></Row>
 
                 <Row style={{marginTop: '24px'}}>
                     <Col span="5" offset="10">
