@@ -36,12 +36,12 @@ let modal = React.createClass({
                 data: JSON.stringify(obj),
                 headers: {'x-auth-token': token}
             }).then(resp=> {
-                setFieldsValue({fphm: null,sjsqje:null});
+                setFieldsValue({fphm: null,sjsqje:null,fpje:null});
                 refreshList();
                 this.setState({loading: false});
                 this.props.onClose();
             }).fail(e=> {
-                setFieldsValue({fphm: null,sjsqje:null});
+                setFieldsValue({fphm: null,sjsqje:null,fpje:null});
                 this.setState({loading: false});
                 notification.error({
                     duration: 3,
@@ -67,8 +67,13 @@ let modal = React.createClass({
                 {required: true, type: 'number', message: '必填项'}
             ]
         });
+        const fpjeProps = getFieldProps('fpje', {
+            rules: [
+                {required: true, type: 'number', message: '必填项'}
+            ]
+        });
         const layout = {
-            labelCol: { span: 4 },
+            labelCol: { span: 8 },
             wrapperCol: { span: 14 },
         };
         return <Form horizontal >
@@ -88,10 +93,6 @@ let modal = React.createClass({
                         <tr>
                             <td>委托企业 :</td>
                             <td>{data.wtdw}</td>
-                        </tr>
-                        <tr>
-                            <td>事务所 :</td>
-                            <td>{data.swsmc}</td>
                         </tr>
                         <tr>
                             <td>业务类型 :</td>
@@ -115,20 +116,36 @@ let modal = React.createClass({
                 <Row style={{marginTop:'8px'}}>
                     <Col span="24">
                         <FormItem {...layout}
-                            label="发票金额">
+                                  label="实际收取金额">
                             <InputNumber style={{width:'70%'}} min={0} max={9999999999.99} step={0.01} {...sjsqjeProps}/>
                         </FormItem>
                     </Col>
                     <Col span="24">
                         <FormItem {...layout}
-                            label="发票号码">
+                            label="发票金额">
+                            <InputNumber style={{width:'70%'}} min={0} max={9999999999.99} step={0.01} {...fpjeProps}/>
+                        </FormItem>
+                    </Col>
+
+                    <Col span="24">
+                        <FormItem {...layout}
+                            label="发票号码，多个号码以','分隔">
                             <Input placeholder="发票号码" {...getFieldProps('fphm')}/>
                         </FormItem>
                     </Col>
+
                 </Row>
             </Modal>
         </Form>
     }
 });
-modal = createForm()(modal);
+modal = createForm({
+    mapPropsToFields(props) {
+        let result = {};
+        for (let prop in props.data) {
+            result[prop] = { value: props.data[prop] }
+        }
+        return result;
+    }
+})(modal);
 module.exports = modal;

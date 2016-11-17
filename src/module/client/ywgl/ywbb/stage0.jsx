@@ -31,6 +31,11 @@ let stage = React.createClass({
             callback()
         }
     },
+    save(){
+        let values = this.props.form.getFieldsValue();
+        this.props.onSubmit({stage: 0, values: values,customer:this.state.customer});
+        this.props.onSave();
+    },
     getCustomers(){
         this.setState({customerModal:true})
     },
@@ -188,8 +193,12 @@ let stage = React.createClass({
                 </Row>
 
                 <Row>
-                    <Col span="4" offset="10">
+                    <Col span="10" offset="10">
 
+                        <Button
+                            size="large"
+                            style={{marginRight:'16px'}}
+                            onClick={this.save}>保存</Button>
                         <Button
                           size="large"
                           onClick={this.next}>下一步</Button>
