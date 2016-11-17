@@ -7,6 +7,7 @@ import New from './new'
 import model from './model'
 import {jsonCopy} from 'common/utils'
 import cloneDeep from 'lodash/cloneDeep';
+import './style.css'
 
 
 const c = React.createClass({
@@ -29,11 +30,11 @@ const c = React.createClass({
     },
 
     //打开编辑视图
-    handleViewEdit(record){
+    editBm(record){
         this.setState({view: 'edit', entity: record})
     },
     //打开添加视图
-    handleViewNew(record){
+    addBm(record){
         this.setState({view: 'new'})
     },
     //返回list视图
@@ -77,10 +78,8 @@ const c = React.createClass({
                     <a onClick={()=> {
                         this.openDetail(record)
                     }}>详情</a>
-                    {record.ztdm == 0 || record.ztdm == 3?
-                        <a onClick={()=> {
-                            this.handleViewEdit(record)
-                        }}>编辑</a> : null}
+                    {record.isbm == 0 &&  <a onClick={()=> {this.addBm(record)}}>报名</a>}
+                    {record.isbm == 1 &&  <a onClick={()=> {this.editBm(record)}}>报名</a>}
                 </span>;
                 return actGroup
             }

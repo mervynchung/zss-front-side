@@ -93,7 +93,6 @@ let Editfrom = React.createClass({
         }
     },
     tonull(v, prev){
-        console.log('a')
         if (!v.trim()) {
             return null
         } else {
