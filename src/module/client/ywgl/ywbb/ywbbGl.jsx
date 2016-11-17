@@ -114,7 +114,6 @@ const c = React.createClass({
         return date.getFullYear()+'年'+(date.getMonth()+1)+'月'+date.getDate()+'日'
     },
     printCover(record){
-        console.log(record)
         let query = JSON.stringify({
             wtdw:record.wtdw,
             ywlx:record.ywlx,
