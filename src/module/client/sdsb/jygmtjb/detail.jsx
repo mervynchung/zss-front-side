@@ -12,7 +12,6 @@ const detail = React.createClass({
     render(){
         const {data,title,printCover} = this.props;
         const obj = this.props.data;
-        console.log(obj);
         const panelBar = <PanelBar>
             <Button onClick={this.back}>
                 <Icon type="rollback"/>返回

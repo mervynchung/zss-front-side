@@ -86,6 +86,7 @@ const jgcx = React.createClass({
             method: 'get',
             type: 'json',
             data: params,
+            headers: {'x-auth-token': auth.getToken()},
             success: (result) => {
                 if (result.data.length != 0) {
                     const pagination = this.state.pagination;
