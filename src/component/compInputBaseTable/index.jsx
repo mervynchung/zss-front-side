@@ -24,6 +24,12 @@ let baseTable = React.createClass({
             nbsj:[],
         }
     },
+    getInitialState(){
+        return {
+
+        wysS:[]
+        }
+    },
     handleReset(e) {
         this.props.form.resetFields();
     },
@@ -35,7 +41,7 @@ let baseTable = React.createClass({
     handleSubmit(){
         this.props.form.validateFieldsAndScroll((errors, values) => {//条件校验处理
               if (!!errors) {
-                    Modal.info({ title: '提示', content: (<div><p><b>请填写所有必填项</b></p> </div>)});
+                    Modal.info({ title: '提示', content: (<div><p><b>请检查所有必填项是否填写和格式是否正确</b></p> </div>)});
                 return;
             }
 
@@ -110,6 +116,13 @@ let baseTable = React.createClass({
                         value[key]=null;
                     };
                 };
+                let wys=this.state.wysS;
+                if (wys.length>0) {
+                    for(let i=0;i<wys.length;i++){
+                        let name=wys[i];
+                        value[name]=this.refs[name].handleValue();
+                    }
+                };
                 this.props.onSubmit(value);
         };
 
@@ -135,7 +148,7 @@ let baseTable = React.createClass({
         const colgroup = [];
         const tr = [];
         let td = [];
-        
+        this.state.wysS=[];
         const colGroupNum = this.props.model.colGroupNum < 5 ? this.props.model.colGroupNum : 2
         //设置colgroup样式
         for (let i = 0; i < colGroupNum; i++) {
@@ -182,9 +195,14 @@ let baseTable = React.createClass({
                         case "is":
                                  td.push(<td key={'td-v-'+prop.id} colSpan={prop.groupspan*2-1} ><SelectorIS disabled={prop.disabled} style={{'width':prop.width?prop.width:'100px'}} { ...getFieldProps(prop.id, { rules: [{ type: prop.type,required: !!prop.required}]})}></SelectorIS></td>);break;
                         case "number":
-                                 td.push(<td key={'td-v-'+prop.id} colSpan={prop.groupspan*2-1} ><Input style={{'width':prop.width?prop.width:'200px'}} disabled={prop.disabled} { ...getFieldProps(prop.id, { rules: [{ required: !!prop.required}]})}></Input></td>);break;
+                                 td.push(<td key={'td-v-'+prop.id} colSpan={prop.groupspan*2-1} ><InputNumber style={{'width':prop.width?prop.width:'200px'}} disabled={prop.disabled} { ...getFieldProps(prop.id, { rules: [{ required: !!prop.required}]})}></InputNumber></td>);break;
                         case "textarea":
                                  td.push(<td key={'td-v-'+prop.id} colSpan={prop.groupspan*2-1}  ><Col span={prop.span?prop.span:20}><Input disabled={prop.disabled} type="textarea" rows={prop.rows} { ...getFieldProps(prop.id, { rules: [{ required: !!prop.required}]})}></Input></Col></td>);break;
+                        case "wys":
+                                 let  WYS =require('component/compWYSIHtml');
+                                 let wys=this.state.wysS;
+                                 wys.push(prop.id);
+                                 td.push(<td key={'td-v-'+prop.id} colSpan={prop.groupspan*2-1}  ><WYS ref={prop.id} style={{'width':prop.width?prop.width:'100%',}} value={this.props.data[prop.id]}/></td>);break;
                         case "zyzxyy":
                                  td.push(<td key={'td-v-'+prop.id} colSpan={prop.groupspan*2-1} ><SelectorZYSWSZXYY disabled={prop.disabled} style={{'width':prop.width?prop.width:'200px'}} { ...getFieldProps(prop.id, { rules: [{ type: prop.type,required: !!prop.required}]})}></SelectorZYSWSZXYY></td>);break;
                         case "jgxz":
