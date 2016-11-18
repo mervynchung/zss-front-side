@@ -29,8 +29,10 @@ let form = React.createClass({
     delRy(){
 
     },
-    addRy(){
-        this.openDialogRy()
+    addRy(value){
+        let rylist = this.state.rylist;
+        rylist.push(value);
+        this.setState({rylist:rylist})
     },
     openDialogRy(){
         this.setState({dialogRy:true})
@@ -54,7 +56,7 @@ let form = React.createClass({
             wrapperCol: {span: 14}
         };
         return <div className="form">
-            <DialogRy visible = {this.state.dialogRy} onClose={this.closeDialogRy}/>
+            <DialogRy visible = {this.state.dialogRy} onClose={this.closeDialogRy} onOk={this.addRy}/>
             <Form horizontal>
                 <Row>
                     <Col offset={1}><h2>事务所信息</h2></Col>
@@ -105,7 +107,7 @@ let form = React.createClass({
                             <Popconfirm placement="left" title="确定删除？" onConfirm={this.delRy}>
                                 <Button>删除人员</Button>
                             </Popconfirm>
-                            <Button onClick={this.addRy}>增加人员</Button>
+                            <Button onClick={this.openDialogRy}>增加人员</Button>
                         </ButtonGroup>
                     </Col>
                 </Row>
