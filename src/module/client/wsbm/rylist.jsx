@@ -7,57 +7,70 @@ const c = React.createClass({
         this.props.onSelected(selectedRowKeys)
     },
     render(){
-        const columns = {
-            columns: [{
-                title: '姓名',
-                dataIndex: 'xming',
-                key: 'xh',
-                width: 50
-            }, {
-                title: '性别',
-                dataIndex: 'xb_dm',
-                key: 'xb_dm',
-                width: 250
-            },{
-                title: '职务',
-                key: 'zw_dm',
-                dataIndex: 'zw_dm',
-                width:90
-            },{
-                title: '移动电话',
-                key: 'yddh',
-                dataIndex: 'yddh',
-                width: 90
-            },{
-                title: '入住时间',
-                key: 'rzsj',
-                dataIndex: 'rzsj',
-                width: 90
-            }, {
-                title: '离开时间',
-                key: 'lksj',
-                dataIndex: 'lksj',
-                width:80
-            }, {
-                title: '房型',
-                key: 'fjlx',
-                dataIndex: 'fjlx',
-                width:80,
-            }, {
-                title: '就餐类型',
-                key: 'jclx',
-                dataIndex: 'jclx',
-            }]
-        };
-        const {data} = this.props;
+        const columns = [{
+            title: '姓名',
+            dataIndex: 'xming',
+            key: 'xh',
+            width: 100
+        }, {
+            title: '性别',
+            dataIndex: 'xb',
+            key: 'xb',
+            width: 50
+        }, {
+            title: '职务',
+            key: 'zw',
+            dataIndex: 'zw',
+            width: 100
+        }, {
+            title: '移动电话',
+            key: 'yddh',
+            dataIndex: 'yddh',
+            width: 100
+        }, {
+            title: '入住时间',
+            key: 'rzsj',
+            dataIndex: 'rzsj',
+        }, {
+            title: '离开时间',
+            key: 'lksj',
+            dataIndex: 'lksj',
+        }, {
+            title: '房型',
+            key: 'fjlx',
+            dataIndex: 'fjlx',
+            render(t, r){
+                    return t==1?'单人房':'双人房'
+            }
+        }, {
+            title: '就餐类型',
+            key: 'jclx',
+            dataIndex: 'jclx',
+        }];
+        const {data, selectedRowKeys} = this.props;
         const rowSelection = {
             type: 'checkbox',
-            selectedRowKeys: this.state.selectedRowKeys,
+            selectedRowKeys: selectedRowKeys,
             onChange: this.handleSelectedRowChange
         };
+        if (data.length > 0) {
+            data.map(item=> {
+                let jclx = [!item.zaoc ? '_' : '早', !item.wuc ? '_' : '午', !item.wanc ? '_' : '晚'];
+                jclx = jclx.join('/');
+                item.jclx = jclx;
+                return item
+            })
+        }
         return <div >
-            <Table dataSource={data} columns={columns} pagination={false} rowSelection={rowSelection}/>
+            <Table dataSource={data}
+                   columns={columns}
+                   pagination={false}
+                   rowSelection={rowSelection}
+                   selectedRowKeys={selectedRowKeys}
+                   size="small"/>
         </div>
 
     }
 })
+
+module.exports = c;

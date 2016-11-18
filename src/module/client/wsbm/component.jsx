@@ -35,7 +35,7 @@ const c = React.createClass({
     },
     //打开添加视图
     addBm(record){
-        this.setState({view: 'new'})
+        this.setState({view: 'new', entity: record})
     },
     //返回list视图
     backToList(){
