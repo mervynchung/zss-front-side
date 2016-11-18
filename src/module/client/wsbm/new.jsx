@@ -21,7 +21,8 @@ const c = React.createClass({
     getInitialState(){
         return {
             loading: true,
-            data: {},
+            dataBase: {},
+            dataRy:[],
             scr: 'normal'
         }
     },
@@ -53,23 +54,19 @@ const c = React.createClass({
                 notification.error({
                     duration: 3,
                     message: '操作失败',
-                    description: '报表数据保存失败，请稍后再尝试'
+                    description: '数据保存失败，请稍后再尝试'
                 });
             }
         });
     },
 
     componentDidMount(){
-        const {initUrl}  = this.props;
+        const {initUrl,id}  = this.props;
         req({
             method: 'get',
-            url: initUrl
+            url: initUrl+`/${id}`
         }).then(resp=> {
-            let result = {};
-            for (let prop in resp) {
-                result[prop] = {value: resp[prop]}
-            }
-            this.setState({data: result, loading: false})
+            this.setState({dataBase: resp.base, dataRy:resp.ry,loading: false})
         }).catch(e=> {
             if (e.status == 403) {
                 let res = JSON.parse(e.response);
@@ -82,7 +79,7 @@ const c = React.createClass({
 
     render(){
         const {title} = this.props;
-        let {data, loading, scr, failtext, successType} = this.state;
+        let {dataBase,dataRy, loading, scr, failtext, successType} = this.state;
         const panelBar = <PanelBar>
             <Button onClick={this.back}>
                 <Icon type="rollback"/>返回
@@ -90,7 +87,7 @@ const c = React.createClass({
         </PanelBar>;
 
         let content = {
-            normal: <EditForm data={data}
+            normal: <EditForm data={dataBase} rylist={dataRy}
                               onCommit={this.handleCommit}/>,
             fail: <FailScr text={failtext}/>,
             success: <Success type={successType}/>

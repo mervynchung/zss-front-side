@@ -3,12 +3,43 @@ import React from 'react'
 import {Steps, Col, Row, Spin, notification, Icon, Button, Form, Input, InputNumber, Popconfirm} from 'antd'
 import {mapKeys} from 'lodash'
 import RyList from './rylist'
+import DialogRy from './dialogRy'
 import numeral from 'numeral'
 
 const ButtonGroup = Button.Group;
 const FormItem = Form.Item;
 
 let form = React.createClass({
+    getInitialState(){
+        return {
+            rylist:[],
+            data:[],
+            selectedRowKeys:[],
+            dialogRy:false
+        }
+    },
+    handleSelected(selectedRowKeys){
+
+    },
+    componentWillReceiveProps(nextProps){
+        if (!!nextProps) {
+            this.setState({rylist:nextProps.rylist})
+        }
+    },
+    delRy(){
+
+    },
+    addRy(value){
+        let rylist = this.state.rylist;
+        rylist.push(value);
+        this.setState({rylist:rylist})
+    },
+    openDialogRy(){
+        this.setState({dialogRy:true})
+    },
+    closeDialogRy(){
+        this.setState({dialogRy:false})
+    },
     commit(){
         const {validateFields} = this.props.form;
         validateFields({force: true}, (errors, values) => {
@@ -19,14 +50,13 @@ let form = React.createClass({
         })
     },
     render(){
-        const {data} = this.props;
         const {getFieldProps} = this.props.form;
         const layout = {
             labelCol: {span: 6},
             wrapperCol: {span: 14}
         };
-
         return <div className="form">
+            <DialogRy visible = {this.state.dialogRy} onClose={this.closeDialogRy} onOk={this.addRy}/>
             <Form horizontal>
                 <Row>
                     <Col offset={1}><h2>事务所信息</h2></Col>
@@ -71,9 +101,19 @@ let form = React.createClass({
                     </Col>
                 </Row>
                 <Row>
-                    <Col offset={1}><h2>参会人员信息</h2></Col>
+                    <Col offset={1} span="4"><h2>参会人员信息</h2></Col>
+                    <Col offset={14} span="4">
+                        <ButtonGroup>
+                            <Popconfirm placement="left" title="确定删除？" onConfirm={this.delRy}>
+                                <Button>删除人员</Button>
+                            </Popconfirm>
+                            <Button onClick={this.openDialogRy}>增加人员</Button>
+                        </ButtonGroup>
+                    </Col>
                 </Row>
-                <Row><RyList data={ry}/></Row>
+                <Row><RyList data={this.state.rylist}
+                             onSelected={this.handleSelected}
+                             selectedRowKeys={this.state.selectedRowKeys}/></Row>
 
                 <Row style={{marginTop: '24px'}}>
                     <Col span="5" offset="10">
@@ -91,10 +131,12 @@ let form = React.createClass({
 });
 form = Form.create({
     mapPropsToFields(props) {
-        let result = props.data;
-
-        return
+        let result = {};
+        for (let prop in props.data) {
+            result[prop] = {value: props.data[prop]}
+        }
+        return result;
     }
 })(form);
 
-module.exports = form
+module.exports = form;
