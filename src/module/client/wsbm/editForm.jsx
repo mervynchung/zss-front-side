@@ -47,7 +47,7 @@ let form = React.createClass({
         this.setState({dialogRy:false})
     },
     commit(){
-        this.props.onCommit(rylist);
+        this.props.onCommit(this.state.rylist);
     },
     render(){
         const {pxxx} = this.props;
