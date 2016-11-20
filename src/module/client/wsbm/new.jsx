@@ -32,12 +32,12 @@ const c = React.createClass({
 
     //提交
     handleCommit(values){
-        const {url} = this.props;
-        values.ztbj = 1;
+        const {url,entity} = this.props;
+
         this.setState({loading: true});
         req({
             method: 'post',
-            url: url,
+            url: url+`/${entity.id}`,
             data: values
         }).then(resp=> {
             this.setState({loading: false, scr: 'success', successType: 'commit'})
@@ -61,10 +61,10 @@ const c = React.createClass({
     },
 
     componentDidMount(){
-        const {initUrl,id}  = this.props;
+        const {initUrl,entity}  = this.props;
         req({
             method: 'get',
-            url: initUrl+`/${id}`
+            url: initUrl+`/${entity.id}`
         }).then(resp=> {
             this.setState({dataBase: resp.base, dataRy:resp.ry,loading: false})
         }).catch(e=> {
@@ -78,7 +78,7 @@ const c = React.createClass({
     },
 
     render(){
-        const {title} = this.props;
+        const {title,entity} = this.props;
         let {dataBase,dataRy, loading, scr, failtext, successType} = this.state;
         const panelBar = <PanelBar>
             <Button onClick={this.back}>
@@ -87,7 +87,7 @@ const c = React.createClass({
         </PanelBar>;
 
         let content = {
-            normal: <EditForm data={dataBase} rylist={dataRy}
+            normal: <EditForm data={dataBase} rylist={dataRy} pxxx={entity}
                               onCommit={this.handleCommit}/>,
             fail: <FailScr text={failtext}/>,
             success: <Success type={successType}/>

@@ -118,7 +118,7 @@ const c = React.createClass({
 
         /*设置添加组件的参数*/
         const newSetting = {
-            id: this.state.entity.id,
+            entity: this.state.entity,
             //设置返回主视图调用的方法
             onBack: this.backToList,
         };

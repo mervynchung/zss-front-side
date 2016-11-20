@@ -67,6 +67,7 @@ const Index = React.createClass({
                 require('../module/xtgnsz/qxgl'),
                 require('../module/xtgnsz/yhgl'),
                 require('../module/xtgnsz/yhdljlb'),
+/*
 
                 //资质管理
                 require('../module/zzgl/jgzzgl'), //事务所资质管理
@@ -227,6 +228,7 @@ const Index = React.createClass({
                 require('../module/client/ywgl/grywtj'), //个人业务统计
                 require('../module/client/ywgl/swsywtj'), //事务所业务统计
                 require('../module/client/ywgl/ywhztj'), //业务汇总统计
+*/
 
                 //培训报名
                 require('../module/client/wsbm'),

@@ -35,20 +35,47 @@ let c = React.createClass({
         const {title, visible} = this.props;
         const {getFieldProps} = this.props.form;
         const layout = {
-            labelCol: {span: 6},
+            labelCol: {span: 8},
             wrapperCol: {span: 14}
         };
+        const xmingProps = getFieldProps('xming', {
+            rules: [
+                {required: true, whitespace: true, message: '必填'}
+            ]
+        });
+        const xbProps = getFieldProps('xb', {
+            rules: [
+                {required: true, type: 'object', message: '必填'}
+            ]
+        });
+        const zwProps = getFieldProps('zw', {
+            rules: [
+                {required: true, type: 'object', message: '必填'}
+            ]
+        });
+        const zssjProps = getFieldProps('zssj', {
+            rules: [
+                {required: true, type: 'array', message: '必填'}
+            ],
+            getValueFromEvent: (date, dateString) => dateString
+        });
+        const fjlxProps = getFieldProps('fjlx', {
+            rules: [
+                {required: true, message: '必填'}
+            ]
+        });
+
         return <Modal title={title} width={500} onCancel={this.handleClose} visible={visible} onOk={this.handleSubmit}>
             <Form horizontal>
                 <Row>
                     <Col span="8">
                         <FormItem label="姓名" {...layout} >
-                            <Input  { ...getFieldProps('xming')} />
+                            <Input  { ...xmingProps} />
                         </FormItem>
                     </Col>
                     <Col span="8">
                         <FormItem label="性别" {...layout} >
-                            <SelectorXB labelInValue  { ...getFieldProps('xb')} />
+                            <SelectorXB labelInValue  { ...xbProps} />
                         </FormItem>
                     </Col>
                     <Col span="8">
@@ -59,7 +86,7 @@ let c = React.createClass({
                 </Row>
 
                 <FormItem label="职务" {...layout} >
-                    <SelectorZW labelInValue   { ...getFieldProps('zw')} />
+                    <SelectorZW labelInValue   { ...zwProps} />
                 </FormItem>
                 <FormItem label="手机" {...layout} >
                     <Input   { ...getFieldProps('yddh')} />
@@ -72,19 +99,21 @@ let c = React.createClass({
                 </FormItem>
                 <FormItem label="住宿时间" {...layout} >
                     <RangePicker format="yyyy-MM-dd "
-                                 { ...getFieldProps('zssj',{getValueFromEvent: (date, dateString)=> dateString})} />
+                                 { ...zssjProps} />
                 </FormItem>
                 <FormItem label="房型" {...layout}>
-                    <RadioGroup {...getFieldProps('fjlx')}>
+                    <RadioGroup {...fjlxProps}>
                         <Radio value="1">单人房</Radio>
                         <Radio value="2">双人房</Radio>
                     </RadioGroup>
                 </FormItem>
                 <FormItem label="点餐" {...layout}>
-                    <Checkbox { ...getFieldProps('zaoc',{valuePropName: 'checked'})}>早餐</Checkbox>
-                    <Checkbox { ...getFieldProps('wuc',{valuePropName: 'checked'})}>午餐</Checkbox>
-                    <Checkbox { ...getFieldProps('wanc',{valuePropName: 'checked'})}>晚餐</Checkbox>
+                    <Checkbox { ...getFieldProps('zaoc', {valuePropName: 'checked'})}>早餐</Checkbox>
+                    <Checkbox { ...getFieldProps('wuc', {valuePropName: 'checked'})}>午餐</Checkbox>
+                    <Checkbox { ...getFieldProps('wanc', {valuePropName: 'checked'})}>晚餐</Checkbox>
                 </FormItem>
+                <FormItem label="备注" {...layout}>
+                    <Input type="textarea" { ...getFieldProps('bz')} /></FormItem>
 
             </Form>
         </Modal>

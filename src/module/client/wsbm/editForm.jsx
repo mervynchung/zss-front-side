@@ -1,10 +1,9 @@
 import {SelectorYear, SelectorXZ, SelectorSWSXZ, SelectorCS} from 'component/compSelector'
 import React from 'react'
 import {Steps, Col, Row, Spin, notification, Icon, Button, Form, Input, InputNumber, Popconfirm} from 'antd'
-import {mapKeys} from 'lodash'
+import {mapKeys,remove} from 'lodash'
 import RyList from './rylist'
 import DialogRy from './dialogRy'
-import numeral from 'numeral'
 
 const ButtonGroup = Button.Group;
 const FormItem = Form.Item;
@@ -19,7 +18,7 @@ let form = React.createClass({
         }
     },
     handleSelected(selectedRowKeys){
-
+        this.setState({selectedRowKeys:selectedRowKeys})
     },
     componentWillReceiveProps(nextProps){
         if (!!nextProps) {
@@ -27,7 +26,14 @@ let form = React.createClass({
         }
     },
     delRy(){
-
+        let {selectedRowKeys,rylist} = this.state;
+        let i = selectedRowKeys.length;
+        while(i--){
+            remove(rylist,(value, index, array)=>{
+                return selectedRowKeys[i] === index
+            })
+        }
+        this.setState({rylist:rylist,selectedRowKeys:[]})
     },
     addRy(value){
         let rylist = this.state.rylist;
@@ -41,15 +47,10 @@ let form = React.createClass({
         this.setState({dialogRy:false})
     },
     commit(){
-        const {validateFields} = this.props.form;
-        validateFields({force: true}, (errors, values) => {
-            if (!!errors) {
-                return;
-            }
-            this.props.onCommit(values);
-        })
+        this.props.onCommit(rylist);
     },
     render(){
+        const {pxxx} = this.props;
         const {getFieldProps} = this.props.form;
         const layout = {
             labelCol: {span: 6},
@@ -102,19 +103,39 @@ let form = React.createClass({
                 </Row>
                 <Row>
                     <Col offset={1} span="4"><h2>参会人员信息</h2></Col>
-                    <Col offset={14} span="4">
+                    <Col span="4">
                         <ButtonGroup>
-                            <Popconfirm placement="left" title="确定删除？" onConfirm={this.delRy}>
-                                <Button>删除人员</Button>
-                            </Popconfirm>
+                            <Button onClick={this.delRy}>删除人员</Button>
                             <Button onClick={this.openDialogRy}>增加人员</Button>
                         </ButtonGroup>
                     </Col>
                 </Row>
                 <Row><RyList data={this.state.rylist}
                              onSelected={this.handleSelected}
-                             selectedRowKeys={this.state.selectedRowKeys}/></Row>
-
+                             selectedRowKeys={this.state.selectedRowKeys}/>
+                </Row>
+                <Row style={{marginTop: '8px'}}>
+                    <Col span={5} offset={1}>
+                        单人房：￥{pxxx.drj}/晚
+                    </Col>
+                    <Col span={5}>
+                        双人房：￥{pxxx.srj}/晚
+                    </Col>
+                    <Col span={8}>
+                        早餐：￥{pxxx.zaoc}/人&nbsp;&nbsp;&nbsp;&nbsp;
+                        午餐：￥{pxxx.wuc}/人&nbsp;&nbsp;&nbsp;&nbsp;
+                        晚餐：￥{pxxx.wanc}/人
+                    </Col>
+                </Row>
+                <Row>
+                    <Col offset={1} span="4"><h2>会员服务</h2></Col>
+                </Row>
+                <Row>
+                    <Col span="5" offset={1}>宾馆总机：{pxxx.bgdh}</Col>
+                    <Col span="5">会务组房间号码：{pxxx.hwwzfjh}</Col>
+                    <Col span="5">联系电话：{pxxx.pxdddh}</Col>
+                    <Col span="8">地点：{pxxx.pxdz}</Col>
+                </Row>
                 <Row style={{marginTop: '24px'}}>
                     <Col span="5" offset="10">
                         <ButtonGroup>
