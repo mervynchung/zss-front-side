@@ -37,9 +37,18 @@ const c = React.createClass({
     addBm(record){
         this.setState({view: 'new', entity: record})
     },
+    //打开回执视图
+    handleHz(record){
+        this.setState({view: 'hz', entity: record})
+    },
     //返回list视图
     backToList(){
         this.setState({view: 'list'})
+    },
+    //从edit视图返回list
+    async editToList(){
+        await this.setState({view: 'list'});
+        await this.refreshList()
     },
     //抓取当前list分页状态
     grabListState(state){
@@ -72,7 +81,7 @@ const c = React.createClass({
             title: '操作',
             key: 'action',
             fixed: 'right',
-            width: 100,
+            width: 120,
             render: (text, record)=> {
                 let actGroup = <span className="act-group">
                     <a onClick={()=> {
@@ -80,6 +89,7 @@ const c = React.createClass({
                     }}>详情</a>
                     {(record.isbm == 0 && record.fbzt == 0) &&  <a onClick={()=> {this.addBm(record)}}>报名</a>}
                     {(record.isbm == 1 && record.fbzt == 0) &&  <a onClick={()=> {this.editBm(record)}}>报名</a>}
+                    {record.isbm == 1 &&  <a onClick={()=> {this.handleHz(record)}}>回执</a>}
                 </span>;
                 return actGroup
             }
@@ -111,16 +121,16 @@ const c = React.createClass({
         };
         /*设置编辑组件的参数*/
         const editSetting = {
-            id: this.state.entity.id,
+            entity: this.state.entity,
             //设置返回主视图调用的方法
-            onBack: this.backToList,
+            onBack: this.editToList,
         };
 
         /*设置添加组件的参数*/
         const newSetting = {
             entity: this.state.entity,
             //设置返回主视图调用的方法
-            onBack: this.backToList,
+            onBack: this.editToList,
         };
 
         /*通过控制state.view的值，实现页面上列表/详细信息等组件的切换*/

@@ -22,6 +22,9 @@ let c = React.createClass({
             if (!!errors) {
                 return;
             }
+            for(let k in values){
+                if(values[k] === undefined)  values[k] = null
+            }
             values.xb = values.xb.label;
             values.zw = values.zw.label;
             values.rzsj = values.zssj[0];
@@ -108,9 +111,9 @@ let c = React.createClass({
                     </RadioGroup>
                 </FormItem>
                 <FormItem label="点餐" {...layout}>
-                    <Checkbox { ...getFieldProps('zaoc', {valuePropName: 'checked'})}>早餐</Checkbox>
-                    <Checkbox { ...getFieldProps('wuc', {valuePropName: 'checked'})}>午餐</Checkbox>
-                    <Checkbox { ...getFieldProps('wanc', {valuePropName: 'checked'})}>晚餐</Checkbox>
+                    <Checkbox { ...getFieldProps('zaoc', {valuePropName: 'checked',initialValue: false})}>早餐</Checkbox>
+                    <Checkbox { ...getFieldProps('wuc', {valuePropName: 'checked',initialValue: false})}>午餐</Checkbox>
+                    <Checkbox { ...getFieldProps('wanc', {valuePropName: 'checked',initialValue: false})}>晚餐</Checkbox>
                 </FormItem>
                 <FormItem label="备注" {...layout}>
                     <Input type="textarea" { ...getFieldProps('bz')} /></FormItem>

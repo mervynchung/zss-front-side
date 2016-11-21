@@ -1,7 +1,7 @@
 import {SelectorYear, SelectorXZ, SelectorSWSXZ, SelectorCS} from 'component/compSelector'
 import React from 'react'
 import {Steps, Col, Row, Spin, notification, Icon, Button, Form, Input, InputNumber, Popconfirm} from 'antd'
-import {mapKeys,remove} from 'lodash'
+import {mapKeys, remove} from 'lodash'
 import RyList from './rylist'
 import DialogRy from './dialogRy'
 
@@ -11,43 +11,56 @@ const FormItem = Form.Item;
 let form = React.createClass({
     getInitialState(){
         return {
-            rylist:[],
-            data:[],
-            selectedRowKeys:[],
-            dialogRy:false
+            rylist: [],
+            data: [],
+            selectedRowKeys: [],
+            dialogRy: false
         }
     },
     handleSelected(selectedRowKeys){
-        this.setState({selectedRowKeys:selectedRowKeys})
+        this.setState({selectedRowKeys: selectedRowKeys})
     },
     componentWillReceiveProps(nextProps){
         if (!!nextProps) {
-            this.setState({rylist:nextProps.rylist})
+            this.setState({rylist: nextProps.rylist})
         }
     },
     delRy(){
-        let {selectedRowKeys,rylist} = this.state;
+        let {selectedRowKeys, rylist} = this.state;
         let i = selectedRowKeys.length;
-        while(i--){
-            remove(rylist,(value, index, array)=>{
+        while (i--) {
+            remove(rylist, (value, index, array)=> {
                 return selectedRowKeys[i] === index
             })
         }
-        this.setState({rylist:rylist,selectedRowKeys:[]})
+        this.setState({rylist: rylist, selectedRowKeys: []})
     },
     addRy(value){
         let rylist = this.state.rylist;
         rylist.push(value);
-        this.setState({rylist:rylist})
+        this.setState({rylist: rylist})
     },
     openDialogRy(){
-        this.setState({dialogRy:true})
+        this.setState({dialogRy: true})
     },
     closeDialogRy(){
-        this.setState({dialogRy:false})
+        this.setState({dialogRy: false})
     },
     commit(){
         this.props.onCommit(this.state.rylist);
+    },
+    getCost(list){
+        const {pxxx} = this.props;
+        let cost = 0,srj=0,drj=0;
+        list.forEach(value=>{
+            cost += value.zaoc * pxxx.zaoc + value.wuc * pxxx.wuc + value.wanc * pxxx.wanc;
+            srj += (value.fjlx == '2' ? 1 : 0) ;
+            drj += (value.fjlx == '1' ? 1 : 0) ;
+        });
+        cost += drj * pxxx.drj + Math.ceil(srj/2) * pxxx.srj;
+        return {
+            cost:cost,srj:srj,drj:drj
+        }
     },
     render(){
         const {pxxx} = this.props;
@@ -56,8 +69,9 @@ let form = React.createClass({
             labelCol: {span: 6},
             wrapperCol: {span: 14}
         };
+        let cost = this.getCost(this.state.rylist);
         return <div className="form">
-            <DialogRy visible = {this.state.dialogRy} onClose={this.closeDialogRy} onOk={this.addRy}/>
+            <DialogRy visible={this.state.dialogRy} onClose={this.closeDialogRy} onOk={this.addRy}/>
             <Form horizontal>
                 <Row>
                     <Col offset={1}><h2>事务所信息</h2></Col>
@@ -65,7 +79,7 @@ let form = React.createClass({
 
                 <Row>
                     <Col span="24">
-                        <FormItem label="事务所名称" labelCol={{span: 3}} wrapperCol={{span: 19}} >
+                        <FormItem label="事务所名称" labelCol={{span: 3}} wrapperCol={{span: 19}}>
                             <Input disabled { ...getFieldProps('swsmc')} /></FormItem>
                     </Col>
                 </Row>
@@ -125,6 +139,13 @@ let form = React.createClass({
                         早餐：￥{pxxx.zaoc}/人&nbsp;&nbsp;&nbsp;&nbsp;
                         午餐：￥{pxxx.wuc}/人&nbsp;&nbsp;&nbsp;&nbsp;
                         晚餐：￥{pxxx.wanc}/人
+                    </Col>
+                </Row>
+                <Row>
+                    <Col span={8} offset={1}>
+                        单人间：<span className="blue">{cost.drj}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        双人间：<span className="blue">{cost.srj}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        房费+餐费合计：<span className="blue">￥{cost.cost}元</span>
                     </Col>
                 </Row>
                 <Row>

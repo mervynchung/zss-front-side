@@ -2,7 +2,6 @@ import React from 'react'
 import {Table, Row, Col, Button, Icon, notification, Alert} from 'antd'
 import Panel from 'component/compPanel'
 import req from 'common/request';
-import SearchForm from './searchForm'
 import merge from 'lodash/merge';
 import config from 'common/configuration'
 import {isEmptyObject,jsonCopy} from 'common/utils'
@@ -97,10 +96,6 @@ const list = React.createClass({
         this.fetchData(param)
     },
 
-    //查询按钮开关
-    handleSearchToggle(){
-        this.setState({searchToggle: !this.state.searchToggle});
-    },
     //查询提交
     handleSearchSubmit(values){
         const p = this.state.pagination;
@@ -167,8 +162,6 @@ const list = React.createClass({
                                          closable
                                          onClose={this.helperClose}/>}
             <Panel title={title} toolbar={toolbar}>
-                {this.state.searchToggle && <SearchForm
-                    onSubmit={this.handleSearchSubmit}/>}
                 <Table columns={columns}
                        dataSource={this.state.data}
                        pagination={this.state.pagination}
