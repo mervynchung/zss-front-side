@@ -314,12 +314,7 @@ let lrb = React.createClass({
                   title: '非执业注册编号',
                   dataIndex: 'FZYZCZSBH',
                   key: 'FZYZCZSBH',
-                }, {
-                  title: '所属单位',
-                  dataIndex: 'ZZDW',
-                  key: 'ZZDW',
-                  sorter: true,
-                }, {
+                },{
                   title: '已交会费',
                   dataIndex: 'JE',
                   key: 'JE',
@@ -328,12 +323,15 @@ let lrb = React.createClass({
                     if (index==rowx) {
                     return <InputNumber {...getFieldProps('JE',{ initialValue: text})} min={1} step={0.01} />;
                     }
-                    return text;
+                    return <span style={{color:'blue'}}>{text}</span>;
                   }
                 }, {
                   title: '缴费日期',
                   dataIndex: 'JFRQ',
                   key: 'JFRQ',
+                  render(text, row, index) {
+                    return <span style={{color:'blue'}}>{text}</span>;
+                  }
                 }, {
                   title: '备注',
                   dataIndex: 'BZ',
@@ -344,6 +342,11 @@ let lrb = React.createClass({
                     }
                     return text;
                   }
+                },  {
+                  title: '所属单位',
+                  dataIndex: 'ZZDW',
+                  key: 'ZZDW',
+                  sorter: true,
                 }, {
                   title: '人员状态',
                   dataIndex: 'ryzt',

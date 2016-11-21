@@ -22,9 +22,13 @@ let searchForm = React.createClass({
     },
     render(){
         const formItemLayout = {//表单样式
-      labelCol: { span: 6 },
-      wrapperCol: { span: 18 },
-    };  
+                  labelCol: { span: 6 },
+                  wrapperCol: { span: 18 },
+                };  
+        const formItemLayout2 = {//表单样式
+                  labelCol: { span: 8 },
+                  wrapperCol: { span: 16 },
+                };  
     const { getFieldProps } = this.props.form;//获取表单输入组件值的特定写法
     const nowy = new Date();
       var yy =[];
@@ -36,9 +40,17 @@ let searchForm = React.createClass({
                 <Form horizontal onSubmit={this.handleSubmit} form={this.props.form}>
                     <Row>
                             <Col span="6">
-                                    <FormItem label="所属年份：" {...formItemLayout}>
-                                            <Select  { ...getFieldProps('nd', { initialValue: yy[0]})} >
+                                    <FormItem label="所属年份：" {...formItemLayout2}>
+                                            <Select { ...getFieldProps('nd', { initialValue: yy[0]})} >
                                             {yearOptions}
+                                            </Select>
+                                    </FormItem> 
+                            </Col>
+                            <Col span="6">
+                                    <FormItem label="缴纳情况：" {...formItemLayout2}>
+                                            <Select { ...getFieldProps('jnqk')} >
+                                            <Option key="1" value="yj">已缴费</Option>
+                                            <Option key="2" value="wj">未缴费</Option>
                                             </Select>
                                     </FormItem> 
                             </Col>
@@ -47,7 +59,7 @@ let searchForm = React.createClass({
                                             <Input {...getFieldProps('xming')} placeholder="请输入搜索条件" />
                                     </FormItem>
                             </Col>
-                            <Col span="8">
+                            <Col span="6">
                                     <FormItem label="身份证号：" {...formItemLayout}>
                                             <Input {...getFieldProps('sfzh')} placeholder="身份证后六位" />
                                     </FormItem>
