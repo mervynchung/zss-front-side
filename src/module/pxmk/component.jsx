@@ -4,10 +4,12 @@ import CompInputBaseTable from 'component/compInputBaseTable';
 import Panel from 'component/compPanel'
 import req from 'common/request';
 import Model from './model.js' 
+import TJVeiw from './tjIndex.jsx' 
 import auth from 'common/auth'
 import SearchForm from './searchForm'
 import config from 'common/configuration'
 import {Link} from 'react-router'
+import Detail from 'component/pxnr'
 
 const API_URL = config.HOST + config.URI_API_PROJECT + '/pxfbList';
 const API_URL_FB = config.HOST + config.URI_API_PROJECT + '/pxxxapi';
@@ -33,6 +35,9 @@ const lrb = React.createClass({
             letValues:{},
             sloading:false,
             pxid:"",
+            dialogDetail:false,
+            dialogTJ:false,
+            entity: {},
         }
     },
 
@@ -106,15 +111,37 @@ const lrb = React.createClass({
        this.setState({pxid:record.pxid,dataxx:record});
       };
     },
+
     xxfb(lx){
       this.setState({view:lx,letValues:{}});
     },
+
     handleReturn(lx){
       this.setState({view:0,letValues:{}})
     },
+
     valueReset(){
     this.setState({letValues:this.state.dataxx});
   },
+
+  openDetail(record){
+        this.setState({dialogDetail: true, entity: record})
+    },
+
+    //关闭详情视图
+    closeDetail(){
+        this.setState({dialogDetail:false})
+    },
+
+    openTJ(){
+        this.setState({dialogTJ: true})
+    },
+
+    //关闭详情视图
+    closeTJ(){
+        this.setState({dialogTJ:false})
+    },
+
     handleBGSubmit(value){
         this.setState({bgLoading:true});
             var ls = value;
@@ -156,42 +183,44 @@ const lrb = React.createClass({
                 this.setState({bgLoading:false,letValues:this.refs.addValues.getFieldsValue()});
             })
         },
+
+    delRow(metd){
+        this.setState({loading: true});
+               req({
+                  url: API_URL_FB+'/'+this.state.pxid,
+                  type: 'json',
+                  method: metd,
+                  contentType: 'application/json',
+                  headers:{'x-auth-token':auth.getToken()},
+              }).then(resp=> {
+                  var that=this;
+                  Modal.success({
+                      title: '提交成功',
+                      content: (
+                          <div>
+                              <p>提交成功</p>
+                          </div>  ),
+                      onOk() {
+                                that.fetchData();
+                              },
+                  });
+                   this.setState({view:0,letValues:{}});
+              }).catch(err=> {
+                this.setState({loading: false});
+                  Modal.error({
+                      title: '数据获取错误',
+                      content: (
+                          <div>
+                            <p>无法从服务器返回数据，需检查应用服务工作情况</p>
+                              <p>Status: {err.status}</p>
+                          </div>  )
+                  });
+              })
+    },
+    
     componentDidMount(){
         this.fetchData();
        
-    },
-    delRow(metd){
-      this.setState({loading: true});
-             req({
-                url: API_URL_FB+'/'+this.state.pxid,
-                type: 'json',
-                method: metd,
-                contentType: 'application/json',
-                headers:{'x-auth-token':auth.getToken()},
-            }).then(resp=> {
-                var that=this;
-                Modal.success({
-                    title: '提交成功',
-                    content: (
-                        <div>
-                            <p>提交成功</p>
-                        </div>  ),
-                    onOk() {
-                              that.fetchData();
-                            },
-                });
-                 this.setState({view:0,letValues:{}});
-            }).catch(err=> {
-              this.setState({loading: false});
-                Modal.error({
-                    title: '数据获取错误',
-                    content: (
-                        <div>
-                          <p>无法从服务器返回数据，需检查应用服务工作情况</p>
-                            <p>Status: {err.status}</p>
-                        </div>  )
-                });
-            })
     },
 
     ztRender(text, row, index) {
@@ -199,6 +228,7 @@ const lrb = React.createClass({
     const sj=new Date(row.BMJZSJ);
     let cmp=false;
     if (row.fbzt==0&&now>sj.getTime()) {
+      console.log(row);
       req({
                 url: API_URL_FB+'/'+row.pxid,
                 type: 'json',
@@ -212,12 +242,12 @@ const lrb = React.createClass({
     };
      return (
                     <span>
-                      <a onClick={that.xxfb.bind(this,2)}>查看</a>
+                      <a onClick={that.openDetail.bind(this,{id: row.pxid })}>查看</a>
                         {cmp?null:<span><span className="ant-divider" ></span>
                                                 <Popconfirm title="是否确认停止报名？" onConfirm={that.delRow.bind(this,'put')}>
                                                 <a >停止报名</a></Popconfirm></span>}
                         <span className="ant-divider"></span>
-                        <a onClick={that.xxfb.bind(this,3)}>统计</a>
+                        <a onClick={that.openTJ}>统计</a>
                         <span className="ant-divider"></span>
                         <a onClick={that.xxfb.bind(this,4)}>修改</a>
                         <span className="ant-divider"></span>
@@ -227,7 +257,6 @@ const lrb = React.createClass({
                   );
   },
     render(){
-        const re=this.props.location.search.substring(1,this.props.location.search.length);
         const columns = [{ //设定列
                   title: '序号', //设定该列名称
                   dataIndex: 'key', //设定该列对应后台字段名
@@ -299,7 +328,24 @@ const lrb = React.createClass({
          let toolbar2 = <ToolBar>
                 <Button type="ghost" onClick={this.handleReturn}>返回</Button>
         </ToolBar>;
+        /*设置明细信息组件的参数*/
+        const detailSetting = {
+            //设置数据源
+            id: this.state.entity.id,
+            visible:this.state.dialogDetail,
+            //设置返回主视图调用的方法
+            onClose: this.closeDetail
+        };
+        const tjSetting = {
+            //设置数据源
+            data: this.state.dataxx,
+            visible:this.state.dialogTJ,
+            //设置返回主视图调用的方法
+            onClose: this.closeTJ
+        };
         return <div className="zxdpxmk">
+        <Detail {...detailSetting}/>
+        <TJVeiw {...tjSetting}/>
             <div className="wrap">
                 {this.state.view==0&&<Panel title="缴费记录上传管理" toolbar={toolbar}>
                                     {this.state.searchToggle && <SearchForm

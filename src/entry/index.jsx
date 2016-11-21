@@ -175,7 +175,7 @@ const Index = React.createClass({
                 require('../module/xtsjfx/sjfx/zjgmsjfx'),//资金规模数据分析
                 require('../module/xtsjfx/sjfx/hynlsjfx'),//行业年龄数据分析
                 require('../module/xtsjfx/sjfx/ryztsjfx'),
-                require('../module/xtsjfx/sjfx/zyzshsjfx'),
+                require('../module/xtsjfx/sjfx/zyzshsjfx'),*/
 
                 //会员会费缴纳
                 require('../module/hyhf_new/hyhfjnqk'),
@@ -184,7 +184,7 @@ const Index = React.createClass({
                 require('../module/hyhf_new/scgl'),
 
                 //证照打印管理
-                require('../module/zzdygl/zyglscdy'),*/
+                require('../module/zzdygl/zyglscdy'),
 
                 //培训模块
                 require('../module/pxmk'),
