@@ -56,7 +56,7 @@ const Index = React.createClass({
 
                 /* 中心端 */
                 //机构管理
-          /*      require('../module/jggl/swscx'),
+                require('../module/jggl/swscx'),
                 require('../module/jggl/swsslsp'),
 
                 //人员管理
@@ -175,7 +175,7 @@ const Index = React.createClass({
                 require('../module/xtsjfx/sjfx/zjgmsjfx'),//资金规模数据分析
                 require('../module/xtsjfx/sjfx/hynlsjfx'),//行业年龄数据分析
                 require('../module/xtsjfx/sjfx/ryztsjfx'),
-                require('../module/xtsjfx/sjfx/zyzshsjfx'),*/
+                require('../module/xtsjfx/sjfx/zyzshsjfx'),
 
                 //会员会费缴纳
                 require('../module/hyhf_new/hyhfjnqk'),
@@ -192,7 +192,7 @@ const Index = React.createClass({
 
                 //客户端
                 //机构管理
-/*                require('../module/client/jggl/swsbg'),
+               require('../module/client/jggl/swsbg'),
                 require('../module/client/jggl/swszx'),
                 require('../module/client/jggl/swshb'),
                 require('../module/client/jggl/swsfssl'),
@@ -231,7 +231,7 @@ const Index = React.createClass({
 
                 require('../module/client/ywgl/swsywtj'), //事务所业务统计
                 require('../module/client/ywgl/ywhztj'), //业务汇总统计
-*/
+
                 //培训报名
                 require('../module/client/wsbm'),
 
