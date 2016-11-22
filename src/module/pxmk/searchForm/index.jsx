@@ -26,34 +26,13 @@ let searchForm = React.createClass({
       wrapperCol: { span: 18 },
     };  
     const { getFieldProps } = this.props.form;//获取表单输入组件值的特定写法
-    const nowy = new Date();
-      var yy =[];
-      for(let i=0;i<4;i++){
-        yy.push(nowy.getFullYear()-i);
-      };
-      const yearOptions = yy.map(year => <Option key={year}>{year}</Option>);
         return <div className="search-form">
                 <Form horizontal onSubmit={this.handleSubmit} form={this.props.form}>
                     <Row>
-                            <Col span="8">
-                                    <FormItem label="事务所名称：" {...formItemLayout}>
-                                            <Input {...getFieldProps('dwmc')} placeholder="请输入搜索条件" />
-                                    </FormItem>
-                            </Col>
-                            <Col span="8">
+                            <Col span="10">
                                     <FormItem label="所属年份：" {...formItemLayout}>
-                                            <Select  { ...getFieldProps('nd', { initialValue: yy[0]})} >
-                                            {yearOptions}
-                                            </Select>
-                                    </FormItem> 
-                            </Col>
-                            <Col span="8">
-                                    <FormItem label="缴费情况：" {...formItemLayout}>
-                                            <Select  { ...getFieldProps('jnqk')} >
-                                            <Option key="1" value="tt">欠缴团体</Option>
-                                            <Option key="2" value="gr">欠缴个人</Option>
-                                            <Option key="3" value="wcw">未上传财务报表</Option>
-                                            </Select>
+                                            <DatePicker  { ...getFieldProps('nd')} >
+                                            </DatePicker>
                                     </FormItem> 
                             </Col>
                             <Col style={{float:'right'}}>

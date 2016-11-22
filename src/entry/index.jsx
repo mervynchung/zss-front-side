@@ -186,10 +186,13 @@ const Index = React.createClass({
                 //证照打印管理
                 require('../module/zzdygl/zyglscdy'),
 
+                //培训模块
+                require('../module/pxmk'),
+
 
                 //客户端
                 //机构管理
-                require('../module/client/jggl/swsbg'),
+               require('../module/client/jggl/swsbg'),
                 require('../module/client/jggl/swszx'),
                 require('../module/client/jggl/swshb'),
                 require('../module/client/jggl/swsfssl'),
@@ -225,6 +228,7 @@ const Index = React.createClass({
                 require('../module/client/ywgl/khxxgl'), //客户信息管理
                 require('../module/client/ywgl/ywbb'), //事务所业务报备
                 require('../module/client/ywgl/grywtj'), //个人业务统计
+
                 require('../module/client/ywgl/swsywtj'), //事务所业务统计
                 require('../module/client/ywgl/ywhztj'), //业务汇总统计
 

@@ -122,6 +122,7 @@ const jgcx = React.createClass({
             method: 'get',
             type: 'json',
             data: params,
+            headers: {'x-auth-token': auth.getToken()},
             success: (result) => {
                 this.setState({
                     tjData: result
@@ -142,6 +143,7 @@ const jgcx = React.createClass({
         const valuewhere = this.state.where;
         valuewhere.nd = value.nd;
         valuewhere.dwmc = value.dwmc;
+        valuewhere.jnqk = value.jnqk;
         const paper = this.state.pagination;     //把当前页重置为1
         paper.current = 1;
         this.fetch_jgcx({//调用主查询
@@ -384,13 +386,14 @@ const jgcx = React.createClass({
                             </tbody>
                         </table>
                     </div>
+                    <div className="h-scroll-table">
                     <Table columns={columns}
                            dataSource={this.state.data}
                            pagination={this.state.pagination}
                            onChange={this.handleTableChange}
                            rowSelection={rowSelection}
                            rowKey={record=>record.jgid}
-                           loading={this.state.loading} bordered/>
+                           loading={this.state.loading} bordered/></div>
                 </Panel></Spin>
             </div>
 
