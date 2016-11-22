@@ -3,8 +3,6 @@ import {Spin, notification, Icon,Table,Button,Row,Col} from 'antd'
 import Panel from 'component/compPanel'
 import config from 'common/configuration.js'
 import req from 'common/request'
-import Success from './successScr'
-import FailScr from './failScr'
 
 const PanelBar = Panel.ToolBar;
 
@@ -36,18 +34,19 @@ const c = React.createClass({
         }).then(resp=> {
             this.setState({dataBase: resp.base, dataRy:resp.ry,loading: false})
         }).catch(e=> {
-            if (e.status == 403) {
-                let res = JSON.parse(e.response);
-                this.setState({scr: 'fail', loading: false, failtext: res.text})
-            } else {
-                this.setState({scr: 'fail', loading: false})
-            }
+            this.setState({loading: false});
+            notification.error({
+                duration: 3,
+                message: '数据读取失败',
+                description: '网络访问故障，请稍后尝试'
+            });
+
         })
     },
 
     render(){
         const {title,entity} = this.props;
-        let {dataBase,dataRy, loading, scr, failtext, successType} = this.state;
+        let {dataBase,dataRy, loading} = this.state;
         const panelBar = <PanelBar>
             <Button onClick={this.back}>
                 <Icon type="rollback"/>返回
