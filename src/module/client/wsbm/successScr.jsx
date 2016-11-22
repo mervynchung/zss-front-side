@@ -13,12 +13,12 @@ const c = React.createClass({
         let element = {};
         element.commit = <Alert message="操作成功"
                              description={<div>
-                                 <p>报表数据已提交</p>
+                                 <p>参会人员名单已提交，可从列表“回执”查看报名人员名单</p>
                              </div>}
                              type="success" />;
         element.save =  <Alert message="操作成功"
                                description={<div>
-                                   <p>报表数据已保存</p>
+                                   <p>参会人员名单已更新，可从列表“回执”查看报名人员名单</p>
                                </div>}
                                type="success" />;
 

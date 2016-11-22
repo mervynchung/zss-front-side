@@ -46,6 +46,10 @@ const c = React.createClass({
             title: '就餐类型',
             key: 'jclx',
             dataIndex: 'jclx',
+        }, {
+            title: '备注',
+            key: 'bz',
+            dataIndex: 'bz',
         }];
         const {data, selectedRowKeys} = this.props;
         const rowSelection = {
