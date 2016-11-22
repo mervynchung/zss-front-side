@@ -14,7 +14,6 @@ cssPagedMedia.size = function (size) {
     cssPagedMedia('@page {size:' + size + '}');
 };
 
-const confirm = Modal.confirm;
 let dy = React.createClass({
     onClick(){
         window.print();

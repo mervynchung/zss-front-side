@@ -4,6 +4,7 @@ import List from './list'
 import Detail from 'component/pxnr'
 import Edit from './edit'
 import New from './new'
+import Hz from './hz'
 import model from './model'
 import {jsonCopy} from 'common/utils'
 import cloneDeep from 'lodash/cloneDeep';
@@ -28,7 +29,10 @@ const c = React.createClass({
     closeDetail(){
         this.setState({dialogDetail:false})
     },
-
+    //打开回执视图
+    openHz(record){
+        this.setState({view: 'hz', entity: record})
+    },
     //打开编辑视图
     editBm(record){
         this.setState({view: 'edit', entity: record})
@@ -37,9 +41,18 @@ const c = React.createClass({
     addBm(record){
         this.setState({view: 'new', entity: record})
     },
+    //打开回执视图
+    handleHz(record){
+        this.setState({view: 'hz', entity: record})
+    },
     //返回list视图
     backToList(){
         this.setState({view: 'list'})
+    },
+    //从edit视图返回list
+    async editToList(){
+        await this.setState({view: 'list'});
+        await this.refreshList()
     },
     //抓取当前list分页状态
     grabListState(state){
@@ -72,7 +85,7 @@ const c = React.createClass({
             title: '操作',
             key: 'action',
             fixed: 'right',
-            width: 100,
+            width: 120,
             render: (text, record)=> {
                 let actGroup = <span className="act-group">
                     <a onClick={()=> {
@@ -80,6 +93,7 @@ const c = React.createClass({
                     }}>详情</a>
                     {(record.isbm == 0 && record.fbzt == 0) &&  <a onClick={()=> {this.addBm(record)}}>报名</a>}
                     {(record.isbm == 1 && record.fbzt == 0) &&  <a onClick={()=> {this.editBm(record)}}>报名</a>}
+                    {record.isbm == 1 &&  <a onClick={()=> {this.openHz(record)}}>回执</a>}
                 </span>;
                 return actGroup
             }
@@ -111,23 +125,30 @@ const c = React.createClass({
         };
         /*设置编辑组件的参数*/
         const editSetting = {
-            id: this.state.entity.id,
+            entity: this.state.entity,
+            //设置返回主视图调用的方法
+            onBack: this.editToList,
+        };
+        /*设置回执组件的参数*/
+        const hzSetting = {
+            entity: this.state.entity,
             //设置返回主视图调用的方法
             onBack: this.backToList,
         };
 
         /*设置添加组件的参数*/
         const newSetting = {
-            id: this.state.entity.id,
+            entity: this.state.entity,
             //设置返回主视图调用的方法
-            onBack: this.backToList,
+            onBack: this.editToList,
         };
 
         /*通过控制state.view的值，实现页面上列表/详细信息等组件的切换*/
         const view = {
             list: <List {...listSetting} ref="list"/>,
             edit: <Edit {...editSetting}/>,
-            new: <New {...newSetting} />
+            new: <New {...newSetting} />,
+            hz: <Hz {...hzSetting} />
         };
 
 
