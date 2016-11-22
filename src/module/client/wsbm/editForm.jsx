@@ -49,18 +49,36 @@ let form = React.createClass({
     commit(){
         this.props.onCommit(this.state.rylist);
     },
+    getSrj(array){
+        let c = 0;
+        array.sort((a,b)=>b-a); //将数组降序排序
+        for(let i = 0 ; i< array.length; i++){
+            if(i%2 == 0){
+                c += array[i]; //将偶数位的天数累加
+            }
+        }
+        return c
+    },
     getCost(list){
         const {pxxx} = this.props;
-        let cost = 0,srj=0,drj=0;
+        let cost = 0,srjdays=[],drj=0;
         list.forEach(value=>{
             cost += value.zaoc * pxxx.zaoc + value.wuc * pxxx.wuc + value.wanc * pxxx.wanc;
-            srj += (value.fjlx == '2' ? 1 : 0) ;
             drj += (value.fjlx == '1' ? 1 : 0) ;
+            if(value.fjlx=='2') srjdays.push(this.daydiff(value.rzsj,value.lksj));//将每人登记的双人间天数记录成数组
         });
-        cost += drj * pxxx.drj + Math.ceil(srj/2) * pxxx.srj;
+        cost += drj * pxxx.drj;
+        //计算双人间的所需数量
+        let srj = this.getSrj(srjdays);
+        cost += srj * pxxx.srj;
         return {
             cost:cost,srj:srj,drj:drj
         }
+    },
+    daydiff(first,second){
+        first = new Date(first);
+        second = new Date(second);
+        return Math.round((second-first)/(1000*60*60*24));
     },
     render(){
         const {pxxx} = this.props;
@@ -142,10 +160,10 @@ let form = React.createClass({
                     </Col>
                 </Row>
                 <Row>
-                    <Col span={8} offset={1}>
-                        单人间：<span className="blue">{cost.drj}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        双人间：<span className="blue">{cost.srj}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        房费+餐费合计：<span className="blue">￥{cost.cost}元</span>
+                    <Col span={20} offset={1}>
+                        单人间：<span className="blue">{cost.drj} 间·天</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        双人间：<span className="blue">{cost.srj} 间·天</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        房费+餐费合计：<span className="blue">￥{cost.cost}元 </span>该值仅为估算，只供参考
                     </Col>
                 </Row>
                 <Row>

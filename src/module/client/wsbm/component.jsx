@@ -4,6 +4,7 @@ import List from './list'
 import Detail from 'component/pxnr'
 import Edit from './edit'
 import New from './new'
+import Hz from './hz'
 import model from './model'
 import {jsonCopy} from 'common/utils'
 import cloneDeep from 'lodash/cloneDeep';
@@ -28,7 +29,10 @@ const c = React.createClass({
     closeDetail(){
         this.setState({dialogDetail:false})
     },
-
+    //打开回执视图
+    openHz(record){
+        this.setState({view: 'hz', entity: record})
+    },
     //打开编辑视图
     editBm(record){
         this.setState({view: 'edit', entity: record})
@@ -89,7 +93,7 @@ const c = React.createClass({
                     }}>详情</a>
                     {(record.isbm == 0 && record.fbzt == 0) &&  <a onClick={()=> {this.addBm(record)}}>报名</a>}
                     {(record.isbm == 1 && record.fbzt == 0) &&  <a onClick={()=> {this.editBm(record)}}>报名</a>}
-                    {record.isbm == 1 &&  <a onClick={()=> {this.handleHz(record)}}>回执</a>}
+                    {record.isbm == 1 &&  <a onClick={()=> {this.openHz(record)}}>回执</a>}
                 </span>;
                 return actGroup
             }
@@ -125,6 +129,12 @@ const c = React.createClass({
             //设置返回主视图调用的方法
             onBack: this.editToList,
         };
+        /*设置回执组件的参数*/
+        const hzSetting = {
+            entity: this.state.entity,
+            //设置返回主视图调用的方法
+            onBack: this.backToList,
+        };
 
         /*设置添加组件的参数*/
         const newSetting = {
@@ -137,7 +147,8 @@ const c = React.createClass({
         const view = {
             list: <List {...listSetting} ref="list"/>,
             edit: <Edit {...editSetting}/>,
-            new: <New {...newSetting} />
+            new: <New {...newSetting} />,
+            hz: <Hz {...hzSetting} />
         };
 
 
