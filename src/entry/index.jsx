@@ -56,7 +56,7 @@ const Index = React.createClass({
 
                 /* 中心端 */
                 //机构管理
-                require('../module/jggl/swscx'),
+            /*    require('../module/jggl/swscx'),
                 require('../module/jggl/swsslsp'),
 
                 //人员管理
@@ -184,7 +184,7 @@ const Index = React.createClass({
                 require('../module/hyhf_new/scgl'),
 
                 //证照打印管理
-                require('../module/zzdygl/zyglscdy'),
+                require('../module/zzdygl/zyglscdy'),*/
 
                 //培训模块
                 require('../module/pxmk'),
@@ -192,7 +192,7 @@ const Index = React.createClass({
 
                 //客户端
                 //机构管理
-               require('../module/client/jggl/swsbg'),
+    /*           require('../module/client/jggl/swsbg'),
                 require('../module/client/jggl/swszx'),
                 require('../module/client/jggl/swshb'),
                 require('../module/client/jggl/swsfssl'),
@@ -233,7 +233,7 @@ const Index = React.createClass({
                 require('../module/client/ywgl/ywhztj'), //业务汇总统计
 
                 //培训报名
-                require('../module/client/wsbm'),
+                require('../module/client/wsbm'),*/
 
                 //公用功能
                 //修改密码

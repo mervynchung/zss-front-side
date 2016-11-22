@@ -6,6 +6,7 @@ import req from 'reqwest';
 import SearchForm from './searchForm'
 import config from 'common/configuration'
 import DetailBox from './detailbox.jsx'
+import auth from 'common/auth'
 
 
 const API_URL = config.HOST + config.URI_API_PROJECT + '/jdjc/swsnj1';
@@ -98,7 +99,8 @@ const lrb = React.createClass({
             url: API_URL,
             type: 'json',
             method: 'get',
-            data: params
+            data: params,
+            headers:{'x-auth-token':auth.getToken()}
         }).then(resp=> {
             const p = this.state.pagination;
             p.total = resp.page.pageTotal > 1000 ? 1000 : resp.page.pageTotal;

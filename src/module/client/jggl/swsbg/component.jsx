@@ -72,6 +72,7 @@ const swsbgsq = React.createClass({
                 method: 'put',
                 data: JSON.stringify(ls),
                 contentType: 'application/json',
+                headers:{'x-auth-token':auth.getToken()}
             }).then(resp=> {
                 var that=this;
                 Modal.success({
@@ -112,14 +113,16 @@ const swsbgsq = React.createClass({
         return req({
             url: API_URL+auth.getJgid(),
             type: 'json',
-            method: 'get'
+            method: 'get',
+            headers:{'x-auth-token':auth.getToken()}
         })
     },
         fetchSPing(){
         return req({
             url: API_URL_C+auth.getJgid(),
             type: 'json',
-            method: 'get'
+            method: 'get',
+            headers:{'x-auth-token':auth.getToken()}
         })
     },
     async fetchAll(){
