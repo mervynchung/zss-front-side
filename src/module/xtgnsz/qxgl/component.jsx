@@ -72,7 +72,8 @@ const qxgl = React.createClass({
         req({
             url: Privileges_URL + '/' + record.id,
             type: 'json',
-            method: 'get'
+            method: 'get',
+            headers: {'x-auth-token': auth.getToken()}
         }).then(resp=> {
             let privileges = [];
             for (let i = 0; i < resp.length; i++) {
