@@ -5,6 +5,7 @@ import React from 'react'
 import {Select} from 'antd'
 import config from 'common/configuration'
 import req from 'reqwest'
+import auth from 'common/auth'
 
 const Option = Select.Option;
 const API_URL = config.HOST+config.URI_API_PROJECT + '/jgselect';
@@ -23,6 +24,7 @@ const selectorJg = React.createClass({
             method: 'get',
             type: 'json',
             data: params,
+          headers: {'x-auth-token': auth.getToken()},
             success: (result) => {
                       if (result.data.length!=0) {
                               this.setState({

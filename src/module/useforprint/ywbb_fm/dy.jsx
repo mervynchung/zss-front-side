@@ -55,8 +55,7 @@ let dy = React.createClass({
             <p className="c5"><span></span></p>
             <hr/>
             <p className="c5"><span className="c12"></span></p>
-            <p className="c5"><span></span></p>
-            <p className="c5"><span></span></p>
+
             <table className="c4 t2">
                 <tbody>
                 <tr className="c13">
@@ -66,7 +65,7 @@ let dy = React.createClass({
                         </p>
                     </td>
                     <td className="c23" colSpan="1" rowSpan="1">
-                        <p className="c6 c8"><span className="c1"></span></p>
+                        <p className="c6"><img className="barcode" src={`upload/barcode/${data.bbhm}.png`} /></p>
                     </td>
                 </tr>
                 <tr className="c13">
