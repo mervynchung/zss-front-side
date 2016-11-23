@@ -1,18 +1,22 @@
 import React from 'react'
-import {Table, Row, Col, Button, Icon, notification, Alert} from 'antd'
+import {Table, Row, Col, Button, Icon, notification, Alert,Popconfirm } from 'antd'
 import Panel from 'component/compPanel'
-import req from 'reqwest';
+import req from 'common/request';
 import merge from 'lodash/merge';
 import {isEmptyObject,jsonCopy} from 'common/utils'
-import auth from 'common/auth'
-
+import config from 'common/configuration'
 
 const ToolBar = Panel.ToolBar;
 const ButtonGroup = Button.Group;
 
-
 const list = React.createClass({
-    //初始化state
+    getDefaultProps(){
+        return {
+            //数据来源api
+            apiUrl: config.HOST + config.URI_API_PROJECT + '/ywsettings',
+            reGenUrl:config.HOST + config.URI_API_PROJECT + '/rebarcode'
+        }
+    },
     getInitialState(){
         return {
             loading: false,
@@ -36,7 +40,6 @@ const list = React.createClass({
     //通过API获取数据
     fetchData(params = {page: 1, pagesize: this.props.pageSize}){
         this.setState({loading: true});
-        const token = auth.getToken();
         const {apiUrl,defaultWhere} = this.props;
         let where = merge(jsonCopy(defaultWhere),params.where);
         if(!isEmptyObject(where)){
@@ -44,10 +47,8 @@ const list = React.createClass({
         }
         req({
             url: apiUrl,
-            type: 'json',
             method: 'get',
-            data: params,
-            eaders: {'x-auth-token': token}
+            data: params
         }).then(resp=> {
             const p = this.state.pagination;
             p.current = params.page;
@@ -57,12 +58,12 @@ const list = React.createClass({
                 return `共 ${resp.total} 条，显示前 ${total} 条`
             };
             this.setState({data: resp.data, pagination: p, loading: false,where:where})
-        }).fail(e=> {
+        }).catch(e=> {
             this.setState({loading: false});
             notification.error({
                 duration: 2,
                 message: '数据读取失败',
-                description: '可能网络访问原因，请稍后尝试'
+                description: '网络访问故障，请刷新重试'
             });
         })
     },
@@ -104,12 +105,30 @@ const list = React.createClass({
         this.state.entity = record;
         this.setState({entity:record})
     },
+    reGen(){
+        req({
+            url:this.props.reGenUrl,
+            method:'get'
+        }).then(resp=>{
+            notification.success({
+                duration: 5,
+                message: '重建条形码成功'
+            });
+        })
+    },
+
     render(){
         const {title, helperTitle, helperDesc, scrollx,keyCol,columns} = this.props;
         let toolbar = <ToolBar>
             <ButtonGroup>
+                <Popconfirm placement="top" title="确定？" onConfirm={this.reGen}>
+                    <Button>重新生成条形码</Button>
+                </Popconfirm>
+            </ButtonGroup>
+            <ButtonGroup>
                 <Button type="primary" onClick={this.helperToggle}><Icon type="question"/></Button>
             </ButtonGroup>
+
         </ToolBar>;
         return <div>
             {this.state.helper && <Alert message={helperTitle}

@@ -84,8 +84,6 @@ const c = React.createClass({
             grabState: this.grabListState,
             //list组件重新挂载时恢复状态用的历史状态数据
             stateShot: this.state.listState,
-            //数据来源api
-            apiUrl: config.HOST + config.URI_API_PROJECT + '/ywsettings',
             //初始搜索条件
             defaultWhere:{}
         };
