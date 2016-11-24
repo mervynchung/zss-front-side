@@ -5,7 +5,7 @@ import config from 'common/configuration'
 import {addZero} from 'common/utils'
 import Panel from 'component/compPanel'
 import Export from 'component/ComExcelExperss';
-
+import auth from 'common/auth'
 
 const tj = React.createClass({
     getDefaultProps(){
@@ -32,7 +32,8 @@ const tj = React.createClass({
             const {url,data}  = nextProps;
             req({
                 method: 'get',
-                url: url + `/${data.pxid}`
+                url: url + `/${data.pxid}`,
+                headers:{'x-auth-token':auth.getToken()}
             }).then(resp => {
                 let date= new Date();
                 let data=resp;

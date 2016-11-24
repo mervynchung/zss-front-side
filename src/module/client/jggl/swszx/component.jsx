@@ -68,7 +68,8 @@ getInitialState(){
      req({
             url: API_URL_C+auth.getJgid(),
             type: 'json',
-            method: 'get'
+            method: 'get',
+            headers:{'x-auth-token':auth.getToken()}
         }).then(resp=> {
             this.setState({checked: !resp, })
         }).catch(e=> {
