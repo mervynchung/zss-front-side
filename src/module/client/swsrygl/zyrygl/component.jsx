@@ -150,7 +150,8 @@ const rycx = React.createClass({
        req({
             url: API_URL_C+record.zyswsid,
             type: 'json',
-            method: 'get'
+            method: 'get',
+           headers:{'x-auth-token':auth.getToken()}
         }).then(resp=> {
                  this.setState({onSubmitZT:!resp});
                  this.callback(1);

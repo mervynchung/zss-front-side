@@ -333,7 +333,10 @@
 .dy-ywcover .t1{
     margin-top:1cm;
 }
-
+.dy-ywcover .barcode {
+    width:200px;
+    height:50px;
+}
 @media print {
     body {min-width: initial;background: none;color:#000}
 
