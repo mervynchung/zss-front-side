@@ -1,13 +1,12 @@
 import React from 'react'
 import {Table,Modal,Row,Col,Button,Icon,Alert} from 'antd'
-import CompPageHead from 'component/CompPageHead'
 import Panel from 'component/compPanel'
 import {columns,entityModel} from './model'
 import req from 'reqwest'
 import config from 'common/configuration'
-import BaseTable from 'component/compBaseTable'
 import {entityFormat} from 'common/utils'
 import SelectorYear from './year'
+import auth from 'common/auth'
 
 const API_URL = config.HOST + config.URI_API_PROJECT + '/swszt1';
 const ToolBar = Panel.ToolBar;
@@ -119,7 +118,8 @@ const swszttj = React.createClass({
             type: 'json',
             method: 'get',
             data: params,
-            contentType: 'application/json'
+            contentType: 'application/json',
+            headers:{'x-auth-token':auth.getToken()}
         }).then(resp=> {
             const p = this.state.pagination;
             p.total = resp.total > 1000 ? 1000 : resp.total;
