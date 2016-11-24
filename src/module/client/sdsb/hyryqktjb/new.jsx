@@ -505,7 +505,8 @@ const c = React.createClass({
         req({
             method:'post',
             url:url,
-            data:values
+            data:values,
+            headers:{'x-auth-token':auth.getToken()}
         }).then(resp=>{
             this.setState({loading:false,scr:'success',successType:'save'})
         }).catch(e=>{
@@ -534,7 +535,8 @@ const c = React.createClass({
         req({
             method:'post',
             url:url,
-            data:values
+            data:values,
+            headers:{'x-auth-token':auth.getToken()}
         }).then(resp=>{
             this.setState({loading:false,scr:'success',successType:'commit'})
         }).catch(e=>{
@@ -559,7 +561,8 @@ const c = React.createClass({
         const {initUrl}  = this.props;
         req({
             method: 'get',
-            url: initUrl
+            url: initUrl,
+            headers:{'x-auth-token':auth.getToken()}
         }).then(resp=> {
             if (resp) {
             this.setState({data: resp, loading: false})

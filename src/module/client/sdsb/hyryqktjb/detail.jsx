@@ -269,7 +269,8 @@ const c = React.createClass({
     componentDidMount(){
         req({
             method: 'get',
-            url: config.HOST + config.URI_API_PROJECT + `/client/hyryqktjb/${this.props.data.id}`
+            url: config.HOST + config.URI_API_PROJECT + `/client/hyryqktjb/${this.props.data.id}`,
+            headers:{'x-auth-token':auth.getToken()}
         }).then(resp=> {
             this.setState({data: resp, loading: false})
         }).catch(e=> {
