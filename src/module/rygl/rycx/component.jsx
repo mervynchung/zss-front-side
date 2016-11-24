@@ -91,7 +91,7 @@ const rycx = React.createClass({
         this.gettabdata(this.state.urls.herf_zzjl);
       }else if (tabkey==6) {
          req({ url: this.state.urls.herf_spzt,method: 'get',type: 'json',
-          headers:{'x-auth-token':auth.getToken()}
+          headers:{'x-auth-token':auth.getToken()},
         success: (result) => {
             this.setState({ spzt: result.data})//状态是个字符串
         },error: (err) =>{alert('api错误');}});
