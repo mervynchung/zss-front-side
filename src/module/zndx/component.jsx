@@ -1,6 +1,5 @@
 import React from 'react'
 import {Table, Modal, Row, Col, Button, Icon, Alert,Switch} from 'antd'
-import Panel from 'component/panel';
 import Toolbar from 'component/toolbar'
 import List from './list'
 import model from './model'
@@ -22,8 +21,7 @@ const c = React.createClass({
     },
 
     refreshList(){
-        this.refs.list1.refreshCurrent();
-        this.refs.list2.refreshCurrent()
+        this.refs.list.refreshCurrent();
     },
 
     //抓取当前list分页状态
@@ -86,9 +84,13 @@ const c = React.createClass({
             <div className="wrap">
                 <Toolbar>
                     <ButtonGroup>
+                        <Button type="primary" onClick={this.new}><Icon type="message" />新信息</Button>
+                    </ButtonGroup>
+                    <ButtonGroup>
                         <Button  onClick={this.helperToggle}><Icon type="question"/></Button>
                         <Button  onClick={this.refresh}><Icon type="reload"/></Button>
                     </ButtonGroup>
+
                 </Toolbar>
 
 
@@ -98,9 +100,9 @@ const c = React.createClass({
                        type="info"
                        closable
                        onClose={this.helperClose}/>
-                <Panel>
+
                     <List {...listSetting} ref="list"/>
-                </Panel>
+
             </div>
         </div>
     }

@@ -1,6 +1,6 @@
 import React from 'react'
 import {Table, Row, Col, Button, Icon, notification, Alert} from 'antd'
-import Panel from 'component/compPanel'
+import Panel from 'component/panel'
 import req from 'common/request';
 import merge from 'lodash/merge';
 import config from 'common/configuration'
@@ -19,7 +19,7 @@ const list = React.createClass({
             //初始搜索条件
             defaultWhere:{},
             //栏目名称
-            title:'培训课程网上报名'
+            title:'站内短信发送'
         }
     },
     //初始化state
