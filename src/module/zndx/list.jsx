@@ -15,7 +15,7 @@ const list = React.createClass({
             //默认每页显示数量
             pageSize: 10,
             //数据来源api
-            apiUrl: config.HOST + config.URI_API_PROJECT + `/pxxx`,
+            apiUrl: config.HOST + config.URI_API_PROJECT + `/messages`,
             //初始搜索条件
             defaultWhere:{},
             //栏目名称
@@ -35,7 +35,7 @@ const list = React.createClass({
                 showSizeChanger: true,
                 pageSize: this.props.pageSize,
                 showQuickJumper: true,
-                pageSizeOptions: ['10', '20', '40'],
+                pageSizeOptions: ['10', '20', '50'],
                 showTotal (total) {
                     return `共 ${total} 条`
                 }
