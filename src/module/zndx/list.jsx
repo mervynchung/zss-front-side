@@ -15,7 +15,7 @@ const list = React.createClass({
             //默认每页显示数量
             pageSize: 10,
             //数据来源api
-            apiUrl: config.HOST + config.URI_API_PROJECT + `/messages`,
+            apiUrl: config.URI_API_FRAMEWORK  + `/sendbox`,
             //初始搜索条件
             defaultWhere:{},
             //栏目名称
@@ -30,6 +30,7 @@ const list = React.createClass({
             entity: {},
             where: this.props.defaultWhere,
             searchToggle: false,
+            selectedRowKeys:[],
             pagination: {
                 current: 1,
                 showSizeChanger: true,
@@ -134,18 +135,27 @@ const list = React.createClass({
         this.state.entity = record;
         this.setState({entity:record})
     },
+    //表格中的复选框勾选
+    handleSelectedRowChange(selectedRowKeys){
+        this.setState({selectedRowKeys: selectedRowKeys})
+    },
     render(){
         const {title, scrollx,keyCol,columns} = this.props;
-        return <Panel title={title} toolbar={toolbar}>
-                <Table columns={columns}
+        const rowSelection = {
+            type: 'checkbox',
+            selectedRowKeys: this.state.selectedRowKeys,
+            onChange: this.handleSelectedRowChange
+        };
+        return  <Table columns={columns}
                        dataSource={this.state.data}
                        pagination={this.state.pagination}
                        loading={this.state.loading}
                        onChange={this.handleChange}
+                       size="small"
+                       rowSelection={rowSelection}
                        rowKey={record => record[keyCol]}
                        rowClassName={(record)=>{return record.id==this.state.entity.id?'row-selected':''}}
-                       onRowClick={this.handleRowClick} scroll={{x: scrollx}}/>
-            </Panel>
+                       onRowClick={this.handleRowClick} scroll={{x: scrollx}} className='bg-wh'/>
 
     }
 });
