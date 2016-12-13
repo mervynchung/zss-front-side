@@ -5,7 +5,7 @@ import List from './list'
 import model from './model'
 import Query from './queryForm'
 import NewMsg from './newMsg'
-import config from 'common/configuration'
+import req from 'common/request'
 import {jsonCopy} from 'common/utils'
 import cloneDeep from 'lodash/cloneDeep';
 import './style.css'
@@ -84,7 +84,7 @@ const c = React.createClass({
         };
         const newMsgSetting = {
             onBack:this.backToList
-        }
+        };
 
         const view = {
             list:<List {...listSetting} ref="list"/>,

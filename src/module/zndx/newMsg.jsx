@@ -1,16 +1,34 @@
 import React from 'react'
-import {Input, Form, Row, Col, Button, Tooltip} from 'antd'
+import {Input, Form, Row, Col, Button, Tooltip,Message,Modal} from 'antd'
 import Panel from 'component/compPanel'
 import Rich from 'component/compWYSIHtml'
+import req from 'common/request'
+import config from 'common/configuration'
 
 const ToolBar = Panel.ToolBar;
 const FormItem = Form.Item;
 const createForm = Form.create;
 
 let c = React.createClass({
+    getDefaultProps(){
+        return {
+            url:config.URI_API_FRAMEWORK  + `/messages`,
+        }
+    },
     handleSubmit(e){
         e.preventDefault();
-        console.log(this.refs.editor.handleValue())
+        let values = {
+            title : this.props.form.getFieldValue('title'),
+            content:this.refs.editor.handleValue()
+        };
+        req({
+            url:this.props.url,
+            method:'post',
+            data:values
+        })
+    },
+    getReci(){
+
     },
 
     back(){
@@ -23,31 +41,44 @@ let c = React.createClass({
             </Tooltip>
         </ToolBar>;
         const formItemLayout = {
-            labelCol: {span: 1},
+            labelCol: {span: 2},
             wrapperCol: {span: 24}
         };
         const {getFieldProps} = this.props.form;
+
+        const titleProps =  getFieldProps('title', {
+            rules: [
+                {required: true, whitespace: true, message: '必填'}
+            ]
+        });
         return <Panel title="编辑新信息" toolbar={toolbar}>
             <Form horizontal onSubmit={this.handleSubmit}>
                 <Row>
                     <FormItem
-                        {...formItemLayout}
-                        label="标题">
-                        <Input placeholder="标题" {...getFieldProps('title')}/>
+                        labelCol={{span: 2}} wrapperCol={{span: 10}}
+                        label="收件人">
+                        <Input placeholder="收件人" {...titleProps}/>
+                        <Button  onClick={this.getReci}>选择</Button>
                     </FormItem>
                 </Row>
                 <Row>
                     <FormItem
                         {...formItemLayout}
                         label="标题">
+                        <Input placeholder="标题" {...titleProps}/>
+                    </FormItem>
+                </Row>
+                <Row>
+                    <FormItem
+                        {...formItemLayout}
+                        label="正文">
                         <Rich  {...getFieldProps('content')} ref="editor" />
                     </FormItem>
                 </Row>
                 <Row>
-                    <Col span="24">
+                    <Col span="2" offset={22}>
                         <Button type="primary" htmlType="submit" className="query"
-                                onClick={this.handleSubmit}>查询</Button>
-                        <Button type="ghost" onClick={this.handleReset}>重置</Button>
+                                onClick={this.handleSubmit}>提交</Button>
                     </Col>
                 </Row>
             </Form>
