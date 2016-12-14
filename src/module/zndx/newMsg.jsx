@@ -2,6 +2,7 @@ import React from 'react'
 import {Input, Form, Row, Col, Button, Tooltip,Message,Modal} from 'antd'
 import Panel from 'component/compPanel'
 import Rich from 'component/compWYSIHtml'
+import Reciver from './reciver'
 import req from 'common/request'
 import config from 'common/configuration'
 
@@ -13,6 +14,12 @@ let c = React.createClass({
     getDefaultProps(){
         return {
             url:config.URI_API_FRAMEWORK  + `/messages`,
+        }
+    },
+    getInitialState(){
+        return {
+            modal:false,
+            reciver:''
         }
     },
     handleSubmit(e){
@@ -27,8 +34,11 @@ let c = React.createClass({
             data:values
         })
     },
-    getReci(){
-
+    closeReciver(){
+        this.setState({modal:false})
+    },
+    openReciver(){
+        this.setState({modal:true})
     },
 
     back(){
@@ -42,9 +52,10 @@ let c = React.createClass({
         </ToolBar>;
         const formItemLayout = {
             labelCol: {span: 2},
-            wrapperCol: {span: 24}
+            wrapperCol: {span: 22}
         };
         const {getFieldProps} = this.props.form;
+        const {modal,reciver} = this.state;
 
         const titleProps =  getFieldProps('title', {
             rules: [
@@ -52,13 +63,14 @@ let c = React.createClass({
             ]
         });
         return <Panel title="编辑新信息" toolbar={toolbar}>
+            <Reciver visible={modal} onCancel={this.closeReciver}/>
             <Form horizontal onSubmit={this.handleSubmit}>
                 <Row>
                     <FormItem
                         labelCol={{span: 2}} wrapperCol={{span: 10}}
-                        label="收件人">
-                        <Input placeholder="收件人" {...titleProps}/>
-                        <Button  onClick={this.getReci}>选择</Button>
+                        label="收件人" required>
+                        {reciver}
+                        <Button  onClick={this.openReciver}>选择</Button>
                     </FormItem>
                 </Row>
                 <Row>
