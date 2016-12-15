@@ -40,6 +40,9 @@ let c = React.createClass({
     openReciver(){
         this.setState({modal:true})
     },
+    getReciver(){
+
+    },
 
     back(){
         this.props.onBack()
@@ -63,7 +66,7 @@ let c = React.createClass({
             ]
         });
         return <Panel title="编辑新信息" toolbar={toolbar}>
-            <Reciver visible={modal} onCancel={this.closeReciver}/>
+            <Reciver visible={modal} onCancel={this.closeReciver} onGet={this.close}/>
             <Form horizontal onSubmit={this.handleSubmit}>
                 <Row>
                     <FormItem

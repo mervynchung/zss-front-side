@@ -11,13 +11,16 @@ const c = React.createClass({
     handleChange(e){
       this.setState({value:e.target.value})
     },
+    handleOk(){
+        this.props.onGet(this.state.value)
+    },
     render(){
         const radioStyle = {
             display: 'block',
             height: '30px',
             lineHeight: '30px'
         };
-        return <Modal {...this.props}>
+        return <Modal {...this.props} onOk={this.handleOk}>
             <Tabs defaultActiveKey="1">
                 <TabPane tab="群组" key="1">
                     <RadioGroup onChange={this.handleChange} value={this.state.value}>
