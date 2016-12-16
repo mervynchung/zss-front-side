@@ -19,14 +19,17 @@ let c = React.createClass({
     getInitialState(){
         return {
             modal:false,
-            reciver:''
+            reciver:{}
         }
     },
     handleSubmit(e){
         e.preventDefault();
         let values = {
             title : this.props.form.getFieldValue('title'),
-            content:this.refs.editor.handleValue()
+            content:this.refs.editor.handleValue(),
+            reciver:this.state.reciver,
+            type:2, //类型2为普通短信
+            groupsend:true
         };
         req({
             url:this.props.url,
@@ -40,8 +43,9 @@ let c = React.createClass({
     openReciver(){
         this.setState({modal:true})
     },
-    getReciver(){
-
+    getReciver(obj){
+        this.setState({reciver:obj});
+        this.closeReciver()
     },
 
     back(){
@@ -66,13 +70,13 @@ let c = React.createClass({
             ]
         });
         return <Panel title="编辑新信息" toolbar={toolbar}>
-            <Reciver visible={modal} onCancel={this.closeReciver} onGet={this.close}/>
+            <Reciver visible={modal} onCancel={this.closeReciver} onOk={this.getReciver}/>
             <Form horizontal onSubmit={this.handleSubmit}>
                 <Row>
                     <FormItem
                         labelCol={{span: 2}} wrapperCol={{span: 10}}
                         label="收件人" required>
-                        {reciver}
+                        {reciver.value}
                         <Button  onClick={this.openReciver}>选择</Button>
                     </FormItem>
                 </Row>

@@ -3,29 +3,48 @@ import {Modal, Tabs, Radio} from 'antd'
 const RadioGroup = Radio.Group;
 const TabPane = Tabs.TabPane;
 const c = React.createClass({
+    getDefaultProps(){
+        return {
+            data: {
+                '1': '省内事务所',
+                '2': '外省事务所（无省内分所）'
+            }
+        }
+    },
     getInitialState(){
         return {
-            value:1
+            value: '1'
         }
     },
     handleChange(e){
-      this.setState({value:e.target.value})
+        this.setState({value: e.target.value})
     },
     handleOk(){
-        this.props.onGet(this.state.value)
+        const {onOk, data} = this.props;
+        onOk({key: this.state.value, label: data[this.state.value]})
     },
-    render(){
+
+    getRadios(){
+        const {data} = this.props;
         const radioStyle = {
             display: 'block',
             height: '30px',
             lineHeight: '30px'
         };
+        let result = [];
+        for (let prop in data) {
+            result.push(<Radio style={radioStyle} key={prop} value={prop}>{data[prop]}</Radio>)
+        }
+        return result
+    },
+
+    render(){
+
         return <Modal {...this.props} onOk={this.handleOk}>
             <Tabs defaultActiveKey="1">
                 <TabPane tab="群组" key="1">
                     <RadioGroup onChange={this.handleChange} value={this.state.value}>
-                        <Radio style={radioStyle} key="1" value={1}>省内事务所</Radio>
-                        <Radio style={radioStyle} key="2" value={2}>外省事务所（无省内分所）</Radio>
+                        {this.getRadios()}
                     </RadioGroup>
                 </TabPane>
             </Tabs>
