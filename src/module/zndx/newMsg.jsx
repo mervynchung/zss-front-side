@@ -76,7 +76,7 @@ let c = React.createClass({
                     <FormItem
                         labelCol={{span: 2}} wrapperCol={{span: 10}}
                         label="收件人" required>
-                        {reciver.value}
+                        {reciver.label}
                         <Button  onClick={this.openReciver}>选择</Button>
                     </FormItem>
                 </Row>
