@@ -11,13 +11,13 @@ const model = {
         width: 100
     },{
         title: '标题',
-        dataIndex: 'bt',
-        key: 'bt',
+        dataIndex: 'title',
+        key: 'title',
         width: 400
     },{
         title: '收件人',
-        key: 'pxkssj',
-        dataIndex: 'pxkssj',
+        key: 'reciver',
+        dataIndex: 'reciver',
         width:100
     }]
 };

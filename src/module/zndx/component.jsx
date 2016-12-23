@@ -1,5 +1,5 @@
 import React from 'react'
-import {Table, Modal, Row, Col, Button, Icon, Alert, Switch} from 'antd'
+import {Table, Modal, Row, Col, Button, Icon, Alert} from 'antd'
 import Toolbar from 'component/toolbar'
 import List from './list'
 import model from './model'
@@ -96,15 +96,8 @@ const c = React.createClass({
             <div className="wrap">
                 <Toolbar>
                     <Button type="primary" onClick={this.newMsg}><Icon type="message"/>新信息</Button>
-                    <ButtonGroup>
-                        <Button onClick={this.helperToggle}><Icon type="question"/></Button>
-                        <Button onClick={this.refresh}><Icon type="reload"/></Button>
-                    </ButtonGroup>
-                    <Button onClick={this.queryToggle}><Icon type="search"/>查询</Button>
+                    <Button onClick={this.helperToggle}><Icon type="question"/>帮助</Button>
                 </Toolbar>
-
-                {this.state.query && <Query onQuery={this.handleQuery}/>}
-
 
                 {this.state.helper && <Alert message="站内短信使用帮助"
                                              description={<div>
@@ -114,6 +107,9 @@ const c = React.createClass({
                                              type="info"
                                              closable
                                              onClose={this.helperClose}/>}
+
+                {this.state.query && <Query onQuery={this.handleQuery}/>}
+
 
                 {view[this.state.view]}
 

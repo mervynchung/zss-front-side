@@ -1,10 +1,13 @@
 import React from 'react'
 import {Table, Row, Col, Button, Icon, notification, Alert} from 'antd'
-import Panel from 'component/panel'
+import Panel from 'component/compPanel'
 import req from 'common/request';
 import merge from 'lodash/merge';
 import config from 'common/configuration'
 import {isEmptyObject,jsonCopy} from 'common/utils'
+
+const ToolBar = Panel.ToolBar;
+const ButtonGroup = Button.Group;
 
 const list = React.createClass({
     //初始化默认参数
@@ -140,23 +143,34 @@ const list = React.createClass({
         this.setState({selectedRowKeys: selectedRowKeys})
     },
     render(){
-        const {title, scrollx,keyCol,columns} = this.props;
+        const {title,scrollx,keyCol,columns} = this.props;
+        let toolbar = <ToolBar>
+            <ButtonGroup>
+                <Button  onClick={this.handleRefresh}><Icon type="reload"/>刷新</Button>
+                <Button onClick={this.handleSearchToggle}>
+                    <Icon type="search"/>查询
+                    { this.state.searchToggle ? <Icon className="toggle-tip" type="circle-o-up"/> :
+                        <Icon className="toggle-tip" type="circle-o-down"/>}
+                </Button>
+            </ButtonGroup>
+        </ToolBar>;
         const rowSelection = {
             type: 'checkbox',
             selectedRowKeys: this.state.selectedRowKeys,
             onChange: this.handleSelectedRowChange
         };
-        return  <Table columns={columns}
-                       dataSource={this.state.data}
-                       pagination={this.state.pagination}
-                       loading={this.state.loading}
-                       onChange={this.handleChange}
-                       size="small"
-                       rowSelection={rowSelection}
-                       rowKey={record => record[keyCol]}
-                       rowClassName={(record)=>{return record.id==this.state.entity.id?'row-selected':''}}
-                       onRowClick={this.handleRowClick} scroll={{x: scrollx}} className='bg-wh'/>
-
+        return  <Panel title={title} toolbar={toolbar}>
+            <Table columns={columns}
+                   dataSource={this.state.data}
+                   pagination={this.state.pagination}
+                   loading={this.state.loading}
+                   onChange={this.handleChange}
+                   size="middle"
+                   rowSelection={rowSelection}
+                   rowKey={record => record[keyCol]}
+                   rowClassName={(record)=>{return record.id==this.state.entity.id?'row-selected':''}}
+                   onRowClick={this.handleRowClick} scroll={{x: scrollx}} className='bg-wh'/>
+        </Panel>
     }
 });
 

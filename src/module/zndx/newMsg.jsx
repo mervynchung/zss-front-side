@@ -28,7 +28,7 @@ let c = React.createClass({
             title : this.props.form.getFieldValue('title'),
             content:this.refs.editor.handleValue(),
             reciver:this.state.reciver,
-            type:2, //类型2为普通短信
+            type:2, //类型1为系统短信
             groupsend:true
         };
         req({
