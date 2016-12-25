@@ -1,5 +1,5 @@
 import React from 'react'
-import {Row,Col,Form,Button,Input,Modal,DatePicker,Select} from 'antd'
+import {Row,Col,Form,Button,Input,Modal,DatePicker,Select,Icon} from 'antd'
 import {SelectorCS,SelectorYear,SelectorTGZT} from 'component/compSelector'
 
 import './style.css'
@@ -90,19 +90,22 @@ let searchForm = React.createClass({
                      </Row>
           
                 <Row>
-                    <Col span="5" offset="15">
+                    <Col span="10" offset="10">
                     <ButtonGroup>
                         <Button type="primary"
                                 onClick={this.showConfirm}
-                                disabled={this.props.selected.length<=0}>
-                            批量锁定
+                                disabled={this.props.selected.length<=0}
+                                icon="lock">
+                            锁定事务所
                         </Button>
                         <Button type="ghost"
                                 onClick={this.props.allClean}
-                                disabled={this.props.selected.length<=0}>
+                                disabled={this.props.selected.length<=0}
+                                icon="rollback">
                             撤销选择
                         </Button>
                     </ButtonGroup>
+
                 </Col>
                     <Col span="4">
                         <Button type="primary" htmlType="submit" className="query" >查询</Button>
