@@ -6,14 +6,15 @@ const c = React.createClass({
     getDefaultProps(){
         return {
             data: {
-                '1': '省内事务所',
-                '2': '外省事务所（无省内分所）'
+                '3': '省内事务所',
+                '114': '外省事务所（无省内分所）',
+                '0':'全部事务所'
             }
         }
     },
     getInitialState(){
         return {
-            value: '1'
+            value: '3'
         }
     },
     handleChange(e){

@@ -1,10 +1,11 @@
 import React from 'react'
-import {Input, Form, Row, Col, Button, Tooltip,Message,Modal} from 'antd'
+import {Input, Form, Row, Col, Button, Tooltip,message,Modal} from 'antd'
 import Panel from 'component/compPanel'
 import Rich from 'component/compWYSIHtml'
 import Reciver from './reciver'
 import req from 'common/request'
 import config from 'common/configuration'
+import {isEmptyObject} from 'common/utils'
 
 const ToolBar = Panel.ToolBar;
 const FormItem = Form.Item;
@@ -28,13 +29,39 @@ let c = React.createClass({
             title : this.props.form.getFieldValue('title'),
             content:this.refs.editor.handleValue(),
             reciver:this.state.reciver,
-            type:2, //类型1为系统短信
+            type:2, //类型2为系统消息，暂时从本界面发送的消息都默认为系统消息
             groupsend:true
         };
+        if(isEmptyObject(values.reciver)){
+            Modal.error({
+                title: '所需信息未正确填写',
+                content: '未选择收件人',
+            });
+            return
+        }
+        if(!values.title){
+            Modal.error({
+                title: '所需信息未正确填写',
+                content: '信息标题未填写',
+            });
+            return
+        }
+        if(!values.content){
+            Modal.error({
+                title: '所需信息未正确填写',
+                content: '信息正文未填写',
+            });
+            return
+        }
         req({
             url:this.props.url,
             method:'post',
             data:values
+        }).then(resp=>{
+            message.success('短信息发送成功', 5);
+            this.props.onBack()
+        }).catch(e=>{
+            message.error('短信息发送失败，请点击"发送按钮"重新发送',5)
         })
     },
     closeReciver(){

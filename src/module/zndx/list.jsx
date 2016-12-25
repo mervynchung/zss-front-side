@@ -5,6 +5,7 @@ import req from 'common/request';
 import merge from 'lodash/merge';
 import config from 'common/configuration'
 import {isEmptyObject,jsonCopy} from 'common/utils'
+import Query from './queryForm'
 
 const ToolBar = Panel.ToolBar;
 const ButtonGroup = Button.Group;
@@ -22,7 +23,7 @@ const list = React.createClass({
             //初始搜索条件
             defaultWhere:{},
             //栏目名称
-            title:'站内短信发送'
+            title:'发件箱'
         }
     },
     //初始化state
@@ -112,15 +113,22 @@ const list = React.createClass({
         const p = this.state.pagination;
         this.fetchData({page: p.current, pagesize: p.pageSize});
     },
+    //查询按钮开关
+    queryToggle(){
+        this.setState({query: !this.state.query})
+    },
 
-    //帮助按钮开关
-    helperToggle(){
-        this.setState({helper: !this.state.helper})
+    //查询提交
+    handleQuery(values){
+        const p = this.state.pagination;
+        const param = {
+            page: 1,
+            pagesize: p.pageSize,
+            where: values
+        };
+        this.fetchData(param);
     },
-    //手动关闭帮助提示
-    helperClose(){
-        this.setState({helper: false})
-    },
+
     //组件加载时读取数据
     componentDidMount(){
         if(isEmptyObject(this.props.stateShot)){
@@ -147,7 +155,7 @@ const list = React.createClass({
         let toolbar = <ToolBar>
             <ButtonGroup>
                 <Button  onClick={this.handleRefresh}><Icon type="reload"/>刷新</Button>
-                <Button onClick={this.handleSearchToggle}>
+                <Button onClick={this.queryToggle}>
                     <Icon type="search"/>查询
                     { this.state.searchToggle ? <Icon className="toggle-tip" type="circle-o-up"/> :
                         <Icon className="toggle-tip" type="circle-o-down"/>}
@@ -160,6 +168,7 @@ const list = React.createClass({
             onChange: this.handleSelectedRowChange
         };
         return  <Panel title={title} toolbar={toolbar}>
+            {this.state.query && <Query onQuery={this.handleQuery}/>}
             <Table columns={columns}
                    dataSource={this.state.data}
                    pagination={this.state.pagination}

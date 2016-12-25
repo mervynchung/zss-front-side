@@ -1,7 +1,7 @@
 import React from 'react'
-import {Table,Modal,Row,Col,Button,Icon,Alert,Spin} from 'antd'
+import {Table, Modal, Row, Col, Button, Icon, Alert, Spin} from 'antd'
 import Panel from 'component/compPanel'
-import req from 'reqwest';
+import req from 'common/request';
 import auth from 'common/auth'
 import SearchForm from './searchForm'
 import config from 'common/configuration'
@@ -24,13 +24,13 @@ const lrb = React.createClass({
                 pageSize: 5,
                 showQuickJumper: true,
                 pageSizeOptions: ['5', '10', '20']
-                 },
+            },
             searchToggle: true,
             where: '',
             helper: true,
             entity: '',
             detailHide: true,
-            tables:false,
+            tables: false,
             selectedRowKeys: [],
             sloading: false,
         }
@@ -62,27 +62,26 @@ const lrb = React.createClass({
     //提交条件查询
     handleSearchSubmit(value){
         const pager = this.state.pagination;
-        const where =encodeURIComponent(JSON.stringify(value));
+        const where = encodeURIComponent(JSON.stringify(value));
         pager.current = 1;
         const params = {
             pagenum: 1,
             pagesize: pager.pageSize,
             where: where
         };
-        this.setState({pagination: pager, where: where,bblx:value.bblx,sloading:true});
+        this.setState({pagination: pager, where: where, bblx: value.bblx, sloading: true});
         this.fetchData(params)
     },
 
 
     //通过API获取数据
-    fetchData(params = {pagenum: 1, pagesize: this.state.pagination.pageSize,where:this.state.where}){
+    fetchData(params = {pagenum: 1, pagesize: this.state.pagination.pageSize, where: this.state.where}){
         this.setState({loading: true});
         req({
             url: API_URL,
-            type: 'json',
             method: 'get',
             data: params
-        }).then(resp=> {
+        }).then(resp => {
             const p = this.state.pagination;
             p.total = resp.page.pageTotal;
             p.showTotal = total => {
@@ -92,69 +91,66 @@ const lrb = React.createClass({
                 data: resp.data,
                 pagination: p,
                 loading: false,
-                tables:true,
-                sloading:false
+                tables: true,
+                sloading: false
             })
-        }).fail(err=> {
+        }).catch(err => {
             this.setState({
-                tables:false,sloading:false
-            })
+                tables: false, sloading: false
+            });
             Modal.error({
                 title: '数据获取错误',
                 content: (
-                    <div>
-                        <p>无法从服务器返回数据，需检查应用服务工作情况</p>
-                        <p>Status: {err.status}</p>
-                    </div>  )
+                  <div>
+                      <p>无法从服务器返回数据，需检查应用服务工作情况</p>
+                      <p>Status: {err.status}</p>
+                  </div>  )
             });
         })
     },
     onSelectChange(selectedRowKeys) {
-        this.setState({selectedRowKeys: selectedRowKeys });
-      },
+        this.setState({selectedRowKeys: selectedRowKeys});
+    },
 
-      allLocked(sdyy){
-                this.setState({sloading: true });
-                const rKeys=this.state.selectedRowKeys;
-                var that=this;
-                req({
-                        url: API_URL_SD,
-                        type: 'json',
-                        method: 'post',
-                        data: JSON.stringify({sdyy:sdyy,jgId:rKeys,lx:4}),
-                        contentType: 'application/json',
-                        headers:{'x-auth-token':auth.getToken()},
-                    }).then(resp=> {
-                            Modal.success({
-                                    content: (
-                                        <div>
-                                            <p>锁定成功</p>
-                                        </div>  ),
-                                    onOk() {
-                                        that.fetchData();
-                                        that.allClean();
-                                            },
-                            });
-                    }).fail(err=> {
-                        this.setState({sloading: false });
-                            Modal.error({
-                                title: '数据提交错误',
-                                content: (
-                                    <div>
-                                        <p>提交失败</p>
-                                        <p>Status: {err.status}</p>
-                                    </div>  )
-                            });
-                    })
-      },
-      allClean(){
-        this.setState({selectedRowKeys: [] });
-      },
+    allLocked(sdyy){
+        this.setState({sloading: true});
+        const rKeys = this.state.selectedRowKeys;
+        var that = this;
+        req({
+            url: API_URL_SD,
+            method: 'post',
+            data: {sdyy: sdyy, jgId: rKeys, lx: 4},
+        }).then(resp => {
+            Modal.success({
+                content: (
+                  <div>
+                      <p>锁定成功</p>
+                  </div>  ),
+                onOk() {
+                    that.fetchData();
+                    that.allClean();
+                },
+            });
+        }).catch(err => {
+            this.setState({sloading: false});
+            Modal.error({
+                title: '数据提交错误',
+                content: (
+                  <div>
+                      <p>提交失败</p>
+                      <p>Status: {err.status}</p>
+                  </div>  )
+            });
+        })
+    },
+    allClean(){
+        this.setState({selectedRowKeys: []});
+    },
 
     render(){
-        var that=this
-        const columns=[
-             {title: '序号', dataIndex: 'key', key: 'key'},
+        var that = this;
+        const columns = [
+            {title: '序号', dataIndex: 'key', key: 'key'},
             {title: '报表年度', dataIndex: 'nd', key: 'nd'},
             {title: '事务所名称', dataIndex: 'dwmc', key: 'dwmc'},
             {title: '证书编号', key: 'zsbh', dataIndex: 'zsbh'},
@@ -163,10 +159,11 @@ const lrb = React.createClass({
             {title: '通讯员姓名', key: 'txyxm', dataIndex: 'txyxm'},
             {title: '通讯员联系电话', key: 'txyyddh', dataIndex: 'txyyddh'},
             {title: '上报状态', key: 'sbzt', dataIndex: 'sbzt'},
-            {title: '报表类型',
+            {
+                title: '报表类型',
                 key: 'operation',
-                  render(text, row, index) {
-                    switch(that.state.bblx){
+                render(text, row, index) {
+                    switch (that.state.bblx) {
                         case "0":
                             return <p>事务所情况统计表1</p>;
                         case "1":
@@ -178,8 +175,9 @@ const lrb = React.createClass({
                         case "4":
                             return <p>鉴证业务情况统计表6</p>;
                     }
-                  }}
-    ]
+                }
+            }
+        ];
         //定义工具栏内容
         let toolbar = <ToolBar>
 
@@ -193,12 +191,12 @@ const lrb = React.createClass({
         helper.push(<p key="helper-0">选择报表类型和年度，<b>点击查询按钮</b>，查看该类报表当年度未上报报表事务所及其信息</p>);
         helper.push(<p key="helper-1">系统默认选择当前时间应上报报表年度，默认类型为税务师事务所基本情况统计表（表1)</p>);
         const rowSelection = {
-            selectedRowKeys:this.state.selectedRowKeys,
+            selectedRowKeys: this.state.selectedRowKeys,
             onChange: this.onSelectChange,
             getCheckboxProps: record => ({
-                    disabled: !record.issd == false,    // 配置无法勾选的列
-                }),
-          };
+                disabled: !record.issd == false,    // 配置无法勾选的列
+            }),
+        };
         return <div className="wsbbbcx">
             <div className="wrap">
                 {this.state.helper && <Alert message="未上报报表查询帮助"
@@ -209,17 +207,17 @@ const lrb = React.createClass({
 
                 <Panel title="事务所基本情况表" toolbar={toolbar}>
                     {this.state.searchToggle && <Spin spinning={this.state.sloading}><SearchForm
-                        onSubmit={this.handleSearchSubmit} loading={this.state.sloading} 
-                        allClean={this.allClean} allLocked={this.allLocked}
-                        selected={this.state.selectedRowKeys}/></Spin>}
+                      onSubmit={this.handleSearchSubmit} loading={this.state.sloading}
+                      allClean={this.allClean} allLocked={this.allLocked}
+                      selected={this.state.selectedRowKeys}/></Spin>}
                     <div className="h-scroll-table">
-                      {this.state.tables && <Table columns={columns}
-                               dataSource={this.state.data}
-                               pagination={this.state.pagination}
-                               rowSelection={rowSelection}
-                               rowKey={record=>record.jgid}
-                               loading={this.state.loading}
-                               onChange={this.handleChange} />}
+                        {this.state.tables && <Table columns={columns}
+                                                     dataSource={this.state.data}
+                                                     pagination={this.state.pagination}
+                                                     rowSelection={rowSelection}
+                                                     rowKey={record => record.jgid}
+                                                     loading={this.state.loading}
+                                                     onChange={this.handleChange}/>}
                     </div>
                 </Panel>
             </div>

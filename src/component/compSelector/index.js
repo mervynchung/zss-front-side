@@ -44,7 +44,8 @@ var selector = {
     SelectorJg:require('./jg'), //机构
     SelectorXm:require('./zyswsxm'),//执业税务师人员姓名选择
     SelectorLogRole:require('./log_roles'),//登陆用户角色选择
-    SelectorQGSS:require('./qgss') //全国省市
+    SelectorQGSS:require('./qgss'), //全国省市
+    SelectorMsgType:require('./msgType') //全国省市
 
 
 };

@@ -1,16 +1,14 @@
 import React from 'react'
-import {Table, Modal, Row, Col, Button, Icon, Alert} from 'antd'
+import {Button, Icon, Alert} from 'antd'
 import Toolbar from 'component/toolbar'
 import List from './list'
+import Detail from 'component/msgDetail'
 import model from './model'
-import Query from './queryForm'
 import NewMsg from './newMsg'
 import req from 'common/request'
 import {jsonCopy} from 'common/utils'
 import cloneDeep from 'lodash/cloneDeep';
 import './style.css'
-
-let ButtonGroup = Button.Group;
 
 
 const c = React.createClass({
@@ -20,21 +18,31 @@ const c = React.createClass({
             entity: {},
             helper: false,
             query: false,
-            view:'list'
+            view:'list',
+            detail:false
         }
     },
 
-    refreshList(){
-        this.refs.list.refreshCurrent();
-    },
-
-    //抓取当前list分页状态
+     //抓取当前list分页状态
     grabListState(state){
         this.setState({listState: state})
     },
+    //刷新列表
+    refreshList(){
+        this.refs.list.refreshCurrent()
+    },
     //返回list视图
-    backToList(){
-        this.setState({view: 'list'})
+    async backToList(){
+        await this.setState({view: 'list'});
+        await this.refreshList()
+    },
+    //打开详情信息视图
+    openDetail(record){
+        this.setState({detail: true, entity: record})
+    },
+    //关闭详情视图
+    closeDetail(){
+        this.setState({detail:false})
     },
     helperToggle(){
         this.setState({helper: !this.state.helper})
@@ -42,15 +50,7 @@ const c = React.createClass({
     helperClose(){
         this.setState({helper: false})
     },
-    queryToggle(){
-        this.setState({query: !this.state.query})
-    },
-    refresh(){
-    },
 
-    handleQuery(values){
-        console.log(values)
-    },
     newMsg(){
         this.setState({view:'newMsg'})
     },
@@ -69,6 +69,8 @@ const c = React.createClass({
         const m = cloneDeep(model);
         const actColWidth = 100;
 
+        m.setfunc(this.openDetail);
+
 
         /*设置列表组件的参数 */
         const listSetting = {
@@ -79,11 +81,19 @@ const c = React.createClass({
             //记录list组件被切换时状态值的方法
             grabState: this.grabListState,
             //list组件重新挂载时恢复状态用的历史状态数据
-            stateShot: this.state.listState,
-            refreshList: this.refreshList
+            stateShot: this.state.listState
         };
+        /* 设置新建信息组件参数*/
         const newMsgSetting = {
             onBack:this.backToList
+        };
+        /*设置明细信息组件的参数*/
+        const detailSetting = {
+            //设置数据源
+            id: this.state.entity.id,
+            visible:this.state.detail,
+            //设置返回主视图调用的方法
+            onClose: this.closeDetail
         };
 
         const view = {
@@ -108,10 +118,11 @@ const c = React.createClass({
                                              closable
                                              onClose={this.helperClose}/>}
 
-                {this.state.query && <Query onQuery={this.handleQuery}/>}
 
 
+                <Detail {...detailSetting}/>
                 {view[this.state.view]}
+
 
             </div>
         </div>

@@ -1,9 +1,11 @@
 import React from 'react'
 import {Row, Col, Form, Button, Input} from 'antd'
 import Container from 'component/container'
+import {SelectorMsgType} from 'component/compSelector'
 
 const FormItem = Form.Item;
 const createForm = Form.create;
+
 
 let queryForm = React.createClass({
     getDefaultProps(){
@@ -53,6 +55,14 @@ let queryForm = React.createClass({
                             <Input placeholder="短信标题" {...getFieldProps('title')}/>
                         </FormItem>
                     </Col>
+                    <Col span="8">
+                        <FormItem
+                          {...formItemLayout}
+                          label="消息类型">
+                            <SelectorMsgType {...getFieldProps('type')}/>
+                        </FormItem>
+                    </Col>
+
                 </Row>
                 <Row>
                     <Col span="4" offset="20">
