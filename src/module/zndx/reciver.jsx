@@ -10,10 +10,10 @@ const c = React.createClass({
                 '114': '外省事务所（无省内分所）',
                 '0':'全部事务所'
             },
-            yj:{
-                '1':'未缴纳清会费事务所',
-                '2': '未上传财务报表事务所',
-                '3': '未上传表1事务所'
+            special:{
+                '211':'未缴清会费事务所',
+                '212': '未上传财务报表事务所',
+                '213': '未上传行业报表事务所'
             }
         }
     },
@@ -39,7 +39,20 @@ const c = React.createClass({
         };
         let result = [];
         for (let prop in group) {
-            result.push(<Radio style={radioStyle} key={prop} value={prop}>{data[prop]}</Radio>)
+            result.push(<Radio style={radioStyle} key={prop} value={prop}>{group[prop]}</Radio>)
+        }
+        return result
+    },
+    getSpecialRadios(){
+        const {special} = this.props;
+        const radioStyle = {
+            display: 'block',
+            height: '30px',
+            lineHeight: '30px'
+        };
+        let result = [];
+        for (let prop in special) {
+            result.push(<Radio style={radioStyle} key={prop} value={prop}>{special[prop]}</Radio>)
         }
         return result
     },
@@ -53,9 +66,9 @@ const c = React.createClass({
                         {this.getGroupRadios()}
                     </RadioGroup>
                 </TabPane>
-                <TabPane tab="预警通知" key="2">
+                <TabPane tab="特殊群组" key="2">
                     <RadioGroup onChange={this.handleChange} value={this.state.value}>
-                        {this.getRadios()}
+                        {this.getSpecialRadios()}
                     </RadioGroup>
                 </TabPane>
             </Tabs>
