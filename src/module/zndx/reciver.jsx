@@ -5,29 +5,43 @@ const TabPane = Tabs.TabPane;
 const c = React.createClass({
     getDefaultProps(){
         return {
-            group: {
-                '3': '省内事务所',
-                '114': '外省事务所（无省内分所）',
-                '0':'全部事务所'
-            },
-            special:{
-                '211':'未缴清会费事务所',
-                '212': '未上传财务报表事务所',
-                '213': '未上传行业报表事务所'
-            }
+            group: [{
+                key:'3',label:'省内事务所',type:2
+            },{
+                key:'114',label:'外省事务所（无省内分所）',type:2
+            },{
+                key:'0',label:'全部事务所',type:2
+            }],
+            special:
+              [{
+                  key:'211',label:'会费未缴清事务所',type:3
+              },{
+                  key:'212',label:'财务报表未上报事务所',type:2
+              },{
+                  key:'213',label:'行业报表未上报事务所',type:2
+              }]
         }
     },
     getInitialState(){
         return {
-            value: '3'
+            value: '3',
+            data:this.props.group
         }
     },
     handleChange(e){
         this.setState({value: e.target.value})
     },
+    handleTabChange(tabkey){
+        if(tabkey == 1){
+            this.setState({data:this.props.group})
+        }else if(tabkey == 2){
+            this.setState({data:this.props.special})
+        }
+    },
     handleOk(){
-        const {onOk, data} = this.props;
-        onOk({key: this.state.value, label: data[this.state.value]})
+        const {onOk} = this.props;
+        const {data,value} = this.state;
+        onOk({key: value, label: data[value]})
     },
 
     getGroupRadios(){
@@ -37,10 +51,8 @@ const c = React.createClass({
             height: '30px',
             lineHeight: '30px'
         };
-        let result = [];
-        for (let prop in group) {
-            result.push(<Radio style={radioStyle} key={prop} value={prop}>{group[prop]}</Radio>)
-        }
+        let result;
+        result = group.map((item,key)=><Radio style={radioStyle} key={key} value={key}>{item}</Radio>);
         return result
     },
     getSpecialRadios(){
@@ -50,17 +62,15 @@ const c = React.createClass({
             height: '30px',
             lineHeight: '30px'
         };
-        let result = [];
-        for (let prop in special) {
-            result.push(<Radio style={radioStyle} key={prop} value={prop}>{special[prop]}</Radio>)
-        }
+        let result;
+        result = special.map((item,key)=><Radio style={radioStyle} key={key} value={key}>{item}</Radio>);
         return result
     },
 
     render(){
 
         return <Modal {...this.props} onOk={this.handleOk}>
-            <Tabs defaultActiveKey="1">
+            <Tabs defaultActiveKey="1" onChange={this.handleTabChange}>
                 <TabPane tab="群组" key="1">
                     <RadioGroup onChange={this.handleChange} value={this.state.value}>
                         {this.getGroupRadios()}
