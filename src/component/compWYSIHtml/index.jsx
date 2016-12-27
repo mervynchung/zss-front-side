@@ -1,5 +1,6 @@
 /**
  * 富文本编辑器
+ * 使用方法：给本组件添加ref值，如"rich"，外层组件通过refs.rich.handleValue()取得当前编辑器内的值
  */
 import React from 'react'
 import ReactDOM from 'react-dom'

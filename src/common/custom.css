@@ -31,6 +31,9 @@ body {
 .text-right{
     text-align: right;
 }
+.bg-wh{
+    background: #fff;
+}
 
 .bg-height:before {
     position: absolute;
