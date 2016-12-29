@@ -225,7 +225,20 @@ const jgcx = React.createClass({
     },
 
     render() {
-        const columns = [{ //设定列
+        const columns = [{
+            title: '',
+            key: 'issd',
+            dataIndex: 'issd',
+            render(text,record){
+                if (record.key==null) {
+                    return <span></span>
+                }
+                if(!text){
+                    return <span style={{fontSize:'16px',color:'#5FBC29'}}><Icon type="unlock"/></span>
+                }
+                return <span style={{fontSize:'16px',color:'#f52d2d'}}><Icon type="lock"/></span>
+            }
+        },{ //设定列
             title: '序号', //设定该列名称
             dataIndex: 'key', //设定该列对应后台字段名
             key: 'key', //列key，必须设置，建议与字段名相同

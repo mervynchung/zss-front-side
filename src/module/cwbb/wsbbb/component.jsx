@@ -155,7 +155,17 @@ const wsbbb = React.createClass({
 
     render(){
         var that=this
-           const columns= [
+           const columns= [{
+                        title: '',
+                        key: 'issd',
+                        dataIndex: 'issd',
+                        render(text,record){
+                            if(!text){
+                                return <span style={{fontSize:'16px',color:'#5FBC29'}}><Icon type="unlock"/></span>
+                            }
+                            return <span style={{fontSize:'16px',color:'#f52d2d'}}><Icon type="lock"/></span>
+                        }
+                    },
                     {title: '序号', dataIndex: 'key', key: 'key'},
                     {title: '报表年度', dataIndex: 'nd', key: 'nd'},
                     {title: '事务所名称', dataIndex: 'dwmc', key: 'dwmc'},

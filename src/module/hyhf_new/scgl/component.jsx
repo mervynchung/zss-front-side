@@ -71,7 +71,8 @@ const lrb = React.createClass({
             url: API_URL,
             type: 'json',
             method: 'get',
-            data: params
+            data: params,
+            headers:{'x-auth-token':auth.getToken()}
         }).then(resp=> {
             const p = this.state.pagination;
             p.total = resp.page.pageTotal;
