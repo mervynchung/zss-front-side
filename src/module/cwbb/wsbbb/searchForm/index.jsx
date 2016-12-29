@@ -44,7 +44,7 @@ let searchForm = React.createClass({
       const nowy = new Date();
       var yy =[];
       for(let i=0;i<7;i++){
-        yy.push(nowy.getFullYear()-1-i);
+        yy.push(nowy.getFullYear()-i);
       }
      
         const { getFieldProps } = this.props.form;
