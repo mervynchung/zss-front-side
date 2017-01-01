@@ -13,7 +13,9 @@ import Detail from 'component/pxnr'
 const API_URL = config.HOST + config.URI_API_PROJECT + '/pxfbList';
 const API_URL_FB = config.HOST + config.URI_API_PROJECT + '/pxxxapi';
 const ToolBar = Panel.ToolBar;
-const now = Date.now();
+let cur=new Date();
+const now = new Date(cur.getFullYear(),cur.getMonth(),cur.getDate(),23,59,59).getTime();
+
 const lrb = React.createClass({
 
     //初始化state
