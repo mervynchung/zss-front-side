@@ -1,5 +1,5 @@
 import React from 'react'
-import {Table, Row, Col, Button, Icon, notification, Alert} from 'antd'
+import {Table, Row, Col, Button, Icon, notification, Modal} from 'antd'
 import Panel from 'component/compPanel'
 import req from 'common/request';
 import merge from 'lodash/merge';
@@ -20,6 +20,7 @@ const list = React.createClass({
             pageSize: 10,
             //数据来源api
             apiUrl: config.URI_API_FRAMEWORK  + `/sendbox`,
+            messageUrl:config.URI_API_FRAMEWORK  + `/messages`,
             //初始搜索条件
             defaultWhere:{},
             //栏目名称
@@ -102,6 +103,27 @@ const list = React.createClass({
     handleNew(){
         this.props.onNew();
     },
+    //确认删除
+    showDelConfirm(){
+        Modal.confirm({
+            title: '确认撤回这些通知',
+            content: '点击确认后，所选消息将会从发件箱删除，接收者将无法再看到这些消息，是否确认要撤回？',
+            onOk() {
+                this.delMsg();
+            },
+        });
+    },
+    //删除
+    delMsg(){
+        this.setState({loading:true});
+        req({
+            url:this.props.messageUrl,
+            method:'delete',
+            data:this.state.selectedRowKeys
+        }).then(resp=>{
+            this.setState({selectedRowKeys:[]})
+        })
+    },
 
     //刷新按钮
     handleRefresh(){
@@ -161,6 +183,7 @@ const list = React.createClass({
                         <Icon className="toggle-tip" type="circle-o-down"/>}
                 </Button>
             </ButtonGroup>
+            <Button  onClick={this.showDelConfirm}><Icon type="cross" />撤销</Button>
         </ToolBar>;
         const rowSelection = {
             type: 'checkbox',

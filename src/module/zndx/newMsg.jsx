@@ -29,7 +29,7 @@ let c = React.createClass({
             title : this.props.form.getFieldValue('title'),
             content:this.refs.editor.handleValue(),
             reciver:this.state.reciver,
-            type:2, //类型2为系统消息，暂时从本界面发送的消息都默认为系统消息
+            type:this.state.reciver.type, //类型2为系统消息，暂时从本界面发送的消息都默认为系统消息
             groupsend:true
         };
         if(isEmptyObject(values.reciver)){

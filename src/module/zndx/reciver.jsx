@@ -29,7 +29,7 @@ const c = React.createClass({
         }
     },
     handleChange(e){
-        this.setState({value: e.target.value})
+            this.setState({value:e.target.value})
     },
     handleTabChange(tabkey){
         if(tabkey == 1){
@@ -41,7 +41,11 @@ const c = React.createClass({
     handleOk(){
         const {onOk} = this.props;
         const {data,value} = this.state;
-        onOk({key: value, label: data[value]})
+        for(let i=0; i<data.length;i++){
+            if(data[i].key==value){
+                onOk(data[i])
+            }
+        }
     },
 
     getGroupRadios(){
@@ -52,7 +56,7 @@ const c = React.createClass({
             lineHeight: '30px'
         };
         let result;
-        result = group.map((item,key)=><Radio style={radioStyle} key={key} value={key}>{item}</Radio>);
+        result = group.map((item,key)=><Radio style={radioStyle} key={item.key} value={item.key}>{item.label}</Radio>);
         return result
     },
     getSpecialRadios(){
@@ -63,7 +67,7 @@ const c = React.createClass({
             lineHeight: '30px'
         };
         let result;
-        result = special.map((item,key)=><Radio style={radioStyle} key={key} value={key}>{item}</Radio>);
+        result = special.map((item,key)=><Radio style={radioStyle} key={item.key} value={item.key}>{item.label}</Radio>);
         return result
     },
 
