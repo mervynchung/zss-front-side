@@ -29,6 +29,7 @@ let c = React.createClass({
             title : this.props.form.getFieldValue('title'),
             content:this.refs.editor.handleValue(),
             reciver:this.state.reciver,
+            year:this.state.year,
             type:this.state.reciver.type, //类型2为系统消息，暂时从本界面发送的消息都默认为系统消息
             groupsend:true
         };
@@ -70,8 +71,9 @@ let c = React.createClass({
     openReciver(){
         this.setState({modal:true})
     },
-    getReciver(obj){
-        this.setState({reciver:obj});
+    getReciver(obj,year){
+        console.log(year);
+        this.setState({reciver:obj,year:year});
         this.closeReciver()
     },
 
@@ -134,3 +136,4 @@ let c = React.createClass({
 
 c = createForm()(c);
 module.exports = c;
+
