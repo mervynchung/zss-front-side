@@ -1,7 +1,28 @@
 import React from 'react'
-import {Modal, Tabs, Radio} from 'antd'
+import {Modal, Tabs, Radio,Select} from 'antd'
 const RadioGroup = Radio.Group;
 const TabPane = Tabs.TabPane;
+const Option = Select.Option;
+
+const SelectorYear = React.createClass({
+    getYearOptions(year){
+        const options =[];
+        for(let i = 0; i<3 ; i++ ){
+            let option =  <Option key={''+(year-i)}>{''+(year-i)}</Option>;
+            options.push(option)
+        }
+        return options;
+    },
+
+    render(){
+        let year = new Date().getFullYear();
+        const options = this.getYearOptions(year);
+        return <Select  placeholder="选择年度" defaultValue={''+year} {...this.props}>
+            {options}
+        </Select>
+    }
+});
+
 const c = React.createClass({
     getDefaultProps(){
         return {
@@ -9,8 +30,6 @@ const c = React.createClass({
                 key:'3',label:'省内事务所',type:2
             },{
                 key:'114',label:'外省事务所（无省内分所）',type:2
-            },{
-                key:'0',label:'全部事务所',type:2
             }],
             special:
               [{
@@ -24,6 +43,7 @@ const c = React.createClass({
     },
     getInitialState(){
         return {
+            year:''+new Date().getFullYear(),
             value: '3',
             data:this.props.group
         }
@@ -70,6 +90,9 @@ const c = React.createClass({
         result = special.map((item,key)=><Radio style={radioStyle} key={item.key} value={item.key}>{item.label}</Radio>);
         return result
     },
+    handleYear(value){
+       this.setState({year:value})
+    },
 
     render(){
 
@@ -81,6 +104,7 @@ const c = React.createClass({
                     </RadioGroup>
                 </TabPane>
                 <TabPane tab="特殊群组" key="2">
+                    <SelectorYear onChange={this.handleYear} />
                     <RadioGroup onChange={this.handleChange} value={this.state.value}>
                         {this.getSpecialRadios()}
                     </RadioGroup>
