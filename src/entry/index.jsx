@@ -230,8 +230,11 @@ const Index = React.createClass({
                 require('../module/client/ywgl/grywtj'), //个人业务统计
                 require('../module/client/ywgl/swsywtj'), //事务所业务统计
                 require('../module/client/ywgl/ywhztj'), //业务汇总统计
- */               //站内短信
+ */
+                //站内短信
                 require('../module/zndx'),
+                require('../module/client/zndx'),
+
 
                 //培训报名
                 require('../module/client/wsbm'),
