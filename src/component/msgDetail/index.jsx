@@ -38,10 +38,11 @@ const detail = React.createClass({
     },
     componentWillReceiveProps(nextProps){
         if (!!nextProps && nextProps.visible == true) {
-            const {url, id}  = nextProps;
+            const {url, id,setRead,onOpened}  = nextProps;
             req({
                 method: 'get',
-                url: url + `/${id}`
+                url: url + `/${id}`,
+                data:{setRead:setRead}
             }).then(resp => {
                 this.setState({
                     title: resp.title,
@@ -49,7 +50,10 @@ const detail = React.createClass({
                     create_time: resp.create_time,
                     loading: false,
                     loadFail:''
-                })
+                });
+                if(setRead){
+                    onOpened();
+                }
             }).catch(e => {
                 this.setState({loading: false,loadFail:'数据读取失败'})
             })

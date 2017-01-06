@@ -19,12 +19,12 @@ const list = React.createClass({
             //默认每页显示数量
             pageSize: 10,
             //数据来源api
-            apiUrl: config.URI_API_FRAMEWORK  + `/sendbox`,
+            apiUrl: config.URI_API_FRAMEWORK  + `/inbox`,
             messageUrl:config.URI_API_FRAMEWORK  + `/messages`,
             //初始搜索条件
             defaultWhere:{},
             //栏目名称
-            title:'发件箱'
+            title:'收件箱'
         }
     },
     //初始化state
@@ -99,35 +99,6 @@ const list = React.createClass({
         };
         this.fetchData(param);
     },
-    //添加
-    handleNew(){
-        this.props.onNew();
-    },
-    //确认删除
-    showDelConfirm(){
-        let delmsg = this.delMsg;
-        Modal.confirm({
-            title: '确认撤回这些通知',
-            content: '点击确认后，所选消息将会从发件箱删除，接收者将无法再看到这些消息，是否确认要撤回？',
-            onOk() {
-                delmsg();
-            },
-        });
-    },
-    //删除
-    delMsg(){
-        this.setState({loading:true});
-        req({
-            url:this.props.messageUrl,
-            method:'delete',
-            data:this.state.selectedRowKeys
-        }).then(resp=>{
-            this.setState({selectedRowKeys:[],loading:false});
-            this.refreshCurrent()
-        }).catch(e=>{
-            this.setState({loading:false})
-        })
-    },
 
     //刷新按钮
     handleRefresh(){
@@ -180,7 +151,6 @@ const list = React.createClass({
         const {title,scrollx,keyCol,columns} = this.props;
         let toolbar = <ToolBar>
             <ButtonGroup>
-                <Button  onClick={this.showDelConfirm}><Icon type="delete" />撤销</Button>
                 <Button  onClick={this.handleRefresh}><Icon type="reload"/>刷新</Button>
                 <Button onClick={this.queryToggle}>
                     <Icon type="search"/>查询
@@ -188,7 +158,6 @@ const list = React.createClass({
                         <Icon className="toggle-tip" type="circle-o-down"/>}
                 </Button>
             </ButtonGroup>
-
         </ToolBar>;
         const rowSelection = {
             type: 'checkbox',
