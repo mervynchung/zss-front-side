@@ -1,14 +1,9 @@
 import React from 'react'
 import {Table,Modal,Row,Col,Button,Icon,Alert} from 'antd'
-import CompPageHead from 'component/CompPageHead'
 import Panel from 'component/compPanel'
 import {columns,entityModel} from './model'
-import req from 'reqwest';
-
-import auth from 'common/auth'
-//import SearchForm from './searchForm'
+import req from 'common/request';
 import config from 'common/configuration'
-import BaseTable from 'component/compBaseTable'
 import {entityFormat} from 'common/utils'
 
 
@@ -94,12 +89,11 @@ const zyzzsjfx = React.createClass({
     handleRowClick(record){
         req({
             url: API_URL + '/' + record.id,
-            type: 'json',
             method: 'get'
         }).then(resp=> {
             let entity = entityFormat(resp,entityModel);
             this.setState({entity: entity,detailHide:false});
-        }).fail(err=> {
+        }).catch(err=> {
             Modal.error({
                 title: '数据获取错误',
                 content: (
