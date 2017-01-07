@@ -1,21 +1,13 @@
 import React from 'react'
 import {Table,Modal,Row,Col,Button,Icon,Alert} from 'antd'
-import CompPageHead from 'component/CompPageHead'
 import Panel from 'component/compPanel'
 import {columns,entityModel} from './model'
-import req from 'reqwest';
+import req from 'common/request';
 
-import auth from 'common/auth'
-//import SearchForm from './searchForm'
 import config from 'common/configuration'
-import BaseTable from 'component/compBaseTable'
 import {entityFormat} from 'common/utils'
 
-
-
 const API_URL = config.HOST + config.URI_API_PROJECT + '/zyzzsjfx';
-const ToolBar = Panel.ToolBar;
-const ButtonGroup = Button.Group;
 
 
 const zyzzsjfx = React.createClass({
@@ -94,12 +86,11 @@ const zyzzsjfx = React.createClass({
     handleRowClick(record){
         req({
             url: API_URL + '/' + record.id,
-            type: 'json',
             method: 'get'
         }).then(resp=> {
             let entity = entityFormat(resp,entityModel);
             this.setState({entity: entity,detailHide:false});
-        }).fail(err=> {
+        }).catch(err=> {
             Modal.error({
                 title: '数据获取错误',
                 content: (
@@ -120,10 +111,8 @@ const zyzzsjfx = React.createClass({
         this.setState({loading: true});
         req({
             url: API_URL,
-            type: 'json',
             method: 'get',
             data: params,
-            contentType: 'application/json'
         }).then(resp=> {
           /*  const p = this.state.pagination;
             p.total = resp.total > 1000 ? 1000 : resp.total;
@@ -135,7 +124,7 @@ const zyzzsjfx = React.createClass({
                // pagination: p,
                 loading: false
             })
-        }).fail(err=> {
+        }).catch(err=> {
             this.setState({loading: false});
             Modal.error({
                 title: '数据获取错误',
