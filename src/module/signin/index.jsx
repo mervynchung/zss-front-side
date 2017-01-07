@@ -1,6 +1,6 @@
 import React from 'react'
 import LoginForm from './loginForm'
-import req from 'reqwest'
+import req from 'common/request'
 import config from 'common/configuration'
 import store from 'store2'
 import {withRouter} from 'react-router'
@@ -26,8 +26,7 @@ const signin = withRouter(React.createClass({
         req({
             url: API_URL,
             method: 'post',
-            contentType: 'application/json',
-            data: JSON.stringify(value)
+            data: value
         }).then(resp=> {
             auth.setToken(resp.token, resp.tokenhash, value.isRemember);
             auth.setAuthorization({
@@ -43,7 +42,7 @@ const signin = withRouter(React.createClass({
                 this.props.router.replace('/')
             }
 
-        }).fail((e)=> {
+        }).catch((e)=> {
             let errMsg;
             if (e.status == 401 || e.status == 403) {
                 errMsg = JSON.parse(e.response).text

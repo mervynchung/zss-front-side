@@ -151,8 +151,8 @@ const list = React.createClass({
         const {title,scrollx,keyCol,columns} = this.props;
         let toolbar = <ToolBar>
             <ButtonGroup>
-                <Button  onClick={this.handleRefresh}><Icon type="reload"/>刷新</Button>
-                <Button onClick={this.queryToggle}>
+                <Button type="ghost" size="small" onClick={this.handleRefresh}><Icon type="reload"/>刷新</Button>
+                <Button type="ghost" size="small" onClick={this.queryToggle}>
                     <Icon type="search"/>查询
                     { this.state.searchToggle ? <Icon className="toggle-tip" type="circle-o-up"/> :
                         <Icon className="toggle-tip" type="circle-o-down"/>}
