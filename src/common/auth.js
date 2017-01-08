@@ -43,7 +43,6 @@ module.exports = {
     },
 
     logout(){
-        console.log('logout')
         store.clear();
         store.session.clear();
     },

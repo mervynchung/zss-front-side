@@ -189,7 +189,6 @@ const Index = React.createClass({
 
                 //培训模块
                 require('../module/pxmk'),
-                /*
 
 
                  //客户端
@@ -202,12 +201,12 @@ const Index = React.createClass({
 
                  //事务所内部审批
                  require('../module/client/swswspcx'),
-*/
+
                  //人员管理
                  require('../module/client/swsrygl/zyrygl'),
                  require('../module/client/swsrygl/cyrygl'),
                  require('../module/client/swsrygl/rydr'),
-/*
+
                  //财务报表上传
                  require('../module/client/cwbb/lrb'),
                  require('../module/client/cwbb/lrfpb'),
@@ -232,7 +231,6 @@ const Index = React.createClass({
                  require('../module/client/ywgl/grywtj'), //个人业务统计
                  require('../module/client/ywgl/swsywtj'), //事务所业务统计
                  require('../module/client/ywgl/ywhztj'), //业务汇总统计
-                 */
                 //站内短信
                 require('../module/zndx'),
                 require('../module/inbox'),
