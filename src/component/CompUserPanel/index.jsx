@@ -30,8 +30,8 @@ const ComUserPanel = withRouter(React.createClass({
         return (
             <div className="user-panel">
                 <ul>
-                    <li><Badge dot={accountInfo.newMsg}><a href="#" onClick={this.handleClick}><Icon
-                        type="mail"/></a></Badge></li>
+                    <li><Badge count={accountInfo.newMsg}><Link to="/inbox"><Icon
+                        type="mail"/></Link></Badge></li>
                     <li><Dropdown overlay={menu} trigger={['click']}>
                         <a href="/"> {accountInfo.names} <Icon className="toggle-icon" type="down"/></a>
                     </Dropdown></li>
@@ -39,6 +39,6 @@ const ComUserPanel = withRouter(React.createClass({
             </div >
         );
     }
-}))
+}));
 
 module.exports = ComUserPanel;

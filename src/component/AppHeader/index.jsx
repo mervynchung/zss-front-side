@@ -1,5 +1,4 @@
 import React from 'react';
-import {Icon} from 'antd';
 import CompUserPanel from '../CompUserPanel';
 import AppLogo from '../AppLogo'
 import './style.css';

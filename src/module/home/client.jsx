@@ -11,46 +11,80 @@ import InBox from './inBox'
 import auth from 'common/auth'
 import req from 'common/request'
 import config from 'common/configuration'
+import MsgDetail from 'component/msgDetail'
 import './style.css'
 
 const TabPane = Tabs.TabPane;
 const c = React.createClass({
+    getDefaultProps(){
+        return {
+            sumUrl:config.HOST + config.URI_API_PROJECT + '/clisummary/',
+            zyswsUrl:config.HOST + config.URI_API_PROJECT + '/sumZysws/',
+            cyryUrl:config.HOST + config.URI_API_PROJECT + '/sumCyry/',
+            inboxUrl:config.HOST + config.URI_API_FRAMEWORK + '/inbox'
+        }
+    },
+
     //初始化state
     getInitialState(){
         return {
             summary: {},
             zysws: {},
-            cyry: {}
+            cyry: {},
+            inbox: [],
+            msg:false,
+            msgEntity:{}
         }
+
     },
     fetchSummary(){
         let jgid = auth.getJgid();
-        let url = config.HOST + config.URI_API_PROJECT + '/clisummary/' + jgid;
-        return req({url: url, method: 'get', type: 'json'})
+        return req({url: this.props.sumUrl+jgid, method: 'get', type: 'json'})
     },
     fetchZysws( params= {page : 1, pagesize : 5}){
         let jgid = auth.getJgid();
-        let url = config.HOST + config.URI_API_PROJECT + '/sumZysws/' + jgid;
-        return req({url: url, method: 'get', type: 'json', data: {page: params.page, pagesize: params.pagesize}})
+        return req({url: this.props.zyswsUrl+jgid, method: 'get', type: 'json', data: {page: params.page, pagesize: params.pagesize}})
     },
     fetchCyry( params= {page : 1, pagesize : 5}){
         let jgid = auth.getJgid();
-        let url = config.HOST + config.URI_API_PROJECT + '/sumCyry/' + jgid;
-        return req({url: url, method: 'get', type: 'json', data: {page: params.page, pagesize: params.pagesize}})
+        return req({url: this.props.cyryUrl+jgid, method: 'get', type: 'json', data: {page: params.page, pagesize: params.pagesize}})
+    },
+    fetchInbox( params= {page : 1, pagesize : 5}){
+        return req({url: this.props.inboxUrl, method: 'get', type: 'json', data: {page: params.page, pagesize: params.pagesize}})
     },
     //获取汇总信息，执业人员和从业人员名单
     async fetchData(){
-        let [summary, zysws,cyry] = await Promise.all([this.fetchSummary(), this.fetchZysws(), this.fetchCyry()]);
-        return {summary: summary, zysws: zysws, cyry: cyry}
+        let [summary, zysws,cyry,inbox] = await Promise.all([this.fetchSummary(), this.fetchZysws(), this.fetchCyry(),this.fetchInbox()]);
+        return {summary: summary, zysws: zysws, cyry: cyry,inbox:inbox}
     },
     componentDidMount(){
         this.fetchData().then(resp=> {
-            this.setState({summary: resp.summary, zysws: resp.zysws, cyry: resp.cyry})
+            this.setState({summary: resp.summary, zysws: resp.zysws, cyry: resp.cyry,inbox:resp.inbox.data})
         });
     },
+    //读取某条消息内容
+    handleRead(entity){
+        this.setState({msg:true,msgEntity:entity})
+    },
+    //关闭消息视图
+    closeMsg(){
+        this.fetchInbox().then(resp=>{
+            this.setState({inbox:resp.data,msg:false})
+        })
+    },
+
     render(){
-        const unreadedBadge = <Badge count={0} style={{ backgroundColor: '#87d068' }}/>;
         const more = <a><Icon type="ellipsis"/> 展开</a>;
+        /*设置明细信息组件的参数*/
+        const detailSetting = {
+            //设置数据源
+            id: this.state.msgEntity.textid,
+            //设置已读
+            setRead:this.state.msgEntity.id,
+            visible:this.state.msg,
+            //设置返回主视图调用的方法
+            onClose: this.closeMsg
+        };
         return <div className="client-home wrap">
             <Row gutter={16}>
                 <Col span="16">
@@ -81,8 +115,8 @@ const c = React.createClass({
                 </Col>
                 <Col span="8">
                     <Container className="tabs-for-title">
-                        <Tabs size="small" tabBarExtraContent={unreadedBadge}>
-                            <TabPane key="1" tab="未读消息"><InBox/></TabPane>
+                        <Tabs size="small">
+                            <TabPane key="1" tab="站内通知"><InBox data={this.state.inbox} onRead={this.handleRead}/></TabPane>
                         </Tabs>
                     </Container>
                 </Col>
@@ -98,7 +132,7 @@ const c = React.createClass({
                     </Container>
                 </Col>
             </Row>
-
+            <MsgDetail {...detailSetting}/>
         </div>
     }
 });
