@@ -9,6 +9,7 @@ import './style.css'
  * @props.id String 消息id
  * @props.visible  boolean 组件显示状态控制
  * @props.onClose function(){} 点击关闭时的回调函数
+ * @props.setRead String 消息记录表id，消息打开时将该id状态设为已读
  */
 const detail = React.createClass({
     getDefaultProps(){
@@ -38,7 +39,7 @@ const detail = React.createClass({
     },
     componentWillReceiveProps(nextProps){
         if (!!nextProps && nextProps.visible == true) {
-            const {url, id,setRead,onOpened}  = nextProps;
+            const {url, id,setRead}  = nextProps;
             req({
                 method: 'get',
                 url: url + `/${id}`,
@@ -51,9 +52,6 @@ const detail = React.createClass({
                     loading: false,
                     loadFail:''
                 });
-                if(setRead){
-                    onOpened();
-                }
             }).catch(e => {
                 this.setState({loading: false,loadFail:'数据读取失败'})
             })

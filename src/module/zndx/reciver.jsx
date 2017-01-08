@@ -1,5 +1,7 @@
 import React from 'react'
 import {Modal, Tabs, Radio,Select,Row} from 'antd'
+import {isEmptyObject} from 'common/utils'
+
 const RadioGroup = Radio.Group;
 const TabPane = Tabs.TabPane;
 const Option = Select.Option;
@@ -27,13 +29,13 @@ const c = React.createClass({
     getDefaultProps(){
         return {
             group: [{
-                key:'3',label:'省内事务所',type:2
+                key:'3',label:'省内事务所',type:2//类型2为系统消息
             },{
                 key:'114',label:'外省事务所（无省内分所）',type:2
             }],
             special:
               [{
-                  key:'211',label:'会费未缴清事务所',type:3
+                  key:'211',label:'会费未缴清事务所',type:3//类型3为缴费通知
               },{
                   key:'212',label:'财务报表未上报事务所',type:2
               },{
@@ -56,16 +58,27 @@ const c = React.createClass({
             this.setState({data:this.props.group})
         }else if(tabkey == 2){
             this.setState({data:this.props.special})
+        }else if (tabkey == 3){
+            this.setState({data:{}})
         }
     },
     handleOk(){
         const {onOk} = this.props;
         const {data,value,year} = this.state;
-        for(let i=0; i<data.length;i++){
-            if(data[i].key==value){
-                onOk(data[i],year)
+        //通过state.data判断是否群发
+        if(isEmptyObject(data)){
+            //特定事务所
+            onOk(data)
+        }else{
+            //不同组合群发
+            for(let i=0; i<data.length;i++){
+                if(data[i].key==value){
+                    let groupsend = true;
+                    onOk(data[i],year,groupsend)
+                }
             }
         }
+
     },
 
     getGroupRadios(){

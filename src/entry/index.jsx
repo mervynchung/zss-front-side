@@ -1,8 +1,8 @@
 import '../common/lib';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Router, Route, IndexRoute, useRouterHistory } from 'react-router';
-import { createHistory, createHashHistory } from 'history'
+import {Router, Route, IndexRoute, useRouterHistory} from 'react-router';
+import {createHistory, createHashHistory} from 'history'
 import App from '../component/App';
 import Signin from 'module/signin';
 import Dyfp from 'module/useforprint/fpdy/dy.jsx';
@@ -11,7 +11,7 @@ import Dyry from 'module/useforprint/glsc_ry/dy.jsx';
 import Dyzb from 'module/useforprint/glsc_zb/dy.jsx';
 import Dyfb from 'module/useforprint/glsc_fb/dy.jsx';
 import YwbbCover from 'module/useforprint/ywbb_fm/dy.jsx';
-import { home } from '../module/home';
+import {home} from '../module/home';
 import Zyjbxx from 'module/rygl/rycx/zyryjbxx.jsx';
 import Cyjbxx from 'module/rygl/rycx/cyryjbxx.jsx';
 import NotFound from 'module/404notfound'
@@ -35,9 +35,11 @@ const Index = React.createClass({
         if (!auth.verifyAuth()) {
             replace({
                 pathname: '/signin',
-                state: { nextPathname: nextState.location.pathname }
+                state: {nextPathname: nextState.location.pathname}
             })
         }
+
+
     },
 
     render() {
@@ -45,7 +47,7 @@ const Index = React.createClass({
         const routes = [{
             path: '/',
             component: App,
-            indexRoute: { component: home },
+            indexRoute: {component: home},
             ignoreScrollBehavior: true,
             breadcrumbName: '首页',
             onEnter: this.requireAuth,
@@ -117,7 +119,7 @@ const Index = React.createClass({
                 require('../module/jdjc/zyswsnjb'),
                 require('../module/jdjc/swsnj'),
 
-            //     //逐级审核
+                //     //逐级审核
                 require('../module/spsh'),
                 require('../module/spshlsjl'),
                 require('../module/spsh/module/1'),
@@ -191,7 +193,7 @@ const Index = React.createClass({
 
                 //客户端
                 //机构管理
-               require('../module/client/jggl/swsbg'),
+                require('../module/client/jggl/swsbg'),
                 require('../module/client/jggl/swszx'),
                 require('../module/client/jggl/swshb'),
                 require('../module/client/jggl/swsfssl'),
@@ -231,9 +233,10 @@ const Index = React.createClass({
                 require('../module/client/ywgl/grywtj'), //个人业务统计
                 require('../module/client/ywgl/swsywtj'), //事务所业务统计
                 require('../module/client/ywgl/ywhztj'), //业务汇总统计
+
                 //站内短信
                 require('../module/zndx'),
-                require('../module/client/zndx'),
+                require('../module/inbox'),
 
 
                 //培训报名
@@ -270,13 +273,14 @@ const Index = React.createClass({
         }, {
             path: '/print/ywbbcover',
             component: YwbbCover
-        },{
+        }, {
             path: '*',
             component: NotFound
         }];
-        return <Router history={history} routes={routes} />
+        return <Router history={history} routes={routes}/>
     }
 });
+
 ReactDOM.render(<Index />, document.getElementById('app'));
 
 

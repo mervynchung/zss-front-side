@@ -1,16 +1,13 @@
 import React from 'react'
-import {Table,Col,Row,Tree,Tabs,Modal,Button,Spin,notification,Icon} from 'antd'
-import {Link} from 'react-router'
+import {Table,Modal,Spin,notification,message} from 'antd'
 import Panel from 'component/compPanel'
 import config from 'common/configuration'
 import {SelectorDQ,SelectorCS,SelectorYear} from 'component/compSelector'
 import model from './model.jsx'
-import req from 'reqwest'
+import req from 'common/request'
 import auth from 'common/auth.js'
 import {jsonCopy} from 'common/utils.js'
 
-const PanelBar = Panel.ToolBar;
-const ButtonGroup = Button.Group;
 const CUSTOMER_URL = config.HOST + config.URI_API_PROJECT + '/xtywbb/hyjygmqktj';
 const token = auth.getToken();
 
@@ -19,9 +16,7 @@ const fetchCustomers = function (param = {page: 1, pageSize: 10}) {
     return req({
         url: CUSTOMER_URL,
         method: 'get',
-        type: 'json',
         data: param,
-        headers:{'x-auth-token':token}
     })
 };
 
@@ -70,14 +65,7 @@ const khxxList = React.createClass({
             })
         }).catch(e=> {
             this.setState({pageLoading: false});
-            Modal.error({
-                title: '数据获取错误',
-                content: (
-                    <div>
-                        <p>无法从服务器返回数据，需检查应用服务工作情况</p>
-                        <p>Status: {e.status}</p>
-                    </div>  )
-            });
+            message.error('数据读取失败')
         })
     },
 
@@ -171,9 +159,7 @@ const khxxList = React.createClass({
         req({
             url:CUSTOMER_URL + '/' +record.ID,
             method:'delete',
-            type:'json',
-            data: JSON.stringify(record),
-            headers:{'x-auth-token':token}
+            data: record,
         }).then(resp=>{
             notification.success({
                 duration: 2,
@@ -181,12 +167,8 @@ const khxxList = React.createClass({
                 description: '客户信息已更新'
             });
             this.handleRefresh();
-        }).fail(e=>{
-            notification.error({
-                duration: 2,
-                message: '操作失败',
-                description: '可能网络访问原因，请稍后尝试'
-            });
+        }).catch(e=>{
+            message.error('数据读取失败')
         })
     },
 

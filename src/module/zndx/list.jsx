@@ -1,5 +1,5 @@
 import React from 'react'
-import {Table, Row, Col, Button, Icon, notification, Modal} from 'antd'
+import {Table, Button, Icon, notification, Modal,message} from 'antd'
 import Panel from 'component/compPanel'
 import req from 'common/request';
 import merge from 'lodash/merge';
@@ -105,14 +105,18 @@ const list = React.createClass({
     },
     //确认删除
     showDelConfirm(){
-        let delmsg = this.delMsg;
-        Modal.confirm({
-            title: '确认撤回这些通知',
-            content: '点击确认后，所选消息将会从发件箱删除，接收者将无法再看到这些消息，是否确认要撤回？',
-            onOk() {
-                delmsg();
-            },
-        });
+        if(this.state.selectedRowKeys.length>0){
+            let delmsg = this.delMsg;
+            Modal.confirm({
+                title: '确认撤回这些通知',
+                content: '点击确认后，所选消息将会从发件箱删除，接收者将无法再看到这些消息，是否确认要撤回？',
+                onOk() {
+                    delmsg();
+                },
+            });
+        }else {
+            message.info("未选择任何消息")
+        }
     },
     //删除
     delMsg(){
@@ -180,9 +184,9 @@ const list = React.createClass({
         const {title,scrollx,keyCol,columns} = this.props;
         let toolbar = <ToolBar>
             <ButtonGroup>
-                <Button  onClick={this.showDelConfirm}><Icon type="delete" />撤销</Button>
-                <Button  onClick={this.handleRefresh}><Icon type="reload"/>刷新</Button>
-                <Button onClick={this.queryToggle}>
+                <Button type="ghost" size="small" onClick={this.showDelConfirm}><Icon type="delete" />撤销</Button>
+                <Button type="ghost" size="small" onClick={this.handleRefresh}><Icon type="reload"/>刷新</Button>
+                <Button type="ghost" size="small" onClick={this.queryToggle}>
                     <Icon type="search"/>查询
                     { this.state.searchToggle ? <Icon className="toggle-tip" type="circle-o-up"/> :
                         <Icon className="toggle-tip" type="circle-o-down"/>}

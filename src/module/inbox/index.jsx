@@ -1,7 +1,7 @@
-/*站内短信*/
+/*站内短信收件箱*/
 module.exports = {
-    path: '/client/zndx(/)',
-    breadcrumbName:'站内短信',
+    path: '/inbox(/)',
+    breadcrumbName:'收件箱',
     getComponent(location, cb) {
         require.ensure([], (require) => {
             cb(null, require('./component'))
