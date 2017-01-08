@@ -111,6 +111,12 @@ const rycx = React.createClass({
       });
       }else if (tabkey==2) {
         this.gettabdata(this.state.urls.herf_bgjl);
+      }else if (tabkey==3) {
+        this.gettabdata(this.state.urls.herf_zsjl);
+      }else if (tabkey==4) {
+        this.gettabdata(this.state.urls.herf_zjjl);
+      }else if (tabkey==5) {
+        this.gettabdata(this.state.urls.herf_zzjl);
       }else if (tabkey==7) {
         this.gettabdata(this.state.urls.herf_njjl);
       };
@@ -537,6 +543,9 @@ onChangeFS(e) {
                                             <CompBaseTable data = {this.state.dataxx}  model={Model.autoform} bordered striped /><p className="nbjgsz">人员简历：</p>
                                             <Table columns={Model.ryjl} dataSource={this.state.datalist} bordered  size="small" pagination={false} /></TabPane>
                                             <TabPane tab="变更记录" key="2"><Table columns={Model.columnsZyrybgjl} dataSource={this.state.datalist} bordered  size="small" /></TabPane>
+                                             <TabPane tab="转所记录" key="3"><Table columns={Model.columnsZyryzsjl} dataSource={this.state.datalist} bordered  size="small" /></TabPane>
+                                            <TabPane tab="转籍记录" key="4"><Table columns={Model.columnsZyryzjjl} dataSource={this.state.datalist} bordered  size="small" /></TabPane>
+                                            <TabPane tab="转执记录" key="5"><Table columns={Model.columnsZyryzzjl} dataSource={this.state.datalist} bordered  size="small" /></TabPane>
                                             <TabPane tab="年检记录" key="7"><Table columns={Model.columnsZyrynjjl} dataSource={this.state.datalist} bordered  size="small" /></TabPane>
                                       </Tabs>
                                             </Panel></Spin>}

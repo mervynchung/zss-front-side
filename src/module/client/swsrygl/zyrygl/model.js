@@ -324,7 +324,68 @@ const columnsZyrybgjl = [{ //设定列
   key: 'gxsj',
 
 },]
+const columnsZyryzsjl = [{ //设定列
+  title: '审批状态', //设定该列名称
+  dataIndex: 'spztmc', //设定该列对应后台字段名
+  key: 'spztmc', //列key，必须设置，建议与字段名相同
+}, {
+  title: '本人意见',
+  dataIndex: 'bryj',
+  key: 'bryj',
+ 
+}, {
+  title: '原单位意见',
+  dataIndex: 'ydwyj',
+  key: 'ydwyj',
 
+},{
+  title: '填报时间',
+  dataIndex: 'tbrq',
+  key: 'tbrq',
+
+},]
+const columnsZyryzjjl = [{ //设定列
+  title: '审批状态', //设定该列名称
+  dataIndex: 'spztmc', //设定该列对应后台字段名
+  key: 'spztmc', //列key，必须设置，建议与字段名相同
+}, {
+  title: '转籍原因',
+  dataIndex: 'zjyj',
+  key: 'zjyj',
+ 
+}, {
+  title: '单位意见',
+  dataIndex: 'dwyj',
+  key: 'dwyj',
+
+},{
+  title: '填报日期',
+  dataIndex: 'tbrq',
+  key: 'tbrq',
+
+},]
+
+const columnsZyryzzjl = [{ //设定列
+  title: '转执申请', //设定该列名称
+  dataIndex: 'zzsq', //设定该列对应后台字段名
+  key: 'zzsq', //列key，必须设置，建议与字段名相同
+}, {
+  title: '单位意见',
+  dataIndex: 'dwyj',
+  key: 'dwyj',
+ 
+}, {
+  title: '填报日期',
+  dataIndex: 'tbrq',
+  key: 'tbrq',
+
+},{
+  title: '审批日期',
+  dataIndex: 'spsj',
+  key: 'spsj',
+  
+
+},]
 const columnsZyrynjjl = [{ //设定列
   title: '年检年度', //设定该列名称
   dataIndex: 'nd', //设定该列对应后台字段名
@@ -487,6 +548,9 @@ const model = {
   autoformba:autoformba,
   pageSetting:pageSetting,
   columnsZyrybgjl:columnsZyrybgjl,
+  columnsZyryzsjl:columnsZyryzsjl,
+  columnsZyryzjjl:columnsZyryzjjl,
+  columnsZyryzzjl:columnsZyryzzjl,
   columnsZyrynjjl:columnsZyrynjjl,
   ryjl:ryjl,
   ryjl2:ryjl2,

@@ -23,6 +23,7 @@ let rydr = React.createClass({
 
 
 handleSubmit(ry){
+        
         this.props.form.validateFieldsAndScroll((errors, values) => {//条件校验处理
               if (!!errors) {
                     Modal.info({ title: '提示', content: (<div><p><b>请填写所有必填项</b></p> </div>)});
@@ -58,14 +59,16 @@ handleSubmit(ry){
                              </table> 
                         </div>  ),
                     onOk() {
+console.log('ry',ry)
                                 let squrls="";
                                 let ls = {ryid:resp[0].id};
                                 let med="put";
                                 switch(ry){
-                                    case 1: squrls=API_URL_ZYDR;med="post";break;
-                                    case 2: squrls=API_URL_CYDR;break;
-                                    case 5: squrls=API_URL_FZYZZY;ls.ydw=resp[0].ZZDW;med="post";break;
+                                    case '1': squrls=API_URL_ZYDR;med="post";break;
+                                    case '2': squrls=API_URL_CYDR;break;
+                                    case '5':squrls=API_URL_FZYZZY;ls.ydw=resp[0].ZZDW;med="post";break;
                                 }
+                                console.log(squrls);
                                   req({
                                         url: squrls,
                                         type: 'json',

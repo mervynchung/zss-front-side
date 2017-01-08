@@ -8,7 +8,7 @@ import SearchForm from './searchForm'
 import config from 'common/configuration'
 
 
-const API_URL = config.HOST + config.URI_API_PROJECT + '/spapi/lsspjlcx';
+const API_URL = config.HOST + config.URI_API_PROJECT + '/spapi/client/lsspjlcx';
 const ToolBar = Panel.ToolBar;
 const ButtonGroup = Button.Group;
 

@@ -119,7 +119,7 @@ const Index = React.createClass({
                 require('../module/jdjc/zyswsnjb'),
                 require('../module/jdjc/swsnj'),
 
-                //逐级审核
+                //     //逐级审核
                 require('../module/spsh'),
                 require('../module/spshlsjl'),
                 require('../module/spsh/module/1'),
@@ -191,46 +191,49 @@ const Index = React.createClass({
                 require('../module/pxmk'),
 
 
-                 //客户端
-                 //机构管理
-                 require('../module/client/jggl/swsbg'),
-                 require('../module/client/jggl/swszx'),
-                 require('../module/client/jggl/swshb'),
-                 require('../module/client/jggl/swsfssl'),
-                 require('../module/client/jggl/swsslzltb'), //新所设立资料填报
+                //客户端
+                //机构管理
+                require('../module/client/jggl/swsbg'),
+                require('../module/client/jggl/swszx'),
+                require('../module/client/jggl/swshb'),
+                require('../module/client/jggl/swsfssl'),
+                require('../module/client/jggl/swsslzltb'), //新所设立资料填报
 
-                 //事务所内部审批
-                 require('../module/client/swswspcx'),
+                //事务所内部审批
+                require('../module/client/swswspcx'),
+                //事务所审批历史记录
+                require('../module/client/swssplsjl'),
 
-                 //人员管理
-                 require('../module/client/swsrygl/zyrygl'),
-                 require('../module/client/swsrygl/cyrygl'),
-                 require('../module/client/swsrygl/rydr'),
+                //人员管理
+                require('../module/client/swsrygl/zyrygl'),
+                require('../module/client/swsrygl/cyrygl'),
+                require('../module/client/swsrygl/rydr'),
 
-                 //财务报表上传
-                 require('../module/client/cwbb/lrb'),
-                 require('../module/client/cwbb/lrfpb'),
-                 require('../module/client/cwbb/xjllb'),
-                 require('../module/client/cwbb/zcfzb'),
-                 require('../module/client/cwbb/zcmxb'),
+                //财务报表上传
+                require('../module/client/cwbb/lrb'),
+                require('../module/client/cwbb/lrfpb'),
+                require('../module/client/cwbb/xjllb'),
+                require('../module/client/cwbb/zcfzb'),
+                require('../module/client/cwbb/zcmxb'),
 
-                 //手动上报报表
-                 require('../module/client/sdsb/swsjbqk'),
-                 require('../module/client/sdsb/jygmtjb'),
-                 require('../module/client/sdsb/jzywqktjb'),
-                 require('../module/client/sdsb/hyryqktjb'),
-                 require('../module/client/sdsb/jysrqkb'),
+                //手动上报报表
+                require('../module/client/sdsb/swsjbqk'),
+                require('../module/client/sdsb/jygmtjb'),
+                require('../module/client/sdsb/jzywqktjb'),
+                require('../module/client/sdsb/hyryqktjb'),
+                require('../module/client/sdsb/jysrqkb'),
 
-                 //年度检查
-                 require('../module/client/swsnj'),//事务所年检
-                 require('../module/client/zyswsnj'),//执业税务师年检
+                //年度检查
+                require('../module/client/swsnj'),//事务所年检
+                require('../module/client/zyswsnj'),//执业税务师年检
 
-                 //业务管理
-                 require('../module/client/ywgl/khxxgl'), //客户信息管理
-                 require('../module/client/ywgl/ywbb'), //事务所业务报备
-                 require('../module/client/ywgl/grywtj'), //个人业务统计
-                 require('../module/client/ywgl/swsywtj'), //事务所业务统计
-                 require('../module/client/ywgl/ywhztj'), //业务汇总统计
+                //业务管理
+                require('../module/client/ywgl/khxxgl'), //客户信息管理
+                require('../module/client/ywgl/ywbb'), //事务所业务报备
+                require('../module/client/ywgl/grywtj'), //个人业务统计
+                require('../module/client/ywgl/swsywtj'), //事务所业务统计
+                require('../module/client/ywgl/ywhztj'), //业务汇总统计
+
                 //站内短信
                 require('../module/zndx'),
                 require('../module/inbox'),
