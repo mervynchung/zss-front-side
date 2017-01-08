@@ -2,10 +2,10 @@ import React from 'react'
 import CompBaseTable from 'component/compBaseTable';
 import config from 'common/configuration'
 import Panel from 'component/compPanel'
-import req from 'reqwest'
+import req from 'common/request'
 import Model from './model.js' 
 import SearchForm from './searchForm' 
-import {  DatePicker,Modal,Form, Input, Select,Table, Icon,Tabs,Button,Row,Col,message }from 'antd'
+import { Table, Icon,Tabs,Button }from 'antd'
 
 const API_URL = config.HOST+config.URI_API_PROJECT + '/zyzshsjfxb';
 const TabPane = Tabs.TabPane;
@@ -31,45 +31,42 @@ const zyzshsjfx = React.createClass({
       req({
             url: API_URL,//默认数据查询后台返回JSON
             method: 'get',
-            type: 'json',
-            data: params,
-            success: (result) => {
-                      if (result.data.length!=0) {
-                          const pagination = this.state.pagination;
-                          pagination.total = result.page.pageTotal;//要求后台返回json写法有属性page，该属性包含pageTotal（总条数值）
-                              this.setState({
-                                      data: result.data,//传入后台获取数据，table组件要求每条查询记录必须拥有字段'key'
-                                      urls:result.data[0]._links,
-                                      loading:false,//关闭加载状态
-                               });
-                      this.onSelect(result.data[0]);//联动详细信息，重新调用方法
-                    }else{//空数据处理
-                         const pagination = this.state.pagination;
-                         pagination.total = 0;
-                         this.setState({data: [],dataxx: {values: {}},datalist:[],loading:false});
-                    };
-            },
-            error: (err) =>{alert('api错误');}
-          });
+            data: params
+      }).then(result=>{
+          if (result.data.length!=0) {
+              const pagination = this.state.pagination;
+              pagination.total = result.page.pageTotal;//要求后台返回json写法有属性page，该属性包含pageTotal（总条数值）
+              this.setState({
+                  data: result.data,//传入后台获取数据，table组件要求每条查询记录必须拥有字段'key'
+                  urls:result.data[0]._links,
+                  loading:false,//关闭加载状态
+              });
+              this.onSelect(result.data[0]);//联动详细信息，重新调用方法
+          }else{//空数据处理
+              const pagination = this.state.pagination;
+              pagination.total = 0;
+              this.setState({data: [],dataxx: {values: {}},datalist:[],loading:false});
+          };
+      }).catch(e=>{
+          alert('api错误');
+      })
         },
         
     fetch_kzxx(tabkey) {//详细信息（tab）数据处理方法，不能使用switch，否则会发生未知错误
       // let tabkey =this.state.tabkey //获取当前tab标签的key
       if(tabkey==1){
-        req({
-          url: this.state.urls.herf_xxzl,//从主查询获取的后台dataProvider路径
-          method: 'get',
-          type: 'json',
-          success:(result)=>{
-            this.setState({
-              dataxx:result.data,
-              datalist: result.data.ryjl,//简历的data
-            })
-          },
-          error:(err)=>{
-            alert('api错误');
-          }
-        });
+          req({
+              url: this.state.urls.herf_xxzl,//从主查询获取的后台dataProvider路径
+              method: 'get',
+          }).then(result=>{
+              this.setState({
+                  dataxx:result.data,
+                  datalist: result.data.ryjl,//简历的data
+              })
+          }).catch(e=>{
+              alert('api错误');
+          })
+
       }else if(tabkey==2){
         this.gettabdata(this.state.urls.herf_bgjl);
       }else if (tabkey==3) {
@@ -83,20 +80,18 @@ const zyzshsjfx = React.createClass({
 
     gettabdata(urls){
       req({
-        url:urls,
-        method:'get',
-        type:'json',
-        success:(result)=>{
+          url:urls,
+          method:'get',
+      }).then(result=>{
           if(result.data.length!=0){
-            this.setState({datalist:result.data});
+              this.setState({datalist:result.data});
           }else{
-            this.setState({datalist:[]});
+              this.setState({datalist:[]});
           }
-        },
-        error:(erro)=>{
+      }).catch(e=>{
           alert('api错误');
-        }
       })
+
     },
 
     handleTableChange(pagination, filters, sorter) {//onChange方法，分页、排序、筛选变化时触发，必须三个参数才能准确获取

@@ -1,14 +1,9 @@
 import React from 'react'
 import {Table,Modal,Row,Col,Button,Icon,Alert} from 'antd'
-import CompPageHead from 'component/CompPageHead'
 import Panel from 'component/compPanel'
 import {columns,entityModel} from './model'
-import req from 'reqwest';
-
-import auth from 'common/auth'
-//import SearchForm from './searchForm'
+import req from 'common/request';
 import config from 'common/configuration'
-import BaseTable from 'component/compBaseTable'
 import {entityFormat} from 'common/utils'
 
 
@@ -121,22 +116,15 @@ const zjgmsjfx = React.createClass({
         this.setState({loading: true});
         req({
             url: API_URL,
-            type: 'json',
             method: 'get',
             data: params,
-            contentType: 'application/json'
         }).then(resp=> {
-          /*  const p = this.state.pagination;
-            p.total = resp.total > 1000 ? 1000 : resp.total;
-            p.showTotal = total => {
-                return `共 ${resp.total} 条，显示前 ${total} 条`
-            };*/
             this.setState({
                 data: resp.data,
                // pagination: p,
                 loading: false
             })
-        }).fail(err=> {
+        }).catch(err=> {
             this.setState({loading: false});
             Modal.error({
                 title: '数据获取错误',

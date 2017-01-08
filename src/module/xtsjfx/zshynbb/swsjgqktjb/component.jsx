@@ -1,15 +1,13 @@
 import React from 'react'
-import CompBaseTable from 'component/compBaseTable';
 import config from 'common/configuration'
 import Panel from 'component/compPanel'
 import Table from 'component/compTable'
-import req from 'reqwest'
+import req from 'common/request'
 import Model from './model.js' 
 import SearchForm from './searchForm' 
-import {  DatePicker,Modal,Form, Input, Select,Icon,Tabs,Button,Row,Col,message }from 'antd'
+import {  Icon,Tabs,Button }from 'antd'
 
 const API_URL = config.HOST+config.URI_API_PROJECT + '/zshynbb/swsjgqktjb';
-const TabPane = Tabs.TabPane;
 const PanelBar = Panel.ToolBar;
 
 const component = React.createClass({
@@ -25,23 +23,22 @@ const component = React.createClass({
   fetch_data(params = {where:encodeURIComponent(JSON.stringify(this.state.where)),}) {
      this.setState({loading:true,});//主查询加载状态
       req({
-            url: API_URL,//默认数据查询后台返回JSON
-            method: 'get',
-            type: 'json',
-            data: params,
-            success: (result) => {
-                      if (result.data.length!=0) {
-                              this.setState({
-                                      data: result.data,//传入后台获取数据，table组件要求每条查询记录必须拥有字段'key'
-                                      loading:false,//关闭加载状态
-                               }); 
-                    }else{//空数据处理
-                         this.setState({data: [],loading:false});
-                    };
-            },
-            error: (err) =>{alert('api错误');}
-          });
-        },
+          url: API_URL,//默认数据查询后台返回JSON
+          method: 'get',
+          data: params
+      }).then(result=>{
+          if (result.data.length!=0) {
+              this.setState({
+                  data: result.data,//传入后台获取数据，table组件要求每条查询记录必须拥有字段'key'
+                  loading:false,//关闭加载状态
+              });
+          }else{//空数据处理
+              this.setState({data: [],loading:false});
+          };
+      }).catch(e=>{
+          alert('api错误');
+      })
+  },
 
     componentDidMount() { //REACT提供懒加载方法，懒加载时使用，且方法名必须为componentDidMount
       this.fetch_data(); //异步调用后台服务器方法fetch_rycx
