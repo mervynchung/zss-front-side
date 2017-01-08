@@ -36,6 +36,7 @@ const wspcx = React.createClass({
                 method: 'get',
                 data: {lid:para},
                 contentType: 'application/json',
+                headers:{'x-auth-token':auth.getToken()}
             }).then(resp=> {
                 this.setState({sloading:false,lcxx: resp,titlemc:mc});
             }).fail(err=> {

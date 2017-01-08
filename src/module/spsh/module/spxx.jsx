@@ -52,6 +52,7 @@ const wspcx = React.createClass({
                           url: API_URL_YJ+record.id+"/"+bz,
                           type: 'json',
                           method: 'get',
+                          headers:{'x-auth-token':auth.getToken()}
                       }).then(resp=> {
                         this.setState({sjyj: resp.spyj});
                         })
@@ -74,13 +75,15 @@ const wspcx = React.createClass({
             type: 'json',
             method: 'get',
             data: {sjid:sjid},
+            headers:{'x-auth-token':auth.getToken()}
         })
     },
         fetchIsBH(spid){
         return req({
             url: API_URL_C+spid,
             type: 'json',
-            method: 'get'
+            method: 'get',
+            headers:{'x-auth-token':auth.getToken()}
         })
     },
     async fetchAll(record){

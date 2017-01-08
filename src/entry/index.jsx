@@ -117,7 +117,7 @@ const Index = React.createClass({
                 require('../module/jdjc/zyswsnjb'),
                 require('../module/jdjc/swsnj'),
 
-                //逐级审核
+            //     //逐级审核
                 require('../module/spsh'),
                 require('../module/spshlsjl'),
                 require('../module/spsh/module/1'),
@@ -199,6 +199,8 @@ const Index = React.createClass({
 
                 //事务所内部审批
                 require('../module/client/swswspcx'),
+                //事务所审批历史记录
+                require('../module/client/swssplsjl'),
 
                 //人员管理
                 require('../module/client/swsrygl/zyrygl'),
