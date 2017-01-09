@@ -13,8 +13,7 @@ import Detail from 'component/pxnr'
 const API_URL = config.HOST + config.URI_API_PROJECT + '/pxfbList';
 const API_URL_FB = config.HOST + config.URI_API_PROJECT + '/pxxxapi';
 const ToolBar = Panel.ToolBar;
-let cur=new Date();
-const now = new Date(cur.getFullYear(),cur.getMonth(),cur.getDate(),23,59,59).getTime();
+const now = Date.now();
 
 const lrb = React.createClass({
 
@@ -88,8 +87,20 @@ const lrb = React.createClass({
             p.showTotal = total => {
                 return `共 ${resp.page.pageTotal} 条`
             };
+            let ls=resp.data;
+            for(let i=0;i<ls.length;i++){
+                for(let key in ls[i]){
+                    if (typeof (ls[i][key]) =='number') {
+                        if (ls[i][key]==null) {
+                            ls[i][key]="";
+                            continue;
+                        };
+                        ls[i][key]+="";
+                    };
+                }
+            }
             this.setState({
-                data: resp.data,
+                data: ls,
                 pagination: p,
                 loading: false
             })
@@ -106,7 +117,6 @@ const lrb = React.createClass({
         })
     },
     onSelect(record){//主查询记录被选中方法
-
         if (this.state.pxid != record.pxid) {
             this.setState({pxid: record.pxid, dataxx: record});
         }
@@ -145,6 +155,7 @@ const lrb = React.createClass({
     handleBGSubmit(value){
         this.setState({bgLoading: true});
         var ls = value;
+        
         ls.pxid = this.state.pxid;
         let metd = "";
         switch (this.state.view) {
@@ -230,9 +241,9 @@ const lrb = React.createClass({
     ztRender(text, row, index) {
         var that = this;
         const sj = new Date(row.BMJZSJ);
+        const endSj =new Date(sj.getFullYear(),sj.getMonth(),sj.getDate(),23,59,59);
         let cmp = false;
-        if (row.fbzt == 0 && now > sj.getTime()) {
-            console.log(row);
+        if (row.fbzt == 0 && now > endSj.getTime()) {
             req({
                 url: API_URL_FB + '/' + row.pxid,
                 type: 'json',
@@ -291,7 +302,8 @@ const lrb = React.createClass({
             key: 'fbzt',
             render(text, row, index){
                 const sj = new Date(row.BMJZSJ);
-                if (now > sj.getTime()) {
+                const endSj =new Date(sj.getFullYear(),sj.getMonth(),sj.getDate(),23,59,59);
+                if (now > endSj.getTime()) {
                     return <p>活动结束</p>
                 } else if (text == 0) {
                     return <p>进行中</p>
