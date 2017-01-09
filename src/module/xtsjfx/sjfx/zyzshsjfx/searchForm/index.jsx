@@ -22,7 +22,6 @@ let searchForm = React.createClass({
     },
     handleSubmit(e){
         e.preventDefault();
-        console.log('a');
         let value = this.props.form.getFieldsValue();
         this.props.onSubmit(value);
     },

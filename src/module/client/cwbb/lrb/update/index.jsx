@@ -53,7 +53,7 @@ let Updatelrb = React.createClass({
         var that = this;
         Modal.confirm({
             title: '是否确定提交？',
-            content: '提交后就不能修改了！！！',
+            content: '提交后将无法修改。',
             onOk() {
                 that.handleSubmit(1);
             },
@@ -392,7 +392,6 @@ let Updatelrb = React.createClass({
             wrapperCol: { span: 12 },
         };
         const data = this.props.data;
-        console.log(data);
         return <div className="add">
             {this.state.helper && <Alert message="利润表检索查询帮助"
                 description={helper}

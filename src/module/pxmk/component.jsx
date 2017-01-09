@@ -232,7 +232,6 @@ const lrb = React.createClass({
         const sj = new Date(row.BMJZSJ);
         let cmp = false;
         if (row.fbzt == 0 && now > sj.getTime()) {
-            console.log(row);
             req({
                 url: API_URL_FB + '/' + row.pxid,
                 type: 'json',

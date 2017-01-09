@@ -5,7 +5,6 @@ import React from 'react'
 import { Button, Icon } from 'antd'
 import numeral from 'numeral'
 var model = {
-    // handleRowButton(){},
 
     columns: [
         { title: '序号', dataIndex: 'key', key: 'key' },
