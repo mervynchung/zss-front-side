@@ -14,14 +14,16 @@ const createForm = Form.create;
 let c = React.createClass({
     getDefaultProps(){
         return {
-            url:config.URI_API_FRAMEWORK  + `/messages`,
+            sendToGroupUrl:config.URI_API_FRAMEWORK  + `/messages/sendtogroup`,
+            sendToSwsUrl:config.URI_API_FRAMEWORK  + `/messages/sendtosws`,
         }
     },
     getInitialState(){
         return {
             modal:false,
             loading:false,
-            reciver:{}
+            reciver:{},
+            groupsend:false
         }
     },
     handleSubmit(e){
@@ -31,8 +33,7 @@ let c = React.createClass({
             content:this.refs.editor.handleValue(),
             reciver:this.state.reciver,
             year:this.state.year,
-            type:this.state.reciver.type, //类型2为系统消息，暂时从本界面发送的消息都默认为系统消息
-            groupsend:true
+            type:this.state.reciver.type,
         };
         if(isEmptyObject(values.reciver)){
             Modal.error({
@@ -56,17 +57,20 @@ let c = React.createClass({
             return
         }
         this.setState({loading:true});
-        req({
-            url:this.props.url,
-            method:'post',
-            data:values
-        }).then(resp=>{
-            message.success('短信息发送成功', 5);
-            this.props.onBack()
-        }).catch(e=>{
-            this.setState({loading:false});
-            message.error('短信息发送失败，请点击"发送按钮"重新发送',5)
-        })
+        if(this.state.groupsend){
+            req({
+                url:this.props.sendToGroupUrl,
+                method:'post',
+                data:values
+            }).then(resp=>{
+                message.success('短信息发送成功', 4);
+                this.props.onBack()
+            }).catch(e=>{
+                this.setState({loading:false});
+                message.error('短信息发送失败，请点击"发送按钮"重新发送',4)
+            })
+        }
+
     },
     closeReciver(){
         this.setState({modal:false})
@@ -74,8 +78,8 @@ let c = React.createClass({
     openReciver(){
         this.setState({modal:true})
     },
-    getReciver(obj,year){
-        this.setState({reciver:obj,year:year});
+    getReciver(obj,year,groupsend){
+        this.setState({reciver:obj,year:year,groupsend:groupsend});
         this.closeReciver()
     },
 

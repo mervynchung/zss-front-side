@@ -3,7 +3,7 @@ import {Table,Modal,Row,Col,Button,Icon,Alert} from 'antd'
 import CompPageHead from 'component/CompPageHead'
 import Panel from 'component/compPanel'
 import {columns,entityModel} from './model'
-import req from 'reqwest';
+import req from 'common/request';
 
 import config from 'common/configuration'
 import BaseTable from 'component/compBaseTable'
@@ -73,7 +73,7 @@ const ndjzqktj = React.createClass({
                // pagination: p,
                 loading: false
             })
-        }).fail(err=> {
+        }).catch(err=> {
             this.setState({loading: false});
             Modal.error({
                 title: '数据获取错误',
@@ -102,7 +102,7 @@ const ndjzqktj = React.createClass({
                     <div className="h-scroll-table">
                         <Table columns={columns}
                                dataSource={this.state.data}
-                               rowKey={resp=>resp.xmlx}
+                               rowKey={resp=>resp.xh}
                                pagination={!this.state.pagination}
                                loading={this.state.loading}
                                onChange={this.handleChange}

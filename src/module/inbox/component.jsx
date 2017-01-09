@@ -38,7 +38,8 @@ const c = React.createClass({
     },
     //关闭详情视图
     closeDetail(){
-        this.setState({detail:false})
+        this.setState({detail:false});
+        this.refreshList()
     },
 
     newMsg(){
@@ -83,8 +84,6 @@ const c = React.createClass({
             id: this.state.entity.textid,
             //设置已读
             setRead:this.state.entity.id,
-            //设置打开明细后的回调，用于改变已读状态后刷新列表
-            onOpened:this.refreshList,
             visible:this.state.detail,
             //设置返回主视图调用的方法
             onClose: this.closeDetail
