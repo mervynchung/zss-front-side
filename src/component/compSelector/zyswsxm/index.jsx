@@ -49,7 +49,7 @@ const selectorXm = React.createClass({
 
     getJgOptions() {
         const data = this.state.data;
-        const options = data.map(item => <Option key={item.SWS_ID} value={item.SWS_ID}>{item.XMING}</Option>);
+        const options = data.map(item => <Option key={''+item.SWS_ID} >{item.XMING}</Option>);
         return options;
     },
 
@@ -59,7 +59,7 @@ const selectorXm = React.createClass({
 
     render() {
         const options = this.getJgOptions();
-        return <Select {...this.props} showSearch placeholder={this.props.placeholder} optionFilterProp="children" notFoundContent="无法找到" allowClear onChange={this.handleChange}>
+        return <Select {...this.props}  notFoundContent="无法找到" allowClear onChange={this.handleChange}>
             {options}
         </Select>
     }

@@ -1,12 +1,8 @@
 import React from 'react'
 import {Icon,Popconfirm} from 'antd'
 
-let handleEdit = function (record) {
-    console.log('edit',record)
-};
-let handleDel = function (record) {
-    console.log('del',record)
-};
+let handleEdit = function (record) {};
+let handleDel = function (record) {};
 module.exports = {
 
     setEdit: function (func) {

@@ -115,7 +115,6 @@ const list = React.createClass({
     },
     //unmount时记录目前状态
     componentWillUnmount(){
-        console.log('unmount')
         this.props.grabState(this.state)
     },
     //行点击处理
