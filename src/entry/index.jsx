@@ -69,6 +69,7 @@ const Index = React.createClass({
                 require('../module/xtgnsz/qxgl'),
                 require('../module/xtgnsz/yhgl'),
                 require('../module/xtgnsz/yhdljlb'),
+
                 //资质管理
                 require('../module/zzgl/jgzzgl'), //事务所资质管理
                 require('../module/zzgl/zyswszzgl'), //执业注师资质管理
@@ -116,8 +117,8 @@ const Index = React.createClass({
                 require('../module/lsjlcx/fzyzzyjl'),
 
                 //监督检查
-                require('../module/jdjc/zyswsnjb'),
-                require('../module/jdjc/swsnj'),
+            //     require('../module/jdjc/zyswsnjb'),
+            //     require('../module/jdjc/swsnj'),
 
                 //     //逐级审核
                 require('../module/spsh'),
@@ -193,7 +194,7 @@ const Index = React.createClass({
 
                 //客户端
                 //机构管理
-                require('../module/client/jggl/swsbg'),
+               require('../module/client/jggl/swsbg'),
                 require('../module/client/jggl/swszx'),
                 require('../module/client/jggl/swshb'),
                 require('../module/client/jggl/swsfssl'),
@@ -233,11 +234,9 @@ const Index = React.createClass({
                 require('../module/client/ywgl/grywtj'), //个人业务统计
                 require('../module/client/ywgl/swsywtj'), //事务所业务统计
                 require('../module/client/ywgl/ywhztj'), //业务汇总统计
-
                 //站内短信
                 require('../module/zndx'),
                 require('../module/inbox'),
-
 
                 //培训报名
                 require('../module/client/wsbm'),
