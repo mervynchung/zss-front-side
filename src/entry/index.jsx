@@ -117,10 +117,10 @@ const Index = React.createClass({
                 require('../module/lsjlcx/fzyzzyjl'),
 
                 //监督检查
-            //     require('../module/jdjc/zyswsnjb'),
-            //     require('../module/jdjc/swsnj'),
+                require('../module/jdjc/zyswsnjb'),
+                require('../module/jdjc/swsnj'),
 
-                //     //逐级审核
+                    //逐级审核
                 require('../module/spsh'),
                 require('../module/spshlsjl'),
                 require('../module/spsh/module/1'),
