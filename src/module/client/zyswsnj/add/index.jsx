@@ -2,8 +2,8 @@ import React from 'react'
 import req from 'reqwest'
 import config from 'common/configuration'
 import auth from 'common/auth'
-import { Col, Input, Row, Button, Icon, Form, Modal, Checkbox, DatePicker } from 'antd'
-import { SelectorYear, SelectorXZ, SelectorXm } from 'component/compSelector'
+import {Col, Input, Row, Button, Icon, Form, Modal, Checkbox, DatePicker} from 'antd'
+import {SelectorYear, SelectorXZ, SelectorXm} from 'component/compSelector'
 import './style.css'
 import Panel from 'component/compPanel'
 
@@ -26,40 +26,41 @@ let Addzyswsnj = React.createClass({
 
     handleSubmit(ztdm) {
 
-        var mp = {};
-        let value = this.props.form.getFieldsValue()
-        var date = new Date(value['SWSFZRSJ']);
-        value['SWSFZRSJ'] = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
-        let arr = []
-        for (var key in value) {
-            if (Object.prototype.toString.call(value[key]) == "[object Undefined]") {
-                value[key] = null
-            };
-            if (key.indexOf('wg') != -1) {
-                if (value[key]) {
-                    let length = key.length - 2;
-                    let str = key.substr(2, length);
-                    arr.push(str);
 
-                }
-            }
-        }
-        let wg = arr.join(',');
-        if (wg == '') {
-            value['wg'] = null;
-        } else {
-            value['wg'] = wg;
-        }
-        value.ztdm = ztdm;
         //验证表单，若通过就保存
-         this.props.form.validateFields((errors, values) => {
-              if (!!errors) {
-                  return;
-              } else {
-                  this.props.onSubmit(value);
-              }
-          });
-        this.props.onSubmit(value);
+        this.props.form.validateFields((errors, values) => {
+            if (!!errors) {
+                return;
+            } else {
+                var mp = {};
+                let value = this.props.form.getFieldsValue()
+                var date = new Date(value['SWSFZRSJ']);
+                value['SWSFZRSJ'] = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+                let arr = []
+                for (var key in value) {
+                    if (Object.prototype.toString.call(value[key]) == "[object Undefined]") {
+                        value[key] = null
+                    }
+                    ;
+                    if (key.indexOf('wg') != -1) {
+                        if (value[key]) {
+                            let length = key.length - 2;
+                            let str = key.substr(2, length);
+                            arr.push(str);
+
+                        }
+                    }
+                }
+                let wg = arr.join(',');
+                if (wg == '') {
+                    value['wg'] = null;
+                } else {
+                    value['wg'] = wg;
+                }
+                value.ztdm = ztdm;
+                this.props.onSubmit(value);
+            }
+        });
     },
 
     handleReset(e) {
@@ -89,13 +90,13 @@ let Addzyswsnj = React.createClass({
     //执业税务师选择年度是否已做年检的校验（传姓名及年度过去）
     checkNdIfExit(rule, value, callback) {
         let sws_id = this.props.form.getFieldValue("sws_id");
-        const params = { where: encodeURIComponent(JSON.stringify({ nd: value, sws_id: sws_id })) }
+        const params = {where: encodeURIComponent(JSON.stringify({nd: value, sws_id: sws_id}))}
         req({
             url: CheckNd_URL,
             type: 'json',
             method: 'get',
             data: params,
-            headers: { 'x-auth-token': auth.getToken() },
+            headers: {'x-auth-token': auth.getToken()},
             contentType: 'application/json',
         }).then(resp => {
             //obj（）里面的内容是：{data=[{nd=2012},],jg_id=1}，其中
@@ -105,7 +106,7 @@ let Addzyswsnj = React.createClass({
                 callback();
             }
         }).fail(err => {
-            this.setState({ loading: false });
+            this.setState({loading: false});
             Modal.error({
                 title: '数据获取错误',
                 content: (
@@ -118,41 +119,32 @@ let Addzyswsnj = React.createClass({
     },
     //处理姓名下拉框改变事件
     handleXmChange(value) {
-        this.props.form.setFieldsValue({ sws_id: value });
+        this.props.form.setFieldsValue({sws_id: value});
         let nd = this.props.form.getFieldValue("ND");
         req({
             url: API_URL1 + '/' + value,
             type: 'json',
             method: 'get',
-            headers: { 'x-auth-token': auth.getToken() },
+            headers: {'x-auth-token': auth.getToken()},
             contentType: 'application/json'
         }).then(resp => {
-            this.setState({ swsdata: resp });
-        }).fail(err => {
-            Modal.error({
-                title: '数据获取错误',
-                content: (
-                    <div>
-                        <p>无法从服务器返回数据，需检查应用服务工作情况</p>
-                        <p>Status: {err.status}</p>
-                    </div>)
-            });
-        })
+            this.setState({swsdata: resp});
+        });
 
-        this.fetchdata3({ nd: nd, sws_id: value });
+        this.fetchdata3({nd: nd, sws_id: value});
 
     },
     //年度下拉框数据显示
     handleNdChange(value) {
-        this.props.form.setFieldsValue({ ND: value });
+        this.props.form.setFieldsValue({ND: value});
         let sws_id = this.props.form.getFieldValue("sws_id");
-        this.fetchdata3({ nd: value, sws_id: sws_id });
+        this.fetchdata3({nd: value, sws_id: sws_id});
     },
 
     //时间范围校验
     checkBirthday(rule, value, callback) {
         if (value && value.getTime() >= Date.now()) {
-            callback(new Error('请不要选择一个未来的时间！'));
+            callback(new Error('请不要选择一个未来的时间'));
         } else {
             callback();
         }
@@ -163,14 +155,14 @@ let Addzyswsnj = React.createClass({
             type: 'json',
             method: 'get',
             data: params,
-            headers: { 'x-auth-token': auth.getToken() },
+            headers: {'x-auth-token': auth.getToken()},
             contentType: 'application/json',
         }).then(resp => {
             this.setState({
                 bndbafs: resp.bndbafs
             })
         }).fail(err => {
-            this.setState({ loading: false });
+            this.setState({loading: false});
             Modal.error({
                 title: '数据获取错误',
                 content: (
@@ -182,7 +174,6 @@ let Addzyswsnj = React.createClass({
         })
 
 
-
     },
 
 
@@ -190,50 +181,55 @@ let Addzyswsnj = React.createClass({
         //定义工具栏内容
         let toolbar = <ToolBar>
             <ButtonGroup>
-                <Button onClick={this.props.toback}>返回<Icon className="toggle-tip" type="arrow-left" /></Button>
+                <Button onClick={this.props.toback}>返回<Icon className="toggle-tip" type="arrow-left"/></Button>
             </ButtonGroup>
         </ToolBar>;
 
-        const { getFieldProps } = this.props.form;
+        const {getFieldProps} = this.props.form;
 
         //签证时间校验
         const sjProps = getFieldProps('SWSFZRSJ', {
             rules: [
-                { required: true, type: 'date', whitespace: true, message: '请选择一个时间' },
-                { validator: this.checkBirthday },
+                {required: true, type: 'date', whitespace: true, message: '请选择一个时间'},
+                {validator: this.checkBirthday},
             ],
         });
         //年检总结校验
         const njzjProps = getFieldProps('ZJ', {
             rules: [
-                { required: true, type: 'string', whitespace: true, message: '请填写年检总结' },
+                {required: true, type: 'string', whitespace: true, message: '请填写年检总结'},
             ],
         });
         //事务所负责人意见校验
         const swsfzryjProps = getFieldProps('SWSFZRYJ', {
             rules: [
-                { required: true, type: 'string', whitespace: true, message: '请填写负责人意见' },
+                {required: true, type: 'string', whitespace: true, message: '请填写负责人意见'},
             ],
         });
 
         //事务所负责人签名校验
         const swsfzrqmProps = getFieldProps('SWSFZR', {
             rules: [
-                { required: true, type: 'string', whitespace: true, message: '请负责人签名' },
+                {required: true, type: 'string', whitespace: true, message: '请负责人签名'},
             ],
         });
 
         //姓名校验
         const xmProps = getFieldProps('sws_id', {
             rules: [
-                { required: true, type: 'integer', whitespace: true, message: '请选择一个人进行年检' },
+                {required: true, type: 'string',  message: '请选择一个人进行年检'},
             ],
         });
- 
+
         //年度校验
         const ndProps = getFieldProps('ND', {
             rules: [
-                { required: true, type: 'string', whitespace: true, message: '请选择一个年检年度' },{validator:this.checkNdIfExit}
+                {
+                    required: true,
+                    type: 'string',
+                    whitespace: true,
+                    message: '请选择一个年检年度'
+                }, {validator: this.checkNdIfExit}
             ],
         });
 
@@ -241,23 +237,26 @@ let Addzyswsnj = React.createClass({
         let obj = [{}];
         if (this.props.data.length != 0) {
             obj = this.props.data;
-        };
+        }
+        ;
         const obj1 = this.state.swsdata;
         return <div className="add">
             <Panel title="执业税务师年检表添加" toolbar={toolbar}>
-                <div className="fix-table table-bordered table-striped" >
-                <Form horizontal onSubmit={this.handleSubmit}>
-                    <div className="fix-table table-bordered table-striped">
+                <div className="fix-table table-bordered table-striped">
+                    <Form horizontal onSubmit={this.handleSubmit}>
+                        <div className="fix-table table-bordered table-striped">
 
-                        <table>
-                            <tbody>
+                            <table>
+                                <tbody>
                                 <tr>
                                     <td>姓名：</td>
-                                    <td><FormItem><SelectorXm {...xmProps } style={{ width: '100px' }} onChange={this.handleXmChange} /></FormItem></td>
+                                    <td><FormItem><SelectorXm {...xmProps } style={{width: '100px'}}
+                                                              onChange={this.handleXmChange}/></FormItem></td>
                                     <td>性别: {obj1.xb}</td>
-                                    <td><FormItem>年度： <SelectorYear {...ndProps } style={{ width: "30%" }} onChange={this.handleNdChange} /></FormItem>
+                                    <td><FormItem>年度： <SelectorYear {...ndProps } style={{width: "30%"}}
+                                                                    onChange={this.handleNdChange}/></FormItem>
                                     </td>
-                                    <td rowSpan="6"><img src={obj1.XPIAN} /></td>
+                                    <td rowSpan="6"><img src={obj1.XPIAN}/></td>
                                 </tr>
                                 <tr>
                                     <td>出生年月：</td>
@@ -282,24 +281,25 @@ let Addzyswsnj = React.createClass({
                                     <td>执业注册日期：</td>
                                     <td>{obj1.ZYZCRQ}</td>
                                     <td>出资比率：</td>
-                                    <td><label {...getFieldProps('czbl', { initialValue: obj1.czbl }) }>{obj1.czbl}%</label></td>
+                                    <td>
+                                        <label {...getFieldProps('czbl', {initialValue: obj1.czbl}) }>{obj1.czbl}%</label>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>资格证书编号：</td>
                                     <td>{obj1.ZYZGZSBH}</td>
                                     <td>本年度报备份数：(选择年度后方显示)</td>
-                                    <td><label {...getFieldProps('bndbafs', { initialValue: this.state.bndbafs }) }>{this.state.bndbafs}</label></td>
+                                    <td>
+                                        <label {...getFieldProps('bndbafs', {initialValue: this.state.bndbafs}) }>{this.state.bndbafs}</label>
+                                    </td>
                                 </tr>
-
 
 
                                 <tr className="add">
                                     <th>自检情况：</th>
-                                    <th colSpan="3">违规条款(违规请打勾) </th>
+                                    <th colSpan="3">违规条款(违规请打勾)</th>
                                     <th>自检</th>
                                 </tr>
-
-
 
 
                                 <tr>
@@ -319,7 +319,6 @@ let Addzyswsnj = React.createClass({
                                     <td colSpan="3">允许或默认他人以本人名义接受税务师事务所其他出资人转让股份的</td>
                                     <td><Checkbox {...getFieldProps('wg3') }></Checkbox></td>
                                 </tr>
-
 
 
                                 <tr>
@@ -448,49 +447,52 @@ let Addzyswsnj = React.createClass({
                                 </tr>
 
                                 <tr>
-                                    <td>年检总结: </td>
-                                    <td colSpan="4">  <FormItem><Input {...njzjProps} type="textarea" autosize /></FormItem></td>
+                                    <td>年检总结:</td>
+                                    <td colSpan="4"><FormItem><Input {...njzjProps} type="textarea"
+                                                                     autosize/></FormItem></td>
                                 </tr>
 
                                 <tr>
                                     <td rowSpan="2">事务所负责人意见</td>
-                                    <td colSpan="2">  <FormItem><Input {...swsfzryjProps } type="textarea" autosize /></FormItem></td>
-                                    <td colSpan="2"> <FormItem>时间：<DatePicker {...sjProps} style={{ width: "30%" }} />
-                                        负责人签名：<Input {...swsfzrqmProps} style={{ width: "30%" }} /></FormItem></td>
+                                    <td colSpan="2"><FormItem><Input {...swsfzryjProps } type="textarea"
+                                                                     autosize/></FormItem></td>
+                                    <td colSpan="2"><FormItem>时间：<DatePicker {...sjProps} style={{width: "30%"}}/>
+                                        负责人签名：<Input {...swsfzrqmProps} style={{width: "30%"}}/></FormItem></td>
 
                                 </tr>
 
 
+                                </tbody>
 
-                            </tbody>
-
-                        </table >
-
+                            </table >
 
 
-                        <Row>
-                            <Col>
-                                <FormItem></FormItem>
-                            </Col>
-                        </Row>
+                            <Row>
+                                <Col>
+                                    <FormItem></FormItem>
+                                </Col>
+                            </Row>
 
-                        <Row>
-                            <Col span="3">
-                                <Button type="primary" onClick={this.handleSubmit.bind(this, 1)} loading={this.props.btnloading}> <Icon type="check" />保存</Button>
-                            </Col>
-                            <Col span="3">
-                                <Button type="primary" onClick={this.showModal} loading={this.props.btnloading}> <Icon type="arrow-up" />提交</Button>
-                            </Col>
-                            <Col span="3">
-                                <Button type="primary" onClick={this.handleReset} loading={this.props.btnloading}><Icon type="cross" />重置</Button>
-                            </Col>
-                        </Row>
+                            <Row>
+                                <Col span="3">
+                                    <Button type="primary" onClick={this.handleSubmit.bind(this, 1)}
+                                            loading={this.props.btnloading}> <Icon type="check"/>保存</Button>
+                                </Col>
+                                <Col span="3">
+                                    <Button type="primary" onClick={this.showModal} loading={this.props.btnloading}>
+                                        <Icon type="arrow-up"/>提交</Button>
+                                </Col>
+                                <Col span="3">
+                                    <Button type="primary" onClick={this.handleReset}
+                                            loading={this.props.btnloading}><Icon type="cross"/>重置</Button>
+                                </Col>
+                            </Row>
 
 
-                    </div>
-                </Form>
+                        </div>
+                    </Form>
 
-            </div>
+                </div>
             </Panel>
         </div>
     }
@@ -499,17 +501,11 @@ Addzyswsnj = Form.create({
     mapPropsToFields(props) {
         let result = {};
         for (let prop in props.data) {
-            result[prop] = { value: props.data[prop] }
+            result[prop] = {value: props.data[prop]}
         }
         return result;
     }
 })(Addzyswsnj);
-
-
-
-
-
-
 
 
 module.exports = Addzyswsnj;

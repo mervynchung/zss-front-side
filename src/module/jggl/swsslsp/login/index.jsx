@@ -151,7 +151,7 @@ let searchForm = React.createClass({
 
         <FormItem
           {...formItemLayout}
-          label="姓名">
+          label="事务所显示名称">
           <Input {...xmProps}  />
         </FormItem>
         <FormItem

@@ -15,5 +15,4 @@ for (var prop in model){
     }
     obj.push({key:prop,label:province,children:children})
 }
-console.log(JSON.stringify(obj));
 
