@@ -26,7 +26,7 @@ const data = {
  name: '机构性质：',required:true,inputType:'jgxz',type: 'number' }, 
     {
  id:'zczj',
- name:  '注册资金（万元）：',required:true, }, 
+ name:  '注册资金（万元）：',required:true,inputType:'number',type: 'number' }, 
      {
  id:'zcdz',
  name:  '注册地址：',required:true, }, 

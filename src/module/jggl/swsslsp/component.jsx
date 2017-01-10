@@ -144,10 +144,11 @@ const swsslsp = React.createClass({
             };
             this.setState({
                 data: resp.data,
-                loading: false
+                loading: false,
+                modelvisible: false
             })
         }).fail(err=> {
-            this.setState({loading: false});
+            this.setState({loading: false,modelvisible: false});
             Modal.error({
                 title: '数据获取错误',
                 content: (

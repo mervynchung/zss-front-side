@@ -233,19 +233,19 @@ const detailBox = React.createClass({
                 </tr>
                  <tr>   
                     <td rowSpan="2"><b>事务所负责人意见：</b></td>
-                    <td  colSpan="4" >{obj.NJZJ}</td>
+                    <td  colSpan="4" >{obj.SPYJ}</td>
                 </tr>
                 <tr>
                 <td colSpan="4"><Col span="12"><b>签名时间：</b>{obj.qzrq} </Col> <Col offspan="6"><b>负责人签名：</b>{obj.FZR}</Col></td>
                 </tr>
                  <tr>   
                     <td ><b>广东省注册管理科意见：</b></td>
-                    <td  colSpan="4">{obj.预留}</td>
+                    <td  colSpan="4">{obj.SPYJ}</td>
                 </tr>
                 <tr>   
-                    <td ><b>审批状态：</b>{obj.预留}</td>
-                    <td  colSpan="2"><b>审批人：</b>{obj.预留}</td>
-                    <td  colSpan="2"><b>审批时间：</b>{obj.预留}</td>
+                    <td ><b>审批状态：</b>{obj.njzt}</td>
+                    <td  colSpan="2"><b>审批人：</b>{obj.SPRNAME}</td>
+                    <td  colSpan="2"><b>审批时间：</b>{obj.SPSJ}</td>
                 </tr>
                 </tbody>
             </table>

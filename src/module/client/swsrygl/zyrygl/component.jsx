@@ -80,14 +80,18 @@ const rycx = React.createClass({
                     }else{//空数据处理
                          const pagination = this.state.pagination;
                          pagination.total = 0;
-                         this.setState({data: [],dataxx: {values: {}},datalist:[],loading:false, });
+                         this.callback(1);
+                         this.setState({czAll:0,valueFS: '',letValues:{},data: [],dataxx: {values: {}},datalist:[],loading:false,sloading:false });
                     };
             },
-            error: (err) =>{alert('api错误');this.setState({data: [],dataxx: {values: {}},datalist:[],loading:false, });}
+            error: (err) =>{alert('api错误');this.setState({data: [],dataxx: {values: {}},datalist:[],loading:false, sloading:false});}
     });
   },
 
     fetch_kzxx(tabkey) {//详细信息（tab）数据处理方法，不能使用switch，否则会发生未知错误
+      if (typeof (this.state.urls.herf_xxzl) ==='undefined') {
+        return ;
+      };
        this.setState({sloading: true, })
       if (tabkey==1) {
         req({
@@ -107,7 +111,7 @@ const rycx = React.createClass({
             datalist: result.data.ryjl,//简历的data
             sloading: false,
           });
-        },error:  (err) =>{alert('api错误');this.setState({dataxx: {values: {}},datalist:[],sloading: false})}
+        },error:  (err) =>{this.setState({dataxx: {values: {}},datalist:[],sloading: false})}
       });
       }else if (tabkey==2) {
         this.gettabdata(this.state.urls.herf_bgjl);
@@ -431,7 +435,6 @@ onChangeFS(e) {
     },
 
     render() {
-       
       const columns = [{ //设定列
                   title: '序号', //设定该列名称
                   dataIndex: 'xh', //设定该列对应后台字段名

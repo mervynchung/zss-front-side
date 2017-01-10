@@ -15,11 +15,6 @@ import DetailBox from './detailbox.jsx'
 import cloneDeep from 'lodash/cloneDeep'
 
 
-/*const API_URL = config.HOST + config.URI_API_PROJECT + '/add/swsnj';
- const URL = config.HOST + config.URI_API_PROJECT + '/addswsnjb';
- const edit_URL = config.HOST + config.URL_API_PROJECT + '/addswsnjb1'
- const API_URL1 = config.HOST + config.URI_API_PROJECT + '/add/swsnjb1';*/
-
 const API_URL = config.HOST + config.URI_API_PROJECT + '/add/zyswsnj';
 const URL = config.HOST + config.URI_API_PROJECT + '/addzyswsnjb';
 

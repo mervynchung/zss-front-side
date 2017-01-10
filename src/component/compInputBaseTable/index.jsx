@@ -80,6 +80,7 @@ let baseTable = React.createClass({
             if (this.props.bglx) {
             let ls = [];
             const old = this.props.data;
+            console.log(old);
             for(let key in value){
                     if(Object.prototype.toString.call(value[key])=="[object Date]"){//时间格式化
                         let dd = value[key].Format("yyyy-MM-dd");
@@ -244,7 +245,7 @@ let baseTable = React.createClass({
                         case "is":
                                  td.push(<td key={'td-v-'+prop.id}><SelectorIS disabled={prop.disabled} style={{'width':prop.width?prop.width:'100px'}} { ...getFieldProps(prop.id, { rules: [{ type: prop.type,required: !!prop.required}]})}></SelectorIS></td>);break;
                         case "number":
-                                 td.push(<td key={'td-v-'+prop.id}><Input style={{'width':prop.width?prop.width:'200px'}} disabled={prop.disabled} { ...getFieldProps(prop.id, { rules: [{ required: !!prop.required}]})}></Input></td>);break;
+                                 td.push(<td key={'td-v-'+prop.id}><InputNumber style={{'width':prop.width?prop.width:'200px'}} disabled={prop.disabled} { ...getFieldProps(prop.id, { rules: [{ required: !!prop.required}]})}></InputNumber></td>);break;
                         case "textarea":
                                  td.push(<td key={'td-v-'+prop.id} ><Col span={prop.span?prop.span:20}><Input disabled={prop.disabled} type="textarea" rows={prop.rows} { ...getFieldProps(prop.id, { rules: [{ required: !!prop.required}]})}></Input></Col></td>);break;
                         case "zyzxyy":
