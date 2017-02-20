@@ -1,9 +1,9 @@
 import React from 'react'
 import {Table, Row, Col, Button, Icon, notification, Alert} from 'antd'
 import Panel from 'component/compPanel'
-import req from 'reqwest';
 import SearchForm from './searchForm';
 import merge from 'lodash/merge';
+import req from 'common/request'
 import {isEmptyObject,jsonCopy} from 'common/utils'
 import auth from 'common/auth'
 
@@ -22,6 +22,7 @@ const list = React.createClass({
             where: this.props.defaultWhere,
             searchToggle: false,
             helper: false,
+            selectedRowKeys:[],
             pagination: {
                 current: 1,
                 showSizeChanger: true,
@@ -45,10 +46,8 @@ const list = React.createClass({
         }
         req({
             url: apiUrl,
-            type: 'json',
             method: 'get',
             data: params,
-            headers: {'x-auth-token': token}
         }).then(resp=> {
             const p = this.state.pagination;
             p.current = params.page;
@@ -58,7 +57,7 @@ const list = React.createClass({
                 return `共 ${resp.total} 条，显示前 ${total} 条`
             };
             this.setState({data: resp.data, pagination: p, loading: false,where:where})
-        }).fail(e=> {
+        }).catch(e=> {
             this.setState({loading: false});
             notification.error({
                 duration: 2,
@@ -124,6 +123,23 @@ const list = React.createClass({
     componentWillUnmount(){
         this.props.grabState(this.state)
     },
+    //表格中的复选框勾选
+    handleSelectedRowChange(selectedRowKeys){
+        this.setState({selectedRowKeys: selectedRowKeys})
+    },
+    //批量退回
+    batchTH(){
+        const {thUrl} = this.props;
+        req({
+            url:thUrl,
+            method:'put',
+            data:this.state.selectedRowKeys
+        }).then(resp=>{
+
+        }).catch(e=>{
+
+        })
+    },
     //行点击处理
     handleRowClick(record){
         this.state.entity = record;
@@ -131,6 +147,11 @@ const list = React.createClass({
     },
     render(){
         const {title, helperTitle, helperDesc, scrollx,keyCol,columns} = this.props;
+        const rowSelection = {
+            type: 'checkbox',
+            selectedRowKeys: this.state.selectedRowKeys,
+            onChange: this.handleSelectedRowChange
+        };
         let toolbar = <ToolBar>
             <Button onClick={this.handleSearchToggle}>
                 <Icon type="search"/>查询
@@ -142,6 +163,8 @@ const list = React.createClass({
                 <Button type="primary" onClick={this.helperToggle}><Icon type="question"/></Button>
                 <Button type="primary" onClick={this.handleRefresh}><Icon type="reload"/></Button>
             </ButtonGroup>
+
+            <Button type="primary" onClick={this.batchTH}>批量同意退回</Button>
         </ToolBar>;
         return <div>
             {this.state.helper && <Alert message={helperTitle}
@@ -159,6 +182,7 @@ const list = React.createClass({
                        onChange={this.handleChange}
                        rowKey={record => record[keyCol]}
                        rowClassName={(record)=>{return record.id==this.state.entity.id?'row-selected':''}}
+                       rowSelection={rowSelection}
                        onRowClick={this.handleRowClick} scroll={{x: scrollx}}/>
             </Panel>
         </div>

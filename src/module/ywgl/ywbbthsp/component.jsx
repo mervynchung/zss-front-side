@@ -1,5 +1,4 @@
 import React from 'react'
-import {Table, Modal, Row, Col, Button, Icon, Alert} from 'antd'
 import List from './list'
 import Detail from './detail'
 import DiaSentBack from './dialogSentBack'
@@ -130,7 +129,7 @@ const c = React.createClass({
             //帮助提示的具体内容
             helperDesc: <div><p>本功能是将所有待审批的退回业务申请集中管理</p></div>,
             //列表可滚动区间的宽度，一般使用getcolwidth计算即可
-            scrollx: this.getColWidth(model)+fixColWidth,
+            scrollx: this.getColWidth(model)+fixColWidth+50,
             //接收的json数据中用来充当key的字段名
             keyCol: 'id',
             //默认每页显示数量
@@ -143,6 +142,7 @@ const c = React.createClass({
             stateShot: this.state.listState,
             //数据来源api
             apiUrl: config.HOST + config.URI_API_PROJECT + '/ywbb',
+            thUrl:config.HOST + config.URI_API_PROJECT + '/ywbb/batchth/',
             //初始搜索条件
             defaultWhere:{zt:6}
         };

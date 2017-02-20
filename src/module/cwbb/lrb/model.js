@@ -3,6 +3,7 @@
  */
 import numeral from 'numeral'
 import React from 'react'
+
 function reject(record){}
 
 const model = {

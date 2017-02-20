@@ -14,20 +14,21 @@ const model = {
         key: 'swsmc',
         width: 300
     }, {
-        title: '业务发生地',
-        key: 'cs',
-        dataIndex: 'cs',
-        width:100
+        title: '申请退回原因',
+        dataIndex: 'sqthyy',
+        key: 'sqthyy',
+        width: 150,
+        render(text,record){
+            if(!!text && text.length > 10){
+                text = text.substr(0,20)+'...'
+            }
+            return text
+        }
     }, {
         title: '业务类型',
         key: 'ywlx',
         dataIndex: 'ywlx',
         width: 220
-    }, {
-        title: '协议金额',
-        key: 'xyje',
-        dataIndex: 'xyje',
-        width:100
     }, {
         title: '报备号码',
         key: 'bbhm',

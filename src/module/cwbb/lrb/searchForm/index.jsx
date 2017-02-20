@@ -4,7 +4,7 @@ import {SelectorCS,SelectorYear} from 'component/compSelector'
 
 const FormItem = Form.Item;
 const createForm = Form.create;
-const RangePicker = DatePicker.RangePicker;
+const Option = Select.Option;
 
 let searchForm = React.createClass({
     getDefaultProps(){
@@ -28,7 +28,7 @@ let searchForm = React.createClass({
             wrapperCol: {span: 16}
         };
         return <div className="search-form">
-            <Form horizontal onSubmit={this.handleSubmit} form={this.props.form}>
+            <Form horizontal onSubmit={this.handleSubmit}>
                 <Row>
                     <Col span="8">
                         <FormItem
@@ -56,8 +56,8 @@ let searchForm = React.createClass({
                           {...formItemLayout}
                           label="所属时间：">
                             <Select  placeholder="请选择"  { ...getFieldProps('timevalue')} >
-                                <Option key="1" value={0}>上半年</Option>
-                                <Option key="2" value={1}>全年</Option>
+                                <Option key="1" value="0">上半年</Option>
+                                <Option key="2" value="1">全年</Option>
                             </Select>
                         </FormItem>
                     </Col>
