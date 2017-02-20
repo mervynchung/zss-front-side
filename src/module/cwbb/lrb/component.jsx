@@ -1,18 +1,18 @@
 import React from 'react'
-import {Table,Modal,Row,Col,Button,Icon,Alert} from 'antd'
-import CompPageHead from 'component/CompPageHead'
+import {Table,Modal,Row,Col,Button,Icon,Alert,message} from 'antd'
 import Panel from 'component/compPanel'
-import {columns,entityModel} from './model'
-import req from 'reqwest';
+import model from './model'
+import req from 'common/request';
 import auth from 'common/auth'
 import SearchForm from './searchForm'
 import config from 'common/configuration'
-import BaseTable from 'component/compBaseTable'
 import {entityFormat} from 'common/utils'
 import DetailBox from './detailbox.jsx'
 
 
+
 const API_URL = config.HOST + config.URI_API_PROJECT + '/cwbb/lrb';
+const RJ_URL = config.HOST  + config.URI_API_PROJECT + '/rjlrb/';
 const ToolBar = Panel.ToolBar;
 const ButtonGroup = Button.Group;
 
@@ -94,26 +94,28 @@ const lrb = React.createClass({
         req({
             url: API_URL + '/' + record.id,
             type: 'json',
-            method: 'get',
-            headers:{'x-auth-token':auth.getToken()},
-            contentType: 'application/json'
+            method: 'get'
         }).then(resp=> {
-            let entity = entityFormat(resp,entityModel);
+            let entity = entityFormat(resp,model.entityModel);
             this.setState({entity: entity,detailHide:false});
-        }).fail(err=> {
-            Modal.error({
-                title: '数据获取错误',
-                content: (
-                    <div>
-                        <p>无法从服务器返回数据，需检查应用服务工作情况</p>
-                        <p>Status: {err.status}</p>
-                    </div>  )
-            });
+        }).catch(err=> {
+            message.error('无法获取数据');
         })
     },
     //明细表关闭
     handleDetailClose(){
         this.setState({detailHide: true})
+    },
+    //处理退回
+    handleReject(record){
+        req({
+            url:RJ_URL + record.id,
+            method:'get'
+        }).then(resp=>{
+            this.handleRefresh()
+        }).catch(e=>{
+            message.error('')
+        })
     },
 
     //通过API获取数据
@@ -123,9 +125,7 @@ const lrb = React.createClass({
             url: API_URL,
             type: 'json',
             method: 'get',
-            data: params,
-             headers:{'x-auth-token':auth.getToken()},
-            contentType: 'application/json'          
+            data: params
         }).then(resp=> {
             const p = this.state.pagination;
             p.total = resp.total > 1000 ? 1000 : resp.total;
@@ -137,16 +137,9 @@ const lrb = React.createClass({
                 pagination: p,
                 loading: false
             })
-        }).fail(err=> {
+        }).catch(err=> {
             this.setState({loading: false});
-            Modal.error({
-                title: '数据获取错误',
-                content: (
-                    <div>
-                        <p>无法从服务器返回数据，需检查应用服务工作情况</p>
-                        <p>Status: {err.status}</p>
-                    </div>  )
-            });
+            message.error('无法获取数据');
         })
     },
 
@@ -174,6 +167,9 @@ const lrb = React.createClass({
         helper.push(<p key="helper-0">点击查询结果查看利润表明细</p>);
         helper.push(<p key="helper-1">检索功能只显示前1000条记录</p>);
 
+        model.setfunc(this.handleReject);
+
+
         return <div className="cwbb-lrb">
             <div className="wrap">
                 {this.state.helper && <Alert message="利润表检索查询帮助"
@@ -186,7 +182,7 @@ const lrb = React.createClass({
                     {this.state.searchToggle && <SearchForm
                         onSubmit={this.handleSearchSubmit}/>}
                     <div className="h-scroll-table">
-                        <Table columns={columns}
+                        <Table columns={model.columns}
                                dataSource={this.state.data}
                                pagination={this.state.pagination}
                                loading={this.state.loading}

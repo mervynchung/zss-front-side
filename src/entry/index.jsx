@@ -85,7 +85,6 @@ const Index = React.createClass({
                 require('../module/ywgl/setting'), //业务参数设置
                 require('../module/ywgl/ywbbsjfx'),//业务报备数据分析
                 require('../module/ywgl/ywbbsjhz'),//业务报备数据汇总
-/*
 
                 //财务报表
                 require('../module/cwbb/lrfpb'),
@@ -93,7 +92,7 @@ const Index = React.createClass({
                 require('../module/cwbb/zcmxb'),
                 require('../module/cwbb/lrb'),
                 require('../module/cwbb/zcfzb'),
-                */require('../module/cwbb/wsbbb'),/*
+                require('../module/cwbb/wsbbb'),
 
                 //手动上报报表
                 require('../module/sdsbbb/jzywtjb'),
@@ -101,7 +100,7 @@ const Index = React.createClass({
                 require('../module/sdsbbb/swsjbqkb'),
                 require('../module/sdsbbb/hyryqktj'),
                 require('../module/sdsbbb/jysrqktj'),
-                */require('../module/sdsbbb/wsbbbcx'),/*
+                require('../module/sdsbbb/wsbbbcx'),
 
                 //历史记录查询
                 require('../module/lsjlcx/swslsjl/bglsjl'),
@@ -241,7 +240,6 @@ const Index = React.createClass({
 
                 //培训报名
                 require('../module/client/wsbm'),
-*/
 
                 //公用功能
                 //修改密码
