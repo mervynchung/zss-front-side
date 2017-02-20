@@ -1,9 +1,8 @@
 import React from 'react'
-import {Table,Modal,Row,Col,Button,Icon,Alert,message} from 'antd'
+import {Table,Button,Icon,Alert,message} from 'antd'
 import Panel from 'component/compPanel'
 import model from './model'
 import req from 'common/request';
-import auth from 'common/auth'
 import SearchForm from './searchForm'
 import config from 'common/configuration'
 import {entityFormat} from 'common/utils'
@@ -106,7 +105,7 @@ const lrb = React.createClass({
     handleDetailClose(){
         this.setState({detailHide: true})
     },
-    //处理退回
+    //处理退回B
     handleReject(record){
         req({
             url:RJ_URL + record.id,

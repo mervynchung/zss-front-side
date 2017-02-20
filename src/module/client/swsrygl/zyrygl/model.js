@@ -106,8 +106,7 @@ const autoform1 = {
  }, 
     {
  id:'XB_DM',
- name:  '性别：',inputType:'xb',required:true,
-  type: 'number'}, 
+ name:  '性别：',inputType:'xb',required:true,}, 
     {
  id:'MZ_DM',
  name:  '民族：', 
@@ -144,8 +143,7 @@ const autoform1 = {
  name:  '邮政编码：', }, 
     {
  id:'ZW_DM',
- name: '职务（职称）：',  inputType:'zw',required:true,
- type: 'number'  }, 
+ name: '职务（职称）：',  inputType:'zw',required:true,  }, 
     {
  id:'dhhm',
  name:  '电话号码：', }, 
@@ -441,12 +439,11 @@ const autoformba = {
     {
  id:'XB_DM',
  name:  '性别：',inputType:'xb',required:true,
-  type: 'number'}, 
+  }, 
     {
  id:'MZ_DM',
  name:  '民族：', 
-  inputType:'mz',required:true,
-  type: 'number'
+  inputType:'mz',required:true,type: 'number'
 }, 
     {
  id:'csny',
@@ -479,7 +476,7 @@ const autoformba = {
     {
  id:'ZW_DM',
  name: '职务（职称）：',  inputType:'zw',required:true,
- type: 'number'  }, 
+ }, 
     {
  id:'dhhm',
  name:  '电话号码：', }, 
