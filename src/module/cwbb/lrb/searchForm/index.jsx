@@ -1,5 +1,5 @@
 import React from 'react'
-import {Row,Col,Form,Button,Input,Modal,DatePicker} from 'antd'
+import {Row,Col,Form,Button,Input,Modal,DatePicker,Select} from 'antd'
 import {SelectorCS,SelectorYear} from 'component/compSelector'
 
 const FormItem = Form.Item;
@@ -37,18 +37,28 @@ let searchForm = React.createClass({
                             <Input placeholder="事务所名称" {...getFieldProps('swsmc')}/>
                         </FormItem>
                     </Col>
-                    <Col span="8">
+                    <Col span="6">
                         <FormItem
                           {...formItemLayout}
                           label="业务发生地：">
                             <SelectorCS { ...getFieldProps('cs')}/>
                         </FormItem>
                     </Col>
-                    <Col span="8">
+                    <Col span="5">
                         <FormItem
                           {...formItemLayout}
                           label="年度：">
                             <SelectorYear { ...getFieldProps('nd')}/>
+                        </FormItem>
+                    </Col>
+                    <Col span="5">
+                        <FormItem
+                          {...formItemLayout}
+                          label="所属时间：">
+                            <Select  placeholder="请选择"  { ...getFieldProps('timevalue')} >
+                                <Option key="1" value={0}>上半年</Option>
+                                <Option key="2" value={1}>全年</Option>
+                            </Select>
                         </FormItem>
                     </Col>
                 </Row>
