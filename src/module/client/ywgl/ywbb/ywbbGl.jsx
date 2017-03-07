@@ -157,7 +157,7 @@ const c = React.createClass({
             title: '操作',
             key: 'action',
             fixed: 'right',
-            width: 220,
+            width: 200,
             render: (text, record)=> {
                 let actGroup = <span className="act-group">
                     <a onClick={()=>{this.handleViewDetail(record)}}>明细</a>
@@ -169,7 +169,7 @@ const c = React.createClass({
                       <a onClick={()=>{this.openSF(record)}}>收费</a>:null}
                     {record.ywzt_dm == 1 ?
                         <a onClick={()=>{this.printCover(record)}}>打印</a>:null}
-                    {record.ywzt_dm == 1 || record.ywzt_dm == 3 ?
+                    {(record.ywzt_dm == 1 || record.ywzt_dm == 3)&& record.overtime === 1 ?
                       <a onClick={()=>{this.openTH(record)}}>退回</a>:null}
                     {record.ywzt_dm == 1 || record.ywzt_dm == 3?
                       <a onClick={()=>{this.openCX(record)}}>撤销</a>:null}

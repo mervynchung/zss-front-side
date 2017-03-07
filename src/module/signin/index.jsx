@@ -2,7 +2,6 @@ import React from 'react'
 import LoginForm from './loginForm'
 import req from 'common/request'
 import config from 'common/configuration'
-import store from 'store2'
 import {withRouter} from 'react-router'
 import {Alert,Icon} from 'antd'
 import auth from 'common/auth'
@@ -80,7 +79,7 @@ const signin = withRouter(React.createClass({
                   type="error" showIcon/>}
             </div>
             <div className="footer">
-                <div className="copyright"><span>广东科溢 © 2016  内测版ver.0.9</span></div>
+                <div className="copyright"><span>广东省注册税务师管理中心 广东省注册税务师协会 ©2016 </span></div>
             </div>
         </div>
     }

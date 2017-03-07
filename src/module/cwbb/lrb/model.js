@@ -2,6 +2,7 @@
  * Created by ming on 2016/4/11.
  */
 import numeral from 'numeral'
+import React from 'react'
 
 function reject(record){}
 

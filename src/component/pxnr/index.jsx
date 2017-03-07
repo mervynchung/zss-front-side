@@ -88,7 +88,6 @@ const detail = React.createClass({
                     </div>
                     {!!loadFail && <div className="load-fail">{loadFail}</div>}
                     <div className="c2" dangerouslySetInnerHTML={{__html: pxnr}}/>
-                    <div className="c3" dangerouslySetInnerHTML={{__html: zysx}}/>
                 </div>
             </Spin>
         </Modal>

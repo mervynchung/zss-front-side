@@ -224,7 +224,7 @@ let dy = React.createClass({
                 <tr className="c13">
                     <td className="c19" colSpan="1" rowSpan="1">
                         <p className="c6"><span
-                          className="c11 c14">&#38450;&#20266;&#26597;&#35810;&#32593;&#22336;&#65306;http://www.gdcta.net</span>
+                          className="c11 c14">&#38450;&#20266;&#26597;&#35810;&#32593;&#22336;&#65306;http://www.gdtan.net</span>
                         </p>
                     </td>
                 </tr>

@@ -17,6 +17,7 @@ const tj = React.createClass({
     getInitialState(){
         return {
             loading: true,
+            loadingData: true,
             dataList:[]
         }
     },
@@ -43,6 +44,7 @@ const tj = React.createClass({
                 this.setState({
                     dataList:data,
                     loading: false,
+                    loadingData:false
                 })
             }).catch(e => {
                 this.setState({loading: false,dataList:[]})
@@ -58,7 +60,7 @@ const tj = React.createClass({
                   title: '编号',
                   dataIndex: 'BH',
                   key: 'BH',
-                }, {
+                },  {
                   title: '单位名称',
                   dataIndex: 'DWMC',
                   key: 'DWMC',
@@ -78,10 +80,14 @@ const tj = React.createClass({
                   title: '手机',
                   dataIndex: 'YDDH',
                   key: 'YDDH',
-                }, {
-                  title: '订房（单/双）',
-                  dataIndex: 'DF',
-                  key: 'DF',
+                },{
+                    title:'单人间',
+                    dataIndex: 'DRJ',
+                    key: 'DRJ',
+                },{
+                    title:'双人间',
+                    dataIndex: 'SRJ',
+                    key: 'SRJ',
                 }, {
                   title: '入住时间',
                   dataIndex: 'RZSJ',
@@ -91,10 +97,22 @@ const tj = React.createClass({
                   dataIndex: 'LKSJ',
                   key: 'LKSJ',
                 }, {
-                  title: '订餐',
-                  dataIndex: 'DCQK',
-                  key: 'DCQK',
+                  title: '早餐',
+                  dataIndex: 'ZAOC',
+                  key: 'ZAOC',
                 }, {
+                  title: '午餐',
+                  dataIndex: 'WUC',
+                  key: 'WUC',
+                }, {
+                  title: '晚餐',
+                  dataIndex: 'WANC',
+                  key: 'WANC',
+                }, {
+                  title: '报名时间',
+                  dataIndex: 'BMSJ',
+                  key: 'BMSJ',
+                },{
                   title: '备注',
                   dataIndex: 'BZ',
                   key: 'BZ',
@@ -170,7 +188,7 @@ const tj = React.createClass({
                                 </tbody>
                         </table>
                         <Panel title={<b style={{color:'#000000',fontSize:'20px'}}>报名人员明细</b>}><div className="h-scroll-table">
-                        <Table columns={columns} dataSource={this.state.dataList} /></div>
+                        <Table columns={columns} dataSource={this.state.dataList} loading={this.state.loadingData} /></div>
                         <div style={{textAlign:'center'}}><Export resData={this.state.dataList} butName="导出Excel" 
                         model={columns} fileName ={obj.BT+"统计"} header={exportHead} /></div></Panel>
                     </div>
