@@ -3,7 +3,7 @@ import {Row,Col,Form,Checkbox,Button,Input,DatePicker,Modal,InputNumber  } from 
 import {SelectorCSNum,SelectorMZ,SelectorXL,SelectorZZMM,SelectorXB,
     SelectorZW,SelectorIS,SelectorZYSWSZXYY,SelectorJGXZ,SelectorRSLB,SelectorISGZ} from 'component/compSelector'
 import './untils.js'
-import Model from './model.js' 
+import Model from './model.js'
 
 const createForm = Form.create;
 const InputGroup = Input.Group;
@@ -26,7 +26,7 @@ let baseTable = React.createClass({
     },
     getInitialState(){
         return {
-
+        uploads:[],    
         wysS:[]
         }
     },
@@ -80,7 +80,6 @@ let baseTable = React.createClass({
             if (this.props.bglx) {
             let ls = [];
             const old = this.props.data;
-            console.log(old);
             for(let key in value){
                     if(Object.prototype.toString.call(value[key])=="[object Date]"){//时间格式化
                         let dd = value[key].Format("yyyy-MM-dd");
@@ -122,6 +121,15 @@ let baseTable = React.createClass({
                     for(let i=0;i<wys.length;i++){
                         let name=wys[i];
                         value[name]=this.refs[name].handleValue();
+                    }
+                };
+                let upload=this.state.uploads;
+                if (upload.length>0) {
+                    for(let i=0;i<upload.length;i++){
+                        let name=upload[i];
+                        if(this.refs[name].getURL()){
+                            value[name]=this.refs[name].getValueByMap();
+                        }
                     }
                 };
                 this.props.onSubmit(value);
@@ -214,6 +222,11 @@ let baseTable = React.createClass({
                                  td.push(<td key={'td-v-'+prop.id} colSpan={prop.groupspan*2-1} ><SelectorISGZ disabled={prop.disabled} style={{'width':prop.width?prop.width:'200px'}} { ...getFieldProps(prop.id, { rules: [{ type: prop.type,required: !!prop.required}]})}></SelectorISGZ></td>);break;
                          case "unInput":
                                  td.push(<td key={'td-v-'+prop.id} colSpan={prop.groupspan*2-1} ></td>);break;
+                         case "upload":
+                                 let  Upload =require('component/uploadFile');
+                                 let upload=this.state.uploads;
+                                 upload.push(prop.id);
+                                 td.push(<td key={'td-v-'+prop.id} colSpan={prop.groupspan*2-1} ><div style={{'width':prop.width?prop.width:'100%',}} ><Upload ref={prop.id} disabled={prop.disabled} initialUrl={this.props.data[prop.id]}  /></div></td>);break;
                     }
                 }else{
                  td.push(<td key={'td-v-'+prop.id} colSpan={prop.groupspan*2-1} ><Input style={{'width':prop.width?prop.width:'200px'}} disabled={prop.disabled} { ...getFieldProps(prop.id, { rules: [{type: prop.type, required: !!prop.required}]})}></Input></td>);

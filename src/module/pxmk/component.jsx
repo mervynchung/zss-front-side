@@ -8,7 +8,7 @@ import TJVeiw from './tjIndex.jsx'
 import auth from 'common/auth'
 import SearchForm from './searchForm'
 import config from 'common/configuration'
-import Detail from 'component/pxnr'
+import Detail from './pxnr'
 
 const API_URL = config.HOST + config.URI_API_PROJECT + '/pxfbList';
 const API_URL_FB = config.HOST + config.URI_API_PROJECT + '/pxxxapi';
@@ -362,38 +362,38 @@ const lrb = React.createClass({
             onClose: this.closeTJ
         };
         return <div className="zxdpxmk">
-            <Detail {...detailSetting}/>
-            <TJVeiw {...tjSetting}/>
+            <Detail {...detailSetting} />
+            <TJVeiw {...tjSetting} />
             <div className="wrap">
                 {this.state.view == 0 && <Panel title="培训信息管理" toolbar={toolbar}>
                     {this.state.searchToggle && <SearchForm
-                        onSubmit={this.handleSearchSubmit}/>}
+                        onSubmit={this.handleSearchSubmit} />}
                     <div className="h-scroll-table">
                         <Table columns={columns}
-                               dataSource={this.state.data}
-                               pagination={this.state.pagination}
-                               loading={this.state.loading}
-                               onRowClick={this.onSelect}
-                               onChange={this.handleChange}
+                            dataSource={this.state.data}
+                            pagination={this.state.pagination}
+                            loading={this.state.loading}
+                            onRowClick={this.onSelect}
+                            onChange={this.handleChange}
                         />
                     </div>
                 </Panel>}
                 {this.state.view == 1 && <Panel title="培训信息发布" toolbar={toolbar2}>
                     <Spin spinning={this.state.sloading}>
                         <CompInputBaseTable data={this.state.letValues} model={Model.autoformba} bordered striped
-                                            showConfirm
-                                            onSubmit={this.handleBGSubmit} ref="addValues"
-                                            submitLoading={this.state.bgLoading} title='您是否确定提交？'
-                                            content='提交后将发布该信息'/>
+                            showConfirm
+                            onSubmit={this.handleBGSubmit} ref="addValues"
+                            submitLoading={this.state.bgLoading} title='您是否确定提交？'
+                            content='提交后将发布该信息' />
                     </Spin></Panel>}
                 {this.state.view == 4 && <Panel title="培训信息修改" toolbar={toolbar2}>
                     <Spin spinning={this.state.sloading}>
                         <CompInputBaseTable
-                            data={typeof(this.state.letValues.BT) === 'undefined' ? this.state.dataxx : this.state.letValues}
+                            data={typeof (this.state.letValues.BT) === 'undefined' ? this.state.dataxx : this.state.letValues}
                             model={Model.autoformba} bordered striped showConfirm
                             onSubmit={this.handleBGSubmit} ref="addValues" valueReset={this.valueReset}
                             submitLoading={this.state.bgLoading} title='您是否确定提交？'
-                            content='提交后将发布该信息'/>
+                            content='提交后将发布该信息' />
                     </Spin></Panel>}
 
             </div>
