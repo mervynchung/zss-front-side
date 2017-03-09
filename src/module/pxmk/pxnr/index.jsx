@@ -25,6 +25,8 @@ const detail = React.createClass({
             pxlxr: '',
             pxnr: '',
             zysx: '',
+            fjUrl: '',
+            fjName: '',
             loading: true,
             loadFail:''
         }
@@ -38,6 +40,8 @@ const detail = React.createClass({
             pxlxr: '',
             pxnr: '',
             zysx: '',
+            fjUrl: '',
+            fjName: '',
             loading: true,
             loadFail:''
         });
@@ -57,6 +61,8 @@ const detail = React.createClass({
                     pxlxr: resp.pxlxr,
                     pxnr: resp.pxnr,
                     zysx: resp.zysx,
+                    fjUrl: resp.fjUrl,
+                    fjName: resp.fjName,
                     loading: false,
                     loadFail:''
                 })
@@ -69,7 +75,7 @@ const detail = React.createClass({
     render(){
 
         const {title, visible} = this.props;
-        let {bt, pxkssj, pxjssj, pxlxr, pxnr, zysx, loading,loadFail} = this.state;
+        let {bt, pxkssj, pxjssj, pxlxr, pxnr, zysx,fjUrl,fjName, loading,loadFail} = this.state;
         return <Modal title={title}
                       className="pxnr-detail"
                       visible={visible}
@@ -88,6 +94,7 @@ const detail = React.createClass({
                     </div>
                     {!!loadFail && <div className="load-fail">{loadFail}</div>}
                     <div className="c2" dangerouslySetInnerHTML={{__html: pxnr}}/>
+                    {!!fjUrl&&<a href={fjUrl} target="_blank" ><Icon type="paper-clip" />&nbsp;{fjName}</a>}
                 </div>
             </Spin>
         </Modal>
