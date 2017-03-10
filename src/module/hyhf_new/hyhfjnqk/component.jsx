@@ -223,7 +223,6 @@ const jgcx = React.createClass({
         this.fetch_jgcx(); //异步调用后台服务器方法fetch_jgcx
         this.fetch_fytj(); //异步调用后台服务器方法fetch_jgcx
     },
-
     render() {
         const columns = [{
             title: '',
