@@ -149,7 +149,7 @@ const lrb = React.createClass({
                                              closable
                                              onClose={this.handleHelperClose}/>}
 
-                <Panel title="事务所基本情况表" toolbar={toolbar}>
+                <Panel title="事务所历史变更情况表" toolbar={toolbar}>
                     {this.state.searchToggle && <SearchForm
                         onSubmit={this.handleSearchSubmit}/>}
                     <div className="h-scroll-table">
