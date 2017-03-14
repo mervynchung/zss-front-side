@@ -223,7 +223,6 @@ const jgcx = React.createClass({
         this.fetch_jgcx(); //异步调用后台服务器方法fetch_jgcx
         this.fetch_fytj(); //异步调用后台服务器方法fetch_jgcx
     },
-
     render() {
         const columns = [{
             title: '',
@@ -340,6 +339,7 @@ const jgcx = React.createClass({
                 return true;
             }
         };
+        const expColums=columns.slice(1,columns.length);
         let toolbar = <ToolBar>
             <div>
                 <Button type="ghost" onClick={this.handleSearchToggle}>
@@ -359,7 +359,7 @@ const jgcx = React.createClass({
                 <Button type="ghost" onClick={this.allClean}
                         disabled={this.state.selectedRowKeys.length<=0}>撤销选择</Button>
                 <span className="ant-divider"></span>
-                <Export resData={this.state.data} model={columns} fileName ="会员会费缴纳情况"  />
+                <Export resData={this.state.data} model={expColums} fileName ="会员会费缴纳情况"  />
             </div>
         </ToolBar>;
         const rowSelection = {

@@ -1,8 +1,8 @@
 import React from 'react'
 import Iconv from 'iconv-lite'
 import FileSaver from 'file-saver'
-import {Button, notification, Icon} from 'antd'
-
+import { Menu, Dropdown, Button, notification, Icon} from 'antd'
+import req from 'common/request';
 
 /**
  *API属性：model，resData，type，butName
@@ -13,6 +13,10 @@ import {Button, notification, Icon} from 'antd'
  *type：导出方式，xml/csv，默认csv，csv方式支持多表头；
  *butName：按钮名称，默认"导出"
  *fileName: 文件名
+ *allData:导出全部数据实体
+ *getAllApi：导出全部APIurl路径，字符型，自动访问后台
+ *doAllEx：导出全部返回方法，return数组型数据
+ *以上三个导出全部的数据接口仅支持存在一个
  */
 
 let dy = React.createClass({
@@ -21,6 +25,11 @@ let dy = React.createClass({
             type: 'csv',
             header: '',
             footer: ''
+        }
+    },
+    getInitialState(){
+        return {
+            menuVis:true
         }
     },
     emitXmlHeader() {
@@ -162,11 +171,62 @@ let dy = React.createClass({
         const expName = fileName + '.' + (exportWay == 'xml' ? 'xls' : exportWay);
         FileSaver.saveAs(blob, expName);
     },
+   async allExport(){
+        let data = typeof this.props.allData==='undefined'?this.props.getAllApi:this.props.allData;
+        if(typeof data==='string'){
+            this.setState({menuVis:false});
+           await req({
+                url:data,
+                type: 'json',
+                method: 'get'
+            }).then(resp=> {
+                data=resp;
+                this.setState({menuVis:true});
+            }).catch(err=> {
+                notification.error({
+                    message: '操作失败',
+                    description: '导出过程中数据获取失败，请检查网络'
+                });
+                this.setState({menuVis:true});
+            })
+        }else if(typeof data==='undefined'){
+            try{
+                let por=this.props.doAllEx();
+               await por.then(
+                    value=>data=value,
+                    err=>data=null,
+                )
+                }catch(e){
+                    data=null;
+                };
+        }
+        if (!Array.isArray(data)||data.length <= 0) {
+            notification.error({
+                message: '操作失败',
+                description: '暂无数据可导出，请检查后再尝试'
+            });
+            return;
+        }
+        let selFuntion = {
+            xml: this.jsonToSsXml(data),
+            csv: this.jsonToCSV(data),
+        };
+        const exportWay = this.props.type;
+        const fileName = (typeof(this.props.fileName) === 'string' && this.props.fileName.length != 0 ? this.props.fileName : "exportFile")
+        let ex = selFuntion[exportWay];
+        let blob = new Blob([ex]);
+        const expName = fileName + '.' + (exportWay == 'xml' ? 'xls' : exportWay);
+        FileSaver.saveAs(blob, expName);
+    },
     render() {
-
-        return <Button type="ghost" onClick={this.valueExport} {...this.props}><Icon type="export"/>
-            {typeof(this.props.butName) === 'string' && this.props.butName.length != 0 ? this.props.butName : "导出"}
-        </Button>
+        const menu = (
+            <Menu onClick={this.allExport} visible={this.state.menuVis}>
+                <Menu.Item key="1">导出全部</Menu.Item>
+            </Menu>
+            );
+        return <Dropdown.Button  onClick={this.valueExport} {...this.props} overlay={menu} type="ghost"   >
+                    <Icon type="export" />{typeof (this.props.butName) === 'string' && this.props.butName.length != 0 ? this.props.butName : "导出"}
+                </Dropdown.Button>
 
     }
 });
