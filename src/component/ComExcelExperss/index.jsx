@@ -171,11 +171,11 @@ let dy = React.createClass({
         const expName = fileName + '.' + (exportWay == 'xml' ? 'xls' : exportWay);
         FileSaver.saveAs(blob, expName);
     },
-    allExport(){
+   async allExport(){
         let data = typeof this.props.allData==='undefined'?this.props.getAllApi:this.props.allData;
         if(typeof data==='string'){
             this.setState({menuVis:false});
-            req({
+           await req({
                 url:data,
                 type: 'json',
                 method: 'get'
@@ -191,7 +191,11 @@ let dy = React.createClass({
             })
         }else if(typeof data==='undefined'){
             try{
-                data=this.props.doAllEx();
+                let por=this.props.doAllEx();
+               await por.then(
+                    value=>data=value,
+                    err=>data=null,
+                )
                 }catch(e){
                     data=null;
                 };

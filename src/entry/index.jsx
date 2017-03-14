@@ -60,6 +60,7 @@ const Index = React.createClass({
                 //机构管理
                 require('../module/jggl/swscx'),
                 require('../module/jggl/swsslsp'),
+                require('../module/jggl/swsbgqktj'),
 
                 //人员管理
                 require('../module/rygl/rycx'),
