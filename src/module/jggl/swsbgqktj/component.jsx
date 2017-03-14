@@ -1,7 +1,7 @@
 import React from 'react'
 import {Table,Modal,Row,Col,Button,Icon,Alert} from 'antd'
 import Panel from 'component/compPanel'
-import {columns,setCol,setDate} from './model'
+import {columns,setCol,setDate,expCol} from './model'
 import req from 'reqwest';
 import auth from 'common/auth'
 import  './style.css';
@@ -28,7 +28,7 @@ const lrb = React.createClass({
                 pageSizeOptions: ['5', '10', '20']
                  },
             searchToggle: true,
-            where: '',
+            where: {YEAR:new Date().getFullYear()},
             helper: false,
             entity: '',
             detailHide: true,
@@ -170,8 +170,8 @@ const lrb = React.createClass({
     render(){
         //定义工具栏内容
         let toolbar = <ToolBar>
-            <Export resData={this.state.data} butName="导出" model={columns} fileName={'税务师事务所情况表'}
-                     header={this.getExpHeader()} doAllEx={this.expAll} />
+            <Export resData={this.state.data} butName="导出" model={expCol} fileName={'税务师事务所情况表'}
+                     header={this.getExpHeader()} doAllEx={this.expAll} all />
             <Button onClick={this.handleSearchToggle}>
                 <Icon type="search"/>查询
                 { this.state.searchToggle ? <Icon className="toggle-tip" type="circle-o-up"/> :
@@ -180,7 +180,6 @@ const lrb = React.createClass({
         </ToolBar>;
         setCol(this.state.mixCol);
         setDate(this.state.mixDate);
-        // setDate(this.state.mixDate);
         return <div className="jggl-swsbgqktj">
             <div className="wrap">
                 <Panel title="事物所变更情况统计" toolbar={toolbar}>
