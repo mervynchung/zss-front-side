@@ -224,9 +224,15 @@ let dy = React.createClass({
                 <Menu.Item key="1">导出全部</Menu.Item>
             </Menu>
             );
-        return <Dropdown.Button  onClick={this.valueExport} {...this.props} overlay={menu} type="ghost"   >
+        
+        return <div className="uploadFile">
+        {!this.props.all?<Button  onClick={this.valueExport} {...this.props} type="ghost"><Icon type="export"/>
+                        {typeof(this.props.butName) === 'string' && this.props.butName.length != 0 ? this.props.butName : "导出"}
+                        </Button>:
+                <Dropdown.Button  onClick={this.valueExport} {...this.props} overlay={menu} type="ghost"   >
                     <Icon type="export" />{typeof (this.props.butName) === 'string' && this.props.butName.length != 0 ? this.props.butName : "导出"}
-                </Dropdown.Button>
+                </Dropdown.Button>}
+        </div>
 
     }
 });
