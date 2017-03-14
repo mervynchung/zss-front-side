@@ -106,7 +106,7 @@ const lrb = React.createClass({
                             add=1;
                         }
 
-                        if(currentValue.SJ==currData.SJ){
+                        if(currentValue.SJ==currData.SJ&&currentValue.JGZCH==currData.JGZCH){
                             addDate+=1;
                             date[index]=0;
                             if(index==array.length-1){
