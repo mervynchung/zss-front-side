@@ -105,12 +105,13 @@ let searchForm = React.createClass({
                 </Row>
 
                 <Row>
-                    <Col span="8" offset="12">
+                    <Col span="12" offset="8">
+                        <Export
+                            resData={this.props.cxdata}
+                            model={this.props.model}
+                            fileName={'未上报财务报表清单'} all/>
                         <ButtonGroup>
-                            <Export
-                              resData={this.props.cxdata}
-                              model={this.props.model}
-                              fileName={'未上报财务报表清单'}/>
+
                             <Button type="primary"
                                     onClick={this.showConfirm}
                                     disabled={this.props.selected.length <= 0}>

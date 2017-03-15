@@ -208,7 +208,7 @@ const wsbbb = React.createClass({
         };
         return <div className="cwbb-wsbbb">
             <div className="wrap">
-                {this.state.helper && <Alert message="未上报报表查询帮助"
+                {this.state.helper && <Alert message="未上报财务报表帮助"
                                              description={helper}
                                              type="info"
                                              closable

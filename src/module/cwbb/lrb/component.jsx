@@ -7,6 +7,7 @@ import SearchForm from './searchForm'
 import config from 'common/configuration'
 import {entityFormat} from 'common/utils'
 import DetailBox from './detailbox.jsx'
+import Export from 'component/ComExcelExperss';
 
 
 
@@ -142,6 +143,7 @@ const lrb = React.createClass({
         })
     },
 
+
     componentDidMount(){
         this.fetchData();
     },
@@ -154,6 +156,8 @@ const lrb = React.createClass({
                 { this.state.searchToggle ? <Icon className="toggle-tip" type="circle-o-up"/> :
                     <Icon className="toggle-tip" type="circle-o-down"/>}
             </Button>
+            <Export resData={this.state.data} butName="导出" model={model.columns} fileName={'利润表'}
+                    getAllApi={API_URL+'?page=1&pageSize=65535'} all />
 
             <ButtonGroup>
                 <Button type="primary" onClick={this.handleHelper}><Icon type="question"/></Button>
