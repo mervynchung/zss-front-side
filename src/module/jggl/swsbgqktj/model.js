@@ -110,6 +110,41 @@ const model = {
         { title: '变更事项', key: 'BGSZ', dataIndex: 'BGSZ' },
         { title: '变更内容', key: 'BGNR', dataIndex: 'BGNR' },
     ],
+    expCol: [
+        { title: '序号', dataIndex: 'key', key: 'key' },
+        {
+            title: '代码',
+            dataIndex: 'JGZCH',
+            key: 'JGZCH',
+        },
+        {
+            title: '名称',
+            dataIndex: 'DWMC',
+            key: 'DWMC',
+        },
+        {
+            title: '地址及邮编',
+            key: 'YBDZ',
+            dataIndex: 'YBDZ',
+        },
+        {
+            title: '设立时间',
+            key: 'SLSJ',
+            dataIndex: 'SLSJ',
+        },
+        {
+            title: '所长姓名',
+            key: 'FDDBR',
+            dataIndex: 'FDDBR',
+        },
+        {
+            title: '联系方式',
+            key: 'DHUA',
+            dataIndex: 'DHUA',
+        },
+        { title: '变更事项', key: 'BGSZ', dataIndex: 'BGSZ' },
+        { title: '变更内容', key: 'BGNR', dataIndex: 'BGNR' },
+    ],
 };
 
 module.exports = model;
