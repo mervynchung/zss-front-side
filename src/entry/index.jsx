@@ -95,7 +95,7 @@ const Index = React.createClass({
                 require('../module/cwbb/lrb'),
                 require('../module/cwbb/zcfzb'),
                 require('../module/cwbb/wsbbb'),
-                /*
+                
                 //手动上报报表
                 require('../module/sdsbbb/jzywtjb'),
                 require('../module/sdsbbb/jygmtjb'),
@@ -189,10 +189,9 @@ const Index = React.createClass({
 
                 //证照打印管理
                 require('../module/zzdygl/zyglscdy'),
-*/
+
                 //培训模块
                 require('../module/pxmk'),
-/*
 
                 //客户端
                 //机构管理
@@ -229,7 +228,6 @@ const Index = React.createClass({
                 //年度检查
                 require('../module/client/swsnj'),//事务所年检
                 require('../module/client/zyswsnj'),//执业税务师年检
-*/
 
                 //业务管理
                 require('../module/client/ywgl/khxxgl'), //客户信息管理
