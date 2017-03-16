@@ -99,7 +99,7 @@ const list = React.createClass({
         let {apiUrl} = this.props;
         let where = encodeURIComponent(JSON.stringify(this.state.where));
         if(!!where) {
-            let str = apiUrl + '?page=1&pageSize=65535&where=' + where;
+            let str = apiUrl + '?page=1&pagesize=65535';
             return str
         }
     },
@@ -175,7 +175,7 @@ const list = React.createClass({
                 { this.state.searchToggle ? <Icon className="toggle-tip" type="circle-o-up"/> :
                     <Icon className="toggle-tip" type="circle-o-down"/>}
             </Button>
-            <Export resData={this.state.data} butName="导出" model={columns} fileName={'资质管理锁定记录'}
+            <Export resData={this.state.data} butName="导出" model={columns} fileName={'资质锁定记录'}
                     getAllApi={this.genAllApi()} all />
 
             <ButtonGroup>
