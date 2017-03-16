@@ -1,7 +1,7 @@
 import React from 'react'
 import {Table, Modal, Row, Col, Button, Icon, Alert} from 'antd'
 import List from './list'
-import Detail from 'component/pxnr'
+import Detail from './pxnr'
 import Edit from './edit'
 import New from './new'
 import Hz from './hz'

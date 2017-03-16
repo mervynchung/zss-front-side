@@ -8,6 +8,7 @@ import auth from 'common/auth'
 import SearchForm from './searchForm'
 import Xjllbxx from './Xjllbxx'
 import config from 'common/configuration'
+import Export from 'component/ComExcelExperss';
 
 
 
@@ -90,8 +91,14 @@ const xjllb = React.createClass({
         this.fetchData(params);
         this.setState({searchToggle: false})
     },
-
-   
+    //生成全部导出url
+    genAllApi(){
+        let where = encodeURIComponent(JSON.stringify(this.state.where));
+        if(!!where) {
+            let str = API_URL + '?page=1&pageSize=65535&where=' + where;
+            return str
+        }
+    },
 
     //通过API获取数据
     fetchData(params = {page: 1, pageSize: this.state.pagination.pageSize}){
@@ -175,6 +182,8 @@ const xjllb = React.createClass({
                 { this.state.searchToggle ? <Icon className="toggle-tip" type="circle-o-up"/> :
                   <Icon className="toggle-tip" type="circle-o-down"/>}
             </Button>
+            <Export resData={this.state.data} butName="导出" model={model} fileName={'利润表分配表'}
+                    getAllApi={this.genAllApi()} all />
 
             <ButtonGroup>
                 <Button type="primary" onClick={this.handleHelper}><Icon type="question"/></Button>

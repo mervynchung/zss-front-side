@@ -1,3 +1,9 @@
 .cwbb-wsbbb .search-form .ant-calendar-picker {
        display: block;
 }
+.cwbb-wsbbb .search-form{
+       padding:16px 0
+}
+.cwbb-wsbbb .btn-group {
+       margin-right:16px
+}

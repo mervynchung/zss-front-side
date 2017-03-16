@@ -161,11 +161,11 @@ const c = React.createClass({
             render: (text, record)=> {
                 let actGroup = <span className="act-group">
                     <a onClick={()=>{this.handleViewDetail(record)}}>明细</a>
-                    {(record.ywzt_dm == 0 || record.ywzt_dm == 1 || record.ywzt_dm == 3) && record.overtime === 0 ?
+                    {record.ywzt_dm == 0 || ((record.ywzt_dm == 1 || record.ywzt_dm == 3) && record.overtime === 0) ?
                       <a onClick={()=>{this.handleViewEdit(record)}}>修改</a>:null}
                     {record.ywzt_dm == 0 ?
                         <a onClick={()=>{this.openDEL(record)}}>删除</a>:null}
-                    {(record.ywzt_dm == 1 || record.ywzt_dm == 3) && record.overtime === 0 ?
+                    {record.ywzt_dm == 1 || record.ywzt_dm == 3 ?
                       <a onClick={()=>{this.openSF(record)}}>收费</a>:null}
                     {record.ywzt_dm == 1 ?
                         <a onClick={()=>{this.printCover(record)}}>打印</a>:null}

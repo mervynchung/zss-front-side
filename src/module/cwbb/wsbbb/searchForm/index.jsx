@@ -21,11 +21,6 @@ let searchForm = React.createClass({
             lx: '0'
         }
     },
-    handleReset(e) {
-        e.preventDefault();
-        this.props.form.resetFields();
-        this.handleSubmit(e);
-    },
     handleSubmit(e){
         e.preventDefault();
         let value = this.props.form.getFieldsValue();
@@ -62,74 +57,79 @@ let searchForm = React.createClass({
         this.state.sdyy = <p>锁定原因：<Input type="text" style={{width: "50%"}} ref="myTextInput"/></p>;
         return <div className="search-form">
             <Form horizontal onSubmit={this.handleSubmit}>
-                <Row>
-                    <Col span="6">
-                        <FormItem
-                          {...formItemLayout}
-                          label="报表类型：">
-                            <Select { ...getFieldProps('bblx', {initialValue: '0',onChange:this.handleLxChange})} >
-                                <Option value="0">财务报表-利润表</Option>
-                                <Option value="1">财务报表-资产负债表</Option>
-                                <Option value="2">财务报表-利润分配表</Option>
-                                <Option value="3">财务报表-现金流量表</Option>
-                                <Option value="4">财务报表-支出明细表</Option>
-                            </Select>
-                        </FormItem>
-                    </Col>
-                    <Col span="6">
-                        <FormItem
-                          {...formItemLayout}
-                          label="上报年度：">
-                            <Select  { ...getFieldProps('nd', {initialValue: yy[0] + ''})} >
-                                {yearOptions}
-                            </Select>
-                        </FormItem>
-                    </Col>
-                    {this.state.lx == '0' && <Col span="6">
-                        <FormItem
-                          {...formItemLayout}
-                          label="时间段：">
-                            <Select  { ...getFieldProps('timevalue', {initialValue: '0'})} >
-                                <Option value="0">半年</Option>
-                                <Option value="1">全年</Option>
-                            </Select>
-                        </FormItem>
-                    </Col>}
-                    <Col span="6">
-                        <FormItem
-                          {...formItemLayout}
-                          label="事务所名称：">
-                            <Input placeholder="事务所名称" {...getFieldProps('dwmc')}/>
-                        </FormItem>
-                    </Col>
-                </Row>
+            <Row>
+                <Col span="18">
 
-                <Row>
-                    <Col span="8" offset="12">
-                        <ButtonGroup>
-                            <Export
-                              resData={this.props.cxdata}
-                              model={this.props.model}
-                              fileName={'未上报财务报表清单'}/>
-                            <Button type="primary"
-                                    onClick={this.showConfirm}
-                                    disabled={this.props.selected.length <= 0}>
-                                批量锁定
-                            </Button>
-                            <Button type="ghost"
-                                    onClick={this.props.allClean}
-                                    disabled={this.props.selected.length <= 0}>
-                                撤销选择
-                            </Button>
-                        </ButtonGroup>
-                    </Col>
-                    <Col span="4">
-                        <Button type="primary" htmlType="submit" className="query">查询</Button>
-                        <Button type="ghost" onClick={this.handleReset}>重置</Button>
-                    </Col>
+                        <Row>
+                            <Col span="12">
+                                <FormItem
+                                  {...formItemLayout}
+                                  label="报表类型：">
+                                    <Select { ...getFieldProps('bblx', {initialValue: '0',onChange:this.handleLxChange})} >
+                                        <Option value="0">财务报表-利润表</Option>
+                                        <Option value="1">财务报表-资产负债表</Option>
+                                        <Option value="2">财务报表-利润分配表</Option>
+                                        <Option value="3">财务报表-现金流量表</Option>
+                                        <Option value="4">财务报表-支出明细表</Option>
+                                    </Select>
+                                </FormItem>
+                            </Col>
+                            <Col span="12">
+                                <FormItem
+                                  {...formItemLayout}
+                                  label="事务所名称：">
+                                    <Input placeholder="事务所名称" {...getFieldProps('dwmc')}/>
+                                </FormItem>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col span="12">
+                                <FormItem
+                                  {...formItemLayout}
+                                  label="上报年度：">
+                                    <Select  { ...getFieldProps('nd', {initialValue: yy[0] + ''})} >
+                                        {yearOptions}
+                                    </Select>
+                                </FormItem>
+                            </Col>
+                            {this.state.lx == '0' && <Col span="12">
+                                <FormItem
+                                  {...formItemLayout}
+                                  label="时间段：">
+                                    <Select  { ...getFieldProps('timevalue', {initialValue: '0'})} >
+                                        <Option value="0">半年</Option>
+                                        <Option value="1">全年</Option>
+                                    </Select>
+                                </FormItem>
+                            </Col>}
 
+                        </Row>
+
+                </Col>
+                <Col span="5" offset={1}>
+                    <Button icon="search" type="primary" htmlType="submit" className="query">查询</Button>
+
+                </Col>
+            </Row>
+                <Row>
+                    <ButtonGroup className="btn-group">
+                        <Button onClick={this.showConfirm}
+                                disabled={this.props.selected.length <= 0}>
+                            批量锁定
+                        </Button>
+                        <Button onClick={this.props.allClean}
+                                disabled={this.props.selected.length <= 0}>
+                            撤销选择
+                        </Button>
+                    </ButtonGroup>
+                    <Export
+                      resData={this.props.cxdata}
+                      model={this.props.model}
+                      getAllApi={this.props.getAllApi()}
+                      fileName={'未上报财务报表清单'} all/>
                 </Row>
             </Form>
+
         </div>
     }
 });
