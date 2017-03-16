@@ -88,6 +88,14 @@ const lrb = React.createClass({
         this.fetchData(params);
         this.setState({searchToggle: false})
     },
+    //生成全部导出url
+    genAllApi(){
+        let where = encodeURIComponent(JSON.stringify(this.state.where));
+        if(!!where) {
+            let str = API_URL + '?page=1&pageSize=65535&where=' + where;
+            return str
+        }
+    },
 
     //点击某行
     handleRowClick(record){
@@ -157,7 +165,7 @@ const lrb = React.createClass({
                     <Icon className="toggle-tip" type="circle-o-down"/>}
             </Button>
             <Export resData={this.state.data} butName="导出" model={model.columns} fileName={'利润表'}
-                    getAllApi={API_URL+'?page=1&pageSize=65535'} all />
+                    getAllApi={this.genAllApi()} all />
 
             <ButtonGroup>
                 <Button type="primary" onClick={this.handleHelper}><Icon type="question"/></Button>
