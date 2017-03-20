@@ -6,6 +6,7 @@ import SearchForm from './sdsearchForm'
 import merge from 'lodash/merge';
 import {isEmptyObject,jsonCopy} from 'common/utils'
 import auth from 'common/auth'
+import Export from 'component/ComExcelExperss';
 
 
 const ToolBar = Panel.ToolBar;
@@ -93,6 +94,15 @@ const list = React.createClass({
         };
         this.fetchData(param);
     },
+    //生成全部导出url
+    genAllApi(){
+        let {apiUrl} = this.props;
+        let where = encodeURIComponent(JSON.stringify(this.state.where));
+        if(!!where) {
+            let str = apiUrl + '?page=1&pagesize=65535';
+            return str
+        }
+    },
 
     //刷新按钮
     handleRefresh(){
@@ -165,6 +175,8 @@ const list = React.createClass({
                 { this.state.searchToggle ? <Icon className="toggle-tip" type="circle-o-up"/> :
                     <Icon className="toggle-tip" type="circle-o-down"/>}
             </Button>
+            <Export resData={this.state.data} butName="导出" model={columns} fileName={'资质锁定记录'}
+                    getAllApi={this.genAllApi()} all />
 
             <ButtonGroup>
                 <Button type="primary" onClick={this.handleRefresh}><Icon type="reload"/></Button>

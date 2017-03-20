@@ -14,7 +14,7 @@ import req from 'common/request';
  *butName：按钮名称，默认"导出"
  *fileName: 文件名
  *allData:导出全部数据实体
- *getAllApi：导出全部APIurl路径，字符型，自动访问后台
+ *getAllApi：导出全部APIurl路径，字符型，自动访问后台，返回的数据结构必须为{data:[]...}
  *doAllEx：导出全部返回方法，return数组型数据
  *以上三个导出全部的数据接口仅支持存在一个
  */
@@ -180,7 +180,7 @@ let dy = React.createClass({
                 type: 'json',
                 method: 'get'
             }).then(resp=> {
-                data=resp;
+                data=resp.data;
                 this.setState({menuVis:true});
             }).catch(err=> {
                 notification.error({
@@ -225,14 +225,13 @@ let dy = React.createClass({
             </Menu>
             );
         
-        return <div className="uploadFile">
-        {!this.props.all?<Button  onClick={this.valueExport} {...this.props} type="ghost"><Icon type="export"/>
+        return !this.props.all?<Button  onClick={this.valueExport} {...this.props} type="ghost"><Icon type="export"/>
                         {typeof(this.props.butName) === 'string' && this.props.butName.length != 0 ? this.props.butName : "导出"}
                         </Button>:
                 <Dropdown.Button  onClick={this.valueExport} {...this.props} overlay={menu} type="ghost"   >
                     <Icon type="export" />{typeof (this.props.butName) === 'string' && this.props.butName.length != 0 ? this.props.butName : "导出"}
-                </Dropdown.Button>}
-        </div>
+                </Dropdown.Button>
+
 
     }
 });

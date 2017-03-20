@@ -73,6 +73,14 @@ const wsbbb = React.createClass({
         this.setState({pagination: pager, where: where, bblx: value.bblx, sloading: true});
         this.fetchData(params)
     },
+    //导出全部的api
+    genAllApiUrl(){
+        let where = this.state.where;
+        if(!!where){
+            let str = API_URL + '?page=1&pageSize=65535&where=' +where;
+            return str
+        }
+    },
 
 
     //通过API获取数据
@@ -208,7 +216,7 @@ const wsbbb = React.createClass({
         };
         return <div className="cwbb-wsbbb">
             <div className="wrap">
-                {this.state.helper && <Alert message="未上报报表查询帮助"
+                {this.state.helper && <Alert message="未上报财务报表帮助"
                                              description={helper}
                                              type="info"
                                              closable
@@ -223,6 +231,7 @@ const wsbbb = React.createClass({
                           loading={this.state.sloading}
                           allClean={this.allClean}
                           allLocked={this.allLocked}
+                          getAllApi={this.genAllApiUrl}
                           selected={this.state.selectedRowKeys}/>
                     </Spin>}
                     <div className="h-scroll-table">
