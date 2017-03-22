@@ -163,7 +163,6 @@ let form = React.createClass({
                     <Col span={20} offset={1}>
                         单人间：<span className="blue">{cost.drj} 间·天</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         双人间：<span className="blue">{cost.srj} 间·天</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        房费+餐费合计：<span className="blue">￥{cost.cost}元 </span>该值仅为估算，只供参考
                     </Col>
                 </Row>
                 <Row>
