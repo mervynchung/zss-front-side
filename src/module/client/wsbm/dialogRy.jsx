@@ -27,12 +27,18 @@ let c = React.createClass({
             }
             values.xb = values.xb.label;
             values.zw = values.zw.label;
-            values.rzsj = values.zssj[0];
-            values.lksj = values.zssj[1];
+            values.rzsj = !!values.zssj?values.zssj[0]:null;
+            values.lksj = !!values.zssj?values.zssj[1]:null;
             this.reset();
             this.props.onOk(values);
             this.handleClose()
         })
+    },
+    checkYddh(){
+
+    },
+    checkXming(){
+
     },
     render(){
         const {title, visible} = this.props;
@@ -43,7 +49,7 @@ let c = React.createClass({
         };
         const xmingProps = getFieldProps('xming', {
             rules: [
-                {required: true, whitespace: true, message: '必填'}
+                {required: true, whitespace: true, message: '必填，中文汉字',pattern:/(?!.*先生.*|.*小姐.*|.*男士.*|.*女士.*|.*太太.*)^([\u4e00-\u9fa5\ ]{2,4})$/},
             ]
         });
         const xbProps = getFieldProps('xb', {
@@ -56,17 +62,15 @@ let c = React.createClass({
                 {required: true, type: 'object', message: '必填'}
             ]
         });
-        const zssjProps = getFieldProps('zssj', {
+        const yddhProps = getFieldProps('yddh', {
             rules: [
-                {required: true, type: 'array', message: '必填'}
-            ],
-            getValueFromEvent: (date, dateString) => dateString
-        });
-        const fjlxProps = getFieldProps('fjlx', {
-            rules: [
-                {required: true, message: '必填'}
+                {required: true, whitespace: true, message: '必填，11位手机号码',pattern:/^0?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/},
             ]
         });
+        const zssjProps = getFieldProps('zssj', {
+             getValueFromEvent: (date, dateString) => dateString
+        });
+        const fjlxProps = getFieldProps('fjlx');
 
         return <Modal title={title} width={500} onCancel={this.handleClose} visible={visible} onOk={this.handleSubmit}>
             <Form horizontal>
@@ -92,14 +96,9 @@ let c = React.createClass({
                     <SelectorZW labelInValue   { ...zwProps} />
                 </FormItem>
                 <FormItem label="手机" {...layout} >
-                    <Input   { ...getFieldProps('yddh')} />
+                    <Input   { ...yddhProps} />
                 </FormItem>
-                <FormItem label="电话" {...layout} >
-                    <Input   { ...getFieldProps('dhhm')} />
-                </FormItem>
-                <FormItem label="电子邮箱" {...layout} >
-                    <Input   { ...getFieldProps('email')} />
-                </FormItem>
+
                 <FormItem label="住宿时间" {...layout} >
                     <RangePicker format="yyyy-MM-dd "
                                  { ...zssjProps} />
