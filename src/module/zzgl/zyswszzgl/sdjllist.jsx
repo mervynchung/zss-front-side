@@ -73,7 +73,9 @@ const list = React.createClass({
         let param = {
             page: pagination.current,
             pagesize: pagination.pageSize,
-            where:this.state.where
+            where:this.state.where,
+            sortField:sorter.field,
+            sortOrder: sorter.order
         };
         this.fetchData(param)
     },

@@ -21,11 +21,13 @@ const model = {
         title: '税务师姓名',
         dataIndex: 'xming',
         key: 'xming',
+        sorter: true,
         width: 100
     },{
         title: '锁定时间',
         dataIndex: 'sdtime',
         key: 'sdtime',
+        sorter: true,
         width: 100
     }, {
         title: '锁定人',

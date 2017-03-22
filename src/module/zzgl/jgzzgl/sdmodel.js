@@ -12,11 +12,13 @@ const model = {
         title: '锁定时间',
         dataIndex: 'sdtime',
         key: 'sdtime',
+        sorter: true,
         width: 100
     }, {
         title: '事务所名称',
         dataIndex: 'swsmc',
         key: 'swsmc',
+        sorter: true,
         width: 300
     }, {
         title: '锁定人',
