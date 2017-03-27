@@ -70,7 +70,7 @@ const Index = React.createClass({
                 require('../module/xtgnsz/qxgl'),
                 require('../module/xtgnsz/yhgl'),
                 require('../module/xtgnsz/yhdljlb'),
-
+/*
                 //资质管理
                 require('../module/zzgl/jgzzgl'), //事务所资质管理
                 require('../module/zzgl/zyswszzgl'), //执业注师资质管理
@@ -87,7 +87,6 @@ const Index = React.createClass({
                 require('../module/ywgl/ywbbsjfx'),//业务报备数据分析
                 require('../module/ywgl/ywbbsjhz'),//业务报备数据汇总
 
-/*
                 //财务报表
                 require('../module/cwbb/lrfpb'),
                 require('../module/cwbb/xjllb'),
