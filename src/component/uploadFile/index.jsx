@@ -11,16 +11,20 @@ const API_URL_DELDB = config.HOST + config.URI_API_FRAMEWORK + '/upadteDelFile';
 /**
  * 组件使用：引入组件（形式为一个上传按钮），用ref方式调用组件方法。
  * 组件方法：
- * getFileName：获取已上传文件文件名称；
- * getURL：获取已上传文件路径；
- * getValueByMap：以map形式获取文件名称及路径；
- * setDBInsert：插入文件对照表（默认插入已上传文件，可带参数指定文件名和路径插入，插入前自动检测文件是否已存在）；
- * setOrgDBDel：置传入原上传文件（若存在）记录为无效；
- * setFileDel：删除上传文件（可带参数删除指定文件）；
+ * getFileName()：获取已上传文件文件名称；
+ * getURL()：获取已上传文件路径；
+ * getValueByMap()：以map形式获取文件名称及路径；
+ * setDBInsert(map={fileName:111,uploadUrl:222})：插入文件对照表（默认插入已上传文件，可带参数指定文件名和路径插入，插入前自动检测文件是否已存在）；
+ * setOrgDBDel()：置原上传文件（若存在）记录为无效；
+ * setFileDel()：删除上传文件（可带参数删除指定文件）；
  * 
  * 组件默认上传路径：/api/upload/files；默认已上传文件为false；默认显示已上传列表；
  * 传入已上传文件url（数据库中存在且有效标志为有效）将在已上传列表中显示；
  * 
+ * 组件属性：
+ * action:上传文件路径；
+ * showUploadList：是否显示上传列表，默认为true；
+ * initialUrl：初始已上传文件路径
  * 
  * 
  */
