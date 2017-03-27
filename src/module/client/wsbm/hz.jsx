@@ -53,11 +53,16 @@ const c = React.createClass({
             </Button>
         </PanelBar>;
         const columns = [{
+            title: '编号',
+            dataIndex: 'bh',
+            key: 'bh',
+            width: 130
+        }, {
             title: '姓名',
             dataIndex: 'xming',
-            key: 'xh',
+            key: 'xming',
             width: 100
-        }, {
+        },{
             title: '性别',
             dataIndex: 'xb',
             key: 'xb',
