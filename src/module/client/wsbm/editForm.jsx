@@ -148,10 +148,10 @@ let form = React.createClass({
                 </Row>
                 <Row style={{marginTop: '8px'}}>
                     <Col span={5} offset={1}>
-                        单人房：￥{pxxx.drj}/晚
+                        单人房：￥{pxxx.drj}/晚/间
                     </Col>
                     <Col span={5}>
-                        双人房：￥{pxxx.srj}/晚
+                        双人房：￥{pxxx.srj}/晚/间
                     </Col>
                     <Col span={8}>
                         早餐：￥{pxxx.zaoc}/人&nbsp;&nbsp;&nbsp;&nbsp;
@@ -159,12 +159,12 @@ let form = React.createClass({
                         晚餐：￥{pxxx.wanc}/人
                     </Col>
                 </Row>
-                <Row>
+  {/*              <Row>
                     <Col span={20} offset={1}>
                         单人间：<span className="blue">{cost.drj} 间·天</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         双人间：<span className="blue">{cost.srj} 间·天</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     </Col>
-                </Row>
+                </Row>*/}
                 <Row>
                     <Col offset={1} span="4"><h2>会员服务</h2></Col>
                 </Row>
