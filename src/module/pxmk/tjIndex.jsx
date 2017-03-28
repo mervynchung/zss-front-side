@@ -112,6 +112,10 @@ const tj = React.createClass({
                   title: '报名时间',
                   dataIndex: 'BMSJ',
                   key: 'BMSJ',
+                  render(text){
+                      let date=new Date(text);
+                    return date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate();
+                  }
                 },{
                   title: '备注',
                   dataIndex: 'BZ',

@@ -128,6 +128,7 @@ const c = React.createClass({
             entity: this.state.entity,
             //设置返回主视图调用的方法
             onBack: this.editToList,
+            toHz:this.openHz
         };
         /*设置回执组件的参数*/
         const hzSetting = {
@@ -141,6 +142,7 @@ const c = React.createClass({
             entity: this.state.entity,
             //设置返回主视图调用的方法
             onBack: this.editToList,
+            toHz:this.openHz
         };
 
         /*通过控制state.view的值，实现页面上列表/详细信息等组件的切换*/
