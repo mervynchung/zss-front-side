@@ -88,7 +88,8 @@ const lrb = React.createClass({
                 let col=[];
                 let date=[];
                 let currData={};
-                let add,addDate=1;
+                let add=1;
+                let addDate=1;
                 const dataColums=resp.data.slice(0,resp.data.length);
                 dataColums.forEach(
                     function(currentValue, index, array){

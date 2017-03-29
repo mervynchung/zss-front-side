@@ -40,7 +40,8 @@ const c = React.createClass({
             url: url+`/${entity.id}`,
             data: values
         }).then(resp=> {
-            this.setState({loading: false, scr: 'success', successType: 'commit'})
+            this.props.toHz(entity);
+            //this.setState({loading: false, scr: 'success', successType: 'commit'})
         }).catch(e=> {
             this.setState({loading: false});
             if (e.status == 403) {

@@ -94,7 +94,7 @@ const Index = React.createClass({
                 require('../module/cwbb/lrb'),
                 require('../module/cwbb/zcfzb'),
                 require('../module/cwbb/wsbbb'),
-                
+
                 //手动上报报表
                 require('../module/sdsbbb/jzywtjb'),
                 require('../module/sdsbbb/jygmtjb'),
@@ -191,6 +191,7 @@ const Index = React.createClass({
 
                 //培训模块
                 require('../module/pxmk'),
+
 
                 //客户端
                 //机构管理

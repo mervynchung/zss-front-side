@@ -43,6 +43,10 @@ const c = React.createClass({
 
         })
     },
+    printout(){
+        window.print();
+    },
+
 
     render(){
         const {title,entity} = this.props;
@@ -134,6 +138,7 @@ const c = React.createClass({
                         <div dangerouslySetInnerHTML={{__html: dataBase.zysx}}></div>
                     </Col>
                 </Row>
+                <Row><Button onClick={this.printout}>打印</Button></Row>
 
             </Spin>
         </Panel>

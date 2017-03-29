@@ -48,6 +48,8 @@ const detail = React.createClass({
                 this.setState({
                     title: resp.title,
                     content: resp.content,
+                    file: resp.file,
+                    fjName: resp.fjName,
                     create_time: resp.create_time,
                     loading: false,
                     loadFail:''
@@ -61,7 +63,7 @@ const detail = React.createClass({
     render(){
 
         const {visible} = this.props;
-        let {title, content, create_time, loading,loadFail} = this.state;
+        let {title, content, create_time, loading,loadFail,file,fjName} = this.state;
         return <Modal title={title}
                       className="msg-detail"
                       visible={visible}
@@ -77,6 +79,7 @@ const detail = React.createClass({
                     </div>
                     {!!loadFail && <div className="load-fail">{loadFail}</div>}
                     <div className="c2" dangerouslySetInnerHTML={{__html: content}}/>
+                    {!!file&&<a href={file} target="_blank" ><Icon type="paper-clip" />&nbsp;{fjName}</a>}
                 </div>
             </Spin>
         </Modal>

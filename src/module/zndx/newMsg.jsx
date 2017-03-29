@@ -5,6 +5,7 @@ import Rich from 'component/compWYSIHtml'
 import Reciver from './reciver'
 import req from 'common/request'
 import config from 'common/configuration'
+import Upload from 'component/uploadFile'
 import {isEmptyObject} from 'common/utils'
 
 const ToolBar = Panel.ToolBar;
@@ -34,6 +35,7 @@ let c = React.createClass({
             reciver:this.state.reciver,
             year:this.state.year,
             type:this.state.reciver.type,
+            file:this.refs.uploadFile.getURL()
         };
         if(isEmptyObject(values.reciver)){
             Modal.error({
@@ -63,6 +65,7 @@ let c = React.createClass({
                 method:'post',
                 data:values
             }).then(resp=>{
+                this.refs.uploadFile.setDBInsert(this.refs.uploadFile.getValueByMap());
                 message.success('短信息发送成功', 4);
                 this.props.onBack()
             }).catch(e=>{
@@ -84,6 +87,9 @@ let c = React.createClass({
     },
 
     back(){
+        if(!this.refs.uploadFile.getURL()){
+            this.refs.uploadFile.setFileDel();
+        }
         this.props.onBack()
     },
     render(){
@@ -120,6 +126,13 @@ let c = React.createClass({
                         {...formItemLayout}
                         label="标题">
                         <Input placeholder="标题" {...titleProps}/>
+                    </FormItem>
+                </Row>
+                <Row>
+                    <FormItem
+                        {...formItemLayout}
+                        label="上传附件">
+                        <div style={{width:'250px'}}><Upload ref="uploadFile" /></div>
                     </FormItem>
                 </Row>
                 <Row>
