@@ -87,6 +87,10 @@ const c = React.createClass({
             title: '用餐',
             key: 'jclx',
             dataIndex: 'jclx',
+        },{
+            title:'备注',
+            key:'bz',
+            dataIndex:'bz'
         }];
         if (dataRy.length > 0) {
             dataRy.map(item=> {

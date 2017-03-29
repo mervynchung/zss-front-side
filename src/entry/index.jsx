@@ -64,6 +64,7 @@ const Index = React.createClass({
 
                 //人员管理
                 require('../module/rygl/rycx'),
+/*
 
                 //系统功能设置
                 require('../module/xtgnsz/mkgl'),
@@ -102,7 +103,7 @@ const Index = React.createClass({
                 require('../module/sdsbbb/hyryqktj'),
                 require('../module/sdsbbb/jysrqktj'),
                 require('../module/sdsbbb/wsbbbcx'),
-
+*/
                 //历史记录查询
                 require('../module/lsjlcx/swslsjl/bglsjl'),
                 require('../module/lsjlcx/swslsjl/yhbsws'),
@@ -116,7 +117,7 @@ const Index = React.createClass({
                 require('../module/lsjlcx/fzyzjjl'),
                 require('../module/lsjlcx/fzyzxjl'),
                 require('../module/lsjlcx/fzyzzyjl'),
-
+/*
                // 监督检查
                 require('../module/jdjc/zyswsnjb'),
                 require('../module/jdjc/swsnj'),
@@ -188,10 +189,10 @@ const Index = React.createClass({
 
                 //证照打印管理
                 require('../module/zzdygl/zyglscdy'),
-
+*/
                 //培训模块
                 require('../module/pxmk'),
-
+/*
 
                 //客户端
                 //机构管理
@@ -205,12 +206,12 @@ const Index = React.createClass({
                 require('../module/client/swswspcx'),
                 //事务所审批历史记录
                 require('../module/client/swssplsjl'),
-
+*/
                 //人员管理
                 require('../module/client/swsrygl/zyrygl'),
                 require('../module/client/swsrygl/cyrygl'),
                 require('../module/client/swsrygl/rydr'),
-
+/*
                // 财务报表上传
                 require('../module/client/cwbb/lrb'),
                 require('../module/client/cwbb/lrfpb'),
@@ -235,6 +236,7 @@ const Index = React.createClass({
                 require('../module/client/ywgl/grywtj'), //个人业务统计
                 require('../module/client/ywgl/swsywtj'), //事务所业务统计
                 require('../module/client/ywgl/ywhztj'), //业务汇总统计
+*/
 
                 //站内短信
                 require('../module/zndx'),
