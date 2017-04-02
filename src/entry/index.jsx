@@ -64,6 +64,7 @@ const Index = React.createClass({
 
                 //人员管理
                 require('../module/rygl/rycx'),
+                require('../module/rygl/swsbdtj'),
 
                 //系统功能设置
                 require('../module/xtgnsz/mkgl'),
