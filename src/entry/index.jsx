@@ -10,6 +10,7 @@ import Dydj from 'module/useforprint/glsc_jgdj/dy.jsx';
 import Dyry from 'module/useforprint/glsc_ry/dy.jsx';
 import Dyzb from 'module/useforprint/glsc_zb/dy.jsx';
 import Dyfb from 'module/useforprint/glsc_fb/dy.jsx';
+import Pxbmhz from 'module/useforprint/pxbmhz/dy.jsx';
 import YwbbCover from 'module/useforprint/ywbb_fm/dy.jsx';
 import {home} from '../module/home';
 import Zyjbxx from 'module/rygl/rycx/zyryjbxx.jsx';
@@ -72,6 +73,7 @@ const Index = React.createClass({
                 require('../module/xtgnsz/qxgl'),
                 require('../module/xtgnsz/yhgl'),
                 require('../module/xtgnsz/yhdljlb'),
+/*
 
                 //资质管理
                 require('../module/zzgl/jgzzgl'), //事务所资质管理
@@ -190,10 +192,12 @@ const Index = React.createClass({
 
                 //证照打印管理
                 require('../module/zzdygl/zyglscdy'),
+*/
 
                 //培训模块
                 require('../module/pxmk'),
 
+/*
 
                 //客户端
                 //机构管理
@@ -242,6 +246,7 @@ const Index = React.createClass({
                 //站内短信
                 require('../module/zndx'),
                 require('../module/inbox'),
+*/
 
                 //培训报名
                 require('../module/client/wsbm'),
@@ -278,6 +283,9 @@ const Index = React.createClass({
             path: '/print/ywbbcover',
             component: YwbbCover
         }, {
+            path: '/print/pxbmhz',
+            component: Pxbmhz
+        },{
             path: '*',
             component: NotFound
         }];

@@ -3,6 +3,7 @@ import {Spin, notification, Icon,Table,Button,Row,Col} from 'antd'
 import Panel from 'component/compPanel'
 import config from 'common/configuration.js'
 import req from 'common/request'
+import store from 'store2'
 
 const PanelBar = Panel.ToolBar;
 
@@ -44,7 +45,7 @@ const c = React.createClass({
         })
     },
     printout(){
-        window.print();
+        window.open("#/print/pxbmhz");
     },
 
 
@@ -55,6 +56,7 @@ const c = React.createClass({
             <Button onClick={this.back}>
                 <Icon type="rollback"/>返回
             </Button>
+            <Button type="primary" onClick={this.printout}>打印</Button>
         </PanelBar>;
         const columns = [{
             title: '编号',
@@ -142,8 +144,6 @@ const c = React.createClass({
                         <div dangerouslySetInnerHTML={{__html: dataBase.zysx}}></div>
                     </Col>
                 </Row>
-                <Row><Button onClick={this.printout}>打印</Button></Row>
-
             </Spin>
         </Panel>
 
