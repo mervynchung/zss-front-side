@@ -45,6 +45,14 @@ const c = React.createClass({
         })
     },
     printout(){
+        const {dataBase,dataRy} = this.state;
+        const {entity} = this.props;
+        let pxbmData = {
+            dataRy:dataRy,
+            dataBase:dataBase,
+            entity:entity
+        };
+        store.set("pxbmData",pxbmData);
         window.open("#/print/pxbmhz");
     },
 

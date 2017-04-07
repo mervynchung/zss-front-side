@@ -78,8 +78,8 @@ let searchForm = React.createClass({
                     <Col span="8">
                         <FormItem
                           {...formItemLayout}
-                          label="业务发生地">
-                            <SelectorCS { ...getFieldProps('cs_dm')}/>
+                          label="企业纳税识别号">
+                            <Input  {...getFieldProps('wtdwnsrsbh')}/>
                         </FormItem>
                     </Col>
 
@@ -158,6 +158,13 @@ let searchForm = React.createClass({
                     </Col>
                 </Row>
                 <Row>
+                    <Col span="8">
+                        <FormItem
+                            {...formItemLayout}
+                            label="业务发生地">
+                            <SelectorCS { ...getFieldProps('cs_dm')}/>
+                        </FormItem>
+                    </Col>
                     <Col span="8">
                         <FormItem
                             {...formItemLayout}

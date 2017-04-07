@@ -1,6 +1,7 @@
 import React from 'react'
-import { Icon,Table,Button,Row,Col} from 'antd'
+import {Table, Button, Row, Col, Alert} from 'antd'
 import store from 'store2'
+import './dy.css'
 
 var cssPagedMedia = (function () {
     var style = document.createElement('style');
@@ -15,18 +16,20 @@ cssPagedMedia.size = function (size) {
 };
 
 let dy = React.createClass({
-    onClick(){
+    getDefaultProps(){
+        const pxbmData = store.get("pxbmData");
+        store.remove("pxbmData");
+        return {
+            pxbmData:pxbmData
+        }
+    },
+    print(){
         window.print();
     },
     render(){
-
         cssPagedMedia.size('A4 portrait');
-        let data = this.props.location.query.data;
-        if (typeof  data != 'object') {
-            data = JSON.parse(data);
-        }
-        const nowy = new Date();
 
+        const {entity, dataRy, dataBase} = this.props.pxbmData;
         const columns = [{
             title: '编号',
             dataIndex: 'bh',
@@ -37,7 +40,7 @@ let dy = React.createClass({
             dataIndex: 'xming',
             key: 'xming',
             width: 100
-        },{
+        }, {
             title: '性别',
             dataIndex: 'xb',
             key: 'xb',
@@ -52,29 +55,42 @@ let dy = React.createClass({
             key: 'fjlx',
             dataIndex: 'fjlx',
             render(t, r){
-                return t==1?'单人房':'双人房'
+                return t == 1 ? '单人房' : '双人房'
             }
         }, {
             title: '用餐',
             key: 'jclx',
             dataIndex: 'jclx',
-        },{
-            title:'备注',
-            key:'bz',
-            dataIndex:'bz'
+        }, {
+            title: '备注',
+            key: 'bz',
+            dataIndex: 'bz'
         }];
         if (dataRy.length > 0) {
-            dataRy.map(item=> {
+            dataRy.map(item => {
                 let jclx = [!item.zaoc ? '_' : '早餐', !item.wuc ? '_' : '午餐', !item.wanc ? '_' : '晚餐'];
                 jclx = jclx.join(' / ');
                 item.jclx = jclx;
                 return item
             })
         }
-        return <div>
-            <h2>{entity.bt}</h2>
+        const helpinfo = <div>
+            <Row>
+                请在浏览器的打印设置项中，把“页眉”，“页脚”设置为不显示。
+                如出现打印尺寸不正常，请把打印纸张大小设置为“A4”，缩放设置为“缩放到纸张大小”
+            </Row>
+            <Row style={{marginTop:'8px'}}><Button type="primary" size="large" onClick={this.print}>打印</Button></Row>
+        </div>;
+        return <div className="client-wsbm-hz dy">
+            <div className="noprint">
+                <Alert message="打印帮助"
+                       description={helpinfo}
+                       type="info"
+                />
+            </div>
+            <h2 className="title">{entity.bt}</h2>
             <h2>报名回执</h2>
-            <div className="divide" />
+            <div className="divide"/>
             <Row>
                 <Col offset={1}><h3>详细信息</h3></Col>
             </Row>
@@ -90,7 +106,7 @@ let dy = React.createClass({
             <Row>
                 <Col offset={1}>培训联系人：{entity.pxlxr}</Col>
             </Row>
-            <div className="divide" />
+            <div className="divide"/>
             <Row>
                 <Col offset={1}><h3>{dataBase.swsmc}</h3></Col>
             </Row>
@@ -104,7 +120,7 @@ let dy = React.createClass({
             </Row>
 
 
-            <div className="divide" />
+            <div className="divide"/>
             <Row>
                 <Col offset={1} span="24"><h3>注意事项</h3></Col>
                 <Col offset={1} span="22">
