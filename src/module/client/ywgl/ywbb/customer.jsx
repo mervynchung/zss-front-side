@@ -58,7 +58,8 @@ const customer = React.createClass({
         };
 
         return <Modal {...this.props} title="选择客户" width="400" onOk={this.handleOk}>
-            <div className="ant-search-input-wrapper" style={{ width: 240 }}>
+            <div style={{marginTop:'8px',marginBottom:'8px'}}>输入客户名称后，点击查询图标进行查询：</div>
+            <div className="ant-search-input-wrapper" style={{ width: 360,marginBottom:'8px' }}>
                 <InputGroup className="ant-search-input">
                     <Input placeholder="用单位名称查询"
                            onChange={this.handleInputChange}
@@ -70,12 +71,11 @@ const customer = React.createClass({
             </div>
 
             <Spin spinning={this.state.loading}>
-                <Table pagination={false}
+                {this.state.data.length !== 0 && <Table pagination={false}
                        dataSource={this.state.data}
                        size="small"
                        rowSelection={rowSelection}
-                       columns={columns}
-                       />
+                       columns={columns} />}
             </Spin>
         </Modal>
     }
