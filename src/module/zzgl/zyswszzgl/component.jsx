@@ -71,7 +71,7 @@ const c = React.createClass({
             //列表可滚动区间的宽度，一般使用getcolwidth计算即可
             scrollx: this.getColWidth(swsm),
             //接收的json数据中用来充当key的字段名
-            keyCol: 'id',
+            keyCol: 'ry_id',
             //默认每页显示数量
             pageSize: 10,
             //列表需使用的columns定义

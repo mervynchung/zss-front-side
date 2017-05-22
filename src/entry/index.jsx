@@ -88,7 +88,9 @@ const Index = React.createClass({
                 require('../module/ywgl/ywwtfyjgl'), //业务委托方预警管理
                 require('../module/ywgl/setting'), //业务参数设置
                 require('../module/ywgl/ywbbsjfx'),//业务报备数据分析
-                require('../module/ywgl/ywbbsjhz'),//业务报备数据汇总
+                require('../module/ywgl/ywbbsjhz'),//业务报备数据汇
+                require('../module/ywgl/ywlxgl'),//业务类型管理
+
 
                 //财务报表
                 require('../module/cwbb/lrfpb'),
@@ -105,7 +107,6 @@ const Index = React.createClass({
                 require('../module/sdsbbb/hyryqktj'),
                 require('../module/sdsbbb/jysrqktj'),
                 require('../module/sdsbbb/wsbbbcx'),
-
                 //历史记录查询
                 require('../module/lsjlcx/swslsjl/bglsjl'),
                 require('../module/lsjlcx/swslsjl/yhbsws'),
@@ -208,12 +209,10 @@ const Index = React.createClass({
                 require('../module/client/swswspcx'),
                 //事务所审批历史记录
                 require('../module/client/swssplsjl'),
-
                 //人员管理
                 require('../module/client/swsrygl/zyrygl'),
                 require('../module/client/swsrygl/cyrygl'),
                 require('../module/client/swsrygl/rydr'),
-
                // 财务报表上传
                 require('../module/client/cwbb/lrb'),
                 require('../module/client/cwbb/lrfpb'),
