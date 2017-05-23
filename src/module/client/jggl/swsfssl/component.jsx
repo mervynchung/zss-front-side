@@ -37,10 +37,7 @@ const swsfssl = React.createClass({
                             content: (
                                 <div>
                                     <p>提交成功，请等待管理中心审核</p>
-                                </div>  ),
-                            onOk() {
-                                       window.reload();
-                                    },
+                                </div>  )
                         });
                       this.setState({sloading:false});
             }).fail(err=> {

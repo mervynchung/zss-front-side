@@ -67,6 +67,7 @@ const Index = React.createClass({
                 require('../module/rygl/rycx'),
                 require('../module/rygl/swsbdtj'),
 
+/*
 
                 //系统功能设置
                 require('../module/xtgnsz/mkgl'),
@@ -124,7 +125,7 @@ const Index = React.createClass({
                // 监督检查
                 require('../module/jdjc/zyswsnjb'),
                 require('../module/jdjc/swsnj'),
-
+*/
                     //逐级审核
                 require('../module/spsh'),
                 require('../module/spshlsjl'),
@@ -150,7 +151,7 @@ const Index = React.createClass({
                 require('../module/spsh/module/43'),
                 require('../module/spsh/module/44'),
                 require('../module/spsh/module/46'),
-
+/*
                 // 数据统计分析 - 年检数据分析
                 require('../module/xtsjfx/njsjfx/rynjsjfx'),//人员年检数据分析
                 require('../module/xtsjfx/njsjfx/jgnjsjfxb'),//机构年检数据分析
@@ -195,6 +196,7 @@ const Index = React.createClass({
 
                 //培训模块
                 require('../module/pxmk'),
+*/
 
 
                 //客户端
@@ -204,6 +206,7 @@ const Index = React.createClass({
                 require('../module/client/jggl/swshb'),
                 require('../module/client/jggl/swsfssl'),
                 require('../module/client/jggl/swsslzltb'), //新所设立资料填报
+/*
 
                 //事务所内部审批
                 require('../module/client/swswspcx'),
@@ -226,10 +229,11 @@ const Index = React.createClass({
                 require('../module/client/sdsb/jzywqktjb'),
                 require('../module/client/sdsb/hyryqktjb'),
                 require('../module/client/sdsb/jysrqkb'),
-
+*/
                 //年度检查
                 require('../module/client/swsnj'),//事务所年检
                 require('../module/client/zyswsnj'),//执业税务师年检
+
                 //业务管理
                 require('../module/client/ywgl/khxxgl'), //客户信息管理
                 require('../module/client/ywgl/ywbb'), //事务所业务报备
@@ -237,11 +241,9 @@ const Index = React.createClass({
                 require('../module/client/ywgl/swsywtj'), //事务所业务统计
                 require('../module/client/ywgl/ywhztj'), //业务汇总统计
 
-
                 //站内短信
                 require('../module/zndx'),
                 require('../module/inbox'),
-
 
                 //培训报名
                 require('../module/client/wsbm'),
