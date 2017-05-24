@@ -181,7 +181,7 @@ const khxxList = React.createClass({
             </Button>
 
             <ButtonGroup>
-                <Button type="primary" onClick={this.handleHelper}><Icon type="question"/></Button>
+                {/*<Button type="primary" onClick={this.handleHelper}><Icon type="question"/></Button>*/}
                 <Button type="primary" onClick={this.handleRefresh}><Icon type="reload"/></Button>
             </ButtonGroup>
 
