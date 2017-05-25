@@ -65,7 +65,6 @@ const swsbgsq = React.createClass({
     handlePTSubmit(value){
         this.setState({sPLoading:true});
             var ls = value;
-            ls.jgid=auth.getJgid();
              req({
                 url: API_URL_P,
                 type: 'json',

@@ -35,7 +35,7 @@ let sptj = React.createClass({
                                    </tr>
                                    <tr>
                                       <td>审核选项：</td>
-                                      <td >{this.props.jgnj?<Select  placeholder="请选择" { ...getFieldProps('jgnj')} style={{width:'100%'}} >
+                                      <td >{this.props.jgnj?<Select  placeholder="请选择" { ...getFieldProps('jgnj', { initialValue:1})} style={{width:'100%'}} >
                                                                         <Option key="1" value={1}>1、年检予以通过</Option>
                                                                         <Option key="6" value={6}>2、年检不予以通过</Option>
                                                                         <Option key="7" value={7}>3、资料填写有误，请重新填写</Option>
