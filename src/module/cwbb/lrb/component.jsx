@@ -1,5 +1,5 @@
 import React from 'react'
-import {Table,Button,Icon,Alert,message} from 'antd'
+import {Table,Button,Icon,Alert,message,Popconfirm} from 'antd'
 import Panel from 'component/compPanel'
 import model from './model'
 import req from 'common/request';
@@ -122,7 +122,7 @@ const lrb = React.createClass({
         }).then(resp=>{
             this.handleRefresh()
         }).catch(e=>{
-            message.error('')
+            message.error('网络访问故障')
         })
     },
 

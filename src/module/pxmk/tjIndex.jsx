@@ -38,9 +38,7 @@ const tj = React.createClass({
             }).then(resp => {
                 let date= new Date();
                 let data=resp;
-                for(let key=0;key<data.length;key++){
-                    data[key].BH='PX'+date.getFullYear()+(date.getMonth()+1)+addZero(''+key,3);
-                }
+
                 this.setState({
                     dataList:data,
                     loading: false,
