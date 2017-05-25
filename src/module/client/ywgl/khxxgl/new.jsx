@@ -1,6 +1,6 @@
 import React from 'react'
 import Panel from 'component/compPanel'
-import {Button, Icon, Form, Input, notification, Select, Row, Col} from 'antd';
+import {Button, Icon, Form, Input, notification, Select, Row, Col,message} from 'antd';
 import config from 'common/configuration'
 import auth from 'common/auth'
 import req from 'reqwest'
@@ -67,7 +67,6 @@ let EditForm = React.createClass({
     },
     checkNsrsbh(rule, value, callback){
         const {getFieldValue} = this.props.form;
-        console.log('nsr',value)
         if (!value && !getFieldValue("NSRSBHDF")) {
             callback("纳税人识别号和地方识别号至少要填一项")
         } else {
@@ -76,7 +75,6 @@ let EditForm = React.createClass({
     },
     checkNsrsbhdf(rule, value, callback){
         const {getFieldValue} = this.props.form;
-        console.log('df',value)
         if (!value && !getFieldValue("NSRSBH")) {
             callback("纳税人识别号和地方识别号至少要填一项")
         }else {
@@ -96,17 +94,22 @@ let EditForm = React.createClass({
             updateAction[this.props.type](value).then(resp => {
                 this.setFinished(true);
                 this.props.form.resetFields();
-                notification.success({
-                    duration: 2,
-                    message: '操作成功',
-                    description: '客户信息已保存'
-                });
+                if(resp.code == '200'){
+                    notification.success({
+                        duration: 2,
+                        message: '修改成功',
+                        description: '客户信息已保存'
+                    });
+                }else {
+                    notification.error({
+                        duration: 10,
+                        message: '修改失败',
+                        description: resp.text
+                    });
+                }
+
             }).fail(e => {
-                notification.error({
-                    duration: 2,
-                    message: '操作失败',
-                    description: '可能网络访问原因，请稍后尝试'
-                });
+                message.error('网络访问故障');
             });
         })
 
@@ -161,7 +164,8 @@ let EditForm = React.createClass({
                         <Col span="9">
                             <FormItem
                                 labelCol={{span: 7}} wrapperCol={{span: 15}}
-                                label="纳税人识别号">
+                                label="纳税人识别号"
+                                required>
                                 <Input placeholder="纳税人识别号" {...nsrsbhProps}/>
                             </FormItem>
                         </Col>
