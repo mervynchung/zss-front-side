@@ -47,6 +47,9 @@ const autoform = {
  id:'xm',
  name: '姓名：', }, 
     {
+ id:'dwmc',
+ name: '所属机构：', }, 
+    {
  id:'cs',
  name: '所在城市：', }, 
     {
@@ -120,7 +123,7 @@ const autoform = {
  name: '是否发起人：', }, 
     {
  id:'rydazt',
- name: '人事档案状态：',  groupspan: 2}, 
+ name: '人事档案状态：',groupspan: 2 }, 
     
   ]
 }
@@ -130,6 +133,9 @@ const autoformFzy = {
     {
  id:'xm',
  name: '姓名：', }, 
+    {
+ id:'zzdw',
+ name: '所在单位：', }, 
     {
  id:'cs',
  name: '所在城市：', }, 
@@ -206,6 +212,9 @@ const autoformCy = {
  id:'xm',
  name: '姓名：', }, 
     {
+ id:'dwmc',
+ name: '所属机构：', }, 
+    {
  id:'cs',
  name: '所在城市：', }, 
     {
@@ -258,10 +267,10 @@ const autoformCy = {
  name:  '代理业务开始时间：', }, 
     {
  id:'zgxlzymc',
- name: '最高学历：', }, 
+ name: '最高学历专业名称：', }, 
     {
  id:'zgxlfzjgjsj',
- name: '最高学历颁发时间：', }, 
+ name: '最高学历发证机关及时间：', }, 
     {
  id:'rydazt',
  name: '人事档案状态：', }, 

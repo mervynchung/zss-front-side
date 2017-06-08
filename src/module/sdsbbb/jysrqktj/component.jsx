@@ -3,6 +3,7 @@ import {Table,Modal,Row,Col,Button,Icon,Alert} from 'antd'
 import Panel from 'component/compPanel'
 import {columns} from './model'
 import req from 'reqwest';
+import auth from 'common/auth'
 import SearchForm from './searchForm'
 import config from 'common/configuration'
 import DetailBox from './detailbox.jsx'
@@ -98,7 +99,8 @@ const lrb = React.createClass({
             url: API_URL,
             type: 'json',
             method: 'get',
-            data: params
+            data: params,
+            headers:{'x-auth-token':auth.getToken()}
         }).then(resp=> {
             const p = this.state.pagination;
             p.total = resp.page.pageTotal > 1000 ? 1000 : resp.page.pageTotal;
@@ -147,7 +149,7 @@ const lrb = React.createClass({
         helper.push(<p key="helper-0">点击查询结果查看执业税务师行业收入情况统计表明细</p>);
         helper.push(<p key="helper-1">检索功能只显示前1000条记录</p>);
 
-        return <div className="cwbb-lrb">
+        return <div className="jysrqktj">
             <div className="wrap">
                 {this.state.helper && <Alert message="执业税务师行业收入情况统计表检索查询帮助"
                                              description={helper}

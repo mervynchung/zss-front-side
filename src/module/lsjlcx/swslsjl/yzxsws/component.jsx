@@ -3,6 +3,7 @@ import {Table,Modal,Row,Col,Button,Icon,Alert} from 'antd'
 import Panel from 'component/compPanel'
 import {columns} from './model'
 import req from 'reqwest';
+import auth from 'common/auth'
 import SearchForm from './searchForm'
 import config from 'common/configuration'
 
@@ -89,7 +90,8 @@ const lrb = React.createClass({
             url: API_URL,
             type: 'json',
             method: 'get',
-            data: params
+            data: params,
+            headers:{'x-auth-token':auth.getToken()}
         }).then(resp=> {
             const p = this.state.pagination;
             p.total = resp.page.pageTotal > 1000 ? 1000 : resp.page.pageTotal;
@@ -138,7 +140,7 @@ const lrb = React.createClass({
         helper.push(<p key="helper-0">本页显示已审核过的已注销事务所记录</p>);
         helper.push(<p key="helper-1">只显示前1000条记录</p>);
 
-        return <div className="cwbb-lrb">
+        return <div className="yzxsws">
             <div className="wrap">
                 {this.state.helper && <Alert message="已注销事务所记录查询帮助"
                                              description={helper}

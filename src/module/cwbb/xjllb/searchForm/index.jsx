@@ -1,8 +1,6 @@
 import React from 'react'
 import {Row,Col,Form,Button,Input,Modal,DatePicker} from 'antd'
-import {SelectorCS,SelectorDQ} from 'component/compSelector'
-
-import './style.css'
+import {SelectorCS} from 'component/compSelector'
 
 const FormItem = Form.Item;
 const createForm = Form.create;
@@ -30,7 +28,7 @@ let searchForm = React.createClass({
             wrapperCol: {span: 16}
         };
         return <div className="search-form">
-            <Form horizontal onSubmit={this.handleSubmit} form={this.props.form}>
+            <Form horizontal onSubmit={this.handleSubmit}>
                 <Row>
                     <Col span="8">
                         <FormItem

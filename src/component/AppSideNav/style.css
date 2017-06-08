@@ -2,10 +2,10 @@
     float: left;
     width: 224px;
     background-color: #707B88;
-    margin-top:34px;
+
 }
 .app-sidenav:before {
-    position: absolute;
+    position: fixed;
     top: 0;
     bottom: 0;
     z-index: -100;
@@ -14,6 +14,22 @@
     border: inherit;
     content: "";
 }
+.aside-wrap {
+    position: fixed;
+    overflow: hidden;
+    z-index:1000;
+    width:224px;
+    top:64px;
+    left:0;
+    bottom: 0;
+}
+.nav-wrap{
+    width:252px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    height: 100%;
+}
+
 .app-sidenav .ant-menu-inline{
     background-color: transparent;
     border-right: 1px solid #707B88;

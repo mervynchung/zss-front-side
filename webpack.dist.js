@@ -20,7 +20,7 @@ var config = {
     },
 
     output: {
-        path: path.resolve(__dirname, 'dist'),
+        path: path.resolve(__dirname, 'asset'),
         filename: '[name].js'
     },
     resolve: {
@@ -72,7 +72,7 @@ var config = {
         }, {
             test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
             loader: 'url?limit=10000&minetype=image/svg+xml'
-        }]
+        },{ test: /\.json$/, loader: "json-loader"}]
     },
 
     plugins: [

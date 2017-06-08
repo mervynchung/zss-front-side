@@ -1,9 +1,13 @@
 
 .app-header{
     height: 64px;
-    position: relative;
+    position: fixed;
+    top:0;
+    width:100%;
+    z-index:1001;
     background-color: #FFFFFF;
+
 }
 .app-header,.app-header a {
-    color: #757575;
+    color: #8590a6;
 }

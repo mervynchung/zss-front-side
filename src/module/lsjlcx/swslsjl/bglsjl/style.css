@@ -1,12 +1,14 @@
-.cwbb-lrb .fix-table td {
+.bglsjl .fix-table td {
     text-align: center;
 }
-.cwbb-lrb .fix-table td:first-child {
+.bglsjl .fix-table td:first-child {
     text-align: left;
 }
-.sm {
+.bglsjl .sm {
 	padding: 20px;
 }
-.dt {
+
+.bglsjl .dt {
 	padding: 10px;
 }
+

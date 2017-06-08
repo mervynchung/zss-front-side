@@ -6,6 +6,7 @@ import req from 'reqwest';
 import SearchForm from './searchForm'
 import config from 'common/configuration'
 import DetailBox from './detailbox.jsx'
+import auth from 'common/auth'
 
 
 const API_URL = config.HOST + config.URI_API_PROJECT + '/jdjc/swsnj1';
@@ -78,7 +79,7 @@ const lrb = React.createClass({
             pagesize: pager.pageSize,
             where: encodeURIComponent(JSON.stringify(value))
         };
-        this.setState({pagination: pager, where: value});
+        this.setState({pagination: pager, where: value,detailHide: true});
         this.fetchData(params)
     },
 
@@ -98,7 +99,8 @@ const lrb = React.createClass({
             url: API_URL,
             type: 'json',
             method: 'get',
-            data: params
+            data: params,
+            headers:{'x-auth-token':auth.getToken()}
         }).then(resp=> {
             const p = this.state.pagination;
             p.total = resp.page.pageTotal > 1000 ? 1000 : resp.page.pageTotal;
@@ -148,7 +150,7 @@ const lrb = React.createClass({
         helper.push(<p key="helper-0">点击查询结果查看事务所年检情况</p>);
         helper.push(<p key="helper-1">检索功能只显示前1000条记录</p>);
 
-        return <div className="cwbb-lrb">
+        return <div className="jdjc-swsnj">
             <div className="wrap">
                 {this.state.helper && <Alert message="事务所年检情况查询帮助"
                                              description={helper}

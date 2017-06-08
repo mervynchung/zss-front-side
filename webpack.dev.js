@@ -27,7 +27,7 @@ var config = {
         extensions: ['', '.js', '.jsx'],
         // 添加项目中引用模块时的扫描起始目录，如require('common/lib')，则会扫描src/common/lib
         // 每项都必须为绝对路径
-        root:[
+        root: [
             path.resolve('./src')
         ]
     },
@@ -35,12 +35,12 @@ var config = {
         loaders: [{
             test: /\.jsx?$/,
             include: [
-             path.resolve(__dirname, 'src'),
-             ],
+                path.resolve(__dirname, 'src'),
+            ],
             loader: 'babel',
             query: {
                 presets: ['es2015', 'react', 'stage-0'],
-                plugins: ['antd','transform-runtime']
+                plugins: ['antd', 'transform-runtime']
             }
         }, {
             test: /\.css$/,
@@ -73,7 +73,7 @@ var config = {
         }, {
             test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
             loader: 'url?limit=10000&minetype=image/svg+xml'
-        }]
+        }, { test: /\.json$/, loader: "json-loader" }]
     },
     plugins: [
         new webpack.HotModuleReplacementPlugin(),
@@ -99,12 +99,13 @@ var config = {
     ],
     devServer: {
         contentBase: "entry",
-        hot:true,
+        hot: true,
         proxy: {
-            "/api/*": "http://localhost:8080/"
+            "/api/*": "http://localhost:8080/",
+            "/upload/*": "http://localhost:8080/"
         },
         compress: true,
-        historyApiFallback:true
+        historyApiFallback: true
     }
 };
 

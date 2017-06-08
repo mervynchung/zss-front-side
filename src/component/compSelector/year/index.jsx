@@ -10,7 +10,7 @@ const selectorYear = React.createClass({
     getYearOptions(){
         const year = new Date().getFullYear();
         const options =[];
-        for(let i = 0; i<8 ; i++ ){
+        for(let i = 0; i<5 ; i++ ){
              let option =  <Option key={year-i}>{year-i}</Option>;
             options.push(option)
         }
@@ -19,7 +19,7 @@ const selectorYear = React.createClass({
 
     render(){
         const options = this.getYearOptions();
-        return <Select {...this.props} placeholder="选择年度" allowClear>
+        return <Select  placeholder="选择年度" allowClear {...this.props}>
             {options}
             </Select>
     }

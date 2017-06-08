@@ -2,7 +2,7 @@ import React from 'react'
 import {Table,Modal,Row,Col,Button,Icon,Alert} from 'antd'
 import Panel from 'component/compPanel'
 import {columns} from './model'
-import req from 'reqwest';
+import req from 'common/request';
 import SearchForm from './searchForm'
 import config from 'common/configuration'
 import DetailBox from './detailbox.jsx'
@@ -96,7 +96,6 @@ const lrb = React.createClass({
         this.setState({loading: true});
         req({
             url: API_URL,
-            type: 'json',
             method: 'get',
             data: params
         }).then(resp=> {
@@ -110,7 +109,7 @@ const lrb = React.createClass({
                 pagination: p,
                 loading: false
             })
-        }).fail(err=> {
+        }).catch(err=> {
             this.setState({loading: false});
             Modal.error({
                 title: '数据获取错误',
@@ -147,7 +146,7 @@ const lrb = React.createClass({
         helper.push(<p key="helper-0">点击查询结果查看事务所基本情况表明细</p>);
         helper.push(<p key="helper-1">检索功能只显示前1000条记录</p>);
 
-        return <div className="cwbb-lrb">
+        return <div className="swsjbqkb">
             <div className="wrap">
                 {this.state.helper && <Alert message="事务所基本情况表检索查询帮助"
                                              description={helper}

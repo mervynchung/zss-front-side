@@ -1,8 +1,15 @@
 /**
  * Created by ming on 2016/4/11.
  */
-import numeral from 'Numeral'
+import numeral from 'numeral'
+import React from 'react'
+
+function reject(record){}
+
 const model = {
+    setfunc(func){
+        reject = func
+    },
     columns: [
         {title: '序号', dataIndex: 'key', key: 'key'},
         {title: '事务所名称', dataIndex: 'dwmc', key: 'dwmc'},
@@ -16,13 +23,25 @@ const model = {
             render(num){
                 return numeral(num).format('0,0.00')
             }
-        },
-        {
+        },{
             title: '主营业务利润',
             key: 'zgwylr',
             dataIndex: 'zgwylr',
             render(num){
                 return numeral(num).format('0,0.00')
+            }
+        },{
+            title: '操作',
+            key: 'action',
+            fixed: 'right',
+            width: 120,
+            render: (text, record)=> {
+                let actGroup = <span className="act-group">
+                    <a onClick={()=> {
+                        reject(record)
+                    }}>退回</a>
+                </span>;
+                return actGroup
             }
         }
     ],

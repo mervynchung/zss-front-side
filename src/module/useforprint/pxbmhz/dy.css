@@ -1,0 +1,22 @@
+.client-wsbm-hz.dy{
+    background: #FFFFFF;
+    height:100%
+}
+.client-wsbm-hz h2.title{
+    margin-top:48px
+}
+
+@media print {
+    body {min-width: initial;background: none;color:#000}
+
+    @page  {
+        margin: 0cm;
+        size: A4 portrait;
+    }
+
+
+    .noprint{
+        display:none;
+    }
+
+}
